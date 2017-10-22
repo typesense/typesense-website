@@ -50,16 +50,10 @@ $ curl "${TYPESENSE_HOST}/collections" \
        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
        -d '{
              "name": "companies",
-             "search_fields": [
+             "fields": [
                {"name": "company_name", "type": "string" },
                {"name": "num_employees", "type": "int32" },
-               {"name": "country", "type": "string" }
-             ],
-             "sort_fields": [
-               {"name": "num_employees", "type": "int32"}
-             ],
-             "facet_fields": [
-               {"name": "country", "type": "string"}
+               {"name": "country", "type": "string", "facet": true }
              ],
              "prefix_sort_field": "num_employees"
           }' 
@@ -71,26 +65,21 @@ $ curl "${TYPESENSE_HOST}/collections" \
 ```json
 {
   "name": "companies",
-  "search_fields": [
+  "fields": [
     {"name": "company_name", "type": "string" },
     {"name": "num_employees", "type": "int32" },
-    {"name": "country", "type": "string" }
-  ],
-  "sort_fields": [
-    {"name": "num_employees", "type": "int32"}
-  ],
-  "facet_fields": [
-    {"name": "country", "type": "string"}
+    {"name": "country", "type": "string", "facet": true }
   ],
   "prefix_sort_field": "num_employees"
 }
 ```
 
-When a `collection` is created, we will define a schema for it by specifying the name and the type of fields that will be 
-present in the documents that are indexed in that collection.
+When a `collection` is created, we give it a name and describe the fields that will be indexed from the documents 
+added to the collection.
 
 <aside class="notice">
-When a document is added to a collection, it should conform to its schema.
+Your documents can contain other fields not mentioned in the collection's schema - they will be simply stored but 
+not indexed.
 </aside>
 
 ### Definition
@@ -111,27 +100,15 @@ When a document is added to a collection, it should conform to its schema.
         <td>Name of the collection you wish to create.</td>
     </tr>    
     <tr>
-        <td>search_fields</td>
+        <td>fields</td>
         <td>true</td>
         <td>
-            List of fields that you wish to index for searching.
+            Definition of fields that you wish to index for querying, filtering and faceting. <br /><br />            
+            A field of type <code>string</code> or <code>string[]</code> can be declared as a faceted field by 
+            setting its <code>facet</code> property to <code>true</code>. Faceted fields are indexed verbatim without 
+            any tokenization or preprocessing.
         </td>
     </tr>    
-    <tr>
-        <td>sort_fields</td>
-        <td>true</td>
-        <td>
-            List of numeric fields that you wish to sort your search results on.
-        </td>
-    </tr>
-    <tr>
-        <td>facet_fields</td>
-        <td>false</td>
-        <td>
-            Fields that you wish to facet your search results on. Only fields of type <code>string</code> and 
-            <code>string[]</code> can be faceted on.
-        </td>
-    </tr>
     <tr>
         <td>prefix_sort_field</td>
         <td>false</td>
@@ -202,7 +179,7 @@ document. Otherwise, Typesense would assign an identifier of its choice to the d
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
      "${TYPESENSE_HOST}/collections/companies/search\
-     ?q=stark&search_by=company_name&filter_by=num_employees:desc\
+     ?q=stark&query_by=company_name&filter_by=num_employees:>100\
      &sort_by=num_employees:desc"
 ```
 
@@ -226,8 +203,9 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
   ]
 }
 ```
-
-Search, facet and sort the documents in a collection.  
+  
+In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or 
+facet fields. You can also sort and facet your results.
 
 ### Definition
 
@@ -244,10 +222,10 @@ Search, facet and sort the documents in a collection.
     <tr>
         <td>q</td>
         <td>true</td>
-        <td>Search query.</td>
+        <td>The query text to search for in the collection.</td>
     </tr>    
     <tr>
-        <td>search_by</td>
+        <td>query_by</td>
         <td>true</td>
         <td>A list of `string` or `string[]` fields that should be searched against. 
             Separate multiple fields with a comma.</td>
