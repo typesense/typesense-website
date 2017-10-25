@@ -113,7 +113,7 @@ not indexed.
         <td>prefix_sort_field</td>
         <td>false</td>
         <td>
-            Name of the unsigned <code>int32</code> field whose value should be used to sort terms that share the same prefix 
+            Name of the numeric field whose value should be used to sort terms that share the same prefix 
             during prefix searches. If this field is not provided tokens sharing the same prefix are ordered 
             based on their frequency of occurrence in the collection. <strong>Recommended for autocomplete use cases.</strong>             
         </td>
@@ -227,7 +227,7 @@ facet fields. You can also sort and facet your results.
     <tr>
         <td>query_by</td>
         <td>true</td>
-        <td>A list of `string` or `string[]` fields that should be searched against. 
+        <td>A list of `string` or `string[]` fields that should be queried against. 
             Separate multiple fields with a comma.</td>
     </tr>
     <tr>
