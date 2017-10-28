@@ -227,8 +227,10 @@ facet fields. You can also sort and facet your results.
     <tr>
         <td>query_by</td>
         <td>true</td>
-        <td>A list of `string` or `string[]` fields that should be queried against. 
-            Separate multiple fields with a comma.</td>
+        <td>A list of `string` or `string[]` fields that should be queried against. Separate multiple fields with a comma.
+            <br /><br /> 
+            The order of the fields is important: a matching record on a field higher in the list is considered more 
+            relevant than a record matched on a field later in the list.</td>
     </tr>
     <tr>
         <td>filter_by</td>
@@ -287,7 +289,39 @@ facet fields. You can also sort and facet your results.
         <td>false</td>
         <td>Number of results to fetch per page.</td>
     </tr>
+    <tr>
+        <td>callback</td>
+        <td>false</td>
+        <td>Name of the callback function to be used for <code>JSONP</code> response.</td>
+    </tr>
 </table>
+
+### Ranking &amp; relevance
+
+Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:
+
+<ol>
+    <li>String similarity score.</li>
+    <li>User-defined numerical fields (optional).</li>
+</ol>
+   
+First, Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
+of a given document. Typographic errors are also taken into account.
+
+When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie. 
+You can specify upto two such numerical fields. 
+
+For example, let's say that we're searching for books with a query like <code>short story</code>. 
+There could be multiple books containing those words, and so all those records would have the same string similarity score.
+
+To break the tie, we could specify upto two additional `sort_by` fields. For instance, we could say, 
+<code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:
+ 
+  <ol>
+    <li>All matching records are sorted by string similarity score.</li>
+    <li>If any two records share the same string similarity score, sort them by their rating.</li>
+    <li>If there is still a tie, sort the records by year of publication.</li>
+  </ol>
 
 ## Retrieve a document
 
