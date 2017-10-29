@@ -1,0 +1,6 @@
+[submodule "web/themes/kube"]
+	path = web/themes/kube
+	url = https://github.com/jeblister/kube.git
+[submodule "web/themes/minimal"]
+	path = web/themes/minimal
+	url = https://github.com/calintat/minimal.git

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Typesense: open source, typo tolerant search engine for everyone.</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/typesense.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <style>
+        .col-centered{
+            float: none;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="hero" class="row">
+        <div class="col-md-8 col-centered">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img src="images/typesense_medium_white_padded.png" />
+                        </a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">get started</a></li>
+                            <li><a href="#">api</a></li>
+                            <li><a href="#">faq</a></li>
+                            <li><a href="#">help</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+
+            <div id="mast">
+                <h2>Build <em>delightful</em> search experiences.</h2>
+                <button id="get-started" class="btn btn-success">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="intro-demo" class="col-md-8 col-centered">
+            <div id="intro" class="col-md-6">
+                <h3>An open source, typo tolerant engine for relevant, real-time search.</h3>
+                <p>Meticulously designed and optimized for speed, Typesense offers a delightful
+                    out-of-the-box search experience.</p>
+            </div>
+            <div id="goodreads-demo" class="col-md-6">
+                <form id="goodreads-search">
+                    <input type="text" value="curious">
+                </form>
+                <ul id="goodreads-results"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="js/web.js" type="text/javascript"></script>
+</body>
+</html>

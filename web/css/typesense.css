@@ -1,0 +1,83 @@
+#hero {
+    color: #fff;
+    padding: 0 0.5em 0 0.5em;
+    background-color: #006;
+    /*background: #006 url('../images/rocket_color.gif') no-repeat center 2em;*/
+    /*background-size: 7.5%;*/
+}
+
+#mast {
+    text-align: center;
+    height: 12em;
+    padding-top: 0.3em;
+}
+
+#mast #get-started {
+    font-size: 1.4em;
+    margin: 1em;
+}
+
+nav.navbar-inverse {
+    background: none;
+    border: 0;
+}
+
+a.navbar-brand {
+    padding-top: 0;
+}
+
+a.navbar-brand img {
+    height: 3.5em;
+}
+
+nav.navbar-inverse ul.nav li {
+    margin-left: 1.5em;
+}
+
+nav.navbar-inverse ul.nav a {
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: 300;
+}
+
+#hero ul.nav {
+    margin-top: 0.5em;
+}
+
+#intro-demo {
+    margin-top: 2em;
+}
+
+#intro p {
+    font-size: 1.4em;
+    margin-top: 1em;
+    color: #333;
+}
+
+#goodreads-demo {
+    margin-top: 1em;
+}
+
+form#goodreads-search input {
+    width: 100%;
+    padding: 1em;
+    margin: 0;
+    border: 1px solid #ccc;
+}
+
+ul#goodreads-results {
+    list-style: none;
+    padding: 0; margin: 2em 0 0 0;
+}
+
+#goodreads-results li {
+    width: 8.5em; height: 12em;
+    float: left;
+    margin: 0 1em 1em 0;
+    font-size: 0.8em;
+}
+
+#goodreads-results img {
+    display: block;
+    margin-bottom: 0.5em;
+}
