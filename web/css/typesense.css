@@ -2,50 +2,61 @@
     color: #fff;
     padding: 0 0.5em 0 0.5em;
     background-color: #006;
-    /*background: #006 url('../images/rocket_color.gif') no-repeat center 2em;*/
-    /*background-size: 7.5%;*/
+    border-top: 3px solid #006699;
+    border-bottom: 3px solid #006699;
 }
 
-#mast {
-    text-align: center;
-    height: 12em;
-    padding-top: 0.3em;
-}
-
-#mast #get-started {
-    font-size: 1.4em;
-    margin: 1em;
-}
-
-nav.navbar-inverse {
+.navbar-default {
     background: none;
     border: 0;
+    box-shadow: none;
 }
 
 a.navbar-brand {
     padding-top: 0;
+    padding-left: 0;
 }
 
 a.navbar-brand img {
-    height: 3.5em;
+    height: 3em;
 }
 
-nav.navbar-inverse ul.nav li {
-    margin-left: 1.5em;
-}
-
-nav.navbar-inverse ul.nav a {
-    color: #fff;
+.navbar ul.nav a {
     font-size: 1.3em;
     font-weight: 300;
 }
 
-#hero ul.nav {
-    margin-top: 0.5em;
+.navbar .col-centered {
+    padding-left: 0.2em;
+}
+
+#mast {
+    padding-top: 0.3em;
+    margin-left: 0;
+}
+
+#mast #splash {
+    background: #006 url('../images/rocket_color.gif') no-repeat right 8em top 3em;
+    background-size: 13em;
+    height: 14em;
+}
+
+#mast h2 {
+    font-weight: normal;
+}
+
+#mast #get-started {
+    font-size: 1.4em;
+    margin: 1em 0 1.5em 0;
 }
 
 #intro-demo {
-    margin-top: 2em;
+    padding-left: 0;
+    margin-top: 1em;
+}
+
+#intro-demo p {
+    font-size: 1.4em;
 }
 
 #intro p {
@@ -67,11 +78,13 @@ form#goodreads-search input {
 
 ul#goodreads-results {
     list-style: none;
-    padding: 0; margin: 2em 0 0 0;
+    padding: 0;
+    margin: 2em 0 0 0;
 }
 
 #goodreads-results li {
-    width: 8.5em; height: 12em;
+    width: 8.5em;
+    height: 12em;
     float: left;
     margin: 0 1em 1em 0;
     font-size: 0.8em;

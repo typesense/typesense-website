@@ -1,7 +1,7 @@
 $(document).ready(function() {
     function getResults(q, callback) {
-        var url = "http://localhost:8108/collections/goodreads_10k/search?q="+
-            q + "&prefix=true&query_by=original_title&sort_by=ratings_count:DESC&per_page=8&num_typos=2&callback=?"
+        var url = "http://localhost:8108/collections/goodreads_10k/search?q="+ q +
+            "&prefix=true&query_by=original_title&sort_by=ratings_count:DESC&per_page=4&num_typos=2&callback=?"
         $.getJSON(url, function(data) {
             callback(data);
         });

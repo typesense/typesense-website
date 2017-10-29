@@ -14,39 +14,47 @@
         }
     </style>
 </head>
-<body>
+<body class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="col-md-8 col-centered">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="images/typesense_medium.png" />
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">get started</a></li>
+                    <li><a href="#">documentation</a></li>
+                    <li><a href="#">faq</a></li>
+                    <li><a href="#">github</a></li>
+                    <li><a href="#">help</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
     <div id="hero" class="row">
         <div class="col-md-8 col-centered">
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">
-                            <img src="images/typesense_medium_white_padded.png" />
-                        </a>
-                    </div>
+            <div id="mast" class="row">
+                <div id="intro-demo" class="col-md-8">
+                    <h2>Craft <b>delightful</b> search experiences.</h2>
+                    <p>Typesense is an open source, typo tolerant search engine that delivers fast and relevant
+                        results out-of-the-box.</p>
+                    <button id="get-started" class="btn btn-success">Get Started</button>
+                </div>
+                <div id="splash" class="col-md-4 hidden-sm hidden-xs">
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">get started</a></li>
-                            <li><a href="#">api</a></li>
-                            <li><a href="#">faq</a></li>
-                            <li><a href="#">help</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </nav>
-
-            <div id="mast">
-                <h2>Build <em>delightful</em> search experiences.</h2>
-                <button id="get-started" class="btn btn-success">Get Started</button>
+                </div>
             </div>
         </div>
     </div>
@@ -54,13 +62,12 @@
     <div class="row">
         <div id="intro-demo" class="col-md-8 col-centered">
             <div id="intro" class="col-md-6">
-                <h3>An open source, typo tolerant engine for relevant, real-time search.</h3>
-                <p>Meticulously designed and optimized for speed, Typesense offers a delightful
-                    out-of-the-box search experience.</p>
+                <h3>Meticulously designed and optimized for speed.</h3>
+                <p>Typesense has been built from scratch to offer a delightful out-of-the-box search experience.</p>
             </div>
             <div id="goodreads-demo" class="col-md-6">
                 <form id="goodreads-search">
-                    <input type="text" value="curious">
+                    <input type="text" value="steve">
                 </form>
                 <ul id="goodreads-results"></ul>
             </div>
