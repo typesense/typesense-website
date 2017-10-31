@@ -6,6 +6,11 @@
     border-bottom: 3px solid #006699;
 }
 
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
 .navbar-default {
     background: none;
     border: 0;
@@ -36,8 +41,8 @@ a.navbar-brand img {
 }
 
 #mast #splash {
-    background: #006 url('../images/rocket_color.gif') no-repeat right 8em top 3em;
-    background-size: 13em;
+    background: #006 url('../images/rocket_color.gif') no-repeat right 7em top 3em;
+    background-size: 55%;
     height: 14em;
 }
 
@@ -74,6 +79,11 @@ form#goodreads-search input {
     padding: 1em;
     margin: 0;
     border: 1px solid #ccc;
+}
+
+p#goodreads-found {
+    font-size: 1em;
+    margin: 1em 0 1em 0;
 }
 
 ul#goodreads-results {

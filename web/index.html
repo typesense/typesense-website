@@ -7,12 +7,6 @@
     <link rel="stylesheet" type="text/css" href="css/typesense.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <style>
-        .col-centered{
-            float: none;
-            margin: 0 auto;
-        }
-    </style>
 </head>
 <body class="container-fluid">
     <nav class="navbar navbar-default">
@@ -37,7 +31,6 @@
                     <li><a href="#">documentation</a></li>
                     <li><a href="#">faq</a></li>
                     <li><a href="#">github</a></li>
-                    <li><a href="#">help</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -63,12 +56,15 @@
         <div id="intro-demo" class="col-md-8 col-centered">
             <div id="intro" class="col-md-6">
                 <h3>Meticulously designed and optimized for speed.</h3>
-                <p>Typesense has been built from scratch to offer a delightful out-of-the-box search experience.</p>
+                <p>Typesense has been built from scratch to offer a delightful, out-of-the-box search experience.</p>
+                <p>From instant search to autocomplete to faceting, we've got you covered.</p>
+                <button id="get-started" class="btn btn-success">Get Started</button>
             </div>
             <div id="goodreads-demo" class="col-md-6">
                 <form id="goodreads-search">
                     <input type="text" value="steve">
                 </form>
+                <p id="goodreads-found"></p>
                 <ul id="goodreads-results"></ul>
             </div>
         </div>
