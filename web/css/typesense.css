@@ -50,8 +50,8 @@ a.navbar-brand img {
     font-weight: normal;
 }
 
-#mast #get-started {
-    font-size: 1.4em;
+.btn-get-started {
+    font-size: 1.2em;
     margin: 1em 0 1.5em 0;
 }
 
@@ -81,9 +81,25 @@ form#goodreads-search input {
     border: 1px solid #ccc;
 }
 
-p#goodreads-found {
-    font-size: 1em;
+#goodreads-results-nav {
     margin: 1em 0 1em 0;
+}
+
+#goodreads-found {
+    font-size: 0.9em;
+}
+
+#goodreads-results-nav a {
+
+}
+
+#goodreads-results-nav a.disabled {
+    color: #ccc;
+    text-decoration: none;
+}
+
+#goodreads-results-nav #pagenav {
+    text-align: right;
 }
 
 ul#goodreads-results {
@@ -103,4 +119,8 @@ ul#goodreads-results {
 #goodreads-results img {
     display: block;
     margin-bottom: 0.5em;
+}
+
+#goodreads-results mark {
+    background-color: #c6dde9;
 }

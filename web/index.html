@@ -43,7 +43,7 @@
                     <h2>Craft <b>delightful</b> search experiences.</h2>
                     <p>Typesense is an open source, typo tolerant search engine that delivers fast and relevant
                         results out-of-the-box.</p>
-                    <button id="get-started" class="btn btn-success">Get Started</button>
+                    <button class="btn btn-success btn-get-started">Get Started</button>
                 </div>
                 <div id="splash" class="col-md-4 hidden-sm hidden-xs">
 
@@ -57,14 +57,23 @@
             <div id="intro" class="col-md-6">
                 <h3>Meticulously designed and optimized for speed.</h3>
                 <p>Typesense has been built from scratch to offer a delightful, out-of-the-box search experience.</p>
-                <p>From instant search to autocomplete to faceting, we've got you covered.</p>
-                <button id="get-started" class="btn btn-success">Get Started</button>
+                <p>From instant search, to autosuggest, to faceted search, Typesense has got you covered.</p>
             </div>
             <div id="goodreads-demo" class="col-md-6">
                 <form id="goodreads-search">
-                    <input type="text" value="steve">
+                    <input type="text" value="harry">
                 </form>
-                <p id="goodreads-found"></p>
+                <div id="goodreads-results-nav">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <small id="goodreads-found"></small>
+                        </div>
+                        <div id="pagenav" class="col-xs-6">
+                            <a id="prev-page" href="#previous">&laquo; Previous</a> /
+                            <a id="next-page" href="#next">Next &raquo;</a>
+                        </div>
+                    </div>
+                </div>
                 <ul id="goodreads-results"></ul>
             </div>
         </div>
