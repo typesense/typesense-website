@@ -129,6 +129,7 @@ Typesense allows you to index the following types of fields:
     <tr><td><code>int32</code></td></tr>
     <tr><td><code>int64</code></td></tr>
     <tr><td><code>float</code></td></tr>    
+    <tr><td><code>bool</code></td></tr>    
 </table>
 
 You can define an array or multi-valued field by using a `[]` at the end:
@@ -138,6 +139,7 @@ You can define an array or multi-valued field by using a `[]` at the end:
     <tr><td><code>int32[]</code></td></tr>
     <tr><td><code>int64[]</code></td></tr>
     <tr><td><code>float[]</code></td></tr>   
+    <tr><td><code>bool[]</code></td></tr>   
 </table>
 
 ## Index a document
@@ -296,23 +298,27 @@ facet fields. You can also sort and facet your results.
     </tr>
 </table>
 
+<aside class="notice">
+    Due to performance reasons, Typesense limits searches to a maximum of 500 results.
+</aside>
+
 ### Ranking &amp; relevance
 
 Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:
 
 <ol>
-    <li>String similarity score.</li>
-    <li>User-defined numerical fields (optional).</li>
+    <li>String similarity.</li>
+    <li>User-defined <code>sort_by</code> numerical fields (optional).</li>
 </ol>
    
-First, Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
+Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
 of a given document. Typographic errors are also taken into account.
 
 When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie. 
 You can specify upto two such numerical fields. 
 
 For example, let's say that we're searching for books with a query like <code>short story</code>. 
-There could be multiple books containing those words, and so all those records would have the same string similarity score.
+If there are multiple books containing those words, then all those records would have the same string similarity score.
 
 To break the tie, we could specify upto two additional `sort_by` fields. For instance, we could say, 
 <code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:
@@ -383,7 +389,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 ```json
 {    
   "name": "companies",
-  "num_documents": 1250
+  "num_documents": 1250,
+  "fields": [
+      {"name": "company_name", "type": "string"},
+      {"name": "num_employees", "type": "int32"},
+      {"name": "country", "type": "string", "facet": true}
+  ],
+  "prefix_sort_field": "num_employees"
 }
 ```
 
@@ -392,6 +404,32 @@ Retrieve the details of a collection, given its name.
 ### Definition
 
 `GET ${TYPESENSE_HOST}/collections/:collection`
+
+## Export a collection
+
+```shell
+$ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
+       -X GET
+       "${TYPESENSE_HOST}/collections/companies/export"
+```
+
+> Example Response
+
+```json
+{"id": "124", "company_name": "Stark Industries", "num_employees": 5215,\
+ "country": "US"}
+{"id": "125", "company_name": "Future Technology", "num_employees": 1232,\
+ "country": "UK"}
+{"id": "126", "company_name": "Random Corp.", "num_employees": 531,\
+ "country": "AU"}
+```
+
+Export a collection in [JSON lines format](http://jsonlines.org/).
+
+### Definition
+
+`GET ${TYPESENSE_HOST}/collections/:collection/export`
+
 
 ## List all collections
 
