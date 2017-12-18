@@ -32,9 +32,18 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
           "${TYPESENSE_HOST}/collections"
 ```
 
+```shell
+# For JSON requests
+$ curl "${TYPESENSE_HOST}/collections"\
+       "?x-typesense-api-key=${TYPESENSE_API_KEY}"
+```
+
 Authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
 
-Typesense requires that this header is present in all API requests sent to the server.
+Optionally, you can also send the API key as a `x-typesense-api-key` GET parameter. Please use this only for 
+JSONP requests from Javascript (since you can't set custom headers on JSONP requests).
+
+Typesense requires a authentication header or GET parameter to be present on all API requests sent to the server.
 
 # Collections
 
@@ -105,8 +114,8 @@ not indexed.
         <td>
             Definition of fields that you wish to index for querying, filtering and faceting. <br /><br />            
             A field of type <code>string</code> or <code>string[]</code> can be declared as a faceted field by 
-            setting its <code>facet</code> property to <code>true</code>. Faceted fields are indexed verbatim without 
-            any tokenization or preprocessing.
+            setting its <code>facet</code> property to <code>true</code>. Faceted fields are indexed 
+            <strong>verbatim</strong> without any tokenization or preprocessing.
         </td>
     </tr>    
     <tr>
@@ -424,7 +433,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
  "country": "AU"}
 ```
 
-Export a collection in [JSON lines format](http://jsonlines.org/).
+Export all documents in a collection in [JSON lines format](http://jsonlines.org/).
 
 ### Definition
 
