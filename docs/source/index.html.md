@@ -15,8 +15,8 @@ search: false
 
 # Overview
 
-Welcome to the Typesense API documentation. At the moment, we have API clients for <code>Java</code>, <code>Ruby</code>, 
-and <code>Python</code>. 
+Welcome to the Typesense API documentation. At the moment, we have API clients for <code>Javascript</code>, 
+<code>Python</code>, and <code>Ruby</code>. 
 
 This documentation itself is open source! Please leave your feedback as issues in the GitHub repo or fork it to 
 contribute changes!
@@ -25,27 +25,114 @@ contribute changes!
 We recommend that you use our API client library if it is available for your language.
 </aside>
 
+# Quickstart
+
+Start Typesense server via Docker:
+
+```shell
+$ docker run -p 8108:8108 -v/path/to/typesense-data:/data \
+typesense/typesense:0.6.0 --data-dir /data --api-key=${TYPESENSE_API_KEY} \
+--listen-port 8108
+````
+
+### Arguments
+
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>data-dir</td>
+        <td>true</td>
+        <td>Path to the directory where data will be stored on disk.</td>
+    </tr>    
+    <tr>
+        <td>api-key</td>
+        <td>true</td>
+        <td>
+            API key that allows all operations.
+        </td>
+    </tr>    
+    <tr>
+        <td>search-only-api-key</td>
+        <td>false</td>
+        <td>
+            API key that allows only searches. Use this to define a separate key for making requests directly from 
+            Javascript.
+        </td>
+    </tr>
+    <tr>
+        <td>listen-address</td>
+        <td>false</td>
+        <td>
+            Address to which Typesense server binds. Default: <code>0.0.0.0</code>
+        </td>
+    </tr>
+    <tr>
+        <td>listen-port</td>
+        <td>false</td>
+        <td>
+            Port on which Typesense server listens.. Default: <code>8108</code>
+        </td>
+    </tr>        
+    <tr>
+        <td>master</td>
+        <td>false</td>
+        <td>
+          Starts the server as a read-only replica by defining the master Typesense server's host in <br />
+          <code>http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code> format.          
+        </td>
+    </tr>
+    <tr>
+        <td>ssl-certificate</td>
+        <td>false</td>
+        <td>
+          Path to the SSL certificate file. You must also define <code>ssl-certificate-key</code> to enable HTTPS.
+        </td>
+    </tr>  
+    <tr>
+        <td>ssl-certificate-key</td>
+        <td>false</td>
+        <td>
+          Path to the SSL certificate key file. You must also define <code>ssl-certificate</code> to enable HTTPS.
+        </td>
+    </tr>  
+</table>
+
+
 # Authentication
 
 ```shell
+# Recommended way to send the API key
 $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
           "${TYPESENSE_HOST}/collections"
 ```
 
 ```shell
-# For JSON requests
+# For JSONP requests
 $ curl "${TYPESENSE_HOST}/collections"\
-       "?x-typesense-api-key=${TYPESENSE_API_KEY}"
+"?x-typesense-api-key=${TYPESENSE_SEARCH_ONLY_KEY}"
 ```
 
-Authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
+API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header. Set it to the value of the <code>api-key</code> 
+argument used when the Typesense server is started.
 
-Optionally, you can also send the API key as a `x-typesense-api-key` GET parameter. Please use this only for 
-JSONP requests from Javascript (since you can't set custom headers on JSONP requests).
+If you wish to search a collection directly from Javascript with JSONP, you can send the API key via the
+`x-typesense-api-key` GET parameter. We recommend using this approach only for JSONP, since custom headers can't be set 
+on JSONP requests.
 
-Typesense requires a authentication header or GET parameter to be present on all API requests sent to the server.
+Typesense requires either the authentication header or the GET parameter to be present on all API requests 
+sent to the server.
 
-# Collections
+<aside class="notice">
+When you search Typesense directly from the browser, your API key is accessible to your visitors. Therefore, you should 
+specify a separate <code>search-only-api-key</code> when you start Typesense, and only use that key for search 
+requests from the browser.
+</aside>
+
+# Usage
 
 In Typesense, a group of documents is called a `collection`. A `collection` is roughly equivalent to a table in a 
 relational database.
@@ -311,33 +398,6 @@ facet fields. You can also sort and facet your results.
     Due to performance reasons, Typesense limits searches to a maximum of 500 results.
 </aside>
 
-### Ranking &amp; relevance
-
-Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:
-
-<ol>
-    <li>String similarity.</li>
-    <li>User-defined <code>sort_by</code> numerical fields (optional).</li>
-</ol>
-   
-Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
-of a given document. Typographic errors are also taken into account.
-
-When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie. 
-You can specify upto two such numerical fields. 
-
-For example, let's say that we're searching for books with a query like <code>short story</code>. 
-If there are multiple books containing those words, then all those records would have the same string similarity score.
-
-To break the tie, we could specify upto two additional `sort_by` fields. For instance, we could say, 
-<code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:
- 
-  <ol>
-    <li>All matching records are sorted by string similarity score.</li>
-    <li>If any two records share the same string similarity score, sort them by their rating.</li>
-    <li>If there is still a tie, sort the records by year of publication.</li>
-  </ol>
-
 ## Retrieve a document
 
 ```shell
@@ -493,3 +553,39 @@ latencies.
 ### Definition
 
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
+
+# Ranking &amp; relevance
+
+Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:
+
+<ol>
+    <li>String similarity.</li>
+    <li>User-defined <code>sort_by</code> numerical fields (optional).</li>
+</ol>
+   
+Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
+of a given document. Typographic errors are also taken into account.
+
+When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie. 
+You can specify upto two such numerical fields. 
+
+For example, let's say that we're searching for books with a query like <code>short story</code>. 
+If there are multiple books containing those words, then all those records would have the same string similarity score.
+
+To break the tie, we could specify upto two additional `sort_by` fields. For instance, we could say, 
+<code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:
+ 
+<ol>
+    <li>All matching records are sorted by string similarity score.</li>
+    <li>If any two records share the same string similarity score, sort them by their rating.</li>
+    <li>If there is still a tie, sort the records by year of publication.</li>
+</ol>
+
+# Read-only replica
+
+You can run Typesense as a read-only replica that asynchronously pulls data from a master Typesense server.
+
+To start the server as a read-only replica, specify the master's host via the `--master` 
+argument. Example: <br />
+
+<code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code>       
