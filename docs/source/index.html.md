@@ -81,7 +81,7 @@ typesense/typesense:0.6.0 --data-dir /data --api-key=${TYPESENSE_API_KEY} \
         <td>master</td>
         <td>false</td>
         <td>
-          Starts the server as a read-only replica by defining the master Typesense server's host in <br />
+          Starts the server as a read-only replica by defining the master Typesense server's address in <br />
           <code>http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code> format.          
         </td>
     </tr>
@@ -151,7 +151,7 @@ $ curl "${TYPESENSE_HOST}/collections" \
                {"name": "num_employees", "type": "int32" },
                {"name": "country", "type": "string", "facet": true }
              ],
-             "prefix_sort_field": "num_employees"
+             "token_ranking_field": "num_employees"
           }' 
       
 ```
@@ -166,7 +166,7 @@ $ curl "${TYPESENSE_HOST}/collections" \
     {"name": "num_employees", "type": "int32" },
     {"name": "country", "type": "string", "facet": true }
   ],
-  "prefix_sort_field": "num_employees"
+  "token_ranking_field": "num_employees"
 }
 ```
 
@@ -206,12 +206,16 @@ not indexed.
         </td>
     </tr>    
     <tr>
-        <td>prefix_sort_field</td>
+        <td>token_ranking_field</td>
         <td>false</td>
         <td>
-            Name of the numeric field whose value should be used to sort terms that share the same prefix 
-            during prefix searches. If this field is not provided tokens sharing the same prefix are ordered 
-            based on their frequency of occurrence in the collection. <strong>Recommended for autocomplete use cases.</strong>             
+        Name of a numerical field whose value will be used to rank the tokens that match a given token in the 
+        query. <br /><br />        
+        When there is a typo in the query, or during prefix search, multiple tokens could match a given token 
+        in the query. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in the case of a 
+        prefix search, both "apple" and "apply" would match "app".<br /><br />                 
+        If this field is not defined, tokens are ordered based on their frequency of occurrence in the collection. 
+        <strong>Strongly recommended for instance search and autocomplete use cases.</strong>             
         </td>
     </tr>
 </table>
@@ -361,20 +365,22 @@ facet fields. You can also sort and facet your results.
         word. This is used for building autocomplete and instant search interfaces.</td>
     </tr>
     <tr>
-        <td>sort_prefixes_by</td>
+        <td>rank_tokens_by</td>
         <td>false</td>
-        <td>Only applicable for prefix searches. If there are multiple terms that share a given query 
-        prefix (e.g. "app"), this parameter determines how the matching terms (e.g. "apple", "apply", "apps") are 
-        ordered. Must be either: <br /> <br /> 
-        <code>PREFIX_SORT_FIELD</code> or <code>TERM_FREQUENCY</code>. <br /> <br />
+        <td>When a token/word in the search query matches multiple possible words (either because of a typo or during prefix 
+         search), this parameter determines the priority of the matching tokens. For e.g. both "john" and "joan" are 
+         1-typo away from "jofn". In a prefix search, both "apple" and "apply" would match "app".            
+        <br /> <br />
+        The value of <code>rank_tokens_by</code> must be: <br /> <br /> 
+        <code>TOKEN_RANKING_FIELD</code> or <code>TERM_FREQUENCY</code>. <br /> <br />
         
-        <code>PREFIX_SORT_FIELD</code>: Terms are ranked by the value of 
-        the <code>prefix_sort_field</code> specified during collection creation.<br /><br />
+        <code>TOKEN_RANKING_FIELD</code>: Tokens are ranked by the value of 
+        the <code>token_ranking_field</code> specified during collection creation.<br /><br />
             
-        <code>TERM_FREQUENCY</code>: Terms that occur more frequently in the collection are ranked first.<br /><br />        
+        <code>TERM_FREQUENCY</code>: Tokens that occur more frequently in the collection are ranked first.<br /><br />        
         
-        <strong>Default: </strong> <code>PREFIX_SORT_FIELD</code> if a <code>prefix_sort_field</code> was provided when the 
-        collection was created. Otherwise, defaults to <code>TERM_FREQUENCY</code>.
+        <strong>Default: </strong> <code>TOKEN_RANKING_FIELD</code> if a <code>token_ranking_field</code> was provided 
+        when the collection was created. Otherwise, <code>TERM_FREQUENCY</code> is used.
         </td>
     </tr>
     <tr>
@@ -464,7 +470,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
       {"name": "num_employees", "type": "int32"},
       {"name": "country", "type": "string", "facet": true}
   ],
-  "prefix_sort_field": "num_employees"
+  "token_ranking_field": "num_employees"
 }
 ```
 
@@ -560,17 +566,24 @@ Typesense ranks search results using a simple tie-breaking algorithm that relies
 
 <ol>
     <li>String similarity.</li>
-    <li>User-defined <code>sort_by</code> numerical fields (optional).</li>
+    <li>User-defined <code>sort_by</code> numerical fields.</li>
 </ol>
    
-Typesense computes a string similarity score based on how much a query overlaps with the `query_by` fields 
-of a given document. Typographic errors are also taken into account.
+Typesense computes a string similarity score based on how much a search query overlaps with the 
+fields of a given document. Typographic errors are also taken into account here. Let's see how:
+
+When there is a typo in the query, or during prefix search, multiple tokens could match a given token in the query. 
+For e.g. both “john” and “joan” are 1-typo away from “jofn”. Similarly, in the case of a prefix search, 
+both “apple” and “apply” would match “app”. In such scenarios, Typesense would use the value of the 
+<code>token_ranking_field</code> field to decide whether documents containing "john" or "joan" should be ranked first. 
+If a <code>token_ranking_field</code> field is not associated with the collection, then Typesense would rank the 
+documents containing the most frequently occuring tokens first.
 
 When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie. 
 You can specify upto two such numerical fields. 
 
 For example, let's say that we're searching for books with a query like <code>short story</code>. 
-If there are multiple books containing those words, then all those records would have the same string similarity score.
+If there are multiple books containing these exact words, then all those documents would have the same string similarity score.
 
 To break the tie, we could specify upto two additional `sort_by` fields. For instance, we could say, 
 <code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:
@@ -585,7 +598,11 @@ To break the tie, we could specify upto two additional `sort_by` fields. For ins
 
 You can run Typesense as a read-only replica that asynchronously pulls data from a master Typesense server.
 
-To start the server as a read-only replica, specify the master's host via the `--master` 
+To start the server as a read-only replica, specify the master's address via the `--master` 
 argument. Example: <br />
 
-<code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code>       
+<code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code>
+ 
+<strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the 
+replica to a master instance that has been running for greater than 24 hours, you need to first stop the master, take 
+a copy of the data directory and then then start the replica server by pointing to this backup data directory.
