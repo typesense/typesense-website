@@ -31,7 +31,7 @@ Start Typesense server via Docker:
 
 ```shell
 $ docker run -p 8108:8108 -v/path/to/typesense-data:/data \
-typesense/typesense:0.6.0 --data-dir /data --api-key=${TYPESENSE_API_KEY} \
+typesense/typesense:0.8.0 --data-dir /data --api-key=${TYPESENSE_API_KEY} \
 --listen-port 8108
 ````
 
@@ -245,7 +245,7 @@ You can define an array or multi-valued field by using a `[]` at the end:
 ## Index a document
 
 ```shell
-$ curl "${TYPESENSE_HOST}/collections/companies" \
+$ curl "${TYPESENSE_HOST}/collections/companies/documents" \
        -X POST \
        -H "Content-Type: application/json" \
        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
@@ -261,7 +261,10 @@ $ curl "${TYPESENSE_HOST}/collections/companies" \
 
 ```json
 {
-    "id": "124"
+    "id": "124",
+    "company_name": "Stark Industries",
+    "num_employees": 5215,
+    "country": "USA"
 }
 ```
 
@@ -269,7 +272,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 ### Definition
 
-`POST ${TYPESENSE_HOST}/collections/:collection`
+`POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
 <aside class="notice">
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the 
@@ -280,7 +283,7 @@ document. Otherwise, Typesense would assign an identifier of its choice to the d
 
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
-     "${TYPESENSE_HOST}/collections/companies/search\
+     "${TYPESENSE_HOST}/collections/companies/documents/search\
      ?q=stark&query_by=company_name&filter_by=num_employees:>100\
      &sort_by=num_employees:desc"
 ```
@@ -296,11 +299,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
     {
       "_highlight": {
         "description": "<mark>Stark</mark> Industries"
-      },
-      "id": "124",
-      "company_name": "Stark Industries",
-      "num_employees": 5215,
-      "country": "USA"
+      },      
+      "document": {
+        "id": "124",
+        "company_name": "Stark Industries",
+        "num_employees": 5215,
+        "country": "USA"
+      }
     }
   ]
 }
@@ -311,7 +316,7 @@ facet fields. You can also sort and facet your results.
 
 ### Definition
 
-`GET ${TYPESENSE_HOST}/collections/:collection/search`
+`GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments
 
@@ -360,9 +365,9 @@ facet fields. You can also sort and facet your results.
     </tr>    
     <tr>
         <td>prefix</td>
-        <td>false</td>
+        <td>true</td>
         <td>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole 
-        word. This is used for building autocomplete and instant search interfaces.</td>
+        word. This is necessary for building autocomplete and instant search interfaces.</td>
     </tr>
     <tr>
         <td>rank_tokens_by</td>
@@ -409,7 +414,7 @@ facet fields. You can also sort and facet your results.
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        -X GET
-       "${TYPESENSE_HOST}/collections/companies/124"
+       "${TYPESENSE_HOST}/collections/companies/documents/124"
 ```
 
 > Example Response
@@ -427,21 +432,24 @@ Fetch an individual document from a collection by using its ID.
 
 ### Definition
 
-`GET ${TYPESENSE_HOST}/collections/:collection/:id`
+`GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 ## Delete a document
 
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        -X DELETE
-       "${TYPESENSE_HOST}/collections/companies/124"
+       "${TYPESENSE_HOST}/collections/companies/documents/124"
 ```
 
 > Example Response
 
 ```json
 {
-    "id": "124"
+    "id": "124",
+    "company_name": "Stark Industries",
+    "num_employees": 5215,
+    "country": "USA"
 }
 ```
 
@@ -449,7 +457,7 @@ Delete an individual document from a collection by using its ID.
 
 ### Definition
 
-`DELETE ${TYPESENSE_HOST}/collections/:collection/:id`
+`DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 ## Retrieve a collection
 
@@ -462,15 +470,17 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 > Example Response
 
 ```json
-{    
-  "name": "companies",
-  "num_documents": 1250,
-  "fields": [
-      {"name": "company_name", "type": "string"},
-      {"name": "num_employees", "type": "int32"},
-      {"name": "country", "type": "string", "facet": true}
-  ],
-  "token_ranking_field": "num_employees"
+{
+    "num_documents": 1250, 
+    "collection": {    
+      "name": "companies",
+      "fields": [
+          {"name": "company_name", "type": "string"},
+          {"name": "num_employees", "type": "int32"},
+          {"name": "country", "type": "string", "facet": true}
+      ],
+      "token_ranking_field": "num_employees"
+    }
 }
 ```
 
@@ -485,7 +495,7 @@ Retrieve the details of a collection, given its name.
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        -X GET
-       "${TYPESENSE_HOST}/collections/companies/export"
+       "${TYPESENSE_HOST}/collections/companies/documents/export"
 ```
 
 > Example Response
@@ -503,7 +513,7 @@ Export all documents in a collection in [JSON lines format](http://jsonlines.org
 
 ### Definition
 
-`GET ${TYPESENSE_HOST}/collections/:collection/export`
+`GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
 
 ## List all collections
@@ -518,13 +528,29 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 ```json
 {  
   "collections": [
-    {   
-      "name": "companies",
-      "num_documents": 1250
+    {
+        "num_documents": 1250, 
+        "collection": {    
+          "name": "companies",
+          "fields": [
+              {"name": "company_name", "type": "string"},
+              {"name": "num_employees", "type": "int32"},
+              {"name": "country", "type": "string", "facet": true}
+          ],
+          "token_ranking_field": "num_employees"
+        }
     },
-    {   
-      "name": "employees"
-      "num_documents": 24638
+    {
+      "num_documents": 1250,
+      "collection": {    
+          "name": "ceos",
+          "fields": [
+              {"name": "company_name", "type": "string"},
+              {"name": "full_name", "type": "string"},
+              {"name": "from_year", "type": "int32"}
+          ],
+          "token_ranking_field": "num_employees"
+      }
     }
   ]
 }
@@ -548,8 +574,15 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 > Example Response
 
 ```json
-{
-    "id": "1"
+{    
+  "name": "companies",
+  "num_documents": 1250,
+  "fields": [
+      {"name": "company_name", "type": "string"},
+      {"name": "num_employees", "type": "int32"},
+      {"name": "country", "type": "string", "facet": true}
+  ],
+  "token_ranking_field": "num_employees"
 }
 ```
 
