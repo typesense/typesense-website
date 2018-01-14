@@ -1,4 +1,4 @@
-# Errors
+# API errors
 
 Typesense API uses standard HTTP response codes to indicate the success or failure of a request. 
 

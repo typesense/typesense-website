@@ -25,15 +25,26 @@ contribute changes!
 We recommend that you use our API client library if it is available for your language.
 </aside>
 
+# Installation
+
+You can download the [binary packages](https://github.com/wreally/typesense/releases) that we publish for 
+Linux (x86-64) and Mac.
+
+If you use Docker, you can also use our [official Docker image](https://hub.docker.com/r/typesense/typesense/).
+
 # Quickstart
 
-Start Typesense server via Docker:
+Starting Typesense with the bare minimal arguments:
 
-```shell
-$ docker run -p 8108:8108 -v/path/to/typesense-data:/data \
-typesense/typesense:0.8.0 --data-dir /data --api-key=${TYPESENSE_API_KEY} \
---listen-port 8108
-````
+<code>
+./typesense-server --data-dir /path/to/data-dir --api-key=Hu52dwsas2AdxdE --listen-port 8108
+</code>
+
+You can also start Typesense from our official Docker image: 
+
+<code>
+docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.8.0 --data-dir /data --api-key=Hu52dwsas2AdxdE --listen-port 8108
+</code>
 
 ### Arguments
 
