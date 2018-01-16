@@ -481,17 +481,15 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 > Example Response
 
 ```json
-{
-    "num_documents": 1250, 
-    "collection": {    
-      "name": "companies",
-      "fields": [
-          {"name": "company_name", "type": "string"},
-          {"name": "num_employees", "type": "int32"},
-          {"name": "country", "type": "string", "facet": true}
-      ],
-      "token_ranking_field": "num_employees"
-    }
+{    
+  "name": "companies",
+  "num_documents": 1250,
+  "fields": [
+      {"name": "company_name", "type": "string"},
+      {"name": "num_employees", "type": "int32"},
+      {"name": "country", "type": "string", "facet": true}
+  ],
+  "token_ranking_field": "num_employees"
 }
 ```
 
@@ -540,28 +538,24 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 {  
   "collections": [
     {
-        "num_documents": 1250, 
-        "collection": {    
-          "name": "companies",
-          "fields": [
-              {"name": "company_name", "type": "string"},
-              {"name": "num_employees", "type": "int32"},
-              {"name": "country", "type": "string", "facet": true}
-          ],
-          "token_ranking_field": "num_employees"
-        }
+      "num_documents": 1250, 
+      "name": "companies",
+      "fields": [
+        {"name": "company_name", "type": "string"}, 
+        {"name": "num_employees", "type": "int32"},
+        {"name": "country", "type": "string", "facet": true}
+      ],
+      "token_ranking_field": "num_employees"
     },
     {
       "num_documents": 1250,
-      "collection": {    
-          "name": "ceos",
-          "fields": [
-              {"name": "company_name", "type": "string"},
-              {"name": "full_name", "type": "string"},
-              {"name": "from_year", "type": "int32"}
-          ],
-          "token_ranking_field": "num_employees"
-      }
+      "name": "ceos",
+      "fields": [
+          {"name": "company_name", "type": "string"},
+          {"name": "full_name", "type": "string"},
+          {"name": "from_year", "type": "int32"}
+      ],
+      "token_ranking_field": "num_employees"
     }
   ]
 }
