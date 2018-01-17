@@ -55,6 +55,10 @@ html, body {
     $nav-subitem-bg;
 }
 
+#logo_link {
+  width: 100%;
+}
+
 .tocify-wrapper {
   transition: left 0.3s ease-in-out;
 
@@ -80,7 +84,7 @@ html, body {
   }
 
   // This is the logo at the top of the ToC
-  &>img {
+  #logo_link img {
     display: block;
     max-width: 100%;
   }
