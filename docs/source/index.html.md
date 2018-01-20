@@ -606,7 +606,7 @@ Typesense::Documents.export('companies')
 ]
 ```
 
-Export all documents in a collection in [JSON lines format](http://jsonlines.org/) (only in cURL, client libraries return an array of documents).
+Export all documents in a collection in [JSON lines format](http://jsonlines.org/) (only in cURL, client libraries return an array of JSON strings).
 
 ### Definition
 
