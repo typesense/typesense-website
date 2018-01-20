@@ -128,6 +128,15 @@ $ curl "${TYPESENSE_HOST}/collections"\
 "?x-typesense-api-key=${TYPESENSE_SEARCH_ONLY_KEY}"
 ```
 
+```ruby
+Typesense.configure do |config|
+  config.host     = 'localhost'
+  config.port     = 8108
+  config.protocol = 'http'
+  config.api_key  = 'abcd'
+end
+```
+
 API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header. Set it to the value of the <code>api-key</code> 
 argument used when the Typesense server is started.
 
