@@ -130,10 +130,29 @@ $ curl "${TYPESENSE_HOST}/collections"\
 
 ```ruby
 Typesense.configure do |config|
-  config.host     = 'localhost'
-  config.port     = 8108
-  config.protocol = 'http'
-  config.api_key  = 'abcd'
+  config.master_node = {
+      host:     'localhost',
+      port:     8108,
+      protocol: 'http',
+      api_key:  'abcd'
+  }
+  
+  config.read_replica_nodes = [
+      {
+          host:     'read_replica_1',
+          port:     8108,
+          protocol: 'http',
+          api_key:  'abcd'
+      },
+      {
+          host:     'read_replica_2',
+          port:     8108,
+          protocol: 'http',
+          api_key:  'abcd'
+      }
+  ]
+  
+  config.timeout = 10
 end
 ```
 
@@ -740,3 +759,8 @@ argument. Example: <br />
 <strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the 
 replica to a master instance that has been running for greater than 24 hours, you need to first stop the master, take 
 a copy of the data directory and then then start the replica server by pointing to this backup data directory.
+
+### Client library behavior
+
+Client libraries will send all writes to the master. Reads will first be sent to the master and if the server
+returns an HTTP 500 or the connection times-out, the read will be sent in round-robin order to the read replicas configured.
