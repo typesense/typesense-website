@@ -2,7 +2,8 @@
 title: API Reference
 
 language_tabs:
-  - shell  
+  - shell: curl
+  - ruby  
 
 toc_footers:  
   - <a href='https://typesense.org/'>Typesense Home</a>
@@ -127,6 +128,34 @@ $ curl "${TYPESENSE_HOST}/collections"\
 "?x-typesense-api-key=${TYPESENSE_SEARCH_ONLY_KEY}"
 ```
 
+```ruby
+Typesense.configure do |config|
+  config.master_node = {
+      host:     'localhost',
+      port:     8108,
+      protocol: 'http',
+      api_key:  'abcd'
+  }
+  
+  config.read_replica_nodes = [
+      {
+          host:     'read_replica_1',
+          port:     8108,
+          protocol: 'http',
+          api_key:  'abcd'
+      },
+      {
+          host:     'read_replica_2',
+          port:     8108,
+          protocol: 'http',
+          api_key:  'abcd'
+      }
+  ]
+  
+  config.timeout = 10
+end
+```
+
 API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header. Set it to the value of the <code>api-key</code> 
 argument used when the Typesense server is started.
 
@@ -167,11 +196,40 @@ $ curl "${TYPESENSE_HOST}/collections" \
       
 ```
 
+```ruby
+schema = {
+  'name'                => 'companies',
+  'fields'              => [
+    {
+      'name'  => 'company_name',
+      'type'  => 'string',
+      'facet' => false
+    },
+    {
+      'name'  => 'num_employees',
+      'type'  => 'int32',
+      'facet' => false
+    },
+    {
+      'name'  => 'country',
+      'type'  => 'string',
+      'facet' => true
+    }
+  ],
+  'token_ranking_field' => 'num_employees'
+}
+    
+
+Typesense::Collections.create(schema)
+```
+
+
 > Example Response
 
 ```json
 {
   "name": "companies",
+  "num_documents": 0,
   "fields": [
     {"name": "company_name", "type": "string" },
     {"name": "num_employees", "type": "int32" },
@@ -268,14 +326,25 @@ $ curl "${TYPESENSE_HOST}/collections/companies/documents" \
           }'
 ```
 
+```ruby
+document = {
+  'id'            => '124',
+  'company_name'  => 'Stark Industries',
+  'num_employees' => 5215,
+  'country'       => 'USA'
+}
+
+Typesense::Documents.create('companies', document)
+```
+
 > Example Response
 
 ```json
 {
-    "id": "124",
-    "company_name": "Stark Industries",
-    "num_employees": 5215,
-    "country": "USA"
+  "id": "124",
+  "company_name": "Stark Industries",
+  "num_employees": 5215,
+  "country": "USA"
 }
 ```
 
@@ -297,6 +366,17 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
      "${TYPESENSE_HOST}/collections/companies/documents/search\
      ?q=stark&query_by=company_name&filter_by=num_employees:>100\
      &sort_by=num_employees:desc"
+```
+
+```ruby
+search_parameters = {
+  'q'         => 'stark',
+  'query_by'  => 'company_name',
+  'filter_by' => 'num_employees:>100',
+  'sort_by'   => 'num_employees:desc'
+}
+      
+Typesense::Documents.search('companies', search_parameters)
 ```
 
 > Example Response
@@ -428,6 +508,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        "${TYPESENSE_HOST}/collections/companies/documents/124"
 ```
 
+```ruby
+Typesense::Documents.retrieve('companies', '124')
+```
+
 > Example Response
 
 ```json
@@ -453,6 +537,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        "${TYPESENSE_HOST}/collections/companies/documents/124"
 ```
 
+```ruby
+Typesense::Documents.delete('companies', '124')
+```
+
 > Example Response
 
 ```json
@@ -476,6 +564,10 @@ Delete an individual document from a collection by using its ID.
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        -X GET
        "${TYPESENSE_HOST}/collections/companies"
+```
+
+```ruby
+Typesense::Collections.retrieve('companies')
 ```
 
 > Example Response
@@ -507,9 +599,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        "${TYPESENSE_HOST}/collections/companies/documents/export"
 ```
 
+```ruby
+Typesense::Documents.export('companies')
+```
+
 > Example Response
 
-```json
+```shell
 {"id": "124", "company_name": "Stark Industries", "num_employees": 5215,\
  "country": "US"}
 {"id": "125", "company_name": "Future Technology", "num_employees": 1232,\
@@ -518,7 +614,18 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
  "country": "AU"}
 ```
 
-Export all documents in a collection in [JSON lines format](http://jsonlines.org/).
+```ruby
+[
+  {"id": "124", "company_name": "Stark Industries", "num_employees": 5215, \
+    "country": "US"},
+  {"id": "125", "company_name": "Future Technology", "num_employees": 1232, \
+    "country": "UK"},
+  {"id": "126", "company_name": "Random Corp.", "num_employees": 531, \
+    "country": "AU"}
+]
+```
+
+Export all documents in a collection in [JSON lines format](http://jsonlines.org/) (only in cURL, client libraries return an array of JSON strings).
 
 ### Definition
 
@@ -530,6 +637,10 @@ Export all documents in a collection in [JSON lines format](http://jsonlines.org
 ```shell
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
      "${TYPESENSE_HOST}/collections"
+```
+
+```ruby
+Typesense::Collections.retrieve_all
 ```
 
 > Example Response
@@ -574,6 +685,10 @@ with the most recent collections appearing first.
 $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
        -X DELETE
        "${TYPESENSE_HOST}/collections/companies"
+```
+
+```ruby
+Typesense::Collections.delete('companies')
 ```
 
 > Example Response
@@ -644,3 +759,8 @@ argument. Example: <br />
 <strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the 
 replica to a master instance that has been running for greater than 24 hours, you need to first stop the master, take 
 a copy of the data directory and then then start the replica server by pointing to this backup data directory.
+
+### Client library behavior
+
+Client libraries will send all writes to the master. Reads will first be sent to the master and if the server
+returns an HTTP 500 or the connection times-out, the read will be sent in round-robin order to the read replicas configured.
