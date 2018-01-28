@@ -616,12 +616,12 @@ Typesense::Documents.export('companies')
 
 ```ruby
 [
-  {"id": "124", "company_name": "Stark Industries", "num_employees": 5215, \
-    "country": "US"},
-  {"id": "125", "company_name": "Future Technology", "num_employees": 1232, \
-    "country": "UK"},
-  {"id": "126", "company_name": "Random Corp.", "num_employees": 531, \
-    "country": "AU"}
+  "{\"id\": \"124\", \"company_name\": \"Stark Industries\", \"num_employees\": 5215, \
+    \"country\": \"US\"}",
+  "{\"id\": \"125\", \"company_name\": \"Future Technology\", \"num_employees\": 1232, \
+    \"country\": \"UK\"}",
+  "{\"id\": \"126\", \"company_name\": \"Random Corp.\", \"num_employees\": 531, \
+    \"country\": \"AU\"}"
 ]
 ```
 
