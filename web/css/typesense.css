@@ -125,6 +125,10 @@ ul#goodreads-results {
     background-color: #c6dde9;
 }
 
+#release-downloads dt {
+    margin-top: 20px;
+}
+
 #footer {
     border-top: 1px solid #006;
     padding: 1em 0 0 0;

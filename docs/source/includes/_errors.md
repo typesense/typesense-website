@@ -12,4 +12,5 @@ Error Code | Meaning
 404 | Not Found - The requested resource is not found.
 409 | Conflict - When a resource already exists.
 422 | Unprocessable Entity - Request is well-formed, but cannot be processed.  
-503 | Service Unavailable - We're temporarily offline. Please try again later.
+500 | Internal Server Error - Typesense cannot process the request for an unknown reason
+503 | Service Unavailable - Typesense is temporarily offline. Please try again later.
