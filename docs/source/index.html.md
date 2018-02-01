@@ -3,7 +3,8 @@ title: API Reference
 
 language_tabs:
   - shell: curl
-  - ruby  
+  - ruby
+  - python
 
 toc_footers:  
   - <a href='https://typesense.org/'>Typesense Home</a>
@@ -156,6 +157,25 @@ Typesense.configure do |config|
 end
 ```
 
+```python
+import typesense
+
+typesense.master_node = typesense.Node(
+    host='localhost', 
+    port=8108, 
+    protocol='http', 
+    api_key='abcd'
+)
+typesense.read_replica_nodes = [
+    typesense.Node(
+        host='localhost', 
+        port=9108, 
+        protocol='http', 
+        api_key='abcd'
+    )
+]
+```
+
 API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header. Set it to the value of the <code>api-key</code> 
 argument used when the Typesense server is started.
 
@@ -221,6 +241,31 @@ schema = {
     
 
 Typesense::Collections.create(schema)
+```
+```python
+schema = {
+  'name': 'companies',
+  'fields': [
+    {
+      'name'  :  'company_name',
+      'type'  :  'string',
+      'facet' :  False
+    },
+    {
+      'name'  :  'num_employees',
+      'type'  :  'int32',
+      'facet' :  False
+    },
+    {
+      'name'  :  'country',
+      'type'  :  'string',
+      'facet' :  True
+    }
+  ],
+  'token_ranking_field': 'num_employees'
+}    
+
+typesense.Collections.create(schema)
 ```
 
 
@@ -337,6 +382,17 @@ document = {
 Typesense::Documents.create('companies', document)
 ```
 
+```python
+document = {
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+}
+
+typesense.Documents.create('companies', document)
+```
+
 > Example Response
 
 ```json
@@ -377,6 +433,17 @@ search_parameters = {
 }
       
 Typesense::Documents.search('companies', search_parameters)
+```
+
+```python
+search_parameters = {
+  'q'         : 'stark',
+  'query_by'  : 'company_name',
+  'filter_by' : 'num_employees:>100',
+  'sort_by'   : 'num_employees:desc'
+}
+      
+typesense.Documents.search('companies', search_parameters)
 ```
 
 > Example Response
@@ -512,6 +579,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 Typesense::Documents.retrieve('companies', '124')
 ```
 
+```python
+typesense.Documents.retrieve('companies', '124')
+```
+
 > Example Response
 
 ```json
@@ -541,6 +612,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 Typesense::Documents.delete('companies', '124')
 ```
 
+```python
+typesense.Documents.delete('companies', '124')
+```
+
 > Example Response
 
 ```json
@@ -568,6 +643,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 
 ```ruby
 Typesense::Collections.retrieve('companies')
+```
+
+```python
+typesense.Collections.retrieve('companies')
 ```
 
 > Example Response
@@ -603,6 +682,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 Typesense::Documents.export('companies')
 ```
 
+```python
+typesense.Documents.export('companies')
+```
+
 > Example Response
 
 ```shell
@@ -625,6 +708,13 @@ Typesense::Documents.export('companies')
 ]
 ```
 
+
+```python
+[u'{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
+u'{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
+u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
+```
+
 Export all documents in a collection in [JSON lines format](http://jsonlines.org/) (only in cURL, client libraries return an array of JSON strings).
 
 ### Definition
@@ -641,6 +731,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 
 ```ruby
 Typesense::Collections.retrieve_all
+```
+
+```python
+typesense.Collections.retrieve_all()
 ```
 
 > Example Response
@@ -689,6 +783,10 @@ $ curl -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
 
 ```ruby
 Typesense::Collections.delete('companies')
+```
+
+```python
+typesense.Collections.delete('companies')
 ```
 
 > Example Response
