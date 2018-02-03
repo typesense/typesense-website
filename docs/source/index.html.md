@@ -111,7 +111,15 @@ docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.8.0 --
         <td>
           Path to the SSL certificate key file. You must also define <code>ssl-certificate</code> to enable HTTPS.
         </td>
-    </tr>  
+    </tr>
+    <tr>
+        <td>log-dir</td>
+        <td>false</td>
+        <td>
+            By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a
+            logging directory.
+        </td>
+    </tr>
 </table>
 
 
