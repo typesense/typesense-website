@@ -7,7 +7,7 @@ $(document).ready(function() {
     var search_api_key = '123';
 
     function getResults(q, callback) {
-        var url = "http://localhost:8108/collections/goodreads_10k/search?q="+ q +
+        var url = "http://localhost:8108/collections/goodreads_10k/documents/search?q="+ q +
             "&prefix=true&query_by=original_title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
 
@@ -33,7 +33,8 @@ $(document).ready(function() {
         var lis = '';
         for(var i = 0; i < data.hits.length; i++) {
             var title = data.hits[i].title;
-            lis += '<li><img src="' + data.hits[i].small_image_url + '" alt="' + data.hits[i].title +
+            var doc = data.hits[i].document;
+            lis += '<li><img src="' + doc.small_image_url + '" alt="' + doc.title +
                    '" />' + data.hits[i]._highlight.original_title + '</li>';
         }
 
