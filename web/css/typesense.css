@@ -129,6 +129,33 @@ ul#goodreads-results {
     margin-top: 20px;
 }
 
+#feature-block {
+    border-top: 1px solid #ccc;
+}
+
+.features {
+    margin-top: 2.5em;
+    margin-bottom: 2em;
+    clear: both;
+}
+
+.features .col-md-9, .features .col-md-3, .features .col-md-4 {
+    padding-left: 0;
+}
+
+.features .col-md-3 {
+    color: #006699;
+}
+
+.features .col-md-9 {
+    margin-bottom: 1em;
+}
+
+.features h3 {
+    margin-top: 0;
+    color: #006;
+}
+
 #footer {
     border-top: 1px solid #006;
     padding: 1em 0 0 0;

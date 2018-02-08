@@ -29,7 +29,7 @@ We recommend that you use our API client library if it is available for your lan
 
 # Installation
 
-You can download the [binary packages](https://github.com/wreally/typesense/releases) that we publish for 
+You can download the [binary packages](https://github.com/typesense/typesense/releases) that we publish for 
 Linux (x86-64) and Mac.
 
 If you use Docker, you can also use our [official Docker image](https://hub.docker.com/r/typesense/typesense/).
