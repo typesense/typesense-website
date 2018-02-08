@@ -2,82 +2,90 @@
 <html lang="en-US">
 <head>
     <title>Typesense: open source, typo tolerant search engine for everyone.</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/typesense.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
-<body class="container-fluid">
-<nav class="navbar navbar-default">
-    <div class="col-md-8 col-centered">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/index.html">
-                <img src="images/typesense_medium.png" />
-            </a>
-        </div>
+<body>
+<nav class="navbar navbar-expand-lg container navbar-light">
+    <a class="navbar-brand" href="/index.html">
+        <img src="images/typesense_medium.png" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/docs">documentation</a></li>
-                <li><a href="/downloads">downloads</a></li>
-                <li><a href="https://github.com/typesense/typesense">github</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/docs">docs</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/downloads.html">downloads <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/typesense/typesense">github</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
-<div id="hero" class="row">
-    <div class="col-md-8 col-centered">
-        <div id="mast" class="row">
+<div id="hero">
+    <div id="mast" class="container">
+        <div class="row">
             <div id="intro-demo" class="col-md-8">
                 <h2>Craft <b>delightful</b> search experiences.</h2>
                 <p>Typesense is an open source, typo tolerant search engine that delivers fast and relevant
                     results out-of-the-box.</p>
                 <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
             </div>
-            <div id="splash" class="col-md-4 hidden-sm hidden-xs">
-
-            </div>
+            <div id="splash" class="col-md-4 d-none d-md-block"></div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-8 col-centered">
-        <h3>Download Typesense</h3>
-        <p>Below are the available downloads for the latest version of Typesense (0.8.0).
-        <p>Please download the proper package for your operating system and architecture.</p>
-        <dl id="release-downloads">
-           <dt>Mac OS X</dt>
-           <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-darwin-amd64.tar.gz">64-bit</a></dd>
+<div class="container content">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Download Typesense</h3>
+            <p>Below are the available binaries for the latest version of Typesense (0.8.0).
+            <p>Please download the proper binary archive for your operating system and architecture.</p>
+            <dl id="release-downloads">
+                <dt>Mac OS X</dt>
+                <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-darwin-amd64.tar.gz">64-bit</a></dd>
 
-            <dt>Linux</dt>
-            <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-linux-amd64.tar.gz">64-bit</a></dd>
-        </dl>
+                <dt>Linux</dt>
+                <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-linux-amd64.tar.gz">64-bit</a></dd>
+            </dl>
+        </div>
     </div>
 </div>
 
-<div id="footer" class="row">
-    <div class="col-md-8 col-centered">
-        &copy; 2016-2018 Wreally Studios Inc.
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
+        </div>
+    </div>
+</div>
+
+<div id="footer" class="container">
+    <div class="row">
+        <h6>&copy; 2016-2018 Wreally Studios Inc.</h6>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="js/web.js" type="text/javascript"></script>
 </body>
 </html>

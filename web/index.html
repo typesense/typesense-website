@@ -2,70 +2,66 @@
 <html lang="en-US">
 <head>
     <title>Typesense: open source, typo tolerant search engine for everyone.</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/typesense.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
-<body class="container-fluid">
-    <nav class="navbar navbar-default">
-        <div class="col-md-8 col-centered">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/index.html">
-                    <img src="images/typesense_medium.png" />
-                </a>
-            </div>
+<body>
+    <nav class="navbar navbar-expand-lg container navbar-light">
+        <a class="navbar-brand" href="/index.html">
+            <img src="images/typesense_medium.png" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/docs">documentation</a></li>
-                    <li><a href="/downloads.html">downloads</a></li>
-                    <li><a href="https://github.com/typesense/typesense">github</a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs">docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/downloads.html">downloads</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/typesense/typesense">github</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
-    <div id="hero" class="row">
-        <div class="col-md-8 col-centered">
-            <div id="mast" class="row">
+    <div id="hero">
+        <div id="mast" class="container">
+            <div class="row">
                 <div id="intro-demo" class="col-md-8">
                     <h2>Craft <b>delightful</b> search experiences.</h2>
                     <p>Typesense is an open source, typo tolerant search engine that delivers fast and relevant
                         results out-of-the-box.</p>
                     <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
                 </div>
-                <div id="splash" class="col-md-4 hidden-sm hidden-xs">
-
-                </div>
+                <div id="splash" class="col-md-4 d-none d-md-block"></div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div id="intro-demo" class="col-md-8 col-centered">
+    <div class="container">
+        <div id="intro-demo" class="row">
             <div id="intro" class="col-md-6">
                 <h3>Meticulously designed and optimized for speed.</h3>
                 <p>Typesense has been built from scratch to offer a delightful, out-of-the-box search experience.</p>
                 <p>From instant search, to autosuggest, to faceted search, Typesense has got you covered.</p>
-                <!--<p><a href="/docs">Get started &raquo;</a></p>-->
             </div>
             <div id="goodreads-demo" class="col-md-6">
                 <form id="goodreads-search">
                     <input type="text" value="harry">
                 </form>
                 <div id="goodreads-results-nav">
-                    <div class="row">
+                    <div class="row no-gutters">
                         <div class="col-xs-6">
                             <small id="goodreads-found"></small>
                         </div>
@@ -80,87 +76,90 @@
         </div>
     </div>
 
-    <div id="feature-block" class="row">
-        <div class="features col-md-8 col-centered">
-            <div class="col-md-4">
-                <div class="col-md-3">
+    <div id="feature-block" class="container">
+        <div class="row features">
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-keyboard fa-3x"></i>
                 </div>
-                <div class="col-md-9">
-                    <h3>Typo-tolerant</h3>
+                <div class="col-9">
+                    <h3>Typo tolerant</h3>
                     <p>Who doesn't maek mistaeks while typing? Typesense has got your back!</p>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="col-md-3">
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-sort fa-3x"></i>
                 </div>
-                <div class="col-md-9">
+                <div class="col-9">
                     <h3>Customizable ranking</h3>
                     <p>Easily tune your search results to perfection.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-3">
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-bolt fa-3x"></i>
                 </div>
-                <div class="col-md-9">
+                <div class="col-9">
                     <h3>Blazing fast</h3>
                     <p>Meticulously designed and optimized for speed.</p>
                 </div>
             </div>
-        </div>
 
-        <div class="features col-md-8 col-centered">
-            <div class="col-md-4">
-                <div class="col-md-3">
+            <div class="w-100"></div>
+
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-smile fa-3x"></i>
                 </div>
-                <div class="col-md-9">
+                <div class="col-9">
                     <h3>Simply delightful</h3>
                     <p>Simple API and delightful out-of-the-box experience.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-3">
+
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-filter fa-3x"></i>
                 </div>
-                <div class="col-md-9">
+                <div class="col-9">
                     <h3>Facets &amp; filters</h3>
                     <p>Allows you to drill-down and deep dive into the results.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-3">
+
+            <div class="col-md-4 row">
+                <div class="col-3">
                     <i class="fas fa-server fa-3x"></i>
                 </div>
-                <div class="col-md-9">
+                <div class="col-9">
                     <h3>Easy HA</h3>
                     <p>It's trivial to add read-only replicas for high availability.</p>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-2 col-centered">
+    <div class="container">
+        <div class="row justify-content-center">
             <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
         </div>
     </div>
 
-    <div id="footer" class="row">
-        <div class="col-md-8 col-centered">
-            &copy; 2016-2018 Wreally Studios Inc.
+    <div id="footer" class="container">
+        <div class="row">
+            <h6>&copy; 2016-2018 Wreally Studios Inc.</h6>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/web.js" type="text/javascript"></script>
 </body>
 </html>

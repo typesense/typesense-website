@@ -1,43 +1,31 @@
 #hero {
     color: #fff;
-    padding: 0 0.5em 0 0.5em;
     background-color: #006;
     border-top: 3px solid #006699;
     border-bottom: 3px solid #006699;
 }
 
-.col-centered{
-    float: none;
-    margin: 0 auto;
-}
-
-.navbar-default {
-    background: none;
-    border: 0;
-    box-shadow: none;
+.container.content {
+    margin-top: 1em;
 }
 
 a.navbar-brand {
     padding-top: 0;
     padding-left: 0;
+    margin-right: 2em;
 }
 
 a.navbar-brand img {
     height: 3em;
 }
 
-.navbar ul.nav a {
+.navbar ul.navbar-nav a {
     font-size: 1.3em;
     font-weight: 300;
 }
 
-.navbar .col-centered {
-    padding-left: 0.2em;
-}
-
 #mast {
     padding-top: 0.3em;
-    margin-left: 0;
 }
 
 #mast #splash {
@@ -56,12 +44,15 @@ a.navbar-brand img {
 }
 
 #intro-demo {
-    padding-left: 0;
     margin-top: 1em;
 }
 
 #intro-demo p {
     font-size: 1.4em;
+}
+
+#intro {
+    margin-top: 1em;
 }
 
 #intro p {
@@ -135,29 +126,38 @@ ul#goodreads-results {
 
 .features {
     margin-top: 2.5em;
-    margin-bottom: 2em;
-    clear: both;
 }
 
-.features .col-md-9, .features .col-md-3, .features .col-md-4 {
-    padding-left: 0;
-}
-
-.features .col-md-3 {
+.features i {
     color: #006699;
 }
 
-.features .col-md-9 {
-    margin-bottom: 1em;
+.features .fa-keyboard.fa-3x {
+    font-size: 2.50em;
+}
+
+.features .fa-sort.fa-3x {
+    font-size: 3.75em;
+}
+
+.features .fa-bolt.fa-3x {
+    font-size: 3.75em;
+}
+
+.features .fa-server.fa-3x {
+    font-size: 2.75em;
 }
 
 .features h3 {
-    margin-top: 0;
+    margin-top: -0.25em;
     color: #006;
 }
 
 #footer {
-    border-top: 1px solid #006;
-    padding: 1em 0 0 0;
+    border-top: 1px solid #ccc;
     margin-top: 1em;
+}
+
+#footer h6 {
+    margin: 1em 0 1em 0;
 }
