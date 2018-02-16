@@ -7,7 +7,7 @@ $(document).ready(function() {
     var search_api_key = '123';
 
     function getResults(q, callback) {
-        var url = "http://localhost:8108/collections/goodreads_10k/documents/search?q="+ q +
+        var url = "http://wreally.com:8108/collections/goodreads_10k/documents/search?q="+ q +
             "&prefix=true&query_by=original_title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
 
