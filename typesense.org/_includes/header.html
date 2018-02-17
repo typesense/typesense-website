@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg container navbar-light">
+  <a class="navbar-brand" href="{{ "/" | relative_url }}">
+    <img src="/assets/images/typesense_medium.png" alt="{{ site.title | escape }}" />
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  {% assign page_paths = site.header_pages %}
+
+  {% if page_paths %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      {% for path in page_paths %}
+        {% assign page_x = site.pages | where: "path", path | first %}
+        {% if page_x.title %}
+          {% if page.url == page_x.url %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ page_x.url | relative_url }}">{{ page_x.nav_label | escape | downcase }}</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ page_x.url | relative_url }}">{{ page_x.nav_label | escape | downcase }}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/typesense/typesense">github</a>
+      </li>
+</nav>
+  {% endif %}
+</nav>
