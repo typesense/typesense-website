@@ -23,6 +23,20 @@ permalink: /api/
     <div class="col-md-8">
       <h4 id="installation">Installation</h4>
 
+      {% code_block %}
+        ```ruby
+        def foo
+          puts 'foo'
+        end
+        ```
+
+        ```python
+        def foo:
+          print('foo')
+        ```
+
+      {% endcode_block %}
+
       <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="install-ruby-tab" data-toggle="tab" href="#install-ruby" role="tab" aria-controls="install-ruby" aria-selected="true">Ruby</a>
