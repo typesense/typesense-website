@@ -30,6 +30,16 @@ a.navbar-brand img {
     padding-left: 0;
 }
 
+#navbar-docs nav nav a {
+    font-size: 90%;
+}
+
+#navbar-docs a {
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    margin-bottom: 0 !important;
+}
+
 #mast {
     margin-top: 1em;
 }
