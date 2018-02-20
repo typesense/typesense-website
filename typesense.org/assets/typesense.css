@@ -159,8 +159,33 @@ ul#goodreads-results {
     color: #006;
 }
 
+#doc-col table {
+    font-size: 90%;
+}
+
+#doc-col h3, #doc-col h4 {
+    margin: 0 0 1em 0;
+    color: #006;
+}
+
 #doc-col .nav-tabs {
     margin-bottom: 0 !important;
+}
+
+#doc-col .tab-content {
+    margin-bottom: 2em;
+}
+
+#doc-col .tab-content .highlight {
+    padding: 0.5em 0 0.5em 0.5em;
+}
+
+#doc-col .tab-content .highlight code {
+    color: #fff;
+}
+
+#doc-col .tab-content .highlight pre {
+    margin-bottom: 0;
 }
 
 #footer {

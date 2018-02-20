@@ -38,6 +38,7 @@ plugins:
 
 header_pages:
   - index.html.md
+  - quickstart.html.md
   - api.html.md
   - downloads.html.md
 

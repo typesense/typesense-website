@@ -7,7 +7,7 @@ module Jekyll
 
     def render(context)
       content = super
-      blocks = content.split("```\n")[0...-1]
+      blocks = content.split(/```$/)[0...-1]
 
       num_blocks = blocks.length
       output = "<ul class=\"nav nav-tabs mb-#{num_blocks}\" role=\"tablist\">"
@@ -30,9 +30,23 @@ module Jekyll
       output += '<div class="tab-content">'
 
       blocks.each_with_index do |block, index|
-        lang = block.strip.scan(/```([a-z]*)/).first.first
+        block = block.strip
+        lang = block.scan(/```([a-z]*)/).first.first
         lang_proper = lang.capitalize
         active_class = if index == 0 then " active" else "" end
+
+        lines = block.split("\n")
+        num_leading_spaces = lines[1][/\A */].size
+        new_lines = []
+        lines.each_with_index do |line, index|
+            if index != 0
+                new_lines.push("#{line[num_leading_spaces..-1]}")
+            else
+                new_lines.push(line)
+            end
+        end
+
+        block = new_lines.join("\n")
 
         output += "<div class=\"tab-pane fade show#{active_class}\" id=\"#{@label}-#{lang}\" role=\"tabpanel\" aria-labelledby=\"#{@label}-#{lang}-tab\">"
         output += block.gsub(/```([a-z]*)/, "{% highlight \\1 %}") + '{% endhighlight %}'
