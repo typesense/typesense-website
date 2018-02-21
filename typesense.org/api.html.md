@@ -10,8 +10,9 @@ permalink: /api/
       <h3 id="introduction">Introduction</h3>
       <p>Welcome to the Typesense API documentation.</p>
 
-      <p>This documentation itself is open source. Please leave your feedback as issues in the GitHub repo or
-        fork it to contribute changes!</p>
+      <p>This documentation itself is open source. Please leave your feedback as issues on the
+        <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
+        to contribute edits.</p>
 
       <h3 id="installation">Installation</h3>
 
@@ -206,23 +207,27 @@ permalink: /api/
           <td>fields</td>
           <td>yes</td>
           <td>
-            Definition of fields that you wish to index for querying, filtering and faceting. <br /><br />
+            A list of fields that you wish to index for querying, filtering and faceting. <br /><br />
             A field of type <code>string</code> or <code>string[]</code> can be declared as a faceted field by
             setting its <code>facet</code> property to <code>true</code>. Faceted fields are indexed
-            <strong>verbatim</strong> without any tokenization or preprocessing.
+            <strong>verbatim</strong> without any tokenization or preprocessing. For example, if you are building a
+            product search, <code>color</code> and <code>brand</code> could be defined as facet fields.
           </td>
         </tr>
         <tr>
           <td>token_ranking_field</td>
           <td>no</td>
           <td>
-            Name of a numerical field whose value will be used to rank the tokens that match a given token in the
-            query. <br /><br />
-            When there is a typo in the query, or during prefix search, multiple tokens could match a given token
-            in the query. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in the case of a
-            prefix search, both "apple" and "apply" would match "app".<br /><br />
-            If this field is not defined, tokens are ordered based on their frequency of occurrence in the collection.
-            <strong>Strongly recommended for instant search and autocomplete use cases.</strong>
+            <p>When a word in the search query matches multiple possible words (either because of a typo or
+              during a prefix search), this parameter specifies the name of a numerical field whose value will be used to
+              rank such equally matching tokens.</p>
+
+            <p>For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in the case of a
+            prefix search, both "apple" and "apply" would match the prefix "app".</p>
+
+            <p>If this field is not defined, tokens are ranked based on their frequency of occurrence in the collection.
+              <strong>We strongly recommended that you configure this field for optimum instant search and
+                autocomplete results.</strong></p>
           </td>
         </tr>
       </table>
@@ -419,24 +424,13 @@ permalink: /api/
           <td>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</td>
         </tr>
         <tr>
-          <td>num_typos</td>
-          <td>false</td>
-          <td>The number of typographical errors (1 or 2) that would be tolerated. Default: 2</td>
-        </tr>
-        <tr>
-          <td>prefix</td>
-          <td>true</td>
-          <td>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole
-            word. This is necessary for building autocomplete and instant search interfaces.</td>
-        </tr>
-        <tr>
           <td>rank_tokens_by</td>
           <td>false</td>
-          <td>When a token/word in the search query matches multiple possible words (either because of a typo or during prefix
+          <td>When a word in the search query matches multiple possible words (either because of a typo or during a prefix
             search), this parameter determines the priority of the matching tokens. For e.g. both "john" and "joan" are
-            1-typo away from "jofn". In a prefix search, both "apple" and "apply" would match "app".
+            1-typo away from "jofn". In a prefix search, both "apple" and "apply" would match the prefix "app".
             <br /> <br />
-            The value of <code>rank_tokens_by</code> must be: <br /> <br />
+            The value of <code>rank_tokens_by</code> must be either
             <code>TOKEN_RANKING_FIELD</code> or <code>TERM_FREQUENCY</code>. <br /> <br />
 
             <code>TOKEN_RANKING_FIELD</code>: Tokens are ranked by the value of
@@ -447,6 +441,17 @@ permalink: /api/
             <strong>Default: </strong> <code>TOKEN_RANKING_FIELD</code> if a <code>token_ranking_field</code> was provided
             when the collection was created. Otherwise, <code>TERM_FREQUENCY</code> is used.
           </td>
+        </tr>
+        <tr>
+          <td>num_typos</td>
+          <td>false</td>
+          <td>The number of typographical errors (1 or 2) that would be tolerated. Default: 2</td>
+        </tr>
+        <tr>
+          <td>prefix</td>
+          <td>true</td>
+          <td>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole
+            word. This is necessary for building autocomplete and instant search interfaces.</td>
         </tr>
         <tr>
           <td>page</td>

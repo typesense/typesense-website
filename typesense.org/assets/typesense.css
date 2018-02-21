@@ -145,7 +145,11 @@ ul#goodreads-results {
 }
 
 .features i {
-    color: #006699;
+    color: #333;
+}
+
+#feature-block .w-100 {
+    height: 1em;
 }
 
 .features .fa-keyboard.fa-3x {

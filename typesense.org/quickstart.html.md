@@ -7,20 +7,18 @@ permalink: /quickstart/
 
 <div class="row no-gutters">
   <div class="col-md-8">
-    <p>Below are the available binaries for the latest version of Typesense (0.8.0).</p>
-    <p>Please download the proper binary archive for your operating system and architecture.</p>
-    <dl id="release-downloads">
-      <dt>Mac OS X</dt>
-      <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-darwin-amd64.tar.gz">64-bit</a></dd>
+    <p>Let's get you started with a 5-minute guide that will show you how to install Typesense, index some documents
+    and explore the data with some search queries.</p>
 
-      <dt>Linux</dt>
-      <dd><a href="https://github.com/typesense/typesense/releases/download/0.8.0-rc1/typesense-server-0.8.0-RC1-linux-amd64.tar.gz">64-bit</a></dd>
-    </dl>
+    <p>If you are looking for a detailed dive into Typesense, refer to our <a href="/api">API documentation</a>.</p>
+
+    <h4 id="install">Installation</h4>
+    <p>TODO</p>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-8">
-    <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
+
   </div>
 </div>
