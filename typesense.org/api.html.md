@@ -8,13 +8,14 @@ permalink: /api/
 <div class="row no-gutters">
     <div id="doc-col" class="col-md-8">
       <h3 id="introduction">Introduction</h3>
-      <p>Welcome to the Typesense API documentation.</p>
-
-      <p>This documentation itself is open source. Please leave your feedback as issues on the
+      <p>Welcome to the Typesense API documentation. This documentation itself is open source.
+        Please leave your feedback as issues on the
         <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
         to contribute edits.</p>
 
-      <h3 id="installation">Installation</h3>
+      <p>To learn how to install and run Typesense, see our <a href="/guide">getting started guide</a>.</p>
+
+      <h3 id="api-clients">API clients</h3>
 
       <p>At the moment, we have API clients for Javascript, Python, and Ruby. </p>
       <p>We recommend that you use our API client library if it is available for your language.</p>
@@ -90,7 +91,7 @@ permalink: /api/
 
       <h3 id="usage">Usage</h3>
 
-      <p>In Typesense, a group of documents is called a <code>collection</code>. A <code>collection</code> is roughly
+      <p>In Typesense, a group of related documents is called a <code>collection</code>. A <code>collection</code> is roughly
         equivalent to a table in a relational database.
       </p>
 
@@ -111,13 +112,11 @@ permalink: /api/
           'fields'    => [
             {
               'name'  => 'company_name',
-              'type'  => 'string',
-              'facet' => false
+              'type'  => 'string'
             },
             {
               'name'  => 'num_employees',
-              'type'  => 'int32',
-              'facet' => false
+              'type'  => 'int32'
             },
             {
               'name'  => 'country',
@@ -136,13 +135,11 @@ permalink: /api/
           'fields': [
             {
               'name'  :  'company_name',
-              'type'  :  'string',
-              'facet' :  False
+              'type'  :  'string'
             },
             {
               'name'  :  'num_employees',
-              'type'  :  'int32',
-              'facet' :  False
+              'type'  :  'int32'
             },
             {
               'name'  :  'country',
@@ -207,11 +204,14 @@ permalink: /api/
           <td>fields</td>
           <td>yes</td>
           <td>
-            A list of fields that you wish to index for querying, filtering and faceting. <br /><br />
-            A field of type <code>string</code> or <code>string[]</code> can be declared as a faceted field by
-            setting its <code>facet</code> property to <code>true</code>. Faceted fields are indexed
-            <strong>verbatim</strong> without any tokenization or preprocessing. For example, if you are building a
-            product search, <code>color</code> and <code>brand</code> could be defined as facet fields.
+            <p>A list of fields that you wish to index for querying, filtering and faceting.</p>
+
+            <p>Apart from specifying the <code>name</code> and <code>type</code> for each field, a field of
+              type <code>string</code> or <code>string[]</code> can be declared as a faceted field by
+            setting its <code>facet</code> property to <code>true</code>.</p>
+            <p>Faceted fields are indexed <strong>verbatim</strong> without any tokenization or preprocessing.
+              For example, if you are building a product search, <code>color</code> and <code>brand</code> could be
+              defined as facet fields.</p>
           </td>
         </tr>
         <tr>
@@ -287,7 +287,7 @@ permalink: /api/
         typesense.Documents.create('companies', document)
         ```
         ```shell
-        $ curl "http://localhost:8108/collections/companies/documents" -X POST \
+        curl "http://localhost:8108/collections/companies/documents" -X POST \
                 -H "Content-Type: application/json" \
                 -H "X-TYPESENSE-API-KEY: abcd" \
                 -d '{
@@ -737,7 +737,7 @@ permalink: /api/
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
-          <a class="nav-link" href="#installation">Installation</a>
+          <a class="nav-link" href="#api-clients">API clients</a>
           <a class="nav-link" href="#authentication">Authentication</a>
           <a class="nav-link" href="#usage">Usage</a>
           <nav class="nav nav-pills flex-column">
