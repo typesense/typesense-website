@@ -463,7 +463,7 @@ typesense.Documents.search('companies', search_parameters)
   "took_ms": 1,
   "hits": [
     {
-      "_highlight": {
+      "highlight": {
         "description": "<mark>Stark</mark> Industries"
       },      
       "document": {

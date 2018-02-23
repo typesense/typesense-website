@@ -154,7 +154,7 @@ permalink: /api/
       ```
       ```shell
         curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
-               -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{\
+               -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
                  "name": "companies",
                  "fields": [
                    {"name": "company_name", "type": "string" },
@@ -364,7 +364,7 @@ permalink: /api/
           "took_ms": 1,
           "hits": [
             {
-              "_highlight": {
+              "highlight": {
                 "description": "<mark>Stark</mark> Industries"
               },
               "document": {

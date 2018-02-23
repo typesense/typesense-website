@@ -12,7 +12,7 @@ permalink: /guide/
 
     <p>If you are looking for a detailed dive into Typesense, refer to our <a href="/api">API documentation</a>.</p>
 
-    <h3 id="install-typesense">Install Typesense</h3>
+    <h3 id="install-typesense">Installing Typesense</h3>
 
     <p>We have pre-built binaries available for Linux (X86_64) and Mac OS X from our
       <a href="/downloads">downloads page</a>.</p>
@@ -20,7 +20,7 @@ permalink: /guide/
     <p>We also publish official Docker images for Typesense on
       <a href="https://hub.docker.com/r/typesense/typesense/">Docker hub</a>.</p>
 
-    <h3 id="install-typesense">Starting the Typesense server</h3>
+    <h3 id="start-typesense">Starting the Typesense server</h3>
 
     <p>You can start Typesense with minimal options like this:</p>
 
@@ -116,7 +116,7 @@ permalink: /guide/
     </table>
 
 
-    <h3 id="install-client">Install a client</h3>
+    <h3 id="install-client">Installing a client</h3>
 
     <p>At the moment, we have clients for Javascript, Python, and Ruby. </p>
     <p>We recommend that you use our API client if it's available for your language. It's also easy to
@@ -132,7 +132,7 @@ permalink: /guide/
     ```
     {% endcode_block %}
 
-    <h3 id="sample-application">Sample application</h3>
+    <h3 id="sample-application">Tour</h3>
 
     <p>At this point, we are all set to start using Typesense. We will create a Typesense collection, index
       some documents in it and try searching for them.</p>
@@ -189,16 +189,16 @@ permalink: /guide/
       books_schema = {
         'name' => 'books',
         'fields' => [
-          {'name' => 'original_title', 'type' => 'string' },
-          {'name' => 'author_names', 'type' => 'string[]' },
+          {'name' => 'title', 'type' => 'string' },
+          {'name' => 'authors', 'type' => 'string[]' },
           {'name' => 'image_url', 'type' => 'string' },
 
-          {'name' => 'original_publication_year', 'type' => 'int32' },
+          {'name' => 'publication_year', 'type' => 'int32' },
           {'name' => 'ratings_count', 'type' => 'int32' },
           {'name' => 'average_rating', 'type' => 'float' },
 
-          {'name' => 'authors', 'type' => 'string[]', 'facet' => true },
-          {'name' => 'publication_year_str', 'type' => 'string', 'facet' => true }
+          {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
+          {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
         ],
         'token_ranking_field' => 'ratings_count'
       }
@@ -212,25 +212,47 @@ permalink: /guide/
       books_schema = {
         'name': 'books',
         'fields': [
-          {'name': 'original_title', 'type': 'string' },
-          {'name': 'author_names', 'type': 'string[]' },
-          {'name': 'authors', 'type': 'string[]', 'facet': True },
-          {'name': 'original_publication_year', 'type': 'int32' },
-          {'name': 'publication_year_str', 'type': 'string', 'facet': True },
+          {'name': 'title', 'type': 'string' },
+          {'name': 'authors', 'type': 'string[]' },
+          {'name': 'image_url', 'type': 'string' },
+
+          {'name': 'publication_year', 'type': 'int32' },
           {'name': 'ratings_count', 'type': 'int32' },
           {'name': 'average_rating', 'type': 'float' },
-          {'name': 'image_url', 'type': 'string' }
+
+          {'name': 'authors_facet', 'type': 'string[]', 'facet': True },
+          {'name': 'publication_year_facet', 'type': 'string', 'facet': True },
         ],
         'token_ranking_field': 'ratings_count'
       }
 
       typesense.Collections.create(schema)
     ```
+
+    ```shell
+      curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+            -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+              "name": "books",
+              "fields": [
+                {"name": "title", "type": "string" },
+                {"name": "authors", "type": "string[]" },
+                {"name": "image_url", "type": "string" },
+
+                {"name": "publication_year", "type": "int32" },
+                {"name": "ratings_count", "type": "int32" },
+                {"name": "average_rating", "type": "float" },
+
+                {"name": "authors_facet", "type": "string[]", "facet": true },
+                {"name": "publication_year_facet", "type": "string", "facet": true }
+              ],
+              "token_ranking_field": "ratings_count"
+            }'
+    ```
     {% endcode_block %}
 
     <p>For each field, we define its <code>name</code>, <code>type</code> and whether it's a <code>facet</code> field.
     A facet field allows us to cluster the search results into categories and let us drill into each of those categories.
-    We will be seeing faceted results in action in just a bit.</p>
+    We will be seeing faceted results in action at the end of this guide.</p>
 
     <h4 id="index-documents">Adding books to the collection</h4>
 
@@ -250,28 +272,231 @@ permalink: /guide/
           typesense.Documents.create('books', book_document)
     ```
     ```shell
-      curl "$TYPESENSE_MASTER/collections/companies/books" -X POST \
-            -H "Content-Type: application/json" \
-            -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-            -d '{
-              "id": "124",
-              "company_name": "Stark Industries",
-              "num_employees": 5215,
-              "country": "USA"
-            }'
+        #!/bin/bash
+        input="/tmp/books.jsonl"
+        while IFS= read -r line
+        do
+          curl "$TYPESENSE_MASTER/collections/books/documents" -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
+          -d "$line"
+        done < "$input"
     ```
     {% endcode_block %}
 
     <h4 id="search-collection">Searching for books</h4>
 
     <p>We will start with a really simple search query - let's search for <code>harry potter</code> and ask Typesense
-    to rank books that have a better rating higher in the results.</p>
+    to rank books that have more ratings higher in the results.</p>
 
-    {% code_block search-collection %}
+    {% code_block search-collection-1 %}
     ```ruby
       search_parameters = {
         'q'         => 'harry potter',
-        'query_by'  => 'original_title',
+        'query_by'  => 'title',
+        'sort_by'   => 'ratings_count:desc'
+      }
+
+      Typesense::Documents.search('books', search_parameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'ratings_count:desc'
+      }
+
+      typesense.Documents.search('books', search_parameters)
+    ```
+
+    ```shell
+      curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
+      "$TYPESENSE_MASTER/collections/books/documents/search\
+      ?q=harry+potter&query_by=title&sort_by=ratings_count:desc"
+    ```
+    {% endcode_block %}
+
+    <h5>Sample response</h5>
+
+    {% code_block search-collection-1-response %}
+      ```json
+      {
+        "facet_counts": [],
+        "found": 62,
+        "hits": [
+          {
+            "highlight": {
+              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+            },
+            "document": {
+              "authors": [
+                "J.K. Rowling", "Mary GrandPré"
+              ],
+              "authors_facet": [
+                "J.K. Rowling", "Mary GrandPré"
+              ],
+              "average_rating": 4.44,
+              "id": "2",
+              "image_url": "https://images.gr-assets.com/books/1474154022m/3.jpg",
+              "publication_year": 1997,
+              "publication_year_facet": "1997",
+              "ratings_count": 4602479,
+              "title": "Harry Potter and the Philosopher's Stone"
+            }
+          },
+          ...
+        ]
+      }
+      ```
+    {% endcode_block %}
+
+    <p>In addition to returning the matching documents, Typesense also highlights where the query terms appear
+      in a document via the <code>highlight</code> property.</p>
+
+    <p>Want to actually see newest <code>harry potter</code> books returned first? No problem, we can change the
+      <code>sort_by</code> clause to <code>publication_year:desc</code>:</p>
+
+    {% code_block search-collection-2 %}
+    ```ruby
+      search_parameters = {
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'sort_by'   => 'publication_year:desc'
+      }
+
+      Typesense::Documents.search('books', search_parameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      typesense.Documents.search('books', search_parameters)
+    ```
+
+    ```shell
+      curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
+      "$TYPESENSE_MASTER/collections/books/documents/search\
+      ?q=harry+potter&query_by=title&sort_by=publication_year:desc"
+    ```
+    {% endcode_block %}
+
+    <h5>Sample response</h5>
+
+    {% code_block search-collection-2-response %}
+      ```json
+      {
+        "facet_counts": [],
+        "found": 62,
+        "hits": [
+        {
+          "highlight": {
+            "title": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
+          },
+          "document": {
+            "authors": [
+              "John Tiffany", "Jack Thorne", "J.K. Rowling"
+            ],
+            "authors_facet": [
+              "John Tiffany", "Jack Thorne", "J.K. Rowling"
+            ],
+            "average_rating": 3.75,
+            "id": "279",
+            "image_url": "https://images.gr-assets.com/books/1470082995m/29056083.jpg",
+            "publication_year": 2016,
+            "publication_year_facet": "2016",
+            "ratings_count": 270603,
+            "title": "Harry Potter and the Cursed Child, Parts One and Two"
+          }
+        },
+        ...
+        ]
+      }
+      ```
+    {% endcode_block %}
+
+    <p>Now, let's tweak our query to only fetch books that are published before the year <code>1998</code>.
+       To do that, we just have to add a <code>filter_by</code> clause to our query:
+    </p>
+
+    {% code_block search-collection-3 %}
+    ```ruby
+      search_parameters = {
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'filter_by' => 'publication_year:<1998',
+        'sort_by'   => 'publication_year:desc'
+      }
+
+      Typesense::Documents.search('books', search_parameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'filter_by' : 'publication_year:<1998',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      typesense.Documents.search('books', search_parameters)
+    ```
+
+    ```shell
+      curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
+      "$TYPESENSE_MASTER/collections/books/documents/search\
+      ?q=harry+potter&query_by=title&sort_by=publication_year:desc\
+      &filter_by=publication_year:<1998"
+    ```
+    {% endcode_block %}
+
+    <h5>Sample response</h5>
+
+    {% code_block search-collection-3-response %}
+      ```json
+      {
+        "facet_counts": [],
+        "found": 24,
+        "hits": [
+          {
+            "highlight": {
+              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+            },
+            "document": {
+              "authors": [
+                  "J.K. Rowling", "Mary GrandPré"
+              ],
+              "authors_facet": [
+                  "J.K. Rowling", "Mary GrandPré"
+              ],
+              "average_rating": 4.44,
+              "id": "2",
+              "image_url": "https://images.gr-assets.com/books/1474154022m/3.jpg",
+              "publication_year": 1997,
+              "publication_year_facet": "1997",
+              "ratings_count": 4602479,
+              "title": "Harry Potter and the Philosopher's Stone"
+            }
+          },
+          ...
+        ]
+      }
+      ```
+    {% endcode_block %}
+
+    <p>Finally, let's see how Typesense handles typographic errors. Let's search for <code>experyment</code> - noticed the
+    typo there? We will also facet the search results by the authors field to see how that works.</p>
+
+    {% code_block search-collection-4 %}
+    ```ruby
+      search_parameters = {
+        'q'         => 'experyment',
+        'query_by'  => 'title',
+        'facet_by'  => 'authors_facet',
         'sort_by'   => 'average_rating:desc'
       }
 
@@ -281,7 +506,8 @@ permalink: /guide/
     ```python
       search_parameters = {
         'q'         : 'harry',
-        'query_by'  : 'original_title',
+        'query_by'  : 'title',
+        'facet_by' : 'authors_facet',
         'sort_by'   : 'average_rating:desc'
       }
 
@@ -291,9 +517,73 @@ permalink: /guide/
     ```shell
       curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
       "$TYPESENSE_MASTER/collections/books/documents/search\
-      ?q=harry+potter&query_by=original_title&sort_by=average_rating:desc"
+      ?q=harry+potter&query_by=title&sort_by=average_rating:desc\
+      &facet_by=authors_facet"
     ```
     {% endcode_block %}
+
+    <p>As we can see in the result below, Typesense handled the typographic error gracefully and fetched the results
+      correctly. The <code>facet_by</code> clause also gives us a neat break-down of the number of books written
+    by each author in the returned search results.</p>
+
+    <h5>Sample response</h5>
+
+    {% code_block search-collection-4-response %}
+      ```json
+      {
+        "facet_counts": [
+          {
+            "field_name": "authors_facet",
+            "counts": [
+                {
+                    "count": 2,
+                    "value": " Käthe Mazur"
+                },
+                {
+                    "count": 2,
+                    "value": "Gretchen Rubin"
+                },
+                {
+                    "count": 2,
+                    "value": "James Patterson"
+                },
+                {
+                    "count": 2,
+                    "value": "Mahatma Gandhi"
+                }
+            ]
+          }
+        ],
+        "found": 3,
+        "hits": [
+          {
+            "_highlight": {
+              "title": "The Angel <mark>Experiment</mark>"
+            },
+            "document": {
+              "authors": [
+                  "James Patterson"
+              ],
+              "authors_facet": [
+                  "James Patterson"
+              ],
+              "average_rating": 4.08,
+              "id": "569",
+              "image_url": "https://images.gr-assets.com/books/1339277875m/13152.jpg",
+              "publication_year": 2005,
+              "publication_year_facet": "2005",
+              "ratings_count": 172302,
+              "title": "The Angel Experiment"
+            }
+          },
+          ...
+        ]
+      }
+      ```
+    {% endcode_block %}
+
+    <p>We've come to the end of our little tour. For a detailed dive into Typesense,
+      refer to our <a href="/api">API documentation</a>.</p>
 
   </div>
 
@@ -302,9 +592,16 @@ permalink: /guide/
   <div class="col-md-2 row no-gutters">
     <nav id="navbar-docs" class="position-fixed navbar navbar-light">
       <nav class="nav nav-pills flex-column">
-        <a class="nav-link" href="#install-typesense">Install Typesense</a>
+        <a class="nav-link" href="#install-typesense">Installing Typesense</a>
+        <a class="nav-link" href="#start-typesense">Starting Typesense</a>
         <a class="nav-link" href="#install-client">Install a client</a>
-        <a class="nav-link" href="#sample-application">Sample application</a>
+        <a class="nav-link" href="#sample-application">Tour</a>
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link ml-3 my-1" href="#init-client">Initializing the client</a>
+          <a class="nav-link ml-3 my-1" href="#create-collection">Creating a books collection</a>
+          <a class="nav-link ml-3 my-1" href="#index-documents">Adding some books</a>
+          <a class="nav-link ml-3 my-1" href="#search-collection">Searching for books</a>
+        </nav>
       </nav>
     </nav>
   </div>

@@ -35,7 +35,7 @@ $(document).ready(function() {
             var title = data.hits[i].title;
             var doc = data.hits[i].document;
             lis += '<li><img src="' + doc.small_image_url + '" alt="' + doc.title +
-                   '" />' + data.hits[i]._highlight.original_title + '</li>';
+                   '" />' + data.hits[i].highlight.original_title + '</li>';
         }
 
         if(search_state.page > 1) {
