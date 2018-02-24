@@ -1,16 +1,15 @@
 ---
 layout: page
-title: Getting Started
+title: Typesense Guide
 nav_label: guide
 permalink: /guide/
 ---
 
 <div class="row no-gutters">
   <div id="doc-col" class="col-md-8">
-    <p>Let's get you started with a quick guide that will show you how to install Typesense, index some documents
-    and explore the data with some search queries.</p>
+    <p>Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.</p>
 
-    <p>If you are looking for a detailed dive into Typesense, refer to our <a href="/api">API documentation</a>.</p>
+    <p>For a detailed dive into the Typesense API, refer to our <a href="/api">API documentation</a>.</p>
 
     <h3 id="install-typesense">Installing Typesense</h3>
 
@@ -132,7 +131,7 @@ permalink: /guide/
     ```
     {% endcode_block %}
 
-    <h3 id="sample-application">Tour</h3>
+    <h3 id="example-application">Example application</h3>
 
     <p>At this point, we are all set to start using Typesense. We will create a Typesense collection, index
       some documents in it and try searching for them.</p>
@@ -582,8 +581,47 @@ permalink: /guide/
       ```
     {% endcode_block %}
 
-    <p>We've come to the end of our little tour. For a detailed dive into Typesense,
+    <p>We've come to the end of our little example. For a detailed dive into Typesense,
       refer to our <a href="/api">API documentation</a>.</p>
+
+    <h3 id="ranking-relevance">Ranking and relevance</h3>
+
+    <p>Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:</p>
+
+    <p>
+      <ol>
+        <li>String similarity.</li>
+        <li>User-defined <code>sort_by</code> numerical fields.</li>
+      </ol>
+    </p>
+
+    <p>Typesense computes a string similarity score based on how much a search query overlaps with the
+      fields of a given document. Typographic errors are also taken into account here. Let's see how.</p>
+
+    <p>When there is a typo in the query, or during prefix search, multiple tokens could match a given token in the query.
+    For e.g. both “john” and “joan” are 1-typo away from “jofn”. Similarly, in the case of a prefix search,
+    both “apple” and “apply” would match “app”. In such scenarios, Typesense would use the value of the
+    <code>token_ranking_field</code> field to decide whether documents containing "john" or "joan" should be ranked first.
+    If a <code>token_ranking_field</code> field is not associated with the collection, then Typesense would rank the
+      documents containing the most frequently occuring tokens first.</p>
+
+    <p>When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie.
+      You can specify upto two such numerical fields.</p>
+
+    <p>For example, let's say that we're searching for books with a query like <code>short story</code>.
+      If there are multiple books containing these exact words, then all those documents would have the same
+      string similarity score.</p>
+
+    <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say,
+      <code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:</p>
+
+    <p>
+      <ol>
+        <li>All matching records are sorted by string similarity score.</li>
+        <li>If any two records share the same string similarity score, sort them by their rating.</li>
+        <li>If there is still a tie, sort the records by year of publication.</li>
+      </ol>
+    </p>
 
   </div>
 
@@ -594,14 +632,15 @@ permalink: /guide/
       <nav class="nav nav-pills flex-column">
         <a class="nav-link" href="#install-typesense">Installing Typesense</a>
         <a class="nav-link" href="#start-typesense">Starting Typesense</a>
-        <a class="nav-link" href="#install-client">Install a client</a>
-        <a class="nav-link" href="#sample-application">Tour</a>
+        <a class="nav-link" href="#install-client">Installing a client</a>
+        <a class="nav-link" href="#example-application">Example application</a>
         <nav class="nav nav-pills flex-column">
           <a class="nav-link ml-3 my-1" href="#init-client">Initializing the client</a>
           <a class="nav-link ml-3 my-1" href="#create-collection">Creating a books collection</a>
           <a class="nav-link ml-3 my-1" href="#index-documents">Adding some books</a>
           <a class="nav-link ml-3 my-1" href="#search-collection">Searching for books</a>
         </nav>
+        <a class="nav-link" href="#ranking-relevance">Ranking &amp; relevance</a>
       </nav>
     </nav>
   </div>

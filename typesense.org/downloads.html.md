@@ -21,6 +21,6 @@ permalink: /downloads/
 
 <div class="row">
   <div class="col-md-8">
-    <a href="/docs"><button class="btn btn-success btn-get-started">Get Started</button></a>
+
   </div>
 </div>
