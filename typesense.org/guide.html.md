@@ -168,7 +168,7 @@ permalink: /guide/
       )
     ```
     ```shell
-      export TYPESENSE_API_KEY='<API_KEY>'
+      export TYPESENSE_API_KEY='<h3>'
       export TYPESENSE_MASTER='http://localhost:8108'
     ```
     {% endcode_block %}
@@ -623,6 +623,25 @@ permalink: /guide/
       </ol>
     </p>
 
+    <h3 id="read-only-replica">Read-only replica</h3>
+
+    <p>You can run the Typesense server as a read-only replica that asynchronously pulls data from a master Typesense server.</p>
+
+    <p>To start the server as a read-only replica, specify the master's address via the <code>--master</code>
+      argument: </p>
+
+    <p><code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code></p>
+
+    <p><strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the
+    replica to a master instance that has been running for greater than 24 hours, you need to first stop the master, take
+      a copy of the data directory and then then start the replica server by pointing to this backup data directory.</p>
+
+    <p><strong>Client library behavior</strong></p>
+
+    <p>Client libraries will send all writes to the master. Reads will first be sent to the master and if the server
+    returns a HTTP 500 or if the connection times out, the read will be sent in a round-robin fashion to the read replicas
+    configured.</p>
+
   </div>
 
   <div class="col-md-1 row no-gutters"></div>
@@ -641,6 +660,7 @@ permalink: /guide/
           <a class="nav-link ml-3 my-1" href="#search-collection">Searching for books</a>
         </nav>
         <a class="nav-link" href="#ranking-relevance">Ranking &amp; relevance</a>
+        <a class="nav-link" href="#read-only-replica">Read-only replica</a>
       </nav>
     </nav>
   </div>
