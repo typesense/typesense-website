@@ -7,6 +7,10 @@
     border-bottom: 3px solid #006699;
 }
 
+code.nowrap {
+    white-space: nowrap;
+}
+
 .container.content {
     margin-top: 1.3em;
 }

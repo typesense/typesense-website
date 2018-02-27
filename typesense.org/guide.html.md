@@ -199,7 +199,7 @@ permalink: /guide/
           {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
           {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
         ],
-        'token_ranking_field' => 'ratings_count'
+        'default_sorting_field' => 'ratings_count'
       }
 
       Typesense::Collections.create(books_schema)
@@ -222,7 +222,7 @@ permalink: /guide/
           {'name': 'authors_facet', 'type': 'string[]', 'facet': True },
           {'name': 'publication_year_facet', 'type': 'string', 'facet': True },
         ],
-        'token_ranking_field': 'ratings_count'
+        'default_sorting_field': 'ratings_count'
       }
 
       typesense.Collections.create(schema)
@@ -244,7 +244,7 @@ permalink: /guide/
                 {"name": "authors_facet", "type": "string[]", "facet": true },
                 {"name": "publication_year_facet", "type": "string", "facet": true }
               ],
-              "token_ranking_field": "ratings_count"
+              "default_sorting_field": "ratings_count"
             }'
     ```
     {% endcode_block %}
@@ -252,6 +252,9 @@ permalink: /guide/
     <p>For each field, we define its <code>name</code>, <code>type</code> and whether it's a <code>facet</code> field.
     A facet field allows us to cluster the search results into categories and let us drill into each of those categories.
     We will be seeing faceted results in action at the end of this guide.</p>
+
+    <p>We also define a <code>default_sorting_field</code> that determines how the results must be sorted when no
+    <code>sort_by</code> clause is provided. In this case, books that have more ratings will be ranked higher.</p>
 
     <h4 id="index-documents">Adding books to the collection</h4>
 
@@ -613,12 +616,12 @@ permalink: /guide/
       string similarity score.</p>
 
     <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say,
-      <code>sort_by=rating:DESC,year_published:DESC</code>. This would sort the results in the following manner:</p>
+      <code>sort_by=average_rating:DESC,publication_year:DESC</code>. This would sort the results in the following manner:</p>
 
     <p>
       <ol>
         <li>All matching records are sorted by string similarity score.</li>
-        <li>If any two records share the same string similarity score, sort them by their rating.</li>
+        <li>If any two records share the same string similarity score, sort them by their average rating.</li>
         <li>If there is still a tie, sort the records by year of publication.</li>
       </ol>
     </p>

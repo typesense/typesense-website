@@ -124,7 +124,7 @@ permalink: /api/
               'facet' => true
             }
           ],
-          'token_ranking_field' => 'num_employees'
+          'default_sorting_field' => 'num_employees'
         }
 
         Typesense::Collections.create(schema)
@@ -147,7 +147,7 @@ permalink: /api/
               'facet' :  True
             }
           ],
-          'token_ranking_field': 'num_employees'
+          'default_sorting_field': 'num_employees'
         }
 
         typesense.Collections.create(schema)
@@ -161,7 +161,7 @@ permalink: /api/
                    {"name": "num_employees", "type": "int32" },
                    {"name": "country", "type": "string", "facet": true }
                  ],
-                 "token_ranking_field": "num_employees"
+                 "default_sorting_field": "num_employees"
                }'
       ```
       {% endcode_block %}
@@ -179,7 +179,7 @@ permalink: /api/
             {"name": "num_employees", "type": "int32" },
             {"name": "country", "type": "string", "facet": true }
           ],
-          "token_ranking_field": "num_employees"
+          "default_sorting_field": "num_employees"
         }
       ```
       {% endcode_block %}
@@ -215,19 +215,19 @@ permalink: /api/
           </td>
         </tr>
         <tr>
-          <td>token_ranking_field</td>
-          <td>no</td>
+          <td>default_sorting_field</td>
+          <td>yes</td>
           <td>
-            <p>When a word in the search query matches multiple possible words (either because of a typo or
-              during a prefix search), this parameter specifies the name of a numerical field whose value will be used to
-              rank such equally matching tokens.</p>
+            <p>The name of an <code>int32</code> / <code>float</code> field that determines the order in which
+            the search results are ranked when a <code>sort_by</code> clause is not provided during searching.
+              This field must indicate some kind of popularity. For example, in a product search
+              application, you could define <code>num_reviews</code> field as the <code>default_sorting_field</code>.
+            </p>
 
-            <p>For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in the case of a
-            prefix search, both "apple" and "apply" would match the prefix "app".</p>
-
-            <p>If this field is not defined, tokens are ranked based on their frequency of occurrence in the collection.
-              <strong>We strongly recommended that you configure this field for optimum instant search and
-                autocomplete results.</strong></p>
+            <p>Additionally, when a word in a search query matches multiple possible words (either because of a typo or
+              during a prefix search), this parameter is used to rank such equally matching tokens.
+              For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a
+              prefix search, both "apple" and "apply" would match the prefix "app".</p>
           </td>
         </tr>
       </table>
@@ -393,80 +393,104 @@ permalink: /api/
         </tr>
         <tr>
           <td>q</td>
-          <td>true</td>
-          <td>The query text to search for in the collection.</td>
+          <td>yes</td>
+          <td><p>The query text to search for in the collection.</p></td>
         </tr>
         <tr>
           <td>query_by</td>
-          <td>true</td>
-          <td>A list of `string` or `string[]` fields that should be queried against. Separate multiple fields with a comma.
-            <br /><br />
-            The order of the fields is important: a matching record on a field higher in the list is considered more
-            relevant than a record matched on a field later in the list.</td>
+          <td>yes</td>
+          <td>
+            <p>A list of `string` or `string[]` fields that should be queried against. Separate multiple fields with a comma.</p>
+
+            <p>The order of the fields is important: a matching record on a field higher in the list is considered more
+            relevant than a record matched on a field later in the list.</p></td>
         </tr>
         <tr>
           <td>filter_by</td>
-          <td>false</td>
-          <td>Filter conditions for refining your search results. Separate multiple conditions
-            with <code>&&</code>. <br /><br />
-            E.g. <code>num_employees:<100 && country:[USA, UK]</code></td>
+          <td>no</td>
+          <td><p>Filter conditions for refining your search results. Separate multiple conditions
+            with <code>&&</code>. </p>
+            <p>E.g. <code>num_employees:<100 && country:[USA, UK]</code></p></td>
         </tr>
         <tr>
           <td>sort_by</td>
-          <td>false</td>
-          <td>A list of numerical fields and their corresponding sort orders that will be used for ordering your results.
-            Separate multiple fields with a comma. Currently, upto 2 sort fields can be specified. <br /><br />
-            E.g. <code>num_employees:desc,year_started:asc</code></td>
+          <td>no</td>
+          <td>
+            <p>A list of numerical fields and their corresponding sort orders that will be used for ordering your results.
+            Separate multiple fields with a comma. Currently, upto 2 sort fields can be specified.</p>
+            <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
+          </td>
         </tr>
         <tr>
           <td>facet_by</td>
-          <td>false</td>
-          <td>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</td>
+          <td>no</td>
+          <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
+        </tr>
+        <tr>
+          <td>prefix</td>
+          <td>no</td>
+          <td><p>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole
+            word. This is necessary for building autocomplete and instant search interfaces.</p>
+            <p>Default: <code>true</code></p>
+          </td>
         </tr>
         <tr>
           <td>rank_tokens_by</td>
-          <td>false</td>
-          <td>When a word in the search query matches multiple possible words (either because of a typo or during a prefix
-            search), this parameter determines the priority of the matching tokens. For e.g. both "john" and "joan" are
-            1-typo away from "jofn". In a prefix search, both "apple" and "apply" would match the prefix "app".
-            <br /> <br />
-            The value of <code>rank_tokens_by</code> must be either
-            <code>TOKEN_RANKING_FIELD</code> or <code>TERM_FREQUENCY</code>. <br /> <br />
+          <td>no</td>
+          <td><p>When a word in the search query matches multiple possible words (either because of a typo or during a prefix
+            search), this parameter determines the priority of the matching words.</p>
 
-            <code>TOKEN_RANKING_FIELD</code>: Tokens are ranked by the value of
-            the <code>token_ranking_field</code> specified during collection creation.<br /><br />
+            <p>For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple"
+            and "apply" would match the prefix "app".</p>
 
-            <code>TERM_FREQUENCY</code>: Tokens that occur more frequently in the collection are ranked first.<br /><br />
+            <p>The value of <code>rank_tokens_by</code> must be either
+            <code>DEFAULT_SORTING_FIELD</code> or <code>TERM_FREQUENCY</code>.</p>
 
-            <strong>Default: </strong> <code>TOKEN_RANKING_FIELD</code> if a <code>token_ranking_field</code> was provided
-            when the collection was created. Otherwise, <code>TERM_FREQUENCY</code> is used.
+            <p>
+              <table>
+                <tr>
+                  <td><code class="nowrap">DEFAULT_SORTING_FIELD</code></td>
+                  <td><p>Tokens are ranked by the value of the <code class="nowrap">default_sorting_field</code>
+                  specified during collection creation.</p></td>
+                </tr>
+
+                <tr>
+                  <td><code class="nowrap">TERM_FREQUENCY</code></td>
+                  <td><p>Tokens that occur more frequently in the collection are ranked first.</p></td>
+                </tr>
+              </table>
+
+            </p>
+
+            <p><strong>Default: </strong> <code>DEFAULT_SORTING_FIELD</code> if a <code>default_sorting_field</code> was provided
+            when the collection was created. Otherwise, <code>TERM_FREQUENCY</code> is used.</p>
           </td>
         </tr>
         <tr>
           <td>num_typos</td>
-          <td>false</td>
-          <td>The number of typographical errors (1 or 2) that would be tolerated. Default: 2</td>
-        </tr>
-        <tr>
-          <td>prefix</td>
-          <td>true</td>
-          <td>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole
-            word. This is necessary for building autocomplete and instant search interfaces.</td>
+          <td>no</td>
+          <td><p>The number of typographical errors (1 or 2) that would be tolerated.</p>
+
+            <p><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Damerau–Levenshtein distance</a>
+              is used to calculate the number of errors.</p>
+
+            <p>Default: <code>2</code></p>
+          </td>
         </tr>
         <tr>
           <td>page</td>
-          <td>false</td>
-          <td>Results from this specific page number would be fetched.</td>
+          <td>no</td>
+          <td><p>Results from this specific page number would be fetched.</p></td>
         </tr>
         <tr>
           <td>per_page</td>
-          <td>false</td>
-          <td>Number of results to fetch per page.</td>
+          <td>no</td>
+          <td><p>Number of results to fetch per page.</p></td>
         </tr>
         <tr>
           <td>callback</td>
-          <td>false</td>
-          <td>Name of the callback function to be used for <code>JSONP</code> response.</td>
+          <td>no</td>
+          <td><p>Name of the callback function to be used for <code>JSONP</code> response.</p></td>
         </tr>
       </table>
 
@@ -573,7 +597,7 @@ permalink: /api/
             {"name": "num_employees", "type": "int32"},
             {"name": "country", "type": "string", "facet": true}
           ],
-          "token_ranking_field": "num_employees"
+          "default_sorting_field": "num_employees"
         }
       ```
       {% endcode_block %}
@@ -666,7 +690,7 @@ permalink: /api/
               {"name": "num_employees", "type": "int32"},
               {"name": "country", "type": "string", "facet": true}
             ],
-            "token_ranking_field": "num_employees"
+            "default_sorting_field": "num_employees"
           },
           {
             "num_documents": 1250,
@@ -676,7 +700,7 @@ permalink: /api/
               {"name": "full_name", "type": "string"},
               {"name": "from_year", "type": "int32"}
             ],
-            "token_ranking_field": "num_employees"
+            "default_sorting_field": "num_employees"
           }
         ]
       }
@@ -720,7 +744,7 @@ permalink: /api/
           {"name": "num_employees", "type": "int32"},
           {"name": "country", "type": "string", "facet": true}
         ],
-        "token_ranking_field": "num_employees"
+        "default_sorting_field": "num_employees"
       }
       ```
       {% endcode_block %}
@@ -729,6 +753,50 @@ permalink: /api/
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
 
+      <h3 id="errors">API errors</h3>
+
+      <p>Typesense API uses standard HTTP response codes to indicate the success or failure of a request.</p>
+
+      <p>Codes in the 2xx range indicate success, codes in the 4xx range indicate an error given the information provided
+      (e.g. a required parameter was omitted), and codes in the 5xx range indicate an error with the Typesense service itself.
+      </p>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Error Code</th>
+          <th>Meaning</th>
+        </tr>
+
+        <tr>
+          <td>400</td>
+          <td>Bad Request - The request could not be understood due to malformed syntax.</td>
+        </tr>
+
+        <tr>
+          <td>401</td>
+          <td>Unauthorized - Your API key is wrong.</td>
+        </tr>
+
+        <tr>
+          <td>404</td>
+          <td>Not Found - The requested resource is not found.</td>
+        </tr>
+
+        <tr>
+          <td>409</td>
+          <td>Conflict - When a resource already exists.</td>
+        </tr>
+
+        <tr>
+          <td>422</td>
+          <td>Unprocessable Entity - Request is well-formed, but cannot be processed.</td>
+        </tr>
+
+        <tr>
+          <td>503</td>
+          <td>Service Unavailable - We’re temporarily offline. Please try again later.</td>
+        </tr>
+      </table>
     </div>
 
   <div class="col-md-1 row no-gutters"></div>
@@ -751,6 +819,7 @@ permalink: /api/
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
+          <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
     </div>
