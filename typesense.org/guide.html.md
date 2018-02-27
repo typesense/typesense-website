@@ -604,9 +604,8 @@ permalink: /guide/
     <p>When there is a typo in the query, or during prefix search, multiple tokens could match a given token in the query.
     For e.g. both “john” and “joan” are 1-typo away from “jofn”. Similarly, in the case of a prefix search,
     both “apple” and “apply” would match “app”. In such scenarios, Typesense would use the value of the
-    <code>token_ranking_field</code> field to decide whether documents containing "john" or "joan" should be ranked first.
-    If a <code>token_ranking_field</code> field is not associated with the collection, then Typesense would rank the
-      documents containing the most frequently occuring tokens first.</p>
+    <code>default_sorting_field</code> field to decide whether documents containing "john" or "joan" should be ranked first.
+    </p>
 
     <p>When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie.
       You can specify upto two such numerical fields.</p>

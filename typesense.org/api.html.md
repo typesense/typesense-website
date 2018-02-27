@@ -435,38 +435,6 @@ permalink: /api/
           </td>
         </tr>
         <tr>
-          <td>rank_tokens_by</td>
-          <td>no</td>
-          <td><p>When a word in the search query matches multiple possible words (either because of a typo or during a prefix
-            search), this parameter determines the priority of the matching words.</p>
-
-            <p>For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple"
-            and "apply" would match the prefix "app".</p>
-
-            <p>The value of <code>rank_tokens_by</code> must be either
-            <code>DEFAULT_SORTING_FIELD</code> or <code>TERM_FREQUENCY</code>.</p>
-
-            <p>
-              <table>
-                <tr>
-                  <td><code class="nowrap">DEFAULT_SORTING_FIELD</code></td>
-                  <td><p>Tokens are ranked by the value of the <code class="nowrap">default_sorting_field</code>
-                  specified during collection creation.</p></td>
-                </tr>
-
-                <tr>
-                  <td><code class="nowrap">TERM_FREQUENCY</code></td>
-                  <td><p>Tokens that occur more frequently in the collection are ranked first.</p></td>
-                </tr>
-              </table>
-
-            </p>
-
-            <p><strong>Default: </strong> <code>DEFAULT_SORTING_FIELD</code> if a <code>default_sorting_field</code> was provided
-            when the collection was created. Otherwise, <code>TERM_FREQUENCY</code> is used.</p>
-          </td>
-        </tr>
-        <tr>
           <td>num_typos</td>
           <td>no</td>
           <td><p>The number of typographical errors (1 or 2) that would be tolerated.</p>
