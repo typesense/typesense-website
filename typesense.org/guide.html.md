@@ -168,7 +168,7 @@ permalink: /guide/
       )
     ```
     ```shell
-      export TYPESENSE_API_KEY='<h3>'
+      export TYPESENSE_API_KEY='<API_KEY>'
       export TYPESENSE_MASTER='http://localhost:8108'
     ```
     {% endcode_block %}
@@ -262,8 +262,15 @@ permalink: /guide/
 
     {% code_block index-documents %}
     ```ruby
-      # TODO
-    ```
+      require 'rubygems'
+      require 'json'
+      require 'typesense'
+
+      File.readlines('/tmp/books.jsonl').each do |json_line|
+        book_document = JSON.parse(json_line)
+        Typesense::Documents.create('books', book_document)
+      end
+      ```
     ```python
       import json
       import typesense
