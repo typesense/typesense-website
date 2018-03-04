@@ -7,8 +7,8 @@ permalink: /downloads/
 
 <div class="row no-gutters">
   <div class="col-md-8">
-    <p>Below are the available binaries for the latest version of Typesense (0.8.0-rc1).</p>
-    <p>Please download the proper binary archive for your operating system and architecture.</p>
+    <p>Below are the available binaries for the latest version of Typesense: <code>0.8.0-rc1</code></p>
+    <p>Please download the appropriate binary archive for your operating system and architecture.</p>
     <dl id="release-downloads">
       <dt>Mac OS X</dt>
       <dd><a href="https://dl.typesense.org/releases/typesense-server-0.8.0-rc1-darwin-amd64.tar.gz">64-bit</a></dd>

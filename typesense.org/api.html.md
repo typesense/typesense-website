@@ -437,7 +437,7 @@ permalink: /api/
         <tr>
           <td>num_typos</td>
           <td>no</td>
-          <td><p>The number of typographical errors (1 or 2) that would be tolerated.</p>
+          <td><p>Number of typographical errors (1 or 2) that would be tolerated.</p>
 
             <p><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Damerau–Levenshtein distance</a>
               is used to calculate the number of errors.</p>
