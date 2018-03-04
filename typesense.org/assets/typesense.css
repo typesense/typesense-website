@@ -18,7 +18,7 @@ code.nowrap {
 a.navbar-brand {
     padding-top: 0;
     padding-left: 0;
-    margin-right: 2em;
+    margin-right: 1em;
 }
 
 a.navbar-brand img {
@@ -212,5 +212,5 @@ ul#goodreads-results {
 }
 
 #footer h6 {
-    margin: 1em 0 1em 0;
+    margin: 1em 0 1em 1em;
 }
