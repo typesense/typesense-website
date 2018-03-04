@@ -136,7 +136,8 @@ permalink: /guide/
     <p>At this point, we are all set to start using Typesense. We will create a Typesense collection, index
       some documents in it and try searching for them.</p>
 
-    <p>To follow along, download this small dataset that we've put together for this walk-through.</p>
+    <p>To follow along, <a href="https://dl.typesense.org/datasets/books.jsonl.tar.gz">download</a> this small dataset
+      that we've put together for this walk-through.</p>
 
     <h4 id="init-client">Initializing the client</h4>
 
