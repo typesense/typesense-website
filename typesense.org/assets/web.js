@@ -4,11 +4,11 @@ $(document).ready(function() {
         per_page: 4
     }
 
-    var search_api_key = '123';
+    var search_api_key = '7adJJS83nKSUhD89';
 
     function getResults(q, callback) {
-        var url = "http://wreally.com:8108/collections/goodreads_10k/documents/search?q="+ q +
-            "&prefix=true&query_by=original_title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
+        var url = "http://wreally.com:8108/collections/books/documents/search?q="+ q +
+            "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
 
         console.log(url);
@@ -34,8 +34,11 @@ $(document).ready(function() {
         for(var i = 0; i < data.hits.length; i++) {
             var title = data.hits[i].title;
             var doc = data.hits[i].document;
-            lis += '<li><img src="' + doc.small_image_url + '" alt="' + doc.title +
-                   '" />' + data.hits[i].highlight.original_title + '</li>';
+            var truncated_title = data.hits[i].highlight.title.length > 60 ?
+                data.hits[i].highlight.title.substring(0, 60) + '...' : data.hits[i].highlight.title;
+
+            lis += '<li><img src="' + doc.image_url + '" alt="' + doc.title +
+                   '" />' + truncated_title + '</li>';
         }
 
         if(search_state.page > 1) {

@@ -130,6 +130,7 @@ ul#goodreads-results {
 #goodreads-results img {
     display: block;
     margin-bottom: 0.5em;
+    max-height: 50%;
 }
 
 #goodreads-results mark {
