@@ -57,7 +57,7 @@ permalink: /api/
             }
           ],
 
-          timeout: 10
+          timeout_seconds: 10
         )
       ```
 
