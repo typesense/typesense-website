@@ -34,7 +34,7 @@ permalink: /api/
 
       {% code_block authenticate %}
       ```ruby
-        client = Typesense.new(
+        typesense = Typesense.new(
           master_node: {
             host:     'localhost',
             port:     8108,
@@ -127,7 +127,7 @@ permalink: /api/
           'default_sorting_field' => 'num_employees'
         }
 
-        client.collections.create(schema)
+        typesense.collections.create(schema)
       ```
       ```python
         schema = {
@@ -273,7 +273,7 @@ permalink: /api/
           'country'       => 'USA'
         }
 
-        client.collections('companies').documents.create(document)
+        typesense.collections('companies').documents.create(document)
         ```
 
         ```python
@@ -332,7 +332,7 @@ permalink: /api/
           'sort_by'   => 'num_employees:desc'
         }
 
-        client.collections('companies').documents.search(search_parameters)
+        typesense.collections('companies').documents.search(search_parameters)
       ```
 
       ```python
@@ -468,7 +468,7 @@ permalink: /api/
 
       {% code_block retrieve-document %}
       ```ruby
-        client.collections('companies').documents('124').retrieve
+        typesense.collections('companies').documents('124').retrieve
       ```
 
       ```python
@@ -504,7 +504,7 @@ permalink: /api/
 
       {% code_block delete-document %}
       ```ruby
-        client.collections("companies").documents('124').delete
+        typesense.collections("companies").documents('124').delete
       ```
 
       ```python
@@ -540,7 +540,7 @@ permalink: /api/
 
       {% code_block retrieve-collection %}
       ```ruby
-      client.collections('companies').retrieve
+      typesense.collections('companies').retrieve
       ```
 
       ```python
@@ -578,7 +578,7 @@ permalink: /api/
 
       {% code_block export-collection %}
       ```ruby
-        client.collections('companies').documents.export
+        typesense.collections('companies').documents.export
       ```
 
       ```python
@@ -632,7 +632,7 @@ permalink: /api/
 
       {% code_block list-collection %}
       ```ruby
-        client.collections.retrieve
+        typesense.collections.retrieve
       ```
 
       ```python
@@ -686,7 +686,7 @@ permalink: /api/
 
       {% code_block drop-collection %}
       ```ruby
-        client.collections('companies').delete
+        typesense.collections('companies').delete
       ```
 
       ```python
