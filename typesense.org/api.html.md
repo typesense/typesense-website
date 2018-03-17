@@ -273,7 +273,7 @@ permalink: /api/
           'country'       => 'USA'
         }
 
-        typesense.collections('companies').documents.create(document)
+        typesense.collections['companies'].documents.create(document)
         ```
 
         ```python
@@ -332,7 +332,7 @@ permalink: /api/
           'sort_by'   => 'num_employees:desc'
         }
 
-        typesense.collections('companies').documents.search(search_parameters)
+        typesense.collections['companies'].documents.search(search_parameters)
       ```
 
       ```python
@@ -468,7 +468,7 @@ permalink: /api/
 
       {% code_block retrieve-document %}
       ```ruby
-        typesense.collections('companies').documents('124').retrieve
+        typesense.collections['companies'].documents['124'].retrieve
       ```
 
       ```python
@@ -504,7 +504,7 @@ permalink: /api/
 
       {% code_block delete-document %}
       ```ruby
-        typesense.collections("companies").documents('124').delete
+        typesense.collections['companies'].documents('124').delete
       ```
 
       ```python
@@ -540,7 +540,7 @@ permalink: /api/
 
       {% code_block retrieve-collection %}
       ```ruby
-      typesense.collections('companies').retrieve
+      typesense.collections['companies'].retrieve
       ```
 
       ```python
@@ -578,7 +578,7 @@ permalink: /api/
 
       {% code_block export-collection %}
       ```ruby
-        typesense.collections('companies').documents.export
+        typesense.collections['companies'].documents.export
       ```
 
       ```python
@@ -686,7 +686,7 @@ permalink: /api/
 
       {% code_block drop-collection %}
       ```ruby
-        typesense.collections('companies').delete
+        typesense.collections['companies'].delete
       ```
 
       ```python
