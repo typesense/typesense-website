@@ -34,15 +34,15 @@ permalink: /api/
 
       {% code_block authenticate %}
       ```ruby
-        Typesense.configure do |config|
-          config.master_node = {
+        typesense = Typesense::Client.new(
+          master_node: {
             host:     'localhost',
             port:     8108,
             protocol: 'http',
             api_key:  'abcd'
-          }
+          },
 
-          config.read_replica_nodes = [
+          read_replica_nodes: [
             {
               host:     'read_replica_1',
               port:     8108,
@@ -55,10 +55,10 @@ permalink: /api/
               protocol: 'http',
               api_key:  'abcd'
             }
-          ]
+          ],
 
-          config.timeout = 10
-        end
+          timeout_seconds: 10
+        )
       ```
 
       ```python
@@ -127,7 +127,7 @@ permalink: /api/
           'default_sorting_field' => 'num_employees'
         }
 
-        Typesense::Collections.create(schema)
+        typesense.collections.create(schema)
       ```
       ```python
         schema = {
@@ -273,7 +273,7 @@ permalink: /api/
           'country'       => 'USA'
         }
 
-        Typesense::Documents.create('companies', document)
+        typesense.collections['companies'].documents.create(document)
         ```
 
         ```python
@@ -332,7 +332,7 @@ permalink: /api/
           'sort_by'   => 'num_employees:desc'
         }
 
-        Typesense::Documents.search('companies', search_parameters)
+        typesense.collections['companies'].documents.search(search_parameters)
       ```
 
       ```python
@@ -468,7 +468,7 @@ permalink: /api/
 
       {% code_block retrieve-document %}
       ```ruby
-        Typesense::Documents.retrieve('companies', '124')
+        typesense.collections['companies'].documents['124'].retrieve
       ```
 
       ```python
@@ -504,7 +504,7 @@ permalink: /api/
 
       {% code_block delete-document %}
       ```ruby
-        Typesense::Documents.delete('companies', '124')
+        typesense.collections['companies'].documents('124').delete
       ```
 
       ```python
@@ -540,7 +540,7 @@ permalink: /api/
 
       {% code_block retrieve-collection %}
       ```ruby
-      Typesense::Collections.retrieve('companies')
+      typesense.collections['companies'].retrieve
       ```
 
       ```python
@@ -578,7 +578,7 @@ permalink: /api/
 
       {% code_block export-collection %}
       ```ruby
-        Typesense::Documents.export('companies')
+        typesense.collections['companies'].documents.export
       ```
 
       ```python
@@ -632,7 +632,7 @@ permalink: /api/
 
       {% code_block list-collection %}
       ```ruby
-        Typesense::Collections.retrieve_all
+        typesense.collections.retrieve
       ```
 
       ```python
@@ -686,7 +686,7 @@ permalink: /api/
 
       {% code_block drop-collection %}
       ```ruby
-        Typesense::Collections.delete('companies')
+        typesense.collections['companies'].delete
       ```
 
       ```python
