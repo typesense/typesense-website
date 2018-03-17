@@ -34,7 +34,7 @@ permalink: /api/
 
       {% code_block authenticate %}
       ```ruby
-        typesense = Typesense.new(
+        typesense = Typesense::Client.new(
           master_node: {
             host:     'localhost',
             port:     8108,
