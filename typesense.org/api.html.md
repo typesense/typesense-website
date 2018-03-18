@@ -28,6 +28,10 @@ permalink: /api/
         ```python
            pip install typesense
         ```
+        
+        ```javascript
+          npm install typesense
+        ```
       {% endcode_block %}
 
       <h3 id="authentication">Authentication</h3>
@@ -79,6 +83,25 @@ permalink: /api/
           )
         ]
       ```
+      
+      ```javascript
+        let typesense = new TypesenseClient({
+          'masterNode': {
+            'host': 'master',
+            'port': '8108',
+            'protocol': 'http',
+            'apiKey': 'abcd'
+          },
+          'readReplicaNodes': [{
+            'host': 'read-replica',
+            'port': '8108',
+            'protocol': 'http',
+            'apiKey': 'abcd'
+          }],
+          'timeoutSeconds': 10
+        })
+      ```
+      
 
       ```shell
           # API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
@@ -152,6 +175,34 @@ permalink: /api/
 
         typesense.Collections.create(schema)
       ```
+
+      ```javascript
+        let schema = {
+          'name': 'companies',
+          'num_documents': 0,
+          'fields': [
+            {
+              'name': 'company_name',
+              'type': 'string',
+              'facet': false
+            },
+            {
+              'name': 'num_employees',
+              'type': 'int32',
+              'facet': false
+            },
+            {
+              'name': 'country',
+              'type': 'string',
+              'facet': true
+            }
+          ],
+          'default_sorting_field': 'num_employees'
+        }
+        
+        typesense.collections().create(schema)
+      ```
+      
       ```shell
         curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
@@ -286,6 +337,18 @@ permalink: /api/
 
         typesense.Documents.create('companies', document)
         ```
+
+        ```javascript
+          let document = {
+            'id': '124',
+            'company_name': 'Stark Industries',
+            'num_employees': 5215,
+            'country': 'USA'
+          }
+
+          typesense.collections('companies').documents().create(document)
+        ```
+
         ```shell
         curl "http://localhost:8108/collections/companies/documents" -X POST \
                 -H "Content-Type: application/json" \
@@ -344,6 +407,17 @@ permalink: /api/
         }
 
         typesense.Documents.search('companies', search_parameters)
+      ```
+
+      ```javascript
+        let searchParameters = {
+          'q'         : 'stark',
+          'query_by'  : 'company_name',
+          'filter_by' : 'num_employees:>100',
+          'sort_by'   : 'num_employees:desc'
+        }
+
+        typesense.collections('companies').documents().search(searchParameters)
       ```
 
       ```shell
@@ -475,6 +549,10 @@ permalink: /api/
         typesense.Documents.retrieve('companies', '124')
       ```
 
+      ```javascript
+        typesense.collections('companies').documents('124').retrieve()
+      ```
+
       ```shell
         $ curl -H "X-TYPESENSE-API-KEY: abcd" -X GET \
               "http://localhost:8108/collections/companies/documents/124"
@@ -511,6 +589,10 @@ permalink: /api/
         typesense.Documents.delete('companies', '124')
       ```
 
+      ```javascript
+        typesense.collections('companies').documents('124').delete()
+      ```
+
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE \
             "http://localhost:8108/collections/companies/documents/124"
@@ -545,6 +627,10 @@ permalink: /api/
 
       ```python
       typesense.Collections.retrieve('companies')
+      ```
+
+      ```javascript
+        typesense.collections('companies').retrieve()
       ```
 
       ```shell
@@ -585,6 +671,11 @@ permalink: /api/
         typesense.Documents.export('companies')
       ```
 
+      ```javascript
+        typesense.collections('companies').documents().export()
+      ```
+      
+
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
             "http://localhost:8108/collections/companies/documents/export"
@@ -609,6 +700,12 @@ permalink: /api/
           [u'{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
           u'{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
           u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
+        ```
+        
+        ```ruby
+          ['{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
+          '{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
+          '{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
         ```
 
         ```shell
@@ -637,6 +734,10 @@ permalink: /api/
 
       ```python
         typesense.Collections.retrieve_all()
+      ```
+
+      ```javascript
+        typesense.collections().retrieve()
       ```
 
       ```shell
@@ -691,6 +792,10 @@ permalink: /api/
 
       ```python
         typesense.Collections.delete('companies')
+      ```
+      
+      ```javascript
+        typesense.collections('companies').delete()
       ```
 
       ```shell
