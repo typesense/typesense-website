@@ -85,7 +85,7 @@ permalink: /api/
       ```
       
       ```javascript
-        let typesense = new TypesenseClient({
+        let typesense = new Typesense.Client({
           'masterNode': {
             'host': 'master',
             'port': '8108',
