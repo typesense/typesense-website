@@ -149,24 +149,28 @@ permalink: /guide/
     ```ruby
       require 'typesense'
 
-      Typesense.configure do |config|
-        config.master_node = {
+      client = Typesense::Client.new(
+        master_node: {
           host:     'localhost',
           port:     8108,
           protocol: 'http',
-          api_key:  'abcd'
-        }
-      end
+          api_key:  '<API_KEY>'
+        },
+        timeout_seconds: 2
+      )
     ```
     ```python
       import typesense
 
-      typesense.master_node = typesense.Node(
-        host='localhost',
-        port=8108,
-        protocol='http',
-        api_key='<API_KEY>'
-      )
+      client = typesense.Client({
+        'master_node': {
+          'host': 'localhost',
+          'port': '8108',
+          'protocol': 'http',
+          'api_key': '<API_KEY>'
+        },
+        'timeout_seconds': 2
+      })
     ```
     ```shell
       export TYPESENSE_API_KEY='<API_KEY>'
@@ -203,7 +207,7 @@ permalink: /guide/
         'default_sorting_field' => 'ratings_count'
       }
 
-      Typesense::Collections.create(books_schema)
+      client.collections.create(schema)
     ```
 
     ```python
@@ -226,7 +230,7 @@ permalink: /guide/
         'default_sorting_field': 'ratings_count'
       }
 
-      typesense.Collections.create(schema)
+      client.collections.create(schema)
     ```
 
     ```shell
@@ -269,7 +273,7 @@ permalink: /guide/
 
       File.readlines('/tmp/books.jsonl').each do |json_line|
         book_document = JSON.parse(json_line)
-        Typesense::Documents.create('books', book_document)
+        client.collections['books'].documents.create(book_document)
       end
       ```
     ```python
@@ -279,7 +283,7 @@ permalink: /guide/
       with open('/tmp/books.jsonl') as infile:
         for json_line in infile:
           book_document = json.loads(json_line)
-          typesense.Documents.create('books', book_document)
+          client.collections['books'].documents.create(book_document)
     ```
     ```shell
         #!/bin/bash
@@ -307,7 +311,7 @@ permalink: /guide/
         'sort_by'   => 'ratings_count:desc'
       }
 
-      Typesense::Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```python
@@ -317,7 +321,7 @@ permalink: /guide/
         'sort_by'   : 'ratings_count:desc'
       }
 
-      typesense.Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -375,7 +379,7 @@ permalink: /guide/
         'sort_by'   => 'publication_year:desc'
       }
 
-      Typesense::Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```python
@@ -385,7 +389,7 @@ permalink: /guide/
         'sort_by'   : 'publication_year:desc'
       }
 
-      typesense.Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -442,7 +446,7 @@ permalink: /guide/
         'sort_by'   => 'publication_year:desc'
       }
 
-      Typesense::Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```python
@@ -453,7 +457,7 @@ permalink: /guide/
         'sort_by'   : 'publication_year:desc'
       }
 
-      typesense.Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -510,7 +514,7 @@ permalink: /guide/
         'sort_by'   => 'average_rating:desc'
       }
 
-      Typesense::Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```python
@@ -521,7 +525,7 @@ permalink: /guide/
         'sort_by'   : 'average_rating:desc'
       }
 
-      typesense.Documents.search('books', search_parameters)
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell

@@ -38,7 +38,9 @@ permalink: /api/
 
       {% code_block authenticate %}
       ```ruby
-        typesense = Typesense::Client.new(
+        require 'typesense'
+
+        client = Typesense::Client.new(
           master_node: {
             host:     'localhost',
             port:     8108,
@@ -61,31 +63,32 @@ permalink: /api/
             }
           ],
 
-          timeout_seconds: 10
+          timeout_seconds: 2
         )
       ```
 
       ```python
         import typesense
 
-        typesense.master_node = typesense.Node(
-          host='localhost',
-          port=8108,
-          protocol='http',
-          api_key='abcd'
-        )
-        typesense.read_replica_nodes = [
-          typesense.Node(
-            host='localhost',
-            port=9108,
-            protocol='http',
-            api_key='abcd'
-          )
-        ]
+        client = typesense.Client({
+          'master_node': {
+            'host': 'localhost',
+            'port': '8108',
+            'protocol': 'http',
+            'api_key': 'abcd'
+          },
+          'read_replica_nodes': [{
+            'host': 'localhost',
+            'port': '9108',
+            'protocol': 'http',
+            'api_key': 'abcd'
+          }],
+          'timeout_seconds': 2
+        })
       ```
       
       ```javascript
-        let typesense = new Typesense.Client({
+        let client = new Typesense.Client({
           'masterNode': {
             'host': 'master',
             'port': '8108',
@@ -98,7 +101,7 @@ permalink: /api/
             'protocol': 'http',
             'apiKey': 'abcd'
           }],
-          'timeoutSeconds': 10
+          'timeoutSeconds': 2
         })
       ```
       
@@ -150,7 +153,7 @@ permalink: /api/
           'default_sorting_field' => 'num_employees'
         }
 
-        typesense.collections.create(schema)
+        client.collections.create(schema)
       ```
       ```python
         schema = {
@@ -173,7 +176,7 @@ permalink: /api/
           'default_sorting_field': 'num_employees'
         }
 
-        typesense.Collections.create(schema)
+        client.collections.create(schema)
       ```
 
       ```javascript
@@ -200,7 +203,7 @@ permalink: /api/
           'default_sorting_field': 'num_employees'
         }
         
-        typesense.collections().create(schema)
+        client.collections().create(schema)
       ```
       
       ```shell
@@ -324,7 +327,7 @@ permalink: /api/
           'country'       => 'USA'
         }
 
-        typesense.collections['companies'].documents.create(document)
+        client.collections['companies'].documents.create(document)
         ```
 
         ```python
@@ -335,7 +338,7 @@ permalink: /api/
           'country': 'USA'
         }
 
-        typesense.Documents.create('companies', document)
+        client.collections['companies'].documents.create(document)
         ```
 
         ```javascript
@@ -346,7 +349,7 @@ permalink: /api/
             'country': 'USA'
           }
 
-          typesense.collections('companies').documents().create(document)
+          client.collections('companies').documents().create(document)
         ```
 
         ```shell
@@ -395,7 +398,7 @@ permalink: /api/
           'sort_by'   => 'num_employees:desc'
         }
 
-        typesense.collections['companies'].documents.search(search_parameters)
+        client.collections['companies'].documents.search(search_parameters)
       ```
 
       ```python
@@ -406,7 +409,7 @@ permalink: /api/
           'sort_by'   : 'num_employees:desc'
         }
 
-        typesense.Documents.search('companies', search_parameters)
+        client.collections['companies'].documents.search(search_parameters)
       ```
 
       ```javascript
@@ -417,7 +420,7 @@ permalink: /api/
           'sort_by'   : 'num_employees:desc'
         }
 
-        typesense.collections('companies').documents().search(searchParameters)
+        client.collections('companies').documents().search(searchParameters)
       ```
 
       ```shell
@@ -542,15 +545,15 @@ permalink: /api/
 
       {% code_block retrieve-document %}
       ```ruby
-        typesense.collections['companies'].documents['124'].retrieve
+        client.collections['companies'].documents['124'].retrieve
       ```
 
       ```python
-        typesense.Documents.retrieve('companies', '124')
+        client.collections['companies'].documents['124'].retrieve()
       ```
 
       ```javascript
-        typesense.collections('companies').documents('124').retrieve()
+        client.collections('companies').documents('124').retrieve()
       ```
 
       ```shell
@@ -582,15 +585,15 @@ permalink: /api/
 
       {% code_block delete-document %}
       ```ruby
-        typesense.collections['companies'].documents('124').delete
+        client.collections['companies'].documents['124'].delete
       ```
 
       ```python
-        typesense.Documents.delete('companies', '124')
+        client.collections['companies'].documents('124').delete()
       ```
 
       ```javascript
-        typesense.collections('companies').documents('124').delete()
+        client.collections('companies').documents('124').delete()
       ```
 
       ```shell
@@ -622,15 +625,15 @@ permalink: /api/
 
       {% code_block retrieve-collection %}
       ```ruby
-      typesense.collections['companies'].retrieve
+        client.collections['companies'].retrieve
       ```
 
       ```python
-      typesense.Collections.retrieve('companies')
+        client.collections['companies'].retrieve()
       ```
 
       ```javascript
-        typesense.collections('companies').retrieve()
+        client.collections('companies').retrieve()
       ```
 
       ```shell
@@ -664,15 +667,15 @@ permalink: /api/
 
       {% code_block export-collection %}
       ```ruby
-        typesense.collections['companies'].documents.export
+        client.collections['companies'].documents.export
       ```
 
       ```python
-        typesense.Documents.export('companies')
+        client.collections['companies'].documents.export()
       ```
 
       ```javascript
-        typesense.collections('companies').documents().export()
+        client.collections('companies').documents().export()
       ```
       
 
@@ -702,7 +705,7 @@ permalink: /api/
           u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
         ```
         
-        ```ruby
+        ```javascript
           ['{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
           '{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
           '{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
@@ -729,15 +732,15 @@ permalink: /api/
 
       {% code_block list-collection %}
       ```ruby
-        typesense.collections.retrieve
+        client.collections.retrieve
       ```
 
       ```python
-        typesense.Collections.retrieve_all()
+        client.collections.retrieve()
       ```
 
       ```javascript
-        typesense.collections().retrieve()
+        client.collections().retrieve()
       ```
 
       ```shell
@@ -787,15 +790,15 @@ permalink: /api/
 
       {% code_block drop-collection %}
       ```ruby
-        typesense.collections['companies'].delete
+        client.collections['companies'].delete
       ```
 
       ```python
-        typesense.Collections.delete('companies')
+        client.collections['companies'].delete()
       ```
       
       ```javascript
-        typesense.collections('companies').delete()
+        client.collections('companies').delete()
       ```
 
       ```shell
