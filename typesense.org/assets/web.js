@@ -11,7 +11,6 @@ $(document).ready(function() {
             "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
 
-        console.log(url);
         $.getJSON(url, function(data) {
             callback(data);
         });
