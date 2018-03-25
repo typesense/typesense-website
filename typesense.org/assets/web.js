@@ -4,10 +4,10 @@ $(document).ready(function() {
         per_page: 4
     }
 
-    var search_api_key = '7adJJS83nKSUhD89';
+    var search_api_key = 'AHYjkhasd2HAy2';
 
     function getResults(q, callback) {
-        var url = "http://wreally.com:8108/collections/books/documents/search?q="+ q +
+        var url = "https://t1.typesense.org/collections/books/documents/search?q="+ q +
             "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
 
