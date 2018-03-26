@@ -10,7 +10,4 @@
 
   <link rel="stylesheet" href="{{ "/assets/typesense.css" | relative_url }}?{{site.time | date: '%s%N'}}">
   {% feed_meta %}
-  {% if jekyll.environment == 'production' and site.google_analytics %}
-    {% include google-analytics.html %}
-  {% endif %}
 </head>

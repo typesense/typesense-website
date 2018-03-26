@@ -20,8 +20,6 @@ description: >- # this means to ignore newlines until "baseurl:"
    Typesense is an open source, typo tolerant search engine that delivers fast and relevant results out-of-the-box.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: typesense
-github_username:  typesense
 
 # Build settings
 theme: minima
