@@ -45,7 +45,7 @@ permalink: /api/
             host:     'localhost',
             port:     8108,
             protocol: 'http',
-            api_key:  'abcd'
+            api_key:  '<API_KEY>'
           },
 
           read_replica_nodes: [
@@ -53,13 +53,7 @@ permalink: /api/
               host:     'read_replica_1',
               port:     8108,
               protocol: 'http',
-              api_key:  'abcd'
-            },
-            {
-              host:     'read_replica_2',
-              port:     8108,
-              protocol: 'http',
-              api_key:  'abcd'
+              api_key:  '<API_KEY>'
             }
           ],
 
@@ -75,13 +69,13 @@ permalink: /api/
             'host': 'localhost',
             'port': '8108',
             'protocol': 'http',
-            'api_key': 'abcd'
+            'api_key': '<API_KEY>'
           },
           'read_replica_nodes': [{
-            'host': 'localhost',
-            'port': '9108',
+            'host': 'read_replica_1',
+            'port': '8108',
             'protocol': 'http',
-            'api_key': 'abcd'
+            'api_key': '<API_KEY>'
           }],
           'timeout_seconds': 2
         })
@@ -93,13 +87,13 @@ permalink: /api/
             'host': 'master',
             'port': '8108',
             'protocol': 'http',
-            'apiKey': 'abcd'
+            'apiKey': '<API_KEY>'
           },
           'readReplicaNodes': [{
-            'host': 'read-replica',
+            'host': 'read_replica_1',
             'port': '8108',
             'protocol': 'http',
-            'apiKey': 'abcd'
+            'apiKey': '<API_KEY>'
           }],
           'timeoutSeconds': 2
         })
@@ -108,10 +102,7 @@ permalink: /api/
 
       ```shell
           # API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
-          curl -H "X-TYPESENSE-API-KEY: abcd" "http://localhost:8108/collections"
-
-          # For JSONP requests (since custom headers can't be set on JSONP requests)
-          curl "http://localhost:8108/collections?x-typesense-api-key=abcd"
+          curl -H "X-TYPESENSE-API-KEY: <API_KEY>" "http://localhost:8108/collections"
       ```
       {% endcode_block %}
 
@@ -531,11 +522,6 @@ permalink: /api/
           <td>per_page</td>
           <td>no</td>
           <td><p>Number of results to fetch per page.</p></td>
-        </tr>
-        <tr>
-          <td>callback</td>
-          <td>no</td>
-          <td><p>Name of the callback function to be used for <code>JSONP</code> response.</p></td>
         </tr>
       </table>
 

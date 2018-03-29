@@ -637,25 +637,95 @@ permalink: /guide/
       </ol>
     </p>
 
-    <h3 id="read-only-replica">Read-only replica</h3>
+    <h3 id="high-availability">High Availability</h3>
 
-    <p>You can run the Typesense server as a read-only replica that asynchronously pulls data from a master Typesense server.</p>
+    <p>You can run one or more Typesense servers as read-only replicas that asynchronously pull data from a master
+      Typesense server. This way, if your primary Typesense server fails, search requests can be sent to the
+      replicas.
+    </p>
 
-    <p>To start the server as a read-only replica, specify the master's address via the <code>--master</code>
-      argument: </p>
+    <p><strong>Server configuration</strong></p>
+
+    <p>To start Typesense as a read-only replica, pass the master Typesense server's address via
+      the <code>--master</code> argument: </p>
 
     <p><code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code></p>
 
     <p><strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the
-    replica to a master instance that has been running for greater than 24 hours, you need to first stop the master, take
+      replica to a master instance that has been running for longer than 24 hours, you need to first stop the master, take
       a copy of the data directory and then then start the replica server by pointing to this backup data directory.</p>
 
-    <p><strong>Client library behavior</strong></p>
+    <p><strong>Client configuration</strong></p>
+
+    <p>Typesense clients would allow you to configure one or more replica nodes during client initialization.</p>
 
     <p>Client libraries will send all writes to the master. Reads will first be sent to the master and if the server
-    returns a HTTP 500 or if the connection times out, the read will be sent in a round-robin fashion to the read replicas
-    configured.</p>
+      returns a <code>500</code> status code or if the connection times out, the reads will be sent in a round-robin
+      fashion to the read replicas configured.</p>
 
+    {% code_block authenticate %}
+      ```ruby
+        require 'typesense'
+
+        client = Typesense::Client.new(
+          master_node: {
+            host:     'localhost',
+            port:     8108,
+            protocol: 'http',
+            api_key:  '<API_KEY>'
+          },
+
+          read_replica_nodes: [
+            {
+              host:     'read_replica_1',
+              port:     8108,
+              protocol: 'http',
+              api_key:  '<API_KEY>'
+            }
+          ],
+
+          timeout_seconds: 2
+        )
+      ```
+
+      ```python
+        import typesense
+
+        client = typesense.Client({
+          'master_node': {
+            'host': 'localhost',
+            'port': '8108',
+            'protocol': 'http',
+            'api_key': '<API_KEY>'
+          },
+          'read_replica_nodes': [{
+            'host': 'read_replica_1',
+            'port': '8108',
+            'protocol': 'http',
+            'api_key': '<API_KEY>'
+          }],
+          'timeout_seconds': 2
+        })
+      ```
+
+      ```javascript
+        let client = new Typesense.Client({
+          'masterNode': {
+            'host': 'master',
+            'port': '8108',
+            'protocol': 'http',
+            'apiKey': '<API_KEY>'
+          },
+          'readReplicaNodes': [{
+            'host': 'read_replica_1',
+            'port': '8108',
+            'protocol': 'http',
+            'apiKey': '<API_KEY>'
+          }],
+          'timeoutSeconds': 2
+        })
+      ```
+    {% endcode_block %}
   </div>
 
   <div class="col-md-1 row no-gutters"></div>
@@ -674,7 +744,7 @@ permalink: /guide/
           <a class="nav-link ml-3 my-1" href="#search-collection">Searching for books</a>
         </nav>
         <a class="nav-link" href="#ranking-relevance">Ranking &amp; relevance</a>
-        <a class="nav-link" href="#read-only-replica">Read-only replica</a>
+        <a class="nav-link" href="#high-availability">High Availability</a>
       </nav>
     </nav>
   </div>
