@@ -76,7 +76,7 @@ $(document).ready(function() {
             return false;
         }
 
-        if(search_state.page == 0) {
+        if(search_state.page == 1) {
             return false;
         }
 
