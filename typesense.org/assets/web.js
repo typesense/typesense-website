@@ -6,6 +6,9 @@ $(document).ready(function() {
 
     var search_api_key = 'AHYjkhasd2HAy2';
 
+    $("#goodreads-search input").select();
+    $("#goodreads-search input").focus();
+
     function getResults(q, callback) {
         var url = "https://t1.typesense.org/collections/books/documents/search?q="+ q +
             "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +

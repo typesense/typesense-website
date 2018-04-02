@@ -214,4 +214,7 @@ ul#goodreads-results {
 
 #footer h6 {
     margin: 1em 0 1em 1em;
+    color: #333;
+    font-size: 0.8em;
+    font-weight: normal;
 }
