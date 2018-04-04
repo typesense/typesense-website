@@ -2,7 +2,7 @@ $(document).ready(function() {
     var search_state = {
         page: 1,
         per_page: 4
-    }
+    };
 
     var search_api_key = 'AHYjkhasd2HAy2';
 
@@ -12,14 +12,18 @@ $(document).ready(function() {
     function getResults(q, callback) {
         var url = "https://t1.typesense.org/collections/books/documents/search?q="+ q +
             "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
-            search_state.per_page + "&num_typos=2&x-typesense-api-key=" + search_api_key + "&callback=?";
+            search_state.per_page + "&num_typos=2";
 
-        $.getJSON(url, function(data) {
-            callback(data);
+        $.ajax({
+            url: url,
+            headers: { 'x-typesense-api-key': search_api_key },
+            success: function(data){
+                callback(q, data);
+            }
         });
     }
 
-    function onResults(data) {
+    function onResults(q, data) {
         if(data.found == 0) {
             $('#goodreads-found').html("No results found.");
             $('#goodreads-results').html('');
@@ -28,6 +32,19 @@ $(document).ready(function() {
         }
 
         var total_pages = Math.ceil(Math.min(data.found, 100) / search_state.per_page);
+        search_state.total_pages = total_pages;
+        search_state.q = q;
+
+        // check for stale/out-of-order response
+        if(search_state.page != data.page) {
+            return ;
+        }
+
+        if(data.page > total_pages) {
+            $('#goodreads-results-nav a#next-page').addClass('disabled');
+            return ;
+        }
+
         var found_text = data.found + (data.found > 1 ? " results." : " result.");
         found_text += " Page " + search_state.page + " of " + total_pages + ".";
         $('#goodreads-found').html(found_text);
@@ -36,8 +53,9 @@ $(document).ready(function() {
         for(var i = 0; i < data.hits.length; i++) {
             var title = data.hits[i].title;
             var doc = data.hits[i].document;
-            var truncated_title = data.hits[i].highlight.title.length > 60 ?
-                data.hits[i].highlight.title.substring(0, 60) + '...' : data.hits[i].highlight.title;
+            var raw_text_length = data.hits[i].highlight.title.replace(/mark/g, '').length;
+            var truncated_title = raw_text_length > 50 ?
+                data.hits[i].highlight.title.substring(0, 50) + '...' : data.hits[i].highlight.title;
 
             lis += '<li><img src="' + doc.image_url + '" alt="' + doc.title +
                    '" />' + truncated_title + '</li>';
@@ -66,6 +84,10 @@ $(document).ready(function() {
 
     $(document).on("click", "#goodreads-results-nav a#next-page", function() {
         if($(this).hasClass('disabled')) {
+            return false;
+        }
+
+        if(search_state.q == $('#goodreads-search input').val() && search_state.page >= search_state.total_pages) {
             return false;
         }
 
