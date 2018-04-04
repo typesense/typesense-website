@@ -32,6 +32,10 @@ permalink: /api/
         ```javascript
           npm install typesense
         ```
+        
+        ```html
+          <script src="dist/typesense.min.js"></script>
+        ```
       {% endcode_block %}
 
       <h3 id="authentication">Authentication</h3>
@@ -82,6 +86,14 @@ permalink: /api/
       ```
       
       ```javascript
+        /*
+         *  Our Javascript client library works both on the client and the browser.
+         *  When use the library on the browser, please be sure to use the 
+         *  search-only API Key rather than the master API key, since the latter 
+         *  has access to operate on collections and documents which is something 
+         *  you probably don't want to allow client libraries to do.
+         * 
+         */
         let client = new Typesense.Client({
           'masterNode': {
             'host': 'master',
