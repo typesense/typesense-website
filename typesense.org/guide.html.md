@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Typesense Guide
+title: Getting Started Guide
 nav_label: guide
 permalink: /guide/
 ---
