@@ -129,6 +129,15 @@ permalink: /guide/
     ```python
     pip install typesense
     ```
+
+    ```javascript
+    # Node.js
+    npm install typesense
+    
+    # Browser
+    <script src="dist/typesense.min.js"></script>
+    ```
+      
     {% endcode_block %}
 
     <h3 id="example-application">Example application</h3>
@@ -171,6 +180,23 @@ permalink: /guide/
         },
         'timeout_seconds': 2
       })
+    ```
+    ```javascript
+    /*
+     *  Our Javascript client library works on both the client and the browser.
+     *  When using the library on the browser, please be sure to use the
+     *  search-only API Key rather than the master API key since the latter
+     *  has write access to Typesense and you don't want to expose that.
+     */
+    let client = new Typesense.Client({
+      'masterNode': {
+        'host': 'master',
+        'port': '8108',
+        'protocol': 'http',
+        'apiKey': '<API_KEY>'
+      },
+      'timeoutSeconds': 2
+    })
     ```
     ```shell
       export TYPESENSE_API_KEY='<API_KEY>'
@@ -232,7 +258,29 @@ permalink: /guide/
 
       client.collections.create(schema)
     ```
+    ```javascript
+      let booksSchema = {
+        'name': 'books',
+        'fields': [
+          {'name': 'title', 'type': 'string' },
+          {'name': 'authors', 'type': 'string[]' },
+          {'name': 'image_url', 'type': 'string' },
 
+          {'name': 'publication_year', 'type': 'int32' },
+          {'name': 'ratings_count', 'type': 'int32' },
+          {'name': 'average_rating', 'type': 'float' },
+
+          {'name': 'authors_facet', 'type': 'string[]', 'facet': true },
+          {'name': 'publication_year_facet', 'type': 'string', 'facet': true },
+        ],
+        'default_sorting_field': 'ratings_count'
+      }
+
+      client.collections().create(booksSchema)
+        .then(function (data) {
+          console.log(data)      
+        })
+    ```
     ```shell
       curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
             -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
@@ -275,7 +323,7 @@ permalink: /guide/
         book_document = JSON.parse(json_line)
         client.collections['books'].documents.create(book_document)
       end
-      ```
+    ```
     ```python
       import json
       import typesense
@@ -284,6 +332,18 @@ permalink: /guide/
         for json_line in infile:
           book_document = json.loads(json_line)
           client.collections['books'].documents.create(book_document)
+    ```
+    ```javascript
+      var fs = require('fs');
+      var readline = require('readline');
+      
+      readline.createInterface({
+          input: fs.createReadStream('/tmp/books.jsonl'),
+          terminal: false
+      }).on('line', function(line) {
+         let bookDocument = JSON.parse(line);
+         client.collections('books').documents().create(bookDocument)
+      });  
     ```
     ```shell
         #!/bin/bash
@@ -322,6 +382,21 @@ permalink: /guide/
       }
 
       client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```javascript
+      let searchParameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'ratings_count:desc'
+      }
+
+      client.collections('books')
+        .documents()
+        .search(searchParameters)
+        .then(function (searchResults) {
+          console.log(searchResults)
+        })
     ```
 
     ```shell
@@ -392,6 +467,21 @@ permalink: /guide/
       client.collections['books'].documents.search(search_parameters)
     ```
 
+    ```javascript
+      let searchParameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      client.collections('books')
+        .documents()
+        .search(searchParameters)
+        .then(function (searchResults) {
+          console.log(searchResults)
+        })
+    ```
+
     ```shell
       curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
       "$TYPESENSE_MASTER/collections/books/documents/search\
@@ -460,6 +550,22 @@ permalink: /guide/
       client.collections['books'].documents.search(search_parameters)
     ```
 
+    ```javascript
+      let searchParameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'filter_by' : 'publication_year:<1998',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      client.collections('books')
+        .documents()
+        .search(searchParameters)
+        .then(function (searchResults) {
+          console.log(searchResults)
+        })      
+    ```
+
     ```shell
       curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
       "$TYPESENSE_MASTER/collections/books/documents/search\
@@ -526,6 +632,22 @@ permalink: /guide/
       }
 
       client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```javascript
+      let searchParameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'facet_by' : 'authors_facet',
+        'sort_by'   : 'average_rating:desc'
+      }
+
+      client.collections('books')
+        .documents()
+        .search(searchParameters)
+        .then(function (searchResults) {
+          console.log(searchResults)
+        })
     ```
 
     ```shell
