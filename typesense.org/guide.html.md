@@ -131,10 +131,10 @@ permalink: /guide/
     ```
 
     ```javascript
-    # Node.js
+    // Node.js
     npm install typesense
     
-    # Browser
+    // Browser
     <script src="dist/typesense.min.js"></script>
     ```
       
