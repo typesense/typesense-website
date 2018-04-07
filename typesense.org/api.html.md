@@ -481,31 +481,13 @@ permalink: /api/
           <td>query_by</td>
           <td>yes</td>
           <td>
-            <p>A list of `string` or `string[]` fields that should be queried against. Separate multiple fields with a comma.</p>
+            <p>One or more <code>string</code> / <code>string[]</code> fields that should be queried against.
+              Separate multiple fields with a comma: <code>company_name, country</code></p>
 
-            <p>The order of the fields is important: a matching record on a field higher in the list is considered more
-            relevant than a record matched on a field later in the list.</p></td>
-        </tr>
-        <tr>
-          <td>filter_by</td>
-          <td>no</td>
-          <td><p>Filter conditions for refining your search results. Separate multiple conditions
-            with <code>&&</code>. </p>
-            <p>E.g. <code>num_employees:<100 && country:[USA, UK]</code></p></td>
-        </tr>
-        <tr>
-          <td>sort_by</td>
-          <td>no</td>
-          <td>
-            <p>A list of numerical fields and their corresponding sort orders that will be used for ordering your results.
-            Separate multiple fields with a comma. Currently, upto 2 sort fields can be specified.</p>
-            <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
-          </td>
-        </tr>
-        <tr>
-          <td>facet_by</td>
-          <td>no</td>
-          <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
+            <p>The order of the fields is important: a record that matches on a field earlier in the list is
+              considered more relevant than a record matched on a field later in the list.
+              So, in the example above, documents that match on the <code>company_name</code> field are ranked above
+              documents matched on the <code>country</code> field.</p></td>
         </tr>
         <tr>
           <td>prefix</td>
@@ -514,6 +496,34 @@ permalink: /api/
             word. This is necessary for building autocomplete and instant search interfaces.</p>
             <p>Default: <code>true</code></p>
           </td>
+        </tr>
+        <tr>
+          <td>filter_by</td>
+          <td>no</td>
+          <td><p>Filter conditions for refining your search results. Separate multiple conditions
+            with <code>&&</code> operator. Examples:</p>
+            <p><code>num_employees:10</code></p>
+            <p><code>num_employees:<=100 && country:[USA, UK]</code></p>
+            <p><code>country: USA</code></p>
+
+          </td>
+        </tr>
+        <tr>
+          <td>sort_by</td>
+          <td>no</td>
+          <td>
+            <p>A list of numerical fields and their corresponding sort orders that will be used for ordering your results.
+            Separate multiple fields with a comma. Currently, upto 2 sort fields can be specified.</p>
+            <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
+
+            <p>If no <code>sort_by</code> parameter is specified, results are sorted by the
+              <code>default_sorting_field</code> defined during the collection's creation.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>facet_by</td>
+          <td>no</td>
+          <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
         </tr>
         <tr>
           <td>num_typos</td>
