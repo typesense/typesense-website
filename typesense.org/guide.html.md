@@ -416,7 +416,8 @@ permalink: /guide/
         "hits": [
           {
             "highlight": {
-              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+              "field": "title",
+              "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
             },
             "document": {
               "authors": [
@@ -499,7 +500,8 @@ permalink: /guide/
         "hits": [
         {
           "highlight": {
-            "title": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
+            "field": "title",
+            "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
           },
           "document": {
             "authors": [
@@ -584,7 +586,8 @@ permalink: /guide/
         "hits": [
           {
             "highlight": {
-              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+              "field": "title",
+              "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
             },
             "document": {
               "authors": [

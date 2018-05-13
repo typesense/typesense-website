@@ -446,7 +446,8 @@ permalink: /api/
           "hits": [
             {
               "highlight": {
-                "description": "<mark>Stark</mark> Industries"
+                "field": "company_name",
+                "snippet": "<mark>Stark</mark> Industries"
               },
               "document": {
                 "id": "124",
@@ -475,7 +476,14 @@ permalink: /api/
         <tr>
           <td>q</td>
           <td>yes</td>
-          <td><p>The query text to search for in the collection.</p></td>
+          <td>
+            <p>The query text to search for in the collection.</p>
+            <p>
+                Use <code>*</code> as the search string to return all documents. This is typically useful when used in 
+                conjunction with <code>filter_by</code>.</p>
+                <p>For example, to return all documents that match a filter, use: <br/>
+                <code>q=*&filter_by=num_employees:10</code> </p>
+          </td>
         </tr>
         <tr>
           <td>query_by</td>
@@ -546,6 +554,30 @@ permalink: /api/
           <td>no</td>
           <td><p>Number of results to fetch per page.</p></td>
         </tr>
+        <tr>
+          <td>include_fields</td>
+          <td>no</td>
+          <td><p>Comma-separated list of fields from the document to include in the search result.</p></td>
+        </tr>
+        <tr>
+          <td>exclude_fields</td>
+          <td>no</td>
+          <td><p>Comma-separated list of fields from the document to exclude in the search result.</p></td>
+        </tr>        
+        <tr>
+          <td>drop_tokens_threshold</td>
+          <td>no</td>
+          <td>
+              <p>
+                  If the number of results found for a specific query is less than this number, Typesense will attempt 
+                  to drop the tokens in the query until enough results are found. Tokens that have the least individual hits 
+                  are dropped first. Set <code>drop_tokens_threshold</code> to <code>0</code> to disable dropping of tokens.
+              </p>
+              <p>
+                Default: <code>10</code>
+              </p>
+          </td>
+        </tr>        
       </table>
 
       <h4 id="retrieve-document">Retrieve a document</h4>
