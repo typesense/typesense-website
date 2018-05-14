@@ -445,9 +445,11 @@ permalink: /api/
           "took_ms": 1,
           "hits": [
             {
-              "highlight": {
-                "field": "company_name",
-                "snippet": "<mark>Stark</mark> Industries"
+              "highlights": {
+                "company_name": {
+                  "field": "company_name",
+                  "snippet": "<mark>Stark</mark> Industries"
+                }
               },
               "document": {
                 "id": "124",
