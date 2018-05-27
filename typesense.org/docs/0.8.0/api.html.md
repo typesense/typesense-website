@@ -2,18 +2,20 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /api/
+permalink: 0.8.0/api
 ---
 
 <div class="row no-gutters">
     <div id="doc-col" class="col-md-8">
+      {% include versions.html %}
+
       <h3 id="introduction">Introduction</h3>
       <p>Welcome to the Typesense API documentation. This documentation itself is open source.
         Please leave your feedback as issues on the
         <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
         to contribute edits.</p>
 
-      <p>To learn how to install and run Typesense, see our <a href="/guide">getting started guide</a>.</p>
+      <p><mark>To learn how to install and run Typesense, see our <a href="/guide">getting started guide</a> instead.</mark></p>
 
       <h3 id="api-clients">API clients</h3>
 
@@ -445,11 +447,8 @@ permalink: /api/
           "took_ms": 1,
           "hits": [
             {
-              "highlights": {
-                "company_name": {
-                  "field": "company_name",
-                  "snippet": "<mark>Stark</mark> Industries"
-                }
+              "highlight": {
+                "description": "<mark>Stark</mark> Industries"
               },
               "document": {
                 "id": "124",
@@ -478,14 +477,7 @@ permalink: /api/
         <tr>
           <td>q</td>
           <td>yes</td>
-          <td>
-            <p>The query text to search for in the collection.</p>
-            <p>
-                Use <code>*</code> as the search string to return all documents. This is typically useful when used in 
-                conjunction with <code>filter_by</code>.</p>
-                <p>For example, to return all documents that match a filter, use: <br/>
-                <code>q=*&filter_by=num_employees:10</code> </p>
-          </td>
+          <td><p>The query text to search for in the collection.</p></td>
         </tr>
         <tr>
           <td>query_by</td>
@@ -556,30 +548,6 @@ permalink: /api/
           <td>no</td>
           <td><p>Number of results to fetch per page.</p></td>
         </tr>
-        <tr>
-          <td>include_fields</td>
-          <td>no</td>
-          <td><p>Comma-separated list of fields from the document to include in the search result.</p></td>
-        </tr>
-        <tr>
-          <td>exclude_fields</td>
-          <td>no</td>
-          <td><p>Comma-separated list of fields from the document to exclude in the search result.</p></td>
-        </tr>        
-        <tr>
-          <td>drop_tokens_threshold</td>
-          <td>no</td>
-          <td>
-              <p>
-                  If the number of results found for a specific query is less than this number, Typesense will attempt 
-                  to drop the tokens in the query until enough results are found. Tokens that have the least individual hits 
-                  are dropped first. Set <code>drop_tokens_threshold</code> to <code>0</code> to disable dropping of tokens.
-              </p>
-              <p>
-                Default: <code>10</code>
-              </p>
-          </td>
-        </tr>        
       </table>
 
       <h4 id="retrieve-document">Retrieve a document</h4>

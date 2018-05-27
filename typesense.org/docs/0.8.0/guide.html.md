@@ -2,11 +2,13 @@
 layout: page
 title: Getting Started Guide
 nav_label: guide
-permalink: /guide/
+permalink: 0.8.0/guide
 ---
 
 <div class="row no-gutters">
   <div id="doc-col" class="col-md-8">
+    {% include versions.html %}
+
     <p>Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.</p>
 
     <p>For a detailed dive into the Typesense API, refer to our <a href="/api">API documentation</a>.</p>
@@ -415,11 +417,8 @@ permalink: /guide/
         "found": 62,
         "hits": [
           {
-            "highlights": {
-              "title": {
-                "field": "title",
-                "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
-              }
+            "highlight": {
+              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
             },
             "document": {
               "authors": [
@@ -501,11 +500,8 @@ permalink: /guide/
         "found": 62,
         "hits": [
         {
-          "highlights": {
-            "title": {
-              "field": "title",
-              "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
-            }
+          "highlight": {
+            "title": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
           },
           "document": {
             "authors": [
@@ -589,11 +585,8 @@ permalink: /guide/
         "found": 24,
         "hits": [
           {
-            "highlights": {
-              "title": {
-                "field": "title",
-                "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
-              }
+            "highlight": {
+              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
             },
             "document": {
               "authors": [

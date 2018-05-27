@@ -1,3 +1,10 @@
+function onSelectVersion() {
+    var version = $(this).val();
+    var parts = window.location.href.split('/');
+    var path = parts[parts.length - 1];
+    window.location.href = '/' + version + '/' + path;
+}
+
 $(document).ready(function() {
     var search_state = {
         page: 1,
@@ -109,6 +116,8 @@ $(document).ready(function() {
         getResults($('#goodreads-search input').val(), onResults);
         return false;
     });
+
+    $(document).on("change", "#doc-version select", onSelectVersion)
 
     getResults($('#goodreads-search input').val(), onResults);
 });

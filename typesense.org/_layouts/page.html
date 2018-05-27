@@ -1,11 +1,18 @@
 ---
 layout: default
 ---
+{% assign path_parts = page.url | split: "/" %}
+{% assign page_version = path_parts[1] %}
+{% assign version_parts_size = page_version | split: "." | size %}
+{% if version_parts_size > 1 %}
+{% assign page_version = " - v" | append: site.versions[0] %}
+{% endif %}
+
 <div id="hero">
   <div id="mast" class="container">
     <div class="row">
       <div class="col-md-8">
-        <h2>{{ page.title | escape }}</h2>
+        <h2>{{ page.title | escape }}{{ page_version }}</h2>
       </div>
     </div>
   </div>
