@@ -465,6 +465,28 @@ permalink: /0.9.0/api
       ```
       {% endcode_block %}
 
+      <p>When a <code>string[]</code> field is queried, the <code>highlights</code> structure would include the
+        corresponding matching array indices of the snippets. For e.g:</p>
+
+      {% code_block highlights-arrray-response %}
+      ```json
+        {
+              ...
+              "highlights": [
+                {
+                  "field": "addresses",
+                  "indices": [0,2],
+                  "snippets": [
+                    "10880 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265",
+                    "10000 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265"
+                  ]
+                }
+              ],
+              ...
+        }
+      ```
+      {% endcode_block %}
+
       <h5>Definition</h5>
 
       <p><code>GET ${TYPESENSE_HOST}/collections/:collection/documents/search</code></p>

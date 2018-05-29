@@ -2,10 +2,10 @@
 layout: default
 ---
 {% assign path_parts = page.url | split: "/" %}
-{% assign page_version = path_parts[1] %}
-{% assign version_parts_size = page_version | split: "." | size %}
+{% assign page_version = "" %}
+{% assign version_parts_size = path_parts[1] | split: "." | size %}
 {% if version_parts_size > 1 %}
-{% assign page_version = " - v" | append: site.versions[0] %}
+{% assign page_version = " - v" | append: path_parts[1] %}
 {% endif %}
 
 <div id="hero">
