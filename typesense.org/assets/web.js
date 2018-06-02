@@ -53,9 +53,14 @@ $(document).ready(function() {
         for(var i = 0; i < data.hits.length; i++) {
             var title = data.hits[i].title;
             var doc = data.hits[i].document;
-            var raw_text_length = data.hits[i].highlight.title.replace(/mark/g, '').length;
+
+            if(data.hits[i].highlights.length == 0) {
+                continue;
+            }
+
+            var raw_text_length = data.hits[i].highlights[0].snippet.replace(/mark/g, '').length;
             var truncated_title = raw_text_length > 50 ?
-                data.hits[i].highlight.title.substring(0, 50) + '...' : data.hits[i].highlight.title;
+                data.hits[i].highlights[0].snippet.substring(0, 50) + '...' : data.hits[i].highlights[0].snippet;
 
             lis += '<li><img src="' + doc.image_url + '" alt="' + doc.title +
                    '" />' + truncated_title + '</li>';
