@@ -30,8 +30,13 @@ a.navbar-brand img {
     font-weight: 300;
 }
 
+#doc-version {
+    margin-bottom: 1em;
+}
+
 #navbar-docs {
     padding-left: 0;
+    margin-top: 2em;
 }
 
 #navbar-docs nav nav a {

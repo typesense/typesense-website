@@ -2,18 +2,20 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /api/
+permalink: 0.8.0/api
 ---
 
 <div class="row no-gutters">
     <div id="doc-col" class="col-md-8">
+      {% include versions.html %}
+
       <h3 id="introduction">Introduction</h3>
       <p>Welcome to the Typesense API documentation. This documentation itself is open source.
         Please leave your feedback as issues on the
         <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
         to contribute edits.</p>
 
-      <p>To learn how to install and run Typesense, see our <a href="/guide">getting started guide</a>.</p>
+      <p><mark>To learn how to install and run Typesense, see our <a href="/guide">getting started guide</a> instead.</mark></p>
 
       <h3 id="api-clients">API clients</h3>
 

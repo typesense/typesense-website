@@ -6,23 +6,38 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  {% assign page_paths = site.header_pages %}
+  {% assign nav_paths = site.nav_pages %}
+  {% assign path_parts = page.url | split: "/" %}
+  {% assign page_version = path_parts[1] %}
+  {% assign version_parts_size = page_version | split: "." | size %}
+  {% if version_parts_size <= 1 %}
+    {% assign page_version = site.versions[0] %}
+  {% endif %}
 
-  {% if page_paths %}
+  {% assign guide_path = "docs" | append: "/" | append: page_version | append: "/" | append: "guide.html.md" %}
+  {% assign api_path = "docs" | append: "/" | append: page_version | append: "/" | append: "api.html.md" %}
+
+  {% if nav_paths %}
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      {% for path in page_paths %}
-        {% assign page_x = site.pages | where: "path", path | first %}
+      {% for path in nav_paths %}
+        {% if path contains "guide" %}
+          {% assign page_x = site.pages | where: "path", guide_path | first %}
+        {% elsif path contains "api" %}
+          {% assign page_x = site.pages | where: "path", api_path | first %}
+        {% else %}
+          {% assign page_x = site.pages | where: "path", path | first %}
+        {% endif %}
+
         {% if page_x.title %}
-          {% if page.url == page_x.url %}
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ page_x.url | relative_url }}">{{ page_x.nav_label | escape | downcase }}</a>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ page_x.url | relative_url }}">{{ page_x.nav_label | escape | downcase }}</a>
-            </li>
-          {% endif %}
+          {% assign active_str = "" %}
+          {% if page.url == page_x.url %}{% assign active_str = " active" %}{% endif %}
+
+          {% assign page_url = page_x.url | relative_url %}
+
+          <li class="nav-item{{ active_str}}">
+            <a class="nav-link" href="{{ page_url }}">{{ page_x.nav_label | escape | downcase }}</a>
+          </li>
         {% endif %}
       {% endfor %}
       <li class="nav-item">
