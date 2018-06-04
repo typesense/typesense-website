@@ -2,7 +2,7 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: 0.8.0/api
+permalink: 0.8.0/api/
 ---
 
 <div class="row no-gutters">

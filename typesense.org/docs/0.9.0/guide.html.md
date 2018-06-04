@@ -2,7 +2,7 @@
 layout: page
 title: Getting Started Guide
 nav_label: guide
-permalink: /0.9.0/guide
+permalink: /0.9.0/guide/
 ---
 
 <div class="row no-gutters">

@@ -1,7 +1,7 @@
 function onSelectVersion() {
     var version = $(this).val();
     var parts = window.location.href.split('/');
-    var path = parts[parts.length - 1];
+    var path = parts[parts.length - 2];
     window.location.href = '/' + version + '/' + path;
 }
 
