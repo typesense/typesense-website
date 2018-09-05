@@ -30,6 +30,23 @@ a.navbar-brand img {
     font-weight: 300;
 }
 
+.navbar li#github-nav {
+    margin-right: 0.5em;
+}
+
+li.nav-item #doc-search {
+    margin-top: 0.6em;
+    padding: 0.4em 0.4em 0.4em 2em;
+    font-size: 0.8em;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxNSAxNSIgd2lkdGg9IjEwMCUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTEwLjA1MiAxMC44OGMtMS4xLjkxLTIuNDgzIDEuNDA2LTMuOTEgMS40MDNDMi43NSAxMi4yODMgMCA5LjUzMyAwIDYuMTQgMCAyLjc1IDIuNzUgMCA2LjE0MiAwYzMuMzkyIDAgNi4xNCAyLjc1IDYuMTQgNi4xNDIgMCAxLjQ4NS0uNTI2IDIuODQ3LTEuNDAzIDMuOTFsMy45NSAzLjk1Yy4yMjcuMjI3LjIyOC41OTYtLjAwMi44MjYtLjIyOC4yMjctLjU5Ny4yMjgtLjgyNiAwbC0zLjk1LTMuOTV6bS0zLjkxLjIzNGMyLjc0NSAwIDQuOTcyLTIuMjI3IDQuOTcyLTQuOTcyIDAtMi43NDctMi4yMjctNC45NzItNC45NzItNC45NzItMi43NDcgMC00Ljk3MiAyLjIyNS00Ljk3MiA0Ljk3MiAwIDIuNzQ1IDIuMjI1IDQuOTcyIDQuOTcyIDQuOTcyeiIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjY2NjIj48L3BhdGg+Cjwvc3ZnPg==");
+    background-size: 1.2em 1.2em;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: 0.3em;
+    border: 1px solid #ccc;
+    outline: 0;
+}
+
 #doc-version {
     margin-bottom: 1em;
 }

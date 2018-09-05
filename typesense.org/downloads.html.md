@@ -6,7 +6,7 @@ permalink: /downloads/
 ---
 
 <div class="row no-gutters">
-  <div class="col-md-8">
+  <div id="doc-col" class="col-md-8">
     <p>Below are the available binaries for the latest version of Typesense: <code>{{ site.versions[0] }}</code></p>
     <p>Please download the appropriate binary archive for your operating system and architecture.</p>
     <dl id="release-downloads">
@@ -19,11 +19,5 @@ permalink: /downloads/
       <dt>Docker</dt>
       <dd><code>docker pull typesense/typesense:{{ site.versions[0] }}</code></dd>
     </dl>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-8">
-
   </div>
 </div>

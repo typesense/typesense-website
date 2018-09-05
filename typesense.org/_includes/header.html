@@ -2,6 +2,7 @@
   <a class="navbar-brand" href="{{ "/" | relative_url }}">
     <img src="/assets/images/typesense_medium.png" alt="{{ site.title | escape }}" />
   </a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -40,8 +41,11 @@
           </li>
         {% endif %}
       {% endfor %}
-      <li class="nav-item">
+      <li class="nav-item" id="github-nav">
         <a class="nav-link" href="https://github.com/typesense/typesense">github</a>
+      </li>
+      <li class="nav-item">
+        <input type="text" id="doc-search" placeholder="Search the docs" />
       </li>
     </ul>
   </div>

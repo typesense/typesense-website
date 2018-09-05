@@ -11,13 +11,13 @@ $(document).ready(function() {
         per_page: 4
     };
 
-    var search_api_key = 'AHYjkhasd2HAy2';
+    var search_api_key = 'YhdsuG$Gs72NSNyegdbsa^hTh';
 
     $("#goodreads-search input").select();
     $("#goodreads-search input").focus();
 
     function getResults(q, callback) {
-        var url = "https://t1.typesense.org/collections/books/documents/search?q="+ q +
+        var url = "https://t1m.typesense.org/collections/books/documents/search?q="+ q +
             "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2";
 
