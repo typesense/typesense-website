@@ -58,6 +58,7 @@ li.nav-item #doc-search {
 
 #navbar-docs nav nav a {
     font-size: 90%;
+    padding-top: 0;
 }
 
 #navbar-docs a {

@@ -11,10 +11,10 @@ permalink: /downloads/
     <p>Please download the appropriate binary archive for your operating system and architecture.</p>
     <dl id="release-downloads">
       <dt>Linux</dt>
-      <dd><a href="https://dl.typesense.org/releases/typesense-server-0.9.1-linux-amd64.tar.gz">64-bit</a></dd>
+      <dd><a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-linux-amd64.tar.gz">64-bit</a></dd>
 
       <dt>Mac OS X</dt>
-      <dd><a href="https://dl.typesense.org/releases/typesense-server-0.9.1-darwin-amd64.tar.gz">64-bit</a></dd>
+      <dd><a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz">64-bit</a></dd>
 
       <dt>Docker</dt>
       <dd><code>docker pull typesense/typesense:{{ site.versions[0] }}</code></dd>

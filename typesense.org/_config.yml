@@ -21,6 +21,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org" # the base hostname & protocol for your site, e.g. http://example.com
 versions:
+  - 0.9.2
   - 0.9.1
   - 0.9.0
   - 0.8.0
