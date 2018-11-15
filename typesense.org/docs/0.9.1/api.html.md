@@ -213,7 +213,7 @@ permalink: /0.9.1/api/
       ```
       
       ```shell
-        curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+        curl "$TYPESENSE_MASTER/collections" -X POST -H "Content-Type: application/json" \
                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
                  "name": "companies",
                  "fields": [
@@ -359,7 +359,7 @@ permalink: /0.9.1/api/
         ```
 
         ```shell
-        curl "http://localhost:8108/collections/companies/documents" -X POST \
+        curl "$TYPESENSE_MASTER/collections/companies/documents" -X POST \
                 -H "Content-Type: application/json" \
                 -H "X-TYPESENSE-API-KEY: abcd" \
                 -d '{
@@ -431,7 +431,7 @@ permalink: /0.9.1/api/
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" \
-            "http://localhost:8108/collections/companies/documents/search\
+            "$TYPESENSE_MASTER/collections/companies/documents/search\
             ?q=stark&query_by=company_name&filter_by=num_employees:>100\
             &sort_by=num_employees:desc"
       ```
@@ -625,7 +625,7 @@ permalink: /0.9.1/api/
 
       ```shell
         $ curl -H "X-TYPESENSE-API-KEY: abcd" -X GET \
-              "http://localhost:8108/collections/companies/documents/124"
+              "$TYPESENSE_MASTER/collections/companies/documents/124"
       ```
       {% endcode_block %}
 
@@ -665,7 +665,7 @@ permalink: /0.9.1/api/
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE \
-            "http://localhost:8108/collections/companies/documents/124"
+            "$TYPESENSE_MASTER/collections/companies/documents/124"
       ```
       {% endcode_block %}
 
@@ -705,7 +705,7 @@ permalink: /0.9.1/api/
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
-            "http://localhost:8108/collections/companies"
+            "$TYPESENSE_MASTER/collections/companies"
       ```
       {% endcode_block %}
 
@@ -748,7 +748,7 @@ permalink: /0.9.1/api/
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
-            "http://localhost:8108/collections/companies/documents/export"
+            "$TYPESENSE_MASTER/collections/companies/documents/export"
       ```
       {% endcode_block %}
 
@@ -811,7 +811,7 @@ permalink: /0.9.1/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" "http://localhost:8108/collections"
+        curl -H "X-TYPESENSE-API-KEY: abcd" "$TYPESENSE_MASTER/collections"
       ```
       {% endcode_block %}
 
@@ -870,7 +870,7 @@ permalink: /0.9.1/api/
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE
-            "http://localhost:8108/collections/companies"
+            "$TYPESENSE_MASTER/collections/companies"
       ```
 
       {% endcode_block %}
