@@ -241,3 +241,19 @@ ul#goodreads-results {
     font-size: 0.8em;
     font-weight: normal;
 }
+
+/* Demos */
+
+#movies-results, #movies-results li {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+#movies-results {
+    margin-top: 15px;
+}
+
+#movies-results li {
+    margin-bottom: 10px;
+}
