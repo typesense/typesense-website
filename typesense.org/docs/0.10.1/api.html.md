@@ -2,7 +2,7 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /0.10.0/api/
+permalink: /0.10.1/api/
 ---
 
 <div class="row no-gutters">
@@ -560,6 +560,11 @@ permalink: /0.10.0/api/
           <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
         </tr>
         <tr>
+          <td>max_facet_values</td>
+          <td>no</td>
+          <td><p>Maximum number of facet values to be returned.</p></td>
+        </tr>
+        <tr>
           <td>num_typos</td>
           <td>no</td>
           <td><p>Number of typographical errors (1 or 2) that would be tolerated.</p>
@@ -960,18 +965,13 @@ permalink: /0.10.0/api/
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
 
-      <h3 id="whats-new">What's new in 0.10.0</h3>
+      <h3 id="whats-new">What's new in 0.10.1</h3>
 
       <ul>
-        <li><strong>Importing documents:</strong> added a <code>/collections/:collection/documents/import</code>
-          endpoint to which you can POST documents for import.</li>
-        <li><strong>Load configuration from environment variables or config file:</strong> Arguments to the Typesense server
-          can now be passed via environment variables or through a configuration file.</li>
-        <li><strong>Faster collection initialization: </strong>Server initialization time has been significantly reduced for
-          large collections.</li>
-        <li><strong>[Bug] Filter on facet fields:</strong> When a facet field is filtered upon, search should be verbatim.</li>
-        <li><strong>[Bug] Improve memory and disk consistency:</strong> Fixed edge cases when in-memory index could
-        potentially go out of sync with on-disk storage (rarely).</li>
+        <li>You can control the maximum number of facet values returned in the search results
+        via the <code>max_facet_values</code> parameter of the search end-point.</li>
+        <li><strong>[Bug]</strong> Fix long queries causing highlighter to misbehave and sometimes crash.</li>
+        <li><strong>[Bug]</strong> Fix facet counts not showing up in wildcard searches.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -1041,7 +1041,7 @@ permalink: /0.10.0/api/
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.10.0</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.10.1</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
