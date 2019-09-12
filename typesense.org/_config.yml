@@ -44,6 +44,7 @@ nav_pages:
   - index.html.md
   - guide.html.md
   - api.html.md
+  - premium.html.md
   - downloads.html.md
 
 # Exclude from processing.
