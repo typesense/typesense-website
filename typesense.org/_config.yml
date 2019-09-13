@@ -54,8 +54,7 @@ defaults:
   - scope:
       path: "premium_docs/10.2"
     values:
-      api_version: "10.2"
-      permalink: /premium/10.2/:basename/
+      permalink: "/premium/10.2/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
