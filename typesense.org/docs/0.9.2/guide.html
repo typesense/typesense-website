@@ -2,7 +2,6 @@
 layout: page
 title: Getting Started Guide
 nav_label: guide
-permalink: /0.10.1/guide/
 ---
 
 <div class="row no-gutters">
@@ -37,7 +36,7 @@ permalink: /0.10.1/guide/
     {% code_block run-docker %}
     ```shell
       mkdir /tmp/typesense-data
-      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.10.1 \
+      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.9.1 \
         --data-dir /data --api-key=$TYPESENSE_API_KEY
     ```
     {% endcode_block %}
@@ -60,6 +59,11 @@ permalink: /0.10.1/guide/
         <th>Description</th>
       </tr>
       <tr>
+        <td>data-dir</td>
+        <td>true</td>
+        <td>Path to the directory where data will be stored on disk.</td>
+      </tr>
+      <tr>
         <td>api-key</td>
         <td>true</td>
         <td>
@@ -67,16 +71,13 @@ permalink: /0.10.1/guide/
         </td>
       </tr>
       <tr>
-        <td>config</td>
+        <td>search-only-api-key</td>
         <td>false</td>
         <td>
-          Path to the configuration file (see configuring section below).
+          API key that allows only searches (i.e. restricted to the
+          <code>/collections/collection_name/documents/search</code> end-point). Use this to make search requests
+          directly from Javascript, without exposing your primary API key.
         </td>
-      </tr>
-      <tr>
-        <td>data-dir</td>
-        <td>true</td>
-        <td>Path to the directory where data will be stored on disk.</td>
       </tr>
       <tr>
         <td>listen-address</td>
@@ -93,28 +94,11 @@ permalink: /0.10.1/guide/
         </td>
       </tr>
       <tr>
-        <td>log-dir</td>
-        <td>false</td>
-        <td>
-          By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a
-          logging directory.
-        </td>
-      </tr>
-      <tr>
         <td>master</td>
         <td>false</td>
         <td>
           Starts the server as a read-only replica by defining the master Typesense server's address in <br />
           <code>http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code> format.
-        </td>
-      </tr>
-      <tr>
-        <td>search-only-api-key</td>
-        <td>false</td>
-        <td>
-          API key that allows only searches (i.e. restricted to the
-          <code>/collections/collection_name/documents/search</code> end-point). Use this to make search requests
-          directly from Javascript, without exposing your primary API key.
         </td>
       </tr>
       <tr>
@@ -131,52 +115,15 @@ permalink: /0.10.1/guide/
           Path to the SSL certificate key file. You must also define <code>ssl-certificate</code> to enable HTTPS.
         </td>
       </tr>
+      <tr>
+        <td>log-dir</td>
+        <td>false</td>
+        <td>
+          By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a
+          logging directory.
+        </td>
+      </tr>
     </table>
-
-    <h3 id="configure-typesense">Configuring Typesense</h3>
-
-    <p>As an alternative to command line arguments, you can also configure Typesense server through a
-      configuration file or via environment variables.</p>
-
-    <p><strong>NOTE:</strong> Command line arguments are given the higest priority, while
-    environment variables are given the least priority.</p>
-
-    <p><strong>Using a configuration file</strong></p>
-
-    <p>Let's see how we can use a configuration file first:</p>
-
-    {% code_block run-config-file %}
-    ```shell
-    ./typesense-server --config=/etc/typesense.ini
-    ```
-    {% endcode_block %}
-
-    <p>The configuration file uses a simple <a target="_blank" href="https://en.wikipedia.org/wiki/INI_file">INI format</a>
-      and here's how it can look like:</p>
-
-    {% code_block run-config-file %}
-    ```ini
-    ; Sample Typesense Configuration
-
-    [server]
-
-    api-key = Rhsdhas2asasdasj2
-    data-dir = /tmp/ts
-    log-dir = /tmp/logs
-    listen-port = 9090
-
-    ```
-    {% endcode_block %}
-
-    <p><strong>Using environment variables</strong></p>
-
-    <p>If you wish to use environment variables, you can do that too.</p>
-
-    {% code_block run-config-file %}
-    ```shell
-    DATA_DIR=/tmp/ts API_KEY=AS3das2awQ2 ./typesense-server
-    ```
-    {% endcode_block %}
 
     <h3 id="install-client">Installing a client</h3>
 
@@ -929,7 +876,6 @@ permalink: /0.10.1/guide/
       <nav class="nav nav-pills flex-column">
         <a class="nav-link" href="#install-typesense">Installing Typesense</a>
         <a class="nav-link" href="#start-typesense">Starting Typesense</a>
-        <a class="nav-link" href="#configure-typesense">Configuring Typesense</a>
         <a class="nav-link" href="#install-client">Installing a client</a>
         <a class="nav-link" href="#example-application">Example application</a>
         <nav class="nav nav-pills flex-column">

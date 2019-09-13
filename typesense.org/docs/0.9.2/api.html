@@ -2,7 +2,6 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /0.9.1/api/
 ---
 
 <div class="row no-gutters">
@@ -896,6 +895,16 @@ permalink: /0.9.1/api/
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
 
+      <h3 id="whats-new">What's new in 0.9.2</h3>
+
+      <ul>
+        <li><strong>Health check:</strong> added a <code>/health</code> health check endpoint that return 200 status code when the service is up.</li>
+        <li><strong>Latin character substituition:</strong> latin characters are "normalized" to their ASCII equivalent. For e.g <code>ß</code>
+            is substituted with <code>ss</code>.</li>
+        <li><strong>Collection creation timestamp:</strong> the collection summary data now includes the <code>created_at</code> UNIX timestamp
+            (second since epoch).</li>
+      </ul>
+
       <h3 id="errors">API errors</h3>
 
       <p>Typesense API uses standard HTTP response codes to indicate the success or failure of a request.</p>
@@ -962,6 +971,7 @@ permalink: /0.9.1/api/
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
+          <a class="nav-link" href="#whats-new">What's new in 0.9.2</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>

@@ -2,7 +2,6 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /0.10.1/api/
 ---
 
 <div class="row no-gutters">
@@ -560,11 +559,6 @@ permalink: /0.10.1/api/
           <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
         </tr>
         <tr>
-          <td>max_facet_values</td>
-          <td>no</td>
-          <td><p>Maximum number of facet values to be returned.</p></td>
-        </tr>
-        <tr>
           <td>num_typos</td>
           <td>no</td>
           <td><p>Number of typographical errors (1 or 2) that would be tolerated.</p>
@@ -735,9 +729,9 @@ permalink: /0.10.1/api/
 
       <p><code>GET ${TYPESENSE_HOST}/collections/:collection</code></p>
 
-      <h4 id="export-documents">Export documents from a collection</h4>
+      <h4 id="export-collection">Export a collection</h4>
 
-      {% code_block export-documents %}
+      {% code_block export-collection %}
       ```ruby
         client.collections['companies'].documents.export
       ```
@@ -759,7 +753,7 @@ permalink: /0.10.1/api/
 
       <h5>Sample response</h5>
 
-      {% code_block export-documents-response %}
+      {% code_block export-collection-response %}
         ```ruby
           [
           "{\"id\": \"124\", \"company_name\": \"Stark Industries\", \"num_employees\": 5215, \
@@ -796,70 +790,6 @@ permalink: /0.10.1/api/
       <h5>Definition</h5>
 
       <p><code>GET ${TYPESENSE_HOST}/collections/:collection/documents/export</code></p>
-
-      <h4 id="import-documents">Import documents into a collection</h4>
-
-      <p>The documents to be imported must be formatted in a newline delimited JSON stucture.
-         You can feed the output file from a Typesense export operation directly as import.</p>
-
-      <p>Here's an example file:</p>
-
-      {% code_block import-documents-err-response %}
-      ```jsonl
-      {"name": "Stark Industries", "num_employees": 5215, "country": "USA"}
-      {"name": "Orbit Inc.", "num_employees": 256, "country": "UK"}
-      ```
-      {% endcode_block %}
-
-      <p>You can import the above <code>documents.jsonl</code> file like this.</p>
-
-      {% code_block import-documents %}
-      ```shell
-      curl -H "X-TYPESENSE-API-KEY: abcd" -X POST --data-binary @documents.jsonl
-      "http://localhost:8108/collections/companies/documents/import"
-      ```
-      {% endcode_block %}
-
-      <h5>Sample response</h5>
-
-      {% code_block import-documents-response %}
-      ```json
-          {
-            "items":[
-              { "success":true },
-              { "success":true },
-              { "success":true }
-            ],
-            "num_imported":3,
-            "success":true
-          }
-      ```
-      {% endcode_block %}
-
-      <p>The response will consist of an <code>items</code> array that indicates the result of each document present in the request
-      to be imported (in the same order). If the import of a single document fails, it does not affect the
-        remaining documents.</p>
-
-      <p>If there is a failure, the response item will include a corresponding error message. For example, the second
-      document had an import failure in the following response:</p>
-
-      {% code_block import-documents-err-response %}
-      ```json
-      {
-        "items":[
-          { "success":true },
-          { "success":false, "error": "Bad JSON." },
-          { "success":true }
-        ],
-        "num_imported":2,
-        "success":false
-      }
-      ```
-      {% endcode_block %}
-
-      <h5>Definition</h5>
-
-      <p><code>POST ${TYPESENSE_HOST}/collections/:collection/documents/import</code></p>
 
       <h4 id="list-collection">List all collections</h4>
 
@@ -965,15 +895,6 @@ permalink: /0.10.1/api/
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
 
-      <h3 id="whats-new">What's new in 0.10.1</h3>
-
-      <ul>
-        <li>You can control the maximum number of facet values returned in the search results
-        via the <code>max_facet_values</code> parameter of the search end-point.</li>
-        <li><strong>[Bug]</strong> Fix long queries causing highlighter to misbehave and sometimes crash.</li>
-        <li><strong>[Bug]</strong> Fix facet counts not showing up in wildcard searches.</li>
-      </ul>
-
       <h3 id="errors">API errors</h3>
 
       <p>Typesense API uses standard HTTP response codes to indicate the success or failure of a request.</p>
@@ -1018,11 +939,11 @@ permalink: /0.10.1/api/
           <td>Service Unavailable - We’re temporarily offline. Please try again later.</td>
         </tr>
       </table>
-  </div>
+    </div>
 
   <div class="col-md-1 row no-gutters"></div>
 
-  <div class="col-md-2 row no-gutters">
+    <div class="col-md-2 row no-gutters">
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
@@ -1036,14 +957,13 @@ permalink: /0.10.1/api/
             <a class="nav-link ml-3 my-1" href="#retrieve-document">Retrieve a document</a>
             <a class="nav-link ml-3 my-1" href="#delete-document">Delete a document</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-collection">Retrieve a collection</a>
-            <a class="nav-link ml-3 my-1" href="#export-documents">Export documents</a>
-            <a class="nav-link ml-3 my-1" href="#import-documents">Import documents</a>
+            <a class="nav-link ml-3 my-1" href="#export-collection">Export a collection</a>
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.10.1</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
-  </div>
+    </div>
+
 </div>

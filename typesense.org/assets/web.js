@@ -2,7 +2,12 @@ function onSelectVersion() {
     var version = $(this).val();
     var parts = window.location.href.split('/');
     var path = parts[parts.length - 2];
-    window.location.href = '/' + version + '/' + path;
+
+    if(window.location.href.indexOf('/premium/') == -1) {
+        window.location.href = '/' + version + '/' + path;
+    } else {
+        window.location.href = '/premium/' + version + '/' + path;
+    }
 }
 
 $(document).ready(function() {
