@@ -1018,11 +1018,11 @@ permalink: /0.10.1/api/
           <td>Service Unavailable - We’re temporarily offline. Please try again later.</td>
         </tr>
       </table>
-    </div>
+  </div>
 
   <div class="col-md-1 row no-gutters"></div>
 
-    <div class="col-md-2 row no-gutters">
+  <div class="col-md-2 row no-gutters">
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
@@ -1045,6 +1045,5 @@ permalink: /0.10.1/api/
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
-    </div>
-
+  </div>
 </div>

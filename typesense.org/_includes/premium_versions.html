@@ -1,0 +1,14 @@
+<div id="doc-version">
+    Version:
+    <select>
+        {% for version in site.premium_versions %}
+            {% assign path_parts = page.url | split: "/" %}
+            {% assign page_version = path_parts[1] %}
+            {% assign latest_str = "" %}
+            {% if version == site.versions[0] %}{% assign latest_str = " (latest)" %}{% endif %}
+            {% assign selected_str = "" %}
+            {% if version == page_version %}{% assign selected_str = " selected" %}{% endif %}
+            <option value="{{ version }}"{{ selected_str }}>{{ version }}{{ latest_str }}</option>
+        {% endfor %}
+    </select>
+</div>

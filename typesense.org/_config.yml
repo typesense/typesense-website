@@ -27,6 +27,9 @@ versions:
   - 0.9.1
   - 0.9.0
 
+premium_versions:
+  - 10.2
+
 # Build settings
 theme: minima
 markdown: kramdown
@@ -46,6 +49,13 @@ nav_pages:
   - api.html.md
   - premium.html.md
   - downloads.html.md
+
+defaults:
+  - scope:
+      path: "premium_docs/10.2"
+    values:
+      api_version: "10.2"
+      permalink: /premium/10.2/:basename/
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
