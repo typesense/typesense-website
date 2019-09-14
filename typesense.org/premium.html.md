@@ -44,6 +44,6 @@ permalink: /premium/
       <button class="btn btn-success btn-purchase">Purchase (990 USD / year)</button>
       <p id="money-back">We offer a 7-day, 100% money back guarantee.</p>
       <hr />
-      &raquo; <a href="#">Documentation</a>
+      &raquo; <a href="/premium/api">Documentation</a>
   </div>
 </div>
