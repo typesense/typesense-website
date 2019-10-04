@@ -17,8 +17,219 @@ nav_label: api
       <h3 id="aliases">Collection Alias</h3>
 
       <p>An alias is a virtual collection name that points to a real collection. If you're familiar with
-        symbolic links in Linux, it's very similar to that.</p>
+        symbolic links on Linux, it's very similar to that. </p>
 
+      <p>Aliases are useful when you want to reindex your
+        data in the background on a new collection and switch your application to it without any changes
+        to your code. Let's take an example.</p>
+
+      <p>Let's say we have a collection called <code>companies_june10</code> and an alias
+         called <code>companies</code> pointing to that collection.</p>
+
+      <p><code>collection ---> companies_june10</code></p>
+
+      <p>On the next day (June 11), we will create a new collection called <code>companies_june11</code>
+        and start indexing the documents in the background into this collection. When we are done indexing,
+        if we updated the <code>companies</code> alias to point to this new collection,
+        your application would immediately start querying against the freshly indexed collection.</p>
+
+      <p><code>collection ---> companies_june11</code></p>
+
+      <p>Convenient isn't it? Let's now look at how we can create, update and manage aliases.</p>
+
+      <hr />
+
+      <h4 id="create-update-alias">Create or Update an alias</h4>
+
+      {% code_block create-update-alias %}
+      ```ruby
+          aliased_collection = {
+            'collection_name' => 'companies_june11'
+          }
+
+          # Creates an alias called `companies` to the `companies_june11` collection
+          client.aliases.upsert('companies', aliased_collection)
+      ```
+
+      ```python
+          aliased_collection = {
+            'collection_name': 'companies_june11'
+          }
+
+          # Creates an alias called `companies` to the `companies_june11` collection
+          client.aliases.upsert('companies', aliased_collection)
+      ```
+
+      ```javascript
+        aliased_collection = {
+          'collection_name': 'companies_june11'
+        }
+
+        // Creates an alias called `companies` to the `companies_june11` collection
+        client.aliases.upsert('companies', aliased_collection)
+      ```
+
+      ```shell
+        curl "http://localhost:8108/aliases/companies" -X PUT
+            -H "Content-Type: application/json" \
+            -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+                "collection_name": "companies_june11"
+            }'
+        ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-alias-response %}
+      ```json
+      {
+        "collection_name": "companies_june11",
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>PUT ${TYPESENSE_HOST}/aliases/:alias</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>collection_name</td>
+          <td>yes</td>
+          <td>Name of the collection you wish to map the alias to.</td>
+        </tr>
+      </table>
+
+      <hr />
+
+      <h4 id="retrieve-alias">Retrieve an alias</h4>
+
+      <p>We can find out which collection an alias points to by fetching it.</p>
+
+      {% code_block retrieve-alias %}
+      ```ruby
+        client.aliases['companies'].retrieve
+      ```
+
+      ```python
+        client.aliases['companies'].retrieve()
+      ```
+
+      ```javascript
+        client.aliases('companies').retrieve()
+      ```
+
+      ```shell
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+            "http://localhost:8108/aliases/companies"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-alias-response %}
+      ```json
+        {
+          "collection_name": "companies_june11",
+        }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/aliases/:alias</code></p>
+
+      <hr />
+
+      <h4 id="list-aliases">List all aliases</h4>
+
+      <p>List all aliases and the corresponding collections that they map to.</p>
+
+      {% code_block list-aliases %}
+      ```ruby
+      client.aliases.retrieve
+      ```
+
+      ```python
+      client.aliases.retrieve()
+      ```
+
+      ```javascript
+      client.aliases().retrieve()
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+           "http://localhost:8108/aliases"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-alias-response %}
+      ```json
+      {
+        "aliases": [
+          {
+            "alias": "companies",
+            "collection_name": "companies_june11"
+          },
+          {
+            "alias": "employees",
+            "collection_name": "employees_june11"
+          }
+        ]
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/aliases</code></p>
+
+      <hr />
+
+      <h4 id="delete-alias">Delete an alias</h4>
+
+      {% code_block delete-alias %}
+      ```ruby
+        client.aliases['companies'].delete
+      ```
+
+      ```python
+        client.aliases['companies'].delete()
+      ```
+
+      ```javascript
+        client.aliases('companies').delete()
+      ```
+
+      ```shell
+      curl "http://localhost:8108/aliases/companies" -X DELETE
+          -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block delete-alias-response %}
+      ```json
+      {
+        "alias": "companies",
+        "collection_name": "companies_june11"
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
+      <hr />
+
+      <h3 id="curation">Curation</h3>
     </div>
 
     <div class="col-md-1 row no-gutters"></div>
@@ -29,13 +240,12 @@ nav_label: api
           <a class="nav-link" href="#introduction">Introduction</a>
           <a class="nav-link" href="#aliases">Collection Alias</a>
           <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#create-collection">Create an alias</a>
-            <a class="nav-link ml-3 my-1" href="#index-document">Update an alias</a>
-            <a class="nav-link ml-3 my-1" href="#index-document">Retrieve an alias</a>
-            <a class="nav-link ml-3 my-1" href="#index-document">List all aliases</a>
-            <a class="nav-link ml-3 my-1" href="#index-document">Delete an alias</a>
+            <a class="nav-link ml-3 my-1" href="#create-update-alias">Create or Update an alias</a>
+            <a class="nav-link ml-3 my-1" href="#retrieve-alias">Retrieve an alias</a>
+            <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
+            <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
           </nav>
-          <a class="nav-link" href="#aliases">Merchandising</a>
+          <a class="nav-link" href="#curation">Curation</a>
           <nav class="nav nav-pills flex-column">
             <a class="nav-link ml-3 my-1" href="#create-collection">Create an override</a>
             <a class="nav-link ml-3 my-1" href="#index-document">List all overrides</a>
