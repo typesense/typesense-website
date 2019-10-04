@@ -360,7 +360,7 @@ nav_label: api
         ```shell
         curl "http://localhost:8108/collections/companies/documents" -X POST \
                 -H "Content-Type: application/json" \
-                -H "X-TYPESENSE-API-KEY: abcd" \
+                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                 -d '{
                   "id": "124",
                   "company_name": "Stark Industries",
@@ -429,10 +429,10 @@ nav_label: api
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" \
-            "http://localhost:8108/collections/companies/documents/search\
-            ?q=stark&query_by=company_name&filter_by=num_employees:>100\
-            &sort_by=num_employees:desc"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        "http://localhost:8108/collections/companies/documents/search\
+        ?q=stark&query_by=company_name&filter_by=num_employees:>100\
+        &sort_by=num_employees:desc"
       ```
       {% endcode_block %}
 
@@ -533,12 +533,20 @@ nav_label: api
         <tr>
           <td>filter_by</td>
           <td>no</td>
-          <td><p>Filter conditions for refining your search results. Separate multiple conditions
-            with <code>&&</code> operator. Examples:</p>
-            <p><code>num_employees:10</code></p>
-            <p><code>num_employees:<=100 && country:[USA, UK]</code></p>
-            <p><code>country: USA</code></p>
+          <td><p>Filter conditions for refining your search results.</p>
+              <p>A field can be matched against one or more values.</p>
+              <p><code>country: USA</code> <br />
+                 <code>country: [USA, UK]</code>
+              </p>
 
+              <p>Separate multiple conditions with the <code>&&</code> operator.</p>
+              <p><code>num_employees:>100 && country: [USA, UK]</code></p>
+
+              <p>More examples:</p>
+
+              <p><code>num_employees:10</code> <br />
+                 <code>num_employees:<=10</code>
+              </p>
           </td>
         </tr>
         <tr>
@@ -628,7 +636,7 @@ nav_label: api
       ```
 
       ```shell
-        $ curl -H "X-TYPESENSE-API-KEY: abcd" -X GET \
+        $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
               "http://localhost:8108/collections/companies/documents/124"
       ```
       {% endcode_block %}
@@ -668,7 +676,7 @@ nav_label: api
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE \
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
             "http://localhost:8108/collections/companies/documents/124"
       ```
       {% endcode_block %}
@@ -708,7 +716,7 @@ nav_label: api
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
             "http://localhost:8108/collections/companies"
       ```
       {% endcode_block %}
@@ -751,7 +759,7 @@ nav_label: api
       
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
             "http://localhost:8108/collections/companies/documents/export"
       ```
       {% endcode_block %}
@@ -814,7 +822,7 @@ nav_label: api
 
       {% code_block import-documents %}
       ```shell
-      curl -H "X-TYPESENSE-API-KEY: abcd" -X POST --data-binary @documents.jsonl
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl
       "http://localhost:8108/collections/companies/documents/import"
       ```
       {% endcode_block %}
@@ -879,7 +887,7 @@ nav_label: api
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" "http://localhost:8108/collections"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections"
       ```
       {% endcode_block %}
 
@@ -937,7 +945,7 @@ nav_label: api
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE
             "http://localhost:8108/collections/companies"
       ```
 
