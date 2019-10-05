@@ -14,6 +14,267 @@ nav_label: api
         <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
         to contribute edits.</p>
 
+
+      <h3 id="curation">Curation</h3>
+
+      <p>While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might
+        want to promote certain documents over others. Or, you might want to exclude certain documents from a
+        query's result set.</p>
+
+      <p>Using overrides, you can include or exclude specific documents for a given query.</p>
+
+      <h4 id="create-update-override">Create or update an override</h4>
+
+      <p>In the following example, we are overriding the search results by placing the documents with ids <code>422</code>
+        and <code>54</code> in the first and second positions respectively via the <code>includes</code> condition.
+        Additionally, we're ensuring that the document with id <code>287</code> is not returned at all
+        via the <code>excludes</code> condition. You need to specify only one of <code>exclude</code> or
+        <code>include</code>.</p>
+
+      <p>Note how we are applying these overrides to an <code>exact</code> match of the query <code>apple</code>.
+        Instead, if we want to match all queries that contained the word <code>apple</code>, we will use
+        the <code>contains</code> match instead.</p>
+
+      {% code_block create-update-override %}
+      ```ruby
+      override = {
+      "rule" => {
+      "query" => "apple",
+      "match" => "exact"
+      },
+      "includes" => [
+      {"id" => "422", "position" => 1},
+      {"id" => "54", "position" => 2}
+      ],
+      "excludes" => [
+      {"id" => "287"}
+      ]
+      }
+
+      # Creates/updates an override called `customize-apple` in the `companies` collection
+      client.collections['companies'].overrides.upsert('customize-apple', override)
+      ```
+
+      ```python
+      override = {
+      "rule": {
+      "query": "apple",
+      "match": "exact"
+      },
+      "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+      ],
+      "excludes": [
+      {"id": "287"}
+      ]
+      }
+
+      # Creates/updates an override called `customize-apple` in the `companies` collection
+      client.collections['companies'].overrides.upsert('customize-apple', override)
+      ```
+
+      ```javascript
+      override = {
+      "rule": {
+      "query": "apple",
+      "match": "exact"
+      },
+      "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+      ],
+      "excludes": [
+      {"id": "287"}
+      ]
+      }
+
+      // Creates/updates an override called `customize-apple` in the `companies` collection
+      client.collections('companies').overrides().upsert('customize-apple', override)
+      ```
+
+      ```shell
+      curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X PUT \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+      "rule": {
+      "query": "apple",
+      "match": "exact"
+      },
+      "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+      ],
+      "excludes": [
+      {"id": "287"}
+      ]
+      }'
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-alias-response %}
+      ```json
+      {
+      "id": "customize-apple",
+      "excludes": [
+      {
+      "id": "287"
+      }
+      ],
+      "includes": [
+      {
+      "id": "422",
+      "position": 1
+      },
+      {
+      "id": "54",
+      "position": 2
+      }
+      ],
+      "rule": {
+      "match": "exact",
+      "query": "apple"
+      }
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>PUT ${TYPESENSE_HOST}/collections/:collection/overrides/:id</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>excludes</td>
+          <td>no</td>
+          <td>List of document <code>id</code>s that should be excluded from the search results.</td>
+        </tr>
+        <tr>
+          <td>includes</td>
+          <td>no</td>
+          <td>List of document <code>id</code>s that should be included in the search results with their
+            corresponding <code>position</code>s.</td>
+        </tr>
+        <tr>
+          <td>rule.query</td>
+          <td>yes</td>
+          <td>Indicates what search queries should be overridden.</td>
+        </tr>
+        <tr>
+          <td>rule.match</td>
+          <td>yes</td>
+          <td>Indicates whether the match on the query term should be <code>exact</code> or <code>contains</code>.</td>
+        </tr>
+      </table>
+
+      <hr />
+
+      <h4 id="list-overrides">List all overrides</h4>
+
+      <p>Listing all overrides associated with a given collection.</p>
+
+      {% code_block list-overrides %}
+      ```ruby
+      client.collections['companies'].overrides.retrieve
+      ```
+
+      ```python
+      client.collections['companies'].overrides.retrieve()
+      ```
+
+      ```javascript
+      client.collections('companies').overrides().retrieve
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      "http://localhost:8108/collections/companies/overrides"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-alias-response %}
+      ```json
+      {
+      "overrides": [
+      {
+      "id": "customize-apple",
+      "excludes": [
+      {
+      "id": "287"
+      }
+      ],
+      "includes": [
+      {
+      "id": "422",
+      "position": 1
+      },
+      {
+      "id": "54",
+      "position": 2
+      }
+      ],
+      "rule": {
+      "match": "exact",
+      "query": "apple"
+      }
+      }
+      ]
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/collections/:collection/overrides</code></p>
+
+      <hr />
+
+      <h4 id="delete-override">Delete an override</h4>
+
+      <p>Deleting an override associated with a collection.</p>
+
+      {% code_block delete-override %}
+      ```ruby
+      client.collections['companies'].overrides['customize-apple'].delete
+      ```
+
+      ```python
+      client.collections['companies'].overrides['customize-apple'].delete()
+      ```
+
+      ```javascript
+      client.collections('companies').overrides('customize-apple').delete()
+      ```
+
+      ```shell
+      curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X DELETE \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block delete-alias-response %}
+      ```json
+      {
+      "id": "customize-apple"
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/overrides/:id</code></p>
+      <hr />
+
       <h3 id="aliases">Collection Alias</h3>
 
       <p>An alias is a virtual collection name that points to a real collection. If you're familiar with
@@ -227,266 +488,6 @@ nav_label: api
 
       <h5>Definition</h5>
       <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
-      <hr />
-
-      <h3 id="curation">Curation</h3>
-
-      <p>While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might
-      want to promote certain documents over others. Or, you might want to exclude certain documents from a
-        query's result set.</p>
-
-      <p>Using overrides, you can include or exclude specific documents for a given query.</p>
-
-      <h4 id="create-update-override">Create or update an override</h4>
-
-      <p>In the following example, we are overriding the search results by placing the documents with ids <code>422</code>
-        and <code>54</code> in the first and second positions respectively via the <code>includes</code> condition.
-        Additionally, we're ensuring that the document with id <code>287</code> is not returned at all
-        via the <code>excludes</code> condition. You need to specify only one of <code>exclude</code> or
-        <code>include</code>.</p>
-
-      <p>Note how we are applying these overrides to an <code>exact</code> match of the query <code>apple</code>.
-      Instead, if we want to match all queries that contained the word <code>apple</code>, we will use
-      the <code>contains</code> match instead.</p>
-
-      {% code_block create-update-override %}
-      ```ruby
-        override = {
-          "rule" => {
-            "query" => "apple",
-            "match" => "exact"
-          },
-          "includes" => [
-            {"id" => "422", "position" => 1},
-            {"id" => "54", "position" => 2}
-          ],
-          "excludes" => [
-            {"id" => "287"}
-          ]
-        }
-
-        # Creates/updates an override called `customize-apple` in the `companies` collection
-        client.collections['companies'].overrides.upsert('customize-apple', override)
-      ```
-
-      ```python
-         override = {
-           "rule": {
-             "query": "apple",
-             "match": "exact"
-           },
-           "includes": [
-             {"id": "422", "position": 1},
-             {"id": "54", "position": 2}
-           ],
-            "excludes": [
-             {"id": "287"}
-           ]
-         }
-
-         # Creates/updates an override called `customize-apple` in the `companies` collection
-         client.collections['companies'].overrides.upsert('customize-apple', override)
-      ```
-
-      ```javascript
-         override = {
-           "rule": {
-             "query": "apple",
-             "match": "exact"
-            },
-           "includes": [
-             {"id": "422", "position": 1},
-             {"id": "54", "position": 2}
-           ],
-           "excludes": [
-            {"id": "287"}
-           ]
-         }
-
-         // Creates/updates an override called `customize-apple` in the `companies` collection
-         client.collections('companies').overrides().upsert('customize-apple', override)
-      ```
-
-      ```shell
-      curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X PUT \
-      -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-          "rule": {
-            "query": "apple",
-            "match": "exact"
-          },
-          "includes": [
-            {"id": "422", "position": 1},
-            {"id": "54", "position": 2}
-          ],
-          "excludes": [
-            {"id": "287"}
-          ]
-      }'
-      ```
-      {% endcode_block %}
-
-      <h5>Sample response</h5>
-
-      {% code_block get-alias-response %}
-      ```json
-      {
-        "id": "customize-apple",
-        "excludes": [
-          {
-            "id": "287"
-          }
-        ],
-        "includes": [
-          {
-            "id": "422",
-            "position": 1
-          },
-          {
-            "id": "54",
-            "position": 2
-          }
-        ],
-        "rule": {
-          "match": "exact",
-          "query": "apple"
-        }
-      }
-      ```
-      {% endcode_block %}
-
-      <h5>Definition</h5>
-      <p><code>PUT ${TYPESENSE_HOST}/collections/:collection/overrides/:id</code></p>
-
-      <h5>Arguments</h5>
-
-      <table class="table table-striped">
-        <tr>
-          <th>Parameter</th>
-          <th>Required</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>excludes</td>
-          <td>no</td>
-          <td>List of document <code>id</code>s that should be excluded from the search results.</td>
-        </tr>
-        <tr>
-          <td>includes</td>
-          <td>no</td>
-          <td>List of document <code>id</code>s that should be included in the search results with their
-            corresponding <code>position</code>s.</td>
-        </tr>
-        <tr>
-          <td>rule.query</td>
-          <td>yes</td>
-          <td>Indicates what search queries should be overridden.</td>
-        </tr>
-        <tr>
-          <td>rule.match</td>
-          <td>yes</td>
-          <td>Indicates whether the match on the query term should be <code>exact</code> or <code>contains</code>.</td>
-        </tr>
-      </table>
-
-      <hr />
-
-      <h4 id="list-overrides">List all overrides</h4>
-
-      <p>Listing all overrides associated with a given collection.</p>
-
-      {% code_block list-overrides %}
-      ```ruby
-        client.collections['companies'].overrides.retrieve
-      ```
-
-      ```python
-        client.collections['companies'].overrides.retrieve()
-      ```
-
-      ```javascript
-        client.collections('companies').overrides().retrieve
-      ```
-
-      ```shell
-      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-      "http://localhost:8108/collections/companies/overrides"
-      ```
-      {% endcode_block %}
-
-      <h5>Sample response</h5>
-
-      {% code_block get-alias-response %}
-      ```json
-        {
-          "overrides": [
-            {
-              "id": "customize-apple",
-              "excludes": [
-                {
-                  "id": "287"
-                }
-              ],
-              "includes": [
-                {
-                  "id": "422",
-                  "position": 1
-                },
-                {
-                  "id": "54",
-                  "position": 2
-                }
-              ],
-              "rule": {
-                "match": "exact",
-                "query": "apple"
-              }
-            }
-          ]
-        }
-      ```
-      {% endcode_block %}
-
-      <h5>Definition</h5>
-      <p><code>GET ${TYPESENSE_HOST}/collections/:collection/overrides</code></p>
-
-      <hr />
-
-      <h4 id="delete-override">Delete an override</h4>
-
-      <p>Deleting an override associated with a collection.</p>
-
-      {% code_block delete-override %}
-      ```ruby
-        client.collections['companies'].overrides['customize-apple'].delete
-      ```
-
-      ```python
-        client.collections['companies'].overrides['customize-apple'].delete()
-      ```
-
-      ```javascript
-        client.collections('companies').overrides('customize-apple').delete()
-      ```
-
-      ```shell
-        curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X DELETE \
-          -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-      ```
-      {% endcode_block %}
-
-      <h5>Sample response</h5>
-
-      {% code_block delete-alias-response %}
-      ```json
-        {
-          "id": "customize-apple"
-        }
-      ```
-      {% endcode_block %}
-
-      <h5>Definition</h5>
-      <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/overrides/:id</code></p>
 
     </div>
 
@@ -496,18 +497,20 @@ nav_label: api
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
+
+          <a class="nav-link" href="#curation">Curation</a>
+          <nav class="nav nav-pills flex-column">
+            <a class="nav-link ml-3 my-1" href="#create-update-override">Create/Update an override</a>
+            <a class="nav-link ml-3 my-1" href="#list-overrides">List all overrides</a>
+            <a class="nav-link ml-3 my-1" href="#delete-override">Delete an override</a>
+          </nav>
+
           <a class="nav-link" href="#aliases">Collection Alias</a>
           <nav class="nav nav-pills flex-column">
             <a class="nav-link ml-3 my-1" href="#create-update-alias">Create/Update an alias</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-alias">Retrieve an alias</a>
             <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
             <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
-          </nav>
-          <a class="nav-link" href="#curation">Curation</a>
-          <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#create-update-override">Create/Update an override</a>
-            <a class="nav-link ml-3 my-1" href="#list-overrides">List all overrides</a>
-            <a class="nav-link ml-3 my-1" href="#delete-override">Delete an override</a>
           </nav>
         </nav>
       </nav>
