@@ -10,7 +10,7 @@ permalink: /premium/
     <h3>Features</h3>
     <div class="feature-block">
         <img src="/assets/images/customize_icon.png" alt="Customize" />
-        <h5>Merchandising &amp; Customization</h5>
+        <h5>Curation &amp; Customization</h5>
         <p>Tailor your search results to perfection by promoting or filtering specific documents over others
         via query rules. <a href="#">Learn more.</a></p>
     </div>
