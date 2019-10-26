@@ -14,6 +14,23 @@ nav_label: api
         <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
         to contribute edits.</p>
 
+      <p><mark>This page only covers the additional features of the Premium version.
+        For other features, see our community edition's <a href="/guide">getting started guide</a>.</mark></p>
+
+      <h3 id="usage">Using the Premium version</h3>
+
+      <p>We have pre-built binaries available for Linux (X86_64) and Mac OS X from our
+        <a href="/premium/downloads">downloads page</a>. We also publish official Docker images for Typesense Premium on
+        <a href="https://hub.docker.com/r/typesense/typesense-premium/">Docker hub</a>.</p>
+
+      <p>When you start the server, pass the Typesense Premium license key via the <code>license-key</code> argument:</p>
+
+      {% code_block run-binary %}
+      ```shell
+      ./typesense-server --license-key=XSDUE-SSJUD-DJEUEN-EJDJD \
+          --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
+      ```
+      {% endcode_block %}
 
       <h3 id="curation">Curation</h3>
 
@@ -497,6 +514,8 @@ nav_label: api
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
+
+          <a class="nav-link" href="#usage">Usage</a>
 
           <a class="nav-link" href="#curation">Curation</a>
           <nav class="nav nav-pills flex-column">

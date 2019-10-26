@@ -47,6 +47,7 @@ permalink: /premium/
         <p id="money-back">We offer a 7-day, 100% money back guarantee.</p>
         <hr/>
         &raquo; <a href="/premium/api">Documentation</a> <br/>
+        &raquo; <a href="/premium/downloads">Downloads</a> <br/>
     </div>
 </div>
 

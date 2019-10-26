@@ -1,0 +1,23 @@
+---
+layout: page
+title: Download Typesense Premium
+nav_label: downloads
+permalink: /premium/downloads/
+---
+
+<div class="row no-gutters">
+  <div id="doc-col" class="col-md-8">
+    <p>Below are the available binaries for the latest version of Typesense Premium: <code>{{ site.premium_versions[0] }}</code></p>
+    <p>Please download the appropriate binary archive for your operating system and architecture.</p>
+    <dl id="release-downloads">
+      <dt>Linux</dt>
+      <dd><a href="https://dl.typesense.org/releases/typesense-server-{{ site.premium_versions[0] }}-linux-amd64.tar.gz">64-bit</a></dd>
+
+      <dt>Mac OS X</dt>
+      <dd><a href="https://dl.typesense.org/releases/typesense-server-{{ site.premium_versions[0] }}-darwin-amd64.tar.gz">64-bit</a></dd>
+
+      <dt>Docker</dt>
+      <dd><code>docker pull typesense/typesense-premium:{{ site.premium_versions[0] }}</code></dd>
+    </dl>
+  </div>
+</div>
