@@ -9,21 +9,24 @@ nav_label: api
       {% include premium_versions.html %}
 
       <h3 id="introduction">Introduction</h3>
-      <p>Welcome to the Typesense Premium API documentation. This page documents the additional
-         API end-points that are available on the Premium version. Please leave your feedback as issues on the
-        <a href="https://github.com/typesense/typesense-website/issues">GitHub repo</a> or send us a pull-request
-        to contribute edits.</p>
+      <p>Welcome to the Typesense Premium API documentation. This page will walk you through how to
+        download and start Typesense Premium, and well as the additional API end-points that are available on the
+        Premium version.</p>
 
       <p><mark>This page only covers the additional features of the Premium version.
         For other features, see our community edition's <a href="/guide">getting started guide</a>.</mark></p>
 
-      <h3 id="usage">Using the Premium version</h3>
+      <h3 id="usage">Usage</h3>
+
+      <h5>Downloading Typesense Premium</h5>
 
       <p>We have pre-built binaries available for Linux (X86_64) and Mac OS X from our
         <a href="/premium/downloads">downloads page</a>. We also publish official Docker images for Typesense Premium on
         <a href="https://hub.docker.com/r/typesense/typesense-premium/">Docker hub</a>.</p>
 
-      <p>When you start the server, pass the Typesense Premium license key via the <code>license-key</code> argument:</p>
+      <h5>Starting the server with the license key</h5>
+
+      <p>When you start the server, pass the license key via the <code>license-key</code> argument:</p>
 
       {% code_block run-binary %}
       ```shell
@@ -31,6 +34,8 @@ nav_label: api
           --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
       ```
       {% endcode_block %}
+
+      <p><b>NOTE: </b>The master and replica servers have different license keys.</p>
 
       <h3 id="curation">Curation</h3>
 
