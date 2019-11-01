@@ -9,7 +9,7 @@ layout: default
   {% if page.url contains '/premium' %}
     {% assign page_version = " - Premium v" | append: path_parts[2] %}
   {% else if path_parts_size == 4 and version_parts_size > 1 %}
-    {% assign page_version = " - v" | append: path_parts[1] %}
+    {% assign page_version = " - v" | append: path_parts[2] %}
   {% endif %}
 {% endif %}
 

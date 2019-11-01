@@ -1,13 +1,8 @@
 function onSelectVersion() {
     var version = $(this).val();
-    var parts = window.location.href.split('/');
-    var path = parts[parts.length - 2];
-
-    if(window.location.href.indexOf('/premium/') == -1) {
-        window.location.href = '/' + version + '/' + path;
-    } else {
-        window.location.href = '/premium/' + version + '/' + path;
-    }
+    var parts = window.location.pathname.split('/');
+    parts[2] = version;
+    window.location.href = parts.join('/');
 }
 
 $(document).ready(function() {
