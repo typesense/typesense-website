@@ -366,6 +366,7 @@ nav_label: api
       {% code_block get-alias-response %}
       ```json
       {
+        "name": "companies",
         "collection_name": "companies_june11",
       }
       ```
@@ -419,6 +420,7 @@ nav_label: api
       {% code_block get-alias-response %}
       ```json
         {
+          "name": "companies",
           "collection_name": "companies_june11",
         }
       ```
@@ -459,11 +461,11 @@ nav_label: api
       {
         "aliases": [
           {
-            "alias": "companies",
+            "name": "companies",
             "collection_name": "companies_june11"
           },
           {
-            "alias": "employees",
+            "name": "employees",
             "collection_name": "employees_june11"
           }
         ]
@@ -502,7 +504,7 @@ nav_label: api
       {% code_block delete-alias-response %}
       ```json
       {
-        "alias": "companies",
+        "name": "companies",
         "collection_name": "companies_june11"
       }
       ```
