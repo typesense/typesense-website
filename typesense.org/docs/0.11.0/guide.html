@@ -14,15 +14,44 @@ nav_label: guide
 
     <h3 id="install-typesense">Installing Typesense</h3>
 
-    <p>We have pre-built binaries available for Linux (X86_64) and Mac OS X from our
+    <p>You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Mac OS X on our
       <a href="/downloads">downloads page</a>.</p>
 
     <p>We also publish official Docker images for Typesense on
       <a href="https://hub.docker.com/r/typesense/typesense/">Docker hub</a>.</p>
 
+    <h5>DEB package on Ubuntu/Debian</h5>
+
+    {% code_block deb-install %}
+    ```shell
+      apt install ./typesense-server-<version>-amd64.deb
+    ```
+    {% endcode_block %}
+
+    <h5>RPM package on CentOS/RHEL</h5>
+
+    {% code_block rpm-install %}
+    ```shell
+      yum install ./typesense-server-<version>.x86_64.rpm
+      ```
+    {% endcode_block %}
+
     <h3 id="start-typesense">Starting the Typesense server</h3>
 
-    <p>You can start Typesense with minimal options like this:</p>
+    <h4>Installed via the package manager</h4>
+
+    <p>If you had installed Typesense from a DEB/RPM package, the Typesense server is automatically started as a systemd
+      service when installation is complete. You can check the status via:</p>
+
+    <p><code>systemctl status typesense-server</code></p>
+
+    <p>By default, Typesense will start on port <code>8108</code>, and the installation will generate a
+       random API key, which you can view/change from the configuration file at
+      <code>/etc/typesense/typesense.ini</code></p>
+
+    <h4>From the pre-built binary</h4>
+
+    <p>If you have downloaded the pre-built binary, you can start Typesense with minimal options like this:</p>
 
     {% code_block run-binary %}
     ```shell
@@ -137,8 +166,7 @@ nav_label: guide
     <p>As an alternative to command line arguments, you can also configure Typesense server through a
       configuration file or via environment variables.</p>
 
-    <p><strong>NOTE:</strong> Command line arguments are given the higest priority, while
-    environment variables are given the least priority.</p>
+    <p>Command line arguments are given the highest priority, while environment variables are given the least priority.</p>
 
     <p><strong>Using a configuration file</strong></p>
 
@@ -146,16 +174,17 @@ nav_label: guide
 
     {% code_block run-config-file %}
     ```shell
-    ./typesense-server --config=/etc/typesense.ini
+    ./typesense-server --config=/etc/typesense/typesense-server.ini
     ```
     {% endcode_block %}
 
-    <p>The configuration file uses a simple <a target="_blank" href="https://en.wikipedia.org/wiki/INI_file">INI format</a>
-      and here's how it can look like:</p>
+    <p>Our Linux DEB/RPM packages install the configuration file at <code>/etc/typesense/typesense-server.ini</code>.</p>
+
+    <p>The configuration file uses a simple <a target="_blank" href="https://en.wikipedia.org/wiki/INI_file">INI format</a>:</p>
 
     {% code_block run-config-file %}
     ```ini
-    ; Sample Typesense Configuration
+    ; /etc/typesense/typesense-server.ini
 
     [server]
 
@@ -169,7 +198,9 @@ nav_label: guide
 
     <p><strong>Using environment variables</strong></p>
 
-    <p>If you wish to use environment variables, you can do that too.</p>
+    <p>If you wish to use environment variables, you can do that too. The environment variables map to the command line
+      arguments documented above: just use CAPS and underscores instead of hyphens.
+      For example, use <code>DATA_DIR</code> for the <code>--data-dir</code> argument.</p>
 
     {% code_block run-config-file %}
     ```shell
