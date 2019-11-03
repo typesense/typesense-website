@@ -48,7 +48,7 @@ nav_pages:
   - index.html.md
   - guide.html
   - api.html
-  - premium.html.md
+#  - premium.html.md
   - downloads.html.md
 
 defaults:
