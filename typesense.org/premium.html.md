@@ -54,18 +54,18 @@ permalink: /premium/
 <script src="https://js.stripe.com/v3"></script>
 <script>
     (function () {
-        var mode = 'live';
-        // var mode = 'test';
+        // var mode = 'live';
+        var mode = 'test';
 
         var configs = {
             live: {
                 apiKey: 'pk_live_pzQPnHTRKFoYHxQnWS2UYZwl00gXQgwLHm',
-                planId: 'plan_FwBLNJ8AfjFBmT',
+                planId: 'plan_G77USJEQCnNmS4',
                 domain: 'https://typesense.org'
             },
             test: {
                 apiKey: 'pk_test_cp6nTePPYy58kSSHlWghWIym00FTp0mZLv',
-                planId: 'plan_FwBc8uWcBMiSNk',
+                planId: 'plan_G77ZS4miqz9CBa',
                 domain: 'http://127.0.0.1:4000'
             }
         };
