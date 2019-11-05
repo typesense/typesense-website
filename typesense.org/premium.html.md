@@ -12,14 +12,14 @@ permalink: /premium/
             <img src="/assets/images/customize_icon.png" alt="Customize"/>
             <h5>Curation &amp; Customization</h5>
             <p>Tailor your search results to perfection by promoting or filtering specific documents over others
-                via query rules. <a href="/premium/10.2/api/#curation">Learn more.</a></p>
+                via query rules. <a href="/premium/{{ site.premium_versions[0] }}/api/#curation">Learn more.</a></p>
         </div>
 
         <div class="feature-block">
             <img src="/assets/images/alias_icon.png" alt="Alias"/>
             <h5>Collection Alias</h5>
             <p>Reindex your documents in the background in a new collection and swap
-                to it instantly, without any changes to your code. <a href="/premium/10.2/api/#aliases">Learn more.</a>
+                to it instantly, without any changes to your code. <a href="/premium/{{ site.premium_versions[0] }}/api/#aliases">Learn more.</a>
             </p>
         </div>
 
