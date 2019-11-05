@@ -26,7 +26,13 @@ nav_label: api
 
       <h5>Starting the server with the license key</h5>
 
-      <p>When you start the server, pass the license key via the <code>license-key</code> argument:</p>
+      <p>If you had installed Typesense Premium via the DEB/RPM package, you can add the license key to
+        the configuration file at <code>/etc/typesense/typesense-server.ini</code> -- remember to restart
+        Typesense after that. You can verify that Typesense Premium has started fine by checking the log file
+        in the default logging directory (<code>/var/log/typesense</code>).</p>
+
+      <p>If you are starting the server from the binary, pass the license key via
+        the <code>license-key</code> argument:</p>
 
       {% code_block run-binary %}
       ```shell
