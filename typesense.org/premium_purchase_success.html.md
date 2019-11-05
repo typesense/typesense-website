@@ -2,7 +2,7 @@
 layout: page
 title: Typesense Premium
 nav_label: premium
-permalink: /premium/purchase-success
+permalink: /premium/purchase-success/
 ---
 
 <div class="row no-gutters">
