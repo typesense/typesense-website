@@ -54,8 +54,8 @@ permalink: /premium/
 <script src="https://js.stripe.com/v3"></script>
 <script>
     (function () {
-        // var mode = 'live';
-        var mode = 'test';
+        var mode = 'live';
+        // var mode = 'test';
 
         var configs = {
             live: {
