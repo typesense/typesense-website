@@ -42,7 +42,7 @@ permalink: /premium/
     <div class="col-md-1 row no-gutters"></div>
 
     <div class="col-md-2" id="premium-sidebar">
-        <button id="checkout-button" class="btn btn-success btn-purchase" role="link">Purchase (990 USD / year)</button>
+        <button id="checkout-button" class="btn btn-success btn-purchase" role="link">Purchase (500 USD / year)</button>
         <div id="error-message"></div>
         <p id="money-back">We offer a 7-day, 100% money back guarantee.</p>
         <hr/>
