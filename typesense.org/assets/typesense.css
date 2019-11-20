@@ -242,6 +242,31 @@ ul#goodreads-results {
     font-weight: normal;
 }
 
+/* premium page */
+.btn-purchase {
+    height: 3em;
+}
+
+.feature-block {
+    margin-bottom: 2em;
+}
+
+.feature-block img {
+    float: left;
+    margin-right: 1.5em;
+    width: 74px;
+    height: auto;
+}
+
+#premium-sidebar {
+    margin-top: 3em;
+}
+
+p#money-back {
+    font-size: 0.9em;
+    margin-top: 1em;
+}
+
 /* Demos */
 
 #movies-results, #movies-results li {

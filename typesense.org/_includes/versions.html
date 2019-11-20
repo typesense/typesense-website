@@ -3,7 +3,7 @@
     <select>
         {% for version in site.versions %}
             {% assign path_parts = page.url | split: "/" %}
-            {% assign page_version = path_parts[1] %}
+            {% assign page_version = path_parts[2] %}
             {% assign latest_str = "" %}
             {% if version == site.versions[0] %}{% assign latest_str = " (latest)" %}{% endif %}
             {% assign selected_str = "" %}

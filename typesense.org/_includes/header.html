@@ -15,8 +15,8 @@
     {% assign page_version = site.versions[0] %}
   {% endif %}
 
-  {% assign guide_path = "docs" | append: "/" | append: page_version | append: "/" | append: "guide.html.md" %}
-  {% assign api_path = "docs" | append: "/" | append: page_version | append: "/" | append: "api.html.md" %}
+  {% assign guide_path = "docs" | append: "/" | append: page_version | append: "/" | append: "guide.html" %}
+  {% assign api_path = "docs" | append: "/" | append: page_version | append: "/" | append: "api.html" %}
 
   {% if nav_paths %}
   <div class="collapse navbar-collapse" id="navbarSupportedContent">

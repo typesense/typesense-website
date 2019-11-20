@@ -21,11 +21,15 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org" # the base hostname & protocol for your site, e.g. http://example.com
 versions:
+  - 0.11.0
   - 0.10.1
   - 0.10.0
   - 0.9.2
   - 0.9.1
   - 0.9.0
+
+premium_versions:
+  - 10.2.0
 
 # Build settings
 theme: minima
@@ -42,9 +46,40 @@ plugins:
 
 nav_pages:
   - index.html.md
-  - guide.html.md
-  - api.html.md
+  - guide.html
+  - api.html
+  - premium.html.md
   - downloads.html.md
+
+defaults:
+  - scope:
+      path: "docs/0.9.0"
+    values:
+      permalink: "/docs/0.9.0/:basename/"
+  - scope:
+      path: "docs/0.9.1"
+    values:
+      permalink: "/docs/0.9.1/:basename/"
+  - scope:
+      path: "docs/0.9.2"
+    values:
+      permalink: "/docs/0.9.2/:basename/"
+  - scope:
+      path: "docs/0.10.0"
+    values:
+      permalink: "/docs/0.10.0/:basename/"
+  - scope:
+      path: "docs/0.10.1"
+    values:
+      permalink: "/docs/0.10.1/:basename/"
+  - scope:
+      path: "docs/0.11.0"
+    values:
+      permalink: "/docs/0.11.0/:basename/"
+  - scope:
+      path: "premium_docs/10.2.0"
+    values:
+      permalink: "/premium/10.2.0/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

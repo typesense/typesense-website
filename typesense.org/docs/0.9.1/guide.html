@@ -2,7 +2,6 @@
 layout: page
 title: Getting Started Guide
 nav_label: guide
-permalink: /0.9.0/guide/
 ---
 
 <div class="row no-gutters">
@@ -37,7 +36,7 @@ permalink: /0.9.0/guide/
     {% code_block run-docker %}
     ```shell
       mkdir /tmp/typesense-data
-      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.9.0 \
+      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.9.1 \
         --data-dir /data --api-key=$TYPESENSE_API_KEY
     ```
     {% endcode_block %}
@@ -119,10 +118,10 @@ permalink: /0.9.0/guide/
 
     <h3 id="upgrading">Upgrading from v0.8.0</h3>
 
-    <p>Typesense v0.9.0 changes the structure of the <code>highlight</code> field in the search JSON response.</p>
+    <p>Typesense v0.9.x changes the structure of the <code>highlight</code> field in the search JSON response.</p>
 
     <p>If you are <strong>not</strong> using the highlighted snippet, upgrading is as simple as stopping
-      Typesense v0.8.0, and starting Typesense v0.9.0 by pointing it to the same
+      Typesense v0.8.x, and starting Typesense v0.9.1 by pointing it to the same
       data directory (<code>--data-dir</code>). Otherwise, read on.</p>
 
     <p>When multiple <code>query_by</code> fields are used in a search, v0.8.0 returns the highlight of only the best
@@ -138,7 +137,7 @@ permalink: /0.9.0/guide/
 
     <p><strong>New structure</strong></p>
 
-    <p>In v0.9.0, Typesense returns the highlights of all matching <code>query_by</code> fields. Highlights of fields
+    <p>In v0.9.x, Typesense returns the highlights of all matching <code>query_by</code> fields. Highlights of fields
     that have a better match appear earlier in the array. For e.g. in the example below, <code>title</code>
     appears before <code>author</code> as it matches the query "jack ryan" fully, while <code>author</code>
     only has a 1-word match with the query.</p>
@@ -158,7 +157,7 @@ permalink: /0.9.0/guide/
     ```
     {% endcode_block %}
 
-    <p>In addition, Typesense v0.9.0 also supports highlighting of array fields, which was not supported in v0.8.0.</p>
+    <p>In addition, Typesense v0.9.x also supports highlighting of array fields, which was not supported in v0.8.0.</p>
 
     <h3 id="install-client">Installing a client</h3>
 

@@ -2,7 +2,6 @@
 layout: page
 title: API Documentation
 nav_label: api
-permalink: /0.10.0/api/
 ---
 
 <div class="row no-gutters">
@@ -361,7 +360,7 @@ permalink: /0.10.0/api/
         ```shell
         curl "http://localhost:8108/collections/companies/documents" -X POST \
                 -H "Content-Type: application/json" \
-                -H "X-TYPESENSE-API-KEY: abcd" \
+                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                 -d '{
                   "id": "124",
                   "company_name": "Stark Industries",
@@ -430,10 +429,10 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" \
-            "http://localhost:8108/collections/companies/documents/search\
-            ?q=stark&query_by=company_name&filter_by=num_employees:>100\
-            &sort_by=num_employees:desc"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        "http://localhost:8108/collections/companies/documents/search\
+        ?q=stark&query_by=company_name&filter_by=num_employees:>100\
+        &sort_by=num_employees:desc"
       ```
       {% endcode_block %}
 
@@ -534,12 +533,20 @@ permalink: /0.10.0/api/
         <tr>
           <td>filter_by</td>
           <td>no</td>
-          <td><p>Filter conditions for refining your search results. Separate multiple conditions
-            with <code>&&</code> operator. Examples:</p>
-            <p><code>num_employees:10</code></p>
-            <p><code>num_employees:<=100 && country:[USA, UK]</code></p>
-            <p><code>country: USA</code></p>
+          <td><p>Filter conditions for refining your search results.</p>
+              <p>A field can be matched against one or more values.</p>
+              <p><code>country: USA</code> <br />
+                 <code>country: [USA, UK]</code>
+              </p>
 
+              <p>Separate multiple conditions with the <code>&&</code> operator.</p>
+              <p><code>num_employees:>100 && country: [USA, UK]</code></p>
+
+              <p>More examples:</p>
+
+              <p><code>num_employees:10</code> <br />
+                 <code>num_employees:<=10</code>
+              </p>
           </td>
         </tr>
         <tr>
@@ -558,6 +565,11 @@ permalink: /0.10.0/api/
           <td>facet_by</td>
           <td>no</td>
           <td><p>A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.</p></td>
+        </tr>
+        <tr>
+          <td>max_facet_values</td>
+          <td>no</td>
+          <td><p>Maximum number of facet values to be returned.</p></td>
         </tr>
         <tr>
           <td>num_typos</td>
@@ -624,7 +636,7 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        $ curl -H "X-TYPESENSE-API-KEY: abcd" -X GET \
+        $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
               "http://localhost:8108/collections/companies/documents/124"
       ```
       {% endcode_block %}
@@ -664,7 +676,7 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE \
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
             "http://localhost:8108/collections/companies/documents/124"
       ```
       {% endcode_block %}
@@ -704,7 +716,7 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
             "http://localhost:8108/collections/companies"
       ```
       {% endcode_block %}
@@ -747,7 +759,7 @@ permalink: /0.10.0/api/
       
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X GET
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
             "http://localhost:8108/collections/companies/documents/export"
       ```
       {% endcode_block %}
@@ -810,7 +822,7 @@ permalink: /0.10.0/api/
 
       {% code_block import-documents %}
       ```shell
-      curl -H "X-TYPESENSE-API-KEY: abcd" -X POST --data-binary @documents.jsonl
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl
       "http://localhost:8108/collections/companies/documents/import"
       ```
       {% endcode_block %}
@@ -875,7 +887,7 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" "http://localhost:8108/collections"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections"
       ```
       {% endcode_block %}
 
@@ -933,7 +945,7 @@ permalink: /0.10.0/api/
       ```
 
       ```shell
-        curl -H "X-TYPESENSE-API-KEY: abcd" -X DELETE
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE
             "http://localhost:8108/collections/companies"
       ```
 
@@ -960,18 +972,13 @@ permalink: /0.10.0/api/
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
 
-      <h3 id="whats-new">What's new in 0.10.0</h3>
+      <h3 id="whats-new">What's new in 0.10.1</h3>
 
       <ul>
-        <li><strong>Importing documents:</strong> added a <code>/collections/:collection/documents/import</code>
-          endpoint to which you can POST documents for import.</li>
-        <li><strong>Load configuration from environment variables or config file:</strong> Arguments to the Typesense server
-          can now be passed via environment variables or through a configuration file.</li>
-        <li><strong>Faster collection initialization: </strong>Server initialization time has been significantly reduced for
-          large collections.</li>
-        <li><strong>[Bug] Filter on facet fields:</strong> When a facet field is filtered upon, search should be verbatim.</li>
-        <li><strong>[Bug] Improve memory and disk consistency:</strong> Fixed edge cases when in-memory index could
-        potentially go out of sync with on-disk storage (rarely).</li>
+        <li>You can control the maximum number of facet values returned in the search results
+        via the <code>max_facet_values</code> parameter of the search end-point.</li>
+        <li><strong>[Bug]</strong> Fix long queries causing highlighter to misbehave and sometimes crash.</li>
+        <li><strong>[Bug]</strong> Fix facet counts not showing up in wildcard searches.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -1018,11 +1025,11 @@ permalink: /0.10.0/api/
           <td>Service Unavailable - We’re temporarily offline. Please try again later.</td>
         </tr>
       </table>
-    </div>
+  </div>
 
   <div class="col-md-1 row no-gutters"></div>
 
-    <div class="col-md-2 row no-gutters">
+  <div class="col-md-2 row no-gutters">
       <nav id="navbar-docs" class="position-fixed navbar navbar-light">
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" href="#introduction">Introduction</a>
@@ -1041,10 +1048,9 @@ permalink: /0.10.0/api/
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.10.0</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.10.1</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
-    </div>
-
+  </div>
 </div>

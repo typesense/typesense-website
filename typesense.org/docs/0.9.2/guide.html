@@ -2,7 +2,6 @@
 layout: page
 title: Getting Started Guide
 nav_label: guide
-permalink: 0.8.0/guide/
 ---
 
 <div class="row no-gutters">
@@ -37,8 +36,17 @@ permalink: 0.8.0/guide/
     {% code_block run-docker %}
     ```shell
       mkdir /tmp/typesense-data
-      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.8.0 \
+      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.9.1 \
         --data-dir /data --api-key=$TYPESENSE_API_KEY
+    ```
+    {% endcode_block %}
+
+    <p>You can use the <code>/health</code> API end-point to verify that the server is ready to accept requests.</p>
+
+    {% code_block run-docker %}
+    ```shell
+      curl http://localhost:8108/health
+      {"ok":true}
     ```
     {% endcode_block %}
 
@@ -66,8 +74,9 @@ permalink: 0.8.0/guide/
         <td>search-only-api-key</td>
         <td>false</td>
         <td>
-          API key that allows only searches. Use this to define a separate key for making requests directly from
-          Javascript.
+          API key that allows only searches (i.e. restricted to the
+          <code>/collections/collection_name/documents/search</code> end-point). Use this to make search requests
+          directly from Javascript, without exposing your primary API key.
         </td>
       </tr>
       <tr>
@@ -115,7 +124,6 @@ permalink: 0.8.0/guide/
         </td>
       </tr>
     </table>
-
 
     <h3 id="install-client">Installing a client</h3>
 
@@ -417,9 +425,12 @@ permalink: 0.8.0/guide/
         "found": 62,
         "hits": [
           {
-            "highlight": {
-              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
-            },
+            "highlights": [
+              {
+                "field": "title",
+                "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+              }
+            ],
             "document": {
               "authors": [
                 "J.K. Rowling", "Mary GrandPré"
@@ -500,9 +511,12 @@ permalink: 0.8.0/guide/
         "found": 62,
         "hits": [
         {
-          "highlight": {
-            "title": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
-          },
+          "highlights": [
+            {
+              "field": "title",
+              "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Cursed Child..."
+            }
+          ],
           "document": {
             "authors": [
               "John Tiffany", "Jack Thorne", "J.K. Rowling"
@@ -585,8 +599,11 @@ permalink: 0.8.0/guide/
         "found": 24,
         "hits": [
           {
-            "highlight": {
-              "title": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+            "highlights": {
+              "title": {
+                "field": "title",
+                "snippet": "<mark>Harry</mark> <mark>Potter</mark> and the Philosopher's Stone"
+              }
             },
             "document": {
               "authors": [
