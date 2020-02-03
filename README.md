@@ -19,4 +19,4 @@ To create a Jekyll build:
 $ sh build.sh
 ```
 
-&copy; 2016-2018 Typesense Inc.
+&copy; 2016-2020 Typesense Inc.
