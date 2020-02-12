@@ -734,7 +734,7 @@ nav_label: guide
 
     ```python
       search_parameters = {
-        'q'         : 'harry',
+        'q'         : 'experyment',
         'query_by'  : 'title',
         'facet_by' : 'authors_facet',
         'sort_by'   : 'average_rating:desc'
@@ -745,7 +745,7 @@ nav_label: guide
 
     ```javascript
       let searchParameters = {
-        'q'         : 'harry',
+        'q'         : 'experyment',
         'query_by'  : 'title',
         'facet_by' : 'authors_facet',
         'sort_by'   : 'average_rating:desc'
@@ -762,7 +762,7 @@ nav_label: guide
     ```shell
       curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
       "$TYPESENSE_MASTER/collections/books/documents/search\
-      ?q=harry+potter&query_by=title&sort_by=average_rating:desc\
+      ?q=experyment&query_by=title&sort_by=average_rating:desc\
       &facet_by=authors_facet"
     ```
     {% endcode_block %}
