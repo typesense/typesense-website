@@ -26,7 +26,7 @@ permalink: /premium/downloads/
         </div>
       </div>
 
-      <dt>Mac OS X</dt> <br />
+      <dt>macOS</dt> <br />
 
       <dd><a href="https://dl.typesense.org/releases/typesense-server-{{ site.premium_versions[0] }}-darwin-amd64.tar.gz">64-bit</a></dd>
 

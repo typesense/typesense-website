@@ -26,7 +26,7 @@ permalink: /downloads/
         </div>
       </div>
 
-      <dt>Mac OS X</dt><br />
+      <dt>macOS</dt><br />
 
       <dd>
         <a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz">Binary</a>
