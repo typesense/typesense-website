@@ -98,7 +98,7 @@ nav_label: api
          */
         let client = new Typesense.Client({
           'masterNode': {
-            'host': 'master',
+            'host': 'localhost',
             'port': '8108',
             'protocol': 'http',
             'apiKey': '<API_KEY>'
@@ -928,7 +928,7 @@ nav_label: api
 
       <h4 id="drop-collection">Drop a collection</h4>
 
-      <p>Permanently drops a collection. This action cannot be done. For large collections, this might have an impact on read
+      <p>Permanently drops a collection. This action cannot be undone. For large collections, this might have an impact on read
         latencies.</p>
 
       {% code_block drop-collection %}
