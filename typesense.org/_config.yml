@@ -53,6 +53,7 @@ nav_pages:
   - api.html
   - premium.html.md
   - downloads.html.md
+  - contact.html.md
 
 defaults:
   - scope:
@@ -91,6 +92,10 @@ defaults:
       path: "premium_docs/10.2.0"
     values:
       permalink: "/premium/10.2.0/:basename/"
+  - scope:
+      path: "premium_docs/10.3.0"
+    values:
+      permalink: "/premium/10.3.0/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
