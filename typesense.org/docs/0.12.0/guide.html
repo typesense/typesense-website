@@ -60,7 +60,9 @@ nav_label: guide
     ```
     {% endcode_block %}
 
-    <p>On Docker, you can run Typesense like this:</p>
+    <h4>From the docker image</h4>
+
+    <p>If you want to use Docker, you can run Typesense like this:</p>
 
     {% code_block run-docker %}
     ```shell
@@ -88,17 +90,19 @@ nav_label: guide
         <th>Description</th>
       </tr>
       <tr>
+        <td>config</td>
+        <td>false</td>
+        <td>
+          Path to the configuration file. If you use this argument, you can define
+          all of the other command line arguments in a configuration file. See the "Configuring Typesense" section
+          for more details.
+        </td>
+      </tr>
+      <tr>
         <td>api-key</td>
         <td>true</td>
         <td>
           API key that allows all operations.
-        </td>
-      </tr>
-      <tr>
-        <td>config</td>
-        <td>false</td>
-        <td>
-          Path to the configuration file (see configuring section below).
         </td>
       </tr>
       <tr>
@@ -107,33 +111,43 @@ nav_label: guide
         <td>Path to the directory where data will be stored on disk.</td>
       </tr>
       <tr>
-        <td>listen-address</td>
+        <td>api-address</td>
         <td>false</td>
         <td>
-          Address to which Typesense server binds. Default: <code>0.0.0.0</code>
+          Address to which Typesense API service binds. Default: <code>0.0.0.0</code>
         </td>
       </tr>
       <tr>
-        <td>listen-port</td>
+        <td>api-port</td>
         <td>false</td>
         <td>
-          Port on which Typesense server listens.. Default: <code>8108</code>
+          Port on which Typesense API service listens. Default: <code>8108</code>
         </td>
       </tr>
       <tr>
-        <td>log-dir</td>
+        <td>peering-address</td>
         <td>false</td>
         <td>
-          By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a
-          logging directory.
+          Internal IP address to which Typesense peering service binds. If this parameter is not specified,
+          Typesense will attempt to use the first available internal IP.
         </td>
       </tr>
       <tr>
-        <td>master</td>
+        <td>peering-port</td>
         <td>false</td>
         <td>
-          Starts the server as a read-only replica by defining the master Typesense server's address in <br />
-          <code>http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code> format.
+          Port on which Typesense peering service listens. Default: <code>8107</code>
+        </td>
+      </tr>
+      <tr>
+        <td>peers</td>
+        <td>false</td>
+        <td>
+          <p><em>Path to file</em> containing comma separated string of all nodes in the cluster.
+            Each node definition should be in the following format:<br /><br />
+          <code>&lt;ip_address&gt;:&lt;peering_port&gt;:&lt;api_port&gt;</code></p>
+          <p>Example content of a <code>--peers</code> file for a 3-node cluster:</p>
+          <p><code>192.168.12.1:8107:8108,192.168.12.2:8107:8108,192.168.12.3:8107:8108</code></p>
         </td>
       </tr>
       <tr>
@@ -143,6 +157,14 @@ nav_label: guide
           API key that allows only searches (i.e. restricted to the
           <code>/collections/collection_name/documents/search</code> end-point). Use this to make search requests
           directly from Javascript, without exposing your primary API key.
+        </td>
+      </tr>
+      <tr>
+        <td>log-dir</td>
+        <td>false</td>
+        <td>
+          By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a
+          logging directory.
         </td>
       </tr>
       <tr>
@@ -206,12 +228,14 @@ nav_label: guide
     <p><strong>Using environment variables</strong></p>
 
     <p>If you wish to use environment variables, you can do that too. The environment variables map to the command line
-      arguments documented above: just use CAPS and underscores instead of hyphens.
-      For example, use <code>DATA_DIR</code> for the <code>--data-dir</code> argument.</p>
+      arguments documented above: just use CAPS and underscores instead of hyphens, and prefix the variable names
+      with <code>TYPESENSE_</code>.</p>
+
+    <p>For example, use <code>TYPESENSE_DATA_DIR</code> for the <code>--data-dir</code> argument.</p>
 
     {% code_block run-config-file %}
     ```shell
-    DATA_DIR=/tmp/ts API_KEY=AS3das2awQ2 ./typesense-server
+    TYPESENSE_DATA_DIR=/tmp/ts TYPESENSE_API_KEY=AS3das2awQ2 ./typesense-server
     ```
     {% endcode_block %}
 
@@ -242,6 +266,9 @@ nav_label: guide
 
     <h3 id="example-application">Example application</h3>
 
+      <p><mark><strong>NOTE:</strong> We will be using a single node in this example, but Typesense can also run in a clustered mode.
+        See the <a href="#high-availability">high availability</a> section for more details.</mark></p>
+
     <p>At this point, we are all set to start using Typesense. We will create a Typesense collection, index
       some documents in it and try searching for them.</p>
 
@@ -259,12 +286,12 @@ nav_label: guide
       require 'typesense'
 
       client = Typesense::Client.new(
-        master_node: {
+        nodes: [{
           host:     'localhost',
           port:     8108,
-          protocol: 'http',
-          api_key:  '<API_KEY>'
-        },
+          protocol: 'http'
+        }],
+        api_key:  '<API_KEY>',
         timeout_seconds: 2
       )
     ```
@@ -272,12 +299,12 @@ nav_label: guide
       import typesense
 
       client = typesense.Client({
-        'master_node': {
+        'nodes': [{
           'host': 'localhost',
           'port': '8108',
-          'protocol': 'http',
-          'api_key': '<API_KEY>'
-        },
+          'protocol': 'http'
+        }],
+        'api_key': '<API_KEY>',
         'timeout_seconds': 2
       })
     ```
@@ -289,12 +316,12 @@ nav_label: guide
      *  has write access to Typesense and you don't want to expose that.
      */
     let client = new Typesense.Client({
-      'masterNode': {
+      'nodes': [{
         'host': 'localhost',
         'port': '8108',
-        'protocol': 'http',
-        'apiKey': '<API_KEY>'
-      },
+        'protocol': 'http'
+      }],
+      'apiKey': '<API_KEY>',
       'timeoutSeconds': 2
     })
     ```
@@ -333,7 +360,7 @@ nav_label: guide
         'default_sorting_field' => 'ratings_count'
       }
 
-      client.collections.create(schema)
+      client.collections.create(books_schema)
     ```
 
     ```python
@@ -356,7 +383,7 @@ nav_label: guide
         'default_sorting_field': 'ratings_count'
       }
 
-      client.collections.create(schema)
+      client.collections.create(books_schema)
     ```
     ```javascript
       let booksSchema = {
@@ -629,6 +656,8 @@ nav_label: guide
       ```
     {% endcode_block %}
 
+    <h4>Filtering results</h4>
+
     <p>Now, let's tweak our query to only fetch books that are published before the year <code>1998</code>.
        To do that, we just have to add a <code>filter_by</code> clause to our query:
     </p>
@@ -717,8 +746,11 @@ nav_label: guide
       ```
     {% endcode_block %}
 
-    <p>Finally, let's see how Typesense handles typographic errors. Let's search for <code>experyment</code> - noticed the
-    typo there? We will also facet the search results by the authors field to see how that works.</p>
+    <h4>Faceting</h4>
+
+    <p>Let's facet the search results by the authors field to see how that works.
+      Let's also use this example to see how Typesense handles typographic errors.
+      Let's search for <code>experyment</code> (notice the typo!). </p>
 
     {% code_block search-collection-4 %}
     ```ruby
@@ -827,7 +859,7 @@ nav_label: guide
       ```
     {% endcode_block %}
 
-    <p>We've come to the end of our little example. For a detailed dive into Typesense,
+    <p>We've come to the end of our little walk-through. For a detailed dive into Typesense,
       refer to our <a href="/api">API documentation</a>.</p>
 
     <h3 id="ranking-relevance">Ranking and relevance</h3>
@@ -836,35 +868,45 @@ nav_label: guide
 
     <p>
       <ol>
-        <li>String similarity.</li>
-        <li>User-defined <code>sort_by</code> numerical fields.</li>
+        <li>Text match score.</li>
+        <li>User-defined <code>sort_by</code> field values.</li>
       </ol>
     </p>
 
-    <p>Typesense computes a string similarity score based on how much a search query overlaps with the
-      fields of a given document. Typographic errors are also taken into account here. Let's see how.</p>
+    <h5>How text match score is calculated</h5>
 
-    <p>When there is a typo in the query, or during prefix search, multiple tokens could match a given token in the query.
-    For e.g. both “john” and “joan” are 1-typo away from “jofn”. Similarly, in the case of a prefix search,
-    both “apple” and “apply” would match “app”. In such scenarios, Typesense would use the value of the
-    <code>default_sorting_field</code> field to decide whether documents containing "john" or "joan" should be ranked first.
+    <p>Typesense computes a text match score based on the following metrics:</p>
+
+    <p>
+      <ol>
+          <li><strong>Frequency:</strong> Number of tokens overlapping between the search query and the text field.
+          Documents that have more overlapping tokens will be ranked above those with lesser overlapping tokens.</li>
+          <li><strong>Edit distance:</strong> If a given token in the query is not found, we look at tokens
+            that are within an edit distance of <code>num_typos</code> characters from the query tokens. Documents
+            that contain the tokens in the query exactly are ranked higher than those containing tokens with
+            larger edit distances.</li>
+          <li><strong>Proximity:</strong> Whether the query tokens appear verbatim or interspersed with other tokens
+            in the field. Documents in which the query tokens appear right next to each other will be ranked
+            above documents where the query tokens exist but are far apart in a text field.</li>
+      </ol>
     </p>
 
-    <p>When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie.
+    <p>Based on the above 3 metrics, Typesense calculates a <code>_match_score</code> for ranking the documents. When
+      multiple documents share the same text match score, user-defined numerical fields are used to break the tie.
       You can specify upto two such numerical fields.</p>
 
     <p>For example, let's say that we're searching for books with a query like <code>short story</code>.
       If there are multiple books containing these exact words, then all those documents would have the same
-      string similarity score.</p>
+      text match score.</p>
 
     <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say,
       <code>sort_by=average_rating:DESC,publication_year:DESC</code>. This would sort the results in the following manner:</p>
 
     <p>
       <ol>
-        <li>All matching records are sorted by string similarity score.</li>
-        <li>If any two records share the same string similarity score, sort them by their average rating.</li>
-        <li>If there is still a tie, sort the records by year of publication.</li>
+        <li>All matching records are sorted by their average rating.</li>
+        <li>If any two records share the same average rating, sort them by their year of publication.</li>
+        <li>If there is still a tie, Typesense will automatically sort the records on text match score.</li>
       </ol>
     </p>
 
