@@ -38,6 +38,9 @@ nav_label: guide
 
     <h3 id="start-typesense">Starting the Typesense server</h3>
 
+    <p><mark><strong>NOTE:</strong> We are starting a single node here, but Typesense can also run in a clustered mode.
+        See the <a href="#high-availability">high availability</a> section for more details.</mark></p>
+
     <h4>Installed via the package manager</h4>
 
     <p>If you had installed Typesense from a DEB/RPM package, the Typesense server is automatically started as a systemd
@@ -266,7 +269,7 @@ nav_label: guide
 
     <h3 id="example-application">Example application</h3>
 
-      <p><mark><strong>NOTE:</strong> We will be using a single node in this example, but Typesense can also run in a clustered mode.
+    <p><mark><strong>NOTE:</strong> We will be using a single node in this example, but Typesense can also run in a clustered mode.
         See the <a href="#high-availability">high availability</a> section for more details.</mark></p>
 
     <p>At this point, we are all set to start using Typesense. We will create a Typesense collection, index
@@ -912,51 +915,67 @@ nav_label: guide
 
     <h3 id="high-availability">High Availability</h3>
 
-    <p>You can run one or more Typesense servers as read-only replicas that asynchronously pull data from a master
-      Typesense server. This way, if your primary Typesense server fails, search requests can be sent to the
-      replicas.
+    <p>You can run a cluster of Typesense nodes for high availability. Typesense uses the Raft consensus algorithm to
+      manage the cluster and recover from node failures.
     </p>
 
-    <p><strong>Server configuration</strong></p>
+    <p>Since Raft requires a quorum of nodes for consensus, <em>you need to run a <strong>minimum of 3 nodes</strong> to
+      tolerate a 1-node failure.</em> Running a 5-node cluster will tolerate failures of upto 2 nodes, but at the
+      expense of higher write latencies.</p>
 
-    <p>To start Typesense as a read-only replica, pass the master Typesense server's address via
-      the <code>--master</code> argument: </p>
+    <p>Therefore, we recommend running a 3-node Typesense cluster.</p>
 
-    <p><code>--master=http(s)://&lt;master_address&gt;:&lt;master_port&gt;</code></p>
+    <p><strong>Configuring a Typesense cluster</strong></p>
 
-    <p><strong>NOTE:</strong> The master Typesense server maintains a replication log for 24 hours. If you are pointing the
-      replica to a master instance that has been running for longer than 24 hours, you need to first stop the master, take
-      a copy of the data directory and then then start the replica server by pointing to this backup data directory.</p>
+    <p>To start a Typesense node as part of a cluster, use the <code>--peers</code> argument to point to a file
+      that contains a comma separated string of all nodes in the cluster.</p>
+
+    <p>Each node definition should be in the following format:<br /><br />
+    <code>&lt;ip_address&gt;:&lt;peering_port&gt;:&lt;api_port&gt;</code></p>
+
+    <p>Example content of a <code>--peers</code> file for a 3-node cluster:</p>
+
+    {% code_block sample-peers-file %}
+    ```config
+    192.168.12.1:8107:8108,192.168.12.2:8107:8108,192.168.12.3:8107:8108
+    ```
+    {% endcode_block %}
+
+    <p>In the example above, the peering port (i.e. the port used for cluster operations) is <code>8107</code>
+    and the API port (the actual port to which clients connect to) is <code>8108</code>.</p>
 
     <p><strong>Client configuration</strong></p>
 
-    <p>Typesense clients would allow you to configure one or more replica nodes during client initialization.</p>
+    <p>Typesense clients allow you to specify one or more nodes during client initialization.</p>
 
-    <p>Client libraries will send all writes to the master. Reads will first be sent to the master and if the server
-      returns a <code>500</code> status code or if the connection times out, the reads will be sent in a round-robin
-      fashion to the read replicas configured.</p>
+    <p>Client libraries will load balance reads and writes across all nodes and will automatically strive to recover
+       from transient failures through built-in retries.</p>
+
+    <p>Here's a sample 3-node client configuration:</p>
 
     {% code_block authenticate %}
       ```ruby
         require 'typesense'
 
         client = Typesense::Client.new(
-          master_node: {
-            host:     'localhost',
-            port:     8108,
-            protocol: 'http',
-            api_key:  '<API_KEY>'
-          },
-
-          read_replica_nodes: [
+          nodes: [
             {
-              host:     'read_replica_1',
-              port:     8108,
-              protocol: 'http',
-              api_key:  '<API_KEY>'
+              host:     '192.168.0.50',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.51',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.52',
+              port:     443,
+              protocol: 'https'
             }
           ],
-
+          api_key:  '<API_KEY>',
           timeout_seconds: 2
         )
       ```
@@ -965,36 +984,48 @@ nav_label: guide
         import typesense
 
         client = typesense.Client({
-          'master_node': {
-            'host': 'localhost',
-            'port': '8108',
-            'protocol': 'http',
-            'api_key': '<API_KEY>'
-          },
-          'read_replica_nodes': [{
-            'host': 'read_replica_1',
-            'port': '8108',
-            'protocol': 'http',
-            'api_key': '<API_KEY>'
-          }],
+          'nodes': [
+            {
+              host:     '192.168.0.50',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.51',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.52',
+              port:     443,
+              protocol: 'https'
+            }
+          ],
+          'api_key': '<API_KEY>',
           'timeout_seconds': 2
         })
       ```
 
       ```javascript
         let client = new Typesense.Client({
-          'masterNode': {
-            'host': 'master',
-            'port': '8108',
-            'protocol': 'http',
-            'apiKey': '<API_KEY>'
-          },
-          'readReplicaNodes': [{
-            'host': 'read_replica_1',
-            'port': '8108',
-            'protocol': 'http',
-            'apiKey': '<API_KEY>'
-          }],
+          'nodes': [
+            {
+              host:     '192.168.0.50',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.51',
+              port:     443,
+              protocol: 'https'
+            },
+            {
+              host:     '192.168.0.52',
+              port:     443,
+              protocol: 'https'
+            }
+          ],
+          'apiKey': '<API_KEY>',
           'timeoutSeconds': 2
         })
       ```
