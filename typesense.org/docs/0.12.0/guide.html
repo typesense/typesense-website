@@ -867,51 +867,68 @@ nav_label: guide
 
     <h3 id="ranking-relevance">Ranking and relevance</h3>
 
-    <p>Typesense ranks search results using a simple tie-breaking algorithm that relies on two components:</p>
+    <p>Typesense ranks search results using a simple tie-breaking sorting algorithm that can rely on one or more of:</p>
 
-    <p>
-      <ol>
-        <li>Text match score.</li>
-        <li>User-defined <code>sort_by</code> field values.</li>
-      </ol>
-    </p>
+    <ol>
+      <li>Text match score, exposed as a special <code>_text_match</code> field.</li>
+      <li>User-defined indexed numerical fields.</li>
+    </ol>
 
-    <h5>How text match score is calculated</h5>
+    <h5>Text match score</h5>
 
-    <p>Typesense computes a text match score based on the following metrics:</p>
+    <p>The text match score is computed based on the following metrics:</p>
 
-    <p>
-      <ol>
-          <li><strong>Frequency:</strong> Number of tokens overlapping between the search query and the text field.
-          Documents that have more overlapping tokens will be ranked above those with lesser overlapping tokens.</li>
-          <li><strong>Edit distance:</strong> If a given token in the query is not found, we look at tokens
-            that are within an edit distance of <code>num_typos</code> characters from the query tokens. Documents
-            that contain the tokens in the query exactly are ranked higher than those containing tokens with
-            larger edit distances.</li>
-          <li><strong>Proximity:</strong> Whether the query tokens appear verbatim or interspersed with other tokens
-            in the field. Documents in which the query tokens appear right next to each other will be ranked
-            above documents where the query tokens exist but are far apart in a text field.</li>
-      </ol>
-    </p>
+    <ol>
+        <li><strong>Frequency:</strong> Number of tokens overlapping between the search query and a text field.
+        Documents that have more overlapping tokens will be ranked above those with lesser overlapping tokens.</li>
+        <li><strong>Edit distance:</strong> If a given token in the query is not found, we look at tokens
+          that are within an edit distance of <code>num_typos</code> characters from the query tokens. Documents
+          that contain the tokens in the query exactly are ranked higher than those containing tokens with
+          larger edit distances.</li>
+        <li><strong>Proximity:</strong> Whether the query tokens appear verbatim or interspersed with other tokens
+          in the field. Documents in which the query tokens appear right next to each other will be ranked
+          above documents where the query tokens exist but are far apart in a text field.</li>
+        <li><strong>Ordering of <code>query_by</code> fields:</strong> A document that matches on a field earlier in the
+          list of <code>query_by</code> fields is considered more relevant than a document matched on a field later
+          in the list. </li>
+    </ol>
 
-    <p>Based on the above 3 metrics, Typesense calculates a <code>_match_score</code> for ranking the documents. When
-      multiple documents share the same text match score, user-defined numerical fields are used to break the tie.
-      You can specify upto two such numerical fields.</p>
+    <p>Based on the above metrics, Typesense calculates a <code>_text_match</code> score for ranking the documents on
+      text relevance.</p>
+
+    <p>However, there will be cases when many documents contain the <em>exact tokens</em> in a search query. In such a case,
+      their <code>_text_match</code> will also be the same. That's when user-defined indexed numerical fields can be
+      used to break the tie. You can specify upto two such numerical fields.</p>
 
     <p>For example, let's say that we're searching for books with a query like <code>short story</code>.
       If there are multiple books containing these exact words, then all those documents would have the same
       text match score.</p>
 
-    <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say,
-      <code>sort_by=average_rating:DESC,publication_year:DESC</code>. This would sort the results in the following manner:</p>
+    <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say:</p>
 
-    <p>
-      <ol>
-        <li>All matching records are sorted by their average rating.</li>
-        <li>If any two records share the same average rating, sort them by their year of publication.</li>
-        <li>If there is still a tie, Typesense will automatically sort the records on text match score.</li>
-      </ol>
-    </p>
+    <p><code>sort_by=_text_match:desc,average_rating:desc,publication_year:desc</code></p>
+
+    <p>This would sort the results in the following manner:</p>
+
+    <ol>
+      <li>All matching records are sorted by their text match score.</li>
+      <li>If any two document share the same text match score, sort them by average rating.</li>
+      <li>If there is still a tie, sort them by their year of publication.</li>
+    </ol>
+
+    <h5>Default ranking order</h5>
+
+    <p>When you don't provide a <code>sort_by</code> parameter to your search request, the documents will be ranked
+      on the text match score and default sorting field values: </p>
+
+    <p><code>sort_by=_match_score:desc,default_sorting_field:desc</code></p>
+
+    <h5>Strict ordering of results on a numerical field</h5>
+
+    <p>If you wish to sort the documents strictly by an indexed numerical field like <code>price</code>, you can just move
+      the text match score criteria <em>after</em> the <code>price</code> field as follows:</p>
+
+    <p><code>sort_by=price:desc,_text_match:desc</code></p>
 
     <h3 id="high-availability">High Availability</h3>
 
