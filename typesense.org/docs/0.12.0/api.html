@@ -612,7 +612,23 @@ nav_label: api
           <td>exclude_fields</td>
           <td>no</td>
           <td><p>Comma-separated list of fields from the document to exclude in the search result.</p></td>
-        </tr>        
+        </tr>
+        <tr>
+          <td>highlight_full_fields</td>
+          <td>no</td>
+          <td>
+            <p>Comma separated list of fields which should be highlighted fully without snippeting.</p>
+            <p>Default: all fields will be snippeted.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>snippet_threshold</td>
+          <td>no</td>
+          <td><p>Field values under this length will be fully highlighted, instead of showing a snippet of
+              relevant portion.</p>
+              <p>Default: <code>30</code></p>
+          </td>
+        </tr>
         <tr>
           <td>drop_tokens_threshold</td>
           <td>no</td>
