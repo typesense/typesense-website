@@ -260,11 +260,11 @@ nav_label: guide
     ```javascript
     // Node.js
     npm install typesense
-    
+
     // Browser
     <script src="dist/typesense.min.js"></script>
     ```
-      
+
     {% endcode_block %}
 
     <h3 id="example-application">Example application</h3>
@@ -295,7 +295,7 @@ nav_label: guide
           protocol: 'http'
         }],
         api_key:  '<API_KEY>',
-        timeout_seconds: 2
+        connection_timeout_seconds: 2
       )
     ```
     ```python
@@ -308,7 +308,7 @@ nav_label: guide
           'protocol': 'http'
         }],
         'api_key': '<API_KEY>',
-        'timeout_seconds': 2
+        'connection_timeout_seconds': 2
       })
     ```
     ```javascript
@@ -325,7 +325,7 @@ nav_label: guide
         'protocol': 'http'
       }],
       'apiKey': '<API_KEY>',
-      'timeoutSeconds': 2
+      'connectionTimeoutSeconds': 2
     })
     ```
     ```shell
@@ -408,7 +408,7 @@ nav_label: guide
 
       client.collections().create(booksSchema)
         .then(function (data) {
-          console.log(data)      
+          console.log(data)
         })
     ```
     ```shell
@@ -466,14 +466,14 @@ nav_label: guide
     ```javascript
       var fs = require('fs');
       var readline = require('readline');
-      
+
       readline.createInterface({
           input: fs.createReadStream('/tmp/books.jsonl'),
           terminal: false
       }).on('line', function(line) {
          let bookDocument = JSON.parse(line);
          client.collections('books').documents().create(bookDocument)
-      });  
+      });
     ```
     ```shell
         #!/bin/bash
@@ -701,7 +701,7 @@ nav_label: guide
         .search(searchParameters)
         .then(function (searchResults) {
           console.log(searchResults)
-        })      
+        })
     ```
 
     ```shell
@@ -993,7 +993,7 @@ nav_label: guide
             }
           ],
           api_key:  '<API_KEY>',
-          timeout_seconds: 2
+          connection_timeout_seconds: 2
         )
       ```
 
@@ -1019,7 +1019,7 @@ nav_label: guide
             }
           ],
           'api_key': '<API_KEY>',
-          'timeout_seconds': 2
+          'connection_timeout_seconds': 2
         })
       ```
 
@@ -1043,7 +1043,7 @@ nav_label: guide
             }
           ],
           'apiKey': '<API_KEY>',
-          'timeoutSeconds': 2
+          'connectionTimeoutSeconds': 2
         })
       ```
     {% endcode_block %}
