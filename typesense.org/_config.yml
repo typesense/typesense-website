@@ -21,6 +21,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org" # the base hostname & protocol for your site, e.g. http://example.com
 versions:
+  - 0.12.0
   - 0.11.2
   - 0.11.1
   - 0.11.0
@@ -51,7 +52,6 @@ nav_pages:
   - index.html.md
   - guide.html
   - api.html
-  - premium.html.md
   - downloads.html.md
   - contact.html.md
 
@@ -89,13 +89,9 @@ defaults:
     values:
       permalink: "/docs/0.11.2/:basename/"
   - scope:
-      path: "premium_docs/10.2.0"
+      path: "docs/0.12.0"
     values:
-      permalink: "/premium/10.2.0/:basename/"
-  - scope:
-      path: "premium_docs/10.3.0"
-    values:
-      permalink: "/premium/10.3.0/:basename/"
+      permalink: "/docs/0.12.0/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
