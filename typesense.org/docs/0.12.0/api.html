@@ -512,8 +512,8 @@ nav_label: api
         <tr>
           <td>max_hits</td>
           <td>no</td>
-          <td><p>Maximum number of hits returned. Previously, only the top 500 hits were returned.
-            Increasing this value might increase search latency.</p>
+          <td><p>Maximum number of hits returned. Increasing this value might increase search latency.</p>
+            <p>Use <code>all</code> to return all hits found.</p>
             <p>Default: <code>500</code></p>
           </td>
         </tr>
@@ -653,6 +653,33 @@ nav_label: api
             </p>
             <p>
               Default: <code>100</code>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>pinned_hits</td>
+          <td>no</td>
+          <td>
+            <p>A list of records to unconditionally include in the search results at specific positions.</p>
+            <p>An example use case would be to feature or promote certain items on the top of search results.</p>
+            <p>A comma separated list of <code>record_id:hit_position</code>. Eg: to include a record with ID 123 at Position 1
+              and another record with ID 456 at Position 5, you'd specify <code>123:1,456:5</code>.
+            </p>
+            <p>You could also use the Overrides feature to override search results based on rules.
+              Overrides are applied first, followed by pinned_hits and finally hidden_hits.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>hidden_hits</td>
+          <td>no</td>
+          <td>
+            <p>A list of records to unconditionally hide from search results.</p>
+            <p>A comma separated list of <code>record_id</code>s to hide. Eg: to hide records with IDs 123 and 456,
+              you'd specify <code>123,456</code>.
+            </p>
+            <p>You could also use the Overrides feature to override search results based on rules.
+              Overrides are applied first, followed by pinned_hits and finally hidden_hits.
             </p>
           </td>
         </tr>
