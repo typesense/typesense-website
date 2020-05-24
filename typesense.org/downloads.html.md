@@ -14,22 +14,22 @@ permalink: /downloads/
 
       <div class="row">
         <div class="col-md-2">
-          <a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-amd64.deb">DEB</a>
+          <a href="https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-amd64.deb">DEB</a>
         </div>
 
         <div class="col-md-2">
-          <a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-1.x86_64.rpm">RPM</a>
+          <a href="https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-1.x86_64.rpm">RPM</a>
         </div>
 
         <div class="col-md-2">
-          <a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-linux-amd64.tar.gz">Binary</a>
+          <a href="https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-linux-amd64.tar.gz">Binary</a>
         </div>
       </div>
 
       <dt>macOS</dt><br />
 
       <dd>
-        <a href="https://dl.typesense.org/releases/typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz">Binary</a>
+        <a href="https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz">Binary</a>
       </dd>
 
       <dt>Docker</dt><br />
