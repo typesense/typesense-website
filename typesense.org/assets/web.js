@@ -125,4 +125,9 @@ $(document).ready(function() {
     $(document).on("change", "#doc-version select", onSelectVersion)
 
     getResults($('#goodreads-search input').val(), onResults);
+
+    $('a.collapsed').on('click', function() {
+        $(this).next().toggle();
+        return false;
+    })
 });

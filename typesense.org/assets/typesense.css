@@ -67,6 +67,10 @@ li.nav-item #doc-search {
     margin-bottom: 0 !important;
 }
 
+a.collapsed + nav {
+    display: none;
+}
+
 #mast {
     margin-top: 1em;
 }
