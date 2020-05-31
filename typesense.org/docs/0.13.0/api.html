@@ -1040,11 +1040,12 @@ nav_label: api
       <h3 id="api-keys">API Keys</h3>
 
       <p>Typesense allows you to create API Keys with fine-grain access control. You can restrict access on
-      both per-collection and per-action level.</p>
+      both a per-collection and per-action level.</p>
 
       <p><mark>We will be using the initial bootstrap key that you started Typesense with (via <code>--api-key</code>>)
-        to create additional keys. It's <strong>strongly recommended</strong> that you don't use the bootstrap API key
-        directly in your application.</mark></p>
+        to create additional keys. It's <strong>strongly recommended</strong> that you don't use the bootstrap
+        API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.</mark>
+      </p>
 
       <h4 id="create-key">Create an API Key</h4>
 
@@ -1087,11 +1088,11 @@ nav_label: api
         we're able to create an admin key that gives you universal access. However, you should refrain from creating
       such widely scoped keys. </p>
 
-      <p><mark><strong>NOTE: </strong>The generated key is returned only during creation. Store this
+      <p><mark><strong>NOTE: </strong>The generated key is returned only during creation. You want to store this
         key carefully in a secure place.</mark></p>
 
       <p>Let's now see how we can create a search-only key that allows you to limit the
-      key's scope to only the search action, and that too for only a specific collection.</p>
+      key's scope to only the search action, and also for only a specific collection.</p>
 
       {% code_block create-search-key %}
       ```ruby
@@ -1149,6 +1150,204 @@ nav_label: api
 
       <h5>Definition</h5>
       <p><code>POST ${TYPESENSE_HOST}/keys</code></p>
+
+      <h4 id="retrieve-key">Retrieve an API Key</h4>
+
+      <p>Retrieve (metadata about) a key.</p>
+
+      {% code_block retrieve-api-key %}
+      ```ruby
+      key = client.keys[1].retrieve
+      ```
+
+      ```python
+      key = client.keys[1].retrieve()
+      ```
+
+      ```javascript
+      key = client.keys(1).retrieve()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-retrieval-response %}
+      ```json
+      {
+        "actions": [ "documents:search" ],
+        "collections": [ "*" ],
+        "description": "Search-only key.",
+        "id": 1,
+        "value_prefix": "vxpx"
+      }
+      ```
+      {% endcode_block %}
+
+      <p>Notice how only the key prefix is returned when you retrieve a key. That's because Typesense does not
+        store the actual API key on the server-side for security purposes. Only the create endpoint returns the API key.</p>
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/keys/:id</code></p>
+
+      <h4 id="list-keys">List all keys</h4>
+
+      <p>Retrieve (metadata about) all keys.</p>
+
+      {% code_block list-all-keys %}
+      ```ruby
+      client.keys.retrieve
+      ```
+
+      ```python
+      client.keys.retrieve()
+      ```
+
+      ```javascript
+      client.keys().retrieve()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block all-api-keys-retrieval-response %}
+      ```json
+      {
+        "keys": [
+          {
+            "actions": [
+              "documents:search"
+            ],
+            "collections": [
+              "users"
+            ],
+            "description": "Search-only key.",
+            "id": 1,
+            "value_prefix": "iKBT"
+          },
+          {
+            "actions": [
+              "documents:search"
+            ],
+            "collections": [
+              "users"
+            ],
+            "description": "Search-only key.",
+            "id": 2,
+            "value_prefix": "wst8"
+          }
+        ]
+      }
+      ```
+      {% endcode_block %}
+
+      <p>Notice how only the key prefix is returned when you retrieve a key. That's because Typesense does not
+        store the actual API key on the server-side for security purposes. Only the create endpoint returns the API key.</p>
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/keys</code></p>
+
+      <h4 id="delete-key">Delete API Key</h4>
+
+      <p>Delete an API key given its ID.</p>
+
+      {% code_block delete-api-key %}
+      ```ruby
+      key = client.keys[1].delete
+      ```
+
+      ```python
+      key = client.keys[1].delete()
+      ```
+
+      ```javascript
+      key = client.keys(1).delete()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-deletion-response %}
+      ```json
+      {
+        "id": "1"
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>DELETE ${TYPESENSE_HOST}/keys/:id</code></p>
+
+      <h4 id="generate-scoped-search-key">Generate Scoped Search Key</h4>
+
+      <p>
+        You can generate scoped search API keys that have embedded search parameters in them. This is useful for example
+        when you have multi-tenant data indexed in your Typesense instance, but only want your users to access their own subset of the data.
+      </p>
+
+      <p>To do this, you can embed a filter in a generated scoped search API key. When you use that key for search operations,
+        those filters will get automatically applied and cannot be overriden.
+      </p>
+
+      <p>
+        We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key
+        that we previously generated with a search scope, create an HMAC digest of the parameters with this key and use that
+        as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
+      </p>
+
+      <p>
+        <mark><strong>Note:</strong>
+          Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set
+          without your embedded search parameters.
+        </mark>
+      </p>
+
+      {% code_block generate-scoped-search-api-key %}
+      ```ruby
+      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
+      ```
+
+      ```python
+      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124"})
+      ```
+
+      ```javascript
+      keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
+      ```
+
+      ```shell
+      KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
+      EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124"}'
+
+      digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64)
+
+      scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64)
+
+      echo $scoped_api_key
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-deletion-response %}
+      ```json
+      "SC9sT0hncHFwTHNFc3U3d3psRDZBUGNXQUViQUdDNmRHSmJFQnNnczJ4VT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCJ9"
+      ```
+      {% endcode_block %}
 
       <h3 id="curation">Curation</h3>
 
@@ -1705,10 +1904,11 @@ nav_label: api
           </nav>
           <a class="nav-link collapsed" href="#api-keys">Manage API Keys </a>
           <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#api-keys">Create a key</a>
-            <a class="nav-link ml-3 my-1" href="#list-keys">Retrieve a key</a>
+            <a class="nav-link ml-3 my-1" href="#create-key">Create a key</a>
+            <a class="nav-link ml-3 my-1" href="#retrieve-key">Retrieve a key</a>
             <a class="nav-link ml-3 my-1" href="#list-keys">List all keys</a>
             <a class="nav-link ml-3 my-1" href="#delete-key">Delete a key</a>
+            <a class="nav-link ml-3 my-1" href="#generate-scoped-search-key">Generate scoped search key</a>
           </nav>
           <a class="nav-link collapsed" href="#curation">Curation / Merchandizing </a>
           <nav class="nav nav-pills flex-column">
