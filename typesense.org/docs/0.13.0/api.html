@@ -379,8 +379,6 @@ nav_label: api
       <p>In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or
         facet fields. You can also sort and facet your results.</p>
 
-      <p>Due to performance reasons, Typesense limits searches to a maximum of 500 results.</p>
-
       {% code_block search-collection %}
       ```ruby
         search_parameters = {
@@ -934,6 +932,8 @@ nav_label: api
       ```
       {% endcode_block %}
 
+      <p><strong>Note:</strong> we recommend importing documents 1MB at a time, to keep import speeds fast.</p>
+
       <h5>Definition</h5>
 
       <p><code>POST ${TYPESENSE_HOST}/collections/:collection/documents/import</code></p>
@@ -1041,6 +1041,363 @@ nav_label: api
       <h5>Definition</h5>
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection</code></p>
+
+      <h3 id="api-keys">API Keys</h3>
+
+      <p>Typesense allows you to create API Keys with fine-grain access control. You can restrict access on
+      both a per-collection and per-action level.</p>
+
+      <p><mark>We will be using the initial bootstrap key that you started Typesense with (via <code>--api-key</code>>)
+        to create additional keys. It's <strong>strongly recommended</strong> that you don't use the bootstrap
+        API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.</mark>
+      </p>
+
+      <h4 id="create-key">Create an API Key</h4>
+
+      <p>Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and
+        is equivalent to the key that you start Typesense with (via <code>--api-key</code>). </p>
+
+      {% code_block create-admin-key %}
+      ```ruby
+      key = client.keys.create({
+        'description' => 'Admin key.',
+        'actions' => ['*'],
+        'collections' => ['*']
+      })
+      ```
+
+      ```python
+      key = client.keys.create({
+        "description": "Admin key.",
+        "actions": ["*"],
+        "collections": ["*"]
+      })
+      ```
+
+      ```javascript
+      key = client.keys().create({
+        'description': 'Admin key.',
+        'actions': ['*'],
+        'collections': ['*']
+      })
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -H 'Content-Type: application/json' \
+      -d '{"description":"Admin key.","actions": ["*"], "collections": ["*"]}'
+      ```
+      {% endcode_block %}
+
+      <p>By setting both <code>actions</code> and <code>collections</code> to a wildcard <code>['*']</code> scope,
+        we're able to create an admin key that gives you universal access. However, you should refrain from creating
+      such widely scoped keys. </p>
+
+      <p><mark><strong>NOTE: </strong>The generated key is returned only during creation. You want to store this
+        key carefully in a secure place.</mark></p>
+
+      <p>Let's now see how we can create a search-only key that allows you to limit the
+      key's scope to only the search action, and also for only a specific collection.</p>
+
+      {% code_block create-search-key %}
+      ```ruby
+      client.keys.create({
+        'description' => 'Search-only companies key.',
+        'actions' => ['documents:search'],
+        'collections' => ['companies']
+      })
+      ```
+
+      ```python
+      client.keys.create({
+        "description": "Search-only companies key.",
+        "actions": ["documents:search"],
+        "collections": ["companies"]
+      })
+      ```
+
+      ```javascript
+      client.keys().create({
+        'description': 'Admin key.',
+        'actions': ['documents:search'],
+        'collections': ['companies']
+      })
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -H 'Content-Type: application/json' \
+      -d '{"description":"Search-only companies key.","actions": ["documents:search"], "collections": ["companies"]}'
+      ```
+      {% endcode_block %}
+
+      <p>By setting the <code>actions</code> scope to <code>["documents:search"]</code> and the <code>collections</code>
+      scope to <code>["companies"]</code>, we can generate a key that is allowed to only conduct searches on the
+      <code>companies</code> collection.</p>
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-creation-response %}
+      ```json
+      {
+        "actions": [
+          "*"
+        ],
+        "collections": [
+          "*"
+        ],
+        "description": "Admin key.",
+        "id": 1,
+        "value": "k8pX5hD0793d8YQC5aD1aEPd7VleSuGP"
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>POST ${TYPESENSE_HOST}/keys</code></p>
+
+      <h5>Sample actions</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Action</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><code>documents:search</code></td>
+          <td>
+            <p>Allows only search requests.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>documents:get</code></td>
+          <td>
+            <p>Allows fetching a single document.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:delete</code></td>
+          <td>
+            <p>Allows a collection to be deleted.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:create</code></td>
+          <td>
+            <p>Allows a collection to be created.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:*</code></td>
+          <td>
+            <p>Allow all kinds of collection related operations.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>*</code></td>
+          <td>
+            <p>Allows all operations.</p>
+          </td>
+        </tr>
+      </table>
+
+      <h4 id="retrieve-key">Retrieve an API Key</h4>
+
+      <p>Retrieve (metadata about) a key.</p>
+
+      {% code_block retrieve-api-key %}
+      ```ruby
+      key = client.keys[1].retrieve
+      ```
+
+      ```python
+      key = client.keys[1].retrieve()
+      ```
+
+      ```javascript
+      key = client.keys(1).retrieve()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-retrieval-response %}
+      ```json
+      {
+        "actions": [ "documents:search" ],
+        "collections": [ "*" ],
+        "description": "Search-only key.",
+        "id": 1,
+        "value_prefix": "vxpx"
+      }
+      ```
+      {% endcode_block %}
+
+      <p>Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the
+          create endpoint returns the full API key.</p>
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/keys/:id</code></p>
+
+      <h4 id="list-keys">List all keys</h4>
+
+      <p>Retrieve (metadata about) all keys.</p>
+
+      {% code_block list-all-keys %}
+      ```ruby
+      client.keys.retrieve
+      ```
+
+      ```python
+      client.keys.retrieve()
+      ```
+
+      ```javascript
+      client.keys().retrieve()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block all-api-keys-retrieval-response %}
+      ```json
+      {
+        "keys": [
+          {
+            "actions": [
+              "documents:search"
+            ],
+            "collections": [
+              "users"
+            ],
+            "description": "Search-only key.",
+            "id": 1,
+            "value_prefix": "iKBT"
+          },
+          {
+            "actions": [
+              "documents:search"
+            ],
+            "collections": [
+              "users"
+            ],
+            "description": "Search-only key.",
+            "id": 2,
+            "value_prefix": "wst8"
+          }
+        ]
+      }
+      ```
+      {% endcode_block %}
+
+      <p>Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the
+        create endpoint returns the full API key.</p>
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/keys</code></p>
+
+      <h4 id="delete-key">Delete API Key</h4>
+
+      <p>Delete an API key given its ID.</p>
+
+      {% code_block delete-api-key %}
+      ```ruby
+      key = client.keys[1].delete
+      ```
+
+      ```python
+      key = client.keys[1].delete()
+      ```
+
+      ```javascript
+      key = client.keys(1).delete()
+      ```
+
+      ```shell
+      curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-deletion-response %}
+      ```json
+      {
+        "id": 1
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>DELETE ${TYPESENSE_HOST}/keys/:id</code></p>
+
+      <h4 id="generate-scoped-search-key">Generate Scoped Search Key</h4>
+
+      <p>
+        You can generate scoped search API keys that have embedded search parameters in them. This is useful for example
+        when you have multi-tenant data indexed in your Typesense instance, but only want your users to access their own subset of the data.
+      </p>
+
+      <p>To do this, you can embed a filter in a generated scoped search API key. When you use that key for search operations,
+        those filters will get automatically applied and cannot be overriden.
+      </p>
+
+      <p>
+        We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key
+        that we previously generated with a search scope, create an HMAC digest of the parameters with this key and use that
+        as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
+      </p>
+
+      <p>
+        <mark><strong>Note:</strong>
+          Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set
+          without your embedded search parameters.
+        </mark>
+      </p>
+
+      {% code_block generate-scoped-search-api-key %}
+      ```ruby
+      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
+      ```
+
+      ```python
+      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124"})
+      ```
+
+      ```javascript
+      keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
+      ```
+
+      ```shell
+      KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
+      EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124"}'
+
+      digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64)
+
+      scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64)
+
+      echo $scoped_api_key
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block api-key-deletion-response %}
+      ```json
+      "SC9sT0hncHFwTHNFc3U3d3psRDZBUGNXQUViQUdDNmRHSmJFQnNnczJ4VT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCJ9"
+      ```
+      {% endcode_block %}
 
       <h3 id="curation">Curation</h3>
 
@@ -1518,34 +1875,17 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
 
-      <h3 id="whats-new">What's new in 0.12.0</h3>
+      <h3 id="whats-new">What's new in 0.13.0</h3>
 
-      <p>This is a major release packed with multiple new features and a few bug fixes.</p>
+      <p>In this release, we announce the support for API key management.</p>
 
       <ul>
-        <li><strong>[Feature]</strong> Raft-based clustering for high write+read availability. We also deprecate
-          the read-only replication feature supported via the <code>--master</code> argument.</li>
-        <li><strong>[Feature]</strong> Ability to Curate / Merchandize search results is now available in the
-          open source version, via the Overrides feature.</li>
-        <li><strong>[Feature]</strong> Ability to create Aliases for collections is now available in the open source version.</li>
-        <li><strong>[Feature]</strong> Allow the maximum number of results returned to be configurable via the
-          <code>max_hits</code> parameter. Previously only the top 500 results were returned.</li>
-        <li><strong>[Feature]</strong> Facet search: facet values that are returned can now be filtered via the
-          <code>facet_query</code> parameter. The matching facet text is also highlighted.</li>
-        <li><strong>[Feature]</strong> Allow integer and float values to be facetable.</li>
-        <li><strong>[Feature]</strong> Facet stats such as min/max/avg are computed for numerical facet fields.</li>
-        <li><strong>[Feature]</strong> Allow fields to be marked as optional in the schema.</li>
-        <li><strong>[Feature]</strong> Expose <code>typo_tokens_threshold</code> parameter: If the number of results
-          found for a specific query is less than this number, Typesense will attempt to look for tokens with more
-          typos until enough results are found. Previously, this was hard-coded to <code>100</code>.</li>
-        <li><strong>[Feature]</strong> The underlying string similarity score is exposed as <code>_text_match</code>
-          and can be used as a sorting field parameter.</li>
-        <li><strong>[Security]</strong> Enforce API key authentication always for search end-point. Previously, search endpoint
-        was open unless a search-only API key was explicitly defined.</li>
-        <li><strong>[Bug]</strong> Ensure that float fields defined as a sorting field accepted integer values.</li>
-        <li><strong>[Bug]</strong> Fixed an edge case that resulted in incomplete deletion of string array values
-          when a document is deleted.</li>
-        <li><strong>[Others]</strong> Adopted GPL v3 license.</li>
+        <li><strong>[Feature]</strong> API key management. You can generate API keys with fine-grained
+          access control restrictions for better security.</li>
+        <li><strong>[Deprecation]</strong> Commandline <code>--search-only-key</code> option is removed. Please
+        use the key generation API to generate a key with search-only permission.</li>
+        <li><strong>[Deprecation]</strong> The <code>max_hits</code> search query parameter is removed. Please
+          use the <code>per_page</code> parameter as a replacement.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -1615,20 +1955,28 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#list-collection">List all collections</a>
             <a class="nav-link ml-3 my-1" href="#drop-collection">Drop a collection</a>
           </nav>
-          <a class="nav-link" href="#curation">Curation / Merchandizing </a>
+          <a class="nav-link collapsed" href="#api-keys">Manage API Keys </a>
           <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#create-update-override">Create/Update an override</a>
+            <a class="nav-link ml-3 my-1" href="#create-key">Create a key</a>
+            <a class="nav-link ml-3 my-1" href="#retrieve-key">Retrieve a key</a>
+            <a class="nav-link ml-3 my-1" href="#list-keys">List all keys</a>
+            <a class="nav-link ml-3 my-1" href="#delete-key">Delete a key</a>
+            <a class="nav-link ml-3 my-1" href="#generate-scoped-search-key">Generate scoped search key</a>
+          </nav>
+          <a class="nav-link collapsed" href="#curation">Curation / Merchandizing </a>
+          <nav class="nav nav-pills flex-column">
+            <a class="nav-link ml-3 my-1" href="#curation">Create/Update an override</a>
             <a class="nav-link ml-3 my-1" href="#list-overrides">List all overrides</a>
             <a class="nav-link ml-3 my-1" href="#delete-override">Delete an override</a>
           </nav>
-          <a class="nav-link" href="#aliases">Collection Alias</a>
+          <a class="nav-link collapsed" href="#aliases">Collection Alias</a>
           <nav class="nav nav-pills flex-column">
-            <a class="nav-link ml-3 my-1" href="#create-update-alias">Create/Update an alias</a>
+            <a class="nav-link ml-3 my-1" href="#aliases">Create/Update an alias</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-alias">Retrieve an alias</a>
             <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
             <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.12.0</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.13.0</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
