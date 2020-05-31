@@ -128,6 +128,6 @@ $(document).ready(function() {
 
     $('a.collapsed').on('click', function() {
         $(this).next().toggle();
-        return false;
+        return true;
     })
 });

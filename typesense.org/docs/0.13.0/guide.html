@@ -105,7 +105,11 @@ nav_label: guide
         <td>api-key</td>
         <td>true</td>
         <td>
-          API key that allows all operations.
+          <p>A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific
+            ACLs using the <a href="/docs/{{ site.versions[0] }}/api#api-keys">key management API</a>.</p>
+          <p><strong>NOTE: </strong>Don't expose this admin API key to your browser JS client: use the key management API
+            to create <a href="/docs/{{ site.versions[0] }}/api#api-keys">search-only</a> or
+            <a href="/docs/{{ site.versions[0] }}/api#generate-scoped-search-key">scoped API keys</a>.</p>
         </td>
       </tr>
       <tr>
@@ -151,15 +155,6 @@ nav_label: guide
           <code>&lt;ip_address&gt;:&lt;peering_port&gt;:&lt;api_port&gt;</code></p>
           <p>Example content of a <code>--nodes</code> file for a 3-node cluster:</p>
           <p><code>192.168.12.1:8107:8108,192.168.12.2:8107:8108,192.168.12.3:8107:8108</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td>search-only-api-key</td>
-        <td>false</td>
-        <td>
-          API key that allows only searches (i.e. restricted to the
-          <code>/collections/collection_name/documents/search</code> end-point). Use this to make search requests
-          directly from Javascript, without exposing your primary API key.
         </td>
       </tr>
       <tr>

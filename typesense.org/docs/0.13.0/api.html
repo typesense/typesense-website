@@ -1154,6 +1154,51 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>POST ${TYPESENSE_HOST}/keys</code></p>
 
+      <h5>Sample actions</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Action</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><code>documents:search</code></td>
+          <td>
+            <p>Allows only search requests.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>documents:get</code></td>
+          <td>
+            <p>Allows fetching a single document.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:delete</code></td>
+          <td>
+            <p>Allows a collection to be deleted.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:create</code></td>
+          <td>
+            <p>Allows a collection to be created.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collections:*</code></td>
+          <td>
+            <p>Allow all kinds of collection related operations.</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>*</code></td>
+          <td>
+            <p>Allows all operations.</p>
+          </td>
+        </tr>
+      </table>
+
       <h4 id="retrieve-key">Retrieve an API Key</h4>
 
       <p>Retrieve (metadata about) a key.</p>
@@ -1190,8 +1235,8 @@ nav_label: api
       ```
       {% endcode_block %}
 
-      <p>Notice how only the key prefix is returned when you retrieve a key. That's because Typesense does not
-        store the actual API key on the server-side for security purposes. Only the create endpoint returns the API key.</p>
+      <p>Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the
+          create endpoint returns the full API key.</p>
 
       <h5>Definition</h5>
       <p><code>GET ${TYPESENSE_HOST}/keys/:id</code></p>
@@ -1251,8 +1296,8 @@ nav_label: api
       ```
       {% endcode_block %}
 
-      <p>Notice how only the key prefix is returned when you retrieve a key. That's because Typesense does not
-        store the actual API key on the server-side for security purposes. Only the create endpoint returns the API key.</p>
+      <p>Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the
+        create endpoint returns the full API key.</p>
 
       <h5>Definition</h5>
       <p><code>GET ${TYPESENSE_HOST}/keys</code></p>
@@ -1284,7 +1329,7 @@ nav_label: api
       {% code_block api-key-deletion-response %}
       ```json
       {
-        "id": "1"
+        "id": 1
       }
       ```
       {% endcode_block %}
@@ -1833,9 +1878,12 @@ nav_label: api
       <p>In this release, we announce the support for API key management.</p>
 
       <ul>
-        <li><strong>[Feature]</strong> API key management.</li>
+        <li><strong>[Feature]</strong> API key management. You can generate API keys with fine-grained
+          access control restrictions for better security.</li>
         <li><strong>[Deprecation]</strong> Commandline <code>--search-only-key</code> option is removed. Please
         use the key generation API to generate a key with search-only permission.</li>
+        <li><strong>[Deprecation]</strong> The <code>max_hits</code> search query parameter is removed. Please
+          use the <code>per_page</code> parameter as a replacement.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
