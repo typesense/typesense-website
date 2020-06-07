@@ -1,5 +1,5 @@
 ---
-permalink: /premium/api/
+permalink: /gone-premium/api/
 ---
 <html>
   <head>

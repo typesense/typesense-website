@@ -2,7 +2,7 @@
 layout: page
 title: Download Typesense Premium
 nav_label: downloads
-permalink: /premium/downloads/
+permalink: /gone-premium/downloads/
 ---
 
 <div class="row no-gutters">
