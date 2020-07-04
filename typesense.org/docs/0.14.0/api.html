@@ -489,6 +489,8 @@ nav_label: api
           is returned in the search results.</li>
       </ul>
 
+      <p><mark><strong>NOTE:</strong> To group on a particular field, it must be a faceted field.</mark></p>
+
       <p>Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw
         earlier. Let's repeat the query we made earlier with a <code>group_by</code> parameter:</p>
 
@@ -702,6 +704,23 @@ nav_label: api
           <td>
             <p>Number of results to fetch per page.</p>
             <p>Default: <code>10</code></p>
+          </td>
+        </tr>
+        <tr>
+          <td>group_by</td>
+          <td>no</td>
+          <td><p>You can aggregate search results into groups or buckets by specify one or more
+              <code>group_by</code> fields. Separate multiple fields with a comma.</p>
+              <p>NOTE: To group on a particular field, it must be a faceted field.</p>
+              <p>E.g. <code>group_by=country,company_name</code></p>
+          </td>
+        </tr>
+        <tr>
+          <td>group_limit</td>
+          <td>no</td>
+          <td><p>Maximum number of hits to be returned for every group. If the <code>group_limit</code> is
+              set as <code>K</code> then only the top K hits in each group are returned in the response.</p>
+              <p>Default: <code>3</code></p>
           </td>
         </tr>
         <tr>
