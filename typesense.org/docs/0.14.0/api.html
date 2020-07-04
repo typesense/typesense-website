@@ -471,6 +471,106 @@ nav_label: api
       ```
       {% endcode_block %}
 
+      <h5>Group by</h5>
+
+      <p>You can aggregate search results into groups or buckets by specify one or more <code>group_by</code> fields.</p>
+
+      <p>Grouping hits this way is useful in:</p>
+
+      <ul>
+        <li><strong>Deduplication</strong>: By using one or more <code>group_by</code> fields, you can
+          consolidate items and remove duplicates in the search results. For example, if there are multiple
+          shoes of the same size, by doing a <code>group_by=size&group_limit=1</code>, you ensure that only a
+          single shoe of each size is returned in the search results.</li>
+        <li><strong>Correcting skew</strong>: When your results are dominated by documents of a particular
+          type, you can use <code>group_by</code> and <code>group_limit</code> to correct that skew.
+          For example, if your search results for a query contains way too many documents of the same <code>brand</code>,
+          you can do a <code>group_by=brand&group_limit=3</code> to ensure that only the top 3 results of each brand
+          is returned in the search results.</li>
+      </ul>
+
+      <p>Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw
+        earlier. Let's repeat the query we made earlier with a <code>group_by</code> parameter:</p>
+
+      {% code_block search-group-collection %}
+      ```ruby
+      search_parameters = {
+        'q'           => 'stark',
+        'query_by'    => 'company_name',
+        'filter_by'   => 'num_employees:>100',
+        'sort_by'     => 'num_employees:desc'
+        'group_by'    => 'country'
+        'group_limit' => '1'
+      }
+
+      client.collections['companies'].documents.search(search_parameters)
+      ```
+
+      ```python
+      search_parameters = {
+        'q'           : 'stark',
+        'query_by'    : 'company_name',
+        'filter_by'   : 'num_employees:>100',
+        'sort_by'     : 'num_employees:desc'
+        'group_by'    : 'country'
+        'group_limit' : '1'
+      }
+
+      client.collections['companies'].documents.search(search_parameters)
+      ```
+
+      ```javascript
+      let searchParameters = {
+        'q'            : 'stark',
+        'query_by'     : 'company_name',
+        'filter_by'    : 'num_employees:>100',
+        'sort_by'      : 'num_employees:desc'
+        'group_by'     : 'country'
+        'group_limit'  : '1'
+      }
+
+      client.collections('companies').documents().search(searchParameters)
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      "http://localhost:8108/collections/companies/documents/search\
+      ?q=stark&query_by=company_name&filter_by=num_employees:>100\
+      &sort_by=num_employees:desc&group_by=country&group_limit=1"
+      ```
+      {% endcode_block %}
+
+      {% code_block search-group-by-collection-response %}
+      ```json
+      {
+        "facet_counts": [],
+        "found": 1,
+        "took_ms": 1,
+        "grouped_hits": [
+          {
+            "group_key": ["USA"],
+            "hits": [
+              {
+                "highlights": [
+                  {
+                    "field": "company_name",
+                    "snippet": "<mark>Stark</mark> Industries"
+                  }
+                ],
+                "document": {
+                  "id": "124",
+                  "company_name": "Stark Industries",
+                  "num_employees": 5215,
+                  "country": "USA"
+                }
+              }
+            ]
+          }
+        ]
+      }
+      ```
+      {% endcode_block %}
+
       <h5>Definition</h5>
 
       <p><code>GET ${TYPESENSE_HOST}/collections/:collection/documents/search</code></p>
@@ -1875,17 +1975,19 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
 
-      <h3 id="whats-new">What's new in 0.13.0</h3>
+      <h3 id="whats-new">What's new in 0.14.0</h3>
 
-      <p>In this release, we announce the support for API key management.</p>
+      <p>In this release, we announce support for grouping documents on one or more fields. There are also a number
+      of bug fixes.</p>
 
       <ul>
-        <li><strong>[Feature]</strong> API key management. You can generate API keys with fine-grained
-          access control restrictions for better security.</li>
-        <li><strong>[Deprecation]</strong> Commandline <code>--search-only-key</code> option is removed. Please
-        use the key generation API to generate a key with search-only permission.</li>
-        <li><strong>[Deprecation]</strong> The <code>max_hits</code> search query parameter is removed. Please
-          use the <code>per_page</code> parameter as a replacement.</li>
+        <li><strong>[Feature]</strong> Group by: documents can now be grouped on one or more fields. You can also
+          limit each group to the top K hits within the documents matching that group.</li>
+        <li><strong>[Bug fix]</strong> Fixed an edge case in filtering of documents by int64 field.</li>
+        <li><strong>[Bug fix]</strong> Allow float array field to accept integer values (i.e. whole numbers).</li>
+        <li><strong>[Bug fix]</strong> Deletion of records with optional fields.</li>
+        <li><strong>[Bug fix]</strong> Collection schema API response should contain the <code>optional</code>
+          attribute of fields in the schema.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -1976,7 +2078,7 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
             <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.13.0</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.14.0</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
