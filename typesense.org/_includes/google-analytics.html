@@ -4,5 +4,9 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-116415641-1');
+    gtag('config', 'UA-116415641-1', {
+        'linker': {
+            'domains': ['typesense.org', 'cloud.typesense.org']
+        }
+    });
 </script>
