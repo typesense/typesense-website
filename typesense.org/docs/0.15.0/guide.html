@@ -186,6 +186,26 @@ nav_label: guide
           Allow Javascript client to access Typesense directly from the browser.
         </td>
       </tr>
+      <tr>
+        <td>catch-up-threshold-percentage</td>
+        <td>false</td>
+        <td>
+          <p>The threshold at which a follower is deemed to have caught up with leader and will allow requests.
+            Default: <code>95</code></p>
+
+          <p>NOTE: This threshold is used only when the lag between the follower and leader
+            is more than 1,000 operations.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>snapshot-interval-seconds</td>
+        <td>false</td>
+        <td>
+          <p>Frequency of replication log snapshots. Default: <code>3600</code></p>
+          <p>NOTE: Frequent snapshotting helps in faster recovery from a cold start. However, if this value
+          is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.</p>
+        </td>
+      </tr>
     </table>
 
     <h3 id="configure-typesense">Configuring Typesense</h3>
@@ -1077,7 +1097,7 @@ nav_label: guide
     <p>When you don't provide a <code>sort_by</code> parameter to your search request, the documents will be ranked
       on the text match score and default sorting field values: </p>
 
-    <p><code>sort_by=_match_score:desc,default_sorting_field:desc</code></p>
+    <p><code>sort_by=_text_match:desc,default_sorting_field:desc</code></p>
 
     <h5>Strict ordering of results on a numerical field</h5>
 

@@ -634,6 +634,16 @@ nav_label: api
                  <code>country: [USA, UK]</code>
               </p>
 
+              <p>To match a string field exactly, you have to mark the field as a facet and use the
+              <code>:=</code> operator.</p>
+
+              <p>
+                For example, <code>category:= Shoe</code> will match documents from the
+                category <code>shoes</code> and <i>not</i> from a category like
+                <code>shoe rack</code>.
+                You can also filter using multiple values: <code>category:= [Shoe, Sneaker]</code>.
+              </p>
+
               <p>Separate multiple conditions with the <code>&&</code> operator.</p>
               <p><code>num_employees:>100 && country: [USA, UK]</code></p>
 
@@ -652,16 +662,16 @@ nav_label: api
             Separate multiple fields with a comma. Upto 3 sort fields can be specified.</p>
             <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
 
-            <p>The text similarity score is exposed as a special <code>_match_score</code> field that you can use
+            <p>The text similarity score is exposed as a special <code>_text_match</code> field that you can use
             in the list of sorting fields.</p>
 
-            <p>If one or two sorting fields are specified, <code>_match_score</code> is used for
+            <p>If one or two sorting fields are specified, <code>_text_match</code> is used for
               tie breaking, as the last sorting field.</p>
 
             <p>Default:</p>
 
             <p>If no <code>sort_by</code> parameter is specified, results are sorted by:
-              <code>_match_score:desc,default_sorting_field:desc</code>.</p>
+              <code>_text_match:desc,default_sorting_field:desc</code>.</p>
           </td>
         </tr>
         <tr>
@@ -996,11 +1006,6 @@ nav_label: api
       <p>The documents to be imported must be formatted in a newline delimited JSON stucture.
          You can feed the output file from a Typesense export operation directly as import.</p>
 
-      <p><mark>Currently, the import end-point buffers the import data in-memory
-      during indexing. While we want to improve this in future, at present, we recommend
-      importing documents in smaller batches of 1000s of documents if you are looking to import a
-      large collection with millions of documents.</mark></p>
-
       <p>Here's an example file:</p>
 
       {% code_block import-documents-err-response %}
@@ -1023,24 +1028,21 @@ nav_label: api
 
       {% code_block import-documents-response %}
       ```json
-        {"num_imported":2,"success":true}
         {"success": true}
         {"success": true}
       ```
       {% endcode_block %}
 
-      <p>The first line of the response will offer a summary of the import operation. Subsequent lines
-        indicate the result of each document present in the request body (in the same order).
-        If the import of a single document fails, it does not affect the remaining documents.</p>
+      <p>Each line of the response indicates the result of each document present in the request body (in the same order).
+        If the import of a single document fails, it does not affect the other documents.</p>
 
-      <p>If there is a failure, the response will include a corresponding error message. For example, the second
-      document had an import failure in the following response:</p>
+      <p>If there is a failure, the response line will include a corresponding error message and as well as the
+        actual document content. For example, the second document had an import failure in the following response:</p>
 
       {% code_block import-documents-err-response %}
       ```json
-        {"num_imported":1,"success":false}
         {"success": true}
-        {"success": false, "error": "Bad JSON."}
+        {"success": false, "error": "Bad JSON.", "document": "[bad doc"}
       ```
       {% endcode_block %}
 
@@ -1987,16 +1989,34 @@ nav_label: api
 
       <h3 id="whats-new">What's new in 0.15.0</h3>
 
-      <p>This is primarily a performance and maintenance release.</p>
+      <p>This release contains several new features, bug fixes and performance improvements.</p>
 
       <ul>
-        <li><strong>[Performance]</strong> Adopting jemalloc: we're now using jemalloc as the memory allocator.
+        <li><strong>[Performance]</strong> Adopted jemalloc: we're now using jemalloc as the memory allocator.
           In our tests, jemalloc showed significantly better performance and lower memory fragmentation.</li>
-        <li><strong>[Performance]</strong> Imports: we've changed the output format of the import end-point.
-        The response will now be in JSON lines rather than as a full-fledged JSON document. This and other changes
-        have helped improve the overall import performance.</li>
+        <li><strong>[Performance]</strong> Streaming import: You can now safely import large number of documents into
+          Typesense without a drastic impact on search latency. We've also changed the output format of the
+          import end-point: the response will now be in JSON lines rather than as a full-fledged JSON document.</li>
+        <li><strong>[Performance]</strong> Significant performance improvement in wildcard queries and faceting
+          involving array fields. </li>
+        <li><strong>[Feature]</strong> Allow default sorting field to be an <code>int64</code>.</li>
+        <li><strong>[Feature]</strong> Ensured that the server returns a <code>503</code> response when it is still
+          catching up on the writes from the leader. This threshold can be controlled by
+          the <code>--catch-up-threshold-percentage</code> argument (default: <code>95</code>).</li>
+        <li><strong>[Feature]</strong> Data snapshot interval can now be customized by the
+          <code>--snapshot-interval-seconds</code> argument (default: <code>3600</code>).</li>
         <li><strong>[Feature]</strong> Metrics API: we've added a <code>/metrics.json</code> end-point that
-          will return detailed CPU, storage and memory metrics.</li>
+          returns CPU, storage and memory metrics.</li>
+        <li><strong>[Feature]</strong> Exact filtering on string field: It's now possible to
+          match a facet-enabled string field exactly in the filter query by using the <code>:=</code> operator. </li>
+        <li><strong>[Bug fix]</strong> Clustering improvements: We've fixed a number of performance issues and
+          edge cases by extensively benchmarking the clustering implementation via multi-region deployments.</li>
+        <li><strong>[Bug fix]</strong> Fixed a race condition that sometimes prevented a Typesense node from
+        recognizing custom generated API keys.</li>
+        <li><strong>[Bug fix]</strong> Fixed an edge case in text match score calculation that caused relevancy
+        issues on long queries.</li>
+        <li><strong>[Bug fix]</strong> Fixed a crash that happened when an <code>int32</code> field was
+          filtered by a number exceeding the range of a valid <code>int32</code> value.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>

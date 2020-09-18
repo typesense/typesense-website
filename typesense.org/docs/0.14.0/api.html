@@ -652,16 +652,16 @@ nav_label: api
             Separate multiple fields with a comma. Upto 3 sort fields can be specified.</p>
             <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
 
-            <p>The text similarity score is exposed as a special <code>_match_score</code> field that you can use
+            <p>The text similarity score is exposed as a special <code>_text_match</code> field that you can use
             in the list of sorting fields.</p>
 
-            <p>If one or two sorting fields are specified, <code>_match_score</code> is used for
+            <p>If one or two sorting fields are specified, <code>_text_match</code> is used for
               tie breaking, as the last sorting field.</p>
 
             <p>Default:</p>
 
             <p>If no <code>sort_by</code> parameter is specified, results are sorted by:
-              <code>_match_score:desc,default_sorting_field:desc</code>.</p>
+              <code>_text_match:desc,default_sorting_field:desc</code>.</p>
           </td>
         </tr>
         <tr>
