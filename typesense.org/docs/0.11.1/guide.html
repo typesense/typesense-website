@@ -233,11 +233,11 @@ nav_label: guide
     ```javascript
     // Node.js
     npm install typesense
-    
+
     // Browser
     <script src="dist/typesense.min.js"></script>
     ```
-      
+
     {% endcode_block %}
 
     <h3 id="example-application">Example application</h3>
@@ -378,7 +378,7 @@ nav_label: guide
 
       client.collections().create(booksSchema)
         .then(function (data) {
-          console.log(data)      
+          console.log(data)
         })
     ```
     ```shell
@@ -436,14 +436,14 @@ nav_label: guide
     ```javascript
       var fs = require('fs');
       var readline = require('readline');
-      
+
       readline.createInterface({
           input: fs.createReadStream('/tmp/books.jsonl'),
           terminal: false
       }).on('line', function(line) {
          let bookDocument = JSON.parse(line);
          client.collections('books').documents().create(bookDocument)
-      });  
+      });
     ```
     ```shell
         #!/bin/bash
@@ -669,7 +669,7 @@ nav_label: guide
         .search(searchParameters)
         .then(function (searchResults) {
           console.log(searchResults)
-        })      
+        })
     ```
 
     ```shell
@@ -851,13 +851,13 @@ nav_label: guide
     </p>
 
     <p>When multiple documents share the same string similarity score, user-defined numerical fields are used to break the tie.
-      You can specify upto two such numerical fields.</p>
+      You can specify up to two such numerical fields.</p>
 
     <p>For example, let's say that we're searching for books with a query like <code>short story</code>.
       If there are multiple books containing these exact words, then all those documents would have the same
       string similarity score.</p>
 
-    <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say,
+    <p>To break the tie, we could specify up to two additional <code>sort_by</code> fields. For instance, we could say,
       <code>sort_by=average_rating:DESC,publication_year:DESC</code>. This would sort the results in the following manner:</p>
 
     <p>

@@ -943,7 +943,7 @@ nav_label: guide
         ```
       {% endcode_block %}
 
-      To get InstantSearch.js to use the Typesense adapter, open <code>src/app.js</code> and 
+      To get InstantSearch.js to use the Typesense adapter, open <code>src/app.js</code> and
       edit how InstantSearch is initialized, from this:
 
       {% code_block instantsearch-init-algolia %}
@@ -975,8 +975,8 @@ nav_label: guide
               ]
             },
             // The following parameters are directly passed to Typesense's search API endpoint.
-            //  So you can pass any parameters supported by the search endpoint below. 
-            //  queryBy is required. 
+            //  So you can pass any parameters supported by the search endpoint below.
+            //  queryBy is required.
             additionalSearchParameters: {
               queryBy: "title,authors"
             }
@@ -986,7 +986,7 @@ nav_label: guide
           const search = instantsearch({
             searchClient,
             indexName: "books"
-          });        
+          });
         ```
       {% endcode_block %}
 
@@ -1037,7 +1037,7 @@ nav_label: guide
       The repo also contains quick commands to start a local Typesense server (<code>npm run typesenseServer</code>) and index the books collection used in this example (<code>npm run populateTypesenseIndex</code>).
     </p>
     <p>
-      InstantSearch.js also has <a href="https://github.com/algolia/react-instantsearch">React</a>, <a href="https://github.com/algolia/vue-instantsearch">Vue</a>, <a href="https://github.com/algolia/angular-instantsearch">Angular</a> cousins. 
+      InstantSearch.js also has <a href="https://github.com/algolia/react-instantsearch">React</a>, <a href="https://github.com/algolia/vue-instantsearch">Vue</a>, <a href="https://github.com/algolia/angular-instantsearch">Angular</a> cousins.
       The Typesense InstantSearch adapter is also compatible with them. Similar to the above, you only need to swap the <code>searchClient</code> to the one provided by Typesense adapter. The rest of the instructions found in each of these repos work without additional changes.
     </p>
 
@@ -1074,13 +1074,13 @@ nav_label: guide
 
     <p>However, there will be cases when many documents contain the <em>exact tokens</em> in a search query. In such a case,
       their <code>_text_match</code> will also be the same. That's when user-defined indexed numerical fields can be
-      used to break the tie. You can specify upto two such numerical fields.</p>
+      used to break the tie. You can specify up to two such numerical fields.</p>
 
     <p>For example, let's say that we're searching for books with a query like <code>short story</code>.
       If there are multiple books containing these exact words, then all those documents would have the same
       text match score.</p>
 
-    <p>To break the tie, we could specify upto two additional <code>sort_by</code> fields. For instance, we could say:</p>
+    <p>To break the tie, we could specify up to two additional <code>sort_by</code> fields. For instance, we could say:</p>
 
     <p><code>sort_by=_text_match:desc,average_rating:desc,publication_year:desc</code></p>
 
@@ -1113,7 +1113,7 @@ nav_label: guide
     </p>
 
     <p>Since Raft requires a quorum of nodes for consensus, <em>you need to run a <strong>minimum of 3 nodes</strong> to
-      tolerate a 1-node failure.</em> Running a 5-node cluster will tolerate failures of upto 2 nodes, but at the
+      tolerate a 1-node failure.</em> Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the
       expense of higher write latencies.</p>
 
     <p>Therefore, we recommend running a 3-node Typesense cluster.</p>
@@ -1241,10 +1241,10 @@ nav_label: guide
           <a class="nav-link ml-3 my-1" href="#index-documents">Adding some books</a>
           <a class="nav-link ml-3 my-1" href="#search-collection">Searching for books</a>
         </nav>
-        <a class="nav-link" href="#search-ui">Building Search UIs</a> 
+        <a class="nav-link" href="#search-ui">Building Search UIs</a>
         <nav class="nav nav-pills flex-column">
           <a class="nav-link ml-3 my-1" href="#typesense-instantsearch-demo">Demo app</a>
-        </nav>        
+        </nav>
         <a class="nav-link" href="#ranking-relevance">Ranking &amp; relevance</a>
         <a class="nav-link" href="#high-availability">High Availability</a>
       </nav>

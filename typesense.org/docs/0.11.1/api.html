@@ -29,7 +29,7 @@ nav_label: api
         ```python
            pip install typesense
         ```
-        
+
         ```javascript
           // Node.js
           npm install typesense
@@ -88,7 +88,7 @@ nav_label: api
           'timeout_seconds': 2
         })
       ```
-      
+
       ```javascript
         /*
          *  Our Javascript client library works on both the client and the browser.
@@ -112,7 +112,7 @@ nav_label: api
           'timeoutSeconds': 2
         })
       ```
-      
+
 
       ```shell
           # API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
@@ -207,10 +207,10 @@ nav_label: api
           ],
           'default_sorting_field': 'num_employees'
         }
-        
+
         client.collections().create(schema)
       ```
-      
+
       ```shell
         curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
@@ -504,7 +504,7 @@ nav_label: api
           <td>
             <p>The query text to search for in the collection.</p>
             <p>
-                Use <code>*</code> as the search string to return all documents. This is typically useful when used in 
+                Use <code>*</code> as the search string to return all documents. This is typically useful when used in
                 conjunction with <code>filter_by</code>.</p>
                 <p>For example, to return all documents that match a filter, use: <br/>
                 <code>q=*&filter_by=num_employees:10</code> </p>
@@ -554,7 +554,7 @@ nav_label: api
           <td>no</td>
           <td>
             <p>A list of numerical fields and their corresponding sort orders that will be used for ordering your results.
-            Separate multiple fields with a comma. Currently, upto 2 sort fields can be specified.</p>
+            Separate multiple fields with a comma. Currently, up to 2 sort fields can be specified.</p>
             <p>E.g. <code>num_employees:desc,year_started:asc</code></p>
 
             <p>If no <code>sort_by</code> parameter is specified, results are sorted by the
@@ -601,21 +601,21 @@ nav_label: api
           <td>exclude_fields</td>
           <td>no</td>
           <td><p>Comma-separated list of fields from the document to exclude in the search result.</p></td>
-        </tr>        
+        </tr>
         <tr>
           <td>drop_tokens_threshold</td>
           <td>no</td>
           <td>
               <p>
-                  If the number of results found for a specific query is less than this number, Typesense will attempt 
-                  to drop the tokens in the query until enough results are found. Tokens that have the least individual hits 
+                  If the number of results found for a specific query is less than this number, Typesense will attempt
+                  to drop the tokens in the query until enough results are found. Tokens that have the least individual hits
                   are dropped first. Set <code>drop_tokens_threshold</code> to <code>0</code> to disable dropping of tokens.
               </p>
               <p>
                 Default: <code>10</code>
               </p>
           </td>
-        </tr>        
+        </tr>
       </table>
 
       <h4 id="retrieve-document">Retrieve a document</h4>
@@ -756,7 +756,7 @@ nav_label: api
       ```javascript
         client.collections('companies').documents().export()
       ```
-      
+
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
@@ -783,7 +783,7 @@ nav_label: api
           u'{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
           u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
         ```
-        
+
         ```javascript
           ['{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
           '{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
@@ -939,7 +939,7 @@ nav_label: api
       ```python
         client.collections['companies'].delete()
       ```
-      
+
       ```javascript
         client.collections('companies').delete()
       ```
