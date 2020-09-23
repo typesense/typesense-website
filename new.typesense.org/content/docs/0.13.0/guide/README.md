@@ -48,6 +48,6 @@ If you had installed Typesense from a DEB/RPM package, the Typesense server is a
 systemctl status typesense-server
 ```
 
-By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the configuration file at `/etc/typesense/typesense.ini`
+By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the configuration file at `/etc/typesense/typesense-server.ini`
 
 ## High Availability
