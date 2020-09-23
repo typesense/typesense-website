@@ -18,24 +18,28 @@ nav_label: api
 
       <h3 id="api-clients">API clients</h3>
 
-      <p>At the moment, we have API clients for Javascript, Python, and Ruby. </p>
+      <p>At the moment, we have API clients for Javascript, PHP, Python, and Ruby. </p>
       <p>We recommend that you use our API client library if it is available for your language.</p>
 
       {% code_block install %}
-        ```ruby
-           gem install typesense
-        ```
-
-        ```python
-           pip install typesense
-        ```
-
         ```javascript
           // Node.js
           npm install typesense
 
           // Browser
           <script src="dist/typesense.min.js"></script>
+        ```
+
+        ```php
+          composer require typesense/typesense-php
+        ```
+
+        ```python
+           pip install typesense
+        ```
+
+        ```ruby
+           gem install typesense
         ```
       {% endcode_block %}
 
@@ -45,38 +49,6 @@ nav_label: api
       <h3 id="authentication">Authentication</h3>
 
       {% code_block authenticate %}
-      ```ruby
-        require 'typesense'
-
-        client = Typesense::Client.new(
-          nodes: [
-            {
-              host:     'localhost',
-              port:     8108,
-              protocol: 'http'
-            }
-          ],
-
-          api_key:  '<API_KEY>',
-          connection_timeout_seconds: 2
-        )
-      ```
-
-      ```python
-        import typesense
-
-        client = typesense.Client({
-          'nodes': [{
-            'host': 'localhost',
-            'port': '8108',
-            'protocol': 'http',
-          }],
-
-          'api_key': '<API_KEY>',
-          'connection_timeout_seconds': 2
-        })
-      ```
-
       ```javascript
         /*
          *  Our Javascript client library works on both the client and the browser.
@@ -96,6 +68,55 @@ nav_label: api
         })
       ```
 
+      ```php
+        use Typesence\Client;
+
+        $client = new Client(
+          [
+            'nodes'        => [
+              [
+                'host'     => 'localhost',
+                'port'     => '8108',
+                'protocol' => 'http',
+              ],
+            ],
+            'api_key'      => '<API_KEY>',
+            'connection_timeout_seconds' => 2,
+          ]
+        );
+        ```
+
+      ```python
+        import typesense
+
+        client = typesense.Client({
+          'nodes': [{
+            'host': 'localhost',
+            'port': '8108',
+            'protocol': 'http',
+          }],
+
+          'api_key': '<API_KEY>',
+          'connection_timeout_seconds': 2
+        })
+      ```
+
+      ```ruby
+        require 'typesense'
+
+        client = Typesense::Client.new(
+          nodes: [
+            {
+              host:     'localhost',
+              port:     8108,
+              protocol: 'http'
+            }
+          ],
+
+          api_key:  '<API_KEY>',
+          connection_timeout_seconds: 2
+        )
+      ```
 
       ```shell
           # API authentication is done via the `X-TYPESENSE-API-KEY` HTTP header.
@@ -120,52 +141,6 @@ nav_label: api
       </p>
 
       {% code_block create-collection %}
-      ```ruby
-        schema = {
-          'name'      => 'companies',
-          'fields'    => [
-            {
-              'name'  => 'company_name',
-              'type'  => 'string'
-            },
-            {
-              'name'  => 'num_employees',
-              'type'  => 'int32'
-            },
-            {
-              'name'  => 'country',
-              'type'  => 'string',
-              'facet' => true
-            }
-          ],
-          'default_sorting_field' => 'num_employees'
-        }
-
-        client.collections.create(schema)
-      ```
-      ```python
-        schema = {
-          'name': 'companies',
-          'fields': [
-            {
-              'name'  :  'company_name',
-              'type'  :  'string'
-            },
-            {
-              'name'  :  'num_employees',
-              'type'  :  'int32'
-            },
-            {
-              'name'  :  'country',
-              'type'  :  'string',
-              'facet' :  True
-            }
-          ],
-          'default_sorting_field': 'num_employees'
-        }
-
-        client.collections.create(schema)
-      ```
 
       ```javascript
         let schema = {
@@ -192,6 +167,78 @@ nav_label: api
         }
 
         client.collections().create(schema)
+      ```
+
+      ```php
+        $schema = [
+          'name'      => 'companies',
+          'fields'    => [
+            [
+              'name'  => 'company_name',
+              'type'  => 'string'
+            ],
+            [
+              'name'  => 'num_employees',
+              'type'  => 'int32'
+            ],
+            [
+              'name'  => 'country',
+              'type'  => 'string',
+              'facet' => true
+            ]
+          ],
+          'default_sorting_field' => 'num_employees'
+        ]
+
+        $client->collections->create($schema)
+      ```
+
+      ```python
+        schema = {
+          'name': 'companies',
+          'fields': [
+            {
+              'name'  :  'company_name',
+              'type'  :  'string'
+            },
+            {
+              'name'  :  'num_employees',
+              'type'  :  'int32'
+            },
+            {
+              'name'  :  'country',
+              'type'  :  'string',
+              'facet' :  True
+            }
+          ],
+          'default_sorting_field': 'num_employees'
+        }
+
+        client.collections.create(schema)
+      ```
+
+      ```ruby
+        schema = {
+          'name'      => 'companies',
+          'fields'    => [
+            {
+              'name'  => 'company_name',
+              'type'  => 'string'
+            },
+            {
+              'name'  => 'num_employees',
+              'type'  => 'int32'
+            },
+            {
+              'name'  => 'country',
+              'type'  => 'string',
+              'facet' => true
+            }
+          ],
+          'default_sorting_field' => 'num_employees'
+        }
+
+        client.collections.create(schema)
       ```
 
       ```shell
@@ -311,15 +358,27 @@ nav_label: api
       </p>
 
       {% code_block index-document %}
-        ```ruby
-        document = {
+
+        ```javascript
+          let document = {
+            'id': '124',
+            'company_name': 'Stark Industries',
+            'num_employees': 5215,
+            'country': 'USA'
+          }
+
+          client.collections('companies').documents().create(document)
+        ```
+
+        ```php
+        $document = [
           'id'            => '124',
           'company_name'  => 'Stark Industries',
           'num_employees' => 5215,
           'country'       => 'USA'
-        }
+        ]
 
-        client.collections['companies'].documents.create(document)
+        $client->collections['companies']->documents->create($document)
         ```
 
         ```python
@@ -333,15 +392,15 @@ nav_label: api
         client.collections['companies'].documents.create(document)
         ```
 
-        ```javascript
-          let document = {
-            'id': '124',
-            'company_name': 'Stark Industries',
-            'num_employees': 5215,
-            'country': 'USA'
-          }
+        ```ruby
+        document = {
+          'id'            => '124',
+          'company_name'  => 'Stark Industries',
+          'num_employees' => 5215,
+          'country'       => 'USA'
+        }
 
-          client.collections('companies').documents().create(document)
+        client.collections['companies'].documents.create(document)
         ```
 
         ```shell
@@ -380,15 +439,26 @@ nav_label: api
         facet fields. You can also sort and facet your results.</p>
 
       {% code_block search-collection %}
-      ```ruby
-        search_parameters = {
+      ```javascript
+        let searchParameters = {
+          'q'         : 'stark',
+          'query_by'  : 'company_name',
+          'filter_by' : 'num_employees:>100',
+          'sort_by'   : 'num_employees:desc'
+        }
+
+        client.collections('companies').documents().search(searchParameters)
+      ```
+
+      ```php
+        $searchParameters = [
           'q'         => 'stark',
           'query_by'  => 'company_name',
           'filter_by' => 'num_employees:>100',
           'sort_by'   => 'num_employees:desc'
-        }
+        ]
 
-        client.collections['companies'].documents.search(search_parameters)
+        $client->collections['companies']->documents->search($searchParameters)
       ```
 
       ```python
@@ -402,15 +472,15 @@ nav_label: api
         client.collections['companies'].documents.search(search_parameters)
       ```
 
-      ```javascript
-        let searchParameters = {
-          'q'         : 'stark',
-          'query_by'  : 'company_name',
-          'filter_by' : 'num_employees:>100',
-          'sort_by'   : 'num_employees:desc'
+      ```ruby
+        search_parameters = {
+          'q'         => 'stark',
+          'query_by'  => 'company_name',
+          'filter_by' => 'num_employees:>100',
+          'sort_by'   => 'num_employees:desc'
         }
 
-        client.collections('companies').documents().search(searchParameters)
+        client.collections['companies'].documents.search(search_parameters)
       ```
 
       ```shell
@@ -495,17 +565,31 @@ nav_label: api
         earlier. Let's repeat the query we made earlier with a <code>group_by</code> parameter:</p>
 
       {% code_block search-group-collection %}
-      ```ruby
-      search_parameters = {
+
+      ```javascript
+      let searchParameters = {
+        'q'            : 'stark',
+        'query_by'     : 'company_name',
+        'filter_by'    : 'num_employees:>100',
+        'sort_by'      : 'num_employees:desc'
+        'group_by'     : 'country'
+        'group_limit'  : '1'
+      }
+
+      client.collections('companies').documents().search(searchParameters)
+      ```
+
+      ```php
+      $searchParameters = [
         'q'           => 'stark',
         'query_by'    => 'company_name',
         'filter_by'   => 'num_employees:>100',
         'sort_by'     => 'num_employees:desc'
         'group_by'    => 'country'
         'group_limit' => '1'
-      }
+      ]
 
-      client.collections['companies'].documents.search(search_parameters)
+      $client->collections['companies']->documents->search($searchParameters)
       ```
 
       ```python
@@ -521,17 +605,17 @@ nav_label: api
       client.collections['companies'].documents.search(search_parameters)
       ```
 
-      ```javascript
-      let searchParameters = {
-        'q'            : 'stark',
-        'query_by'     : 'company_name',
-        'filter_by'    : 'num_employees:>100',
-        'sort_by'      : 'num_employees:desc'
-        'group_by'     : 'country'
-        'group_limit'  : '1'
+      ```ruby
+      search_parameters = {
+        'q'           => 'stark',
+        'query_by'    => 'company_name',
+        'filter_by'   => 'num_employees:>100',
+        'sort_by'     => 'num_employees:desc'
+        'group_by'    => 'country'
+        'group_limit' => '1'
       }
 
-      client.collections('companies').documents().search(searchParameters)
+      client.collections['companies'].documents.search(search_parameters)
       ```
 
       ```shell
@@ -820,16 +904,20 @@ nav_label: api
       Fetch an individual document from a collection by using its <code>id</code>.
 
       {% code_block retrieve-document %}
-      ```ruby
-        client.collections['companies'].documents['124'].retrieve
+      ```javascript
+        client.collections('companies').documents('124').retrieve()
+      ```
+
+      ```php
+        $client->collections['companies']->documents['124']->retrieve()
       ```
 
       ```python
         client.collections['companies'].documents['124'].retrieve()
       ```
 
-      ```javascript
-        client.collections('companies').documents('124').retrieve()
+      ```ruby
+        client.collections['companies'].documents['124'].retrieve
       ```
 
       ```shell
@@ -860,16 +948,20 @@ nav_label: api
       <p>Delete an individual document from a collection by using its <code>id</code>.</p>
 
       {% code_block delete-document %}
-      ```ruby
-        client.collections['companies'].documents['124'].delete
+      ```javascript
+        client.collections('companies').documents('124').delete()
+      ```
+
+      ```php
+        $client->collections['companies']->documents['124']->delete()
       ```
 
       ```python
         client.collections['companies'].documents('124').delete()
       ```
 
-      ```javascript
-        client.collections('companies').documents('124').delete()
+      ```ruby
+        client.collections['companies'].documents['124'].delete
       ```
 
       ```shell
@@ -900,16 +992,20 @@ nav_label: api
       <p>Retrieve the details of a collection, given its name.</p>
 
       {% code_block retrieve-collection %}
-      ```ruby
-        client.collections['companies'].retrieve
+      ```javascript
+        client.collections('companies').retrieve()
+      ```
+
+      ```php
+        $client->collections['companies']->retrieve()
       ```
 
       ```python
         client.collections['companies'].retrieve()
       ```
 
-      ```javascript
-        client.collections('companies').retrieve()
+      ```ruby
+        client.collections['companies'].retrieve
       ```
 
       ```shell
@@ -942,18 +1038,21 @@ nav_label: api
       <h4 id="export-documents">Export documents from a collection</h4>
 
       {% code_block export-documents %}
-      ```ruby
-        client.collections['companies'].documents.export
+      ```javascript
+        client.collections('companies').documents().export()
+      ```
+
+      ```php
+        $client->collections['companies']->documents->export()
       ```
 
       ```python
         client.collections['companies'].documents.export()
       ```
 
-      ```javascript
-        client.collections('companies').documents().export()
+      ```ruby
+        client.collections['companies'].documents.export
       ```
-
 
       ```shell
         curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
@@ -964,30 +1063,7 @@ nav_label: api
       <h5>Sample response</h5>
 
       {% code_block export-documents-response %}
-        ```ruby
-          [
-          "{\"id\": \"124\", \"company_name\": \"Stark Industries\", \"num_employees\": 5215, \
-          \"country\": \"US\"}",
-          "{\"id\": \"125\", \"company_name\": \"Future Technology\", \"num_employees\": 1232, \
-          \"country\": \"UK\"}",
-          "{\"id\": \"126\", \"company_name\": \"Random Corp.\", \"num_employees\": 531, \
-          \"country\": \"AU\"}"
-          ]
-        ```
-
-        ```python
-          [u'{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
-          u'{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
-          u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
-        ```
-
-        ```javascript
-          ['{"company_name":"Stark Industries","country":"USA","id":"124","num_employees":5215}',\
-          '{"company_name":"Future Technology","country":"UK","id":"125","num_employees":1232}',\
-          '{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}']
-        ```
-
-        ```shell
+        ```jsonlines
           {"id": "124", "company_name": "Stark Industries", "num_employees": 5215,\
           "country": "US"}
           {"id": "125", "company_name": "Future Technology", "num_employees": 1232,\
@@ -1027,7 +1103,7 @@ nav_label: api
       <h5>Sample response</h5>
 
       {% code_block import-documents-response %}
-      ```json
+      ```jsonlines
         {"success": true}
         {"success": true}
       ```
@@ -1056,16 +1132,21 @@ nav_label: api
         with the most recent collections appearing first.</p>
 
       {% code_block list-collection %}
-      ```ruby
-        client.collections.retrieve
+
+      ```javascript
+        client.collections().retrieve()
+      ```
+
+      ```php
+        $client->collections->retrieve()
       ```
 
       ```python
         client.collections.retrieve()
       ```
 
-      ```javascript
-        client.collections().retrieve()
+      ```ruby
+        client.collections.retrieve
       ```
 
       ```shell
@@ -1114,16 +1195,20 @@ nav_label: api
         latencies.</p>
 
       {% code_block drop-collection %}
-      ```ruby
-        client.collections['companies'].delete
+      ```javascript
+        client.collections('companies').delete()
+      ```
+
+      ```php
+        $client->collections['companies']->delete()
       ```
 
       ```python
         client.collections['companies'].delete()
       ```
 
-      ```javascript
-        client.collections('companies').delete()
+      ```ruby
+        client.collections['companies'].delete
       ```
 
       ```shell
@@ -1170,12 +1255,20 @@ nav_label: api
         is equivalent to the key that you start Typesense with (via <code>--api-key</code>). </p>
 
       {% code_block create-admin-key %}
-      ```ruby
-      key = client.keys.create({
+      ```javascript
+      key = client.keys().create({
+        'description': 'Admin key.',
+        'actions': ['*'],
+        'collections': ['*']
+      })
+      ```
+
+      ```php
+      $key = $client->keys->create([
         'description' => 'Admin key.',
         'actions' => ['*'],
         'collections' => ['*']
-      })
+      ])
       ```
 
       ```python
@@ -1186,11 +1279,11 @@ nav_label: api
       })
       ```
 
-      ```javascript
-      key = client.keys().create({
-        'description': 'Admin key.',
-        'actions': ['*'],
-        'collections': ['*']
+      ```ruby
+      key = client.keys.create({
+        'description' => 'Admin key.',
+        'actions' => ['*'],
+        'collections' => ['*']
       })
       ```
 
@@ -1212,12 +1305,20 @@ nav_label: api
       key's scope to only the search action, and also for only a specific collection.</p>
 
       {% code_block create-search-key %}
-      ```ruby
-      client.keys.create({
+      ```javascript
+      client.keys().create({
+        'description': 'Admin key.',
+        'actions': ['documents:search'],
+        'collections': ['companies']
+      })
+      ```
+
+      ```php
+      $client->keys->create([
         'description' => 'Search-only companies key.',
         'actions' => ['documents:search'],
         'collections' => ['companies']
-      })
+      ])
       ```
 
       ```python
@@ -1228,11 +1329,11 @@ nav_label: api
       })
       ```
 
-      ```javascript
-      client.keys().create({
-        'description': 'Admin key.',
-        'actions': ['documents:search'],
-        'collections': ['companies']
+      ```ruby
+      client.keys.create({
+        'description' => 'Search-only companies key.',
+        'actions' => ['documents:search'],
+        'collections' => ['companies']
       })
       ```
 
@@ -1318,16 +1419,20 @@ nav_label: api
       <p>Retrieve (metadata about) a key.</p>
 
       {% code_block retrieve-api-key %}
-      ```ruby
-      key = client.keys[1].retrieve
+      ```javascript
+      key = client.keys(1).retrieve()
+      ```
+
+      ```php
+      $key = $client->keys[1]->retrieve()
       ```
 
       ```python
       key = client.keys[1].retrieve()
       ```
 
-      ```javascript
-      key = client.keys(1).retrieve()
+      ```ruby
+      key = client.keys[1].retrieve
       ```
 
       ```shell
@@ -1360,16 +1465,20 @@ nav_label: api
       <p>Retrieve (metadata about) all keys.</p>
 
       {% code_block list-all-keys %}
-      ```ruby
-      client.keys.retrieve
+      ```javascript
+      client.keys().retrieve()
+      ```
+
+      ```php
+      $client->keys->retrieve()
       ```
 
       ```python
       client.keys.retrieve()
       ```
 
-      ```javascript
-      client.keys().retrieve()
+      ```ruby
+      client.keys.retrieve
       ```
 
       ```shell
@@ -1421,16 +1530,20 @@ nav_label: api
       <p>Delete an API key given its ID.</p>
 
       {% code_block delete-api-key %}
-      ```ruby
-      key = client.keys[1].delete
+      ```javascript
+      key = client.keys(1).delete()
+      ```
+
+      ```php
+      $key = $client->keys[1]->delete()
       ```
 
       ```python
       key = client.keys[1].delete()
       ```
 
-      ```javascript
-      key = client.keys(1).delete()
+      ```ruby
+      key = client.keys[1].delete
       ```
 
       ```shell
@@ -1476,9 +1589,14 @@ nav_label: api
       </p>
 
       {% code_block generate-scoped-search-api-key %}
-      ```ruby
-      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
+      ```javascript
+      keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
+      ```
+
+      ```php
+      $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124'])
       ```
 
       ```python
@@ -1486,9 +1604,9 @@ nav_label: api
       client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124"})
       ```
 
-      ```javascript
-      keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
+      ```ruby
+      key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
       ```
 
       ```shell
@@ -1532,23 +1650,42 @@ nav_label: api
         the <code>contains</code> match instead.</p>
 
       {% code_block create-update-override %}
-      ```ruby
+      ```javascript
       override = {
-        "rule" => {
-          "query" => "apple",
-          "match" => "exact"
+        "rule": {
+          "query": "apple",
+          "match": "exact"
         },
-        "includes" => [
-          {"id" => "422", "position" => 1},
-          {"id" => "54", "position" => 2}
+        "includes": [
+          {"id": "422", "position": 1},
+          {"id": "54", "position": 2}
         ],
-        "excludes" => [
-          {"id" => "287"}
+        "excludes": [
+          {"id": "287"}
         ]
       }
 
+      // Creates/updates an override called `customize-apple` in the `companies` collection
+      client.collections('companies').overrides().upsert('customize-apple', override)
+      ```
+
+      ```php
+      $override = [
+        "rule" => [
+          "query" => "apple",
+          "match" => "exact"
+        ],
+        "includes" => [
+          ["id" => "422", "position" => 1],
+          ["id" => "54", "position" => 2]
+        ],
+        "excludes" => [
+          ["id" => "287"]
+        ]
+      ]
+
       # Creates/updates an override called `customize-apple` in the `companies` collection
-      client.collections['companies'].overrides.upsert('customize-apple', override)
+      $client->collections['companies']->overrides->upsert('customize-apple', $override)
       ```
 
       ```python
@@ -1570,23 +1707,23 @@ nav_label: api
       client.collections['companies'].overrides.upsert('customize-apple', override)
       ```
 
-      ```javascript
+      ```ruby
       override = {
-        "rule": {
-          "query": "apple",
-          "match": "exact"
+        "rule" => {
+          "query" => "apple",
+          "match" => "exact"
         },
-        "includes": [
-          {"id": "422", "position": 1},
-          {"id": "54", "position": 2}
+        "includes" => [
+          {"id" => "422", "position" => 1},
+          {"id" => "54", "position" => 2}
         ],
-        "excludes": [
-          {"id": "287"}
+        "excludes" => [
+          {"id" => "287"}
         ]
       }
 
-      // Creates/updates an override called `customize-apple` in the `companies` collection
-      client.collections('companies').overrides().upsert('customize-apple', override)
+      # Creates/updates an override called `customize-apple` in the `companies` collection
+      client.collections['companies'].overrides.upsert('customize-apple', override)
       ```
 
       ```shell
@@ -1678,16 +1815,20 @@ nav_label: api
       <p>Listing all overrides associated with a given collection.</p>
 
       {% code_block list-overrides %}
-      ```ruby
-      client.collections['companies'].overrides.retrieve
+      ```javascript
+      client.collections('companies').overrides().retrieve
+      ```
+
+      ```php
+      $client->collections['companies']->overrides->retrieve()
       ```
 
       ```python
       client.collections['companies'].overrides.retrieve()
       ```
 
-      ```javascript
-      client.collections('companies').overrides().retrieve
+      ```ruby
+      client.collections['companies'].overrides.retrieve
       ```
 
       ```shell
@@ -1739,16 +1880,20 @@ nav_label: api
       <p>Deleting an override associated with a collection.</p>
 
       {% code_block delete-override %}
-      ```ruby
-      client.collections['companies'].overrides['customize-apple'].delete
+      ```javascript
+      client.collections('companies').overrides('customize-apple').delete()
+      ```
+
+      ```php
+      $client->collections['companies']->overrides['customize-apple'].delete()
       ```
 
       ```python
       client.collections['companies'].overrides['customize-apple'].delete()
       ```
 
-      ```javascript
-      client.collections('companies').overrides('customize-apple').delete()
+      ```ruby
+      client.collections['companies'].overrides['customize-apple'].delete
       ```
 
       ```shell
@@ -1799,13 +1944,22 @@ nav_label: api
       <h4 id="create-update-alias">Create or Update an alias</h4>
 
       {% code_block create-update-alias %}
-      ```ruby
-          aliased_collection = {
+      ```javascript
+        aliased_collection = {
+          'collection_name': 'companies_june11'
+        }
+
+        // Creates/updates an alias called `companies` to the `companies_june11` collection
+        client.aliases().upsert('companies', aliased_collection)
+      ```
+
+      ```php
+          $aliasedCollection = [
             'collection_name' => 'companies_june11'
-          }
+          ]
 
           # Creates/updates an alias called `companies` to the `companies_june11` collection
-          client.aliases.upsert('companies', aliased_collection)
+          $client->aliases->upsert('companies', $aliasedCollection)
       ```
 
       ```python
@@ -1817,13 +1971,13 @@ nav_label: api
           client.aliases.upsert('companies', aliased_collection)
       ```
 
-      ```javascript
-        aliased_collection = {
-          'collection_name': 'companies_june11'
-        }
+      ```ruby
+          aliased_collection = {
+            'collection_name' => 'companies_june11'
+          }
 
-        // Creates/updates an alias called `companies` to the `companies_june11` collection
-        client.aliases().upsert('companies', aliased_collection)
+          # Creates/updates an alias called `companies` to the `companies_june11` collection
+          client.aliases.upsert('companies', aliased_collection)
       ```
 
       ```shell
@@ -1871,16 +2025,20 @@ nav_label: api
       <p>We can find out which collection an alias points to by fetching it.</p>
 
       {% code_block retrieve-alias %}
-      ```ruby
-        client.aliases['companies'].retrieve
+      ```javascript
+        client.aliases('companies').retrieve()
+      ```
+
+      ```php
+        $client->aliases['companies']->retrieve()
       ```
 
       ```python
         client.aliases['companies'].retrieve()
       ```
 
-      ```javascript
-        client.aliases('companies').retrieve()
+      ```ruby
+        client.aliases['companies'].retrieve
       ```
 
       ```shell
@@ -1910,16 +2068,20 @@ nav_label: api
       <p>List all aliases and the corresponding collections that they map to.</p>
 
       {% code_block list-aliases %}
-      ```ruby
-      client.aliases.retrieve
+      ```javascript
+      client.aliases().retrieve()
+      ```
+
+      ```php
+      $client->aliases->retrieve()
       ```
 
       ```python
       client.aliases.retrieve()
       ```
 
-      ```javascript
-      client.aliases().retrieve()
+      ```ruby
+      client.aliases.retrieve
       ```
 
       ```shell
@@ -1955,16 +2117,20 @@ nav_label: api
       <h4 id="delete-alias">Delete an alias</h4>
 
       {% code_block delete-alias %}
-      ```ruby
-        client.aliases['companies'].delete
+      ```javascript
+        client.aliases('companies').delete()
+      ```
+
+      ```php
+        $client->aliases['companies']->delete()
       ```
 
       ```python
         client.aliases['companies'].delete()
       ```
 
-      ```javascript
-        client.aliases('companies').delete()
+      ```ruby
+        client.aliases['companies'].delete
       ```
 
       ```shell
