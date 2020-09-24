@@ -4,12 +4,29 @@ layout: default
 
 <div id="hero">
   <div id="mast" class="container">
-    <div class="row">
-      <div id="intro-demo" class="col-md-8">
-        <h2>Craft <b>delightful</b> search experiences.</h2>
-        <p>Typesense is an open source, typo tolerant search engine that delivers fast and relevant
+    <div class="row py-4">
+      <div class="col-md-8">
+        <h1>Craft <b>delightful</b> search experiences.</h1>
+        <p class="lead">Typesense is an open source, typo tolerant search engine that delivers fast and relevant
           results out-of-the-box.</p>
-        <a href="/docs/{{ site.versions[0] }}/guide"><button class="btn btn-success btn-get-started">Get Started</button></a>
+        <div class="row mt-4 mb-4">
+          <div class="col-sm-3">
+            <a href="/docs/{{ site.versions[0] }}/guide">
+              <button class="btn btn-success btn-get-started text-left">
+                <div class="small">Get started with</div>
+                <div class="strong font-weight-bold">Open Source Version</div>
+              </button>
+            </a>
+          </div>
+          <div class="col-sm-3 ml-sm-4 mt-3 mt-sm-0">
+            <a href="https://cloud.typesense.org">
+              <button class="btn btn-success btn-get-started text-left">
+                <div class="small">Deploy with</div>
+                <div class="strong font-weight-bold">Typesense Cloud</div>
+              </button>
+            </a>
+          </div>
+        </div>
       </div>
       <div id="splash" class="col-md-4 d-none d-md-block"></div>
     </div>
@@ -110,7 +127,22 @@ layout: default
 </div>
 
 <div class="container">
-  <div class="row justify-content-center">
-    <a href="/guide"><button class="btn btn-success btn-get-started">Get Started</button></a>
+  <div class="row justify-content-center mt-3">
+    <div class="col-sm-2">
+      <a href="/docs/{{ site.versions[0] }}/guide">
+        <button class="btn btn-success btn-get-started text-left">
+          <div class="small">Get started with</div>
+          <div class="strong font-weight-bold">Open Source Version</div>
+        </button>
+      </a>
+    </div>
+    <div class="col-sm-2 ml-sm-4 mt-2 mt-sm-0">
+      <a href="https://cloud.typesense.org">
+        <button class="btn btn-success btn-get-started text-left">
+          <div class="small">Deploy with</div>
+          <div class="strong font-weight-bold">Typesense Cloud</div>
+        </button>
+      </a>
+    </div>
   </div>
 </div>

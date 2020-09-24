@@ -86,8 +86,7 @@ a.collapsed + nav {
 }
 
 .btn-get-started {
-    font-size: 1.2em;
-    margin: 1em 0 1.5em 0;
+    min-width: 200px;
 }
 
 #intro-demo {
