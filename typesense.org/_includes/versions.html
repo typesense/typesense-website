@@ -1,6 +1,6 @@
-<div id="doc-version">
-    Version:
-    <select>
+<div id="doc-version" class="form-inline">
+    <label>Version: </label>
+    <select class="custom-select ml-2">
         {% for version in site.versions %}
             {% assign path_parts = page.url | split: "/" %}
             {% assign page_version = path_parts[2] %}

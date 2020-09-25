@@ -53,6 +53,7 @@ nav_pages:
   - api.html
   - downloads.html.md
   - contact.html.md
+  - support.html.md
 
 defaults:
   - scope:
