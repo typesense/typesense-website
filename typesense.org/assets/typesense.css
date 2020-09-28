@@ -26,12 +26,17 @@ a.navbar-brand img {
 }
 
 .navbar ul.navbar-nav a {
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-weight: 300;
 }
 
 .navbar li#github-nav {
     margin-right: 0.5em;
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+    color: #006699;
+    font-weight: bold;
 }
 
 li.nav-item #doc-search {
@@ -284,4 +289,21 @@ p#money-back {
 
 #movies-results li {
     margin-bottom: 10px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 90px;
+}
+
+footer.navbar {
+    position: absolute;
+    bottom: 0;
+    margin-top: 20px;
+
+    font-size: 0.85em;
 }
