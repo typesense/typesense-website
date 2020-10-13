@@ -261,25 +261,29 @@ nav_label: guide
 
     <h3 id="install-client">Installing a client</h3>
 
-    <p>At the moment, we have clients for Javascript, Python, and Ruby. </p>
+    <p>At the moment, we have clients for Javascript, PHP, Python, Ruby. </p>
     <p>We recommend that you use our API client if it's available for your language. It's also easy to
     interact with Typesense through its simple, RESTful HTTP API.</p>
 
     {% code_block install %}
-    ```ruby
-    gem install typesense
-    ```
-
-    ```python
-    pip install typesense
-    ```
-
     ```javascript
     // Node.js
     npm install typesense
 
     // Browser
     <script src="dist/typesense.min.js"></script>
+    ```
+
+    ```php
+    composer require typesense/typesense-php
+    ```
+
+    ```python
+    pip install typesense
+    ```
+
+    ```ruby
+    gem install typesense
     ```
 
     {% endcode_block %}
@@ -302,32 +306,6 @@ nav_label: guide
     <p>Be sure to use the same API key that you used to start the Typesense server earlier.</p>
 
     {% code_block init-client %}
-    ```ruby
-      require 'typesense'
-
-      client = Typesense::Client.new(
-        nodes: [{
-          host:     'localhost',
-          port:     8108,
-          protocol: 'http'
-        }],
-        api_key:  '<API_KEY>',
-        connection_timeout_seconds: 2
-      )
-    ```
-    ```python
-      import typesense
-
-      client = typesense.Client({
-        'nodes': [{
-          'host': 'localhost',
-          'port': '8108',
-          'protocol': 'http'
-        }],
-        'api_key': '<API_KEY>',
-        'connection_timeout_seconds': 2
-      })
-    ```
     ```javascript
     /*
      *  Our Javascript client library works on both the client and the browser.
@@ -345,6 +323,53 @@ nav_label: guide
       'connectionTimeoutSeconds': 2
     })
     ```
+
+    ```php
+    use Typesence\Client;
+
+    $client = new Client(
+      [
+        'api_key'         => 'abcd',
+        'nodes'           => [
+          [
+            'host'     => 'localhost',
+            'port'     => '8108',
+            'protocol' => 'http',
+          ],
+        ],
+        'connection_timeout_seconds' => 2,
+      ]
+    );
+    ```
+
+    ```python
+      import typesense
+
+      client = typesense.Client({
+        'nodes': [{
+          'host': 'localhost',
+          'port': '8108',
+          'protocol': 'http'
+        }],
+        'api_key': '<API_KEY>',
+        'connection_timeout_seconds': 2
+      })
+    ```
+
+    ```ruby
+      require 'typesense'
+
+      client = Typesense::Client.new(
+        nodes: [{
+          host:     'localhost',
+          port:     8108,
+          protocol: 'http'
+        }],
+        api_key:  '<API_KEY>',
+        connection_timeout_seconds: 2
+      )
+    ```
+
     ```shell
       export TYPESENSE_API_KEY='<API_KEY>'
       export TYPESENSE_MASTER='http://localhost:8108'
@@ -360,27 +385,49 @@ nav_label: guide
       added to the collection.</p>
 
     {% code_block create-collection %}
-    ```ruby
-      require 'typesense'
+    ```javascript
+      let booksSchema = {
+        'name': 'books',
+        'fields': [
+          {'name': 'title', 'type': 'string' },
+          {'name': 'authors', 'type': 'string[]' },
+          {'name': 'image_url', 'type': 'string' },
 
-      books_schema = {
-        'name' => 'books',
-        'fields' => [
-          {'name' => 'title', 'type' => 'string' },
-          {'name' => 'authors', 'type' => 'string[]' },
-          {'name' => 'image_url', 'type' => 'string' },
+          {'name': 'publication_year', 'type': 'int32' },
+          {'name': 'ratings_count', 'type': 'int32' },
+          {'name': 'average_rating', 'type': 'float' },
 
-          {'name' => 'publication_year', 'type' => 'int32' },
-          {'name' => 'ratings_count', 'type' => 'int32' },
-          {'name' => 'average_rating', 'type' => 'float' },
-
-          {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
-          {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
+          {'name': 'authors_facet', 'type': 'string[]', 'facet': true },
+          {'name': 'publication_year_facet', 'type': 'string', 'facet': true },
         ],
-        'default_sorting_field' => 'ratings_count'
+        'default_sorting_field': 'ratings_count'
       }
 
-      client.collections.create(books_schema)
+      client.collections().create(booksSchema)
+        .then(function (data) {
+          console.log(data)
+        })
+    ```
+
+    ```php
+    $booksSchema = [
+      'name' => 'books',
+      'fields' => [
+        ['name' => 'title', 'type' => 'string'],
+        ['name' => 'authors', 'type' => 'string[]'],
+        ['name' => 'image_url', 'type' => 'string'],
+
+        ['name' => 'publication_year', 'type' => 'int32'],
+        ['name' => 'ratings_count', 'type' => 'int32'],
+        ['name' => 'average_rating', 'type' => 'float'],
+
+        ['name' => 'authors_facet', 'type' => 'string[]', 'facet' => true],
+        ['name' => 'publication_year_facet', 'type' => 'string', 'facet' => true]
+      ],
+      'default_sorting_field' => 'ratings_count'
+    ]
+
+    $client->collections->create($booksSchema)
     ```
 
     ```python
@@ -405,29 +452,30 @@ nav_label: guide
 
       client.collections.create(books_schema)
     ```
-    ```javascript
-      let booksSchema = {
-        'name': 'books',
-        'fields': [
-          {'name': 'title', 'type': 'string' },
-          {'name': 'authors', 'type': 'string[]' },
-          {'name': 'image_url', 'type': 'string' },
 
-          {'name': 'publication_year', 'type': 'int32' },
-          {'name': 'ratings_count', 'type': 'int32' },
-          {'name': 'average_rating', 'type': 'float' },
+    ```ruby
+      require 'typesense'
 
-          {'name': 'authors_facet', 'type': 'string[]', 'facet': true },
-          {'name': 'publication_year_facet', 'type': 'string', 'facet': true },
+      books_schema = {
+        'name' => 'books',
+        'fields' => [
+          {'name' => 'title', 'type' => 'string' },
+          {'name' => 'authors', 'type' => 'string[]' },
+          {'name' => 'image_url', 'type' => 'string' },
+
+          {'name' => 'publication_year', 'type' => 'int32' },
+          {'name' => 'ratings_count', 'type' => 'int32' },
+          {'name' => 'average_rating', 'type' => 'float' },
+
+          {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
+          {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
         ],
-        'default_sorting_field': 'ratings_count'
+        'default_sorting_field' => 'ratings_count'
       }
 
-      client.collections().create(booksSchema)
-        .then(function (data) {
-          console.log(data)
-        })
+      client.collections.create(books_schema)
     ```
+
     ```shell
       curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
             -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
@@ -461,25 +509,6 @@ nav_label: guide
     <p>We're now ready to index some books into the collection we just created.</p>
 
     {% code_block index-documents %}
-    ```ruby
-      require 'rubygems'
-      require 'json'
-      require 'typesense'
-
-      File.readlines('/tmp/books.jsonl').each do |json_line|
-        book_document = JSON.parse(json_line)
-        client.collections['books'].documents.create(book_document)
-      end
-    ```
-    ```python
-      import json
-      import typesense
-
-      with open('/tmp/books.jsonl') as infile:
-        for json_line in infile:
-          book_document = json.loads(json_line)
-          client.collections['books'].documents.create(book_document)
-    ```
     ```javascript
       var fs = require('fs');
       var readline = require('readline');
@@ -491,6 +520,34 @@ nav_label: guide
          let bookDocument = JSON.parse(line);
          client.collections('books').documents().create(bookDocument)
       });
+    ```
+    ```php
+    $booksData = file_get_contents('/tmp/books.jsonl')
+    $booksStrs = explode($booksData, '\n')
+
+    foreach($booksStrs as $bookStr) {
+      $book = json_decode($bookStr);
+      $client->collections['books']->documents->create($book)
+    }
+    ```
+    ```python
+      import json
+      import typesense
+
+      with open('/tmp/books.jsonl') as infile:
+        for json_line in infile:
+          book_document = json.loads(json_line)
+          client.collections['books'].documents.create(book_document)
+    ```
+    ```ruby
+      require 'rubygems'
+      require 'json'
+      require 'typesense'
+
+      File.readlines('/tmp/books.jsonl').each do |json_line|
+        book_document = JSON.parse(json_line)
+        client.collections['books'].documents.create(book_document)
+      end
     ```
     ```shell
         #!/bin/bash
@@ -511,25 +568,6 @@ nav_label: guide
     to rank books that have more ratings higher in the results.</p>
 
     {% code_block search-collection-1 %}
-    ```ruby
-      search_parameters = {
-        'q'         => 'harry potter',
-        'query_by'  => 'title',
-        'sort_by'   => 'ratings_count:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
-
-    ```python
-      search_parameters = {
-        'q'         : 'harry',
-        'query_by'  : 'title',
-        'sort_by'   : 'ratings_count:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
 
     ```javascript
       let searchParameters = {
@@ -544,6 +582,36 @@ nav_label: guide
         .then(function (searchResults) {
           console.log(searchResults)
         })
+    ```
+
+    ```php
+      $searchParameters = [
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'sort_by'   => 'ratings_count:desc'
+      ]
+
+      $client->collections['books']->documents->search($searchParameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'ratings_count:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```ruby
+      search_parameters = {
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'sort_by'   => 'ratings_count:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -597,25 +665,6 @@ nav_label: guide
       <code>sort_by</code> clause to <code>publication_year:desc</code>:</p>
 
     {% code_block search-collection-2 %}
-    ```ruby
-      search_parameters = {
-        'q'         => 'harry potter',
-        'query_by'  => 'title',
-        'sort_by'   => 'publication_year:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
-
-    ```python
-      search_parameters = {
-        'q'         : 'harry',
-        'query_by'  : 'title',
-        'sort_by'   : 'publication_year:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
 
     ```javascript
       let searchParameters = {
@@ -630,6 +679,36 @@ nav_label: guide
         .then(function (searchResults) {
           console.log(searchResults)
         })
+    ```
+
+    ```php
+      $searchParameters = [
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'sort_by'   => 'publication_year:desc'
+      ]
+
+      $client->collections['books']->documents->search($searchParameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```ruby
+      search_parameters = {
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'sort_by'   => 'publication_year:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -683,27 +762,6 @@ nav_label: guide
     </p>
 
     {% code_block search-collection-3 %}
-    ```ruby
-      search_parameters = {
-        'q'         => 'harry potter',
-        'query_by'  => 'title',
-        'filter_by' => 'publication_year:<1998',
-        'sort_by'   => 'publication_year:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
-
-    ```python
-      search_parameters = {
-        'q'         : 'harry',
-        'query_by'  : 'title',
-        'filter_by' : 'publication_year:<1998',
-        'sort_by'   : 'publication_year:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
 
     ```javascript
       let searchParameters = {
@@ -719,6 +777,39 @@ nav_label: guide
         .then(function (searchResults) {
           console.log(searchResults)
         })
+    ```
+
+    ```php
+      $searchParameters = [
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'filter_by' => 'publication_year:<1998',
+        'sort_by'   => 'publication_year:desc'
+      ]
+
+      $client->collections['books']->documents->search($searchParameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'harry',
+        'query_by'  : 'title',
+        'filter_by' : 'publication_year:<1998',
+        'sort_by'   : 'publication_year:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```ruby
+      search_parameters = {
+        'q'         => 'harry potter',
+        'query_by'  => 'title',
+        'filter_by' => 'publication_year:<1998',
+        'sort_by'   => 'publication_year:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
@@ -773,27 +864,6 @@ nav_label: guide
       Let's search for <code>experyment</code> (notice the typo!). </p>
 
     {% code_block search-collection-4 %}
-    ```ruby
-      search_parameters = {
-        'q'         => 'experyment',
-        'query_by'  => 'title',
-        'facet_by'  => 'authors_facet',
-        'sort_by'   => 'average_rating:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
-
-    ```python
-      search_parameters = {
-        'q'         : 'experyment',
-        'query_by'  : 'title',
-        'facet_by' : 'authors_facet',
-        'sort_by'   : 'average_rating:desc'
-      }
-
-      client.collections['books'].documents.search(search_parameters)
-    ```
 
     ```javascript
       let searchParameters = {
@@ -809,6 +879,39 @@ nav_label: guide
         .then(function (searchResults) {
           console.log(searchResults)
         })
+    ```
+
+    ```php
+      $searchParameters = [
+        'q'         => 'experyment',
+        'query_by'  => 'title',
+        'facet_by'  => 'authors_facet',
+        'sort_by'   => 'average_rating:desc'
+      ]
+
+      $client->collections['books']->documents->search($searchParameters)
+    ```
+
+    ```python
+      search_parameters = {
+        'q'         : 'experyment',
+        'query_by'  : 'title',
+        'facet_by' : 'authors_facet',
+        'sort_by'   : 'average_rating:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
+    ```
+
+    ```ruby
+      search_parameters = {
+        'q'         => 'experyment',
+        'query_by'  => 'title',
+        'facet_by'  => 'authors_facet',
+        'sort_by'   => 'average_rating:desc'
+      }
+
+      client.collections['books'].documents.search(search_parameters)
     ```
 
     ```shell
