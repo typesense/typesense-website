@@ -14,13 +14,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Typesense - open source, typo tolerant search engine for everyone.
+title: "Typesense: fast, open-source, typo-tolerant search engine."
 email: contact@typesense.org
 description: >- # this means to ignore newlines until "baseurl:"
    Typesense is an open source, typo tolerant search engine that delivers fast and relevant results out-of-the-box.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org"
 versions:
+  - 0.16.0
   - 0.15.0
   - 0.14.0
   - 0.13.0
@@ -28,7 +29,6 @@ versions:
   - 0.11.2
   - 0.11.1
   - 0.11.0
-  - 0.10.1
 
 premium_versions:
   - 10.3.0
@@ -52,7 +52,6 @@ nav_pages:
   - guide.html
   - api.html
   - downloads.html.md
-  - contact.html.md
   - support.html.md
 
 defaults:
@@ -92,6 +91,10 @@ defaults:
       path: "docs/0.15.0"
     values:
       permalink: "/docs/0.15.0/:basename/"
+  - scope:
+      path: "docs/0.16.0"
+    values:
+      permalink: "/docs/0.16.0/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

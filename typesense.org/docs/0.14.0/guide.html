@@ -970,46 +970,47 @@ nav_label: guide
         ```
       {% endcode_block %}
 
-      We're essentially creating a <code>searchClient</code> with the adapter and passing it to <code>instantsearch</code> when initializing it.
+      <p>We're essentially creating a <code>searchClient</code> with the adapter and passing it
+        to <code>instantsearch</code> when initializing it.</p>
 
-      Now, you can use any of the widgets supported by InstantSearch to build a search interface. In this walkthrough, we'll add a search box, along with results:
+      <p>Now, you can use any of the widgets supported by InstantSearch to build a search interface.
+        In this walkthrough, we'll add a search box, along with results:</p>
 
-      {% code_block instantsearch-search-widget %}
-        ```javascript
-          search.addWidgets([
-            instantsearch.widgets.searchBox({
-              container: '#searchbox',
-            }),
-            instantsearch.widgets.hits({
-              container: '#hits',
-              templates: {
-                item: `
-                  <div>
-                    <img src="{{image_url}}" align="left" alt="{{name}}" />
-                    <div class="hit-name">
-                      {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
-                    </div>
-                    <div class="hit-description">
-                      {{#helpers.highlight}}{ "attribute": "authors" }{{/helpers.highlight}}
-                    </div>
-                    <div class="hit-price">\${{publication_year}}</div>
-                    <div class="hit-rating">Rating: {{average_rating}}</div>
-                  </div>
-                `,
-              },
-            }),
-            instantsearch.widgets.pagination({
-              container: '#pagination',
-            }),
-          ]);
+<div class="tab-content">
+  {% highlight javascript %}
 
-          search.start();
-        ```
-      {% endcode_block %}
+  search.addWidgets([
+    instantsearch.widgets.searchBox({
+      container: '#searchbox',
+    }),
+    instantsearch.widgets.hits({
+      container: '#hits',
+      templates: {
+        item: `
+          <div>
+            <img src="{{image_url}}" align="left" alt="{{name}}" />
+            <div class="hit-name">
+              {% raw %}{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}{% endraw %}
+            </div>
+            <div class="hit-description">
+              {% raw %}{{#helpers.highlight}}{ "attribute": "authors" }{{/helpers.highlight}}{% endraw %}
+            </div>
+            <div class="hit-price">\${{publication_year}}</div>
+            <div class="hit-rating">Rating: {{average_rating}}</div>
+          </div>
+        `,
+      },
+    }),
+    instantsearch.widgets.pagination({
+      container: '#pagination',
+    }),
+  ]);
 
-      Now run <code>npm start</code> to start the dev server and view the app. You should now have a fully-functioning instant search interface with a search box, results that update as you type and pagination.
+  search.start();
+  {% endhighlight %}
+  </div>
 
-    </p>
+    <p>Now run <code>npm start</code> to start the dev server and view the app. You should now have a fully-functioning instant search interface with a search box, results that update as you type and pagination.</p>
     <h3 id="typesense-instantsearch-demo">Demo App</h3>
     <p>
       Here's a repo with a working version of the app, following the instructions above: <a href="https://github.com/typesense/typesense-instantsearch-demo">https://github.com/typesense/typesense-instantsearch-demo</a>.

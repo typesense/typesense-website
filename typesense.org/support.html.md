@@ -8,8 +8,8 @@ permalink: /support/
 <div class="row no-gutters">
   <div id="doc-col" class="col-md-8">
     <p>
-      We strive to provide good support through our issue trackers on Github. However, if you'd like to receive
-      private & prioritized support with:
+      We strive to provide good support through our issue trackers on Github. 
+      However, if you'd like to receive private & prioritized support with:
     </p>
     <ul>
       <li>Guaranteed SLAs</li>
