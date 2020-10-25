@@ -353,8 +353,9 @@ nav_label: api
       <p>A document to be indexed in a given collection must conform to the schema of the collection.</p>
 
       <p>
-        If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the
-        document. Otherwise, Typesense would assign an identifier of its choice to the document.
+        If the document contains an <code>id</code> field of type <code>string</code>, Typesense would use that
+        field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to
+        the document.
       </p>
 
       {% code_block index-document %}
@@ -416,7 +417,9 @@ nav_label: api
         ```
       {% endcode_block %}
 
-      <p>You can also <strong>upsert</strong> a document, by providing it as an option.</p>
+      <h5>Upserting a document</h5>
+
+      <p>You can also upsert a document.</p>
 
       {% code_block upsert-document %}
 
@@ -428,7 +431,7 @@ nav_label: api
             'country': 'USA'
           }
 
-          client.collections('companies').documents().create(document, {upsert: true})
+          client.collections('companies').documents().upsert(document)
         ```
 
         ```php
@@ -439,7 +442,7 @@ nav_label: api
           'country'       => 'USA'
         ]
 
-        $client->collections['companies']->documents->create($document, ['upsert' => true])
+        $client->collections['companies']->documents->upsert($document)
         ```
 
         ```python
@@ -450,7 +453,7 @@ nav_label: api
           'country': 'USA'
         }
 
-        client.collections['companies'].documents.create(document, {'upsert': True})
+        client.collections['companies'].documents.upsert(document)
         ```
 
         ```ruby
@@ -461,11 +464,11 @@ nav_label: api
           'country'       => 'USA'
         }
 
-        client.collections['companies'].documents.create(document, upsert: true)
+        client.collections['companies'].documents.upsert(document)
         ```
 
         ```shell
-        curl "http://localhost:8108/collections/companies/documents?upsert=true" -X POST \
+        curl "http://localhost:8108/collections/companies/documents?action=upsert" -X POST \
                 -H "Content-Type: application/json" \
                 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                 -d '{
@@ -477,54 +480,8 @@ nav_label: api
         ```
       {% endcode_block %}
 
-      <p>Simiarly, you can index multiple documents as well.</p>
-
-      {% code_block upsert-documents %}
-
-        ```javascript
-          let documents = [{
-            'id': '124',
-            'company_name': 'Stark Industries',
-            'num_employees': 5215,
-            'country': 'USA'
-          }]
-
-          client.collections('companies').documents().createMany(documents, {upsert: true})
-        ```
-
-        ```php
-        $documents = [[
-          'id'            => '124',
-          'company_name'  => 'Stark Industries',
-          'num_employees' => 5215,
-          'country'       => 'USA'
-        ]]
-
-        $client->collections['companies']->documents->createMany($documents, ['upsert' => true])
-        ```
-
-        ```python
-        documents = [{
-          'id': '124',
-          'company_name': 'Stark Industries',
-          'num_employees': 5215,
-          'country': 'USA'
-        }]
-
-        client.collections['companies'].documents.create_many(documents, {'upsert': True})
-        ```
-
-        ```ruby
-        documents = [{
-          'id'            => '124',
-          'company_name'  => 'Stark Industries',
-          'num_employees' => 5215,
-          'country'       => 'USA'
-        }]
-
-        client.collections['companies'].documents.create_many(documents, upsert: true)
-        ```
-      {% endcode_block %}
+      <p>To index multiple documents at the same time, in a batch/bulk operation,
+        see <a href="#import-documents">importing documents</a>.</p>
 
       <h5>Sample Response</h5>
 
@@ -1105,7 +1062,7 @@ nav_label: api
         ```
 
         ```shell
-        curl "http://localhost:8108/collections/companies/documents/124" -X PUT \
+        curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
                 -H "Content-Type: application/json" \
                 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                 -d '{
@@ -1128,7 +1085,7 @@ nav_label: api
 
       <h5>Definition</h5>
 
-      <p><code>PUT ${TYPESENSE_HOST}/collections/:collection/documents/:id</code></p>
+      <p><code>PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id</code></p>
 
       <h4 id="delete-document">Delete a document</h4>
 
@@ -1266,8 +1223,84 @@ nav_label: api
 
       <h4 id="import-documents">Import documents into a collection</h4>
 
-      <p>The documents to be imported must be formatted in a newline delimited JSON stucture.
-         You can feed the output file from a Typesense export operation directly as import.</p>
+      <p>The documents to be imported can be either an array of document objects or be formatted as a newline
+        delimited JSON string (see <a href="https://jsonlines.org/">JSONL</a>).</p>
+
+      <h5>Indexing multiple documents at the same time</h5>
+
+      <p>You can index multiple documents via the import API.</p>
+
+      {% code_block upsert-documents %}
+
+        ```javascript
+          let documents = [{
+            'id': '124',
+            'company_name': 'Stark Industries',
+            'num_employees': 5215,
+            'country': 'USA'
+          }]
+
+          client.collections('companies').documents().import(documents, {action: 'upsert'})
+        ```
+
+        ```php
+        $documents = [[
+          'id'            => '124',
+          'company_name'  => 'Stark Industries',
+          'num_employees' => 5215,
+          'country'       => 'USA'
+        ]]
+
+        $client->collections['companies']->documents->import($documents, ['action' => 'upsert'])
+        ```
+
+        ```python
+        documents = [{
+          'id': '124',
+          'company_name': 'Stark Industries',
+          'num_employees': 5215,
+          'country': 'USA'
+        }]
+
+        client.collections['companies'].documents.import_(documents, {'action': 'upsert'})
+        ```
+
+        ```ruby
+        documents = [{
+          'id'            => '124',
+          'company_name'  => 'Stark Industries',
+          'num_employees' => 5215,
+          'country'       => 'USA'
+        }]
+
+        client.collections['companies'].documents.import(documents, action: 'upsert')
+        ```
+      {% endcode_block %}
+
+      <p>The other allowed <code>action</code> modes are <code>create</code> and <code>update</code>.</p>
+
+      <h5>Action modes</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <td>create (default)</td>
+          <td>Creates a new document. Fails if a document with the same <code>id</code> already exists.</td>
+        </tr>
+        <tr>
+          <td>upsert</td>
+          <td>Creates a new document or updates an existing document if a document with the same
+            <code>id</code> already exists.</td>
+        </tr>
+        <tr>
+          <td>update</td>
+          <td>Updates an existing document. Fails if a document with the given <code>id</code> does not exist.</td>
+        </tr>
+      </table>
+
+      <h5>Importing a JSONL file</h5>
+
+      <p>You can feed the output of a Typesense export operation directly as import to the import end-point since
+        both use JSONL.</p>
 
       <p>Here's an example file:</p>
 
@@ -1284,37 +1317,71 @@ nav_label: api
 
       ```javascript
          const documentsInJsonl = await fs.readFile("documents.jsonl");
-         client.collections('companies').documents().import(documentsInJsonl, {upsert: false});
+         client.collections('companies').documents().import(documentsInJsonl, {action: 'create'});
       ```
 
       ```php
         $documentsInJsonl = file_get_contents('documents.jsonl');
-        client.collections['companies'].documents.import($documentsInJsonl, ['upsert' => false])
+        client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create'])
       ```
 
       ```python
         with open('documents.jsonl') as jsonl_file:
-          client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'upsert': False})
+          client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'action': 'create'})
       ```
 
       ```ruby
         documents_jsonl = File.read('documents.jsonl')
-        collections['companies'].documents.import(documents_jsonl, upsert: false)
+        collections['companies'].documents.import(documents_jsonl, action: 'create')
       ```
 
       ```shell
       curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
-      "http://localhost:8108/collections/companies/documents/import?upsert=false"
+      "http://localhost:8108/collections/companies/documents/import?action=create"
       ```
       {% endcode_block %}
 
-      <p>In the example above, we're importing the documents with the <code>upsert</code> flag set to <code>false</code>.
-      This means that the documents will be inserted only if a document with the same <code>id</code> is
-        not already found.</p>
+      <p>In the example above, we're importing the documents with the <code>action</code> flag
+        set to <code>create</code>. This means that the documents will be inserted only if a document with the
+        same <code>id</code> is not already found.</p>
 
-      <p>Alternatively, if you set the <code>upsert</code> flag to <code>true</code>, the documents will be
-      either updated or inserted based on whether they already exist. You can also update documents partially
-      this way.</p>
+      <p>As we have seen earlier, you can also use the <code>upsert</code> and <code>update</code> actions.
+        If you don't provide an <code>action</code>, the default mode is <code>create</code>.</p>
+
+      <h5>Configuring the batch size used for import</h5>
+
+      <p>By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the
+      <code>batch_size</code> parameter. </p>
+
+      {% code_block import-documents-batch-size %}
+
+      ```javascript
+         const documentsInJsonl = await fs.readFile("documents.jsonl");
+         client.collections('companies').documents().import(documentsInJsonl, {batch_size: 100});
+      ```
+
+      ```php
+        $documentsInJsonl = file_get_contents('documents.jsonl');
+        client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100])
+      ```
+
+      ```python
+        with open('documents.jsonl') as jsonl_file:
+          client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'batch_size': 100})
+      ```
+
+      ```ruby
+        documents_jsonl = File.read('documents.jsonl')
+        collections['companies'].documents.import(documents_jsonl, batch_size: 100)
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
+      "http://localhost:8108/collections/companies/documents/import?batch_size=100"
+      ```
+      {% endcode_block %}
+
+      <p><strong>NOTE:</strong> Larger batch sizes will consume larger transient memory during import.</p>
 
       <h5>Sample response</h5>
 
