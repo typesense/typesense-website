@@ -523,7 +523,7 @@ nav_label: guide
     ```
     ```php
     $booksData = file_get_contents('/tmp/books.jsonl')
-    $booksStrs = explode($booksData, '\n')
+    $booksStrs = explode('\n', $booksData)
 
     foreach($booksStrs as $bookStr) {
       $book = json_decode($bookStr);
