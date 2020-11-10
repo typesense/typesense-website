@@ -21,6 +21,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org"
 versions:
+  - 0.16.1
   - 0.16.0
   - 0.15.0
   - 0.14.0
@@ -95,6 +96,10 @@ defaults:
       path: "docs/0.16.0"
     values:
       permalink: "/docs/0.16.0/:basename/"
+  - scope:
+      path: "docs/0.16.1"
+    values:
+        permalink: "/docs/0.16.1/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
