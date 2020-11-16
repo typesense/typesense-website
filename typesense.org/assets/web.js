@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     function getResults(q, callback) {
         var url = "https://b7tx4w2zpfvluej3.a1.typesense.net/collections/books/documents/search?q="+ q +
-            "&prefix=true&query_by=title&sort_by=ratings_count:DESC&page="+search_state.page+"&per_page=" +
+            "&prefix=true&query_by=title&sort_by=_text_match:DESC,ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2";
 
         $.ajax({
