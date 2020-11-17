@@ -99,6 +99,10 @@ defaults:
       path: "docs/0.16.1"
     values:
         permalink: "/docs/0.16.1/:basename/"
+  - scope:
+      path: "docs/0.17.0"
+    values:
+        permalink: "/docs/0.17.0/:basename/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
