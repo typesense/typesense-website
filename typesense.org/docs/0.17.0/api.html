@@ -571,7 +571,8 @@ nav_label: api
               "highlights": [
                 {
                   "field": "company_name",
-                  "snippet": "<mark>Stark</mark> Industries"
+                  "snippet": "<mark>Stark</mark> Industries",
+                  "matched_tokens": ["Stark"]
                 }
               ],
               "document": {
@@ -600,6 +601,10 @@ nav_label: api
                   "snippets": [
                     "10880 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265",
                     "10000 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265"
+                  ],
+                  "matched_tokens": [
+                    ["Malibu", "Malibu"],
+                    ["Malibu", "Malibu"]
                   ]
                 }
               ],
@@ -911,6 +916,22 @@ nav_label: api
           </td>
         </tr>
         <tr>
+          <td>highlight_start_tag</td>
+          <td>no</td>
+          <td>
+            <p>The start tag used for the highlighted snippets.</p>
+            <p>Default: <code>&lt;mark&gt;</code></p>
+          </td>
+        </tr>
+        <tr>
+          <td>highlight_end_tag</td>
+          <td>no</td>
+          <td>
+            <p>The end tag used for the highlighted snippets.</p>
+            <p>Default: <code>&lt;/mark&gt;</code></p>
+          </td>
+        </tr>
+        <tr>
           <td>snippet_threshold</td>
           <td>no</td>
           <td><p>Field values under this length will be fully highlighted, instead of showing a snippet of
@@ -1087,7 +1108,7 @@ nav_label: api
 
       <p><code>PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id</code></p>
 
-      <h4 id="delete-document">Delete a document</h4>
+      <h4 id="delete-document">Deleting documents</h4>
 
       <p>Delete an individual document from a collection by using its <code>id</code>.</p>
 
@@ -1101,7 +1122,7 @@ nav_label: api
       ```
 
       ```python
-        client.collections['companies'].documents('124').delete()
+        client.collections['companies'].documents('124').delete_()
       ```
 
       ```ruby
@@ -1130,6 +1151,49 @@ nav_label: api
       <h5>Definition</h5>
 
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id</code></p>
+
+      <p>You can also delete a bunch of documents that match a specific filter condition:</p>
+
+      {% code_block delete-documents %}
+      ```javascript
+      client.collections('companies').documents().delete({'filter_by': 'num_employees:>100'})
+      ```
+
+      ```php
+      $client->collections['companies']->documents->delete(['filter_by' => 'num_employees:>100']));
+      ```
+
+      ```python
+      client.collections['companies'].documents.delete_({'filter_by': 'num_employees:>100'})
+      ```
+
+      ```ruby
+      client.collections['companies'].documents.delete(filter_by: 'num_employees:>100')
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
+      "http://localhost:8108/collections/companies/documents?filter_by=num_employees:>=100&batch_size=100"
+      ```
+      {% endcode_block %}
+
+      <p>Use the <code>batch_size</code> parameter to control the number of documents that should
+        deleted at a time. A larger value will speed up deletions, but will impact performance of other
+        operations running on the server.</p>
+
+      <h5>Sample response</h5>
+
+      {% code_block delete-document-response %}
+      ```json
+      {
+        "num_deleted": 24
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+
+      <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/documents?filter_by=X&batch_size=N</code></p>
 
       <h4 id="retrieve-collection">Retrieve a collection</h4>
 
@@ -2436,13 +2500,23 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
 
-      <h3 id="whats-new">What's new in 0.16.1</h3>
+      <h3 id="whats-new">What's new in 0.17.0</h3>
 
-      <p>This is a maintenance release to fix an issue we identified with the updates feature.</p>
+      <p>This release contains a few new features and important bug fixes.</p>
 
       <ul>
-        <li><strong>[Bug fix]</strong> Updates to string array fields were causing a crash during
-          faceting.</li>
+        <li><strong>[Feature]</strong> Matched tokens are returned in the highlight response structure.</li>
+        <li><strong>[Feature]</strong> Customization of the start and end HTML tags used for highlighting
+          (default being the mark tag).</li>
+        <li><strong>[Feature]</strong> Delete documents that match a filter query.</li>
+        <li><strong>[Feature]</strong> Tokenizer now splits text on new line characters, in addition to space.</li>
+        <li><strong>[Bug fix]</strong> Fixed a bug that prevented single document updates from being
+          available on the Raft log.</li>
+        <li><strong>[Bug fix]</strong> Validate data types of the fields of a collection schema
+          during collection creation.</li>
+        <li><strong>[Bug fix]</strong> Ignore invalid unicode characters when returning search response. Earlier, this
+        was causing a crash in some rare cases.</li>
+        <li><strong>[Bug fix]</strong> Allow the colon character (<code>:</code>) to be present in the filter query value.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -2506,7 +2580,7 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#search-collection">Search a collection</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-document">Retrieve a document</a>
             <a class="nav-link ml-3 my-1" href="#update-document">Update a document</a>
-            <a class="nav-link ml-3 my-1" href="#delete-document">Delete a document</a>
+            <a class="nav-link ml-3 my-1" href="#delete-document">Deleting documents</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-collection">Retrieve a collection</a>
             <a class="nav-link ml-3 my-1" href="#export-documents">Export documents</a>
             <a class="nav-link ml-3 my-1" href="#import-documents">Import documents</a>
@@ -2534,7 +2608,7 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
             <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.16.1</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.17.0</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>

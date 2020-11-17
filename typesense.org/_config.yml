@@ -21,6 +21,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://typesense.org"
 versions:
+  - 0.17.0
   - 0.16.1
   - 0.16.0
   - 0.15.0
@@ -28,8 +29,6 @@ versions:
   - 0.13.0
   - 0.12.0
   - 0.11.2
-  - 0.11.1
-  - 0.11.0
 
 premium_versions:
   - 10.3.0
