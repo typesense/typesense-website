@@ -11,13 +11,13 @@ $(document).ready(function() {
         per_page: 4
     };
 
-    var search_api_key = 'DK24AQCCw86SEb5kL30gE21UaVWLnBMd';
+    var search_api_key = 'S312pjjDsQ5qfe443RCgelSPJelZNl2i';
 
     $("#goodreads-search input").select();
     $("#goodreads-search input").focus();
 
     function getResults(q, callback) {
-        var url = "https://b7tx4w2zpfvluej3.a1.typesense.net/collections/books/documents/search?q="+ q +
+        var url = "https://x3s805zrawjuod9fp.a1.typesense.net/collections/books/documents/search?q="+ q +
             "&prefix=true&query_by=title&sort_by=_text_match:DESC,ratings_count:DESC&page="+search_state.page+"&per_page=" +
             search_state.per_page + "&num_typos=2";
 
