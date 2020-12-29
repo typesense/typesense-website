@@ -1645,7 +1645,7 @@ nav_label: api
         we're able to create an admin key that gives you universal access. However, you should refrain from creating
       such widely scoped keys. </p>
 
-      <p><mark><strong>NOTE: </strong>The generated key is returned only during creation. You want to store this
+      <p><mark><strong>NOTE: </strong>The generated key is only returned during creation. You want to store this
         key carefully in a secure place.</mark></p>
 
       <p>Let's now see how we can create a search-only key that allows you to limit the
@@ -1715,6 +1715,36 @@ nav_label: api
 
       <h5>Definition</h5>
       <p><code>POST ${TYPESENSE_HOST}/keys</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>actions</td>
+          <td>yes</td>
+          <td>List of allowed actions. See next table for possible values.</td>
+        </tr>
+        <tr>
+          <td>collections</td>
+          <td>yes</td>
+          <td>List of collections that this key is scoped to. Supports regex. Eg: <code>coll.*</code> will match all collections that have "coll" in their name.</td>
+        </tr>
+        <tr>
+          <td>description</td>
+          <td>no</td>
+          <td>Internal description to identify what the key is for</td>
+        </tr>
+        <tr>
+          <td>expires_at</td>
+          <td>no</td>
+          <td><a href="https://www.epochconverter.com/" target="_blank">Unix timestamp</a> until which the key is valid.</td>
+        </tr>        
+      </table>
 
       <h5>Sample actions</h5>
 
