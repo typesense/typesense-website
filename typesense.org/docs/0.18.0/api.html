@@ -2500,6 +2500,309 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>DELETE ${TYPESENSE_HOST}/aliases/:alias</code></p>
 
+      <hr>
+
+      <h3 id="synonyms">Synonyms</h3>
+
+      <p>The synonyms feature allows you to define search terms that should be considered equivalent. 
+        For eg: when you define a synonym for <code>sneaker</code> as <code>shoe</code>, 
+        searching for <code>sneaker</code> will now return all records with the word <code>shoe</code> in them, 
+        in addition to records with the word <code>sneaker</code>.
+      </p>
+
+      <p>Typesense supports two types of synonyms:</p>
+      <dl>
+        <dt>Multi-way synonyms</dt>
+        <dd>Defining words <code>ABC, DEF and XYZ</code> (for eg) as multi-way synonyms will cause searches for any one of those words (eg: <code>DEF</code>) to return records containing at least one of the words in the synonym set (eg: records with <code>ABC</code> or <code>DEF</code> or <code>KYX</code> are returned).</dd>
+        <dt>One-way synonyms</dt>
+        <dd>Defining the words <code>DEF</code> and <code>XYZ</code> as one-way synonyms of <code>ABC</code> will cause searches for 
+          <code>DEF</code> or <code>XYZ</code> to return records containing <code>ABC</code>.
+        </dd>
+      </dl>
+
+      <h4 id="create-update-multi-synonym">Create or update a multi-way synonym</h4>
+
+      {% code_block create-update-synonym %}
+      ```javascript
+      synonym = {
+        "synonyms": ["blazer", "coat", "jacket"]
+      }
+
+      // Creates/updates a synonym called `coat-synonyms` in the `products` collection
+      client.collections('products').synonyms().upsert('coat-synonyms', synonym)
+      ```
+
+      ```php
+      $synonym = [
+        "synonyms" => ["blazer", "coat", "jacket"]
+      ]
+
+      # Creates/updates a synonym called `coat-synonyms` in the `products` collection
+      $client->collections['products']->synonyms->upsert('coat-synonyms', $synonym)
+      ```
+
+      ```python
+      synonym = {
+        "synonyms": ["blazer", "coat", "jacket"]
+      }
+
+      # Creates/updates a synonym called `coat-synonyms` in the `products` collection
+      client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
+      ```
+
+      ```ruby
+      synonym = {
+        "synonyms" => ["blazer", "coat", "jacket"]
+      }
+
+      # Creates/updates a synonym called `coat-synonyms` in the `products` collection
+      client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
+      ```
+
+      ```shell
+      curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "synonyms": ["blazer", "coat", "jacket"]
+      }'
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-multi-way-synonym-response %}
+      ```json
+      {
+        "id": "coat-synonyms",
+        "synonyms": ["blazer", "coat", "jacket"]
+      }
+      ```
+      {% endcode_block %}
+
+      <h4 id="create-update-1-way-synonym">Create or update a one-way synonym</h4>
+
+      {% code_block create-update-synonym %}
+      ```javascript
+      synonym = {
+        "root": "blazer",
+        "synonyms": ["coat", "jacket"]
+      }
+
+      // Creates/updates a synonym called `blazer-synonyms` in the `products` collection
+      client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+      ```
+
+      ```php
+      $synonym = [
+        "root" => "blazer",
+        "synonyms" => ["coat", "jacket"]
+      ]
+
+      # Creates/updates a synonym called `blazer-synonyms` in the `products` collection
+      $client->collections['products']->synonyms->upsert('blazer-synonyms', $synonym)
+      ```
+
+      ```python
+      synonym = {
+        "root": "blazer",
+        "synonyms": ["coat", "jacket"]
+      }
+
+      # Creates/updates a synonym called `blazer-synonyms` in the `products` collection
+      client.collections['products'].synonyms.upsert('blazer-synonyms', synonym)
+      ```
+
+      ```ruby
+      synonym = {
+        "root" => "blazer",
+        "synonyms" => ["coat", "jacket"]
+      }
+
+      # Creates/updates a synonym called `coat-synonyms` in the `products` collection
+      client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
+      ```
+
+      ```shell
+      curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "root": "blazer",
+        "synonyms": ["coat", "jacket"]
+      }'
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-1-way-synonym-response %}
+      ```json
+      {
+        "id":"coat-synonyms",
+        "root":"blazer",
+        "synonyms": ["coat", "jacket"]
+      }
+      ```
+      {% endcode_block %}
+
+
+      <h5>Definition</h5>
+      <p><code>PUT ${TYPESENSE_HOST}/collections/:collection/synonyms/:id</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>synonyms</td>
+          <td>yes</td>
+          <td>Array of words that should be considered as synonyms.</td>
+        </tr>
+        <tr>
+          <td>root</td>
+          <td>no</td>
+          <td>For 1-way synonyms, indicates the root word that words in the <code>synonyms</code> parameter map to.</td>
+        </tr>
+      </table>
+
+      <hr />
+
+      <h4 id="retrieve-synonym">Retrieve a synonym</h4>
+
+      <p>We can retrieve a single synonym.</p>
+
+      {% code_block retrieve-alias %}
+      ```javascript
+      client.collections('products').synonyms('coat-synonyms').retrieve
+      ```
+
+      ```php
+      $client->collections['products']->synonyms['coat-synonyms']->retrieve()
+      ```
+
+      ```python
+      client.collections['products'].synonyms['coat-synonyms'].retrieve()
+      ```
+
+      ```ruby
+      client.collections['products'].synonyms['coat-synonyms'].retrieve
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      "http://localhost:8108/collections/products/synonyms/coat-synonyms"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-synonym-response %}
+      ```json
+      {
+        "id": "coat-synonyms",
+        "root":"",
+        "synonyms": ["blazer", "coat", "jacket"]
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/collections/:collection/synonyms/:id</code></p>
+
+      <hr />
+
+      <h4 id="list-synonyms">List all synonyms</h4>
+
+      <p>List all synonyms associated with a given collection.</p>
+
+      {% code_block list-synonyms %}
+      ```javascript
+      client.collections('products').synonyms().retrieve
+      ```
+
+      ```php
+      $client->collections['products']->synonyms->retrieve()
+      ```
+
+      ```python
+      client.collections['products'].synonyms.retrieve()
+      ```
+
+      ```ruby
+      client.collections['products'].synonyms.retrieve
+      ```
+
+      ```shell
+      curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      "http://localhost:8108/collections/products/synonyms"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block get-synonyms-response %}
+      ```json
+      {
+        "synonyms":[
+          {
+            "id": "coat-synonyms",
+            "root": "blazer",
+            "synonyms": ["coat", "jacket"]
+          }
+        ]
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>GET ${TYPESENSE_HOST}/collections/:collection/synonyms</code></p>
+
+      <hr />
+
+      <h4 id="delete-synonym">Delete a synonym</h4>
+
+      <p>Delete a synonym associated with a collection.</p>
+
+      {% code_block delete-synonym %}
+      ```javascript
+      client.collections('books').synonyms('coat-synonyms').delete()
+      ```
+
+      ```php
+      $client->collections['books']->synonyms['coat-synonyms'].delete()
+      ```
+
+      ```python
+      client.collections['books'].synonyms['coat-synonyms'].delete()
+      ```
+
+      ```ruby
+      client.collections['books'].synonyms['coat-synonyms'].delete
+      ```
+
+      ```shell
+      curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block delete-synonym-response %}
+      ```json
+      {
+        "id": "coat-synonyms"
+      }
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+      <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/synonyms/:id</code></p>
+      <hr />
+
       <h3 id="whats-new">What's new in 0.18.0</h3>
 
       <p>This release contains a few new features and important bug fixes.</p>
@@ -2512,9 +2815,9 @@ nav_label: api
         <li><strong>[Feature]</strong> Total documents in a collection is now returned in every response via the
         `out_of` key.</li>
         <li><strong>[Feature]</strong> Exclusion operator `-` for excluding individual query tokens from results.</li>
-        <li><strong>[Feature]</strong> Note vote API for triggering rotation of leader.</li>
+        <li><strong>[Feature]</strong> Vote API for triggering rotation of leader.</li>
         <li><strong>[Feature]</strong> On-demand snapshot API: allows you to create a backup with a single API call.</li>
-        <li><strong>[Feature]</strong> Support expiry of API tokens.</li>
+        <li><strong>[Feature]</strong> Support for expiry of API keys</li>
         <li><strong>[Feature]</strong> Support regexp for defining allowed collection names of an API key.</li>
         <li><strong>[Feature]</strong> Support operators in multi-valued numerical filter.</li>
         <li><strong>[Feature]</strong> Support bulk imports of upto 3 GB in POST body.</li>
@@ -2523,6 +2826,7 @@ nav_label: api
         <li><strong>[Bug fix]</strong> Debug end-point is now available even when node is not ready to serve searches.</li>
         <li><strong>[Bug fix]</strong> Fixed >= operator not working well with negative values.</li>
         <li><strong>[Bug fix]</strong> Fixed non-ascii characters not encoded properly in highlight snippet.</li>
+        <li><strong>[Bug fix]</strong> Fixed issue where duplicate results were returned across pages.</li>
         <li><strong>[Performance]</strong> Faster snapshot transfer and copy in multi-regional clusters.</li>
         <li><strong>[Performance]</strong> Speed up filters on numerical fields.</li>
       </ul>
@@ -2616,7 +2920,14 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#list-aliases">List all aliases</a>
             <a class="nav-link ml-3 my-1" href="#delete-alias">Delete an alias</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.17.0</a>
+          <a class="nav-link collapsed" href="#synonyms">Synonyms</a>
+          <nav class="nav nav-pills flex-column">
+            <a class="nav-link ml-3 my-1" href="#create-update-multi-synonym">Create/Update a synonym</a>
+            <a class="nav-link ml-3 my-1" href="#retrieve-synonym">Retrieve a synonym</a>
+            <a class="nav-link ml-3 my-1" href="#list-synonyms">List all synonyms</a>
+            <a class="nav-link ml-3 my-1" href="#delete-synonym">Delete a synonym</a>
+          </nav>
+          <a class="nav-link" href="#whats-new">What's new in 0.18.0</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>

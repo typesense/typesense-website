@@ -6,7 +6,7 @@ If you notice any typographic or logical errors in our documentation, please ope
 
 ```
 $ cd typesense.org
-$ bundle exec jekyll serve --watch
+$ bundle exec jekyll serve --livereload
 ```
 
 You can now access the website on [`http://127.0.0.1:4000`](http://127.0.0.1:4000).
