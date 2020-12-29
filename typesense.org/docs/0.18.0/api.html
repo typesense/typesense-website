@@ -766,6 +766,19 @@ nav_label: api
               documents matched on the <code>country</code> field.</p></td>
         </tr>
         <tr>
+          <td>query_by_weights</td>
+          <td>no</td>
+          <td>
+            <p>The relative weight to give each <code>query_by</code> field when ranking results. 
+              This can be used to boost fields in priority, when looking for matches.
+            </p>
+
+            <p>Separate each weight with a comma, in the same order as the <code>query_by</code> fields. 
+              For eg: <code>query_by_weights: 1,1,2</code> with <code>query_by: field_a,field_b,field_c</code> will give equal weightage to <code>field_a</code> and <code>field_b</code>, and will give twice the weightage to <code>field_c</code> comparitively.
+            </p>
+          </td>
+        </tr>
+        <tr>
           <td>max_hits</td>
           <td>no</td>
           <td><p>Maximum number of hits returned. Increasing this value might increase search latency.</p>
@@ -1743,7 +1756,7 @@ nav_label: api
           <td>expires_at</td>
           <td>no</td>
           <td><a href="https://www.epochconverter.com/" target="_blank">Unix timestamp</a> until which the key is valid.</td>
-        </tr>        
+        </tr>
       </table>
 
       <h5>Sample actions</h5>
@@ -2534,9 +2547,9 @@ nav_label: api
 
       <h3 id="synonyms">Synonyms</h3>
 
-      <p>The synonyms feature allows you to define search terms that should be considered equivalent. 
-        For eg: when you define a synonym for <code>sneaker</code> as <code>shoe</code>, 
-        searching for <code>sneaker</code> will now return all records with the word <code>shoe</code> in them, 
+      <p>The synonyms feature allows you to define search terms that should be considered equivalent.
+        For eg: when you define a synonym for <code>sneaker</code> as <code>shoe</code>,
+        searching for <code>sneaker</code> will now return all records with the word <code>shoe</code> in them,
         in addition to records with the word <code>sneaker</code>.
       </p>
 
@@ -2545,7 +2558,7 @@ nav_label: api
         <dt>Multi-way synonyms</dt>
         <dd>Defining words <code>ABC, DEF and XYZ</code> (for eg) as multi-way synonyms will cause searches for any one of those words (eg: <code>DEF</code>) to return records containing at least one of the words in the synonym set (eg: records with <code>ABC</code> or <code>DEF</code> or <code>KYX</code> are returned).</dd>
         <dt>One-way synonyms</dt>
-        <dd>Defining the words <code>DEF</code> and <code>XYZ</code> as one-way synonyms of <code>ABC</code> will cause searches for 
+        <dd>Defining the words <code>DEF</code> and <code>XYZ</code> as one-way synonyms of <code>ABC</code> will cause searches for
           <code>DEF</code> or <code>XYZ</code> to return records containing <code>ABC</code>.
         </dd>
       </dl>
