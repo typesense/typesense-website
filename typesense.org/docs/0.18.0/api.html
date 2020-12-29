@@ -2803,6 +2803,114 @@ nav_label: api
       <p><code>DELETE ${TYPESENSE_HOST}/collections/:collection/synonyms/:id</code></p>
       <hr />
 
+
+      <h3 id="cluster-operations">Cluster Operations</h3>
+
+      <h4 id="cluster-operations-snapshot">Create snapshot (for backups)</h4>
+
+      <p>Creates a point-in-time snapshot of a Typesense node's state and data in the specified directory.</p>
+
+      <p>You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.</p>
+
+      {% code_block operation-snapshot %}
+      ```javascript
+      client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-snapshot'})
+      ```
+
+      ```php
+      $client->operations->perform("snapshot", ["snapshot_path" => "/tmp/typesense-data-snapshot"])
+      ```
+
+      ```python
+      client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-snapshot'})
+      ```
+
+      ```ruby
+      client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-snapshot'})
+      ```
+
+      ```shell
+      curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-data-snapshot" -X POST \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block operation-snapshot-response %}
+      ```json
+      {
+        "success": true
+      }
+      ```
+      {% endcode_block %}
+
+
+      <h5>Definition</h5>
+      <p><code>POST ${TYPESENSE_HOST}/operations/snapshot</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>snapshot_path</td>
+          <td>yes</td>
+          <td>The directory on the server where the snapshot should be saved.</td>
+        </tr>
+      </table>
+
+      <h4 id="cluster-operations-vote">Re-elect Leader</h4>
+
+      <p>Triggers a follower node to initiate the raft voting process, which triggers leader re-election.</p>
+
+      <p>The follower node that you run this operation against will become the new leader, once this command succeeds.</p>
+
+      {% code_block operation-vote %}
+      ```javascript
+      client.operations.perform('vote')
+      ```
+
+      ```php
+      $client->operations->perform("vote")
+      ```
+
+      ```python
+      client.operations.perform('vote')
+      ```
+
+      ```ruby
+      client.operations.perform('vote')
+      ```
+
+      ```shell
+      curl "http://localhost:8108/operations/vote" -X POST \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block operation-vote-response %}
+      ```json
+      {
+        "success": true
+      }
+      ```
+      {% endcode_block %}
+
+
+      <h5>Definition</h5>
+      <p><code>POST ${TYPESENSE_HOST}/operations/vote</code></p>
+
+      <hr />
+
       <h3 id="whats-new">What's new in 0.18.0</h3>
 
       <p>This release contains a few new features and important bug fixes.</p>
@@ -2926,6 +3034,11 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#retrieve-synonym">Retrieve a synonym</a>
             <a class="nav-link ml-3 my-1" href="#list-synonyms">List all synonyms</a>
             <a class="nav-link ml-3 my-1" href="#delete-synonym">Delete a synonym</a>
+          </nav>
+          <a class="nav-link collapsed" href="#cluster-operations">Cluster Operations</a>
+          <nav class="nav nav-pills flex-column">
+            <a class="nav-link ml-3 my-1" href="#cluster-operations-snapshot">Create snapshot</a>
+            <a class="nav-link ml-3 my-1" href="#cluster-operations-vote">Re-elect leader</a>
           </nav>
           <a class="nav-link" href="#whats-new">What's new in 0.18.0</a>
           <a class="nav-link" href="#errors">API errors</a>
