@@ -1985,27 +1985,27 @@ nav_label: api
       {% code_block generate-scoped-search-api-key %}
       ```javascript
       keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
+      client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
       ```
 
       ```php
       $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124'])
+      $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465])
       ```
 
       ```python
       key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124"})
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1611590465})
       ```
 
       ```ruby
       key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
+      client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
       ```
 
       ```shell
       KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
-      EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124"}'
+      EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124","expires_at":1611590465}'
 
       digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64)
 
@@ -2022,6 +2022,9 @@ nav_label: api
       "SC9sT0hncHFwTHNFc3U3d3psRDZBUGNXQUViQUdDNmRHSmJFQnNnczJ4VT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCJ9"
       ```
       {% endcode_block %}
+
+      You can also set a custom <code>expires_at</code> for a scoped API key. The expiration for a scoped API key
+              should be less than the expiration of the parent API key with which it is generated.
 
       <h3 id="curation">Curation</h3>
 
