@@ -19,4 +19,10 @@ To create a Jekyll build:
 $ sh build.sh
 ```
 
+## Deployment
+
+```
+cd typesense.org && sh ../build.sh && aws s3 cp --recursive ../build/ s3://typesense.org --profile=typesense && aws cloudfront create-invalidation --distribution-id EQQQZ0LBFY66H --paths "/*" --profile typesense
+```
+
 &copy; 2016-2020 Typesense Inc.
