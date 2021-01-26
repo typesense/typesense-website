@@ -355,7 +355,8 @@ nav_label: api
       <p>
         If the document contains an <code>id</code> field of type <code>string</code>, Typesense would use that
         field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to
-        the document.
+        the document. Note that the <code>id</code> should not include spaces or any other characters that require
+        <a href='https://www.w3schools.com/tags/ref_urlencode.asp'>encoding in urls</a>.
       </p>
 
       {% code_block index-document %}
