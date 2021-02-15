@@ -786,13 +786,6 @@ nav_label: api
           </td>
         </tr>
         <tr>
-          <td>max_hits</td>
-          <td>no</td>
-          <td><p>Maximum number of records to consider from each field's index, in multi-field searches. Increasing this value might increase search latency.</p>
-            <p>Default: <code>250</code></p>
-          </td>
-        </tr>
-        <tr>
           <td>prefix</td>
           <td>no</td>
           <td><p>Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole
@@ -809,24 +802,31 @@ nav_label: api
                  <code>country: [USA, UK]</code>
               </p>
 
-              <p>To match a string field exactly, you have to mark the field as a facet and use the
-              <code>:=</code> operator.</p>
-
-              <p>
-                For example, <code>category:= Shoe</code> will match documents from the
-                category <code>shoes</code> and <i>not</i> from a category like
-                <code>shoe rack</code>.
-                You can also filter using multiple values: <code>category:= [Shoe, Sneaker]</code>.
-              </p>
-
-              <p>Separate multiple conditions with the <code>&&</code> operator.</p>
-              <p><code>num_employees:>100 && country: [USA, UK]</code></p>
+              <ul>
+                <li>
+                  To match a string field exactly, you have to mark the field as a facet and use the <code>:=</code> operator.<br>
+                  For eg: <code>category:=Shoe</code> will match documents from the
+                  category <code>shoes</code> and <i>not</i> from a category like
+                  <code>shoe rack</code>.
+                  You can also filter using multiple values: <code>category:= [Shoe, Sneaker]</code>.
+                </li>
+                <li>
+                  Get numeric values between a min and max value, using the range operator <code>[min..max]</code>
+                  <br>
+                  For eg: <code>num_employees:[10..100]</code>
+                </li>
+                <li>
+                  Separate multiple conditions with the <code>&&</code> operator.
+                  <br>
+                  For eg: <code>num_employees:>100 && country: [USA, UK]</code>
+                </li>
+              </ul>
 
               <p>More examples:</p>
-
               <p><code>num_employees:10</code> <br />
                  <code>num_employees:<=10</code>
               </p>
+
           </td>
         </tr>
         <tr>
@@ -1009,6 +1009,240 @@ nav_label: api
             </p>
             <p>You could also use the Overrides feature to override search results based on rules.
               Overrides are applied first, followed by pinned_hits and finally hidden_hits.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>limit_hits</td>
+          <td>no</td>
+          <td>
+            <p>Maximum number of hits that can be fetched from the collection. Eg: <code>200</code></p>
+            <p><code>page * per_page</code> should be less than this number for the search request to return results.</p>
+            <p>Default: no limit</p>
+            <p>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.</p>
+          </td>
+        </tr>
+
+
+      </table>
+
+      <h4 id="multi-search" class="mt-5">Federated / Multi Search</h4>
+
+      <p>
+        You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.
+      </p>
+
+      <p>You can also use this feature to do a <strong>federated search</strong> across multiple collections in a single HTTP request.</p>
+
+      {% code_block multi-search %}
+      ```javascript
+        let searchRequests = {
+          'searches': [
+            {
+              'collection': 'products',
+              'q': 'shoe',
+              'filter_by': 'price:=[50..120]'
+            },
+            {
+              'collection': 'brands',
+              'q': 'Nike'
+            }
+          ]
+        }
+
+        // Search parameters that are common to all searches go here
+        let commonSearchParams =  {
+            'query_by': 'name',
+        }
+
+        client.multiSearch.perform(searchRequests, commonSearchParams)
+      ```
+
+      ```php
+        $searchRequests = [
+          'searches' => [
+            [
+              'collection' => 'products',
+              'q' => 'shoe',
+              'filter_by' => 'price:=[50..120]'
+            ],
+            [
+              'collection' => 'brands',
+              'q' => 'Nike'
+            ]
+          ]
+        ]
+
+        // Search parameters that are common to all searches go here
+        $commonSearchParams =  [
+            'query_by' => 'name',
+        ]
+
+        $client->multiSearch->perform($searchRequests, $commonSearchParams)
+      ```
+
+      ```python
+        search_requests = {
+          'searches': [
+            {
+              'collection': 'products',
+              'q': 'shoe',
+              'filter_by': 'price:=[50..120]'
+            },
+            {
+              'collection': 'brands',
+              'q': 'Nike'
+            }
+          ]
+        }
+
+        # Search parameters that are common to all searches go here
+        common_search_params =  {
+            'query_by': 'name',
+        }
+
+        client.multi_search.perform(search_requests, common_search_params)
+      ```
+
+      ```ruby
+        search_requests = {
+          'searches': [
+            {
+              'collection': 'products',
+              'q': 'shoe',
+              'filter_by': 'price:=[50..120]'
+            },
+            {
+              'collection': 'brands',
+              'q': 'Nike'
+            }
+          ]
+        }
+
+        # Search parameters that are common to all searches go here
+        common_search_params =  {
+            'query_by': 'name',
+        }
+
+        client.multi_search.perform(search_requests, common_search_params)
+      ```
+
+      ```shell
+        curl "http://localhost:8108/multi_search?query_by=name" \
+                -X POST \
+                -H "Content-Type: application/json" \
+                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+                -d '{
+                  "searches": [
+                    {
+                      "collection": "products",
+                      "q": "shoe",
+                      "filter_by": "price:=[50..120]"
+                    },
+                    {
+                      "collection": "brands",
+                      "q": "Nike"
+                    }
+                  ]
+                }'
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block multi-search-response %}
+      ```json
+        {
+          "results": [
+            {
+              "facet_counts": [],
+              "found": 1,
+              "hits": [
+                {
+                  "document": {
+                    "name": "Blue shoe",
+                    "brand": "Adidas",
+                    "id": "126",
+                    "price": 50
+                  },
+                  "highlights": [
+                    {
+                      "field": "name",
+                      "matched_tokens": [
+                        "shoe"
+                      ],
+                      "snippet": "Blue <mark>shoe</mark>"
+                    }
+                  ],
+                  "text_match": 130816
+                }
+              ],
+              "out_of": 10,
+              "page": 1,
+              "request_params": {
+                "per_page": 10,
+                "q": "shoe"
+              },
+              "search_time_ms": 1
+            },
+            {
+              "facet_counts": [],
+              "found": 1,
+              "hits": [
+                {
+                  "document": {
+                    "name": "Nike shoes",
+                    "brand": "Nike",
+                    "id": "391",
+                    "price": 60
+                  },
+                  "highlights": [
+                    {
+                      "field": "name",
+                      "matched_tokens": [
+                        "Nike"
+                      ],
+                      "snippet": "<mark>Nike</mark>shoes"
+                    }
+                  ],
+                  "text_match": 144112
+                }
+              ],
+              "out_of": 5,
+              "page": 1,
+              "request_params": {
+                "per_page": 10,
+                "q": "Nike"
+              },
+              "search_time_ms": 1
+            },
+          ]
+        }
+
+      ```
+      {% endcode_block %}
+
+      <h5>Definition</h5>
+
+      <p><code>POST ${TYPESENSE_HOST}/multi_search</code></p>
+
+      <h5>Arguments</h5>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Parameter</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>limit_multi_searches</td>
+          <td>no</td>
+          <td>
+            <p>Max number of search requests that can be sent in a multi-search request. Eg: <code>20</code></p>
+            <p>Default: no limit</p>
+            <p>
+              You'd typically want to generate a scoped API key with this parameter embedded
+              and use that API key to perform the search, so it's automatically applied and can't be changed at search time.
             </p>
           </td>
         </tr>
@@ -2959,35 +3193,70 @@ nav_label: api
       <h5>Definition</h5>
       <p><code>POST ${TYPESENSE_HOST}/operations/vote</code></p>
 
+
+      <h4 id="config-slow-request-log">Toggle Slow Request Log</h4>
+
+      <p>Enable logging of requests that take over a defined threshold of time.</p>
+
+      <p>Slow requests are logged to the primary log file, with the prefix <code>SLOW REQUEST</code>.</p>
+
+      {% code_block config-slow-query-log %}
+
+      ```shell
+      curl "http://localhost:8108/config" \
+              -X POST -H "Content-Type: application/json" \
+              -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+              -d '{"log-slow-requests-time-ms": 2000}'
+      ```
+      {% endcode_block %}
+
+      <h5>Sample response</h5>
+
+      {% code_block config-slow-query-log-response %}
+      ```json
+      {
+        "success": true
+      }
+      ```
+      {% endcode_block %}
+
+
+      <h5>Definition</h5>
+      <p><code>POST ${TYPESENSE_HOST}/config</code></p>
+
       <hr />
 
-      <h3 id="whats-new">What's new in 0.18.0</h3>
+      <h3 id="whats-new">What's new in 0.19.0</h3>
 
-      <p>This release contains a few new features and important bug fixes.</p>
+      <p>This release contains new features, performance improvements and important bug fixes.</p>
 
+      <h5>New Features</h5>
       <ul>
-        <li><strong>[Feature]</strong> Support for query synonyms.</li>
-        <li><strong>[Feature]</strong> Better search relevance when searching across multiple fields:
-          addressed some edge cases in multi-field queries.</li>
-        <li><strong>[Feature]</strong> Ability to assign custom weights to each field being queried upon.</li>
-        <li><strong>[Feature]</strong> Total documents in a collection is now returned in every response via the
-        `out_of` key.</li>
-        <li><strong>[Feature]</strong> Exclusion operator `-` for excluding individual query tokens from results.</li>
-        <li><strong>[Feature]</strong> Vote API for triggering rotation of leader.</li>
-        <li><strong>[Feature]</strong> On-demand snapshot API: allows you to create a backup with a single API call.</li>
-        <li><strong>[Feature]</strong> Support for expiry of API keys</li>
-        <li><strong>[Feature]</strong> Support regexp for defining allowed collection names of an API key.</li>
-        <li><strong>[Feature]</strong> Support operators in multi-valued numerical filter.</li>
-        <li><strong>[Feature]</strong> Support bulk imports of upto 3 GB in POST body.</li>
-        <li><strong>[Bug fix]</strong> Fixed an edge case in fuzzy search that missed some tokens during exact searches.</li>
-        <li><strong>[Bug fix]</strong> Prefix matches are assigned lesser importance than exact matches.</li>
-        <li><strong>[Bug fix]</strong> Debug end-point is now available even when node is not ready to serve searches.</li>
-        <li><strong>[Bug fix]</strong> Fixed >= operator not working well with negative values.</li>
-        <li><strong>[Bug fix]</strong> Fixed non-ascii characters not encoded properly in highlight snippet.</li>
-        <li><strong>[Bug fix]</strong> Fixed issue where duplicate results were returned across pages.</li>
-        <li><strong>[Bug fix]</strong> Fixed issue with pinned results being duplicated.</li>
-        <li><strong>[Performance]</strong> Faster snapshot transfer and copy in multi-regional clusters.</li>
-        <li><strong>[Performance]</strong> Speed up filters on numerical fields.</li>
+        <li>Ability to send multiple search requests in a single HTTP request</li>
+        <li>Ability to limit total number of results that can be fetched using <code>limit_hits</code> search parameter</li>
+        <li>Support for slow request logs</li>
+        <li>Support numerical range operator in <code>filter_by</code></li>
+      </ul>
+
+      <h5>Enhancements</h5>
+      <ul>
+        <li>Improved <code>filter_by</code> & <code>facet_by</code> performance during searches</li>
+        <li>Detailed stack traces with additional symbols and line numbers</li>
+        <li>Keep existing config files in place when updating RPM package</li>
+        <li><code>/operations/snapshot</code> endpoint no longer blocks write operations</li>
+      </ul>
+
+      <h5>Bug Fixes</h5>
+      <ul>
+        <li>Improved facet query validation</li>
+        <li>Improved override validation</li>
+        <li>Fixed a crash when import requests are aborted</li>
+        <li>Fixed a crash when integer filter values are used for creating scoped api keys</li>
+      </ul>
+
+      <h5>Deprecations</h5>
+      <ul>
+        <li>The <code>max_hits</code> search parameter is deprecated and is no longer necessary.</li>
       </ul>
 
       <h3 id="errors">API errors</h3>
@@ -3049,6 +3318,7 @@ nav_label: api
             <a class="nav-link ml-3 my-1" href="#create-collection">Create a collection</a>
             <a class="nav-link ml-3 my-1" href="#index-document">Index a document</a>
             <a class="nav-link ml-3 my-1" href="#search-collection">Search a collection</a>
+            <a class="nav-link ml-3 my-1" href="#multi-search">Federated / Multi search</a>
             <a class="nav-link ml-3 my-1" href="#retrieve-document">Retrieve a document</a>
             <a class="nav-link ml-3 my-1" href="#update-document">Update a document</a>
             <a class="nav-link ml-3 my-1" href="#delete-document">Deleting documents</a>
@@ -3090,8 +3360,9 @@ nav_label: api
           <nav class="nav nav-pills flex-column">
             <a class="nav-link ml-3 my-1" href="#cluster-operations-snapshot">Create snapshot</a>
             <a class="nav-link ml-3 my-1" href="#cluster-operations-vote">Re-elect leader</a>
+            <a class="nav-link ml-3 my-1" href="#config-slow-request-log">Toggle slow request log</a>
           </nav>
-          <a class="nav-link" href="#whats-new">What's new in 0.18.0</a>
+          <a class="nav-link" href="#whats-new">What's new in 0.19.0</a>
           <a class="nav-link" href="#errors">API errors</a>
         </nav>
       </nav>
