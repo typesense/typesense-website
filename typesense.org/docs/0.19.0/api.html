@@ -1557,7 +1557,7 @@ nav_label: api
             'country': 'USA'
           }]
 
-          client.collections('companies').documents().import(documents, {action: 'upsert'})
+          client.collections('companies').documents().import(documents, {action: 'create'})
         ```
 
         ```php
@@ -1568,7 +1568,7 @@ nav_label: api
           'country'       => 'USA'
         ]]
 
-        $client->collections['companies']->documents->import($documents, ['action' => 'upsert'])
+        $client->collections['companies']->documents->import($documents, ['action' => 'create'])
         ```
 
         ```python
@@ -1579,7 +1579,7 @@ nav_label: api
           'country': 'USA'
         }]
 
-        client.collections['companies'].documents.import_(documents, {'action': 'upsert'})
+        client.collections['companies'].documents.import_(documents, {'action': 'create'})
         ```
 
         ```ruby
@@ -1590,11 +1590,23 @@ nav_label: api
           'country'       => 'USA'
         }]
 
-        client.collections['companies'].documents.import(documents, action: 'upsert')
+        client.collections['companies'].documents.import(documents, action: 'create')
+        ```
+
+        ```shell
+        curl "http://localhost:8108/collections/companies/documents/import?action=create" \
+                -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
+                -X POST 
+                -d '[{
+                      "id": "124",
+                      "company_name": "Stark Industries",
+                      "num_employees": 5215,
+                      "country": "USA"
+                    }]'
         ```
       {% endcode_block %}
 
-      <p>The other allowed <code>action</code> modes are <code>create</code> and <code>update</code>.</p>
+      <p>The other allowed <code>action</code> modes are <code>upsert</code> and <code>update</code>.</p>
 
       <h5>Action modes</h5>
 
