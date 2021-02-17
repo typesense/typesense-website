@@ -83,12 +83,6 @@ a.collapsed + nav {
     display: none;
 }
 
-#mast #splash {
-    background: #006 url('/assets/images/rocket_color.gif') no-repeat right 7em top 2em;
-    background-size: 55%;
-    height: 14em;
-}
-
 #mast h2 {
     font-weight: normal;
 }
@@ -101,16 +95,11 @@ a.collapsed + nav {
     margin-top: 1em;
 }
 
-#intro-demo p {
-    font-size: 1.4em;
-}
-
 #intro {
     margin-top: 1em;
 }
 
 #intro p {
-    font-size: 1.4em;
     margin-top: 1em;
     color: #333;
 }
@@ -180,7 +169,7 @@ ul#goodreads-results {
 }
 
 .features {
-    margin-top: 2.5em;
+    margin-top: 3em;
 }
 
 .features i {
