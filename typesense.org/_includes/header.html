@@ -20,7 +20,7 @@
 
   {% if nav_paths %}
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav ml-auto">
       {% for path in nav_paths %}
         {% if path contains "guide" %}
           {% assign page_x = site.pages | where: "path", guide_path | first %}
@@ -36,7 +36,7 @@
 
           {% assign page_url = page_x.url | relative_url %}
 
-          <li class="nav-item{{ active_str}}">
+          <li class="nav-item{{ active_str}} ml-2">
             <a class="nav-link" href="{{ page_url }}">{{ page_x.nav_label | escape | downcase }}</a>
           </li>
         {% endif %}

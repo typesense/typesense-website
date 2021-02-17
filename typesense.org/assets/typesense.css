@@ -1,10 +1,17 @@
 @import url(monokai.css);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
 
 #hero {
     color: #fff;
     background-color: #006;
-    border-top: 3px solid #006699;
-    border-bottom: 3px solid #006699;
+}
+
+#hero h1 {
+    line-height: 1.1;
 }
 
 code.nowrap {
@@ -74,10 +81,6 @@ li.nav-item #doc-search {
 
 a.collapsed + nav {
     display: none;
-}
-
-#mast {
-    margin-top: 1em;
 }
 
 #mast #splash {
