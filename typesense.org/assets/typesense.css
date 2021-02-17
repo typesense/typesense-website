@@ -89,7 +89,11 @@ a.collapsed + nav {
 
 .btn-get-started {
     min-width: 200px;
+    background-color: #2c9e46;
+    border-color: #2c9e46;
 }
+
+
 
 #intro-demo {
     margin-top: 1em;
