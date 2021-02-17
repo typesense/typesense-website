@@ -41,21 +41,33 @@ layout: default
       <p>From instant search, to autosuggest, to faceted search, Typesense has got you covered.</p>
     </div>
     <div id="goodreads-demo" class="col-md-6">
-      <form id="goodreads-search">
-        <input type="text" value="harry">
-      </form>
-      <div id="goodreads-results-nav">
-        <div class="row no-gutters">
-          <div class="col-xs-6">
-            <small id="goodreads-found"></small>
+      <div class="row">
+        <div class="col">
+          <form id="goodreads-search">
+            <input type="text" value="harry">
+          </form>
+          <div id="goodreads-results-nav">
+            <div class="row no-gutters">
+              <div class="col-xs-6">
+                <small id="goodreads-found"></small>
+              </div>
+              <div id="pagenav" class="col-xs-6">
+                <a id="prev-page" href="#previous">&laquo; Previous</a> /
+                <a id="next-page" href="#next">Next &raquo;</a>
+              </div>
+            </div>
           </div>
-          <div id="pagenav" class="col-xs-6">
-            <a id="prev-page" href="#previous">&laquo; Previous</a> /
-            <a id="next-page" href="#next">Next &raquo;</a>
-          </div>
+          <ul id="goodreads-results"></ul>
         </div>
       </div>
-      <ul id="goodreads-results"></ul>
+      <div class="mt-3 row">
+        <div class="col">
+          ⚡ See more <strong>live demos</strong> with
+          <a href="https://songs-search.typesense.org">32M songs</a>,
+          <a href="https://books-search.typesense.org">28M books</a>,
+          <a href="https://recipe-search.typesense.org">2M recipes</a>.
+        </div>
+      </div>
     </div>
   </div>
 </div>
