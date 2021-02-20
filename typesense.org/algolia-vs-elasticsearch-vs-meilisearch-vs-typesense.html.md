@@ -54,7 +54,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <td class="font-weight-bold">Core Search Algorithm</td>
             <td>Built from the ground-up</td>
             <td>Built from the ground-up</td>
-            <td>Based on Lucene</td>
+            <td>Built on top of Lucene</td>
             <td>Built from the ground-up</td>
           </tr>
           <tr>
@@ -67,7 +67,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             </td>
           </tr>
           <tr>
-            <td class="font-weight-bold">Index storage location</td>
+            <td class="font-weight-bold">Primary Index Location</td>
             <td>RAM</td>
             <td>RAM</td>
             <td>Disk, with RAM cache</td>
@@ -222,7 +222,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <td>❌</td>
           </tr>
           <tr>
-            <td class="font-weight-bold">Result Curation / Merchandising</td>
+            <td class="font-weight-bold">Result Pinning / Merchandising</td>
             <td>✅️</td>
             <td>✅<br> Upto 300 results</td>
             <td>✅️</td>
