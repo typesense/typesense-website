@@ -115,7 +115,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">CDN-like Geo-Distributed clusters</td>
               <td>✅<br><br>Supported in self-hosted and SaaS options, called Search Delivery Network</td>
-              <td>✅<br><br>Supported in SaaS option, called Distributed Search Network</td>
+              <td>✅<br><br>Available in Premium tier, called Distributed Search Network</td>
               <td>❌<br><br>Not available as part of hosted offering</td>
               <td>❌</td>
             </tr>
@@ -229,16 +229,23 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">Result Pinning / Merchandising</td>
               <td>✅️</td>
-              <td>✅<br><br> Upto 300 results</td>
+              <td>✅<br><br>Upto 10 results in Free Tier, Upto 10,000 results in Premium Tier</td>
               <td>✅️</td>
               <td>❌</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Synonyms</td>
               <td>✅️</td>
+              <td>✅️<br><br>Upto 10,000 per index</td>
               <td>✅️</td>
               <td>✅️</td>
-              <td>✅️</td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Dynamic Synonym Suggestions</td>
+              <td>❌️</td>
+              <td>✅️<br><br>Available in Premium Tier</td>
+              <td>❌</td>
+              <td>❌</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Language support</td>
@@ -426,7 +433,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">Channels</td>
               <td>Github issues<br> Email<br> Community<br> Slack<br> Paid Prioritized Support</td>
-              <td>Github issues<br> Email<br> Community<br> Paid Prioritized Support</td>
+              <td>Github issues<br> Email<br> Community<br> Phone<br> Paid Prioritized Support</td>
               <td>Github issues<br> Email<br> Community<br> Paid Prioritized Support</td>
               <td>Github issues<br> Email<br> Community</td>
             </tr>
