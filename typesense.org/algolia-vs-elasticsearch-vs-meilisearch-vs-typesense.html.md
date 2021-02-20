@@ -107,35 +107,35 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             </tr>
             <tr>
               <td class="font-weight-bold">Fault Tolerance</td>
-              <td>RAFT-based clustering</td>
-              <td>RAFT-based clustering</td>
-              <td>Active-passive replication</td>
+              <td>✅<br><br>RAFT-based clustering</td>
+              <td>✅<br><br>RAFT-based clustering</td>
+              <td>✅<br><br>Active-passive replication</td>
               <td>❌</td>
             </tr>
             <tr>
               <td class="font-weight-bold">CDN-like Geo-Distributed clusters</td>
-              <td>Supported in self-hosted and SaaS options, called Search Delivery Network</td>
-              <td>Supported in SaaS option, called Distributed Search Network</td>
-              <td>Supported in self-hosted, Not available as part of hosted offering</td>
+              <td>✅<br><br>Supported in self-hosted and SaaS options, called Search Delivery Network</td>
+              <td>✅<br><br>Supported in SaaS option, called Distributed Search Network</td>
+              <td>❌<br><br>Not available as part of hosted offering</td>
               <td>❌</td>
             </tr>
             <tr>
-              <td class="font-weight-bold">Dependencies</td>
-              <td>Self-contained binary. <br>Built-in high performance HTTP server, that can be exposed to the frontend
+              <td class="font-weight-bold">Runtime Dependencies</td>
+              <td>None. Self-contained binary. <br><br>Built-in high performance HTTP server, that can be exposed to the frontend
                 directly.
               </td>
               <td>N/A, since it's SaaS only</td>
-              <td>Requires JVM, and an application backend. <br>Cannot be directly exposed to frontend - requires use of
+              <td>Requires JVM, and an application backend. <br><br>Cannot be directly exposed to frontend - requires use of
                 nginx, apache or the like as a reverse proxy in front
               </td>
               <td>Requires use of nginx, apache or the like as a reverse proxy in front, before exposing to frontend</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Index Backward Compatibility</td>
-              <td>✅<br> Fully backward compatible</td>
-              <td>✅<br> Fully backward compatible</td>
-              <td>✅<br> Fully backward compatible</td>
-              <td>❌<br> Not backward compatible across versions. Version upgrades require re-indexing.</td>
+              <td>✅<br><br> Fully backward compatible</td>
+              <td>✅<br><br> Fully backward compatible</td>
+              <td>✅<br><br> Fully backward compatible</td>
+              <td>❌<br><br> Not backward compatible across versions. Version upgrades require re-indexing.</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Upgrade Path</td>
@@ -172,7 +172,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
               <td class="font-weight-bold">Typo Tolerance</td>
               <td>✅️</td>
               <td>✅️</td>
-              <td>✅️<br>But slow and <a
+              <td>✅️<br><br>But slow and <a
                       href="https://www.algolia.com/blog/engineering/algolia-v-elasticsearch-relevance/" target="_blank">affects
                 relevance</a></td>
               <td>✅️</td>
@@ -201,23 +201,23 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">Grouping / Distinct</td>
               <td>✅️</td>
-              <td>✅<br> Upto one distinct field</td>
+              <td>✅<br><br> Upto one distinct field</td>
               <td>✅️</td>
-              <td>✅<br> Upto one distinct field</td>
+              <td>✅<br><br> Upto one distinct field</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Dynamic Sorting</td>
-              <td>✅<br>Sort fields can be defined at query time using a single index</td>
-              <td>❌<br>Duplicate indices need to be created for each sort order</td>
-              <td>✅<br>Sort fields can be defined at query time using a single index</td>
-              <td>❌<br>Duplicate indices need to be created for each sort order</td>
+              <td>✅<br><br>Sort fields can be defined at query time using a single index</td>
+              <td>❌<br><br>Duplicate indices need to be created for each sort order</td>
+              <td>✅<br><br>Sort fields can be defined at query time using a single index</td>
+              <td>❌<br><br>Duplicate indices need to be created for each sort order</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Faceting & Filtering</td>
               <td>✅️</td>
               <td>✅️</td>
               <td>✅️</td>
-              <td>✅<br> Only string-type facets</td>
+              <td>✅<br><br> Only string-type facets</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Facet Value Searches</td>
@@ -229,7 +229,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">Result Pinning / Merchandising</td>
               <td>✅️</td>
-              <td>✅<br> Upto 300 results</td>
+              <td>✅<br><br> Upto 300 results</td>
               <td>✅️</td>
               <td>❌</td>
             </tr>
@@ -266,12 +266,12 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
               <td>✅</td>
               <td>✅️</td>
               <td>✅️</td>
-              <td>❌<br>IDs needs to be pre-generated</td>
+              <td>❌<br><br>IDs needs to be pre-generated</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Sort by String field</td>
               <td>❌</td>
-              <td>✅<br>But <a
+              <td>✅<br><br>But <a
                       href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-an-index-alphabetically/"
                       target="_blank">not recommended</a></td>
               <td>✅️</td>
@@ -288,12 +288,12 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
               <td class="font-weight-bold">Record Validations</td>
               <td>✅️</td>
               <td>❌</td>
-              <td>✅<br> with coerced mapping</td>
+              <td>✅<br><br> with coerced mapping</td>
               <td>❌</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Custom Ranking Rules</td>
-              <td>✅<br> Upto 3 fields</td>
+              <td>✅<br><br> Upto 3 fields</td>
               <td>✅️</td>
               <td>✅️</td>
               <td>✅️</td>
@@ -315,7 +315,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">User-level Search Personalization</td>
               <td>❌</td>
-              <td>✅<br> Premium Tier</td>
+              <td>✅<br><br> Premium Tier</td>
               <td>❌</td>
               <td>❌</td>
             </tr>
@@ -329,7 +329,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             <tr>
               <td class="font-weight-bold">A/B Testing Results</td>
               <td>❌</td>
-              <td>✅<br> Premium Tier</td>
+              <td>✅<br><br> Premium Tier</td>
               <td>❌</td>
               <td>❌</td>
             </tr>
@@ -344,22 +344,22 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
               <td class="font-weight-bold">Visual Dashboard</td>
               <td>❌</td>
               <td>✅️</td>
-              <td>✅️<br>3rd party plugins</td>
-              <td>✅️<br>Search only</td>
+              <td>✅️<br><br>3rd party plugins</td>
+              <td>✅️<br><br>Search only</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Site Crawler</td>
               <td>❌</td>
-              <td>✅<br>Premium Tier</td>
+              <td>✅<br><br>Premium Tier</td>
               <td>❌</td>
               <td>❌</td>
             </tr>
             <tr>
               <td class="font-weight-bold">UI Component Library</td>
-              <td>✅<br>Supports InstantSearch.js</td>
-              <td>✅<br>InstantSearch.js</td>
-              <td>✅<br>Search UI, requires hosted search</td>
-              <td>✅<br>Supports InstantSearch.js</td>
+              <td>✅<br><br>Supports InstantSearch.js</td>
+              <td>✅<br><br>InstantSearch.js</td>
+              <td>✅<br><br>Search UI, requires hosted search</td>
+              <td>✅<br><br>Supports InstantSearch.js</td>
             </tr>
             </tbody>
           </table>
