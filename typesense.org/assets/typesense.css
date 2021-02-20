@@ -303,3 +303,7 @@ footer.navbar {
 
     font-size: 0.85em;
 }
+
+table.feature-list th {
+    width: 20%;
+}
