@@ -438,7 +438,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
               <td>Github issues<br> Email<br> Community</td>
             </tr>
             <tr>
-              <td class="font-weight-bold">Export Onboarding & Training</td>
+              <td class="font-weight-bold">Expert Onboarding & Training</td>
               <td>✅</td>
               <td>✅</td>
               <td>✅</td>
