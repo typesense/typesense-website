@@ -267,26 +267,78 @@ nav_label: guide
     {% endcode_block %}
 
     <h3 id="update-typesense">Updating Typesense</h3>
-    
+
     <p>The process of updating Typesense is simple:</p>
-    
+
     <ol>
       <li>Install the new version of Typesense</li>
       <li>Restart the server</li>
     </ol>
-    
-    <p>You won't need to reindex any of your documents</p>
-    
-    <p>So if you used the Docker image, just stop the original image, then run <code>docker run</code> with the new version.
+
+    <p>You won't need to reindex any of your documents.</p>
+
+    <p>So if you used the Docker image, just stop the running container, then run <code>docker run</code> with the new version.
       Make sure you pass the same arguments to <code>docker run</code> as before.</p>
-    
+
     <p>If you installed Typesense with one of the prebuilt binaries or from one of the package managers, just download the new version of
-      Typesense and restart your server.</p>
-    
+      Typesense, replace the binary, or use the package manager to upgrade the DEB/RPM and restart the process.</p>
+
     <p><mark><strong>NOTE:</strong> If you are running Typesense in <a href="#high-availability">clustered mode for high availability</a>,
       make sure you update the nodes one at a time. Wait until the <code>/health</code> endpoint responds with the status code <code>200</code>
       before updating the next node.</mark></p>
-    
+
+    <h5>Updating via Docker</h5>
+    {% code_block update_typesense_docker %}
+      ```shell
+      # Docker
+      docker stop <container_id>
+      docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ site.versions[0] }} \
+        --data-dir /data --api-key=$TYPESENSE_API_KEY
+      ```
+    {% endcode_block %}
+
+    <h5>Updating RPM package</h5>
+    {% code_block update_typesense_rpm %}
+      ```shell
+      # RPM
+      wget https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-1.x86_64.rpm
+      sudo yum install ./typesense-server-{{ site.versions[0] }}-1.x86_64.rpm
+      sudo systemctl restart typesense-server.service
+      ```
+    {% endcode_block %}
+
+    <h5>Updating DEB package</h5>
+    {% code_block update_typesense_deb %}
+      ```shell
+      # DEB
+      wget https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-amd64.deb
+      sudo apt install ./typesense-server-{{ site.versions[0] }}-amd64.deb
+      sudo systemctl restart typesense-server.service
+      ```
+    {% endcode_block %}
+
+    <h5>Updating Linux binary</h5>
+    {% code_block update_typesense_linux_binary %}
+      ```shell
+      # Linux Binary
+      wget https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-linux-amd64.tar.gz
+      tar xvzf ./typesense-server-{{ site.versions[0] }}-linux-amd64.tar.gz
+      mv ./typesense-server $PATH_TO_EXISTING_BINARY
+      # Finally Restart the Typesense process
+      ```
+    {% endcode_block %}
+
+    <h5>Updating Mac binary</h5>
+    {% code_block update_typesense_mac_binary %}
+      ```shell
+      # Mac Binary
+      wget https://dl.typesense.org/releases/{{ site.versions[0] }}/typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz
+      tar xvzf ./typesense-server-{{ site.versions[0] }}-darwin-amd64.tar.gz
+      mv ./typesense-server $PATH_TO_EXISTING_BINARY
+      # Finally Restart the Typesense process
+      ```
+    {% endcode_block %}
+
     <h3 id="install-client">Installing a client</h3>
 
     <p>At the moment, we have clients for Javascript, PHP, Python, Ruby. </p>
