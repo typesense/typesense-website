@@ -1,16 +1,17 @@
 {
   "scripts": {
-    "dev": "vuepress dev content --no-cache"
+    "dev": "vuepress dev content --no-cache",
+    "build": "vuepress build content --no-cache"
   },
   "devDependencies": {
-    "node-sass": "^4.14.1",
-    "sass-loader": "7.1.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
     "watchpack": "1.6.1"
   },
   "dependencies": {
     "vue-prism-component": "^1.2.0",
-    "vuepress": "1.5.0",
-    "vuex": "^3.4.0"
+    "vuepress": "1.8.2",
+    "vuex": "^3.6.2"
   },
   "resolutions": {
     "watchpack": "1.6.1"
