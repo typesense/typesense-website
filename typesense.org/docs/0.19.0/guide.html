@@ -266,6 +266,27 @@ nav_label: guide
     ```
     {% endcode_block %}
 
+    <h3 id="update-typesense">Updating Typesense</h3>
+    
+    <p>The process of updating Typesense is simple:</p>
+    
+    <ol>
+      <li>Install the new version of Typesense</li>
+      <li>Restart the server</li>
+    </ol>
+    
+    <p>You won't need to reindex any of your documents</p>
+    
+    <p>So if you used the Docker image, just stop the original image, then run <code>docker run</code> with the new version.
+      Make sure you pass the same arguments to <code>docker run</code> as before.</p>
+    
+    <p>If you installed Typesense with one of the prebuilt binaries or from one of the package managers, just download the new version of
+      Typesense and restart your server.</p>
+    
+    <p><mark><strong>NOTE:</strong> If you are running Typesense in <a href="#high-availability">clustered mode for high availability</a>,
+      make sure you update the nodes one at a time. Wait until the <code>/health</code> endpoint responds with the status code <code>200</code>
+      before updating the next node.</mark></p>
+    
     <h3 id="install-client">Installing a client</h3>
 
     <p>At the moment, we have clients for Javascript, PHP, Python, Ruby. </p>
@@ -1349,6 +1370,7 @@ nav_label: guide
         <a class="nav-link" href="#install-typesense">Installing Typesense</a>
         <a class="nav-link" href="#start-typesense">Starting Typesense</a>
         <a class="nav-link" href="#configure-typesense">Configuring Typesense</a>
+        <a class="nav-link" href="#update-typesense">Updating Typesense</a>
         <a class="nav-link" href="#install-client">Installing a client</a>
         <a class="nav-link" href="#example-application">Example application</a>
         <nav class="nav nav-pills flex-column">
