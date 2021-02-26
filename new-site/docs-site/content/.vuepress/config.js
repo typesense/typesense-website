@@ -74,6 +74,20 @@ module.exports = {
         },
       ],
       '/0.13.0/api/': [['/', 'Home Page']],
+      '/0.19.0/guide/': [
+        {
+          title: 'Guide', // required
+          collapsable: false, // optional, defaults to true
+          sidebarDepth: 0, // optional, defaults to 1
+          children: [
+            ['/0.19.0/guide/', 'Installation'],
+            ['/0.19.0/guide/configure', 'Configure'],
+            ['/0.19.0/guide/update', 'Update'],
+            ['/0.19.0/guide/installClient', 'Installing a Client'],
+            ['/0.19.0/guide/example', 'Example Application'],
+          ],
+        },
+      ],
     },
   },
 
