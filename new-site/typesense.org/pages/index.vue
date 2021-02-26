@@ -1,6 +1,5 @@
 <template>
   <header>
-    <Navbar />
-    Test
+    <Navbar color-scheme="dark" />
   </header>
 </template>

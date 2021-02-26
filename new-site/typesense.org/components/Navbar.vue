@@ -1,9 +1,16 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <nav
+    class="navbar navbar-expand-lg"
+    :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+  >
     <div class="container">
       <NuxtLink :to="'/'" class="navbar-brand">
         <img
-          src="~/assets/typesense_logo_white.svg"
+          :src="
+            colorScheme === 'light'
+              ? require('~/assets/typesense_logo_white.svg')
+              : require('~/assets/typesense_logo.svg')
+          "
           alt="Typesense"
           width="200"
         />
@@ -40,12 +47,18 @@
             <a
               v-if="item.externalLink"
               :href="item.externalLink"
+              :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
               class="nav-link"
               target="_blank"
             >
               {{ item.text }}
             </a>
-            <NuxtLink v-if="item.link" :to="item.link" class="nav-link">
+            <NuxtLink
+              v-if="item.link"
+              :to="item.link"
+              :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+              class="nav-link"
+            >
               {{ item.text }}
             </NuxtLink>
           </li>
@@ -62,6 +75,12 @@ export default {
   name: 'Navbar',
   components: {
     GithubButton,
+  },
+  props: {
+    colorScheme: {
+      type: String,
+      default: 'light',
+    },
   },
   computed: {
     data() {
@@ -98,4 +117,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+GithubButton {
+  line-height: unset;
+}
+</style>
