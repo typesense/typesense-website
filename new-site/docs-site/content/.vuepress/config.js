@@ -37,7 +37,8 @@ module.exports = {
         text: 'Guide',
         ariaLabel: 'Guide Menu',
         items: [
-          { text: '0.13.0 (Latest)', link: '/0.13.0/guide/' },
+          { text: '0.19.0 (Latest)', link: '/0.19.0/guide/' },
+          { text: '0.13.0', link: '/0.13.0/guide/' },
           { text: '0.10.0', link: '/0.10.0/guide/' },
         ],
       },
