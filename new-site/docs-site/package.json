@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "dev": "vuepress dev content --no-cache",
+    "build": "vuepress build content --no-cache",
+    "lint": "eslint --ext .js,.vue content/.vuepress",
+    "lint:fix": "yarn lint --fix"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "@vuepress/plugin-medium-zoom": "^1.8.2",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.6.0",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
+    "watchpack": "1.6.1"
+  },
+  "dependencies": {
+    "vue-prism-component": "^1.2.0",
+    "vuepress": "1.8.2",
+    "vuex": "^3.6.2"
+  }
+}
