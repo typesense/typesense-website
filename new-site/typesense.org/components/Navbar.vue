@@ -8,8 +8,8 @@
         <img
           :src="
             colorScheme === 'light'
-              ? require('~/assets/typesense_logo_white.svg')
-              : require('~/assets/typesense_logo.svg')
+              ? require('~/assets/images/typesense_logo_white.svg')
+              : require('~/assets/images/typesense_logo.svg')
           "
           alt="Typesense"
           width="200"

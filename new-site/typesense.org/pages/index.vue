@@ -1,5 +1,3 @@
 <template>
-  <header>
-    <Navbar color-scheme="dark" />
-  </header>
+  <HomeHero />
 </template>

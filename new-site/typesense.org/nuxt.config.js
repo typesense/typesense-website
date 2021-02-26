@@ -45,10 +45,23 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vue-github-button'],
+    transpile: [
+      'vue-github-button',
+      'vue-instantsearch',
+      'instantsearch.js/es',
+    ],
   },
 
   eslint: {
     fix: true,
+  },
+
+  publicRuntimeConfig: {
+    typesenseHosts: (process.env.TYPESENSE_HOSTS || '').split(','),
+    typesenseHostNearest: process.env.TYPESENSE_HOST_NEAREST,
+    typesensePort: process.env.TYPESENSE_PORT,
+    typesenseProtocol: process.env.TYPESENSE_PROTOCOL,
+    typesenseSearchOnlyAPIKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY,
+    typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
   },
 }
