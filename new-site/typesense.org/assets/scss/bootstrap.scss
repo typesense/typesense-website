@@ -3,7 +3,6 @@
 $primary: #FFD000;
 
 $font-family-sans-serif: 'Palanquin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-$headings-font-family: 'Catamaran', sans-serif;
 $font-size-base: 0.9rem;
 
 $display1-weight: 700;
@@ -14,3 +13,12 @@ $display-line-height: 1.1;
 
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
+
+.display-1,.display-2,.display-3,.display-4 {
+  font-family: 'Catamaran', sans-serif;
+}
+
+.border-short {
+  max-width: 20%;
+  border-width: 2px;
+}
