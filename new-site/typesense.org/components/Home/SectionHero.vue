@@ -18,9 +18,9 @@
               with Typesense.
             </p>
             <p>Meticulously engineered for performance & ease of use.</p>
-            <p class="lead">
+            <div class="lead">
               <HomeCTAs />
-            </p>
+            </div>
           </div>
           <div class="col-sm-5">
             <HomeSearchDemo />
@@ -30,9 +30,3 @@
     </div>
   </div>
 </template>
-<script>
-import CTAs from '@/components/Home/CTAs'
-export default {
-  components: { CTAs },
-}
-</script>
