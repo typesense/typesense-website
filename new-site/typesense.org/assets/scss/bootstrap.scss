@@ -14,6 +14,8 @@ $display-line-height: 1.1;
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
+$bg-gradient-1: linear-gradient(90.64deg, rgba(13, 2, 36, 0.85) 4.14%, rgba(189, 75, 116, 0) 95.67%), #000317;
+
 .display-1,.display-2,.display-3,.display-4 {
   font-family: 'Catamaran', sans-serif;
 }

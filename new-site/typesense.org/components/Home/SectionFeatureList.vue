@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <HomeSectionHeader
-      heading="Features you love, minus the complexity"
-      sub-heading="Neatly wrapped in RESTful API"
-    />
+    <h2 class="text-center">Features you love, minus the complexity</h2>
+    <div class="text-center">Neatly wrapped in RESTful API</div>
+
     <div :class="['grid']" class="mt-5">
       <div v-for="feature in features" :key="feature.name">
         <HomeFeature v-bind="feature" />

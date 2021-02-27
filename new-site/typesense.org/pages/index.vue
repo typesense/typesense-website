@@ -1,8 +1,16 @@
 <template>
   <div>
-    <HomeHero />
-    <HomeFeatureList />
+    <HomeSectionHero />
+    <HomeSectionFeatureList />
     <hr class="border-primary border-short mb-5" />
-    <HomeDeveloperExperience />
+    <HomeSectionDeveloperExperience />
+    <HomeSectionAPILibraries />
+    <HomeSectionShowcase />
+    <HomeSectionSupport />
+    <HomeBadges />
+
+    <div class="mt-5 text-center">
+      <HomeCTAs />
+    </div>
   </div>
 </template>

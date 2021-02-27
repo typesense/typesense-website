@@ -1,9 +1,7 @@
 <template>
   <div>
-    <HomeSectionHeader
-      heading="Batteries-Included Developer Experience"
-      sub-heading="Zero to Instant-Search, in 30 seconds"
-    />
+    <h2 class="text-center">Batteries-Included Developer Experience</h2>
+    <div class="text-center">Zero to Instant-Search, in 30 seconds</div>
 
     <HomeDeveloperExperienceStep>
       <template #code>

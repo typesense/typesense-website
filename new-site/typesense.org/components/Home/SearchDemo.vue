@@ -17,7 +17,7 @@
         </span>
       </AisStats>
       <div class="row justify-content-end">
-        <div class="col-md-10">
+        <div class="col-sm-10">
           <AisHits
             :class-names="{
               'ais-Hits-list': 'p-0',
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="row justify-content-end">
-        <div class="col-md-10">
+        <div class="col-sm-10">
           <AisPagination
             :class-names="{
               'ais-Pagination-list': 'd-flex flex-row',

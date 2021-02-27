@@ -1,0 +1,70 @@
+/* Flush footer */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 100px; // Controls spacing from content to footer
+
+  @media (min-width: 768px) {
+    margin-bottom: 60px;
+  }
+
+  &.footer-lg-margin {
+    margin-bottom: 1245px; // Controls spacing from content to footer
+
+    @media (min-width: 768px) {
+      margin-bottom: 400px;
+    }
+  }
+}
+
+footer.navbar {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0;
+  margin-top: 20px;
+  width: 100%;
+  line-height: 30px;
+
+  color: #5a5a5a;
+  background-color: $gray-100;
+  font-size: 0.85em;
+  min-height: auto;
+  border: none;
+  border-radius: 0;
+
+  a {
+    text-decoration: none !important;
+    border-bottom: #e0e0e0 1px solid;
+    font-weight: normal;
+    color: inherit;
+
+    &:hover {
+      border-bottom: #5a5a5a 1px solid;
+    }
+  }
+
+  &.footer-lg {
+    background: $dark;
+    background: $bg-gradient-1;
+
+    * {
+      color: $white !important;
+    }
+
+    a {
+      text-decoration: none !important;
+      border-bottom: unset;
+
+      &:hover {
+        border-bottom: unset;
+      }
+    }
+
+    address {
+      line-height: 1.3em;
+    }
+  }
+}
+/* End flush footer */
