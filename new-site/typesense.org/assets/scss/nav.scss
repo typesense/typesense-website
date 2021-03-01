@@ -1,0 +1,18 @@
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.nav-link {
+  &.nuxt-link-exact-active {
+    padding-bottom: 2px;
+    border-bottom: $primary 2px solid;
+  }
+
+  &:hover {
+    padding-bottom: 2px;
+    border-bottom: $primary 2px solid;
+  }
+}

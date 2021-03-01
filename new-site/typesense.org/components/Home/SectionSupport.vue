@@ -5,7 +5,7 @@
       Let us help you build a scalable and robust search experience
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4 text-center">
       <HomeSupportOption
         :image="require('~/assets/images/github.svg')"
         name="Github Issues"

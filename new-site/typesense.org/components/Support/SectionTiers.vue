@@ -96,3 +96,11 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.table {
+  td:not(:first-child) {
+    width: 20%;
+  }
+}
+</style>
