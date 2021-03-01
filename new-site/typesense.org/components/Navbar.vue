@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-expand-lg"
+    class="navbar navbar-expand-lg py-4"
     :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
   >
     <div class="container">
@@ -29,7 +29,7 @@
 
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item justify-content-center align-self-center mr-5">
+          <li class="nav-item justify-content-center align-self-end mr-5">
             <GithubButton
               href="https://github.com/typesense/typesense"
               data-icon="octicon-star"
@@ -120,5 +120,9 @@ export default {
 <style scoped>
 GithubButton {
   line-height: unset;
+}
+
+.navbar {
+  font-size: 0.8rem;
 }
 </style>

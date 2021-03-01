@@ -47,7 +47,7 @@ footer.navbar {
 
   &.footer-lg {
     background: $dark;
-    background: $bg-gradient-1;
+    @extend .bg-gradient-2;
 
     * {
       color: $white !important;

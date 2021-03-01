@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
 
 $primary: #FFD000;
+$primary-dark-1: darken($primary, 35%);
 
 $font-family-sans-serif: 'Palanquin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $font-size-base: 0.9rem;
@@ -14,8 +15,6 @@ $display-line-height: 1.1;
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
-$bg-gradient-1: linear-gradient(90.64deg, rgba(13, 2, 36, 0.85) 4.14%, rgba(189, 75, 116, 0) 95.67%), #000317;
-
 .display-1,.display-2,.display-3,.display-4 {
   font-family: 'Catamaran', sans-serif;
 }
@@ -23,4 +22,21 @@ $bg-gradient-1: linear-gradient(90.64deg, rgba(13, 2, 36, 0.85) 4.14%, rgba(189,
 .border-short {
   max-width: 20%;
   border-width: 2px;
+}
+
+.border-primary-dark {
+  border-color: $primary-dark-1 !important;
+}
+
+.bg-gradient-1 {
+  background: linear-gradient(173deg, #000000 0%, #1C1221 28%, #3F274A 43%, #1E1323 56%, #000000 80%, #FFFFFF calc(80% + 1px));
+}
+
+.bg-gradient-2 {
+  // linear-gradient(90.64deg, rgba(13, 2, 36, 0.85) 4.14%, rgba(189, 75, 116, 0) 95.67%), #000317;
+}
+
+.text-underline-primary {
+  padding-bottom: 0;
+  border-bottom: $primary 1px solid;
 }

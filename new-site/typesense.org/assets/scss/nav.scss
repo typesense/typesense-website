@@ -7,12 +7,10 @@
 
 .nav-link {
   &.nuxt-link-exact-active {
-    padding-bottom: 2px;
-    border-bottom: $primary 2px solid;
+    @extend .text-underline-primary
   }
 
   &:hover {
-    padding-bottom: 2px;
-    border-bottom: $primary 2px solid;
+    @extend .text-underline-primary
   }
 }
