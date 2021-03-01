@@ -169,18 +169,41 @@ curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/j
 ### Supported search field types
 Typesense allows you to index the following types of fields:
 
-|string|
-|------|
-|int32|
-|int64|
-|float|
-|bool|
+
+<table>
+  <tr>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>int32</td>
+  </tr>
+  <tr>
+    <td>int64</td>
+  </tr>
+  <tr>
+    <td>float</td>
+  </tr>
+  <tr>
+    <td>bool</td>
+  </tr>
+</table>
 
 You can define an array or multi-valued field by suffixing a [] at the end:
 
-|string[]|
-|------|
-|int32[]|
-|int64[]|
-|float[]|
-|bool[]|
+<table>
+  <tr>
+    <td>string[]</td>
+  </tr>
+  <tr>
+    <td>int32[]</td>
+  </tr>
+  <tr>
+    <td>int64[]</td>
+  </tr>
+  <tr>
+    <td>float[]</td>
+  </tr>
+  <tr>
+    <td>bool[]</td>
+  </tr>
+</table>

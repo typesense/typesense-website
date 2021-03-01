@@ -1,6 +1,6 @@
 Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.
 
-For a detailed dive into the Typesense API, refer to our API documentation.
+For a detailed dive into the Typesense API, refer to our [API documentation]('/0.19.0/api/introduction').
 
 # Installing Typesense
 You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Mac OS X on our downloads page.

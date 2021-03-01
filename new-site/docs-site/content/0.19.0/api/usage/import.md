@@ -216,7 +216,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 
 **NOTE**: Larger batch sizes will consume larger transient memory during import.
 
-## Sample response
+### Sample response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>

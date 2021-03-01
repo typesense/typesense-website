@@ -111,6 +111,11 @@ module.exports = {
             ['/0.19.0/api/usage/drop','Drop a Collection'],
             ['/0.19.0/api/manageapi','Manage API Keys'],
             ['/0.19.0/api/curation','Curation'],
+            ['/0.19.0/api/alias','Collection Alias'],
+            ['/0.19.0/api/synonym','Synonyms'],
+            ['/0.19.0/api/cluster','Cluster operations'],
+            ['/0.19.0/api/new','Whats\'s new in 0.19.0'],
+            ['/0.19.0/api/errors','API errors'],
           ]
         }
       ],
