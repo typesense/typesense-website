@@ -1,8 +1,8 @@
 <template>
-  <footer class="navbar fixed-bottom footer-lg py-5">
+  <footer class="footer navbar fixed-bottom footer-lg py-5">
     <div class="container d-block align-items-start">
       <div class="row">
-        <div class="col-md-4 py-2">
+        <div class="col-sm-4 py-2">
           <div class="text-serif font-weight-light">
             <h3 class="mb-0 text-serif-2">
               <NuxtLink to="/" class="font-weight-bold">Typesense</NuxtLink>
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="col-md mt-4 mt-md-0">
+        <div class="col-sm-2 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item">
               <NuxtLink class="nav-link p-0" to="/">Home</NuxtLink>
@@ -53,7 +53,7 @@
           </ul>
         </div>
 
-        <div class="col-md-2 mt-4 mt-md-0">
+        <div class="col-sm-2 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item"><strong>Libraries</strong></li>
             <li class="nav-item">
@@ -108,7 +108,7 @@
           </ul>
         </div>
 
-        <div class="col-md-3 mt-4 mt-md-0">
+        <div class="col-sm-3 mt-4 mt-md-0">
           <ul class="nav flex-column align-content-top">
             <li class="nav-item"><strong>Resources</strong></li>
             <li class="nav-item">
@@ -123,7 +123,7 @@
           </ul>
         </div>
 
-        <div class="col-md mt-4 mt-md-0">
+        <div class="col-sm-1 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link p-0" href="#">Contact Us</a>

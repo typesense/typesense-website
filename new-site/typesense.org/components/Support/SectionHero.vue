@@ -29,5 +29,6 @@
 <style scoped>
 .jumbotron {
   background-color: unset;
+  margin-bottom: 0;
 }
 </style>

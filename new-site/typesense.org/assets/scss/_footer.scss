@@ -34,30 +34,20 @@ footer.navbar {
   border: none;
   border-radius: 0;
 
-  a {
-    text-decoration: none !important;
-    border-bottom: #e0e0e0 1px solid;
-    font-weight: normal;
-    color: inherit;
-
-    &:hover {
-      border-bottom: #5a5a5a 1px solid;
-    }
-  }
-
   &.footer-lg {
     @extend .bg-gradient-4;
 
     * {
-      color: $white !important;
+      color: $white;
     }
 
-    a {
-      text-decoration: none !important;
-      border-bottom: unset;
+    .nav-link {
+      display: inline-block;
+      border-bottom: transparent 1px solid;
 
       &:hover {
-        border-bottom: unset;
+        border-bottom-color: darken($primary, 5%);
+        text-decoration: none;
       }
     }
 

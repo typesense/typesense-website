@@ -58,3 +58,15 @@ body {
 strong {
   font-weight: bold;
 }
+
+p {
+  a {
+    color: $body-color;
+    border-bottom: $primary 2px solid;
+
+    &:hover {
+      color: darken($primary, 5%);
+      text-decoration: none;
+    }
+  }
+}
