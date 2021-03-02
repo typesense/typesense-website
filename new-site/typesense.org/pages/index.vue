@@ -4,7 +4,8 @@
     <HomeSectionFeatureList />
     <hr class="border-primary border-short my-5" />
     <HomeSectionDeveloperExperience />
-    <HomeSectionAPILibraries />
+    <div class="mt-3">&nbsp;</div>
+    <HomeSectionAPILibraries class="mt-5" />
     <HomeSectionShowcase />
     <HomeSectionSupport />
     <HomeBadges />
