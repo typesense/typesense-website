@@ -3,7 +3,7 @@
     <div class="container py-5">
       <h2 class="text-center">API Libraries in your Favorite Languages</h2>
       <div class="text-center">
-        And if you don't dina a library, reach out to us to collab on one
+        And if you don't find a library, reach out to us to collab on one
       </div>
 
       <div class="row mt-5">

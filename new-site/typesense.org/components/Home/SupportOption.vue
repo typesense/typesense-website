@@ -1,7 +1,7 @@
 <template>
   <div class="d-inline-block">
-    <img :src="image" :alt="name" height="30" /><br />
-    {{ name }}
+    <img :src="image" :alt="name" :height="imageHeight" />
+    <div class="mt-2">{{ name }}</div>
   </div>
 </template>
 
@@ -11,6 +11,10 @@ export default {
     image: {
       type: String,
       default: null,
+    },
+    imageHeight: {
+      type: Number,
+      default: 50,
     },
     name: {
       type: String,
