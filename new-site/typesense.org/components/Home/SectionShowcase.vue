@@ -8,24 +8,33 @@
     <div class="row mt-4">
       <div class="col-sm-4">
         <HomeShowcaseBlock
-          title="<small>Instantly Search</small><br>32 Million Songs"
           emoji="⚡ 🔍 🎵"
           link="https://songs-search.typesense.org"
-        ></HomeShowcaseBlock>
+        >
+          <template #title>
+            <small>Instantly Search</small><br />32 Million Songs
+          </template>
+        </HomeShowcaseBlock>
       </div>
       <div class="col-sm-4">
         <HomeShowcaseBlock
-          title="<small>Instantly Search</small><br>28 Million Books"
           emoji="⚡ 🔍 📚"
           link="https://books-search.typesense.org"
-        ></HomeShowcaseBlock>
+        >
+          <template #title>
+            <small>Instantly Search</small><br />28 Million Books
+          </template>
+        </HomeShowcaseBlock>
       </div>
       <div class="col-sm-4">
         <HomeShowcaseBlock
-          title="<small>Instantly Search</small><br>2 Million Recipes"
           emoji="⚡ 🔍 🥘"
           link="https://recipe-search.typesense.org"
-        ></HomeShowcaseBlock>
+        >
+          <template #title>
+            <small>Instantly Search</small><br />2 Million Recipes
+          </template>
+        </HomeShowcaseBlock>
       </div>
     </div>
   </div>

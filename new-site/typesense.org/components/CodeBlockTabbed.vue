@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BTabs pills card no-fade align="right" class="code-block">
+    <BTabs pills card align="right" class="code-block">
       <div v-for="tab in tabs" :key="tab.displayLanguage">
         <BTab
           :active="activeTab === tab.displayLanguage"
@@ -83,7 +83,7 @@ export default {
 
   pre[class*='language-'] {
     margin: 0;
-    padding-top: 0;
+    padding-top: 0.5rem;
     padding-bottom: 1.5rem;
     background-color: $black;
   }
@@ -100,6 +100,11 @@ export default {
       background-color: unset;
       border-bottom: $primary 1px solid;
     }
+  }
+
+  div.code-toolbar > .toolbar {
+    bottom: 0.75em;
+    top: unset;
   }
 }
 </style>

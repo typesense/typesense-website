@@ -5,7 +5,7 @@
     <h5 class="mb-0">
       {{ emoji }}<br />
       <a :href="link" target="_blank" class="text-dark">
-        <span v-html="title"></span>
+        <slot name="title"></slot>
       </a>
     </h5>
   </div>
@@ -14,9 +14,18 @@
 <script>
 export default {
   props: {
-    title: String,
-    link: String,
-    emoji: String,
+    title: {
+      type: String,
+      default: 'Showcase Title',
+    },
+    link: {
+      type: String,
+      default: '/#',
+    },
+    emoji: {
+      type: String,
+      default: '',
+    },
   },
 }
 </script>

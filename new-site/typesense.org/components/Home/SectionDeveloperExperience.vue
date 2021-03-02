@@ -3,7 +3,7 @@
     <h2 class="text-center text-gradient-1">
       Batteries-Included Developer Experience
     </h2>
-    <div class="text-center">Zero to Instant-Search, in 30 seconds</div>
+    <div class="text-center">Zero to Instant-Search, in 30 seconds 🚀</div>
 
     <HomeDeveloperExperienceStep class="mt-5">
       <template #code>

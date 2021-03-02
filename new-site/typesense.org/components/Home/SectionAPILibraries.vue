@@ -28,7 +28,11 @@
         <div class="col-sm">
           <div class="text-center">
             <h4>
-              <img src="~/assets/images/magic_wand.svg" alt="magic wand" />
+              <img
+                src="~/assets/images/magic_wand.svg"
+                alt="magic wand"
+                class="mr-2"
+              />
               Compose Powerful Search & Discovery User Interfaces, quickly.
             </h4>
             <div>

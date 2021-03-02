@@ -11,6 +11,10 @@ body {
   font-family: 'Catamaran', sans-serif;
 }
 
+.text-serif-2 {
+  font-family: 'Catamaran', sans-serif;
+}
+
 .border-short {
   max-width: 20%;
   border-width: 2px;
@@ -32,6 +36,10 @@ body {
   background: linear-gradient(#000000 20%, #331142 50%, #000000 80%);
 }
 
+.bg-gradient-4 {
+  background: linear-gradient(#000000 0%, #200a28 25%, #000000 100%);
+}
+
 .text-underline-primary {
   padding-bottom: 0;
   border-bottom: $primary 1px solid;
@@ -41,4 +49,8 @@ body {
   background: linear-gradient(180deg, #E30B9A 18.23%, #182062 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+strong {
+  font-weight: bold;
 }

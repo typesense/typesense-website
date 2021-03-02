@@ -4,9 +4,9 @@
       <div class="row">
         <div class="col-md-4 py-2">
           <div class="text-serif font-weight-light">
-            <h2 class="mb-0">
-              <NuxtLink to="/">Typesense</NuxtLink>
-            </h2>
+            <h3 class="mb-0 text-serif-2">
+              <NuxtLink to="/" class="font-weight-bold">Typesense</NuxtLink>
+            </h3>
           </div>
           <div class="font-weight-light">
             An open source, typo-tolerant search engine
