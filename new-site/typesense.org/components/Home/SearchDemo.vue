@@ -3,14 +3,14 @@
     <AisInstantSearch :search-client="searchClient" :index-name="INDEX_NAME">
       <AisConfigure :hits-per-page.camel="hitsPerPage" :query="initialQuery" />
       <div class="row no-gutters">
-        <div class="col-1">
+        <div class="col-sm-1">
           <img
             class="try-it-out-arrow"
             src="~assets/images/try_it_out.svg"
             height="50"
           />
         </div>
-        <div class="col">
+        <div class="col-sm-11">
           <AisSearchBox
             placeholder="Search for a recipe..."
             :class-names="{
@@ -33,7 +33,11 @@
       </AisStats>
       <div class="row justify-content-end mt-3">
         <div class="col-sm-1">
-          <img src="~assets/images/magic_wand.svg" height="24" class="mt-2" />
+          <img
+            src="~assets/images/magic_wand.svg"
+            height="24"
+            class="mt-2 d-none d-sm-inline-block"
+          />
         </div>
         <div class="col-sm-10">
           <AisHits
@@ -149,11 +153,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .try-it-out-arrow {
-  position: absolute;
-  top: -23px;
-  left: -33px;
+  @media (min-width: map-get($grid-breakpoints, 'sm')) {
+    position: absolute;
+    top: -23px;
+    left: -33px;
+  }
 }
 </style>
 

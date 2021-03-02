@@ -39,8 +39,8 @@
               <img
                 src="~/assets/images/magic_wand.svg"
                 alt="magic wand"
-                class="mr-2"
-              />
+                class="mr-2 mb-3 mb-sm-0"
+              /><br class="d-block d-sm-none" />
               We also offer Concierge Onboarding and Prioritized Support, for
               when you need it.
             </h4>

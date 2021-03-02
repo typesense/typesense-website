@@ -15,22 +15,30 @@
           width="200"
         />
       </NuxtLink>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
+      <div :class="colorScheme === 'light' ? 'navbar-dark' : 'navbar-light'">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          @click="toggleNavbar"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
+      </div>
 
-      <div id="navbarSupportedContent" class="collapse navbar-collapse">
+      <div
+        id="navbarSupportedContent"
+        class="collapse navbar-collapse"
+        :class="{ show }"
+      >
         <ul class="navbar-nav ml-auto">
           <li class="nav-item justify-content-center align-self-end mr-5">
             <GithubButton
+              class="d-none d-sm-block"
               href="https://github.com/typesense/typesense"
               data-icon="octicon-star"
               data-size="small"
@@ -40,7 +48,7 @@
             </GithubButton>
           </li>
           <li
-            v-for="item in data.navLinks"
+            v-for="item in navLinks"
             :key="item.link || item.externalLink"
             class="nav-item"
           >
@@ -82,36 +90,40 @@ export default {
       default: 'light',
     },
   },
-  computed: {
-    data() {
-      return {
-        navLinks: [
-          {
-            text: 'Home',
-            link: '/',
-          },
-          {
-            text: 'About',
-            link: '/about',
-          },
-          {
-            text: 'Docs',
-            externalLink: '/docs',
-          },
-          {
-            text: 'Support',
-            link: '/support',
-          },
-          {
-            text: 'Github',
-            externalLink: 'https://github.com/typesense/typesense',
-          },
-          {
-            text: 'Hosted Search',
-            externalLink: 'https://cloud.typesense.org',
-          },
-        ],
-      }
+  data() {
+    return {
+      show: false,
+      navLinks: [
+        {
+          text: 'Home',
+          link: '/',
+        },
+        {
+          text: 'About',
+          link: '/about',
+        },
+        {
+          text: 'Docs',
+          externalLink: '/docs',
+        },
+        {
+          text: 'Support',
+          link: '/support',
+        },
+        {
+          text: 'Github',
+          externalLink: 'https://github.com/typesense/typesense',
+        },
+        {
+          text: 'Hosted Search',
+          externalLink: 'https://cloud.typesense.org',
+        },
+      ],
+    }
+  },
+  methods: {
+    toggleNavbar() {
+      this.show = !this.show
     },
   },
 }

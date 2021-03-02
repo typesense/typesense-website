@@ -9,11 +9,31 @@
       <div class="row mt-5">
         <div class="col-sm">
           <div class="text-center">
-            <img src="~/assets/images/javascript.svg" alt="javascript" />
-            <img src="~/assets/images/golang.svg" alt="golang" class="ml-5" />
-            <img src="~/assets/images/php.svg" alt="php" class="ml-5" />
-            <img src="~/assets/images/ruby.svg" alt="ruby" class="ml-5" />
-            <img src="~/assets/images/python.svg" alt="python" class="ml-5" />
+            <img
+              src="~/assets/images/javascript.svg"
+              alt="javascript"
+              class="mt-4 mt-sm-0"
+            />
+            <img
+              src="~/assets/images/golang.svg"
+              alt="golang"
+              class="ml-5 mt-4 mt-sm-0"
+            />
+            <img
+              src="~/assets/images/php.svg"
+              alt="php"
+              class="ml-5 mt-4 mt-sm-0"
+            />
+            <img
+              src="~/assets/images/ruby.svg"
+              alt="ruby"
+              class="ml-5 mt-4 mt-sm-0"
+            />
+            <img
+              src="~/assets/images/python.svg"
+              alt="python"
+              class="ml-5 mt-4 mt-sm-0"
+            />
           </div>
           <div class="mt-4">
             <div class="text-center">
@@ -31,11 +51,11 @@
               <img
                 src="~/assets/images/magic_wand.svg"
                 alt="magic wand"
-                class="mr-2"
-              />
+                class="mr-2 mb-3 mb-sm-0"
+              /><br class="d-block d-sm-none" />
               Compose Powerful Search & Discovery User Interfaces, quickly.
             </h4>
-            <div>
+            <div class="mt-5 mt-sm-0">
               InstantSearch.js +
               <a
                 href="https://github.com/typesense/typesense-instantsearch-adapter"

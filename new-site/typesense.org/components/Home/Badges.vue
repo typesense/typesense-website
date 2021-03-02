@@ -14,7 +14,7 @@
         /></a>
       </div>
       <div
-        class="col-sm col-lg-2 d-flex justify-content-center mt-3 mt-sm-0 ml-4"
+        class="col-sm col-lg-2 d-flex justify-content-center mt-3 mt-sm-0 ml-0 ml-sm-4"
       >
         <a href="https://news.ycombinator.com/item?id=22181437" target="_blank">
           <img

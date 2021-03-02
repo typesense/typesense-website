@@ -4,7 +4,12 @@
       <small>Start Building with</small><br />
       <strong>Typesense Open Source</strong>
     </a>
-    <a class="btn btn-primary text-left ml-2" href="#" role="button">
+    <br class="d-block d-sm-none" />
+    <a
+      class="btn btn-primary text-left ml-sm-2 mt-3 mt-sm-0"
+      href="#"
+      role="button"
+    >
       <small>Deploy on</small><br />
       <strong>Typesense Cloud</strong>
     </a>

@@ -16,7 +16,7 @@
           </template>
         </HomeShowcaseBlock>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mt-4 mt-sm-0">
         <HomeShowcaseBlock
           emoji="⚡ 🔍 📚"
           link="https://books-search.typesense.org"
@@ -26,7 +26,7 @@
           </template>
         </HomeShowcaseBlock>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mt-4 mt-sm-0">
         <HomeShowcaseBlock
           emoji="⚡ 🔍 🥘"
           link="https://recipe-search.typesense.org"

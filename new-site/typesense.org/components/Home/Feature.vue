@@ -29,7 +29,6 @@ export default {
 <style scoped lang="scss">
 .feature {
   .description {
-    max-width: 250px;
     font-size: 0.8rem;
     font-weight: 300;
     line-height: 1.45;

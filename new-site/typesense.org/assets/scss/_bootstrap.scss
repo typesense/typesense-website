@@ -25,7 +25,11 @@ body {
 }
 
 .bg-gradient-1 {
-  background: linear-gradient(173deg, #000000 0%, #1C1221 28%, #3F274A 43%, #1E1323 56%, #000000 80%, #FFFFFF calc(80% + 1px));
+  @media(min-width: map-get($grid-breakpoints, 'sm')) {
+    background: linear-gradient(173deg, #000000 0%, #1C1221 28%, #3F274A 43%, #1E1323 56%, #000000 80%, #FFFFFF calc(80% + 1px));
+  }
+
+  background: linear-gradient(#1C1221 8%, #3F274A 20%, #1E1323 40%, #000000 80%);
 }
 
 .bg-gradient-2 {
