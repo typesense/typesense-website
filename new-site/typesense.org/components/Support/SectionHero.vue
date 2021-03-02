@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm">
-          <div class="h4 mb-0">⚡ 🔍</div>
+          <div class="h4 mb-0 mb-2">⚡ 🔍</div>
           <h1 class="display-4">
             Need help building with Typesense? <br />
             We know someone.
@@ -25,3 +25,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.jumbotron {
+  background-color: unset;
+}
+</style>

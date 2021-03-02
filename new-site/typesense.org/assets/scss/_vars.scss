@@ -1,8 +1,3 @@
-$primary: #FFD000;
-$primary-dark-1: darken($primary, 35%);
-$primary-dark-2: #e6bb00;
-$secondary: #e806a1;
-
 $white: #fff;
 $gray-100: #d2d0d2;
 $gray-200: #bcb8bc;
@@ -14,6 +9,13 @@ $gray-700: #4d424c;
 $gray-800: #362b35;
 $gray-900: #20131f;
 $black: #1a0f19;
+
+$primary: #FFD000;
+$primary-dark-1: darken($primary, 35%);
+$primary-dark-2: #e6bb00;
+$primary-dark-3: #ddc593;
+$secondary: #e806a1;
+$dark: $gray-900 !default;
 
 $font-weight-base: 300;
 $headings-font-weight: 600;

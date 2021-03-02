@@ -40,6 +40,10 @@ body {
   background: linear-gradient(#000000 0%, #200a28 25%, #000000 100%);
 }
 
+.bg-gradient-5 {
+  background: linear-gradient(173deg, #FFFFFF 22%, #000000 calc(22% + 1px), #200a28 55%, #000000 78%, #FFFFFF calc(78% + 1px));
+}
+
 .text-underline-primary {
   padding-bottom: 0;
   border-bottom: $primary 1px solid;

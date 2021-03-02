@@ -9,7 +9,7 @@
       <div class="mt-5 text-center">
         <HomeSupportOption
           :image="require('~/assets/images/github.svg')"
-          image-height="45"
+          :image-height="45"
           name="Github Issues"
         ></HomeSupportOption>
         <HomeSupportOption
@@ -20,7 +20,7 @@
         <HomeSupportOption
           :image="require('~/assets/images/slack.svg')"
           name="Slack"
-          image-height="35"
+          :image-height="35"
           image-margin="6px"
           class="ml-5"
         ></HomeSupportOption>
