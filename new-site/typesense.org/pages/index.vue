@@ -2,7 +2,7 @@
   <div>
     <HomeSectionHero />
     <HomeSectionFeatureList />
-    <hr class="border-primary border-short mb-5" />
+    <hr class="border-primary border-short my-5" />
     <HomeSectionDeveloperExperience />
     <HomeSectionAPILibraries />
     <HomeSectionShowcase />

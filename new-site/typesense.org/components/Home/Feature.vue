@@ -3,8 +3,8 @@
     <div class="mb-2">
       <img :src="icon" height="25" />
     </div>
-    <h5 class="mb-1">{{ name }}</h5>
-    <p :class="['description']">{{ description }}</p>
+    <h5 class="mb-2">{{ name }}</h5>
+    <p class="description">{{ description }}</p>
   </div>
 </template>
 <script>
@@ -31,7 +31,8 @@ export default {
   .description {
     max-width: 250px;
     font-size: 0.8rem;
-    line-height: 1.4;
+    font-weight: 300;
+    line-height: 1.45;
   }
 }
 </style>

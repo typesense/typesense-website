@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h2 class="text-center">Features you love, minus the complexity</h2>
+    <h2 class="text-center text-gradient-1">
+      Features you love, minus the complexity
+    </h2>
     <div class="text-center">Neatly wrapped in RESTful API</div>
 
     <div :class="['grid']" class="mt-5">
@@ -100,7 +102,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-column-gap: 30px;
-  grid-row-gap: 20px;
+  grid-row-gap: 28px;
   justify-content: space-evenly;
   align-content: space-evenly;
 }
