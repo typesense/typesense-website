@@ -15,11 +15,6 @@
             We also offer paid prioritized support with guaranteed SLAs,
             consulting and training.
           </div>
-          <div class="mt-5">
-            <a class="btn btn-primary text-left" href="#" role="button">
-              <strong>Contact Us</strong>
-            </a>
-          </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
     <div class="row text-center py-5">
       <div class="col-sm">
         <div>
-          <a class="btn btn-primary text-left" href="#" role="button">
+          <a class="btn btn-primary btn-lg text-left" href="#" role="button">
             <strong>Signup for Support</strong>
           </a>
         </div>

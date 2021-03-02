@@ -117,12 +117,47 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 GithubButton {
   line-height: unset;
 }
 
 .navbar {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.nav-link {
+  &.text-light {
+    &.nuxt-link-exact-active {
+      padding-bottom: 0;
+      border-bottom: $primary 1px solid;
+    }
+
+    &:hover {
+      color: unset !important;
+      padding-bottom: 0;
+      border-bottom: $primary 1px solid;
+    }
+  }
+
+  &.text-dark {
+    &.nuxt-link-exact-active {
+      padding-bottom: 0;
+      border-bottom: $primary 2px solid;
+    }
+
+    &:hover {
+      color: unset !important;
+      padding-bottom: 0;
+      border-bottom: $primary 2px solid;
+    }
+  }
 }
 </style>
