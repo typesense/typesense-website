@@ -6,8 +6,8 @@
     <HomeSectionDeveloperExperience />
     <div class="mt-3">&nbsp;</div>
     <HomeSectionAPILibraries class="mt-5" />
-    <HomeSectionShowcase />
-    <HomeSectionSupport />
+    <HomeSectionShowcase class="mt-5" />
+    <HomeSectionSupport class="mt-5" />
     <HomeBadges />
 
     <div class="mt-5 text-center">
