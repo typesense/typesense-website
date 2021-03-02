@@ -1,9 +1,11 @@
+import Vue from 'vue'
+
 export const state = () => ({
-  codeLanguage: 'bash',
+  'code-block': 'bash',
 })
 
 export const mutations = {
-  setCodeLanguage(state, codeLanguage) {
-    state.codeLanguage = codeLanguage
+  setCodeLanguage(state, { codeBlockStateId, codeLanguage }) {
+    Vue.set(state, codeBlockStateId, codeLanguage)
   },
 }

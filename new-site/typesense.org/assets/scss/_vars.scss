@@ -1,0 +1,35 @@
+$primary: #FFD000;
+$primary-dark-1: darken($primary, 35%);
+$primary-dark-2: #e6bb00;
+$secondary: #e806a1;
+
+$white: #fff;
+$gray-100: #d2d0d2;
+$gray-200: #bcb8bc;
+$gray-300: #a6a1a5;
+$gray-400: #90898f;
+$gray-500: #797179;
+$gray-600: #635a62;
+$gray-700: #4d424c;
+$gray-800: #362b35;
+$gray-900: #20131f;
+$black: #1a0f19;
+
+$font-weight-base: 300;
+$headings-font-weight: 600;
+$display1-weight: 700;
+$display2-weight: 700;
+$display3-weight: 700;
+$display4-weight: 700;
+$display-line-height: 1.1;
+
+$font-family-sans-serif: 'Palanquin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-size-base: 0.9rem;
+$h1-font-size: $font-size-base * 3.052;
+$h2-font-size: $font-size-base * 2.441;
+$h3-font-size: $font-size-base * 1.953;
+$h4-font-size: $font-size-base * 1.563;
+$h5-font-size: $font-size-base * 1.25;
+$h6-font-size: $font-size-base;
+
+$border-radius: .25rem;

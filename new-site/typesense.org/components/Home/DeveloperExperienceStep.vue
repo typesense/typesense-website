@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row d-flex justify-content-between">
       <div class="col-sm-7">
-        <CodeBlockTabbed>
-          <slot name="code"></slot>
-        </CodeBlockTabbed>
+        <slot name="code"></slot>
       </div>
       <div class="col-sm-5">
-        <slot name="description"></slot>
+        <div class="ml-3">
+          <slot name="description"></slot>
+        </div>
       </div>
     </div>
   </div>

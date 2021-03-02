@@ -101,7 +101,7 @@ export default {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-column-gap: 30px;
+  grid-column-gap: 40px;
   grid-row-gap: 28px;
   justify-content: space-evenly;
   align-content: space-evenly;
