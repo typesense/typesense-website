@@ -1,7 +1,11 @@
 <template>
   <div>
-    <AisInstantSearch :search-client="searchClient" :index-name="INDEX_NAME">
-      <AisConfigure :hits-per-page.camel="hitsPerPage" :query="initialQuery" />
+    <AisInstantSearch
+      :search-client="searchClient"
+      :index-name="INDEX_NAME"
+      :initial-ui-state="initialUiState"
+    >
+      <AisConfigure :hits-per-page.camel="hitsPerPage" />
       <div class="row no-gutters">
         <div class="col-sm-1">
           <img
@@ -12,6 +16,7 @@
         </div>
         <div class="col-sm-11">
           <AisSearchBox
+            autofocus
             placeholder="Search for a recipe..."
             :class-names="{
               'ais-SearchBox-input': 'form-control',
@@ -26,8 +31,8 @@
           slot-scope="{ nbHits, processingTimeMS }"
           class="small text-white"
         >
-          ✨ Found {{ nbHits.toLocaleString() }} hits out of
-          {{ starQueryResults['out_of'].toLocaleString() }} recipes in
+          ✨ Found {{ nbHits.toLocaleString() }} recipes out of
+          {{ starQueryResults['out_of'].toLocaleString() }} in
           {{ processingTimeMS }} ms
         </span>
       </AisStats>
@@ -134,9 +139,16 @@ export default {
     return {
       searchClient: typesenseInstantsearchAdapter.searchClient,
       INDEX_NAME,
-      initialQuery: 'cake',
+      initialUiState: {
+        r: {
+          query: 'cake',
+          page: 5,
+        },
+      },
       hitsPerPage: 5,
-      starQueryResults: {},
+      starQueryResults: {
+        out_of: 2231142, // Fallback
+      },
     }
   },
   async fetch() {
