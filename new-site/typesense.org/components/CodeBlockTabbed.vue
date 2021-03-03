@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import 'prismjs'
+import Prism from 'prismjs'
 import 'prismjs/components/prism-markup-templating' // https://github.com/PrismJS/prism/issues/1400
 import 'prism-themes/themes/prism-darcula.css'
 import 'prismjs/components/prism-ruby'
@@ -59,6 +59,9 @@ export default {
           content: el.children[0].text,
         }
       })
+  },
+  mounted() {
+    Prism.highlightAll()
   },
   methods: {
     setCodeLanguage(displayLanguage) {
