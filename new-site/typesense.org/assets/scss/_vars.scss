@@ -15,6 +15,7 @@ $primary-dark-1: darken($primary, 35%);
 $primary-dark-2: #e6bb00;
 $primary-dark-3: #ddc593;
 $secondary: #e806a1;
+$secondary-dark-1: #8c1968;
 $dark: $gray-900 !default;
 
 $font-weight-base: 300;
@@ -45,3 +46,6 @@ $grid-breakpoints: (
   lg: 992px,
   xl: 1200px
 );
+
+$input-focus-box-shadow:  0px 0px 20px 0.1rem $secondary-dark-1;
+$input-focus-border-color: $secondary-dark-1;

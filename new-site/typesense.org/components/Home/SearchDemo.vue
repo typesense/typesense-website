@@ -54,13 +54,10 @@
                     class="text-truncate d-inline-block text-white"
                     style="max-width: 250px"
                   >
-                    {{ item.title }}
+                    <ais-highlight attribute="title" :hit="item" />
                   </div>
                   <div class="d-inline-block">
-                    <img
-                      src="~/assets/images/np_open_2472908_4d3e00.svg"
-                      height="12"
-                    />
+                    <img src="~/assets/images/open_link_icon.svg" height="12" />
                   </div>
                 </div>
               </a>
@@ -96,6 +93,7 @@ import {
   AisStats,
   AisPagination,
   AisConfigure,
+  AisHighlight,
 } from 'vue-instantsearch'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import { SearchClient as TypesenseSearchClient } from 'typesense' // To get the total number of docs
@@ -123,6 +121,7 @@ export default {
     AisStats,
     AisPagination,
     AisConfigure,
+    AisHighlight,
   },
   data({ $config }) {
     const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
