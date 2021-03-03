@@ -6,7 +6,9 @@
         Let us help you build a scalable and robust search experience
       </div>
       <div class="mt-3">&nbsp;</div>
-      <div class="mt-5 text-center d-flex justify-content-between">
+      <div
+        class="mt-5 text-center d-flex justify-content-between justify-content-sm-center"
+      >
         <HomeSupportOption
           :image="require('~/assets/images/github.svg')"
           :image-height="45"
