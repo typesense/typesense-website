@@ -145,6 +145,11 @@ GithubButton {
   margin-right: 0.5rem;
 }
 
+a {
+  text-decoration: unset;
+  border-bottom: unset;
+}
+
 .nav-link {
   &.text-light {
     &.nuxt-link-exact-active {

@@ -1,14 +1,15 @@
 <template>
-  <div
-    class="showcase-block border border-light px-5 py-4 d-flex align-items-center"
-  >
-    <h5 class="mb-0">
-      {{ emoji }}<br />
-      <a :href="link" target="_blank" class="text-dark">
+  <a :href="link" target="_blank" class="text-dark">
+    <div
+      class="showcase-block border border-light px-5 py-4 d-flex align-items-center"
+    >
+      <h5 class="mb-0">
+        {{ emoji }}<br />
+
         <slot name="title"></slot>
-      </a>
-    </h5>
-  </div>
+      </h5>
+    </div>
+  </a>
 </template>
 
 <script>
@@ -38,6 +39,10 @@ export default {
 
   h5 {
     line-height: 1.3;
+  }
+
+  a {
+    border-bottom: unset;
   }
 }
 </style>

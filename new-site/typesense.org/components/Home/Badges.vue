@@ -29,3 +29,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+a {
+  border-bottom: unset;
+}
+</style>

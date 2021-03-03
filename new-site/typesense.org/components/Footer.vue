@@ -2,7 +2,7 @@
   <footer class="footer navbar fixed-bottom footer-lg py-5">
     <div class="container d-block align-items-start">
       <div class="row">
-        <div class="col-sm-4 py-2">
+        <div class="col-sm-5 py-2">
           <div class="text-serif font-weight-light">
             <h3 class="mb-0 text-serif-2">
               <NuxtLink to="/" class="font-weight-bold">Typesense</NuxtLink>
@@ -109,25 +109,15 @@
         </div>
 
         <div class="col-sm-3 mt-4 mt-md-0">
-          <ul class="nav flex-column align-content-top">
-            <li class="nav-item"><strong>Resources</strong></li>
-            <li class="nav-item">
-              <a class="nav-link p-0" href="#">Typesense vs Algolia</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link p-0" href="#">Typesense vs ElasticSearch</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link p-0" href="#">Typesense vs Meilisearch</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="col-sm-1 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link p-0" href="#">Contact Us</a>
             </li>
+            <NuxtLink
+              class="nav-link p-0"
+              to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+              >Comparison with alternatives</NuxtLink
+            >
             <li class="nav-item">
               <a
                 class="nav-link p-0"
@@ -141,3 +131,9 @@
     </div>
   </footer>
 </template>
+
+<style scoped lang="scss">
+a {
+  border-bottom: unset;
+}
+</style>

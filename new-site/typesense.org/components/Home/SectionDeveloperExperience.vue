@@ -58,10 +58,7 @@ tar xvzf ./typesense-server-{{ typesense_version }}-darwin-amd64.tar.gz
         <p>Use Docker, our native binaries or our RPM or DEB packages.</p>
         <p>
           Or, use
-          <a
-            href="https://cloud.typesense.org"
-            target="_blank"
-            class="text-underline-primary"
+          <a href="https://cloud.typesense.org" target="_blank"
             >Typesense Cloud</a
           >
           to provision a cluster with a few clicks.
@@ -92,8 +89,8 @@ curl "http://localhost:8108/collections/books/documents/import" \
         -d '
           {"title":"Book 1",author:"Author1","ratings":24}
           {"title":"Book 2",author:"Author2","ratings":31}
-          {"title":"Book 3",author:"Author3","ratings":30}'</pre
-          >
+          {"title":"Book 3",author:"Author3","ratings":30}'
+          </pre>
           <pre data-language="javascript">
 const Typesense = require('typesense')
 const client = new Typesense.Client({

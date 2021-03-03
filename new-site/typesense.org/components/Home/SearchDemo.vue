@@ -170,6 +170,7 @@ export default {
 
   .ais-Pagination-link {
     color: unset;
+    border-bottom: unset;
 
     &:hover {
       text-decoration: unset;

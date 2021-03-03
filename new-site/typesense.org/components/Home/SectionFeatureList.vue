@@ -5,10 +5,16 @@
     </h2>
     <div class="text-center">Neatly wrapped in RESTful API</div>
 
-    <div :class="['grid']" class="mt-5">
+    <div class="grid mt-5">
       <div v-for="feature in features" :key="feature.name">
         <HomeFeature v-bind="feature" />
       </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+        >Comparison with alternatives</NuxtLink
+      >
     </div>
   </div>
 </template>

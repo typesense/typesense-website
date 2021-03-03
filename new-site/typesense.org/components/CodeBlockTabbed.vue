@@ -95,8 +95,10 @@ export default {
     margin-left: 0.5rem;
     margin-right: 1rem;
     border-radius: 0;
+    border-bottom: unset;
 
-    &.active {
+    &.active,
+    &:hover {
       background-color: unset;
       border-bottom: $primary 1px solid;
     }

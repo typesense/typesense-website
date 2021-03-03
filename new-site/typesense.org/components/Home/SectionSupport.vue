@@ -45,11 +45,7 @@
               when you need it.
             </h4>
             <div>
-              <NuxtLink to="/support" class="text-white"
-                ><span class="text-underline-primary"
-                  >Learn more</span
-                ></NuxtLink
-              >
+              <NuxtLink class="text-white" to="/support">Learn more</NuxtLink>
             </div>
           </div>
         </div>
