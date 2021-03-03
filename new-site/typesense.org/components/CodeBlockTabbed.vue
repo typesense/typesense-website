@@ -1,16 +1,16 @@
 <template>
   <div>
     <BTabs pills card align="right" class="code-block">
-      <div v-for="tab in tabs" :key="tab.displayLanguage">
-        <BTab
-          :active="activeTab === tab.displayLanguage"
-          :title="tab.displayLanguage"
-          @click="setCodeLanguage(tab.displayLanguage)"
-        >
-          <pre><code
+      <BTab
+        v-for="tab in tabs"
+        :key="tab.displayLanguage"
+        :active="activeTab === tab.displayLanguage"
+        :title="tab.displayLanguage"
+        @click="setCodeLanguage(tab.displayLanguage)"
+      >
+        <pre><code
             :class="`language-${tab.language}`">{{ tab.content }}</code></pre>
-        </BTab>
-      </div>
+      </BTab>
     </BTabs>
   </div>
 </template>
