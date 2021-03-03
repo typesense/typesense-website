@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-xxl-5">
     <h2 class="text-center text-gradient-1">
       Features you love, minus the complexity
     </h2>
