@@ -82,7 +82,7 @@
                   <td class="font-weight-bold">Best Suited For</td>
                   <td>
                     Instant Search-as-you-type Experiences for data sets that
-                    can be fit in RAM, up to 768 GB (or current commercially
+                    can be fit in RAM, up to 24 TB (or current commercially
                     available RAM size).
                   </td>
                   <td>
