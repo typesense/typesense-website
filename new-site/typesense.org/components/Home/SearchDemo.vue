@@ -142,7 +142,6 @@ export default {
       initialUiState: {
         r: {
           query: 'cake',
-          page: 5,
         },
       },
       hitsPerPage: 5,
