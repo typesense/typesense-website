@@ -13,24 +13,21 @@ docker run \
         -p 8108:8108 -v/tmp:/data \
         typesense/typesense:{{ typesense_version }}
           --data-dir /data --api-key=xyz
-        </pre
-          >
+          </pre>
           <pre data-language="bash" data-display-language="DEB">
 wget https://dl.typesense.org/releases/{{
               typesense_version
             }}/typesense-server-{{ typesense_version }}-amd64.deb
 
 apt install ./typesense-server-{{ typesense_version }}-amd64.deb
-        </pre
-          >
+          </pre>
           <pre data-language="bash" data-display-language="RPM">
 wget https://dl.typesense.org/releases/{{
               typesense_version
             }}/typesense-server-{{ typesense_version }}-1.x86_64.rpm
 
 yum install ./typesense-server-{{ typesense_version }}.x86_64.rpm
-        </pre
-          >
+          </pre>
           <pre data-language="bash" data-display-language="Linux">
 wget https://dl.typesense.org/releases/{{
               typesense_version
@@ -39,8 +36,7 @@ wget https://dl.typesense.org/releases/{{
 tar xvzf ./typesense-server-{{ typesense_version }}-linux-amd64.tar.gz
 
 ./typesense-server --data-dir /tmp --api-key=xyz
-        </pre
-          >
+          </pre>
           <pre data-language="bash" data-display-language="macOS">
 wget https://dl.typesense.org/releases/{{
               typesense_version
@@ -49,8 +45,7 @@ wget https://dl.typesense.org/releases/{{
 tar xvzf ./typesense-server-{{ typesense_version }}-darwin-amd64.tar.gz
 
 ./typesense-server --data-dir /tmp --api-key=xyz
-        </pre
-          >
+          </pre>
         </CodeBlockTabbed>
       </template>
       <template #description>

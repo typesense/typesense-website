@@ -47,7 +47,7 @@ export default {
       return this.$store.state[this.stateId] || 'bash'
     },
   },
-  created() {
+  mounted() {
     this.tabs = this.$slots.default
       .filter((el) => el.tag === 'pre')
       .map((el) => {
@@ -59,9 +59,9 @@ export default {
           content: el.children[0].text,
         }
       })
-  },
-  mounted() {
-    Prism.highlightAll()
+    this.$nextTick(() => {
+      Prism.highlightAll()
+    })
   },
   methods: {
     setCodeLanguage(displayLanguage) {
