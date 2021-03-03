@@ -6,28 +6,29 @@
         Let us help you build a scalable and robust search experience
       </div>
       <div class="mt-3">&nbsp;</div>
-      <div class="mt-5 text-center">
+      <div class="mt-5 text-center d-flex justify-content-between">
         <HomeSupportOption
           :image="require('~/assets/images/github.svg')"
           :image-height="45"
           name="Github Issues"
+          class="mt-4 mt-sm-0"
         ></HomeSupportOption>
         <HomeSupportOption
           :image="require('~/assets/images/email.svg')"
           name="Email"
-          class="ml-5"
+          class="ml-5 mt-4 mt-sm-0"
         ></HomeSupportOption>
         <HomeSupportOption
           :image="require('~/assets/images/slack.svg')"
           name="Slack"
           :image-height="35"
           image-margin="6px"
-          class="ml-5"
+          class="ml-5 mt-4 mt-sm-0"
         ></HomeSupportOption>
         <HomeSupportOption
           :image="require('~/assets/images/video_call.svg')"
           name="Phone call"
-          class="ml-5"
+          class="ml-5 mt-4 mt-sm-0"
         ></HomeSupportOption>
       </div>
 

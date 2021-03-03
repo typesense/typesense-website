@@ -1,5 +1,5 @@
 <template>
-  <div class="d-inline-block">
+  <div class="support-option d-flex flex-column justify-content-end">
     <img
       :src="image"
       :alt="name"
@@ -32,3 +32,10 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+.support-option {
+  width: 100px;
+  height: 100px;
+}
+</style>

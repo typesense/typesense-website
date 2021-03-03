@@ -69,4 +69,8 @@ export default {
     typesenseSearchOnlyAPIKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY,
     typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
   },
+
+  server: {
+    host: '0', // default: localhost
+  },
 }
