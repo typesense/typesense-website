@@ -15,7 +15,7 @@
                 <tr class="text-center h5">
                   <th scope="col"></th>
                   <th scope="col"><span>Free</span></th>
-                  <th scope="col"><span>Startup</span></th>
+                  <th scope="col"><span>Developer</span></th>
                   <th scope="col"><span>Business</span></th>
                   <th scope="col"><span>Enterprise</span></th>
                 </tr>
@@ -28,24 +28,17 @@
                     Slack Community
                   </td>
                   <td>
-                    Github issues<br />
-                    Slack Community
-                    <br />
-                    Email
+                    All channels in Free plan<br />
+                    + Email
                   </td>
                   <td>
-                    Github issues<br />
-                    Slack Community<br />
-                    Email<br />
-                    Phone Calls
+                    All channels in Developer plan<br />
+                    + Phone Calls
                   </td>
                   <td>
-                    Github issues<br />
-                    Slack Community<br />
-                    Email<br />
-                    Phone Calls<br />
-                    Video Calls<br />
-                    Private Slack
+                    All channels in Business plan<br />
+                    + Video Calls<br />
+                    + Private Slack
                   </td>
                 </tr>
                 <tr class="text-center">
@@ -63,7 +56,14 @@
                   <td>Available</td>
                 </tr>
                 <tr class="text-center">
-                  <td class="text-right">Hands-on Setup & Training</td>
+                  <td class="text-right">
+                    Hands-on Implementation & Training <br />
+                    <p class="small mt-3 mb-0 text-light">
+                      Our team will take care of integrating Typesense into your
+                      tech stack and build you a fully-functioning instant
+                      search experience.
+                    </p>
+                  </td>
                   <td>N/A</td>
                   <td>N/A</td>
                   <td>N/A</td>
@@ -107,7 +107,7 @@
 
   tr {
     td:first-of-type {
-      color: $primary-dark-3;
+      color: $primary;
       font-weight: 400;
     }
 

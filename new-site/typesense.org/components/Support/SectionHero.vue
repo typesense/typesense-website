@@ -6,7 +6,7 @@
           <div class="h4 mb-0 mb-2">⚡ 🔍</div>
           <h1 class="display-4">
             Need help building with Typesense? <br />
-            We know someone.
+            We know someone <small>✋</small>
           </h1>
           <div>
             We strive to provide good support through our Github Issue tracker.
