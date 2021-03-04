@@ -56,31 +56,30 @@ export default {
 
 .nav-container
   display flex
+  justify-content flex-start
   list-style none
-  padding-left: 0
-  border: 1px solid #eee
+  padding-left: 1.25rem
+  padding-top: 1.25rem
+  padding-bottom: 0.5rem
   border-bottom none
   border-top-left-radius 6px
   border-top-right-radius 6px
-  padding: 1rem
   margin-bottom 0
+  background $codeBgColor
+  color $white
+  font-size 0.70rem
 
   .nav
     margin-right 1rem
-    border-radius: 8px;
     cursor pointer
 
     .nav-title
       display inline-block
-      border: 1px solid transparent
-      padding: .3rem .6rem
+      margin-right: .3rem
 
-    &.active
-      color: #fff
-      background: $accentColor
-
-    &:not(.active):hover
-      background: #eee
+    &.active,&:not(.active):hover
+      .nav-title
+        border-bottom: $accentColor2 1px solid
 
 .tab-content
   > div[class^=language-]

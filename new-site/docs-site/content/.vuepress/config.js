@@ -7,7 +7,6 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Typesense',
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
@@ -31,6 +30,7 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
+    logo: '/images/typesense_logo.svg',
     nav: [
       { text: 'Docs Home', link: '/' },
       {
@@ -79,5 +79,11 @@ module.exports = {
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom'],
+  plugins: [
+    '@vuepress/plugin-back-to-top',
+    '@vuepress/plugin-medium-zoom',
+    ['@dovyp/vuepress-plugin-clipboard-copy', true]
+  ],
+
+  port: 3000
 }

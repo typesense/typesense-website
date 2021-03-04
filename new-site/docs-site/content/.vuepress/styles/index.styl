@@ -4,5 +4,11 @@
  * ref：https://v1.vuepress.vuejs.org/config/#index-styl
  */
 
+// https://github.com/vuejs/vuepress/issues/703#issuecomment-484790660
+.theme-default-content pre[class*=language-] {
+  overflow-y hidden
+}
 
-
+div[class*="language-"]::before {
+  display none
+}
