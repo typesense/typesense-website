@@ -1,4 +1,4 @@
-# Export documents from a collection
+## Export documents from a collection
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
   <template v-slot:JavaScript>

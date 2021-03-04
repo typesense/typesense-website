@@ -78,11 +78,12 @@ module.exports = {
       '/0.19.0/guide/': [
         {
           title: 'Guide', // required
+          sidebarDepth: 1,
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.19.0/guide/', 'Installation'],
-            ['/0.19.0/guide/configure', 'Configure'],
-            ['/0.19.0/guide/update', 'Update'],
+            ['/0.19.0/guide/configure', 'Configure Typesense'],
+            ['/0.19.0/guide/update', 'Updating Typesense'],
             ['/0.19.0/guide/installClient', 'Installing a Client'],
             ['/0.19.0/guide/example', 'Example Application'],
             ['/0.19.0/guide/searchui', 'Building Search UIs'],
@@ -98,17 +99,8 @@ module.exports = {
             ['/0.19.0/api/','Introduction'],
             ['/0.19.0/api/apiclient','API Clients'],
             ['/0.19.0/api/authentication','Authentication'],
-            ['/0.19.0/api/usage/create','Create a Collection'],
-            ['/0.19.0/api/usage/search','Search a Collection'],
-            ['/0.19.0/api/usage/federatedSearch','Federated/Multi Search'],
-            ['/0.19.0/api/usage/retrieve','Retrieve a document'],
-            ['/0.19.0/api/usage/update','Updating a document'],
-            ['/0.19.0/api/usage/delete','Deleting documents'],
-            ['/0.19.0/api/usage/retrieveColl','Retrieving a Collection'],
-            ['/0.19.0/api/usage/export','Export Documents'],
-            ['/0.19.0/api/usage/import','Import Documents'],
-            ['/0.19.0/api/usage/list','List all Collections'],
-            ['/0.19.0/api/usage/drop','Drop a Collection'],
+            ['/0.19.0/api/Collections/Collections.md','Collections'],
+            ['/0.19.0/api/Documents/Documents.md','Documents'],
             ['/0.19.0/api/manageapi','Manage API Keys'],
             ['/0.19.0/api/curation','Curation'],
             ['/0.19.0/api/alias','Collection Alias'],

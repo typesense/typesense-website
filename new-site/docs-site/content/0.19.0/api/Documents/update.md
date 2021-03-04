@@ -1,4 +1,4 @@
-# Update a document
+## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">

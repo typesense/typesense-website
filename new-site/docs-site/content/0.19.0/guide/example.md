@@ -1,5 +1,5 @@
 # Example application
->NOTE: We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability]() section for more details.
+>NOTE: We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./rankRelevance.md#high-availability) section for more details.
 
 At this point, we are all set to start using Typesense. We will create a Typesense collection, index some documents in it and try searching for them.
 
@@ -566,5 +566,5 @@ As we can see in the result below, Typesense handled the typographic error grace
   </template>
 </Tabs>
 
-We've come to the end of our little walk-through. For a detailed dive into Typesense, refer to our [API documentation]().
+We've come to the end of our little walk-through. For a detailed dive into Typesense, refer to our [API documentation](../api/README.md).
 

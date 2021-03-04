@@ -1,4 +1,4 @@
-# Create a collection
+## Create a collection
 When a `collection` is created, we give it a name and describe the fields that will be indexed from the documents that are added to the `collection`.
 
 Your documents can contain other fields not mentioned in the collection's schema - they will be stored but not indexed.

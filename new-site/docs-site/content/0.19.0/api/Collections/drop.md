@@ -1,4 +1,4 @@
-# Drop a collection
+## Drop a collection
 Permanently drops a collection. This action cannot be undone. For large collections, this might have an impact on read latencies.
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">

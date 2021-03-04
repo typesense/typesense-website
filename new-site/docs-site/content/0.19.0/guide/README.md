@@ -1,6 +1,6 @@
 Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.
 
-For a detailed dive into the Typesense API, refer to our [API documentation]('/0.19.0/api/introduction').
+For a detailed dive into the Typesense API, refer to our [API documentation](../api/README.md).
 
 # Installing Typesense
 You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Mac OS X on our downloads page.
@@ -32,7 +32,7 @@ yum install ./typesense-server-<version>.x86_64.rpm
   </template>
 </Tabs>
 
-# Starting the typesense server
+## Starting the typesense server
 >**Note**:
 > We are starting a single node here, but Typesense can also run in a clustered mode. See the high availability section for more details.
 
@@ -43,23 +43,49 @@ If you had installed Typesense from a DEB/RPM package, the Typesense server is a
 
 By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the configuration file at `/etc/typesense/typesense-server.ini`
 
-## From the pre-built binary
+### From the pre-built binary
 If you have downloaded the pre-built binary, you can start Typesense with minimal options like this:
 
-    mkdir /tmp/typesense-data
-    ./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
 
-## From the docker image
+```bash
+mkdir /tmp/typesense-data
+./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
+```
+
+  </template>
+</Tabs>
+
+### From the docker image
 If you want to use Docker, you can run Typesense like this:
 
-    mkdir /tmp/typesense-data
-    docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
-    --data-dir /data --api-key=$TYPESENSE_API_KEY
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+mkdir /tmp/typesense-data
+docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
+--data-dir /data --api-key=$TYPESENSE_API_KEY
+```
+
+  </template>
+</Tabs>
+
 You can use the `/health` API end-point to verify that the server is ready to accept requests.
 
-    Shell
-    curl http://localhost:8108/health
-    {"ok":true}
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+Shell
+curl http://localhost:8108/health
+{"ok":true}
+```
+
+  </template>
+</Tabs>
+
 
 ## Server arguments
 

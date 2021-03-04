@@ -1,4 +1,4 @@
-# Import documents into a collection
+## Import documents into a collection
 The documents to be imported can be either an array of document objects or be formatted as a newline delimited JSON string (see [JSONL](https://jsonlines.org/)).
 
 **Indexing multiple documents at the same time**

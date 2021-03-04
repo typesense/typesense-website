@@ -1,4 +1,4 @@
-# Retrieve a collection
+## Retrieve a collection
 Retrieve the details of a collection, given its name.
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">

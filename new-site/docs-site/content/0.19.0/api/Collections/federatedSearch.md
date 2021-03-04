@@ -1,4 +1,4 @@
-# Federated / Multi Search
+## Federated / Multi Search
 You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.

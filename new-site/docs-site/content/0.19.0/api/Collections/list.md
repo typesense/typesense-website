@@ -1,4 +1,4 @@
-# List all collections
+## List all collections
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">

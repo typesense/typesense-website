@@ -1,4 +1,4 @@
-# Retrieve a document
+## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">

@@ -1,5 +1,5 @@
 # API Clients
-At the moment, we have clients for Javascript, PHP, Python, Ruby.
+At the moment, we have clients for [Javascript](https://github.com/typesense/typesense-js), [PHP](https://github.com/typesense/typesense-php), [Python](https://github.com/typesense/typesense-python), [Ruby](https://github.com/typesense/typesense-ruby).
 
 We recommend that you use our API client if it's available for your language.
 

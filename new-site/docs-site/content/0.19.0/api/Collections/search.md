@@ -1,4 +1,4 @@
-# Search a collection
+## Search a collection
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
 <Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
@@ -136,7 +136,7 @@ When a `string[]` field is queried, the `highlights` structure would include the
   </template>
 </Tabs>
 
-## Group by
+### Group by
 You can aggregate search results into groups or buckets by specify one or more `group_by` fields.
 
 Grouping hits this way is useful in:
@@ -269,7 +269,7 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-## Definition
+### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments

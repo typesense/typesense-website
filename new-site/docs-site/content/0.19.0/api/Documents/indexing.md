@@ -1,4 +1,4 @@
-# Index a document
+## Index a document
 A document to be indexed in a given collection must conform to the schema of the collection.
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
@@ -78,7 +78,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
   </template>
 </Tabs>
 
-## Upserting a document
+### Upserting a document
 You can also upsert a document.
 
 
@@ -176,5 +176,5 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
   </template>
 </Tabs>
 
-## Definition
+### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`

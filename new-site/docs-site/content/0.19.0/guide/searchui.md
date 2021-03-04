@@ -1,5 +1,5 @@
 # Building Search UIs
-You can use the open source [InstantSearch.js]() library, along with our [Typesense-InstantSearch-Adapter]() to build a plug-and-play full-featured search interface, with just a few lines of code.
+You can use the open source [InstantSearch.js](https://github.com/algolia/instantsearch.js) library, along with our [Typesense-InstantSearch-Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to build a plug-and-play full-featured search interface, with just a few lines of code.
 
 Let's start with a starter template:
 
@@ -121,7 +121,7 @@ We're essentially creating a `searchClient` with the adapter and passing it to `
 
 Now, you can use any of the widgets supported by InstantSearch to build a search interface. In this walkthrough, we'll add a search box, along with results:
 
-```
+```js
     search.addWidgets([
     instantsearch.widgets.searchBox({
       container: '#searchbox',
