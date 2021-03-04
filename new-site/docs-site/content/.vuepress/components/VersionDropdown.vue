@@ -13,28 +13,15 @@
 <script>
 export default {
   name: "VersionDropdown",
-  data() {
-    return {
-      currentVersion: window.location.pathname.split("/")[2]
-    }
-  },
-  mounted() {
-    import("../store").then(module => {
-      this.store = module.default;
-      this.currentVersion = window.location.pathname.split("/")[2] || this.store.state.currentTypesenseVersion
-    });
-  },
-  watch:{
-    $route (to, from){
-      this.currentVersion = window.location.pathname.split("/")[2] || this.store.state.currentTypesenseVersion
+  computed: {
+    currentVersion() {
+      return this.$page.typesenseVersion;
     }
   },
   methods: {
     switchVersion(event) {
       const newVersion = event.target.value;
-      this.store.commit("UPDATE_CURRENT_TYPESENSE_VERSION", newVersion);
-      const [_, basePath, currentVersion, ...restOfURL] = window.location.pathname.split("/");
-      if (currentVersion !== newVersion) {
+      if (this.$page.typesenseVersion !== newVersion) {
         this.$router.push(`/${newVersion}/`);
       }
     }

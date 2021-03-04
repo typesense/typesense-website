@@ -19,9 +19,7 @@
       >{{ $siteTitle }}</span>
     </a>
 
-    <ClientOnly>
-      <VersionDropdown />
-    </ClientOnly>
+    <VersionDropdown />
 
     <div
       class="links"

@@ -1,3 +1,3 @@
-# Typesense v0.13.0
+# Typesense v{{ $page.typesenseVersion }}
 
 ## What's new
