@@ -116,7 +116,7 @@ export default {
         },
         {
           text: 'Docs',
-          externalLink: 'https://typesense.org/docs/',
+          externalLink: '/docs/',
         },
       ],
     }
