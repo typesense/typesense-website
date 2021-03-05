@@ -47,6 +47,15 @@ module.exports = {
     markdown: {
       lineNumbers: true
     },
+    // https://vuepress.vuejs.org/theme/default-theme-config.html#git-repository-and-edit-links
+    // if your docs are in a different repo from your main project:
+    docsRepo: 'typesense/typesense-website',
+    // if your docs are not at the root of the repo:
+    docsDir: 'new-site/docs-site/content',
+    // if your docs are in a specific branch (defaults to 'master'):
+    editLinks: true,
+    // custom text for edit link. Defaults to "Edit this page"
+    editLinkText: 'Edit page',
     sidebar: {
       // Add per route sidebar links
       // Structure of object: https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar
