@@ -9,7 +9,7 @@
         @click="setCodeLanguage(tab.displayLanguage)"
       >
         <pre><code
-            :class="`language-${tab.language}`">{{ tab.content }}</code></pre>
+            :class="[`language-${tab.language}`, underlineLinks ? 'underline-links' : '']">{{ tab.content }}</code></pre>
       </BTab>
     </BTabs>
   </div>
@@ -29,6 +29,8 @@ import 'prismjs/components/prism-powershell'
 import 'prismjs/plugins/toolbar/prism-toolbar.css'
 import 'prismjs/plugins/toolbar/prism-toolbar'
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard'
+import 'prismjs/plugins/autolinker/prism-autolinker'
+import 'prismjs/plugins/autolinker/prism-autolinker.css'
 import startCase from 'lodash.startcase'
 
 export default {
@@ -36,6 +38,10 @@ export default {
     stateId: {
       type: String,
       default: 'code-block',
+    },
+    underlineLinks: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -90,6 +96,17 @@ export default {
     padding-top: 0.5rem;
     padding-bottom: 1.5rem;
     background-color: $black;
+
+    .url-link {
+      color: $primary-dark-4;
+      border-bottom: none;
+    }
+  }
+
+  code.underline-links {
+    .url-link {
+      border-bottom: darken($primary-dark-4, 30%) 1px dotted;
+    }
   }
 
   .nav-link {
