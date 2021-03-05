@@ -21,6 +21,9 @@ module.exports = (options, context) => ({
       {
         text: `What's new`,
         link: `/${pageNavLinkTypesenseVersion}/`,
+        // Custom flag that gets passed to https://router.vuejs.org/api/#exact
+        // Prevents duplicate highlights in Nav
+        exact: true
       },
       {
         text: "Guide",
