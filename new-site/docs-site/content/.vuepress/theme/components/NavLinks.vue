@@ -1,8 +1,8 @@
 <template>
   <nav
-    v-if="userLinks.length || repoLink"
     class="nav-links"
   >
+    <VersionDropdown class="nav-item" show-on-mobile-only/>
     <!-- user links -->
     <div
       v-for="item in userLinks"

@@ -81,6 +81,12 @@ export default {
       .nav-title
         border-bottom: $accentColor2 1px solid
 
+  // Fix spacing on mobile view
+  @media (max-width: $MQMobile)
+    margin-left -1.5rem
+    margin-right -1.5rem
+    border-radius 0
+
 .tab-content
   > div[class^=language-]
     border-top-left-radius 0
@@ -91,4 +97,15 @@ export default {
 
   pre[class^=language-]
     margin 0
+
+  // Remove the duplicate language display
+  div[class*="language-"]::before
+    display none
+
+  // Fix spacing on mobile view
+  @media (max-width: $MQMobile)
+    div[class*="language-"]
+      margin 0rem -1.5rem
+      border-radius 0
+
 </style>

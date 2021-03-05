@@ -19,7 +19,7 @@
       >{{ $siteTitle }}</span>
     </a>
 
-    <VersionDropdown />
+    <VersionDropdown show-on-desktop-only/>
 
     <div
       class="links"
