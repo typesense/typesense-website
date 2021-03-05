@@ -24,8 +24,9 @@
                 <tr class="text-center">
                   <td class="text-right">Support Channels</td>
                   <td>
-                    Github issues<br />
-                    Slack Community
+                    Github Issues<br />
+                    Slack Community<br />
+                    Weekly Office Hours
                   </td>
                   <td>
                     All channels in Free plan<br />

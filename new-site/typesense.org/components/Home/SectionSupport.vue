@@ -6,32 +6,46 @@
         Let us help you build a scalable and robust search experience
       </div>
       <div class="mt-3">&nbsp;</div>
-      <div
-        class="mt-5 text-center d-flex justify-content-between justify-content-sm-center"
-      >
-        <HomeSupportOption
-          :image="require('~/assets/images/github.svg')"
-          :image-height="45"
-          name="Github Issues"
-          class="mt-4 mt-sm-0"
-        ></HomeSupportOption>
-        <HomeSupportOption
-          :image="require('~/assets/images/email.svg')"
-          name="Email"
-          class="ml-5 mt-4 mt-sm-0"
-        ></HomeSupportOption>
-        <HomeSupportOption
-          :image="require('~/assets/images/slack.svg')"
-          name="Slack"
-          :image-height="35"
-          image-margin="6px"
-          class="ml-5 mt-4 mt-sm-0"
-        ></HomeSupportOption>
-        <HomeSupportOption
-          :image="require('~/assets/images/video_call.svg')"
-          name="Phone call"
-          class="ml-5 mt-4 mt-sm-0"
-        ></HomeSupportOption>
+      <div class="container">
+        <div
+          class="row mt-5 text-center d-flex justify-content-between justify-content-sm-center"
+        >
+          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
+            <HomeSupportOption
+              :image="require('~/assets/images/github.svg')"
+              :image-height="45"
+              name="Github Issues"
+            ></HomeSupportOption>
+          </div>
+          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
+            <HomeSupportOption
+              :image="require('~/assets/images/email.svg')"
+              name="Email"
+            ></HomeSupportOption>
+          </div>
+          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
+            <HomeSupportOption
+              :image="require('~/assets/images/slack.svg')"
+              name="Slack"
+              :image-height="35"
+              image-margin="6px"
+            ></HomeSupportOption>
+          </div>
+          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
+            <HomeSupportOption
+              :image="require('~/assets/images/np_help_3407902_FFFFFF.svg')"
+              name="Office Hours"
+              :image-height="45"
+              image-margin="6px"
+            ></HomeSupportOption>
+          </div>
+          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
+            <HomeSupportOption
+              :image="require('~/assets/images/video_call.svg')"
+              name="Phone call"
+            ></HomeSupportOption>
+          </div>
+        </div>
       </div>
 
       <div class="mt-3">&nbsp;</div>

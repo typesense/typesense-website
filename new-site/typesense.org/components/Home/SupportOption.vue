@@ -1,5 +1,7 @@
 <template>
-  <div class="support-option d-flex flex-column justify-content-end">
+  <div
+    class="support-option d-flex flex-column justify-content-end align-content-center"
+  >
     <img
       :src="image"
       :alt="name"
