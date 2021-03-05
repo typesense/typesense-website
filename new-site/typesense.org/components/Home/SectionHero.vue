@@ -26,15 +26,13 @@
             </p>
             <div class="mt-5">
               <HomeCTAs />
-              <GithubButton
-                class="mt-4 d-block d-sm-none"
-                href="https://github.com/typesense/typesense"
-                data-icon="octicon-star"
-                data-size="small"
-                data-show-count="true"
-                aria-label="Star typesense/typesense on GitHub"
-                >Star
-              </GithubButton>
+              <a href="https://github.com/typesense/typesense">
+                <img
+                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"
+                  alt="Github Stars"
+                  class="mt-4 d-block d-sm-none"
+                />
+              </a>
             </div>
           </div>
           <div class="col-sm-5">
@@ -46,16 +44,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import GithubButton from 'vue-github-button'
-
-export default {
-  components: {
-    GithubButton,
-  },
-}
-</script>
 
 <style scoped>
 .jumbotron {

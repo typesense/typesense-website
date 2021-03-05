@@ -36,16 +36,14 @@
         :class="{ show }"
       >
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item justify-content-center align-self-end mr-5">
-            <GithubButton
-              class="d-none d-sm-block"
-              href="https://github.com/typesense/typesense"
-              data-icon="octicon-star"
-              data-size="small"
-              data-show-count="true"
-              aria-label="Star typesense/typesense on GitHub"
-              >Star
-            </GithubButton>
+          <li class="nav-item justify-content-center align-self-center mr-5">
+            <a href="https://github.com/typesense/typesense">
+              <img
+                src="https://img.shields.io/github/stars/typesense/typesense?style=social"
+                alt="Github Stars"
+                class="d-none d-sm-block"
+              />
+            </a>
           </li>
           <li
             v-for="item in navLinks"
@@ -77,13 +75,8 @@
 </template>
 
 <script>
-import GithubButton from 'vue-github-button'
-
 export default {
   name: 'Navbar',
-  components: {
-    GithubButton,
-  },
   props: {
     colorScheme: {
       type: String,
