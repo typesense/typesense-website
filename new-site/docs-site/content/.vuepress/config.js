@@ -1,4 +1,5 @@
 const { description } = require("../../package");
+const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
 
 module.exports = {
   // The base URL the site will be deployed at
@@ -32,11 +33,8 @@ module.exports = {
    */
   themeConfig: {
     logo: "/images/typesense_logo.svg",
-    typesenseVersions: [
-      "0.13.0",
-      "0.10.0"
-    ],
-    latestTypesenseVersion: '0.13.0',
+    typesenseVersions: typesenseVersions,
+    typesenseLatestVersion: typesenseLatestVersion,
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
     nav: [
@@ -84,6 +82,4 @@ module.exports = {
     ["@dovyp/vuepress-plugin-clipboard-copy", true],
     require('./plugins/typesense-enhancements'),
   ],
-
-  port: 3000,
 }

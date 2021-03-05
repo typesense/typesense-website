@@ -1,7 +1,7 @@
 module.exports = (options, context) => ({
   name: 'typesense-enhancements',
   extendPageData ($page) {
-    const latestTypesenseVersion = context.siteConfig.themeConfig.latestTypesenseVersion
+    const typesenseLatestVersion = context.siteConfig.themeConfig.typesenseLatestVersion
 
     // Set typesenseVersion by reading the version from the path
     $page.typesenseVersion = $page.path.split('/')[1]
@@ -12,7 +12,7 @@ module.exports = (options, context) => ({
     }
 
     // Set dynamic nav links
-    const pageNavLinkTypesenseVersion = $page.typesenseVersion || latestTypesenseVersion
+    const pageNavLinkTypesenseVersion = $page.typesenseVersion || typesenseLatestVersion
     $page.nav = [
       {
         text: "Docs Home",

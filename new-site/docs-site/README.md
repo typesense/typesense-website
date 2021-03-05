@@ -26,9 +26,9 @@ These variables can be used in markdown files as `{{ variableName }}` or in Vue 
 
 ## To write documentation for a new version:
 
-1. Add version number to `themeConfig.typesenseVersions`
-1. Update latest version in `themeConfig.latestTypesenseVersion`
+1. Add version number to `../typesenseVersions.js`
 1. Clone the latest version directory and make edits to it.
+1. Deploy both main site and docs site
 
 ## Layout
 

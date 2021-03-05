@@ -11,38 +11,38 @@
           <pre data-language="bash" data-display-language="Docker">
 docker run \
         -p 8108:8108 -v/tmp:/data \
-        typesense/typesense:{{ typesense_version }}
+        typesense/typesense:{{ typesenseLatestVersion }}
           --data-dir /data --api-key=xyz
           </pre>
           <pre data-language="bash" data-display-language="DEB">
 wget https://dl.typesense.org/releases/{{
-              typesense_version
-            }}/typesense-server-{{ typesense_version }}-amd64.deb
+              typesenseLatestVersion
+            }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
 
-apt install ./typesense-server-{{ typesense_version }}-amd64.deb
+apt install ./typesense-server-{{ typesenseLatestVersion }}-amd64.deb
           </pre>
           <pre data-language="bash" data-display-language="RPM">
 wget https://dl.typesense.org/releases/{{
-              typesense_version
-            }}/typesense-server-{{ typesense_version }}-1.x86_64.rpm
+              typesenseLatestVersion
+            }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
 
-yum install ./typesense-server-{{ typesense_version }}.x86_64.rpm
+yum install ./typesense-server-{{ typesenseLatestVersion }}.x86_64.rpm
           </pre>
           <pre data-language="bash" data-display-language="Linux">
 wget https://dl.typesense.org/releases/{{
-              typesense_version
-            }}/typesense-server-{{ typesense_version }}-linux-amd64.tar.gz
+              typesenseLatestVersion
+            }}/typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
 
-tar xvzf ./typesense-server-{{ typesense_version }}-linux-amd64.tar.gz
+tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
 
 ./typesense-server --data-dir /tmp --api-key=xyz
           </pre>
           <pre data-language="bash" data-display-language="macOS">
 wget https://dl.typesense.org/releases/{{
-              typesense_version
-            }}/typesense-server-{{ typesense_version }}-darwin-amd64.tar.gz
+              typesenseLatestVersion
+            }}/typesense-server-{{ typesenseLatestVersion }}-darwin-amd64.tar.gz
 
-tar xvzf ./typesense-server-{{ typesense_version }}-darwin-amd64.tar.gz
+tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-darwin-amd64.tar.gz
 
 ./typesense-server --data-dir /tmp --api-key=xyz
           </pre>
@@ -253,10 +253,12 @@ client.collections['books'].documents.search({
 </template>
 
 <script>
+import { typesenseLatestVersion } from '../../../typsenseVersions'
+
 export default {
   data() {
     return {
-      typesense_version: '0.19.0',
+      typesenseLatestVersion,
     }
   },
 }

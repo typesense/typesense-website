@@ -57,7 +57,7 @@
               :href="item.externalLink"
               :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
               class="nav-link"
-              target="_blank"
+              :target="item.target ? item.target : '_self'"
             >
               {{ item.text }}
             </a>
@@ -103,20 +103,20 @@ export default {
           link: '/about',
         },
         {
-          text: 'Docs',
-          externalLink: 'https://typesense.org/docs/',
+          text: 'Download',
+          link: '/download',
         },
         {
           text: 'Support',
           link: '/support',
         },
         {
-          text: 'Github',
-          externalLink: 'https://github.com/typesense/typesense',
-        },
-        {
           text: 'Hosted Search',
           externalLink: 'https://cloud.typesense.org',
+        },
+        {
+          text: 'Docs',
+          externalLink: 'https://typesense.org/docs/',
         },
       ],
     }
