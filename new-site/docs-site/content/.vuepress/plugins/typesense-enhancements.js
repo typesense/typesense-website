@@ -4,11 +4,10 @@ module.exports = (options, context) => ({
     const latestTypesenseVersion = context.siteConfig.themeConfig.latestTypesenseVersion
 
     // Set typesenseVersion by reading the version from the path
-    const versionFromPath = $page.path.split('/')[1]
-    $page.typesenseVersion = versionFromPath
+    $page.typesenseVersion = $page.path.split('/')[1]
     // Only set this as a version, if it's in the list of versions defined
     // To account for top level paths
-    if($page.typesenseVersion == null || !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)) {
+    if($page.typesenseVersion === '' || !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)) {
       $page.typesenseVersion = null
     }
 
@@ -16,13 +15,12 @@ module.exports = (options, context) => ({
     const pageNavLinkTypesenseVersion = $page.typesenseVersion || latestTypesenseVersion
     $page.nav = [
       {
-        text: "Home",
-        ariaLabel: "Home Menu",
-        items: [
-          {text: 'Docs Home', link: "/"},
-          {text: `v${pageNavLinkTypesenseVersion} Home`, link: `/${pageNavLinkTypesenseVersion}/`},
-          {text: 'Typesense Home', link: "https://typesense.org/"}
-        ]
+        text: "Docs Home",
+        link: "/"
+      },
+      {
+        text: `What's new`,
+        link: `/${pageNavLinkTypesenseVersion}/`,
       },
       {
         text: "Guide",
