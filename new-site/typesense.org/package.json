@@ -7,6 +7,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "deploy": "yarn generate && rm -rf ./dist/docs && aws s3 cp --recursive ./dist s3://new-site.typesense.org/ --profile typesense && yarn clearCDNCache",
+    "clearCDNCache": "aws cloudfront create-invalidation --distribution-id EJ8VOUOZDDMVB --paths \"/*\" --profile typesense",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },

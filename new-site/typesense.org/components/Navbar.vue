@@ -104,7 +104,7 @@ export default {
         },
         {
           text: 'Docs',
-          externalLink: '/docs',
+          externalLink: 'https://typesense.org/docs/',
         },
         {
           text: 'Support',

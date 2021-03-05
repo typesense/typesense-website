@@ -36,7 +36,7 @@
               <NuxtLink class="nav-link p-0" to="/about">About</NuxtLink>
             </li>
             <li class="nav-item">
-              <NuxtLink class="nav-link p-0" to="/docs">Documentation</NuxtLink>
+              <a class="nav-link p-0" href="/docs">Documentation</a>
             </li>
             <li class="nav-item">
               <a
