@@ -1,5 +1,4 @@
 const { description } = require("../../package");
-const versions = require("./versions.json");
 
 module.exports = {
   // The base URL the site will be deployed at
@@ -33,33 +32,15 @@ module.exports = {
    */
   themeConfig: {
     logo: "/images/typesense_logo.svg",
-    versions: versions,
+    typesenseVersions: [
+      "0.13.0",
+      "0.10.0"
+    ],
+    latestTypesenseVersion: '0.13.0',
+    // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
+    // Add any non-versioned pages below
     nav: [
-      {
-        text: "Home",
-        ariaLabel: "Home Menu",
-        items: [
-          { text: "", link: "/0.13.0/guide/" },
-        ],
-      },
-      {
-        text: "Guide",
-        ariaLabel: "Guide Menu",
-        items: [
-          { text: "0.13.0 (Latest)", link: "/0.13.0/guide/" },
-          { text: "0.10.0", link: "/0.10.0/guide/" }
-        ]
-      },
-      {
-        text: "API",
-        ariaLabel: "API Menu",
-        items: [
-          { text: "0.13.0 (Latest)", link: "/0.13.0/api/" },
-          { text: "0.10.0", link: "/0.10.0/api/" }
-        ]
-      },
-      { text: "Download", link: "/download/" },
-      { text: "Contact", link: "/contact/" }
+      { text: "Help", link: "/help/" }
     ],
     repo: "typesense/typesense",
     smoothScroll: true,
@@ -92,8 +73,8 @@ module.exports = {
     "@vuepress/plugin-back-to-top",
     "@vuepress/plugin-medium-zoom",
     ["@dovyp/vuepress-plugin-clipboard-copy", true],
-    require('./plugins/page-typesense-version'),
+    require('./plugins/typesense-enhancements'),
   ],
 
-  port: 3000
+  port: 3000,
 }

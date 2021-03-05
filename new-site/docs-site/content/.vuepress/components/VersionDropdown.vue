@@ -1,7 +1,7 @@
 <template>
   <div class="version-switcher">
     <select @change="switchVersion">
-      <option v-for="version in $site.themeConfig.versions"
+      <option v-for="version in $site.themeConfig.typesenseVersions"
               :value="version"
               :selected="version === currentVersion">
         v{{ version }}

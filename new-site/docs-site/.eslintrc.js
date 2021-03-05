@@ -1,6 +1,3 @@
 module.exports = {
-  extends: [
-    'plugin:vue/recommended',
-    'plugin:prettier/recommended'
-  ]
+  extends: ['plugin:vue/recommended', 'plugin:prettier/recommended'],
 }

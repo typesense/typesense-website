@@ -2,6 +2,8 @@
   "scripts": {
     "dev": "vuepress dev content --no-cache",
     "build": "vuepress build content --no-cache",
+    "deploy": "yarn build && aws s3 cp --recursive ./content/.vuepress/dist s3://new-site.typesense.org/docs/ --profile typesense && yarn clearCDNCache",
+    "clearCDNCache": "aws cloudfront create-invalidation --distribution-id EJ8VOUOZDDMVB --paths \"/docs*\" --profile typesense",
     "lint": "eslint --ext .js,.vue content/.vuepress",
     "lint:fix": "yarn lint --fix"
   },
