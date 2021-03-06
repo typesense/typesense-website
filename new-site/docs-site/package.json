@@ -2,6 +2,8 @@
   "scripts": {
     "dev": "vuepress dev content --no-cache",
     "build": "vuepress build content --no-cache",
+    "deploy": "yarn build && aws s3 cp --recursive ./content/.vuepress/dist s3://new-site.typesense.org/docs/ --profile typesense && yarn clearCDNCache",
+    "clearCDNCache": "aws cloudfront create-invalidation --distribution-id EJ8VOUOZDDMVB --paths \"/docs*\" --profile typesense",
     "lint": "eslint --ext .js,.vue content/.vuepress",
     "lint:fix": "yarn lint --fix"
   },
@@ -18,6 +20,7 @@
     "watchpack": "1.6.1"
   },
   "dependencies": {
+    "@dovyp/vuepress-plugin-clipboard-copy": "^1.0.0-alpha.7",
     "vue-prism-component": "^1.2.0",
     "vuepress": "1.8.2",
     "vuex": "^3.6.2"

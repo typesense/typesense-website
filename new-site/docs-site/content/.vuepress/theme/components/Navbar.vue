@@ -19,15 +19,17 @@
       >{{ $siteTitle }}</span>
     </a>
 
+    <VersionDropdown show-on-desktop-only/>
+
     <div
       class="links"
       :style="linksWrapMaxWidth ? {
         'max-width': linksWrapMaxWidth + 'px'
       } : {}"
     >
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"
+      <TypesenseSearchBox
+        v-if="isTypesenseSearch"
+        :options="typesense"
       />
       <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false" />
       <NavLinks class="can-hide" />
@@ -36,19 +38,21 @@
 </template>
 
 <script>
-import AlgoliaSearchBox from '@AlgoliaSearchBox'
 import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
+import VersionDropdown from "../../components/VersionDropdown";
+import TypesenseSearchBox from "../../components/TypesenseSearchBox";
 
 export default {
   name: 'Navbar',
 
   components: {
+    VersionDropdown,
     SidebarButton,
     NavLinks,
     SearchBox,
-    AlgoliaSearchBox
+    TypesenseSearchBox
   },
 
   data () {
@@ -58,12 +62,12 @@ export default {
   },
 
   computed: {
-    algolia () {
-      return this.$themeLocaleConfig.algolia || this.$site.themeConfig.algolia || {}
+    typesense () {
+      return this.$themeLocaleConfig.typesenseDocsearch || this.$site.themeConfig.typesenseDocsearch || {}
     },
 
-    isAlgoliaSearch () {
-      return this.algolia && this.algolia.apiKey && this.algolia.indexName
+    isTypesenseSearch () {
+      return this.typesense && this.typesense.typesenseServerConfig && this.typesense.typesenseCollectionName
     }
   },
 

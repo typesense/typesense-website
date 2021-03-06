@@ -1,13 +1,13 @@
-const { description } = require('../../package')
+const { description } = require("../../package");
+const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
 
 module.exports = {
   // The base URL the site will be deployed at
-  base: '/docs/',
+  base: "/docs/",
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Typesense',
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
@@ -20,9 +20,10 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ["meta", { name: "theme-color", content: "#3eaf7c" }],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    ["meta", { name: "apple-mobile-web-app-status-bar-style", content: "black" }],
+    ["link", { rel: "icon", href: "/favicon.png" }]
   ],
 
   /**
@@ -31,49 +32,42 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
+    logo: "/images/typesense_logo.svg",
+    typesenseVersions: typesenseVersions,
+    typesenseLatestVersion: typesenseLatestVersion,
+    typesenseDocsearch: {
+      typesenseServerConfig: {
+        nodes: [
+          {
+            host: 'x3s805zrawjuod9fp.a1.typesense.net',
+            port: 443,
+            protocol: 'https'
+          }
+        ],
+        apiKey: 'c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6'
+      },
+      typesenseCollectionName: 'typesense_docs'
+    },
+    // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
+    // Add any non-versioned pages below
     nav: [
-      { text: 'Docs Home', link: '/' },
-      {
-        text: 'Guide',
-        ariaLabel: 'Guide Menu',
-        items: [
-          { text: '0.19.0 (Latest)', link: '/0.19.0/guide/' },
-          { text: '0.13.0', link: '/0.13.0/guide/' },
-          { text: '0.10.0', link: '/0.10.0/guide/' },
-        ],
-      },
-      {
-        text: 'API',
-        ariaLabel: 'API Menu',
-        items: [
-          { text: '0.19.0 (Latest)', link: '/0.19.0/api/' },
-          { text: '0.13.0 ', link: '/0.13.0/api/' },
-          { text: '0.10.0', link: '/0.10.0/api/' },
-        ],
-      },
-      { text: 'Download', link: '/download/' },
-      { text: 'Contact', link: '/contact/' },
+      { text: "Help", link: "/help/" }
     ],
-    repo: 'typesense/typesense',
+    repo: "typesense/typesense",
     smoothScroll: true,
     markdown: {
-      lineNumbers: true,
+      lineNumbers: true
     },
-    sidebar:{
-      // Add per route sidebar links
-      // Structure of object: https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar
-      '/0.13.0/guide/': [
-        ['/', 'Home Page'],
-        {
-          title: 'Group 1', // required
-          collapsable: false, // optional, defaults to true
-          sidebarDepth: 0, // optional, defaults to 1
-          children: [
-            ['/0.13.0/guide/', 'Getting Started'],
-            ['/0.13.0/guide/another-page', 'Another Page'],
-          ],
-        },
-      ],
+    // https://vuepress.vuejs.org/theme/default-theme-config.html#git-repository-and-edit-links
+    // if your docs are in a different repo from your main project:
+    docsRepo: 'typesense/typesense-website',
+    // if your docs are not at the root of the repo:
+    docsDir: 'new-site/docs-site/content',
+    // if your docs are in a specific branch (defaults to 'master'):
+    editLinks: true,
+    // custom text for edit link. Defaults to "Edit this page"
+    editLinkText: 'Edit page',
+    sidebar: {
       '/0.13.0/api/': [['/', 'Home Page']],
       '/0.19.0/guide/': [
         {
@@ -117,7 +111,12 @@ module.exports = {
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom'],
+  plugins: [
+    "@vuepress/plugin-back-to-top",
+    "@vuepress/plugin-medium-zoom",
+    ["@dovyp/vuepress-plugin-clipboard-copy", true],
+    require('./plugins/typesense-enhancements'),
+  ],
 }
 
 /*

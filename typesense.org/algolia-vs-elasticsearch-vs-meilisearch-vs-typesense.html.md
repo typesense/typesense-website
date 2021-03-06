@@ -60,7 +60,7 @@ permalink: /typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/
             </tr>
             <tr>
               <td class="font-weight-bold">Best Suited For</td>
-              <td>Instant Search-as-you-type Experiences for data sets that can be fit in RAM, up to 768 GB (or current commercially available RAM size).</td>
+              <td>Instant Search-as-you-type Experiences for data sets that can be fit in RAM, up to 24 TB (or current commercially available RAM size).</td>
               <td>Instant Search-as-you-type Experiences for datasets up to 128 GB in size.</td>
               <td>General-purpose search & aggregations over petabyte-scale datasets (eg: log data)</td>
               <td>Instant Search-as-you-type Experiences for up to 10M records, that don't require a highly available

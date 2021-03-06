@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+body {
+  letter-spacing: 0.01rem;
+}
+
+.display-1, .display-2, .display-3, .display-4 {
+  font-family: 'Catamaran', sans-serif;
+}
+
+.text-serif-2 {
+  font-family: 'Catamaran', sans-serif;
+}
+
+.border-short {
+  max-width: 20%;
+  border-width: 2px;
+}
+
+.border-primary-dark {
+  border-color: $primary-dark-1 !important;
+}
+
+.bg-gradient-1 {
+  @media(max-width: map-get($grid-breakpoints, 'sm')) {
+    background: linear-gradient(#1C1221 8%, #3F274A 20%, #1E1323 40%, #000000 80%);
+  }
+
+  @media(min-width: map-get($grid-breakpoints, 'sm')) {
+    background: linear-gradient(173deg, #000000 0%, #1C1221 28%, #3F274A 43%, #1E1323 56%, #000000 78%, #FFFFFF calc(78% + 1px));
+  }
+
+  @media(min-width: map-get($grid-breakpoints, 'xxl')) {
+    background: linear-gradient(#1C1221 8%, #3F274A 20%, #1E1323 40%, #000000 80%);
+  }
+}
+
+.bg-gradient-2 {
+  background: linear-gradient(#000000 0%, #331142 20%, #000000 50%);
+}
+
+.bg-gradient-3 {
+  background: linear-gradient(#000000 20%, #331142 50%, #000000 80%);
+}
+
+.bg-gradient-4 {
+  background: linear-gradient(#000000 0%, #200a28 25%, #000000 100%);
+}
+
+.bg-gradient-5 {
+  background: linear-gradient(173deg, #FFFFFF 22%, #000000 calc(22% + 1px), #200a28 55%, #000000 78%, #FFFFFF calc(78% + 1px));
+}
+
+.text-underline-primary {
+  padding-bottom: 0;
+  border-bottom: $primary 1px solid;
+}
+
+.text-gradient-1 {
+  background: linear-gradient(180deg, #E30B9A 18.23%, #182062 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+strong {
+  font-weight: bold;
+}
+
+a {
+  color: $body-color;
+  border-bottom: $primary 2px solid;
+
+  &:hover {
+    bottom-bottom-color: darken($primary, 5%);
+    text-decoration: none;
+  }
+}
+
+mark {
+  background-color: rgba(252, 247, 244, 0.6);
+}
