@@ -4,6 +4,7 @@
     class="nav-link"
     :to="link"
     :exact="exact"
+    :exact-path="exactPath"
     @focusout.native="focusoutAction"
   >
     {{ item.text }}
@@ -38,10 +39,14 @@ export default {
       return ensureExt(this.item.link)
     },
 
-    exact () {
-      if(this.item.exact != null) {
-        return this.item.exact
+    exactPath() {
+      if(this.item.exactPath != null) {
+        return this.item.exactPath
       }
+      return false
+    },
+
+    exact () {
       if (this.$site.locales) {
         return Object.keys(this.$site.locales).some(rootLink => rootLink === this.link)
       }
