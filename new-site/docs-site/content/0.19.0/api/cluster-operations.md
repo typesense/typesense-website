@@ -4,7 +4,7 @@ Creates a point-in-time snapshot of a Typesense node's state and data in the spe
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -13,7 +13,7 @@ client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-sna
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->operations->perform("snapshot", ["snapshot_path" => "/tmp/typesense-data-snapshot"])
@@ -72,7 +72,7 @@ Triggers a follower node to initiate the raft voting process, which triggers lea
 
 The follower node that you run this operation against will become the new leader, once this command succeeds.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -81,7 +81,7 @@ client.operations.perform('vote')
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->operations->perform("vote")
@@ -146,7 +146,7 @@ client.operations.perform('vote')
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->operations->perform("vote")

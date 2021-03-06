@@ -15,7 +15,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -29,7 +29,7 @@ client.aliases().upsert('companies', aliased_collection)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $aliasedCollection = [
@@ -104,7 +104,7 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -113,7 +113,7 @@ client.aliases('companies').retrieve()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->aliases['companies']->retrieve()
@@ -166,7 +166,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -175,7 +175,7 @@ client.aliases().retrieve()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->aliases->retrieve()
@@ -234,7 +234,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -243,7 +243,7 @@ client.aliases('companies').delete()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->aliases['companies']->delete()

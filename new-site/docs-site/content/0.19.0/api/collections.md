@@ -7,7 +7,7 @@ When a `collection` is created, we give it a name and describe the fields that w
 
 Your documents can contain other fields not mentioned in the collection's schema - they will be stored but not indexed.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -39,7 +39,7 @@ client.collections().create(schema)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $schema = [
@@ -216,7 +216,7 @@ You can define an array or multi-valued field by suffixing a [] at the end:
 ## Search a collection
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -232,7 +232,7 @@ client.collections('companies').documents().search(searchParameters)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchParameters = [
@@ -362,7 +362,7 @@ Grouping hits this way is useful in:
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -380,7 +380,7 @@ client.collections('companies').documents().search(searchParameters)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchParameters = [
@@ -523,7 +523,7 @@ You can send multiple search requests in a single HTTP request, using the Multi-
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -551,7 +551,7 @@ client.multiSearch.perform(searchRequests, commonSearchParams)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchRequests = [
@@ -744,7 +744,7 @@ curl "http://localhost:8108/multi_search?query_by=name" \
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -753,7 +753,7 @@ client.collections('companies').retrieve()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->retrieve()
@@ -812,7 +812,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
 ## List all collections
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -821,7 +821,7 @@ client.collections().retrieve()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections->retrieve()
@@ -891,7 +891,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/colle
 ## Drop a collection
 Permanently drops a collection. This action cannot be undone. For large collections, this might have an impact on read latencies.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -900,7 +900,7 @@ client.collections('companies').delete()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->delete()

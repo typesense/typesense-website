@@ -102,7 +102,7 @@ curl http://localhost:8108/health
 log-dir	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
 |ssl-certificate	|false	|Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.|
 |ssl-certificate-key	|false	|Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.|
-|enable-cors	|false	|Allow Javascript client to access Typesense directly from the browser.|
+|enable-cors	|false	|Allow JavaScript client to access Typesense directly from the browser.|
 |catch-up-threshold-percentage	|false	|The threshold at which a follower is deemed to have caught up with leader and will allow requests. Default: `95`.<br><br>**NOTE**: This threshold is used only when the lag between the follower and leader is more than 1,000 operations.|
 |snapshot-interval-seconds	|false	|Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.|
 |log-slow-requests-time-ms	|false	|Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging.|

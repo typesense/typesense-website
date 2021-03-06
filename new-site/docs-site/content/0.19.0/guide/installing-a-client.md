@@ -1,9 +1,9 @@
 # Installing a client
-At the moment, we have clients for Javascript, PHP, Python, Ruby.
+At the moment, we have clients for JavaScript, PHP, Python, Ruby.
 
 We recommend that you use our API client if it's available for your language. It's also easy to interact with Typesense through its simple, RESTful HTTP API.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
   <template v-slot:JavaScript>
 
 ```js
@@ -16,7 +16,7 @@ npm install typesense
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 composer require typesense/typesense-php

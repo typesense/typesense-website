@@ -10,7 +10,7 @@ Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searc
 
 ## Create or update a multi-way synonym
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -24,7 +24,7 @@ client.collections('products').synonyms().upsert('coat-synonyms', synonym)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $synonym = [
@@ -90,7 +90,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ## Create or update a one-way synonym
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -105,7 +105,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 synonym = {
@@ -187,7 +187,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
 ## Retrieve a synonym
 We can retrieve a single synonym.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -196,7 +196,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 client.collections('products').synonyms('coat-synonyms').retrieve
@@ -248,7 +248,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
 ## List all synonyms
 List all synonyms associated with a given collection.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -257,7 +257,7 @@ client.collections('products').synonyms().retrieve
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['products']->synonyms->retrieve()
@@ -307,7 +307,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Delete a synonym
 Delete a synonym associated with a collection.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -316,7 +316,7 @@ client.collections('books').synonyms('coat-synonyms').delete()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['books']->synonyms['coat-synonyms'].delete()

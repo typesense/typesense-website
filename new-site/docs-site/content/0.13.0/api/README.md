@@ -14,11 +14,11 @@ I hope you will **like** 💟 it.
 
 ## API clients
 
-At the moment, we have API clients for Javascript, Python, and Ruby.
+At the moment, we have API clients for JavaScript, Python, and Ruby.
 
 We recommend that you use our API client library if it is available for your language.
 
-<Tabs :tabs="['Ruby', 'Python', 'Javascript']">
+<Tabs :tabs="['Ruby', 'Python', 'JavaScript']">
   <template v-slot:Ruby>
 
 ```bash
@@ -35,7 +35,7 @@ pip install typesense
 
   </template>
 
-  <template v-slot:Javascript>
+  <template v-slot:JavaScript>
 
 ```bash
 # Node.js
@@ -50,11 +50,11 @@ npm install typesense
   </template>
 </Tabs>
 
-If you're using our Javascript client to access Typesense directly from the browser, be sure to start the Typesense server with the `--enable-cors` flag.
+If you're using our JavaScript client to access Typesense directly from the browser, be sure to start the Typesense server with the `--enable-cors` flag.
 
 ## Authentication
 
-<Tabs :tabs="['Ruby', 'Python', 'Javascript', 'Shell']">
+<Tabs :tabs="['Ruby', 'Python', 'JavaScript', 'Shell']">
   <template v-slot:Ruby>
 
 ```ruby
@@ -95,11 +95,11 @@ client = typesense.Client({
 
   </template>
 
-  <template v-slot:Javascript>
+  <template v-slot:JavaScript>
 
 ```js
 /*
- *  Our Javascript client library works on both the server and the browser.
+ *  Our JavaScript client library works on both the server and the browser.
  *  When using the library on the browser, please be sure to use the
  *  search-only API Key rather than the master API key since the latter
  *  has write access to Typesense and you don't want to expose that.

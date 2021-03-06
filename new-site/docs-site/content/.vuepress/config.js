@@ -88,19 +88,18 @@ module.exports = {
       '/0.19.0/api/': [
         {
           title:'API 0.19.0',
-          collapsable:false,
+          collapsable: false,
           children:[
             ['/0.19.0/api/','Introduction'],
             ['/0.19.0/api/api-clients','API Clients'],
             ['/0.19.0/api/authentication','Authentication'],
-            ['/0.19.0/api/Collections/collections.md','Collections'],
-            ['/0.19.0/api/Documents/documents.md','Documents'],
+            ['/0.19.0/api/collections','Collections'],
+            ['/0.19.0/api/documents','Documents'],
             ['/0.19.0/api/manage-api-keys','Manage API Keys'],
             ['/0.19.0/api/curation','Curation'],
             ['/0.19.0/api/collection-alias','Collection Alias'],
             ['/0.19.0/api/synonyms','Synonyms'],
             ['/0.19.0/api/cluster-operations','Cluster operations'],
-            ['/0.19.0/api/new','Whats\'s new in 0.19.0'],
             ['/0.19.0/api/api-errors','API errors'],
           ]
         }

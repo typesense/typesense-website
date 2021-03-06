@@ -3,7 +3,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -19,7 +19,7 @@ client.collections('companies').documents().create(document)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $document = [
@@ -82,7 +82,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -98,7 +98,7 @@ client.collections('companies').documents().upsert(document)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $document = [
@@ -183,7 +183,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -192,7 +192,7 @@ client.collections('companies').documents('124').retrieve()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->documents['124']->retrieve()
@@ -247,7 +247,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -261,7 +261,7 @@ client.collections('companies').documents('124').update(document)
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $document = [
@@ -334,7 +334,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Deleting documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -343,7 +343,7 @@ client.collections('companies').documents('124').delete()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->documents['124']->delete()
@@ -397,7 +397,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -406,7 +406,7 @@ client.collections('companies').documents().delete({'filter_by': 'num_employees:
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->documents->delete(['filter_by' => 'num_employees:>100']));
@@ -461,7 +461,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents from a collection
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -470,7 +470,7 @@ client.collections('companies').documents().export()
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $client->collections['companies']->documents->export()
@@ -506,13 +506,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
 
-```jsonlines
-{"id": "124", "company_name": "Stark Industries", "num_employees": 5215,\
-"country": "US"}
-{"id": "125", "company_name": "Future Technology", "num_employees": 1232,\
-"country": "UK"}
-{"id": "126", "company_name": "Random Corp.", "num_employees": 531,\
-"country": "AU"}
+```json
+{"id": "124", "company_name": "Stark Industries", "num_employees": 5215, "country": "US"}
+{"id": "125", "company_name": "Future Technology", "num_employees": 1232, "country": "UK"}
+{"id": "126", "company_name": "Random Corp.", "num_employees": 531, "country": "AU"}
 ```
 
   </template>
@@ -528,7 +525,7 @@ The documents to be imported can be either an array of document objects or be fo
 **Indexing multiple documents at the same time**
 You can index multiple documents via the import API.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -544,7 +541,7 @@ client.collections('companies').documents().import(documents, {action: 'create'}
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $documents = [[
@@ -631,7 +628,7 @@ Here's an example file:
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
 
-```jsonlines
+```json
 {"id": "1", "company_name": "Stark Industries", "num_employees": 5215, "country": "USA"}
 {"id": "2", "company_name": "Orbit Inc.", "num_employees": 256, "country": "UK"}
 ```
@@ -641,7 +638,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -651,7 +648,7 @@ client.collections('companies').documents().import(documentsInJsonl, {action: 'c
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
@@ -694,7 +691,7 @@ As we have seen earlier, you can also use the `upsert` and `update` actions. If 
 ### Configuring the batch size used for import
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -704,7 +701,7 @@ client.collections('companies').documents().import(documentsInJsonl, {batch_size
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
@@ -745,7 +742,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
 
-```jsonlines
+```json
 {"success": true}
 {"success": true}
 ```

@@ -10,12 +10,12 @@ Let's begin by configuring the Typesense client by pointing it to the Typesense 
 
 Be sure to use the same API key that you used to start the Typesense server earlier.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 /*
- *  Our Javascript client library works on both the server and the browser.
+ *  Our JavaScript client library works on both the server and the browser.
  *  When using the library on the browser, please be sure to use the
  *  search-only API Key rather than the master API key since the latter
  *  has write access to Typesense and you don't want to expose that.
@@ -33,7 +33,7 @@ let client = new Typesense.Client({
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 use Typesense\Client;
@@ -106,7 +106,7 @@ We also define a `default_sorting_field` that determines how the results must be
 
 We're now ready to index some books into the collection we just created.
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -126,7 +126,7 @@ readline.createInterface({
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $booksData = file_get_contents('/tmp/books.jsonl')
@@ -187,7 +187,7 @@ done < "$input"
 We will start with a really simple search query - let's search for `harry potter` and ask Typesense to rank books that have more ratings higher in the results.
 
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -207,7 +207,7 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchParameters = [
@@ -307,7 +307,7 @@ Want to actually see newest `harry potter` books returned first? No problem, we 
 ## Filtering results
 Now, let's tweak our query to only fetch books that are published before the year 1998. To do that, we just have to add a `filter_by` clause to our query:
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -328,7 +328,7 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchParameters = [
@@ -429,7 +429,7 @@ curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
 Let's facet the search results by the authors field to see how that works. Let's also use this example to see how Typesense handles typographic errors. Let's search for `experyment` (notice the typo!).
 
 
-<Tabs :tabs="['JavaScript','Php','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -450,7 +450,7 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:Php>
+  <template v-slot:PHP>
 
 ```php
 $searchParameters = [

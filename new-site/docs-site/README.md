@@ -19,6 +19,8 @@ As you write content in the content folder, the page should live reload.
 
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
 
+**Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles, so we don't want to use them in headings.  
+
 | Variable | Definition |
 |----------|------------|
 | $page.typesenseVersion | The current Typesense version that the user is looking at docs for. Will be `null` for non-versioned top level files. |
