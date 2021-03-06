@@ -35,6 +35,19 @@ module.exports = {
     logo: "/images/typesense_logo.svg",
     typesenseVersions: typesenseVersions,
     typesenseLatestVersion: typesenseLatestVersion,
+    typesenseDocsearch: {
+      typesenseServerConfig: {
+        nodes: [
+          {
+            host: 'x3s805zrawjuod9fp.a1.typesense.net',
+            port: 443,
+            protocol: 'https'
+          }
+        ],
+        apiKey: 'c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6'
+      },
+      typesenseCollectionName: 'typesense_docs'
+    },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
     nav: [
@@ -70,7 +83,7 @@ module.exports = {
         }
       ],
       "/0.13.0/api/": [["/", "Home Page"]]
-    }
+    },
   },
 
   /**
