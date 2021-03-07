@@ -9,7 +9,7 @@ You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Ma
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
 
-We also offer a managed Cloud option called Typesense Cloud [here](https://cloud.typesense.org/?_ga=2.142997813.1232513525.1614309604-1445891162.1612758736).
+We also offer a managed Cloud option called Typesense Cloud [here](https://cloud.typesense.org/).
 
 ### DEB package on Ubuntu/Debian
 
