@@ -34,5 +34,8 @@ module.exports = (options, context) => ({
         link: `/${pageNavLinkTypesenseVersion}/api/`
       }
     ]
+
+    // Fix for variables not showing up in page titles
+    $page.title = $page.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, $page.typesenseVersion)
   }
 })
