@@ -1,7 +1,9 @@
 # API Keys
 Typesense allows you to create API Keys with fine-grain access control. You can restrict access on both a per-collection and per-action level.
 
->We will be using the initial bootstrap key that you started Typesense with (via `--api-key`>) to create additional keys. It's **strongly recommended** that you don't use the bootstrap API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.
+:::warning
+We will be using the initial bootstrap key that you started Typesense with (via `--api-key`>) to create additional keys. It's **strongly recommended** that you don't use the bootstrap API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.
+:::
 
 ## Create an API Key
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
@@ -67,7 +69,9 @@ curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_A
 
 By setting both `actions` and `collections` to a wildcard `['*']` scope, we're able to create an admin key that gives you universal access. However, you should refrain from creating such widely scoped keys.
 
->**NOTE**: The generated key is only returned during creation. You want to store this key carefully in a secure place.
+:::warning
+The generated key is only returned during creation. You want to store this key carefully in a secure place.
+:::
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
@@ -391,7 +395,9 @@ To do this, you can embed a filter in a generated scoped search API key. When yo
 
 We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope, create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
 
->**Note**: Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set without your embedded search parameters.
+:::warning
+Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set without your embedded search parameters.
+:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>

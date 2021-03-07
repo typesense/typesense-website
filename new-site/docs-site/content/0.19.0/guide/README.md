@@ -1,15 +1,17 @@
+# Guide
 Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.
 
 For a detailed dive into the Typesense API, refer to our [API documentation](../api/README.md).
 
-# Installing Typesense
+## Installing Typesense
+
 You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Mac OS X on our downloads page.
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
 
 We also offer a managed Cloud option called Typesense Cloud [here](https://cloud.typesense.org/?_ga=2.142997813.1232513525.1614309604-1445891162.1612758736).
 
-## DEB package on Ubuntu/Debian
+### DEB package on Ubuntu/Debian
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
@@ -21,7 +23,7 @@ apt install ./typesense-server-<version>-amd64.deb
   </template>
 </Tabs>
 
-## RPM package on CentOS/RHEL
+### RPM package on CentOS/RHEL
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
@@ -78,31 +80,9 @@ You can use the `/health` API end-point to verify that the server is ready to ac
   <template v-slot:Shell>
 
 ```bash
-Shell
 curl http://localhost:8108/health
 {"ok":true}
 ```
 
   </template>
 </Tabs>
-
-
-## Server arguments
-
-| Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
-| config         | false       |Path to the configuration file. If you use this argument, you can define all of the other command line arguments in a configuration file. See the "Configuring Typesense" section for more details.|
-|api-key	|true	|A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific ACLs using the key management API. <br><br>**NOTE**: Don't expose this admin API key to your browser JS client: use the key management API to create search-only or scoped API keys.|
-|data-dir	|true	|Path to the directory where data will be stored on disk.|
-|api-address	|false	|Address to which Typesense API service binds. Default: `0.0.0.0`|
-|api-port	|false	|Port on which Typesense API service listens. Default: `8108`|
-|peering-address	|false	|Internal IP address to which Typesense peering service binds. If this parameter is not specified, Typesense will attempt to use the first available internal IP.|
-|peering-port	|false	|Port on which Typesense peering service listens. Default: `8107`|
-|nodes	|false	|Path to file containing comma separated string of all nodes in the cluster.|
-log-dir	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
-|ssl-certificate	|false	|Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.|
-|ssl-certificate-key	|false	|Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.|
-|enable-cors	|false	|Allow JavaScript client to access Typesense directly from the browser.|
-|catch-up-threshold-percentage	|false	|The threshold at which a follower is deemed to have caught up with leader and will allow requests. Default: `95`.<br><br>**NOTE**: This threshold is used only when the lag between the follower and leader is more than 1,000 operations.|
-|snapshot-interval-seconds	|false	|Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.|
-|log-slow-requests-time-ms	|false	|Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging.|

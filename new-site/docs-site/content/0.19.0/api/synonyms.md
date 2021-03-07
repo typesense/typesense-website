@@ -3,10 +3,9 @@ The synonyms feature allows you to define search terms that should be considered
 
 Typesense supports two types of synonyms:
 
-**Multi-way synonyms**
-Defining words `ABC, DEF and XYZ` (for eg) as multi-way synonyms will cause searches for any one of those words (eg: `DEF`) to return records containing at least one of the words in the synonym set (eg: records with `ABC` or `DEF` or `KYX` are returned).
-**One-way synonyms**
-Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searches for `DEF` or `XYZ` to return records containing ABC.
+1. **Multi-way synonyms**: Defining words `ABC, DEF and XYZ` (for eg) as multi-way synonyms will cause searches for any one of those words (eg: `DEF`) to return records containing at least one of the words in the synonym set (eg: records with `ABC` or `DEF` or `KYX` are returned).
+
+2. **One-way synonyms**: Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searches for `DEF` or `XYZ` to return records containing `ABC`.
 
 ## Create or update a multi-way synonym
 

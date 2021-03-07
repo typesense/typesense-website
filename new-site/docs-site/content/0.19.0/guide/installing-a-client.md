@@ -7,8 +7,7 @@ We recommend that you use our API client if it's available for your language. It
   <template v-slot:JavaScript>
 
 ```js
-// Node.js
-npm install typesense
+// npm install typesense
 
 // Browser
 <script src="dist/typesense.min.js"></script>
@@ -18,21 +17,21 @@ npm install typesense
 
   <template v-slot:PHP>
 
-```php
+```shell
 composer require typesense/typesense-php
 ```
 
   </template>
   <template v-slot:Python>
 
-```py
+```shell
 pip install typesense
 ```
 
   </template>
   <template v-slot:Ruby>
 
-```rb
+```shell
 gem install typesense
 ```
 

@@ -1,5 +1,8 @@
-# Example application
->NOTE: We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./rankRelevance.md#high-availability) section for more details.
+# Example Search Application
+
+:::tip
+We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./high-availability.md) section for more details.
+:::
 
 At this point, we are all set to start using Typesense. We will create a Typesense collection, index some documents in it and try searching for them.
 

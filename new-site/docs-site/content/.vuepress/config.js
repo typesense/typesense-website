@@ -1,5 +1,5 @@
 const { description } = require("../../package");
-const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
+const { typesenseVersions, typesenseLatestVersion } = require("../../../typsenseVersions");
 
 module.exports = {
   // The base URL the site will be deployed at
@@ -39,14 +39,14 @@ module.exports = {
       typesenseServerConfig: {
         nodes: [
           {
-            host: 'x3s805zrawjuod9fp.a1.typesense.net',
+            host: "x3s805zrawjuod9fp.a1.typesense.net",
             port: 443,
-            protocol: 'https'
+            protocol: "https"
           }
         ],
-        apiKey: 'c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6'
+        apiKey: "c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6"
       },
-      typesenseCollectionName: 'typesense_docs'
+      typesenseCollectionName: "typesense_docs"
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
@@ -60,51 +60,52 @@ module.exports = {
     },
     // https://vuepress.vuejs.org/theme/default-theme-config.html#git-repository-and-edit-links
     // if your docs are in a different repo from your main project:
-    docsRepo: 'typesense/typesense-website',
+    docsRepo: "typesense/typesense-website",
     // if your docs are not at the root of the repo:
-    docsDir: 'new-site/docs-site/content',
+    docsDir: "new-site/docs-site/content",
     // if your docs are in a specific branch (defaults to 'master'):
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
-    editLinkText: 'Edit page',
+    editLinkText: "Edit page",
     sidebar: {
-      '/0.13.0/api/': [['/', 'Home Page']],
-      '/0.19.0/guide/': [
+      "/0.13.0/api/": [["/", "Home Page"]],
+      "/0.19.0/guide/": [
         {
-          title: 'Guide', // required
+          title: "Guide", // required
           sidebarDepth: 1,
           collapsable: false, // optional, defaults to true
           children: [
-            ['/0.19.0/guide/', 'Installation'],
-            ['/0.19.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.19.0/guide/updating-typesense', 'Updating Typesense'],
-            ['/0.19.0/guide/installing-a-client', 'Installing a Client'],
-            ['/0.19.0/guide/example-application', 'Example Application'],
-            ['/0.19.0/guide/building-search-uis', 'Building Search UIs'],
-            ['/0.19.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
-      '/0.19.0/api/': [
-        {
-          title:'API 0.19.0',
-          collapsable: false,
-          children:[
-            ['/0.19.0/api/','Introduction'],
-            ['/0.19.0/api/api-clients','API Clients'],
-            ['/0.19.0/api/authentication','Authentication'],
-            ['/0.19.0/api/collections','Collections'],
-            ['/0.19.0/api/documents','Documents'],
-            ['/0.19.0/api/manage-api-keys','Manage API Keys'],
-            ['/0.19.0/api/curation','Curation'],
-            ['/0.19.0/api/collection-alias','Collection Alias'],
-            ['/0.19.0/api/synonyms','Synonyms'],
-            ['/0.19.0/api/cluster-operations','Cluster operations'],
-            ['/0.19.0/api/api-errors','API errors'],
+            ["/0.19.0/guide/", "Installation"],
+            ["/0.19.0/guide/configure-typesense", "Configure Typesense"],
+            ["/0.19.0/guide/updating-typesense", "Updating Typesense"],
+            ["/0.19.0/guide/installing-a-client", "Installing a Client"],
+            ["/0.19.0/guide/example-application", "Example Application"],
+            ["/0.19.0/guide/building-search-uis", "Building Search UIs"],
+            ["/0.19.0/guide/ranking-and-relevance", "Ranking and Relevance"],
+            ["/0.19.0/guide/high-availability", "High Availability"]
           ]
         }
       ],
-    },
+      "/0.19.0/api/": [
+        {
+          title: "API v0.19.0",
+          collapsable: false,
+          children: [
+            ["/0.19.0/api/", "Introduction"],
+            ["/0.19.0/api/api-clients", "API Clients"],
+            ["/0.19.0/api/authentication", "Authentication"],
+            ["/0.19.0/api/collections", "Collections"],
+            ["/0.19.0/api/documents", "Documents"],
+            ["/0.19.0/api/api-keys", "API Keys"],
+            ["/0.19.0/api/curation", "Curation"],
+            ["/0.19.0/api/collection-alias", "Collection Alias"],
+            ["/0.19.0/api/synonyms", "Synonyms"],
+            ["/0.19.0/api/cluster-operations", "Cluster Operations"],
+            ["/0.19.0/api/api-errors", "API Errors"]
+          ]
+        }
+      ]
+    }
   },
 
   /**
@@ -114,9 +115,9 @@ module.exports = {
     "@vuepress/plugin-back-to-top",
     "@vuepress/plugin-medium-zoom",
     ["@dovyp/vuepress-plugin-clipboard-copy", true],
-    require('./plugins/typesense-enhancements'),
-  ],
-}
+    require("./plugins/typesense-enhancements")
+  ]
+};
 
 /*
 {
