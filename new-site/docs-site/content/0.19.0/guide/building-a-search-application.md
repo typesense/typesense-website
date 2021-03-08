@@ -1,4 +1,4 @@
-# Example Search Application
+# Build A Search Application
 
 :::tip
 We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./high-availability.md) section for more details.
@@ -6,7 +6,9 @@ We will be using a single node in this example, but Typesense can also run in a 
 
 At this point, we are all set to start using Typesense. We will create a Typesense collection, index some documents in it and try searching for them.
 
-To follow along, [download]() this small dataset that we've put together for this walk-through.
+## Sample Dataset
+
+To follow along, [download](https://dl.typesense.org/datasets/books.jsonl.tar.gz) this small dataset that we've put together for this walk-through.
 
 ## Initializing the client
 Let's begin by configuring the Typesense client by pointing it to the Typesense master node.

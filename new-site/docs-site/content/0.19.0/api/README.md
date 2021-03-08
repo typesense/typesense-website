@@ -1,5 +1,13 @@
-# Introduction
+# API Reference for v{{ $page.typesenseVersion }}
 
-Welcome to the Typesense **v{{ $page.typesenseVersion }}** API documentation. This documentation itself is open source. Please leave your feedback as issues on the [GitHub](https://github.com/typesense/typesense-website/issues) repo or send us a pull-request to contribute edits.
+This section of the documentation details all the API Endpoints available in Typesense and all the parameters you can use with them.
 
-To learn how to install and run Typesense, see our [getting started guide](../guide/README.md) instead.
+Use the links on the side navigation bar to get to the appropriate section you're looking for.
+
+To learn how to install and run Typesense, see the [Guide section](../guide/README.md) instead.
+
+<br/>
+
+:::tip
+This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
+:::

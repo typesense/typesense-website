@@ -68,6 +68,7 @@ export default {
   background $codeBgColor
   color $white
   font-size 0.70rem
+  margin-left 0
 
   .nav
     margin-right 1rem

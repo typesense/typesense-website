@@ -1,88 +1,13 @@
-# Guide
-Let's begin by installing Typesense, indexing some documents and exploring the data with some search queries.
+# Guide v{{ $page.typesenseVersion }}
+
+The guide section of the documentation walks you through how to use Typesense `v{{ $page.typesenseVersion }}` in different scenarios.
+
+Use the links on the side navigation bar to get to the appropriate section you're looking for.
 
 For a detailed dive into the Typesense API, refer to our [API documentation](../api/README.md).
 
-## Installing Typesense
+<br/>
 
-You can find DEB, RPM and pre-built binaries available for Linux (X86_64) and Mac OS X on our downloads page.
-
-We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
-
-We also offer a managed Cloud option called Typesense Cloud [here](https://cloud.typesense.org/).
-
-### DEB package on Ubuntu/Debian
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-```bash
-apt install ./typesense-server-<version>-amd64.deb
-```
-
-  </template>
-</Tabs>
-
-### RPM package on CentOS/RHEL
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-```bash
-yum install ./typesense-server-<version>.x86_64.rpm
-```
-
-  </template>
-</Tabs>
-
-## Starting the typesense server
->**Note**:
-> We are starting a single node here, but Typesense can also run in a clustered mode. See the high availability section for more details.
-
-Installed via the package manager
-If you had installed Typesense from a DEB/RPM package, the Typesense server is automatically started as a systemd service when installation is complete. You can check the status via:
-
-`systemctl status typesense-server`
-
-By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the configuration file at `/etc/typesense/typesense-server.ini`
-
-### From the pre-built binary
-If you have downloaded the pre-built binary, you can start Typesense with minimal options like this:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-```bash
-mkdir /tmp/typesense-data
-./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
-```
-
-  </template>
-</Tabs>
-
-### From the docker image
-If you want to use Docker, you can run Typesense like this:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-```bash
-mkdir /tmp/typesense-data
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
---data-dir /data --api-key=$TYPESENSE_API_KEY
-```
-
-  </template>
-</Tabs>
-
-You can use the `/health` API end-point to verify that the server is ready to accept requests.
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-```bash
-curl http://localhost:8108/health
-{"ok":true}
-```
-
-  </template>
-</Tabs>
+:::tip
+This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
+:::

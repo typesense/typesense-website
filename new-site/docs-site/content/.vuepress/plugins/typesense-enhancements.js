@@ -36,6 +36,8 @@ module.exports = (options, context) => ({
     ]
 
     // Fix for variables not showing up in page titles
-    $page.title = $page.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, $page.typesenseVersion)
+    if($page.title) {
+      $page.title = $page.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, $page.typesenseVersion)
+    }
   }
 })

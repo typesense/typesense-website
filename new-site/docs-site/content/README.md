@@ -1,4 +1,4 @@
-# Typesense Docs
+# Typesense Documentation
 
 TODO: overview of Typesense
 

@@ -19,18 +19,19 @@ As you write content in the content folder, the page should live reload.
 
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
 
-**Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles, so we don't want to use them in headings.  
-
 | Variable | Definition |
 |----------|------------|
 | $page.typesenseVersion | The current Typesense version that the user is looking at docs for. Will be `null` for non-versioned top level files. |
 | $site.themeConfig.typesenseVersions | List of all Typesense versions |
 
+**Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles.
+To partially fix the issue with page titles, we have a workaround in `plugins/typesense-enhancements` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
+
 ## To write documentation for a new version:
 
 1. Add version number to `../typesenseVersions.js`
 1. Clone the latest version directory and make edits to it.
-1. Deploy both main site and docs site
+1. Deploy both main site and docs site (since the main site has references to the latest version)
 
 ## Layout
 

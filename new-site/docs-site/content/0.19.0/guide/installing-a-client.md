@@ -1,5 +1,16 @@
 # Installing a client
-At the moment, we have clients for JavaScript, PHP, Python, Ruby.
+
+We have client libraries for:
+
+- [JavaScript](https://github.com/typesense/typesense-js)
+- [PHP](https://github.com/typesense/typesense-php)
+- [Python](https://github.com/typesense/typesense-python)
+- [Ruby](https://github.com/typesense/typesense-ruby)
+
+We also have the following community-contributed client libraries:
+
+- [Go](https://github.com/typesense/typesense-go)
+- [C#](https://github.com/DAXGRID/typesense-dotnet)
 
 We recommend that you use our API client if it's available for your language. It's also easy to interact with Typesense through its simple, RESTful HTTP API.
 
