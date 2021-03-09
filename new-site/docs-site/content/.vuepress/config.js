@@ -68,7 +68,6 @@ module.exports = {
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: "Edit page",
     sidebar: {
-      "/0.13.0/api/": [["/", "Home Page"]],
       "/0.19.0/guide/": [
         ["/0.19.0/guide/", "Introduction"],
         {
