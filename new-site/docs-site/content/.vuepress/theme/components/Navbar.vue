@@ -1,36 +1,26 @@
 <template>
   <header class="navbar">
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
-    <a
-      href="/"
-      class="home-link"
-    >
-      <img
-        v-if="$site.themeConfig.logo"
-        class="logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      >
-      <span
-        v-if="$siteTitle"
-        ref="siteName"
-        class="site-name"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
+    <a href="/" class="home-link">
+      <img v-if="$site.themeConfig.logo" class="logo" :src="$withBase($site.themeConfig.logo)" :alt="$siteTitle" />
+      <span v-if="$siteTitle" ref="siteName" class="site-name" :class="{ 'can-hide': $site.themeConfig.logo }">{{
+        $siteTitle
+      }}</span>
     </a>
 
-    <VersionDropdown show-on-desktop-only/>
+    <VersionDropdown show-on-desktop-only />
 
     <div
       class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
+      :style="
+        linksWrapMaxWidth
+          ? {
+              'max-width': linksWrapMaxWidth + 'px',
+            }
+          : {}
+      "
     >
-      <TypesenseSearchBox
-        v-if="isTypesenseSearch"
-        :options="typesense"
-      />
+      <TypesenseSearchBox v-if="isTypesenseSearch" :options="typesense" />
       <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false" />
       <NavLinks class="can-hide" />
     </div>
@@ -41,8 +31,8 @@
 import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
-import VersionDropdown from "../../components/VersionDropdown";
-import TypesenseSearchBox from "../../components/TypesenseSearchBox";
+import VersionDropdown from '../../components/VersionDropdown'
+import TypesenseSearchBox from '../../components/TypesenseSearchBox'
 
 export default {
   name: 'Navbar',
@@ -52,42 +42,44 @@ export default {
     SidebarButton,
     NavLinks,
     SearchBox,
-    TypesenseSearchBox
+    TypesenseSearchBox,
   },
 
-  data () {
+  data() {
     return {
-      linksWrapMaxWidth: null
+      linksWrapMaxWidth: null,
     }
   },
 
   computed: {
-    typesense () {
+    typesense() {
       return this.$themeLocaleConfig.typesenseDocsearch || this.$site.themeConfig.typesenseDocsearch || {}
     },
 
-    isTypesenseSearch () {
+    isTypesenseSearch() {
       return this.typesense && this.typesense.typesenseServerConfig && this.typesense.typesenseCollectionName
-    }
+    },
   },
 
-  mounted () {
+  mounted() {
     const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
     const NAVBAR_VERTICAL_PADDING = parseInt(css(this.$el, 'paddingLeft')) + parseInt(css(this.$el, 'paddingRight'))
     const handleLinksWrapWidth = () => {
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         this.linksWrapMaxWidth = null
       } else {
-        this.linksWrapMaxWidth = this.$el.offsetWidth - NAVBAR_VERTICAL_PADDING
-          - (this.$refs.siteName && this.$refs.siteName.offsetWidth || 0)
+        this.linksWrapMaxWidth =
+          this.$el.offsetWidth -
+          NAVBAR_VERTICAL_PADDING -
+          ((this.$refs.siteName && this.$refs.siteName.offsetWidth) || 0)
       }
     }
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
-  }
+  },
 }
 
-function css (el, property) {
+function css(el, property) {
   // NOTE: Known bug, will return 'auto' if style value is 'auto'
   const win = el.ownerDocument.defaultView
   // null means not to return pseudo styles

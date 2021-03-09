@@ -9,14 +9,7 @@
   >
     {{ item.text }}
   </RouterLink>
-  <a
-    v-else
-    :href="link"
-    class="nav-link external"
-    :target="target"
-    :rel="rel"
-    @focusout="focusoutAction"
-  >
+  <a v-else :href="link" class="nav-link external" :target="target" :rel="rel" @focusout="focusoutAction">
     {{ item.text }}
     <OutboundLink v-if="isBlankTarget" />
   </a>
@@ -30,42 +23,43 @@ export default {
 
   props: {
     item: {
-      required: true
-    }
+      type: Object,
+      required: true,
+    },
   },
 
   computed: {
-    link () {
+    link() {
       return ensureExt(this.item.link)
     },
 
     exactPath() {
-      if(this.item.exactPath != null) {
+      if (this.item.exactPath != null) {
         return this.item.exactPath
       }
       return false
     },
 
-    exact () {
+    exact() {
       if (this.$site.locales) {
         return Object.keys(this.$site.locales).some(rootLink => rootLink === this.link)
       }
       return this.link === '/'
     },
 
-    isNonHttpURI () {
+    isNonHttpURI() {
       return isMailto(this.link) || isTel(this.link)
     },
 
-    isBlankTarget () {
+    isBlankTarget() {
       return this.target === '_blank'
     },
 
-    isInternal () {
+    isInternal() {
       return !isExternal(this.link) && !this.isBlankTarget
     },
 
-    target () {
+    target() {
       if (this.isNonHttpURI) {
         return null
       }
@@ -75,7 +69,7 @@ export default {
       return isExternal(this.link) ? '_blank' : ''
     },
 
-    rel () {
+    rel() {
       if (this.isNonHttpURI) {
         return null
       }
@@ -86,13 +80,13 @@ export default {
         return this.item.rel
       }
       return this.isBlankTarget ? 'noopener noreferrer' : null
-    }
+    },
   },
 
   methods: {
-    focusoutAction () {
+    focusoutAction() {
       this.$emit('focusout')
-    }
-  }
+    },
+  },
 }
 </script>

@@ -1,15 +1,7 @@
 <template>
   <!-- Adapted from AlgoliaSearchBox 🙏 -->
-  <form
-    id="search-form"
-    class="typesense-search-wrapper search-box"
-    role="search"
-  >
-    <input
-      id="typesense-search-input"
-      class="search-query"
-      :placeholder="placeholder"
-    >
+  <form id="search-form" class="typesense-search-wrapper search-box" role="search">
+    <input id="typesense-search-input" class="search-query" :placeholder="placeholder" />
   </form>
 </template>
 
@@ -17,63 +9,68 @@
 export default {
   name: 'TypesenseSearchBox',
 
-  props: ['options'],
+  props: {
+    options: {
+      type: Object,
+      default: null,
+    },
+  },
 
-  data () {
+  data() {
     return {
-      placeholder: undefined
+      placeholder: undefined,
     }
   },
 
   watch: {
-    $lang (newValue) {
+    $lang(newValue) {
       this.update(this.options, newValue)
     },
 
-    options (newValue) {
+    options(newValue) {
       this.update(newValue, this.$lang)
-    }
+    },
   },
 
-  mounted () {
+  mounted() {
     this.initialize(this.options, this.$lang)
     this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
   },
 
   methods: {
-    initialize (userOptions, lang) {
+    initialize(userOptions, lang) {
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ '../public/docsearch.min.js'),
-        import(/* webpackChunkName: "docsearch" */ '../public/docsearch.min.css')
+        import(/* webpackChunkName: "docsearch" */ '../public/docsearch.min.css'),
       ]).then(([docsearch]) => {
         docsearch = docsearch.default
-        const { typesenseSearchParams = {}} = userOptions
-        docsearch(Object.assign(
-          {},
-          userOptions,
-          {
+        const { typesenseSearchParams = {} } = userOptions
+        docsearch(
+          Object.assign({}, userOptions, {
             inputSelector: '#typesense-search-input',
             // #697 Make docsearch work well at i18n mode.
             typesenseSearchParams: {
               ...typesenseSearchParams,
-              filter_by: this.$page.typesenseVersion ? `version:=${this.$page.typesenseVersion}` : `version:=${this.$site.themeConfig.typesenseLatestVersion}`
+              filter_by: this.$page.typesenseVersion
+                ? `version:=${this.$page.typesenseVersion}`
+                : `version:=${this.$site.themeConfig.typesenseLatestVersion}`,
             },
             handleSelected: (input, event, suggestion) => {
               const { pathname, hash } = new URL(suggestion.url)
               const routepath = pathname.replace(this.$site.base, '/')
               const _hash = decodeURIComponent(hash)
               this.$router.push(`${routepath}${_hash}`)
-            }
-          }
-        ))
+            },
+          }),
+        )
       })
     },
 
-    update (options, lang) {
+    update(options, lang) {
       this.$el.innerHTML = '<input id="typesense-search-input" class="search-query">'
       this.initialize(options, lang)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -171,5 +168,4 @@ export default {
       width 5px
       margin -3px 3px 0
       vertical-align middle
-
 </style>

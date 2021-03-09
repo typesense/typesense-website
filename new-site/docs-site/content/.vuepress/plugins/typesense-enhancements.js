@@ -1,13 +1,16 @@
 module.exports = (options, context) => ({
   name: 'typesense-enhancements',
-  extendPageData ($page) {
+  extendPageData($page) {
     const typesenseLatestVersion = context.siteConfig.themeConfig.typesenseLatestVersion
 
     // Set typesenseVersion by reading the version from the path
     $page.typesenseVersion = $page.path.split('/')[1]
     // Only set this as a version, if it's in the list of versions defined
     // To account for top level paths
-    if($page.typesenseVersion === '' || !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)) {
+    if (
+      $page.typesenseVersion === '' ||
+      !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)
+    ) {
       $page.typesenseVersion = null
     }
 
@@ -15,29 +18,29 @@ module.exports = (options, context) => ({
     const pageNavLinkTypesenseVersion = $page.typesenseVersion || typesenseLatestVersion
     $page.nav = [
       {
-        text: "Overview",
-        link: "/"
+        text: 'Overview',
+        link: '/overview/',
       },
       {
         text: `What's new`,
         link: `/${pageNavLinkTypesenseVersion}/`,
         // Custom flag that gets passed to https://router.vuejs.org/api/#exact-path
         // Prevents duplicate highlights in Nav
-        exactPath: true
+        exactPath: true,
       },
       {
-        text: "Guide",
-        link: `/${pageNavLinkTypesenseVersion}/guide/`
+        text: 'Guide',
+        link: `/${pageNavLinkTypesenseVersion}/guide/`,
       },
       {
-        text: "API Reference",
-        link: `/${pageNavLinkTypesenseVersion}/api/`
-      }
+        text: 'API Reference',
+        link: `/${pageNavLinkTypesenseVersion}/api/`,
+      },
     ]
 
     // Fix for variables not showing up in page titles
-    if($page.title) {
+    if ($page.title) {
       $page.title = $page.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, $page.typesenseVersion)
     }
-  }
+  },
 })

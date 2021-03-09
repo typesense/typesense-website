@@ -1,14 +1,13 @@
 <template>
-  <div class='mb-3'>
-    <ul class='nav-container flex'>
-      <li v-for='tab in tabs' :key='tab' class='nav' :class='{ active: tab === activeTab }'
-          @click='setActiveTab(tab)'>
-        <span class='nav-title'>{{ tab }}</span>
+  <div class="mb-3">
+    <ul class="nav-container flex">
+      <li v-for="tab in tabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
+        <span class="nav-title">{{ tab }}</span>
       </li>
     </ul>
-    <div class='content-container'>
-      <div v-for='tab in tabs' v-show='tab === activeTab' :key='tab' class='tab-content'>
-        <slot :name='tab' />
+    <div class="content-container">
+      <div v-for="tab in tabs" v-show="tab === activeTab" :key="tab" class="tab-content">
+        <slot :name="tab" />
       </div>
     </div>
   </div>
@@ -31,17 +30,11 @@ export default {
   computed: {
     activeTab() {
       if (this.store) {
-        const activeTab = this.tabs.find((tab) => tab === this.store.state.defaultTab)
+        const activeTab = this.tabs.find(tab => tab === this.store.state.defaultTab)
         return activeTab || this.cmpActiveTab
       } else {
         return this.cmpActiveTab
       }
-    },
-  },
-  methods: {
-    setActiveTab(tab) {
-      this.cmpActiveTab = tab
-      this.store.commit('UPDATE_DEFAULT_TAB', tab)
     },
   },
   mounted() {
@@ -49,10 +42,16 @@ export default {
       this.store = module.default
     })
   },
+  methods: {
+    setActiveTab(tab) {
+      this.cmpActiveTab = tab
+      this.store.commit('UPDATE_DEFAULT_TAB', tab)
+    },
+  },
 }
 </script>
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 
 .nav-container
   display flex
@@ -108,5 +107,4 @@ export default {
     div[class*="language-"]
       margin 0rem -1.5rem
       border-radius 0
-
 </style>

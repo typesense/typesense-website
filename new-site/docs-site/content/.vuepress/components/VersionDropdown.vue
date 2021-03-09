@@ -1,11 +1,15 @@
 <template>
-  <div class="version-switcher"
-       :class="[showOnMobileOnly ? 'show-on-mobile-only' : '',
-       showOnDesktopOnly ? 'show-on-desktop-only' : '']">
+  <div
+    class="version-switcher"
+    :class="[showOnMobileOnly ? 'show-on-mobile-only' : '', showOnDesktopOnly ? 'show-on-desktop-only' : '']"
+  >
     <select @change="switchVersion">
-      <option v-for="version in $site.themeConfig.typesenseVersions"
-              :value="version"
-              :selected="version === currentVersion">
+      <option
+        v-for="version in $site.themeConfig.typesenseVersions"
+        :key="version"
+        :value="version"
+        :selected="version === currentVersion"
+      >
         v{{ version }}
       </option>
     </select>
@@ -14,31 +18,31 @@
 
 <script>
 export default {
-  name: "VersionDropdown",
+  name: 'VersionDropdown',
   props: {
     showOnMobileOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showOnDesktopOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     currentVersion() {
-      return this.$page.typesenseVersion;
-    }
+      return this.$page.typesenseVersion
+    },
   },
   methods: {
     switchVersion(event) {
-      const newVersion = event.target.value;
+      const newVersion = event.target.value
       if (this.$page.typesenseVersion !== newVersion) {
-        this.$router.push(`/${newVersion}/`);
+        this.$router.push(`/${newVersion}/`)
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

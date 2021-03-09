@@ -11,14 +11,14 @@ export default {
   props: {
     sectionName: {
       type: String,
-      default: "Section Name"
+      default: 'Section Name',
     },
     sectionLink: {
       type: String,
-      default: "#"
-    }
-  }
-};
+      default: '#',
+    },
+  },
+}
 </script>
 
 <style scoped lang="stylus">
