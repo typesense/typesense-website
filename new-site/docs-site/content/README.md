@@ -1,28 +1,46 @@
+---
+sidebar:
+ - '/'
+ - Hello
+
+---
+
 # Typesense Documentation
 
-TODO: overview of Typesense
+👋 Welcome! Let's get you familiar with Typesense real quick.
 
-## How the docs are laid out
+## How the docs are organized
 
-Todo: Explain Guide vs API docs
+The documentation is divided into the following sections, that you'll find links for on the **top navigation bar**.
 
-Links to docs for latest version
+- [Overview](./overview/what-is-typesense.md) - This section is meant to give you a birds-eye view about Typesense, why you'd want to use it and comparison with alternatives.
+- <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/`">What's new</RouterLink> - Typesense is versioned software and this section outlines the key changes in the particular version of Typesense you're reading the documentation for.
+- <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/guide`">Guide</RouterLink> - This section walks you step-by-step through how you can use Typesense in different scenarios.
+- <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/api`">API Reference</RouterLink> - This section gives you detailed information about all the API endpoints in Typesense, along with information on configuration parameters.
 
-<RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/#what-s-new`">What's new</RouterLink>
-<br>
-<RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/guide`">Guide</RouterLink>
-<br>
-<RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/api`">API Docs</RouterLink>
+:::tip
+Use the version dropdown in the top navigation bar to switch between different versions of Typesense.
+:::
 
-Older versions, use dropdown
+## Help us improve the docs
 
-Versions:
+This documentation site itself is open source. If you notice an issue on any page, just click on the Edit button at the bottom of the page, make changes and submit it as a PR. 
+
+We also welcome contributions to the documentation, especially to the Guide section. If you've integrated Typesense with a framework that's not covered, we'd love to have you share that with the world. 
+Please reach out to us to collaborate on this.
+
+:::tip
+Use the "Edit page" link at the botoom of any page to edit it and submit a PR. We appreciate your contributions.
+:::
+
+## Typesense Versions
+
+Typesense is versioned software and each version has documentation specifically tied to it. You can use the dropdown on the top navigation bar to switch between versions.
+
+But here are direct clickable links as well:
+
 <ul>
   <li v-for="version in $site.themeConfig.typesenseVersions">
     <RouterLink :to="version"> {{version}} </RouterLink>
   </li>
 </ul>
-
-## Help
-
-Link to help page
