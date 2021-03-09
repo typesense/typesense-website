@@ -40,7 +40,12 @@ export default ({
   });
 
   router.afterEach((to) => {
-    gtag('config', 'UA-116415641-1', { 'page_path': to.fullPath, 'location_path': window.location.origin + to.fullPath })
+    if (!isServer) {
+      const pagePath = siteData.base + to.fullPath.substring(1)
+      const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
+
+      gtag('config', 'UA-116415641-1', { 'page_path': pagePath, 'location_path': locationPath })
+    }
   })
 
   // These need to be set on S3 as well, for hard page reloads
