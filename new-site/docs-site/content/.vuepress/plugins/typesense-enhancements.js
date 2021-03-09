@@ -15,7 +15,7 @@ module.exports = (options, context) => ({
     const pageNavLinkTypesenseVersion = $page.typesenseVersion || typesenseLatestVersion
     $page.nav = [
       {
-        text: "Docs Home",
+        text: "Overview",
         link: "/"
       },
       {

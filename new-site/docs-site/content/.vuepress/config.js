@@ -72,15 +72,12 @@ module.exports = {
       "/0.19.0/guide/": [
         ["/0.19.0/guide/", "Introduction"],
         {
-          title: "Using Typesense", // required
+          title: "Getting Started", // required
           collapsable: false, // optional, defaults to true
           children: [
-            ["/0.19.0/guide/running-typesense", "Running Typesense"],
+            ["/0.19.0/guide/install-typesense", "Install Typesense"],
             ["/0.19.0/guide/configure-typesense", "Configure Typesense"],
-            ["/0.19.0/guide/installing-a-client", "Installing a Client"],
-            ["/0.19.0/guide/updating-typesense", "Updating Typesense"],
-            ["/0.19.0/guide/ranking-and-relevance", "Ranking and Relevance"],
-            ["/0.19.0/guide/high-availability", "High Availability"]
+            ["/0.19.0/guide/installing-a-client", "Installing a Client"]
           ]
         },
         {
@@ -92,15 +89,24 @@ module.exports = {
             ["/0.19.0/guide/typesense-firebase", "Integrating with Firebase"],
           ]
         },
+        {
+          title: "Operations", // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ["/0.19.0/guide/high-availability", "High Availability"],
+            ["/0.19.0/guide/ranking-and-relevance", "Ranking and Relevance"],
+            ["/0.19.0/guide/updating-typesense", "Updating Typesense"],
+          ]
+        },
       ],
       "/0.19.0/api/": [
+        ["/0.19.0/api/", "Introduction"],
+        ["/0.19.0/api/api-clients", "API Clients"],
+        ["/0.19.0/api/authentication", "Authentication"],
         {
-          title: "API v0.19.0",
+          title: "API Resources",
           collapsable: false,
           children: [
-            ["/0.19.0/api/", "Introduction"],
-            ["/0.19.0/api/api-clients", "API Clients"],
-            ["/0.19.0/api/authentication", "Authentication"],
             ["/0.19.0/api/collections", "Collections"],
             ["/0.19.0/api/documents", "Documents"],
             ["/0.19.0/api/api-keys", "API Keys"],
@@ -108,9 +114,9 @@ module.exports = {
             ["/0.19.0/api/collection-alias", "Collection Alias"],
             ["/0.19.0/api/synonyms", "Synonyms"],
             ["/0.19.0/api/cluster-operations", "Cluster Operations"],
-            ["/0.19.0/api/api-errors", "API Errors"]
           ]
-        }
+        },
+        ["/0.19.0/api/api-errors", "API Errors"]
       ]
     }
   },
