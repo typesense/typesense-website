@@ -8,6 +8,8 @@ import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 import Prism from 'vue-prism-component'
 import Vuex from 'vuex'
+import VueGtag from "vue-gtag";
+
 
 export default ({
   Vue, // the version of Vue being used in the VuePress app
@@ -18,6 +20,17 @@ export default ({
 }) => {
   Vue.component('Prism', Prism)
   Vue.use(Vuex)
+
+  Vue.use(VueGtag, {
+    config: {
+      id: "UA-116415641-1",
+      params: {
+        linker: {
+          'domains': ['new-site.typesense.org', 'typesense.org', 'cloud.typesense.org']
+        }
+      }
+    }
+  });
 
   router.addRoute({ path: '/overview/', redirect: '/overview/what-is-typesense' })
   router.addRoute({ path: '/overview', redirect: '/overview/what-is-typesense' })

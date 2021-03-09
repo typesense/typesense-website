@@ -142,13 +142,4 @@ let config = {
   ],
 }
 
-if (process.env.NODE_ENV === 'production') {
-  config.plugins.push([
-    '@vuepress/google-analytics',
-    {
-      ga: 'UA-116415641-1',
-    },
-  ])
-}
-
 module.exports = config

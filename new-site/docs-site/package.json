@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.8.2",
-    "@vuepress/plugin-google-analytics": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^8.1.0",
@@ -23,6 +22,7 @@
   },
   "dependencies": {
     "@dovyp/vuepress-plugin-clipboard-copy": "^1.0.0-alpha.7",
+    "vue-gtag": "^1.11.0",
     "vue-prism-component": "^1.2.0",
     "vuepress": "1.8.2",
     "vuex": "^3.6.2"
