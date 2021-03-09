@@ -70,21 +70,28 @@ module.exports = {
     sidebar: {
       "/0.13.0/api/": [["/", "Home Page"]],
       "/0.19.0/guide/": [
+        ["/0.19.0/guide/", "Introduction"],
         {
-          title: "Guide v0.19.0", // required
+          title: "Using Typesense", // required
           collapsable: false, // optional, defaults to true
           children: [
-            ["/0.19.0/guide/", "Introduction"],
             ["/0.19.0/guide/running-typesense", "Running Typesense"],
             ["/0.19.0/guide/configure-typesense", "Configure Typesense"],
             ["/0.19.0/guide/installing-a-client", "Installing a Client"],
-            ["/0.19.0/guide/building-a-search-application", "Building a Search Application"],
-            ["/0.19.0/guide/search-ui-components", "Search UI components"],
             ["/0.19.0/guide/updating-typesense", "Updating Typesense"],
             ["/0.19.0/guide/ranking-and-relevance", "Ranking and Relevance"],
             ["/0.19.0/guide/high-availability", "High Availability"]
           ]
-        }
+        },
+        {
+          title: "Walk-throughs",
+          collapsable: false, // optional, defaults to true
+          children: [
+            ["/0.19.0/guide/building-a-search-application", "Building a Search Application"],
+            ["/0.19.0/guide/search-ui-components", "Search UI Components"],
+            ["/0.19.0/guide/typesense-firebase", "Integrating with Firebase"],
+          ]
+        },
       ],
       "/0.19.0/api/": [
         {

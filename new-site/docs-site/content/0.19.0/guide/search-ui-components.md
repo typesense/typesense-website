@@ -1,7 +1,7 @@
 # Building Search UIs
 You can use the open source [InstantSearch.js](https://github.com/algolia/instantsearch.js) library, along with our [Typesense-InstantSearch-Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to build a plug-and-play full-featured search interface, with just a few lines of code.
 
-## Walk-through
+### Walk-through
 
 Let's start with a starter template:
 
@@ -157,7 +157,7 @@ Now, you can use any of the widgets supported by InstantSearch to build a search
 Now run `npm start` to start the dev server and view the app. You should now have a fully-functioning instant search interface with a search box, results that update as you type and pagination.
 
 
-## Demo App
+### Demo App
 Here's a repo with a working version of the app, following the instructions above: [https://github.com/typesense/typesense-instantsearch-demo](https://github.com/typesense/typesense-instantsearch-demo). The repo also contains quick commands to start a local Typesense server (`npm run typesenseServer`) and index the books collection used in this example (`npm run populateTypesenseIndex`).
 
 InstantSearch.js also has [React](https://github.com/algolia/react-instantsearch), [Vue](https://github.com/algolia/vue-instantsearch), [Angular](https://github.com/algolia/angular-instantsearch) cousins. The Typesense InstantSearch adapter is also compatible with them. Similar to the above, you only need to swap the searchClient to the one provided by Typesense adapter. The rest of the instructions found in each of these repos work without additional changes.
