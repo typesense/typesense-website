@@ -21,7 +21,9 @@ export default ({
 
   router.addRoute({ path: '/overview/', redirect: '/overview/what-is-typesense' })
   router.addRoute({ path: '/overview', redirect: '/overview/what-is-typesense' })
-  router.addRoute({ path: '/latest/api', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/api` })
+  router.addRoute({ path: '/guide', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/guide` })
+  router.addRoute({ path: '/api', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/api` })
   router.addRoute({ path: '/latest/guide', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/guide` })
+  router.addRoute({ path: '/latest/api', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/api` })
   router.addRoute({ path: '/latest', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/` })
 }

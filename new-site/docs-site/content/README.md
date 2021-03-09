@@ -9,6 +9,11 @@ sidebar:
 
 👋 Welcome! Let's get you familiar with Typesense real quick.
 
+## ;tldr
+
+- If you want to dive right in, the [Guide](./guide) is a good place to get started.
+- Here's the [API Reference](./api) for the latest version of Typesense.
+
 ## How the docs are organized
 
 The documentation is divided into the following sections, that you'll find links for on the **top navigation bar**.

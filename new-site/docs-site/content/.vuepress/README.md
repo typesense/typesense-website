@@ -1,3 +1,0 @@
-# Typesense Docs
-
-##Introduction
