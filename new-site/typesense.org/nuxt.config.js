@@ -1,4 +1,4 @@
-export default {
+const config = {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -74,3 +74,13 @@ export default {
     host: '0', // default: localhost
   },
 }
+
+if (process.env.NODE_ENV === 'production') {
+  config.buildModules.push([
+    '@nuxtjs/google-analytics',
+    {
+      id: 'UA-116415641-1',
+    },
+  ])
+}
+export default config
