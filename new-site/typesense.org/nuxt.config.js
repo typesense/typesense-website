@@ -36,7 +36,7 @@ const config = {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    ['@nuxtjs/google-gtag'],
+    '@nuxtjs/google-gtag',
   ],
 
   styleResources: {

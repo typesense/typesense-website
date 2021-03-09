@@ -93,15 +93,15 @@ export default {
         },
         {
           text: 'About',
-          link: '/about',
+          link: '/about/',
         },
         {
           text: 'Download',
-          link: '/download',
+          link: '/download/',
         },
         {
           text: 'Support',
-          link: '/support',
+          link: '/support/',
         },
         {
           text: 'Hosted Search',
