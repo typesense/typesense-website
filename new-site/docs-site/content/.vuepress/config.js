@@ -1,7 +1,7 @@
 const { description } = require('../../package')
 const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
 
-module.exports = {
+let config = {
   // The base URL the site will be deployed at
   base: '/docs/',
 
@@ -142,38 +142,13 @@ module.exports = {
   ],
 }
 
-/*
-{
-  // Add per route sidebar links
-  // Structure of object: https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar
-  '/0.13.0/guide/': [
-    ['/', 'Home Page'],
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push([
+    '@vuepress/google-analytics',
     {
-      title: 'Group 1', // required
-      collapsable: false, // optional, defaults to true
-      sidebarDepth: 0, // optional, defaults to 1
-      children: [
-        ['/0.13.0/guide/', 'Getting Started'],
-        ['/0.13.0/guide/another-page', 'Another Page'],
-      ],
+      ga: 'UA-116415641-1',
     },
-  ],
-  '/0.13.0/api/': [['/', 'Home Page']],
-  '/0.19.0/guide/': [
-    {
-      title: 'Guide', // required
-      collapsable: false, // optional, defaults to true
-      sidebarDepth: 0, // optional, defaults to 1
-      children: [
-        ['/0.19.0/guide/', 'Installation'],
-        ['/0.19.0/guide/configure', 'Configure'],
-        ['/0.19.0/guide/update', 'Update'],
-        ['/0.19.0/guide/installClient', 'Installing a Client'],
-        ['/0.19.0/guide/example', 'Example Application'],
-        ['/0.19.0/guide/searchui', 'Building Search UIs'],
-        ['/0.19.0/guide/rankRelevance', 'Ranking and Relevance'],
-      ],
-    },
-  ],
-},
-*/
+  ])
+}
+
+module.exports = config
