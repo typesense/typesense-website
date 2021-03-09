@@ -36,6 +36,7 @@ const config = {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    ['@nuxtjs/google-gtag'],
   ],
 
   styleResources: {
@@ -70,17 +71,26 @@ const config = {
     typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
   },
 
+  'google-gtag': {
+    id: 'UA-116415641-1',
+    config: {
+      anonymize_ip: true, // anonymize IP
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: [
+          'new-site.typesense.org',
+          'typesense.org',
+          'cloud.typesense.org',
+        ],
+      },
+    },
+    debug: false, // enable to track in dev mode
+    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
+  },
+
   server: {
     host: '0', // default: localhost
   },
 }
 
-if (process.env.NODE_ENV === 'production') {
-  config.buildModules.push([
-    '@nuxtjs/google-analytics',
-    {
-      id: 'UA-116415641-1',
-    },
-  ])
-}
 export default config

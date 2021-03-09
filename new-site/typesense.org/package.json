@@ -13,6 +13,7 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxtjs/google-gtag": "^1.0.4",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "clipboard": "^2.0.6",
@@ -28,7 +29,6 @@
     "@nuxt/types": "~2.15.0",
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.18.0",
