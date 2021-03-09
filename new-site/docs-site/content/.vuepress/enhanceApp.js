@@ -1,3 +1,5 @@
+/* global gtag */
+
 /**
  * Client app enhancement file.
  *
@@ -9,7 +11,6 @@ import 'prismjs/themes/prism-tomorrow.css'
 import Prism from 'vue-prism-component'
 import Vuex from 'vuex'
 import VueGtag from "vue-gtag";
-
 
 export default ({
   Vue, // the version of Vue being used in the VuePress app
@@ -25,12 +26,22 @@ export default ({
     config: {
       id: "UA-116415641-1",
       params: {
+        anonymize_ip: true, // anonymize IP
+        send_page_view: false, // might be necessary to avoid duplicated page track on page reload
         linker: {
-          'domains': ['new-site.typesense.org', 'typesense.org', 'cloud.typesense.org']
-        }
+          domains: [
+            'new-site.typesense.org',
+            'typesense.org',
+            'cloud.typesense.org',
+          ],
+        },
       }
     }
   });
+
+  router.afterEach((to) => {
+    gtag('config', 'UA-116415641-1', { 'page_path': to.fullPath, 'location_path': window.location.origin + to.fullPath })
+  })
 
   // These need to be set on S3 as well, for hard page reloads
   router.addRoute({ path: '/overview/', redirect: '/overview/what-is-typesense' })
