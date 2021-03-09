@@ -32,6 +32,7 @@ export default ({
     }
   });
 
+  // These need to be set on S3 as well, for hard page reloads
   router.addRoute({ path: '/overview/', redirect: '/overview/what-is-typesense' })
   router.addRoute({ path: '/overview', redirect: '/overview/what-is-typesense' })
   router.addRoute({ path: '/guide', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/guide` })

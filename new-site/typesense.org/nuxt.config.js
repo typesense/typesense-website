@@ -37,6 +37,7 @@ const config = {
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
     '@nuxtjs/google-gtag',
+    '@nuxtjs/redirect-module',
   ],
 
   styleResources: {
@@ -86,6 +87,12 @@ const config = {
     },
     debug: false, // enable to track in dev mode
   },
+
+  // These need to be set on S3 as well, for hard page reloads
+  redirect: [
+    { from: /^\/downloads(.*)/, to: '/download$1' },
+    { from: /^\/api(.*)/, to: '/docs/api$1' },
+  ],
 
   server: {
     host: '0', // default: localhost
