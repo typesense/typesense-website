@@ -74,7 +74,7 @@ const config = {
   'google-gtag': {
     id: 'UA-116415641-1',
     config: {
-      anonymize_ip: false, // anonymize IP
+      anonymize_ip: true, // anonymize IP
       send_page_view: false, // might be necessary to avoid duplicated page track on page reload
       linker: {
         domains: [
@@ -85,7 +85,6 @@ const config = {
       },
     },
     debug: false, // enable to track in dev mode
-    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
   },
 
   server: {
