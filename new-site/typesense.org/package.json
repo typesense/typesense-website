@@ -8,11 +8,13 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "deploy": "yarn generate && rm -rf ./dist/docs && aws s3 cp --recursive ./dist s3://new-site.typesense.org/ --profile typesense && yarn clearCDNCache",
-    "clearCDNCache": "aws cloudfront create-invalidation --distribution-id EJ8VOUOZDDMVB --paths \"/*\" --profile typesense",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EJ8VOUOZDDMVB --paths \"/*\" --profile typesense",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxtjs/google-gtag": "^1.0.4",
+    "@nuxtjs/redirect-module": "^0.3.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "clipboard": "^2.0.6",

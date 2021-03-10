@@ -1,7 +1,7 @@
 const { description } = require('../../package')
 const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
 
-module.exports = {
+let config = {
   // The base URL the site will be deployed at
   base: '/docs/',
 
@@ -20,10 +20,26 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
+    ['meta', { name: 'theme-color', content: '#D52783' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
     ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['script', {}, `
+        !function (e, t, n) {
+        function a() {
+          var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
+          n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
+        }
+
+        if (e.Beacon = n = function (t, n, a) {
+          e.Beacon.readyQueue.push({method: t, options: n, data: a})
+        }, n.readyQueue = [], "complete" === t.readyState) return a();
+        e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
+      }(window, document, window.Beacon || function () {
+      });
+      window.Beacon('config', { display: { style: 'icon' } })
+      window.Beacon('init', '11291d62-d72c-4354-9f74-dfd71bb37718')
+    `]
   ],
 
   /**
@@ -204,38 +220,4 @@ module.exports = {
   ],
 }
 
-/*
-{
-  // Add per route sidebar links
-  // Structure of object: https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar
-  '/0.13.0/guide/': [
-    ['/', 'Home Page'],
-    {
-      title: 'Group 1', // required
-      collapsable: false, // optional, defaults to true
-      sidebarDepth: 0, // optional, defaults to 1
-      children: [
-        ['/0.13.0/guide/', 'Getting Started'],
-        ['/0.13.0/guide/another-page', 'Another Page'],
-      ],
-    },
-  ],
-  '/0.13.0/api/': [['/', 'Home Page']],
-  '/0.19.0/guide/': [
-    {
-      title: 'Guide', // required
-      collapsable: false, // optional, defaults to true
-      sidebarDepth: 0, // optional, defaults to 1
-      children: [
-        ['/0.19.0/guide/', 'Installation'],
-        ['/0.19.0/guide/configure', 'Configure'],
-        ['/0.19.0/guide/update', 'Update'],
-        ['/0.19.0/guide/installClient', 'Installing a Client'],
-        ['/0.19.0/guide/example', 'Example Application'],
-        ['/0.19.0/guide/searchui', 'Building Search UIs'],
-        ['/0.19.0/guide/rankRelevance', 'Ranking and Relevance'],
-      ],
-    },
-  ],
-},
-*/
+module.exports = config

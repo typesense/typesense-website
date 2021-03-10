@@ -1,4 +1,4 @@
-export default {
+const config = {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -14,6 +14,7 @@ export default {
       { hid: 'description', name: 'description', content: '' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    script: [{ src: '/helpscout.js' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -36,6 +37,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/google-gtag',
+    '@nuxtjs/redirect-module',
   ],
 
   styleResources: {
@@ -70,7 +73,31 @@ export default {
     typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
   },
 
+  'google-gtag': {
+    id: 'UA-116415641-1',
+    config: {
+      anonymize_ip: true, // anonymize IP
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: [
+          'new-site.typesense.org',
+          'typesense.org',
+          'cloud.typesense.org',
+        ],
+      },
+    },
+    debug: false, // enable to track in dev mode
+  },
+
+  // These need to be set on S3 as well, for hard page reloads
+  redirect: [
+    { from: /^\/downloads(.*)/, to: '/download$1' },
+    { from: /^\/api(.*)/, to: '/docs/api$1' },
+  ],
+
   server: {
     host: '0', // default: localhost
   },
 }
+
+export default config
