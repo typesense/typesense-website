@@ -128,6 +128,68 @@ module.exports = {
           ],
         },
       ],
+
+      '/0.18.0/guide/': [
+        ['/0.18.0/guide/', 'Introduction'],
+        {
+          title: 'Getting Started', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.18.0/guide/install-typesense', 'Install Typesense'],
+            ['/0.18.0/guide/configure-typesense', 'Configure Typesense'],
+            ['/0.18.0/guide/installing-a-client', 'Installing a Client'],
+          ],
+        },
+        {
+          title: 'Walk-throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.18.0/guide/building-a-search-application', 'Building a Search Application'],
+            ['/0.18.0/guide/search-ui-components', 'Search UI Components'],
+            ['/0.18.0/guide/typesense-firebase', 'Integrating with Firebase'],
+          ],
+        },
+        {
+          title: 'Operations', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.18.0/guide/high-availability', 'High Availability'],
+            ['/0.18.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
+          ],
+        },
+      ],
+      '/0.18.0/api/': [
+        ['/0.18.0/api/', 'Introduction'],
+        ['/0.18.0/api/api-clients', 'API Clients'],
+        ['/0.18.0/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.18.0/api/collections', 'Collections'],
+            ['/0.18.0/api/documents', 'Documents'],
+            ['/0.18.0/api/api-keys', 'API Keys'],
+            ['/0.18.0/api/curation', 'Curation'],
+            ['/0.18.0/api/collection-alias', 'Collection Alias'],
+            ['/0.18.0/api/synonyms', 'Synonyms'],
+            ['/0.18.0/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.18.0/api/api-errors', 'API Errors'],
+      ],
+      '/overview': [
+        ['/', 'Docs Home'],
+        {
+          title: 'Overview', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/overview/what-is-typesense', 'What is Typesense?'],
+            ['/overview/why-typesense', 'Why Typesense?'],
+            ['/overview/features', 'Key Features'],
+            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
+          ],
+        },
+      ]
     },
   },
 
