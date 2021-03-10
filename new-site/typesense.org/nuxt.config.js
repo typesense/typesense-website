@@ -14,6 +14,7 @@ const config = {
       { hid: 'description', name: 'description', content: '' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    script: [{ src: '/helpscout.js' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
