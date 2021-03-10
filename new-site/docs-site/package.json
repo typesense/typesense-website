@@ -3,8 +3,8 @@
     "dev": "vuepress dev content --no-cache",
     "build": "vuepress build content --no-cache",
     "deploy": "yarn build && aws s3 cp --recursive ./content/.vuepress/dist s3://new-site.typesense.org/docs/ --profile typesense && yarn clearCDNCache && yarn scrapeAndIndexDocs",
-    "clearCDNCache": "aws cloudfront create-invalidation --distribution-id EJ8VOUOZDDMVB --paths \"/docs*\" --profile typesense",
-    "scrapeAndIndexDocs": "aws ecs run-task --task-definition=scrape-index-docs --launch-type=FARGATE --cluster=typesense-docsearch-scraper --overrides=\"{\\\"containerOverrides\\\":[ { \\\"name\\\": \\\"typesense-docsearch-scraper\\\", \\\"environment\\\": [ { \\\"name\\\": \\\"CONFIG\\\", \\\"value\\\": $(node docsearch.config.js | jq -aR .)}] }]}\" --network-configuration='{\"awsvpcConfiguration\": {\"subnets\": [\"subnet-00a6c52b\"], \"assignPublicIp\": \"ENABLED\"}}' --profile=typesense",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EJ8VOUOZDDMVB --paths \"/docs*\" --profile typesense",
+    "scrapeAndIndexDocs": "aws ecs run-task --no-cli-pager --task-definition=scrape-index-docs --launch-type=FARGATE --cluster=typesense-docsearch-scraper --overrides=\"{\\\"containerOverrides\\\":[ { \\\"name\\\": \\\"typesense-docsearch-scraper\\\", \\\"environment\\\": [ { \\\"name\\\": \\\"CONFIG\\\", \\\"value\\\": $(node docsearch.config.js | jq -aR .)}] }]}\" --network-configuration='{\"awsvpcConfiguration\": {\"subnets\": [\"subnet-00a6c52b\"], \"assignPublicIp\": \"ENABLED\"}}' --profile=typesense",
     "lint": "eslint --ext .js,.vue content/.vuepress",
     "lint:fix": "yarn lint --fix"
   },
