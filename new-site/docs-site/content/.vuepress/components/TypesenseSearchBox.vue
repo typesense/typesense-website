@@ -6,7 +6,7 @@
 </template>
 
 <script>
-let debounceTimerId;
+let debounceTimerId
 
 export default {
   name: 'TypesenseSearchBox',
@@ -63,19 +63,19 @@ export default {
               const _hash = decodeURIComponent(hash)
               this.$router.push(`${routepath}${_hash}`)
             },
-            queryHook: (query) => {
-              if(!window.gtag) {
+            queryHook: query => {
+              if (!window.gtag) {
                 return
               }
-              if(debounceTimerId) {
-                clearTimeout(debounceTimerId);
+              if (debounceTimerId) {
+                clearTimeout(debounceTimerId)
               }
               debounceTimerId = setTimeout(() => {
                 window.gtag('event', 'search', {
-                  search_term: query
-                });
-              }, 500);
-            }
+                  search_term: query,
+                })
+              }, 500)
+            },
           }),
         )
       })

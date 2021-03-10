@@ -10,7 +10,7 @@ import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 import Prism from 'vue-prism-component'
 import Vuex from 'vuex'
-import VueGtag from "vue-gtag";
+import VueGtag from 'vue-gtag'
 
 export default ({
   Vue, // the version of Vue being used in the VuePress app
@@ -24,27 +24,23 @@ export default ({
 
   Vue.use(VueGtag, {
     config: {
-      id: "UA-116415641-1",
+      id: 'UA-116415641-1',
       params: {
         anonymize_ip: true, // anonymize IP
         send_page_view: false, // might be necessary to avoid duplicated page track on page reload
         linker: {
-          domains: [
-            'new-site.typesense.org',
-            'typesense.org',
-            'cloud.typesense.org',
-          ],
+          domains: ['new-site.typesense.org', 'typesense.org', 'cloud.typesense.org'],
         },
-      }
-    }
-  });
+      },
+    },
+  })
 
-  router.afterEach((to) => {
+  router.afterEach(to => {
     if (!isServer) {
       const pagePath = siteData.base + to.fullPath.substring(1)
       const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
 
-      gtag('config', 'UA-116415641-1', { 'page_path': pagePath, 'location_path': locationPath })
+      gtag('config', 'UA-116415641-1', { page_path: pagePath, location_path: locationPath })
     }
   })
 
