@@ -1,5 +1,5 @@
 <template>
-  <div
+  <a
     class="support-option d-flex flex-column justify-content-end align-content-center"
   >
     <img
@@ -9,7 +9,7 @@
       :style="{ 'margin-bottom': imageMargin }"
     />
     <div class="mt-2">{{ name }}</div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -37,7 +37,10 @@ export default {
 
 <style scoped lang="scss">
 .support-option {
+  display: block;
+  color: $white;
   width: 100px;
   height: 100px;
+  border-bottom: none;
 }
 </style>

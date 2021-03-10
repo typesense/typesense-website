@@ -33,10 +33,10 @@
               <NuxtLink class="nav-link p-0" to="/">Home</NuxtLink>
             </li>
             <li class="nav-item">
-              <NuxtLink class="nav-link p-0" to="/about">About</NuxtLink>
+              <NuxtLink class="nav-link p-0" to="/about/">About</NuxtLink>
             </li>
             <li class="nav-item">
-              <a class="nav-link p-0" href="/docs">Documentation</a>
+              <a class="nav-link p-0" href="/docs/">Documentation</a>
             </li>
             <li class="nav-item">
               <a
@@ -111,11 +111,16 @@
         <div class="col-sm-3 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link p-0" href="#">Contact Us</a>
+              <a
+                class="nav-link p-0"
+                href="#"
+                onclick="Beacon('navigate', '/ask/'); Beacon('open'); return false;"
+                >Contact Us</a
+              >
             </li>
             <NuxtLink
               class="nav-link p-0"
-              to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+              to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
               >Comparison with alternatives</NuxtLink
             >
             <li class="nav-item">

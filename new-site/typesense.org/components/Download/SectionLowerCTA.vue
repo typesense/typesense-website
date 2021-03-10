@@ -7,7 +7,7 @@
         <div class="mt-3">
           <a
             class="btn btn-primary btn-lg text-left"
-            href="https://typesense.org/docs/"
+            href="/docs/"
             role="button"
           >
             <strong>Read the Docs</strong>

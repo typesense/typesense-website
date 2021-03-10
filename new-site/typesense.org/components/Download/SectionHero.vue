@@ -11,7 +11,7 @@
           </div>
           <div class="lead mt-1">
             Once you’ve downloaded Typesense, read the documentation to
-            <a href="/docs">Get Started</a>.
+            <a href="/docs/">Get Started</a>.
           </div>
         </div>
       </div>

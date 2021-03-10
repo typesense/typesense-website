@@ -9,35 +9,59 @@
       <div class="row mt-5">
         <div class="col-sm">
           <div class="text-center">
-            <img
-              src="~/assets/images/javascript.svg"
-              alt="javascript"
-              class="mt-4 mt-sm-0"
-            />
-            <img
-              src="~/assets/images/golang.svg"
-              alt="golang"
-              class="ml-5 mt-4 mt-sm-0"
-            />
-            <img
-              src="~/assets/images/php.svg"
-              alt="php"
-              class="ml-5 mt-4 mt-sm-0"
-            />
-            <img
-              src="~/assets/images/ruby.svg"
-              alt="ruby"
-              class="ml-5 mt-4 mt-sm-0"
-            />
-            <img
-              src="~/assets/images/python.svg"
-              alt="python"
-              class="ml-5 mt-4 mt-sm-0"
-            />
+            <a href="https://github.com/typesense/typesense-js" target="_blank">
+              <img
+                src="~/assets/images/javascript.svg"
+                alt="javascript"
+                class="mt-4 mt-sm-0"
+              />
+            </a>
+            <a href="https://github.com/typesense/typesense-go" target="_blank">
+              <img
+                src="~/assets/images/golang.svg"
+                alt="golang"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-php"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/php.svg"
+                alt="php"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-ruby"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/ruby.svg"
+                alt="ruby"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-python"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/python.svg"
+                alt="python"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
           </div>
           <div class="mt-4">
             <div class="text-center">
-              <img src="~/assets/images/gatsby.svg" alt="gatsby" />
+              <a
+                href="https://github.com/typesense/gatsby-plugin-typesense"
+                target="_blank"
+              >
+                <img src="~/assets/images/gatsby.svg" alt="gatsby" />
+              </a>
             </div>
           </div>
         </div>
@@ -72,3 +96,9 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+a {
+  border-bottom: none;
+}
+</style>

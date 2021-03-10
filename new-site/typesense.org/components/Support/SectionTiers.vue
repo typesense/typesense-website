@@ -4,7 +4,16 @@
       <div class="row">
         <div class="col-sm">
           <h2 class="text-center">Choose from one of our support tiers</h2>
-          <div class="text-center">Or reach out to us for custom needs</div>
+          <div class="text-center">
+            Or
+            <a
+              class="text-white"
+              href="#"
+              onclick="Beacon('navigate', '/ask/'); Beacon('open'); return false;"
+              >reach out</a
+            >
+            to us for custom needs
+          </div>
         </div>
       </div>
       <div class="row mt-5">

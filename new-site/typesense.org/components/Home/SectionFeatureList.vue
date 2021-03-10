@@ -12,7 +12,7 @@
     </div>
 
     <div class="text-center mt-5">
-      <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+      <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
         >Comparison with alternatives</NuxtLink
       >
     </div>

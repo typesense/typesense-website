@@ -14,6 +14,8 @@
             <HomeSupportOption
               :image="require('~/assets/images/github.svg')"
               :image-height="45"
+              href="https://github.com/typesense/typesense/issues"
+              target="_blank"
               name="Github Issues"
             ></HomeSupportOption>
           </div>
@@ -21,6 +23,8 @@
             <HomeSupportOption
               :image="require('~/assets/images/email.svg')"
               name="Email"
+              href="#"
+              onclick="Beacon('navigate', '/ask/message/'); Beacon('open'); return false;"
             ></HomeSupportOption>
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
@@ -29,6 +33,8 @@
               name="Slack"
               :image-height="35"
               image-margin="6px"
+              href="https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-AuOL89O7iBtvkz136egSJg"
+              target="_blank"
             ></HomeSupportOption>
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
@@ -37,12 +43,16 @@
               name="Office Hours"
               :image-height="45"
               image-margin="6px"
+              href="https://calendly.com/jason-typesense/typesense-office-hours"
+              target="_blank"
             ></HomeSupportOption>
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
             <HomeSupportOption
               :image="require('~/assets/images/video_call.svg')"
               name="Phone call"
+              href="#"
+              onclick="Beacon('navigate', '/ask/message/'); Beacon('open'); return false;"
             ></HomeSupportOption>
           </div>
         </div>
@@ -62,7 +72,7 @@
               when you need it.
             </h4>
             <div>
-              <NuxtLink class="text-white" to="/support">Learn more</NuxtLink>
+              <NuxtLink class="text-white" to="/support/">Learn more</NuxtLink>
             </div>
           </div>
         </div>

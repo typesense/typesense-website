@@ -4,12 +4,17 @@
     <div class="row text-center py-5">
       <div class="col-sm">
         <div>
-          <a class="btn btn-primary btn-lg text-left" href="#" role="button">
-            <strong>Signup for Support</strong>
+          <a
+            onclick="Beacon('navigate', '/ask/'); Beacon('open'); return false;"
+            href="#"
+            class="btn btn-primary btn-lg text-left"
+            role="button"
+          >
+            <strong>Contact Us</strong>
           </a>
         </div>
         <div class="mt-1">
-          <small>Have additional questions? Let us know.</small>
+          <small>To signup for paid support</small>
         </div>
       </div>
     </div>
