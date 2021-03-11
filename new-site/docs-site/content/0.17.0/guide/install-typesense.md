@@ -114,4 +114,3 @@ curl http://localhost:8108/health
 |enable-cors	|false	|Allow Javascript client to access Typesense directly from the browser.|
 |catch-up-threshold-percentage	|false	|The threshold at which a follower is deemed to have caught up with leader and will allow requests.<br> `Default: 95`<br><br>**NOTE**: This threshold is used only when the lag between the follower and leader is more than 1,000 operations.|
 |snapshot-interval-seconds	|false	|Frequency of replication log snapshots.<br> `Default: 3600`<br><br>NOTE: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.|
-|log-slow-requests-time-ms	|false	|Requests that take over this amount of time (in milliseconds) are logged.<br>`Default: -1` which disables slow request logging.|
