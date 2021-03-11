@@ -91,6 +91,12 @@ export default {
 
 <style lang="stylus">
 .typesense-search-wrapper
+  span.typesense-docsearch-suggestion--highlight
+    color unset !important
+    border-bottom 2px solid $accentColor2 !important
+    box-shadow unset !important
+    background unset !important
+
   & > span
     vertical-align middle
   .algolia-autocomplete
