@@ -97,6 +97,10 @@ export default {
     box-shadow unset !important
     background unset !important
 
+  .typesense-docsearch-suggestion--category-header-lvl0
+    span.typesense-docsearch-suggestion--highlight
+      border-bottom 1px solid white !important
+
   & > span
     vertical-align middle
   .algolia-autocomplete
