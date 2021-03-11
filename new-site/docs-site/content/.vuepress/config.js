@@ -239,7 +239,6 @@ let config = {
             ['/0.17.0/api/api-keys', 'API Keys'],
             ['/0.17.0/api/curation', 'Curation'],
             ['/0.17.0/api/collection-alias', 'Collection Alias'],
-            ['/0.17.0/api/cluster-operations', 'Cluster Operations'],
           ],
         },
         ['/0.17.0/api/api-errors', 'API Errors'],
