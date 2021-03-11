@@ -24,7 +24,10 @@ let config = {
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
     ['link', { rel: 'icon', href: '/favicon.png' }],
-    ['script', {}, `
+    [
+      'script',
+      {},
+      `
         !function (e, t, n) {
         function a() {
           var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
@@ -39,7 +42,8 @@ let config = {
       });
       window.Beacon('config', { display: { style: 'icon' } })
       window.Beacon('init', '11291d62-d72c-4354-9f74-dfd71bb37718')
-    `]
+    `,
+    ],
   ],
 
   /**
@@ -255,7 +259,7 @@ let config = {
             ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
           ],
         },
-      ]
+      ],
     },
   },
 
