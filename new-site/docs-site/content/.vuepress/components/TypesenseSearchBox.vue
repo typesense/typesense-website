@@ -53,8 +53,8 @@ export default {
             // #697 Make docsearch work well at i18n mode.
             typesenseSearchParams: {
               ...typesenseSearchParams,
-              filter_by: this.$page.typesenseVersion
-                ? `version:=${this.$page.typesenseVersion}`
+              filter_by: userOptions.typesenseVersion
+                ? `version:=${userOptions.typesenseVersion}`
                 : `version:=${this.$site.themeConfig.typesenseLatestVersion}`,
             },
             handleSelected: (input, event, suggestion) => {

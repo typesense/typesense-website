@@ -53,7 +53,11 @@ export default {
 
   computed: {
     typesense() {
-      return this.$themeLocaleConfig.typesenseDocsearch || this.$site.themeConfig.typesenseDocsearch || {}
+      return Object.assign(
+        {},
+        this.$themeLocaleConfig.typesenseDocsearch || this.$site.themeConfig.typesenseDocsearch || {},
+        { typesenseVersion: this.$page.typesenseVersion },
+      )
     },
 
     isTypesenseSearch() {
