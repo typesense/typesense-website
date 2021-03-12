@@ -89,9 +89,6 @@ const config = {
     debug: false, // enable to track in dev mode
   },
 
-  // These need to be set on S3 as well, for hard page reloads
-  redirect: [{ from: /^\/api(.*)/, to: '/docs/api$1' }],
-
   server: {
     host: '0', // default: localhost
   },
