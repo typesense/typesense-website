@@ -27,3 +27,20 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and each of use.',
+        },
+      ],
+    }
+  },
+}
+</script>

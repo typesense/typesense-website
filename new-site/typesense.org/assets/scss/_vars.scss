@@ -38,6 +38,8 @@ $h5-font-size: $font-size-base * 1.25;
 $h6-font-size: $font-size-base;
 
 $border-radius: .25rem;
+$table-border-color: lighten($gray-100, 5%);
+$table-cell-padding: 1rem;
 
 $enable-responsive-font-sizes: true;
 

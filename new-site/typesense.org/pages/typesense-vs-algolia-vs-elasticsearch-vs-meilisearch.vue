@@ -36,7 +36,10 @@
         <div class="col-md-12">
           <h3 class="mb-3">Overview</h3>
           <div class="table-responsive">
-            <table class="table table-condensed feature-list">
+            <table
+              class="table table-condensed feature-list"
+              data-sticky-header="true"
+            >
               <thead class="thead-dark">
                 <tr>
                   <th scope="col"></th>
@@ -594,6 +597,24 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  head() {
+    return {
+      title: 'Typesense vs Algolia vs Elasticsearch vs Meilisearch Comparison',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'A side-by-side, feature-by-feature comparison of search engine alternatives available today.',
+        },
+      ],
+    }
+  },
+}
+</script>
 
 <style scoped>
 .jumbotron {
