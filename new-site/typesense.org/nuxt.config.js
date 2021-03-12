@@ -92,6 +92,12 @@ const config = {
   server: {
     host: '0', // default: localhost
   },
+
+  // To generate 404.html
+  // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate#fallback
+  generate: {
+    fallback: true,
+  },
 }
 
 export default config
