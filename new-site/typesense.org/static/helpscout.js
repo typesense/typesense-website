@@ -11,4 +11,9 @@
   e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
 }(window, document, window.Beacon || function () {
 });
+
+if(window.matchMedia('(max-width: 576px)').matches) {
+  window.Beacon('config', { display: { style: 'icon' } })
+}
+
 window.Beacon('init', '11291d62-d72c-4354-9f74-dfd71bb37718')
