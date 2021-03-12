@@ -26,32 +26,28 @@ body {
 
 .bg-gradient-1 {
   @media(max-width: map-get($grid-breakpoints, 'sm')) {
-    background: linear-gradient(#1C1221 8%, #3F274A 20%, #1E1323 40%, #000000 80%);
+    background: linear-gradient(darken($secondary-dark-2, 15%) 8%, $secondary-dark-2 20%, darken($secondary-dark-2, 15%) 40%, #000000 80%);
   }
 
   @media(min-width: map-get($grid-breakpoints, 'sm')) {
-    background: linear-gradient(173deg, #000000 0%, #1C1221 28%, #3F274A 43%, #1E1323 56%, #000000 78%, #FFFFFF calc(78% + 1px));
+    background: linear-gradient(173deg, #000000 0%, darken($secondary-dark-2, 15%) 28%, $secondary-dark-2 43%, darken($secondary-dark-2, 15%) 56%, #000000 78%, #FFFFFF calc(78% + 1px));
   }
 
   @media(min-width: map-get($grid-breakpoints, 'xxl')) {
-    background: linear-gradient(#1C1221 8%, #3F274A 20%, #1E1323 40%, #000000 80%);
+    background: linear-gradient(darken($secondary-dark-2, 15%) 22%, $secondary-dark-2 46%, darken($secondary-dark-2, 15%) 72%, #000000 100%);
   }
 }
 
 .bg-gradient-2 {
-  background: linear-gradient(#000000 0%, #331142 20%, #000000 50%);
+  background: linear-gradient(#000000 0%, $secondary-dark-2 20%, #000000 65%);
 }
 
 .bg-gradient-3 {
-  background: linear-gradient(#000000 20%, #331142 50%, #000000 80%);
+  background: linear-gradient(#000000 20%, $secondary-dark-2 50%, #000000 80%);
 }
 
 .bg-gradient-4 {
-  background: linear-gradient(#000000 0%, #200a28 25%, #000000 100%);
-}
-
-.bg-gradient-5 {
-  background: linear-gradient(173deg, #FFFFFF 22%, #000000 calc(22% + 1px), #200a28 55%, #000000 78%, #FFFFFF calc(78% + 1px));
+  background: linear-gradient(#000000 0%, darken($secondary-dark-2, 10%) 70%, $secondary-dark-2 100%);
 }
 
 .text-underline-primary {
@@ -60,7 +56,7 @@ body {
 }
 
 .text-gradient-1 {
-  background: linear-gradient(180deg, #E30B9A 18.23%, #182062 100%);
+  background: linear-gradient(180deg, $secondary 40%, darken($secondary, 30%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

@@ -15,8 +15,9 @@ $primary-dark-1: darken($primary, 35%);
 $primary-dark-2: #e6bb00;
 $primary-dark-3: #ddc593;
 $primary-dark-4: #b3b0a4;
-$secondary: #e806a1;
-$secondary-dark-1: #8c1968;
+$secondary: #D90368;
+$secondary-dark-1: darken($secondary, 10%);
+$secondary-dark-2: #4f1c34;
 $dark: $gray-900 !default;
 
 $font-weight-base: 300;

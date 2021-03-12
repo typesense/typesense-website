@@ -85,7 +85,7 @@ export default {
 .code-block {
   filter: drop-shadow(7px 7px 8px rgba(0, 0, 0, 0.33));
   border-radius: $border-radius;
-  background-color: $black;
+  background-color: darken($secondary-dark-2, 15%);
 
   .card-body {
     padding: 0 1.25rem;
@@ -95,7 +95,7 @@ export default {
     margin: 0;
     padding-top: 0.5rem;
     padding-bottom: 1.5rem;
-    background-color: $black;
+    background-color: darken($secondary-dark-2, 15%);
 
     .url-link {
       color: $primary-dark-4;
