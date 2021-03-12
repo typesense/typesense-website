@@ -96,8 +96,8 @@ export default {
           link: '/about/',
         },
         {
-          text: 'Download',
-          link: '/download/',
+          text: 'Downloads',
+          link: '/downloads/',
         },
         {
           text: 'Support',
