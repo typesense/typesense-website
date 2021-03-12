@@ -1,14 +1,14 @@
 # DynamoDB Integration with Typesense
 
-Hey there! This post give you a guide to integrate Typesense custer with AWS DynamoDB by setting up a trigger with AWS Lambda.
+Hey there! This post give you a guide to integrate Typesense cluster with AWS DynamoDB by setting up a trigger with AWS Lambda.
 
 ![Typesense DynamoDB Integration Chart](~@guide-images/typesense-dynamodb/typesense-dynamodb.svg)
 
-## Create AWS DynamboDB with streams enabled
+## Step 1: Create a DynamoDB table
 
 Create a DynamoDB with your choice of name and partition key ("id" is recommended). Now, after creating a DynamoDB database you should enable streams in the "Overview" section.
 
-If you are doing this in AWS CLI,
+You can also do this using AWS CLI:
 
 ```bash
 aws dynamodb create-table \
@@ -18,19 +18,18 @@ aws dynamodb create-table \
     --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 ```
-## Setting up Triggers for DyanmoDB
 
-Create a trigger for DynamoDB database and this will lead you to AWS Lambada function's page from there you can select an existing funciton or a new function. In this tutorial the function name is ```typesense-indexing```
+## Step 2: Create Lambda Execution Role
 
-Then now you need to create a "Lambda Execution Role" i.e give permission for your function. Now, head over to IAM Roles section and create a new role with three main permissions:
+Now let's create a "Lambda Execution Role" i.e give permission for your function, head over to IAM Roles section and create a new role with three main permissions:
 
 * AmazonDynamoDBFullAccess
 * AmazonDynamoDBFullAccesswithDataPipeline
 * AWSLambdaBasicExecutionRole
 
-Now, attach this execution role to the trigger Lambda funtion of DynamoDB.
+These IAM role permissions are just examples for the purposes of this guide. Before deploying for production, please consult the IAM documentation to only grant the minimal permissions needed for your particular use case.
 
-## Create Lambda Execution Role (only for Command Line)
+You can also do this using AWS CLI:
 
 Create a file named ```trust-relationship.json``` with the following contents.
 ```json
@@ -103,45 +102,9 @@ aws iam put-role-policy --role-name TypesenseLambdaRole \
     --policy-name TypesenseLambdaRolePolicy \
     --policy-document file://role-policy.json
 ```
+## Step 3: Create a Lambda Function
 
-## Importing ```typesense``` python package in Lambda function
-
-We can't use ```pip install``` in Lambda functions. So, the workaround way for that is use AWS Cloud9 service and create Lambda function layer and add it to our ```typesense-indexing``` function.
-
-### Create a Cloud9 Linux instance AWS
-
-Create a new Environment in Cloud9 with your choice of name and the default choice of settings (```t2.micro```, ```Amazon Linux 2```). Click 'Create Environment'. Then, you are good to go
-
-
-### Create a ```typesense``` layer
-
-```bash
-mkdir dependencies
-cd dependencies
-virtualenv v-env
-source ./v-env/bin/activate
-pip install typesense
-pip install simplejson
-deactivate
-```
-In the above ```pip install``` you can add all the dependencies for your project in that environment
-
-```bash
-mkdir python
-cd python
-cp -r ../v-env/lib64/python3.7/site-packages/* .
-cd ..
-zip -r typesense_layer.zip python
-aws lambda publish-layer-version --layer-name typesense \
---zip-file fileb://typesense_layer.zip --compatible-runtimes python3.7
-```
-Check your ```python version``` and add the folder name according to that. For e.g., ```python3.6``` it is ```dist-packages``` instead of ```site-packages```. Even check and change runtime version of the Lambda function.
-
-### Adding ```typesense``` layer to Lambda
-
-Now, add the created layer to your ```typesense-indexing``` lambda function by choosing `'Add layer' -> 'Custom Layer'`
-
-That's it now you use ```import typesense``` use typesense libraries in your AWS Lambda function.
+## Step 4: Setup up a trigger
 
 ## Typesense Cloud
 
