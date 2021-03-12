@@ -43,13 +43,4 @@ export default ({
       gtag('config', 'UA-116415641-1', { page_path: pagePath, location_path: locationPath })
     }
   })
-
-  // These need to be set on S3 as well, for hard page reloads
-  router.addRoute({ path: '/overview/', redirect: '/overview/what-is-typesense' })
-  router.addRoute({ path: '/overview', redirect: '/overview/what-is-typesense' })
-  router.addRoute({ path: '/guide', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/guide` })
-  router.addRoute({ path: '/api', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/api` })
-  router.addRoute({ path: '/latest/guide', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/guide` })
-  router.addRoute({ path: '/latest/api', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/api` })
-  router.addRoute({ path: '/latest', redirect: `/${siteData.themeConfig.typesenseLatestVersion}/` })
 }
