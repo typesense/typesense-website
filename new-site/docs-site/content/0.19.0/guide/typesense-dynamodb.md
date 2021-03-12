@@ -2,13 +2,11 @@
 
 Hey there! This post give you a guide to integrate Typesense custer with AWS DynamoDB by setting up a trigger with AWS Lambda.
 
-![Typesense DynamoDB Integration Chart](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-1.png)
+![Typesense DynamoDB Integration Chart](~@guide-images/typesense-dynamodb/typesense-dynamodb.svg)
 
 ## Create AWS DynamboDB with streams enabled
 
 Create a DynamoDB with your choice of name and partition key ("id" is recommended). Now, after creating a DynamoDB database you should enable streams in the "Overview" section.
-
-![DynamoDB streams](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-2.png)
 
 If you are doing this in AWS CLI,
 
@@ -24,18 +22,13 @@ aws dynamodb create-table \
 
 Create a trigger for DynamoDB database and this will lead you to AWS Lambada function's page from there you can select an existing funciton or a new function. In this tutorial the function name is ```typesense-indexing```
 
-![DynamoDB Triggers](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-3.png)
-
 Then now you need to create a "Lambda Execution Role" i.e give permission for your function. Now, head over to IAM Roles section and create a new role with three main permissions:
 
 * AmazonDynamoDBFullAccess
 * AmazonDynamoDBFullAccesswithDataPipeline
 * AWSLambdaBasicExecutionRole
 
-![IAM Execution Role](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-4.png)
-
 Now, attach this execution role to the trigger Lambda funtion of DynamoDB.
-
 
 ## Create Lambda Execution Role (only for Command Line)
 
@@ -119,7 +112,6 @@ We can't use ```pip install``` in Lambda functions. So, the workaround way for t
 
 Create a new Environment in Cloud9 with your choice of name and the default choice of settings (```t2.micro```, ```Amazon Linux 2```). Click 'Create Environment'. Then, you are good to go
 
-![AWS Cloud9](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-5.png)
 
 ### Create a ```typesense``` layer
 
@@ -147,11 +139,7 @@ Check your ```python version``` and add the folder name according to that. For e
 
 ### Adding ```typesense``` layer to Lambda
 
-![AWS Lambda Layer](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-6.png)
-
 Now, add the created layer to your ```typesense-indexing``` lambda function by choosing `'Add layer' -> 'Custom Layer'`
-
-![AWS Lambda Layer](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-7.png)
 
 That's it now you use ```import typesense``` use typesense libraries in your AWS Lambda function.
 
@@ -159,11 +147,7 @@ That's it now you use ```import typesense``` use typesense libraries in your AWS
 
 Sign-Up for a Typesense Cloud account and then create a new cluster
 
-![Typesense Cloud](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-8.png)
-
 After creating a cloud typesense account, you will get an 'Endpoint URL' and get a API key using 'Generate an API Key' option
-
-![Typesense Cloud](~@guide-images/typesense-dynamodb/dynamodb-typesense-integration-9.png)
 
 Using this only we will call our typesense server and index the dynamodb documents
 
