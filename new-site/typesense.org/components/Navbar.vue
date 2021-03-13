@@ -106,6 +106,7 @@ export default {
         {
           text: 'Hosted Search',
           externalLink: 'https://cloud.typesense.org',
+          target: '_blank',
         },
         {
           text: 'Docs',
