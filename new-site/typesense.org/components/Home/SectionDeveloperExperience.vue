@@ -50,14 +50,14 @@ tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-darwin-amd64.tar.gz
       </template>
       <template #description>
         <h4>1. Run Typesense</h4>
-        <p>Use Docker, our native binaries or our RPM or DEB packages.</p>
-        <p>
+        <div>Use Docker, our native binaries or our RPM or DEB packages.</div>
+        <div class="mt-1">
           Or, use
           <a href="https://cloud.typesense.org" target="_blank"
             >Typesense Cloud</a
           >
           to provision a cluster with a few clicks.
-        </p>
+        </div>
       </template>
     </HomeDeveloperExperienceStep>
 
