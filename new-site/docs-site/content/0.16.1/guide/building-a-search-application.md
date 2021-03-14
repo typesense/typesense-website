@@ -103,6 +103,141 @@ export TYPESENSE_MASTER='http://localhost:8108'
   </template>
 </Tabs>
 
+That's it - we're now ready to start interacting with the Typesense server.
+
+## Creating a "books" collection
+In Typesense, a collection is a group of related documents that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let booksSchema = {
+  'name': 'books',
+  'fields': [
+    {'name': 'title', 'type': 'string' },
+    {'name': 'authors', 'type': 'string[]' },
+    {'name': 'image_url', 'type': 'string' },
+
+    {'name': 'publication_year', 'type': 'int32' },
+    {'name': 'ratings_count', 'type': 'int32' },
+    {'name': 'average_rating', 'type': 'float' },
+
+    {'name': 'authors_facet', 'type': 'string[]', 'facet': true },
+    {'name': 'publication_year_facet', 'type': 'string', 'facet': true },
+  ],
+  'default_sorting_field': 'ratings_count'
+}
+
+client.collections().create(booksSchema)
+  .then(function (data) {
+    console.log(data)
+  })
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$booksSchema = [
+  'name' => 'books',
+  'fields' => [
+    ['name' => 'title', 'type' => 'string'],
+    ['name' => 'authors', 'type' => 'string[]'],
+    ['name' => 'image_url', 'type' => 'string'],
+
+    ['name' => 'publication_year', 'type' => 'int32'],
+    ['name' => 'ratings_count', 'type' => 'int32'],
+    ['name' => 'average_rating', 'type' => 'float'],
+
+    ['name' => 'authors_facet', 'type' => 'string[]', 'facet' => true],
+    ['name' => 'publication_year_facet', 'type' => 'string', 'facet' => true]
+  ],
+  'default_sorting_field' => 'ratings_count'
+]
+
+$client->collections->create($booksSchema)
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+import typesense
+
+books_schema = {
+  'name': 'books',
+  'fields': [
+    {'name': 'title', 'type': 'string' },
+    {'name': 'authors', 'type': 'string[]' },
+    {'name': 'image_url', 'type': 'string' },
+
+    {'name': 'publication_year', 'type': 'int32' },
+    {'name': 'ratings_count', 'type': 'int32' },
+    {'name': 'average_rating', 'type': 'float' },
+
+    {'name': 'authors_facet', 'type': 'string[]', 'facet': True },
+    {'name': 'publication_year_facet', 'type': 'string', 'facet': True },
+  ],
+  'default_sorting_field': 'ratings_count'
+}
+
+client.collections.create(books_schema)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+require 'typesense'
+
+books_schema = {
+  'name' => 'books',
+  'fields' => [
+    {'name' => 'title', 'type' => 'string' },
+    {'name' => 'authors', 'type' => 'string[]' },
+    {'name' => 'image_url', 'type' => 'string' },
+
+    {'name' => 'publication_year', 'type' => 'int32' },
+    {'name' => 'ratings_count', 'type' => 'int32' },
+    {'name' => 'average_rating', 'type' => 'float' },
+
+    {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
+    {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
+  ],
+  'default_sorting_field' => 'ratings_count'
+}
+
+client.collections.create(books_schema)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "books",
+        "fields": [
+          {"name": "title", "type": "string" },
+          {"name": "authors", "type": "string[]" },
+          {"name": "image_url", "type": "string" },
+
+          {"name": "publication_year", "type": "int32" },
+          {"name": "ratings_count", "type": "int32" },
+          {"name": "average_rating", "type": "float" },
+
+          {"name": "authors_facet", "type": "string[]", "facet": true },
+          {"name": "publication_year_facet", "type": "string", "facet": true }
+        ],
+        "default_sorting_field": "ratings_count"
+      }'
+```
+
+  </template>
+</Tabs>
+
 For each field, we define its `name, type` and whether it's a `facet` field. A facet field allows us to cluster the search results into categories and let us drill into each of those categories. We will be seeing faceted results in action at the end of this guide.
 
 We also define a `default_sorting_field` that determines how the results must be sorted when no `sort_by` clause is provided. In this case, books that have more ratings will be ranked higher.
