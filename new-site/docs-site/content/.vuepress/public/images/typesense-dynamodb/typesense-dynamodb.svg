@@ -1,13 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
   <defs>
-    <linearGradient id="linear-gradient" x1="55.549" y1="77.07" x2="110.149" y2="131.853" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#387eb8"/>
-      <stop offset="1" stop-color="#366994"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-2" x1="89.137" y1="111.921" x2="147.777" y2="168.101" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#ffe052"/>
-      <stop offset="1" stop-color="#ffc331"/>
-    </linearGradient>
     <clipPath id="clip-Web_1920_1">
       <rect width="1920" height="1080"/>
     </clipPath>
@@ -21,7 +13,7 @@
       <path id="Path_6" data-name="Path 6" d="M256,137.769l-1.935-.429-27.628-2.576-.41.2-57.312-2.292H87.285l-57.313,2.292v-43.7l-.06.032.06-.128,57.313-13.28h81.43l57.312,13.28,21.069,11.2v-7.2l8.9-.974-.922-1.8L226.886,72.236l-.859.279L168.715,54.756H87.285L29.972,72.515V28.61L0,63.723V94.389l.232-.168,8.672.946v7.348L0,107.28v30.513l.232-.024L8.9,137.9V150.7l-7.482.112L0,150.68V181.2l8.9,4.788v7.433l-8.531.942L0,194.088v30.661l29.972,35.118v-43.9l57.313,17.759h81.43L226.2,215.914l.764.335,27.821-19.862L256,194.408l-8.9-.982v-7.284l-1.167-.466-19.043,10.265-.69,1.44-57.481,13.2v.016H87.285v-.016L29.972,197.325V153.461l57.313,2.284v.056h81.43l57.312-2.34,1.3.6,26.779-2.306,1.889-.923-8.9-.128V137.9l8.9-.128" fill="#1a476f"/>
       <path id="Path_7" data-name="Path 7" d="M226.027,215.966v43.9L256,224.749V194.288l-29.8,21.626-.173.052m0-18.545.173-.04L256,181.353V150.7l-29.973,2.757v43.96M226.2,91.208l-.173-.04v43.8l29.973,2.8V107.135L226.2,91.208m0-18.521L256,94.193V63.731L226.027,28.61v43.9l.173.06v.112" fill="#2d72b8"/>
     </g>
-    <g id="aws-lambda" transform="translate(832 290)">
+    <g id="aws-lambda" transform="translate(832 540)">
       <path id="Path_8" data-name="Path 8" d="M0,245.262l16.322,8.161L19,248.668V59.333l-2.678-3.494L0,64V245.262" fill="#9d5025"/>
       <path id="Path_9" data-name="Path 9" d="M47.678,63.57,16.322,55.839V253.423l31.356-7.3V63.57" fill="#f68536"/>
       <path id="Path_10" data-name="Path 10" d="M143.893,78.6l22.335-11.6,74.309,28.778-19.758,2.577L143.893,78.6" fill="#6b3a19"/>
@@ -44,34 +36,19 @@
       <path id="Path_35" data-name="Path 35" d="M571.643,76.7H534.764q.4,7.375,3.34,11.666,3.075,4.157,10.556,4.157,7.75,0,17.773-4.559a19.3,19.3,0,0,1,4.944,10.593q-10.69,7.643-25.654,7.643-14.164,0-21.514-8.716-7.216-8.85-7.214-26.148a51.81,51.81,0,0,1,1.871-14.482,31.679,31.679,0,0,1,5.477-11.13,24.667,24.667,0,0,1,8.821-7.241,26.726,26.726,0,0,1,11.892-2.548,31.394,31.394,0,0,1,12.025,2.146,23.9,23.9,0,0,1,14.164,14.884,33.632,33.632,0,0,1,1.871,11.4,49.685,49.685,0,0,1-.4,6.436Q572.313,73.751,571.643,76.7Zm-25.788-28.16q-10.422,0-11.224,15.823h22.182V62.755q0-6.437-2.674-10.325T545.855,48.542Z" fill="#0300b0"/>
       <path id="Path_36" data-name="Path 36" d="M592.36,123.1V.4a23.215,23.215,0,0,1,4.545-.4,28.358,28.358,0,0,1,4.942.4h0V123.1a28.364,28.364,0,0,1-4.942.4A23.22,23.22,0,0,1,592.36,123.1Z" fill="#0300b0"/>
     </g>
-    <g id="Component_1_1" data-name="Component 1 – 1" transform="translate(1174.5 290.5)">
-      <line id="Line_1" data-name="Line 1" x1="169" y2="101" fill="none" stroke="#000" stroke-linecap="round" stroke-width="5"/>
+    <g id="Component_1_1" data-name="Component 1 – 1" transform="translate(1148.5 290.5)">
+      <line id="Line_1" data-name="Line 1" x1="195" y2="200" fill="none" stroke="#000" stroke-linecap="round" stroke-width="5"/>
     </g>
-    <line id="Line_2" data-name="Line 2" x2="168" y2="101" transform="translate(603.5 290.5)" fill="none" stroke="#000" stroke-width="5"/>
-    <g id="Group_1" data-name="Group 1" transform="translate(0 55)">
-      <line id="Line_3" data-name="Line 3" y2="104" transform="translate(960.5 671.5)" fill="none" stroke="#000" stroke-width="5"/>
-    </g>
-    <g id="Polygon_1" data-name="Polygon 1" transform="translate(576.24 299.587) rotate(-59)">
+    <line id="Line_2" data-name="Line 2" x2="220" y2="164" transform="translate(576.5 326.5)" fill="none" stroke="#000" stroke-width="5"/>
+    <g id="Polygon_1" data-name="Polygon 1" transform="translate(548.166 331.769) rotate(-51)">
       <path d="M 43.10847091674805 35.5 L 0.8915305733680725 35.5 L 22 0.9588682055473328 L 43.10847091674805 35.5 Z" stroke="none"/>
       <path d="M 22 1.917724609375 L 1.783054351806641 35 L 42.21694564819336 35 L 22 1.917724609375 M 22 0 L 44 36 L 0 36 L 22 0 Z" stroke="none" fill="#707070"/>
     </g>
-    <g id="Polygon_2" data-name="Polygon 2" transform="translate(576.24 299.587) rotate(-59)">
+    <g id="Polygon_3" data-name="Polygon 3" transform="translate(1149.84 519.366) rotate(-133)">
       <path d="M 43.10847091674805 35.5 L 0.8915305733680725 35.5 L 22 0.9588682055473328 L 43.10847091674805 35.5 Z" stroke="none"/>
       <path d="M 22 1.917724609375 L 1.783054351806641 35 L 42.21694564819336 35 L 22 1.917724609375 M 22 0 L 44 36 L 0 36 L 22 0 Z" stroke="none" fill="#707070"/>
-    </g>
-    <g id="Polygon_3" data-name="Polygon 3" transform="matrix(-0.574, -0.819, 0.819, -0.574, 1173.874, 420.346)">
-      <path d="M 43.10847091674805 35.5 L 0.8915305733680725 35.5 L 22 0.9588682055473328 L 43.10847091674805 35.5 Z" stroke="none"/>
-      <path d="M 22 1.917724609375 L 1.783054351806641 35 L 42.21694564819336 35 L 22 1.917724609375 M 22 0 L 44 36 L 0 36 L 22 0 Z" stroke="none" fill="#707070"/>
-    </g>
-    <g id="Polygon_4" data-name="Polygon 4" transform="matrix(1, -0.017, 0.017, 1, 937.689, 708.387)">
-      <path d="M 43.10847091674805 35.5 L 0.8915305733680725 35.5 L 22 0.9588682055473328 L 43.10847091674805 35.5 Z" stroke="none"/>
-      <path d="M 22 1.917724609375 L 1.783054351806641 35 L 42.21694564819336 35 L 22 1.917724609375 M 22 0 L 44 36 L 0 36 L 22 0 Z" stroke="none" fill="#707070"/>
-    </g>
-    <g id="Python-logo-notext" transform="translate(851 850)">
-      <path id="Path_37" data-name="Path 37" d="M196.933,133.9c-55.342,0-51.886,24.125-51.886,24.125h0l.062,24.994h52.812v7.5H124.132s-35.413-4.037-35.413,52.1,30.91,54.142,30.91,54.142h18.447V270.711s-.994-31.071,30.416-31.071h52.38s29.428.478,29.428-28.59V162.985S254.768,133.9,196.933,133.9Zm-29.12,16.807a9.551,9.551,0,1,1-9.5,9.551A9.517,9.517,0,0,1,167.813,150.705Z" transform="translate(-88.718 -133.898)" fill="url(#linear-gradient)"/>
-      <path id="Path_38" data-name="Path 38" d="M198.5,351.9c55.343,0,51.886-24.125,51.886-24.125h0l-.061-24.994H197.518v-7.5h73.788s35.414,4.037,35.414-52.1-30.911-54.143-30.911-54.143H257.364v26.047s.993,31.073-30.418,31.073H174.567s-29.429-.478-29.429,28.59v48.065S140.67,351.9,198.5,351.9Zm29.12-16.808a9.551,9.551,0,1,1,9.5-9.55A9.517,9.517,0,0,1,227.625,335.091Z" transform="translate(-88.718 -133.898)" fill="url(#linear-gradient-2)"/>
     </g>
     <text id="DynamoDB" transform="translate(1360 408)" font-size="60" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">DynamoDB</tspan></text>
-    <text id="Lambda" transform="translate(848 673)" font-size="60" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Lambda</tspan></text>
+    <text id="Lambda" transform="translate(848 898)" font-size="60" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Lambda</tspan></text>
   </g>
 </svg>
