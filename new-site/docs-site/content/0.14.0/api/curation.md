@@ -32,8 +32,6 @@ client.collections('companies').overrides().upsert('customize-apple', override)
 
   </template>
 
-  <template v-slot:PHP>
-
   <template v-slot:Python>
 
 ```py
