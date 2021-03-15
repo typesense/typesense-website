@@ -15,7 +15,7 @@ Let's begin by configuring the Typesense client by pointing it to the Typesense 
 
 Be sure to use the same API key that you used to start the Typesense server earlier.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -38,27 +38,6 @@ let client = new Typesense.Client({
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-use Typesense\Client;
-
-$client = new Client(
-  [
-    'api_key'         => 'abcd',
-    'nodes'           => [
-      [
-        'host'     => 'localhost',
-        'port'     => '8108',
-        'protocol' => 'http',
-      ],
-    ],
-    'connection_timeout_seconds' => 2,
-  ]
-);
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py
@@ -108,7 +87,7 @@ That's it - we're now ready to start interacting with the Typesense server.
 ## Creating a "books" collection
 In Typesense, a collection is a group of related documents that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -137,30 +116,6 @@ client.collections().create(booksSchema)
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-$booksSchema = [
-  'name' => 'books',
-  'fields' => [
-    ['name' => 'title', 'type' => 'string'],
-    ['name' => 'authors', 'type' => 'string[]'],
-    ['name' => 'image_url', 'type' => 'string'],
-
-    ['name' => 'publication_year', 'type' => 'int32'],
-    ['name' => 'ratings_count', 'type' => 'int32'],
-    ['name' => 'average_rating', 'type' => 'float'],
-
-    ['name' => 'authors_facet', 'type' => 'string[]', 'facet' => true],
-    ['name' => 'publication_year_facet', 'type' => 'string', 'facet' => true]
-  ],
-  'default_sorting_field' => 'ratings_count'
-]
-
-$client->collections->create($booksSchema)
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py
@@ -246,7 +201,7 @@ We also define a `default_sorting_field` that determines how the results must be
 
 We're now ready to index some books into the collection we just created.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -266,19 +221,6 @@ readline.createInterface({
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-$booksData = file_get_contents('/tmp/books.jsonl')
-$booksStrs = explode('\n', $booksData)
-
-foreach($booksStrs as $bookStr) {
-  $book = json_decode($bookStr);
-  $client->collections['books']->documents->create($book)
-}
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py
@@ -327,7 +269,7 @@ done < "$input"
 We will start with a really simple search query - let's search for `harry potter` and ask Typesense to rank books that have more ratings higher in the results.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -347,20 +289,6 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-$searchParameters = [
-  'q'         => 'harry potter',
-  'query_by'  => 'title',
-  'sort_by'   => 'ratings_count:desc'
-]
-
-$client->collections['books']->documents->search($searchParameters)
-}
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py
@@ -447,7 +375,7 @@ Want to actually see newest `harry potter` books returned first? No problem, we 
 ## Filtering results
 Now, let's tweak our query to only fetch books that are published before the year 1998. To do that, we just have to add a `filter_by` clause to our query:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -468,20 +396,6 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-$searchParameters = [
-  'q'         => 'harry potter',
-  'query_by'  => 'title',
-  'filter_by' => 'publication_year:<1998',
-  'sort_by'   => 'publication_year:desc'
-]
-
-$client->collections['books']->documents->search($searchParameters)
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py
@@ -569,7 +483,7 @@ curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
 Let's facet the search results by the authors field to see how that works. Let's also use this example to see how Typesense handles typographic errors. Let's search for `experyment` (notice the typo!).
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -590,20 +504,6 @@ client.collections('books')
 
   </template>
 
-  <template v-slot:PHP>
-
-```php
-$searchParameters = [
-  'q'         => 'experyment',
-  'query_by'  => 'title',
-  'facet_by'  => 'authors_facet',
-  'sort_by'   => 'average_rating:desc'
-]
-
-$client->collections['books']->documents->search($searchParameters)
-```
-
-  </template>
   <template v-slot:Python>
 
 ```py

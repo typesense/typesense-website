@@ -270,7 +270,7 @@ readline.createInterface({
 
 ```php
 $booksData = file_get_contents('/tmp/books.jsonl')
-$booksStrs = explode('\n', $booksData)
+$booksStrs = explode($booksData, '\n')
 
 foreach($booksStrs as $bookStr) {
   $book = json_decode($bookStr);
