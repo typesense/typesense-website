@@ -114,44 +114,72 @@ aws iam put-role-policy --role-name YourLambdaRole \
 ```
 ## Step 4: Create a Lambda Function
 
-Head over to Lambda section of AWS and create a new Lambda function with the above created execution role.
+Head over to Lambda section of AWS and create a new Lambda function with the above created execution role. See AWS Lambda function documentation for detailed information [AWS Lambda Execution Role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)
 
-Now, let's create a new python script file named `lambda_function.py`. For creating collections and indexing into your cloud cluster refer: [Typesense API](../api/README.md)
+Now, let's create a new python script file named `lambda_function.py`.
 
-```python
-def lambda_handler(event, context):
-    # Your code goes here
-    return response
+Here's what an example event that we will process using lambda function,
+
+```javascript
+{
+    "Records": [
+        {
+            "eventID": "2",
+            "eventVersion": "1.0",
+            "dynamodb": {
+            "OldImage": {
+                // Existing values
+            },
+            "SequenceNumber": "222",
+            "Keys": {
+                // your partion key and sort key
+            },
+            "SizeBytes": 59,
+            "NewImage": {
+                // New Values
+            },
+            "awsRegion": "us-east-2",
+            "eventName": "MODIFY", // this can 'INSERT', 'MODIFY' and 'DELETE'
+            "eventSourceARN": "<AWS-ARN>",
+            "eventSource": "aws:dynamodb"
+        },
+    ]
+}
 ```
 
 A example code snippet for the function,
 
 ```python
-client = typesense.Client({
-    'nodes': [{
-        'host': '<Endpoint URL>',
-        'port': '<Port Number>',
-        'protocol': 'https',
-    }],
-    'api_key': '<API Key>',
-    'connection_timeout_seconds': 2
-})
+def lambda_handler(event, context):
+    client = typesense.Client({
+        'nodes': [{
+            'host': '<Endpoint URL>',
+            'port': '<Port Number>',
+            'protocol': 'https',
+        }],
+        'api_key': '<API Key>',
+        'connection_timeout_seconds': 2
+    })
 
-processed = 0
-for record in event['Records']:
-    ddb_record = record['dynamodb']
-    if record['eventName'] == 'REMOVE':
-        res = client.collections['<collection-name>'].documents[str(ddb_record['OldImage']['id']['N'])].delete()
-    else:
-        upload = ddb_record['NewImage'] # format your document here and the use upsert function to index it.
-        res = client.collections['<collection-name>'].upsert(upload)
-        print(res)
-    processed = processed + 1
-
-print('Successfully processed {} records'.format(processed))
+    processed = 0
+    for record in event['Records']:
+        ddb_record = record['dynamodb']
+        if record['eventName'] == 'REMOVE':
+            res = client.collections['<collection-name>'].documents[str(ddb_record['OldImage']['id']['N'])].delete()
+        else:
+            upload = ddb_record['NewImage'] # format your document here and the use upsert function to index it.
+            res = client.collections['<collection-name>'].upsert(upload)
+            print(res)
+        processed = processed + 1
+        print('Successfully processed {} records'.format(processed))
+    return proceessed
 ```
 
-Note: Install all your code using `pip install <dependency-name> -t .`. This will install all the dependencies for the function in the current directory.
+See the [Typesense API](../api/README.md) documentation for detailed information about all the parameters available to create collections and documents.
+
+::: tip
+Install all your dependencies using `pip install <dependency-name> -t .`. This will install all the dependencies for the function in the current directory.
+:::
 
 After this zip your current directory and upload it to your Lambda function.
 
@@ -185,35 +213,8 @@ Make sure to test the function with a set of sample events before enabling the t
 
 ## Step 5: Setup up a trigger
 
-Now, navigate to DynamoDB table &#8594; Triggers and add this existing Lambda function to that table.
+Now, navigate to your DynamoDB table in the AWS Console, then visit the Triggers section and add this existing Lambda function to that table.
 
-A example `event` response from DynamoDB table,
-```javascript
-{
-    "Records": [
-        {
-            "eventID": "2",
-            "eventVersion": "1.0",
-            "dynamodb": {
-            "OldImage": {
-                // Existing values
-            },
-            "SequenceNumber": "222",
-            "Keys": {
-                // your partion key and sort key
-            },
-            "SizeBytes": 59,
-            "NewImage": {
-                // New Values
-            },
-            "awsRegion": "us-east-2",
-            "eventName": "MODIFY", // this can 'INSERT', 'MODIFY' and 'DELETE'
-            "eventSourceARN": "<AWS-ARN>",
-            "eventSource": "aws:dynamodb"
-        },
-    ]
-}
-```
 You can also do this using the AWS CLI:
 
 * Get ARN for DynamoDB table
