@@ -7,20 +7,23 @@ Hey there! This post give you a guide to integrate Typesense cluster with AWS Dy
 ## Step 1: Create Typesense Cluster
 
 Sign up for a new account in [Typesense Cloud](https://cloud.typesense.org/) and get Endpoint URL, Port number and API key.
+
+We're using Typesense Cloud for this walk-through since we need a public Typesense endpoint for the Lambda function to be able write to.
+
+You can also self-host Typesense on a server of your choice. See [Typesense Installation](./install-typesense.md) for more details on how to self-host Typesense.
 ## Step 2: Create a DynamoDB table
 
 Create a DynamoDB table with your choice of name and partition key ("id" is recommended).
 
-After creating a DynamoDB table you want to enable streams in the "Overview" section.
+After creating a DynamoDB table you want to enable streams in the Overview section of AWS console.
 
 You can also do this using AWS CLI:
 
 ```bash
 aws dynamodb create-table \
-    --table-name typensense \
+    --table-name YourTableName \
     --attribute-definitions AttributeName=id,AttributeType=N \
     --key-schema AttributeName=id,KeyType=HASH  \
-    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 ```
 
@@ -32,7 +35,9 @@ Now let's create a "Lambda Execution Role" i.e give permission for your function
 * AmazonDynamoDBFullAccesswithDataPipeline
 * AWSLambdaBasicExecutionRole
 
+:::warning
 These IAM role permissions are just examples for the purposes of this guide. Before deploying for production, please consult the IAM documentation to only grant the minimal permissions needed for your particular use case.
+:::
 
 You can also do this using AWS CLI:
 
@@ -55,7 +60,7 @@ Create a file named ```trust-relationship.json``` with the following contents.
 Then, create execute the following command
 
 ```bash
-aws iam create-role --role-name TypesenseLambdaRole \
+aws iam create-role --role-name YourLambdaRole \
     --path "/service-role/" \
     --assume-role-policy-document file://trust-relationship.json
 ```
@@ -103,7 +108,7 @@ The policy has three statements that allow TypesenseLambdaRole to do the followi
 Now, we are going to attach the above roles to our IAM execution role which we have created
 
 ```bash
-aws iam put-role-policy --role-name TypesenseLambdaRole \
+aws iam put-role-policy --role-name YourLambdaRole \
     --policy-name TypesenseLambdaRolePolicy \
     --policy-document file://role-policy.json
 ```
@@ -154,12 +159,12 @@ You can also do this using AWS CLI,
 
 * Get the ARN for the the execution role you created.
     ```bash
-    aws iam get-role --role-name TypesenseLambdaRole
+    aws iam get-role --role-name YourLambdaRole
     ```
     In output, look for ARN,
     ```json
     ...
-    "Arn": "arn:aws:iam::region:role/service-role/TypesenseLambdaRole"
+    "Arn": "arn:aws:iam::region:role/service-role/YourLambdaRole"
     ...
     ```
 
@@ -168,9 +173,9 @@ You can also do this using AWS CLI,
     ```bash
     aws lambda create-function \
     --region us-east-2 \
-    --function-name typesense-indexing \
-    --zip-file fileb://typesense-indexing.zip \
-    --role `roleARN` \
+    --function-name YourLambdaFunction \
+    --zip-file fileb://YourZipFile.zip \
+    --role YourRoleARN \
     --handler lambda_function.lambda_handler \
     --timeout 5 \
     --runtime python3.7
@@ -213,7 +218,7 @@ You can also do this using the AWS CLI:
 
 * Get ARN for DynamoDB table
     ```bash
-    aws dynamodb describe-table --table-name `table-name`
+    aws dynamodb describe-table --table-name YourTableName
     ```
     Note, the ARN for the stream
     ```json
@@ -225,8 +230,8 @@ You can also do this using the AWS CLI:
     ```bash
     aws lambda create-event-source-mapping \
     --region us-east-1 \
-    --function-name typesense-indexing \
-    --event-source `streamARN` \
+    --function-name YourLambdaFunction \
+    --event-source YourStreamARN \
     --batch-size 1 \
     --starting-position TRIM_HORIZON
     ```
