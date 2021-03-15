@@ -19,10 +19,11 @@ This release contains several new features, bug fixes and performance improvemen
 * Significant performance improvement in wildcard queries and faceting involving array fields.
 
 **Features**
+
 * Allow default sorting field to be an int64.
-* Ensured that the server returns a 503 response when it is still catching up on the writes from the leader. This threshold can be controlled by the --catch-up-threshold-percentage argument (default: 95).
-* Data snapshot interval can now be customized by the --snapshot-interval-seconds argument (default: 3600).
-* Metrics API: we've added a /metrics.json end-point that returns CPU, storage and memory metrics.
+* Ensured that the server returns a 503 response when it is still catching up on the writes from the leader. This threshold can be controlled by the `--catch-up-threshold-percentage argument` (default: `95`).
+* Data snapshot interval can now be customized by the `--snapshot-interval-seconds argument` (default: `3600`).
+* Metrics API: we've added a `/metrics.json` end-point that returns CPU, storage and memory metrics.
 * Exact filtering on string field: It's now possible to match a facet-enabled string field exactly in the filter query by using the := operator.
 
 **Bug Fixes**

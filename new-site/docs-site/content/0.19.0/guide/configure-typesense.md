@@ -7,7 +7,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | Parameter      | Required    |Description                                            |
 | -------------- | ----------- |-------------------------------------------------------| 
 |`--config`         | false       |Path to the configuration file. If you use this argument, you can define all of the other command line arguments in a configuration file. See the "Configuring Typesense" section for more details.|
-|`--api-key`	|true	|A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific ACLs using the key management API. <br><br>**NOTE**: Don't expose this admin API key to your browser JS client: use the key management API to create search-only or scoped API keys.|
+|`--api-key`	|true	|A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific ACLs using the [key management API](../api/api-keys.md). <br><br>**NOTE**: Don't expose this admin API key to your browser JS client: use the [key management API](../api/api-keys.md) to create search-only or scoped API keys.|
 |`--data-dir`	|true	|Path to the directory where data will be stored on disk.|
 |`--api-address`	|false	|Address to which Typesense API service binds. Default: `0.0.0.0`|
 |`--api-port`	|false	|Port on which Typesense API service listens. Default: `8108`|

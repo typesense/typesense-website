@@ -1,17 +1,5 @@
 # Install Typesense
 
-You can either self-host Typesense, run it on your local machine or use our managed Typesense Cloud service.
-
-## Typesense Cloud
-
-The easiest way to run Typesense is using our managed Cloud service called [Typesense Cloud](https://cloud.typesense.org/).
-
-Sign-in with Github, pick a configuration and you'll have a production-grade cluster in a few minutes.
-
-## Local Machine / Self-Hosting
-
-You can also run Typesense on your local machine or self-host it.
-
 You'll find DEB, RPM and pre-built binaries for Linux (X86_64) and Mac OS X on our [downloads](https://typesense.org/downloads) page.
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
@@ -95,20 +83,3 @@ curl http://localhost:8108/health
 
   </template>
 </Tabs>
-
-### Server arguments
-
-| Parameter      | Required    |Description|
-| -------------- | ----------- |-------------------------------------------| 
-|config	|false	|Path to the configuration file. If you use this argument, you can define all of the other command line arguments in a configuration file. See the "Configuring Typesense" section for more details.|
-|api-key	|true	|A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific ACLs using the key [management API](../api/api-keys.md).<br><br>**NOTE**: Don't expose this admin API key to your browser JS client: use the key management API to create [search-only](../api/api-keys.md) or [scoped API keys](../api/api-keys.md##generate-scoped-search-key).|
-|data-dir	|true	|Path to the directory where data will be stored on disk.|
-|api-address	|false	|Address to which Typesense API service binds.<br> `Default: 0.0.0.0`|
-|api-port	|false	|Port on which Typesense API service listens.<br> `Default: 8108`|
-|peering-address	|false	|Internal IP address to which Typesense peering service binds. If this parameter is not specified, Typesense will attempt to use the first available internal IP.|
-|peering-port	|false	|Port on which Typesense peering service listens. <br>`Default: 8107`|
-|nodes	|false	|Path to file containing comma separated string of all nodes in the cluster.<br><br>Each node definition should be in the following format:<br>`<ip_address>:<peering_port>:<api_port>`<br><br>Example content of a `--nodes` file for a 3-node cluster:<br>`192.168.12.1:8107:8108,192.168.12.2:8107:8108,192.168.12.3:8107:8108`|
-|log-dir	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
-|ssl-certificate	|false	|Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.|
-|ssl-certificate-key	|false	|Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.|
-|enable-cors	|false	|Allow Javascript client to access Typesense directly from the browser.|

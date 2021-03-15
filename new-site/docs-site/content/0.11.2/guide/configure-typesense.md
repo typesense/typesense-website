@@ -8,12 +8,12 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | -------------- | ----------- |-------------------------------------------------------| 
 |`--config` | false  |Path to the configuration file. If you use this argument, you can define all of the other command line arguments in a configuration file. See the "Configuring Typesense" section for more details.|
 |`--api-key`	|true	|API key that allows all operations.|
+|`--search-only-api-key`	|false	|API key that allows only searches (i.e. restricted to the `/collections/collection_name/documents/search` end-point). Use this to make search requests directly from Javascript, without exposing your primary API key.|
 |`--data-dir`	|true	|Path to the directory where data will be stored on disk.|
+|`--log-dir`	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
 |`--listen-address`	|false	|Address to which Typesense API service binds. Default: `0.0.0.0`|
 |`--listen-port`	|false	|Port on which Typesense API service listens. Default: `8108`|
-|`--search-only-api-key`	|false	|API key that allows only searches (i.e. restricted to the `/collections/collection_name/documents/search` end-point). Use this to make search requests directly from Javascript, without exposing your primary API key.|
 |`--master`	|false	|Starts the server as a read-only replica by defining the master Typesense server's address in <br />`http(s)://<master_address>:<master_port>` format|
-|`--log-dir`	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
 |`--ssl-certificate`	|false	|Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.|
 |`--ssl-certificate-key`	|false	|Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.|
 |`--enable-cors`	|false	|Allow JavaScript client to access Typesense directly from the browser.|

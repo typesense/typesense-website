@@ -12,8 +12,6 @@ The documentation is divided into the following sections:
 
 This is a maintenance release with minor bug fixes.
 
-**Bug** Ensure that default sorting field exists in schema during collection creation.
-
-**Bug** Fixed the environment variable examples mentioned in the commandline help text.
-
-**Bug** Ensure that the `hits` and `found` JSON fields were always returned in response, even if the query produced no results.
+- **[Bug]** Ensure that default sorting field exists in schema during collection creation.
+- **[Bug]** Fixed the environment variable examples mentioned in the commandline help text.
+- **[Bug]** Ensure that the `hits` and `found` JSON fields were always returned in response, even if the query produced no results.

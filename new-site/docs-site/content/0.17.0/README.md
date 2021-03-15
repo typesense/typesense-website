@@ -22,4 +22,4 @@ This release contains a few new features and important bug fixes.
 * Fixed a bug that prevented single document updates from being available on the Raft log.
 * Validate data types of the fields of a collection schema during collection creation.
 * Ignore invalid unicode characters when returning search response. Earlier, this was causing a crash in some rare cases.
-* Allow the colon character (:) to be present in the filter query value.
+* Allow the colon character `:` to be present in the filter query value.

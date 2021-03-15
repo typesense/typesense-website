@@ -14,7 +14,7 @@ The primary focus of this release is to provide update support for documents.
 
 **Features**
 * Support partial updates or upserts of documents.
-* Parameterize the number of tokens that surround a highlight via the new highlight_affix_num_tokens parameter.
+* Parameterize the number of tokens that surround a highlight via the new `highlight_affix_num_tokens` parameter.
 
 **Bug Fixes**
 * When a document is not imported due to an error, the full document was not always being returned in the import response. This has been addressed in this release.

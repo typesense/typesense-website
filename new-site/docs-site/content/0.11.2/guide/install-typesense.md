@@ -1,17 +1,5 @@
 # Install Typesense
 
-You can either self-host Typesense, run it on your local machine or use our managed Typesense Cloud service.
-
-## Typesense Cloud
-
-The easiest way to run Typesense is using our managed Cloud service called [Typesense Cloud](https://cloud.typesense.org/).
-
-Sign-in with Github, pick a configuration and you'll have a production-grade cluster in a few minutes.
-
-## Local Machine / Self-Hosting
-
-You can also run Typesense on your local machine or self-host it.
-
 You'll find DEB, RPM and pre-built binaries for Linux (X86_64) and Mac OS X on our [downloads](https://typesense.org/downloads) page.
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
