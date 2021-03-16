@@ -11,7 +11,7 @@
           <pre data-language="bash" data-display-language="Docker">
 docker run \
         -p 8108:8108 -v/tmp:/data \
-        typesense/typesense:{{ typesenseLatestVersion }}
+        typesense/typesense:{{ typesenseLatestVersion }} \
           --data-dir /data --api-key=xyz
           </pre>
           <pre data-language="bash" data-display-language="DEB">
@@ -75,18 +75,20 @@ curl "http://localhost:8108/collections" \
                 {"name": "author", "type": "string" },
                 {"name": "ratings", "type": "int32" }
               ],
-              "default_sorting_field": "ratings_count"
+              "default_sorting_field": "ratings"
             }'
 
 curl "http://localhost:8108/collections/books/documents/import" \
         -X POST \
         -H "X-TYPESENSE-API-KEY: xyz" \
         -d '
-          {"title":"Book 1",author:"Author1","ratings":24}
-          {"title":"Book 2",author:"Author2","ratings":31}
-          {"title":"Book 3",author:"Author3","ratings":30}'
+          {"title":"Book 1","author":"Author1","ratings":24}
+          {"title":"Book 2","author":"Author2","ratings":31}
+          {"title":"Book 3","author":"Author3","ratings":30}'
           </pre>
           <pre data-language="javascript">
+// npm install typesense @babel/runtime
+
 const Typesense = require('typesense')
 const client = new Typesense.Client({
   'nodes': [{'host': 'localhost', 'port': '8108', 'protocol': 'http'}],
@@ -100,18 +102,22 @@ const schema = {
     {"name": "author", "type": "string"},
     {"name": "ratings", "type": "int32"}
   ],
-  "default_sorting_field": "ratings_count"
+  "default_sorting_field": "ratings"
 }
-await client.collections().create(schema)
 
 const documents = [
-  {"title":"Book 1",author:"Author1","ratings":24}
-  {"title":"Book 2",author:"Author2","ratings":31}
-  {"title":"Book 3",author:"Author3","ratings":30}
-]
-await client.collections('books').documents().import(documents)
+    {"title":"Book 1","author":"Author1","ratings":24},
+    {"title":"Book 2","author":"Author2","ratings":31},
+    {"title":"Book 3","author":"Author3","ratings":30}
+  ]
+
+client.collections().create(schema).then(() => {
+  client.collections('books').documents().import(documents)
+})
           </pre>
           <pre data-language="php" data-display-language="PHP">
+// composer require php-http/curl-client typesense/typesense-php
+
 use Typesense\Client;
 $client = new Client(
   [
@@ -120,26 +126,28 @@ $client = new Client(
   ]
 );
 
-$schema = {
-  "name": "books",
+$schema = [
+  "name" => "books",
   "fields" => [
     ["name" => "title", "type" => "string"],
     ["name" => "author", "type" => "string"],
     ["name" => "ratings", "type" => "int32"]
   ],
-  "default_sorting_field" => "ratings_count"
-}
-$client->collections->create($schema)
+  "default_sorting_field" => "ratings"
+];
+$client->collections->create($schema);
 
 $documents = [
-  ["title"=>"Book 1",author=>"Author1","ratings"=>24]
-  ["title"=>"Book 2",author=>"Author2","ratings"=>31]
-  ["title"=>"Book 3",author=>"Author3","ratings"=>30]
-]
-$client->collections['books']->documents->import($documents)
+  ["title"=>"Book 1","author"=>"Author1","ratings"=>24],
+  ["title"=>"Book 2","author"=>"Author2","ratings"=>31],
+  ["title"=>"Book 3","author"=>"Author3","ratings"=>30]
+];
+$client->collections['books']->documents->import($documents);
           </pre>
 
           <pre data-language="python">
+# pip install typesense
+
 import typesense
 client = typesense.Client({
   'nodes': [{ 'host': 'localhost', 'port': '8108', 'protocol': 'http' }],
@@ -153,19 +161,21 @@ schema = {
     {"name": "author", "type": "string"},
     {"name": "ratings", "type": "int32"}
   ],
-  "default_sorting_field": "ratings_count"
+  "default_sorting_field": "ratings"
 }
 client.collections.create(schema)
 
 documents = [
-  {"title":"Book 1",author:"Author1","ratings":24}
-  {"title":"Book 2",author:"Author2","ratings":31}
-  {"title":"Book 3",author:"Author3","ratings":30}
+  {"title":"Book 1","author":"Author1","ratings":24},
+  {"title":"Book 2","author":"Author2","ratings":31},
+  {"title":"Book 3","author":"Author3","ratings":30}
 ]
 client.collections['books'].documents.import_(documents)
           </pre>
 
           <pre data-language="ruby">
+# gem install typesense
+
 require 'typesense'
 client = Typesense::Client.new(
   nodes: [{ host: 'localhost', port: '8108', protocol: 'http' }],
@@ -179,14 +189,14 @@ schema = {
     { name: "author", type: "string" },
     { name: "ratings", type: "int32" }
   ],
-  default_sorting_field: "ratings_count"
+  default_sorting_field: "ratings"
 }
 client.collections.create(schema)
 
 documents = [
-  {"title":"Book 1",author:"Author1","ratings":24}
-  {"title":"Book 2",author:"Author2","ratings":31}
-  {"title":"Book 3",author:"Author3","ratings":30}
+  {"title" => "Book 1", "author" => "Author1", "ratings" => 24},
+  {"title" => "Book 2", "author" => "Author2", "ratings" => 31},
+  {"title" => "Book 3", "author" => "Author3", "ratings" => 30}
 ]
 client.collections['books'].documents.import(documents)
           </pre>
@@ -206,25 +216,25 @@ curl "http://localhost:8108/collections/books/documents/search?query_by=title,au
         -H "X-TYPESENSE-API-KEY: xyz"</pre
           >
           <pre data-language="javascript">
-client.collections('books').documents().search({
+console.log(client.collections('books').documents().search({
   'query_by': 'title,author',
   'q': 'boo'
-})
+}))
           </pre>
           <pre data-language="php" data-display-language="PHP">
-$client->collections['books']->documents->search([
+print_r($client->collections['books']->documents->search([
   'query_by' => 'title,author',
   'q' => 'boo'
-])
+]));
           </pre>
           <pre data-language="python">
-client.collections['books'].documents.search({
+print(client.collections['books'].documents.search({
   'query_by': 'title,author',
   'q': 'boo'
-})
+}))
           </pre>
           <pre data-language="ruby">
-client.collections['books'].documents.search({
+puts client.collections['books'].documents.search({
   query_by: 'title,author',
   q: 'boo'
 })
