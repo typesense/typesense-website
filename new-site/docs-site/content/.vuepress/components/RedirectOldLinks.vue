@@ -78,11 +78,11 @@ export default {
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#search-collection`,
-        to: `/${this.$page.typesenseVersion}/api/collections.html#search-a-collection`,
+        to: `/${this.$page.typesenseVersion}/api/documents.html#search`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#multi-search`,
-        to: `/${this.$page.typesenseVersion}/api/collections.html#federated-multi-search`,
+        to: `/${this.$page.typesenseVersion}/api/documents.html#federated-multi-search`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#retrieve-document`,
@@ -94,7 +94,7 @@ export default {
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#delete-document`,
-        to: `/${this.$page.typesenseVersion}/api/#deleting-documents`,
+        to: `/${this.$page.typesenseVersion}/api/documents.html#delete-documents`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#retrieve-collection`,
@@ -102,11 +102,11 @@ export default {
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#export-documents`,
-        to: `/${this.$page.typesenseVersion}/api/documents.html#export-documents-from-a-collection`,
+        to: `/${this.$page.typesenseVersion}/api/documents.html#export-documents`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#import-documents`,
-        to: `/${this.$page.typesenseVersion}/api/documents.html#import-documents-into-a-collection`,
+        to: `/${this.$page.typesenseVersion}/api/documents.html#import-documents`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/#list-collection`,

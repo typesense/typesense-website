@@ -88,6 +88,150 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 ### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
+## Search
+In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
+
+Due to performance reasons, Typesense limits searches to a maximum of 500 results.
+
+<Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let searchParameters = {
+  'q'         : 'stark',
+  'query_by'  : 'company_name',
+  'filter_by' : 'num_employees:>100',
+  'sort_by'   : 'num_employees:desc'
+}
+
+client.collections('companies').documents().search(searchParameters)
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+search_parameters = {
+  'q'         : 'stark',
+  'query_by'  : 'company_name',
+  'filter_by' : 'num_employees:>100',
+  'sort_by'   : 'num_employees:desc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+search_parameters = {
+  'q'         => 'stark',
+  'query_by'  => 'company_name',
+  'filter_by' => 'num_employees:>100',
+  'sort_by'   => 'num_employees:desc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/companies/documents/search\
+?q=stark&query_by=company_name&filter_by=num_employees:>100\
+&sort_by=num_employees:desc"
+```
+
+  </template>
+</Tabs>
+
+### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "facet_counts": [],
+  "found": 1,
+  "took_ms":1,
+  "hits": [
+    {
+      "highlights": [
+        {
+          "field": "company_name",
+          "snippet": "<mark>Stark</mark> Industries"
+        }
+      ],
+      "document": {
+        "id": "124",
+        "company_name": "Stark Industries",
+        "num_employees": 5215,
+        "country": "USA"
+      }
+    }
+  ]
+}
+```
+
+  </template>
+</Tabs>
+
+When a `string[]` field is queried, the `highlights` structure would include the corresponding matching array indices of the snippets. For e.g:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+      ...
+      "highlights": [
+        {
+          "field": "addresses",
+          "indices": [0,2],
+          "snippets": [
+            "10880 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265",
+            "10000 <mark>Malibu</mark> Point, <mark>Malibu,</mark> CA 90265"
+          ]
+        }
+      ],
+      ...
+}
+```
+
+  </template>
+</Tabs>
+
+### Definition
+`GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
+
+### Arguments
+| Parameter      | Required    |Description                                            |
+| -------------- | ----------- |-------------------------------------------------------| 
+|q	|yes	|The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`|
+|query_by	|yes	|One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.|
+|max_hits | no | Maximum number of hits returned. Increasing this value might increase search latency. <br><br>Use `all` to return all hits found.  <br><br>Default: `500` |
+|prefix	|no	|Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces.<br><br>Default: `true`|
+|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br>`country: [USA, UK]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
+|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by:` _text_match:desc,``default_sorting_field:desc`.|
+|facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
+|max_facet_values	|no	|Maximum number of facet values to be returned.|
+|facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
+|num_typos	|no	|Number of typographical errors (1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
+|page	|no	|Results from this specific page number would be fetched.|
+|per_page	|no	|Number of results to fetch per page.<br><br>Default: `10`|
+|include_fields	|no	|Comma-separated list of fields from the document to include in the search result.|
+|exclude_fields	|no	|Comma-separated list of fields from the document to exclude in the search result.|
+|highlight_full_fields	|no	|Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.|
+|snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
+|drop_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set drop_tokens_threshold to 0 to disable dropping of tokens.<br><br>Default: `10`
+|typo_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found.<br><br>Default: `100`|
+|pinned_hits	|no	|A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
+|hidden_hits	|no	|A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
 
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
@@ -202,7 +346,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 ### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
-## Export documents from a collection
+## Export documents
 
 <Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -293,7 +437,7 @@ u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}'
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
 
-## Import documents into a collection
+## Import documents
 The documents to be imported must be formatted in a newline delimited JSON stucture.
 You can feed the output file from a Typesense export operation directly as import.
 

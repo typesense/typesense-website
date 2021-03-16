@@ -245,7 +245,7 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ### Definition
 `GET ${TYPESENSE_HOST}/keys/:id`
 
-## List all keys
+## List all Keys
 Retrieve (metadata about) all keys.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">

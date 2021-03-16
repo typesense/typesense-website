@@ -1,6 +1,6 @@
 # Cluster Operations
 
-## Create snapshot (for backups)
+## Create Snapshot (for backups)
 Creates a point-in-time snapshot of a Typesense node's state and data in the specified directory.
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
