@@ -1,21 +1,22 @@
 # DynamoDB Integration with Typesense
 
-Hey there! This post give you a guide to integrate Typesense cluster with AWS DynamoDB by setting up a trigger with AWS Lambda.
+This walk-through will show you how to ingest data from a DynamoDB table into Typesense. 
+
+At a high level we'll be setting up a Lambda function to listed to change events using [DynamoDB streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) and write the data into Typesense.
 
 ![Typesense DynamoDB Integration Chart](~@guide-images/typesense-dynamodb/typesense-dynamodb.svg)
 
 ## Step 1: Create Typesense Cluster
 
-Sign up for a new account in [Typesense Cloud](https://cloud.typesense.org/) and get Endpoint URL, Port number and API key.
+Sign up for an account on [Typesense Cloud](https://cloud.typesense.org/), spin up a cluster and get the Endpoint URL, Port number and API key.
 
-We're using Typesense Cloud for this walk-through since we need a public Typesense endpoint for the Lambda function to be able write to.
+We're using Typesense Cloud for this walk-through since we need a public Typesense endpoint for the Lambda function to be able to write to.
 
-You can also self-host Typesense on a server of your choice. See [Typesense Installation](./install-typesense.md) for more details on how to self-host Typesense.
+You can also self-host Typesense on a server/provider of your choice. See [Typesense Installation](./install-typesense.md) for more details on how to self-host Typesense.
+
 ## Step 2: Create a DynamoDB table
 
-Create a DynamoDB table with your choice of name and partition key ("id" is recommended).
-
-After creating a DynamoDB table you want to enable streams in the Overview section of AWS console.
+Create a DynamoDB table with your choice of name and partition key ("id" is recommended). After creating the table you want to enable streams in the Overview section of the AWS console.
 
 You can also do this using AWS CLI:
 
@@ -29,7 +30,9 @@ aws dynamodb create-table \
 
 ## Step 3: Create Lambda Execution Role
 
-Now let's create a "Lambda Execution Role" i.e give permission for your function, head over to IAM Roles section and create a new role with three main permissions:
+Now let's create a "Lambda Execution Role" i.e give permission for your function to access the resources it needs to.
+
+Head over to the IAM Roles section in the AWS Console and create a new IAM role with three main permissions:
 
 * AmazonDynamoDBFullAccess
 * AmazonDynamoDBFullAccesswithDataPipeline
@@ -112,42 +115,42 @@ aws iam put-role-policy --role-name YourLambdaRole \
     --policy-name TypesenseLambdaRolePolicy \
     --policy-document file://role-policy.json
 ```
+
 ## Step 4: Create a Lambda Function
 
-Head over to Lambda section of AWS and create a new Lambda function with the above created execution role. See AWS Lambda function documentation for detailed information [AWS Lambda Execution Role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)
+Head over to Lambda section of the AWS console and create a new Lambda function with the above created execution role. See AWS Lambda documentation for detailed information [AWS Lambda Execution Role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)
 
-Now, let's create a new python script file named `lambda_function.py`.
-
-Here's what an example event that we will process using lambda function,
+For context, here's what an example event that DynamoDB will be calling our Lambda function with:
 
 ```javascript
 {
     "Records": [
-        {
-            "eventID": "2",
-            "eventVersion": "1.0",
-            "dynamodb": {
-            "OldImage": {
-                // Existing values
-            },
-            "SequenceNumber": "222",
-            "Keys": {
-                // your partion key and sort key
-            },
-            "SizeBytes": 59,
-            "NewImage": {
-                // New Values
-            },
-            "awsRegion": "us-east-2",
-            "eventName": "MODIFY", // this can 'INSERT', 'MODIFY' and 'DELETE'
-            "eventSourceARN": "<AWS-ARN>",
-            "eventSource": "aws:dynamodb"
+      {
+        "eventID": "2",
+        "eventVersion": "1.0",
+        "dynamodb": {
+          "OldImage": {
+            // Existing values
+          },
+          "SequenceNumber": "222",
+          "Keys": {
+            // your partion key and sort key
+          },
+          "SizeBytes": 59,
+          "NewImage": {
+            // New Values
+          },
+          "awsRegion": "us-east-2",
+          "eventName": "MODIFY", // this can be 'INSERT', 'MODIFY' and 'DELETE'
+          "eventSourceARN": "<AWS-ARN>",
+          "eventSource": "aws:dynamodb"
         },
+      }
     ]
 }
 ```
 
-A example code snippet for the function,
+Now let's add the following code to our Lambda function. We're using Python for this example, but you can use also use Node, Ruby or any languages that AWS Lambda supports.
 
 ```python
 def lambda_handler(event, context):
@@ -178,42 +181,40 @@ def lambda_handler(event, context):
 See the [Typesense API](../api/README.md) documentation for detailed information about all the parameters available to create collections and documents.
 
 ::: tip
-Install all your dependencies using `pip install <dependency-name> -t .`. This will install all the dependencies for the function in the current directory.
+Install all your dependencies using `pip install <dependency-name> -t .`. This will install all the dependencies for the function in the current directory, which is what Lambda expects.
 :::
 
-After this zip your current directory and upload it to your Lambda function.
+After this, zip up your current directory and upload it to your Lambda function via the AWS Console.
 
-You can also do this using AWS CLI,
+You can also do this using AWS CLI:
 
-* Get the ARN for the the execution role you created.
+* Get the ARN for the execution role you created:
     ```bash
     aws iam get-role --role-name YourLambdaRole
     ```
-    In output, look for ARN,
+    In the output, look for the ARN:
     ```json
     ...
     "Arn": "arn:aws:iam::region:role/service-role/YourLambdaRole"
     ...
     ```
 
-* Now, create the Lambda function
+* Now, create the Lambda function:
 
     ```bash
     aws lambda create-function \
-    --region us-east-2 \
-    --function-name YourLambdaFunction \
-    --zip-file fileb://YourZipFile.zip \
-    --role YourRoleARN \
-    --handler lambda_function.lambda_handler \
-    --timeout 5 \
-    --runtime python3.7
+      --region us-east-2 \
+      --function-name YourLambdaFunction \
+      --zip-file fileb://YourZipFile.zip \
+      --role YourRoleARN \
+      --handler lambda_function.lambda_handler \
+      --timeout 5 \
+      --runtime python3.7
     ```
-
-Make sure to test the function with a set of sample events before enabling the trigger.
 
 ## Step 5: Setup up a trigger
 
-Now, navigate to your DynamoDB table in the AWS Console, then visit the Triggers section and add this existing Lambda function to that table.
+Now, navigate to your DynamoDB table in the AWS Console, visit the Triggers section and add this existing Lambda function to that table.
 
 You can also do this using the AWS CLI:
 
@@ -221,23 +222,28 @@ You can also do this using the AWS CLI:
     ```bash
     aws dynamodb describe-table --table-name YourTableName
     ```
-    Note, the ARN for the stream
+    Note, the ARN for the stream:
     ```json
     ...
     "LatestStreamArn": "arn:aws:dynamodb:`region`:`accountID`:table/`table-name`/stream/`timestamp`"
     ...
     ```
-* Now, add this ARN to Lambda
+* Now, add this ARN to Lambda:
     ```bash
     aws lambda create-event-source-mapping \
-    --region us-east-1 \
-    --function-name YourLambdaFunction \
-    --event-source YourStreamARN \
-    --batch-size 1 \
-    --starting-position TRIM_HORIZON
+      --region us-east-1 \
+      --function-name YourLambdaFunction \
+      --event-source YourStreamARN \
+      --batch-size 1 \
+      --starting-position TRIM_HORIZON
     ```
 
-That's a wrap! Now your DynamoDB database will be automatically indexed in your Typesense cluster.
+:::tip
+When dealing with a large amount of changes in a high-traffic environment, we'd highly recommend that you batch writes into Typesense.
+You want to use something like Kinesis to stage the DynamoDB events and then batch write the changes into Typesense using the [import endpoint](../api/documents.md#import-documents).
+:::
+
+And that's a wrap! Now your any data you create, update or delete in your DynamoDB table will be automatically indexed in your Typesense cluster.
 
 ## References
 - [Sample Code](https://github.com/HarisaranG/dynamodb-typesense-indexing)
