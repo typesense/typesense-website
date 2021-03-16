@@ -35,9 +35,8 @@ export default {
         to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#initializing-the-client`,
       },
       {
-        // TODO: Fix this after we add this section back to new site
         from: `/${this.$page.typesenseVersion}/guide/#create-collection`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#create-collection`,
+        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#creating-a-books-collection`,
       },
       {
         from: `/${this.$page.typesenseVersion}/guide/#index-documents`,
