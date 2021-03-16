@@ -113,6 +113,7 @@ let config = {
             ['/0.19.0/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.19.0/guide/search-ui-components', 'Search UI Components'],
             ['/0.19.0/guide/typesense-firebase', 'Integrating with Firebase'],
+            ['/0.19.0/guide/typesense-dynamodb', 'Integrating with AWS DyanamoDB'],
           ],
         },
         {
@@ -694,6 +695,13 @@ let config = {
     ['@dovyp/vuepress-plugin-clipboard-copy', true],
     require('./plugins/typesense-enhancements'),
   ],
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@guide-images': '../../.vuepress/public/images'
+      }
+    }
+  }
 }
 
 module.exports = config
