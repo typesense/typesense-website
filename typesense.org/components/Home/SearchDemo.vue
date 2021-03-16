@@ -112,7 +112,6 @@ import {
   AisHighlight,
 } from 'vue-instantsearch'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
-import { SearchClient as TypesenseSearchClient } from 'typesense' // To get the total number of docs
 
 const INDEX_NAME = 'r'
 
@@ -157,20 +156,10 @@ export default {
       },
       hitsPerPage: 5,
       starQueryResults: {
-        out_of: 2231142, // Fallback
+        out_of: 2231142
       },
     }
   },
-  async fetch() {
-    const typesenseSearchClient = new TypesenseSearchClient(
-      typesenseServerConfig(this.$nuxt.$config)
-    )
-    this.starQueryResults = await typesenseSearchClient
-      .collections(INDEX_NAME)
-      .documents()
-      .search({ q: '*' })
-  },
-  fetchOnServer: true,
 }
 </script>
 
