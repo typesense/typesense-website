@@ -51,6 +51,7 @@
           </div>
           <div class="col-sm-10">
             <AisHits
+              :transform-items="transformSearchHits"
               :class-names="{
                 'ais-Hits-list': 'p-0',
                 'ais-Hits-item':
@@ -156,9 +157,24 @@ export default {
       },
       hitsPerPage: 5,
       starQueryResults: {
-        out_of: 2231142
+        out_of: 2231142,
       },
     }
+  },
+  methods: {
+    transformSearchHits: (items) => {
+      return items.map((item) => {
+        let fixedLink = item.link
+        if (!item.link.startsWith('http')) {
+          fixedLink = `http://${item.link}`
+        }
+
+        return {
+          ...item,
+          link: fixedLink,
+        }
+      })
+    },
   },
 }
 </script>
