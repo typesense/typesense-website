@@ -1,6 +1,4 @@
-.idea
+/dist/
 .vscode
-cmake-build-debug
-build
-_site
+.idea
 .DS_Store

@@ -1,28 +1,22 @@
-# Typesense Website &amp; Documentation
+# Typesense Website
 
-If you notice any typographic or logical errors in our documentation, please open an issue or a pull request!
+This repository contains Typesense landing pages [typesense.org](https://typesense.org) and documentation.
 
-## Running Jekyll
+We use VuePress for a framework for `/docs` and use Nuxt for all other routes.
 
-```
-$ cd typesense.org
-$ bundle exec jekyll serve --livereload
-```
+- The Vuepress docs site is under `docs-site`
+- The rest of the Nuxt site is under `typesense.org`
 
-You can now access the website on [`http://127.0.0.1:4000`](http://127.0.0.1:4000).
+We do this because Vuepress is specifically optimized (& opinionated) for documentation sites, whereas Nuxt is a generic and flexible Vue framework.
+We need this flexibility for the non-documentation parts of typesense.org.
 
-## Build
+## Deploying
 
-To create a Jekyll build:
+To deploy both sites together run:
 
-```
-$ sh build.sh
-```
-
-## Deployment
-
-```
-cd typesense.org && sh ../build.sh && aws s3 cp --recursive ../build/ s3://typesense.org --profile=typesense && aws cloudfront create-invalidation --distribution-id EQQQZ0LBFY66H --paths "/*" --profile typesense
+```shell
+bash deploy.sh
 ```
 
-&copy; 2016-2021 Typesense Inc.
+See README.md of each site for more site-specific information. 
+
