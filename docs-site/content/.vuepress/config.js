@@ -112,8 +112,8 @@ let config = {
           children: [
             ['/0.19.0/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.19.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.19.0/guide/typesense-firebase', 'Integrating with Firebase'],
-            ['/0.19.0/guide/typesense-dynamodb', 'Integrating with AWS DyanamoDB'],
+            ['/0.19.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
+            ['/0.19.0/guide/dynamodb-full-text-search', 'AWS DyanamoDB Full Text Search'],
           ],
         },
         {
@@ -177,7 +177,7 @@ let config = {
           children: [
             ['/0.18.0/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.18.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.18.0/guide/typesense-firebase', 'Integrating with Firebase'],
+            ['/0.18.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
           ],
         },
         {
@@ -227,7 +227,7 @@ let config = {
           children: [
             ['/0.17.0/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.17.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.17.0/guide/typesense-firebase', 'Integrating with Firebase'],
+            ['/0.17.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
           ],
         },
         {
@@ -275,7 +275,7 @@ let config = {
           children: [
             ['/0.16.1/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.16.1/guide/search-ui-components', 'Search UI Components'],
-            ['/0.16.1/guide/typesense-firebase', 'Integrating with Firebase'],
+            ['/0.16.1/guide/firebase-full-text-search', 'Integrating with Firebase'],
           ],
         },
         {
@@ -323,7 +323,7 @@ let config = {
           children: [
             ['/0.16.0/guide/building-a-search-application', 'Building a Search Application'],
             ['/0.16.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.16.0/guide/typesense-firebase', 'Integrating with Firebase'],
+            ['/0.16.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
           ],
         },
         {
