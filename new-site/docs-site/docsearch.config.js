@@ -4,7 +4,7 @@ const config = {
   index_name: 'typesense_docs',
   start_urls: [
     {
-      url: 'https://new-site.typesense.org/docs/(?P<version>.*?)/',
+      url: 'https://typesense.org/docs/(?P<version>.*?)/',
       variables: {
         version: typesenseVersions,
       },
