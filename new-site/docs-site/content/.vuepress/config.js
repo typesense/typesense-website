@@ -582,6 +582,92 @@ let config = {
         ['/0.11.2/api/api-errors', 'API Errors'],
       ],
 
+      // For 0.11.1
+      '/0.11.1/guide/': [
+        ['/0.11.1/guide/', 'Introduction'],
+        {
+          title: 'Getting Started', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.1/guide/install-typesense', 'Install Typesense'],
+            ['/0.11.1/guide/configure-typesense', 'Configure Typesense'],
+            ['/0.11.1/guide/installing-a-client', 'Installing a Client'],
+          ],
+        },
+        {
+          title: 'Walk-throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.1/guide/building-a-search-application', 'Building a Search Application'],
+          ],
+        },
+        {
+          title: 'Operations', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.1/guide/high-availability', 'High Availability'],
+            ['/0.11.1/guide/ranking-and-relevance', 'Ranking and Relevance'],
+          ],
+        },
+      ],
+      '/0.11.1/api/': [
+        ['/0.11.1/api/', 'Introduction'],
+        ['/0.11.1/api/api-clients', 'API Clients'],
+        ['/0.11.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.11.1/api/collections', 'Collections'],
+            ['/0.11.1/api/documents', 'Documents'],
+          ],
+        },
+        ['/0.11.1/api/api-errors', 'API Errors'],
+      ],
+
+      // For 0.11.0
+      '/0.11.0/guide/': [
+        ['/0.11.0/guide/', 'Introduction'],
+        {
+          title: 'Getting Started', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.0/guide/install-typesense', 'Install Typesense'],
+            ['/0.11.0/guide/configure-typesense', 'Configure Typesense'],
+            ['/0.11.0/guide/installing-a-client', 'Installing a Client'],
+          ],
+        },
+        {
+          title: 'Walk-throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.0/guide/building-a-search-application', 'Building a Search Application'],
+          ],
+        },
+        {
+          title: 'Operations', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.11.0/guide/high-availability', 'High Availability'],
+            ['/0.11.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
+          ],
+        },
+      ],
+      '/0.11.0/api/': [
+        ['/0.11.0/api/', 'Introduction'],
+        ['/0.11.0/api/api-clients', 'API Clients'],
+        ['/0.11.0/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.11.0/api/collections', 'Collections'],
+            ['/0.11.0/api/documents', 'Documents'],
+          ],
+        },
+        ['/0.11.0/api/api-errors', 'API Errors'],
+      ],
+
 
       '/overview': [
         ['/', 'Docs Home'],
