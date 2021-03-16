@@ -8,7 +8,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "deploy": "yarn generate && rm -rf ./dist/docs && aws s3 cp --recursive ./dist s3://typesense.org/ --profile typesense && yarn clearCDNCache",
-    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EJ8VOUOZDDMVB --paths \"/*\" --profile typesense",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/*\" --profile typesense",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
