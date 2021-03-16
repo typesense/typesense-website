@@ -170,7 +170,7 @@ export default {
       .documents()
       .search({ q: '*' })
   },
-  fetchOnServer: false,
+  fetchOnServer: true,
 }
 </script>
 
