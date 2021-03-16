@@ -18,7 +18,7 @@ We recommend that you use our API client if it's available for your language. It
   <template v-slot:JavaScript>
 
 ```js
-// npm install typesense
+// npm install typesense @babel/runtime
 
 // Browser
 <script src="dist/typesense.min.js"></script>
@@ -29,7 +29,7 @@ We recommend that you use our API client if it's available for your language. It
   <template v-slot:PHP>
 
 ```shell
-composer require typesense/typesense-php
+composer require php-http/curl-client typesense/typesense-php
 ```
 
   </template>

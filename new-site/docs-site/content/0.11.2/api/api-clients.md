@@ -18,7 +18,7 @@ We recommend that you use our API client if it's available for your language. It
 
 ```js
 // Node.js
-npm install typesense
+npm install typesense @babel/runtime
 
 // Browser
 <script src="dist/typesense.min.js"></script>

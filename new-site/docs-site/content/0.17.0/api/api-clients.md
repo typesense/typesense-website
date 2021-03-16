@@ -19,7 +19,7 @@ We recommend that you use our API client if it's available for your language. It
 
 ```js
 // Node.js
-npm install typesense
+npm install typesense @babel/runtime
 
 // Browser
 <script src="dist/typesense.min.js"></script>
@@ -30,7 +30,7 @@ npm install typesense
   <template v-slot:PHP>
 
 ```php
-composer require typesense/typesense-php
+composer require php-http/curl-client typesense/typesense-php
 ```
 
   </template>
