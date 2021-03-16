@@ -2,7 +2,7 @@
 
 This walk-through will show you how to ingest data from a DynamoDB table into Typesense. 
 
-At a high level we'll be setting up a Lambda function to listed to change events using [DynamoDB streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) and write the data into Typesense.
+At a high level we'll be setting up a Lambda function to listen for change events using [DynamoDB streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) and write the data into Typesense.
 
 ![Typesense DynamoDB Integration Chart](~@guide-images/typesense-dynamodb/typesense-dynamodb.svg)
 
