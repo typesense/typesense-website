@@ -11,3 +11,5 @@ For a detailed dive into the Typesense API, refer to our [API documentation](../
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
 :::
+
+<RedirectOldLinks />

@@ -11,3 +11,5 @@ To learn how to install and run Typesense, see the [Guide section](../guide/READ
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
 :::
+
+<RedirectOldLinks />
