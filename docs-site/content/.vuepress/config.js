@@ -94,6 +94,20 @@ let config = {
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: 'Edit page',
     sidebar: {
+      '/overview': [
+        ['/', 'Docs Home'],
+        {
+          title: 'Overview', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/overview/what-is-typesense', 'What is Typesense?'],
+            ['/overview/why-typesense', 'Why Typesense?'],
+            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
+            ['/overview/features', 'Key Features'],
+          ],
+        },
+      ],
+
       //For 0.19.0
       '/0.19.0/guide/': [
         ['/0.19.0/guide/', 'Introduction'],
@@ -125,6 +139,15 @@ let config = {
             ['/0.19.0/guide/updating-typesense', 'Updating Typesense'],
           ],
         },
+        {
+          title: 'Features', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.19.0/guide/features/typo-tolerance', 'Typo Tolerance'],
+            ['/0.19.0/guide/features/faceting', 'Faceting'],
+            ['/0.19.0/guide/features/filtering', 'Filtering'],
+          ],
+        },
       ],
       '/0.19.0/api/': [
         ['/0.19.0/api/', 'Introduction'],
@@ -144,19 +167,6 @@ let config = {
           ],
         },
         ['/0.19.0/api/api-errors', 'API Errors'],
-      ],
-      '/overview': [
-        ['/', 'Docs Home'],
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
       ],
 
       //For 0.18.0
@@ -669,20 +679,6 @@ let config = {
         ['/0.11.0/api/api-errors', 'API Errors'],
       ],
 
-
-      '/overview': [
-        ['/', 'Docs Home'],
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
-      ],
     },
   },
 

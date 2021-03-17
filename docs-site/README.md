@@ -15,6 +15,8 @@ On deployment, the dist folder generated is copied to [https://typesense.org/doc
 
 As you write content in the content folder, the page should live reload.
 
+Be sure to add new pages to the side bar in `content/.vuepress/config.js` as needed.
+
 ### Template Variables
 
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
