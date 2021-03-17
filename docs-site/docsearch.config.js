@@ -17,7 +17,7 @@ const config = {
       lvl2: '.content__default h3',
       lvl3: '.content__default h4',
       lvl4: '.content__default h5',
-      text: '.content__default p, .content__default li',
+      text: '.content__default p, .content__default li, .content__default table tbody tr',
     },
   },
   scrape_start_urls: false,
