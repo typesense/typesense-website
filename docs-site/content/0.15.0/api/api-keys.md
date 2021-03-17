@@ -134,7 +134,7 @@ curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_A
 
 By setting the `actions` scope to `["documents:search"]` and the `collections` scope to `["companies"]`, we can generate a key that is allowed to only conduct searches on the `companies` collection.
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -156,7 +156,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/keys`
 
 ### Sample actions
@@ -214,7 +214,7 @@ curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -234,7 +234,7 @@ curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_
 
 Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the create endpoint returns the full API key.
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/keys/:id`
 
 ## List all Keys
@@ -279,7 +279,7 @@ curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_AP
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -318,7 +318,7 @@ curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_AP
 
 Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the create endpoint returns the full API key.
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/keys/`
 
 ## Delete API Key
@@ -363,7 +363,7 @@ curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESEN
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -377,7 +377,7 @@ curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESEN
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/keys/:id`
 
 ## Generate Scoped Search Key
@@ -441,7 +441,7 @@ echo $scoped_api_key
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>

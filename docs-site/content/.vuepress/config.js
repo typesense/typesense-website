@@ -93,6 +93,7 @@ let config = {
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: 'Edit page',
+    sidebarDepth: 2,
     sidebar: {
       //For 0.19.0
       '/0.19.0/guide/': [

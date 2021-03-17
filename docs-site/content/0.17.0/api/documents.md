@@ -160,9 +160,9 @@ curl "http://localhost:8108/collections/companies/documents?action=upsert" -X PO
   </template>
 </Tabs>
 
-To index multiple documents at the same time, in a batch/bulk operation, see [importing documents]().
+To index multiple documents at the same time, in a batch/bulk operation, see [importing documents](#import-documents).
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -179,7 +179,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
 ## Search
@@ -255,7 +255,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -447,7 +447,7 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments
@@ -521,7 +521,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -538,7 +538,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -610,7 +610,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -625,7 +625,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -672,7 +672,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -689,7 +689,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -738,7 +738,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 Use the `batch_size` parameter to control the number of documents that should deleted at a time. A larger value will speed up deletions, but will impact performance of other operations running on the server.
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -753,7 +753,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 </Tabs>
 
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents?filter_by=X&batch_size=N`
 
 
@@ -799,7 +799,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
@@ -813,17 +813,26 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
 
 ## Import documents
-The documents to be imported can be either an array of document objects or be formatted as a newline delimited JSON string (see [JSONL](https://jsonlines.org/)).
 
-**Indexing multiple documents at the same time**
-You can index multiple documents via the import API.
+You can index multiple documents in a batch using the import API.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
+The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format.
+This is essentially one JSON object per line, without commas between documents. For example, here are a set of 3 documents represented in JSONL format.
+
+```js
+{"id": "124", "company_name": "Stark Industries", "num_employees": 5215, "country": "US"}
+{"id": "125", "company_name": "Future Technology", "num_employees": 1232, "country": "UK"}
+{"id": "126", "company_name": "Random Corp.", "num_employees": 531, "country": "AU"}
+```
+
+If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -834,7 +843,7 @@ let documents = [{
   'country': 'USA'
 }]
 
-client.collections('companies').documents().import(documents, {action: 'upsert'})
+client.collections('companies').documents().import(documents, {action: 'create'})
 ```
 
   </template>
@@ -849,7 +858,7 @@ $documents = [[
   'country'       => 'USA'
 ]]
 
-$client->collections['companies']->documents->import($documents, ['action' => 'upsert'])
+$client->collections['companies']->documents->import($documents, ['action' => 'create'])
 ```
 
   </template>
@@ -863,7 +872,7 @@ documents = [{
   'country': 'USA'
 }]
 
-client.collections['companies'].documents.import_(documents, {'action': 'upsert'})
+client.collections['companies'].documents.import_(documents, {'action': 'create'})
 ```
 
   </template>
@@ -877,16 +886,26 @@ documents = [{
   'country'       => 'USA'
 }]
 
-client.collections['companies'].documents.import(documents, action: 'upsert')
+client.collections['companies'].documents.import(documents, action: 'create')
 ```
 
   </template>
+  <template v-slot:Shell>
 
+```bash
+curl "http://localhost:8108/collections/companies/documents/import?action=create" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
+        -X POST 
+        -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
+            {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
+```
+
+  </template>
 </Tabs>
 
-The other allowed `action` modes are `create` and `update`.
+Besides `create`, the other allowed `action` modes are `upsert` and `update`.
 
-**Action modes**
+#### Action modes
 
 <table>
     <tr>
@@ -903,7 +922,7 @@ The other allowed `action` modes are `create` and `update`.
     </tr>
 </table>
 
-**Importing a JSONL file**
+### Import a JSONL file
 
 You can feed the output of a Typesense export operation directly as import to the import end-point since both use JSONL.
 
@@ -968,11 +987,30 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
   </template>
 </Tabs>
 
-In the example above, we're importing the documents with the `action` flag set to `create`. This means that the documents will be inserted only if a document with the same `id` is not already found.
+<br/>
 
-As we have seen earlier, you can also use the `upsert` and `update` actions. If you don't provide an `action`, the default mode is `create`.
+### Import a JSON file
 
-### Configuring the batch size used for import
+If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
+
+```shell
+cat documents.json | jq -c .[] > documents.jsonl
+```
+
+Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
+
+### Import a CSV file
+
+If you have a CSV file with column headers, you can convert it into JSONL format using [`mlr`](https://github.com/johnkerl/miller):
+
+```shell
+mlr --c2j cat documents.csv > documents.jsonl
+```
+
+Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
+
+### Configure batch size
+
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
@@ -1021,7 +1059,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 
 **NOTE**: Larger batch sizes will consume larger transient memory during import.
 
-### Sample response
+#### Sample Response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
@@ -1049,6 +1087,6 @@ If there is a failure, the response line will include a corresponding error mess
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
 

@@ -7,7 +7,9 @@ Typesense supports two types of synonyms:
 
 2. **One-way synonyms**: Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searches for `DEF` or `XYZ` to return records containing `ABC`.
 
-## Create or update a multi-way synonym
+## Create or update a synonym
+
+### Multi-way synonym
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -72,7 +74,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -87,7 +89,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
   </template>
 </Tabs>
 
-## Create or update a one-way synonym
+### One-way synonym
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -158,7 +160,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -174,7 +176,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PUT ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 
 ### Arguments
@@ -225,7 +227,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -241,7 +243,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 
 ## List all synonyms
@@ -287,7 +289,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -300,7 +302,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/synonyms`
 
 ## Delete a synonym
@@ -346,7 +348,7 @@ curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -360,6 +362,6 @@ curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE 
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 

@@ -68,7 +68,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 </Tabs>
 
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -85,7 +85,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
 ## Search
@@ -147,7 +147,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -318,7 +318,7 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments
@@ -382,7 +382,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -399,7 +399,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -439,7 +439,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -456,7 +456,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 ## Export documents
@@ -494,7 +494,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JavaScript','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -546,7 +546,7 @@ u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}'
 </Tabs>
 
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
 
@@ -581,7 +581,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
   </template>
 </Tabs>
 
-### Sample response
+#### Sample Response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
@@ -626,6 +626,6 @@ If there is a failure, the response item will include a corresponding error mess
 
 **Note:** we recommend importing documents 1MB at a time, to keep import speeds fast.
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
 
