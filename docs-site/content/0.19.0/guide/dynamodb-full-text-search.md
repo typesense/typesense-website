@@ -170,12 +170,12 @@ def lambda_handler(event, context):
         if record['eventName'] == 'REMOVE':
             res = client.collections['<collection-name>'].documents[str(ddb_record['OldImage']['id']['N'])].delete()
         else:
-            upload = ddb_record['NewImage'] # format your document here and the use upsert function to index it.
-            res = client.collections['<collection-name>'].upsert(upload)
+            document = ddb_record['NewImage'] # format your document here and the use upsert function to index it.
+            res = client.collections['<collection-name>'].upsert(document)
             print(res)
         processed = processed + 1
         print('Successfully processed {} records'.format(processed))
-    return proceessed
+    return processed
 ```
 
 See the [Typesense API](../api/README.md) documentation for detailed information about all the parameters available to create collections and documents.
