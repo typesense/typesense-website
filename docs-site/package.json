@@ -6,7 +6,8 @@
     "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/docs*\" --profile typesense",
     "scrapeAndIndexDocs": "aws ecs run-task --no-cli-pager --task-definition=scrape-index-docs --launch-type=FARGATE --cluster=typesense-docsearch-scraper --overrides=\"{\\\"containerOverrides\\\":[ { \\\"name\\\": \\\"typesense-docsearch-scraper\\\", \\\"environment\\\": [ { \\\"name\\\": \\\"CONFIG\\\", \\\"value\\\": $(node docsearch.config.js | jq -aR .)}] }]}\" --network-configuration='{\"awsvpcConfiguration\": {\"subnets\": [\"subnet-00a6c52b\"], \"assignPublicIp\": \"ENABLED\"}}' --profile=typesense",
     "lint": "eslint --ext .js,.vue content/.vuepress",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.19.0 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors"
   },
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.8.2",
