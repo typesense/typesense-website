@@ -82,7 +82,7 @@ const config = {
     typesenseProtocol: process.env.TYPESENSE_PROTOCOL,
     typesenseSearchOnlyAPIKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY,
     typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
-    baseURL: process.env.BASE_URL || 'typesense.org',
+    baseURL: process.env.BASE_URL || 'https://typesense.org',
   },
 
   'google-gtag': {
