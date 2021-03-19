@@ -172,8 +172,8 @@ client.operations.perform('vote')
 
 ```bash
 curl "http://localhost:8108/config" \
-        -X POST -H "Content-Type: application/json" \
-        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+        -X POST \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         -d '{"log-slow-requests-time-ms": 2000}'
 ```
 
