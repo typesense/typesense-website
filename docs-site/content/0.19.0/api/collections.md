@@ -13,7 +13,6 @@ Your documents can contain other fields not mentioned in the collection's schema
 ```js
 let schema = {
   'name': 'companies',
-  'num_documents': 0,
   'fields': [
     {
       'name': 'company_name',
