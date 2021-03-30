@@ -115,6 +115,7 @@ let config = {
             ['/0.19.0/guide/search-ui-components', 'Search UI Components'],
             ['/0.19.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
             ['/0.19.0/guide/dynamodb-full-text-search', 'AWS DyanamoDB Full Text Search'],
+            ['/0.19.0/guide/mongodb-typesense', 'MongoDB Integration'],
           ],
         },
         {
