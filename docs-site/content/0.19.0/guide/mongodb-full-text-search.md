@@ -154,5 +154,5 @@ That's it 😊! Now you can easily search through your MongoDB documents using T
 - [Sample Code](https://github.com/HarisaranG/typesense-mongodb)
 - [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 - [Change Streams NodeJS](https://developer.mongodb.com/quickstart/nodejs-change-streams-triggers/)
-- [Typesense API](https://typesense.org/docs/0.19.0/api/))
+- [Typesense API](https://typesense.org/docs/0.19.0/api/)
 - [Typesense guide](https://typesense.org/docs/0.19.0/guide/)
