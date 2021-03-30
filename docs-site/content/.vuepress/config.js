@@ -88,7 +88,7 @@ let config = {
     // if your docs are in a different repo from your main project:
     docsRepo: 'typesense/typesense-website',
     // if your docs are not at the root of the repo:
-    docsDir: 'new-site/docs-site/content',
+    docsDir: 'docs-site/content',
     // if your docs are in a specific branch (defaults to 'master'):
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
