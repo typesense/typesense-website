@@ -17,7 +17,7 @@ As you write content in the content folder, the page should live reload.
 
 ### Adding images
 
-Place images in [/content/.vuepress/public/images]. Prefer using SVGs. 
+Place images in [content/.vuepress/public/images](content/.vuepress/public/images). Prefer using SVGs. 
 
 Reference images in markdown files like this: 
 
