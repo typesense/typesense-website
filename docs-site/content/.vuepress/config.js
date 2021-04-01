@@ -699,7 +699,7 @@ let config = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@guide-images': '../../.vuepress/public/images'
+        '@images': '../../.vuepress/public/images'
       }
     }
   }
