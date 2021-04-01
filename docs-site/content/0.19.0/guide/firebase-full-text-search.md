@@ -65,7 +65,7 @@ myCollection = {
   'default_sorting_field': 'publication_year'
 }
 
-client.collections.create(myCollection)
+client.collections().create(myCollection)
 ```
 
 We created a collection called `books` and the documents stored in the `books` collection will have three fields - `id`, `title` and `publication_year`.`id` is an interesting field here as Typesense uses it as an identifier for the document. If there is no `id` field, Typesense automatically assigns an identifier to the document. Note that the `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp). For this tutorial, we will take the firestore id of the document as the `id` value.
