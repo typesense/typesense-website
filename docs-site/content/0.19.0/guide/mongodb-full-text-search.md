@@ -2,7 +2,7 @@
 
 This guide will walk you through how to integrate Typesense server with MongoDB by setting up a trigger using MongoDB's Change Streams.
 
-![Typesense MongoDB Integration Chart](@guide-images/typesense-mongodb/mongodb.svg)
+![Typesense MongoDB Integration Chart](@images/typesense-mongodb/mongodb.svg)
 
 ## Step 1: Install and Run Typesense
 
@@ -13,7 +13,7 @@ docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
 --data-dir /data --api-key=$TYPESENSE_API_KEY
 ```
 
-Now, we can check if our Typsense server is ready to accept requests.
+Now, we can check if our Typesense server is ready to accept requests.
 
 ```bash
 curl http://localhost:8108/health
@@ -24,8 +24,10 @@ You can also run Typesense in other ways. Check out [Typesense Installation](./i
 
 ## Step 2: Start a MongoDB Replica Set
 
-Here we will convert a standalone MongoDB instance to a replica set. 
-To convert to replica set:
+MongoDB Replica sets provide redundancy and high availability, and are the basis for all production deployments.
+
+If you have a standalone MongoDB instance, you can convert it to a replica set by following steps:
+
 * Shutdown already running MongoDB server.
 * Start the MongoDB server by specifying -- replSet option
 ```bash
@@ -36,9 +38,9 @@ Check the status of replica set issuing the command `rs.status()` in mongo shell
 
 ## Step 3: Open a Change Stream
 
-We can open a change stream for MongoDB Replica Set from any of the data-bearing members.
+We can open a change stream for MongoDB Replica Set from any of the data-bearing members. For detailed explanation check out [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 
-Example,
+Here's an example:
 ```js
 const uri = '<MongoDB-URI>';
 const mongodbOptions = {
@@ -58,7 +60,7 @@ changeStream.on('change', (next) => {
 
 To use Typesense, we first need to create a client. Typesense supports multiple API clients including Javascript, Python, Ruby, PHP etc.
 
-To create the Javascript client, you need the API key of the Typesense server:
+To initalize the Javascript client, you need the API key of the Typesense server:
 
 ```js
 import Typesense from 'typesense'
