@@ -1,12 +1,12 @@
 # MongoDB Integration with Typesense
 
-Hey there! 👋. This post gives you a guide to integrate Typesense server with MongoDB by setting up a trigger using MongoDB's Change Streams.
+This guide will walk you through how to integrate Typesense server with MongoDB by setting up a trigger using MongoDB's Change Streams.
 
-![Typesense DynamoDB Integration Chart](@guide-images/typesense-mongodb/mongodb.svg)
+![Typesense MongoDB Integration Chart](@guide-images/typesense-mongodb/mongodb.svg)
 
 ## Step 1: Install and Run Typesense
 
-To install and start typesense using docker issue the following docker command,
+To install and start Typesense using docker run the following Docker command:
 
 ```bash
 docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
@@ -20,7 +20,7 @@ curl http://localhost:8108/health
 {"ok":true}
 ```
 
-You can also run Typesense in other ways. Check out [Typesense Installation](https://typesense.org/docs/0.19.0/guide/install-typesense.html) for more details.
+You can also run Typesense in other ways. Check out [Typesense Installation](./install-typesense.md) for more details.
 
 ## Step 2: Start a MongoDB Replica Set
 
@@ -154,5 +154,5 @@ That's it 😊! Now you can easily search through your MongoDB documents using T
 - [Sample Code](https://github.com/HarisaranG/typesense-mongodb)
 - [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 - [Change Streams NodeJS](https://developer.mongodb.com/quickstart/nodejs-change-streams-triggers/)
-- [Typesense API](https://typesense.org/docs/0.19.0/api/)
-- [Typesense guide](https://typesense.org/docs/0.19.0/guide/)
+- [Typesense API](../api/README.md)
+- [Typesense guide](./README.md)
