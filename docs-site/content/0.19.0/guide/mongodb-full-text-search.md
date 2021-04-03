@@ -91,9 +91,25 @@ await typesense.collections().create(schema);
 
 ## Step 5: Index documents to Typesense
 
-Next, we'll write functions to listen to change streams from MongoDB and write the changes to Typesense.
+Next, we'll write function to listen to change streams from MongoDB and write the changes to Typesense.
 
-A example MongoDB change streams response,
+```js
+async function index(next, typesense){
+    if(next.operationType == 'delete') {
+        await typesense.collections('books').documents(next.documentKey._id).delete();
+    } else if(next.operationType == 'update') {
+        let data = JSON.stringify(next.updateDescription.updatedFields);
+        await typesense.collections('books').documents(next.documentKey._id).update(data);
+    } else {
+        next.fullDocument.id = next.fullDocument["_id"];
+        delete next.fullDocument._id;
+        let data = JSON.stringify(next.fullDocument);
+        await typesense.collections('books').documents().upsert(data);
+    }
+}
+```
+
+ Here's an example MongoDB change streams response:
 
 ```js
 {
@@ -129,22 +145,6 @@ A example MongoDB change streams response,
   clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 7, high_: 1617074062 },
   ns: { db: 'sample', coll: 'books' },
   documentKey: { _id: 6062978e06e4444ef0c7f16c }
-}
-```
-A example function,
-```js
-async function index(next, typesense){
-    if(next.operationType == 'delete') {
-        await typesense.collections('books').documents(next.documentKey._id).delete();
-    } else if(next.operationType == 'update') {
-        let data = JSON.stringify(next.updateDescription.updatedFields);
-        await typesense.collections('books').documents(next.documentKey._id).update(data);
-    } else {
-        next.fullDocument.id = next.fullDocument["_id"];
-        delete next.fullDocument._id;
-        let data = JSON.stringify(next.fullDocument);
-        await typesense.collections('books').documents().upsert(data);
-    }
 }
 ```
 
