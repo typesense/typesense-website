@@ -30,10 +30,10 @@ client.collections('products').synonyms().upsert('coat-synonyms', synonym)
 ```php
 $synonym = [
   "synonyms" => ["blazer", "coat", "jacket"]
-]
+];
 
 # Creates/updates a synonym called `coat-synonyms` in the `products` collection
-$client->collections['products']->synonyms->upsert('coat-synonyms', $synonym)
+$client->collections['products']->synonyms->upsert('coat-synonyms', $synonym);
 ```
 
   </template>
@@ -109,13 +109,13 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   <template v-slot:PHP>
 
 ```php
-synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
-}
+$synonym = [
+  'root' => 'blazer',
+  'synonyms' => ['coat', 'jacket'],
+];
 
 // Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+$client->collections['products']->synonyms->upsert('blazer-synonyms', $synonym);
 ```
 
   </template>
@@ -181,7 +181,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |synonyms	|yes	|Array of words that should be considered as synonyms.|
 |root	|no	|For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.|
 
@@ -200,7 +200,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   <template v-slot:PHP>
 
 ```php
-client.collections('products').synonyms('coat-synonyms').retrieve
+$client->collections['products']->synonyms['coat-synonyms']->retrieve();
 ```
 
   </template>
@@ -261,7 +261,7 @@ client.collections('products').synonyms().retrieve
   <template v-slot:PHP>
 
 ```php
-$client->collections['products']->synonyms->retrieve()
+$client->collections['products']->synonyms->retrieve();
 ```
 
   </template>
@@ -320,7 +320,7 @@ client.collections('books').synonyms('coat-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['books']->synonyms['coat-synonyms'].delete()
+$client->collections['books']->synonyms['coat-synonyms'].delete();
 ```
 
   </template>

@@ -28,7 +28,7 @@ $key = $client->keys->create([
   'description' => 'Admin key.',
   'actions' => ['*'],
   'collections' => ['*']
-])
+]);
 ```
 
   </template>
@@ -95,7 +95,7 @@ $client->keys->create([
   'description' => 'Search-only companies key.',
   'actions' => ['documents:search'],
   'collections' => ['companies']
-])
+]);
 ```
 
   </template>
@@ -161,7 +161,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |actions	|yes	|List of allowed actions. See next table for possible values.|
 |collections	|yes	|List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.|
 |description	|no	|Internal description to identify what the key is for|
@@ -194,7 +194,7 @@ key = client.keys(1).retrieve()
   <template v-slot:PHP>
 
 ```php
-$key = $client->keys[1]->retrieve()
+$key = $client->keys[1]->retrieve();
 
 ```
 
@@ -260,7 +260,7 @@ client.keys().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->keys->retrieve()
+$client->keys->retrieve();
 ```
 
   </template>
@@ -344,7 +344,7 @@ key = client.keys(1).delete()
   <template v-slot:PHP>
 
 ```php
-key = client.keys(1).delete()
+$client->keys[1]->delete();
 ```
 
   </template>
@@ -412,8 +412,8 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
   <template v-slot:PHP>
 
 ```php
-$keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465])
+$keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
+$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465]);
 ```
 
   </template>

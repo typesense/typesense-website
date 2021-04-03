@@ -17,7 +17,7 @@ client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-sna
   <template v-slot:PHP>
 
 ```php
-$client->operations->perform("snapshot", ["snapshot_path" => "/tmp/typesense-data-snapshot"])
+$client->operations->perform("snapshot", ["snapshot_path" => "/tmp/typesense-data-snapshot"]);
 ```
 
   </template>
@@ -65,7 +65,7 @@ curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-dat
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |snapshot_path	|yes	|The directory on the server where the snapshot should be saved.|
 
 ## Re-elect Leader
@@ -85,7 +85,7 @@ client.operations.perform('vote')
   <template v-slot:PHP>
 
 ```php
-$client->operations->perform("vote")
+$client->operations->perform("vote");
 ```
 
   </template>
@@ -150,7 +150,7 @@ client.operations.perform('vote')
   <template v-slot:PHP>
 
 ```php
-$client->operations->perform("vote")
+$client->operations->perform("vote");
 ```
 
   </template>
@@ -200,7 +200,7 @@ curl "http://localhost:8108/config" \
 
 ## Cluster Metrics
 
-Get current RAM, CPU, Disk & Network usage metrics. 
+Get current RAM, CPU, Disk & Network usage metrics.
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
@@ -249,9 +249,9 @@ curl "http://localhost:8108/metrics.json" \
 
 ## API Stats
 
-Get stats about API endpoints. 
+Get stats about API endpoints.
 
-This endpoint returns average requests per second and latencies for all requests in the last 10 seconds.  
+This endpoint returns average requests per second and latencies for all requests in the last 10 seconds.
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>

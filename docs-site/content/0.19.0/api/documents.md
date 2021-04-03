@@ -30,9 +30,9 @@ $document = [
   'company_name'  => 'Stark Industries',
   'num_employees' => 5215,
   'country'       => 'USA'
-]
+];
 
-$client->collections['companies']->documents->create($document)
+$client->collections['companies']->documents->create($document);
 ```
 
   </template>
@@ -109,9 +109,9 @@ $document = [
   'company_name'  => 'Stark Industries',
   'num_employees' => 5215,
   'country'       => 'USA'
-]
+];
 
-$client->collections['companies']->documents->upsert($document)
+$client->collections['companies']->documents->upsert($document);
 ```
 
   </template>
@@ -210,9 +210,9 @@ $searchParameters = [
   'query_by'  => 'company_name',
   'filter_by' => 'num_employees:>100',
   'sort_by'   => 'num_employees:desc'
-]
+];
 
-$client->collections['companies']->documents->search($searchParameters)
+$client->collections['companies']->documents->search($searchParameters);
 ```
 
   </template>
@@ -363,9 +363,9 @@ $searchParameters = [
   'sort_by'     => 'num_employees:desc',
   'group_by'    => 'country',
   'group_limit' => '1'
-]
+];
 
-$client->collections['companies']->documents->search($searchParameters)
+$client->collections['companies']->documents->search($searchParameters);
 ```
 
   </template>
@@ -462,7 +462,7 @@ client.collections['companies'].documents.search(search_parameters)
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |q	|yes	|The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`|
 |query_by	|yes	|One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.|
 |query_by_weights	|no	|The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.|
@@ -539,14 +539,14 @@ $searchRequests = [
       'q' => 'Nike'
     ]
   ]
-]
+];
 
 // Search parameters that are common to all searches go here
 $commonSearchParams =  [
     'query_by' => 'name',
-]
+];
 
-$client->multiSearch->perform($searchRequests, $commonSearchParams)
+$client->multiSearch->perform($searchRequests, $commonSearchParams);
 ```
 
   </template>
@@ -710,7 +710,7 @@ curl "http://localhost:8108/multi_search?query_by=name" \
 ### Arguments
 
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |limit_multi_searches	|no	|Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.
 
 
@@ -729,7 +729,7 @@ client.collections('companies').documents('124').retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->documents['124']->retrieve()
+$client->collections['companies']->documents['124']->retrieve();
 ```
 
   </template>
@@ -801,9 +801,9 @@ client.collections('companies').documents('124').update(document)
 $document = [
   'company_name'  => 'Stark Industries',
   'num_employees' => 5500
-]
+];
 
-$client->collections['companies']->documents['124']->update($document)
+$client->collections['companies']->documents['124']->update($document);
 ```
 
   </template>
@@ -880,7 +880,7 @@ client.collections('companies').documents('124').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->documents['124']->delete()
+$client->collections['companies']->documents['124']->delete();
 ```
 
   </template>
@@ -1008,7 +1008,7 @@ client.collections('companies').documents().export()
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->documents->export()
+$client->collections['companies']->documents->export();
 ```
 
   </template>
@@ -1058,7 +1058,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
 
 You can index multiple documents in a batch using the import API.
 
-The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format. 
+The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format.
 This is essentially one JSON object per line, without commas between documents. For example, here are a set of 3 documents represented in JSONL format.
 
 ```js
@@ -1093,9 +1093,9 @@ $documents = [[
   'company_name'  => 'Stark Industries',
   'num_employees' => 5215,
   'country'       => 'USA'
-]]
+]];
 
-$client->collections['companies']->documents->import($documents, ['action' => 'create'])
+$client->collections['companies']->documents->import($documents, ['action' => 'create']);
 ```
 
   </template>
@@ -1131,8 +1131,8 @@ client.collections['companies'].documents.import(documents, action: 'create')
 
 ```bash
 curl "http://localhost:8108/collections/companies/documents/import?action=create" \
-        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
-        -X POST 
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+        -X POST
         -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
             {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
 ```
@@ -1192,7 +1192,7 @@ client.collections('companies').documents().import(documentsInJsonl, {action: 'c
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create'])
+client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create']);
 ```
 
   </template>
@@ -1264,7 +1264,7 @@ client.collections('companies').documents().import(documentsInJsonl, {batch_size
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100])
+client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100]);
 ```
 
   </template>
