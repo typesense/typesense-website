@@ -9,7 +9,7 @@ This guide will walk you through how to integrate Typesense server with MongoDB 
 To install and start Typesense using docker run the following Docker command:
 
 ```bash
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
+docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense: \
 --data-dir /data --api-key=$TYPESENSE_API_KEY
 ```
 
@@ -20,7 +20,7 @@ curl http://localhost:8108/health
 {"ok":true}
 ```
 
-You can also run Typesense in other ways. Check out [Typesense Installation](./install-typesense.md) for more details.
+You can also run Typesense in other ways. Check out [Typesense Installation](./install-typesense.md) and [Typesense Cloud](https://cloud.typesense.org/) for more details.
 
 ## Step 2: Start a MongoDB Replica Set
 
