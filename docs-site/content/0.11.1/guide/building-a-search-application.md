@@ -21,6 +21,9 @@ Be sure to use the same API key that you used to start the Typesense server earl
      *  search-only API Key rather than the master API key since the latter
      *  has write access to Typesense and you don't want to expose that.
      */
+
+const Typesense = require('typesense')
+
 let client = new Typesense.Client({
   'masterNode': {
     'host': 'localhost',
