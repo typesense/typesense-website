@@ -431,9 +431,9 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_b
 KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
 EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124"}'
 
-digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64)
+digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64 -w0)
 
-scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64)
+scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64 -w0)
 
 echo $scoped_api_key
 ```
@@ -447,7 +447,7 @@ echo $scoped_api_key
   <template v-slot:JSON>
 
 ```json
-"SC9sT0hncHFwTHNFc3U3d3psRDZBUGNXQUViQUdDNmRHSmJFQnNnczJ4VT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCJ9"
+"RDhxa2VKTnBQVkxaVlFIOS9JWDZ2bDdtMU5HL3laa0pab2pTeEUzbFBhZz1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCIsImV4cGlyZXNfYXQiOjE2MTE1OTA0NjV9"
 
 ```
 
