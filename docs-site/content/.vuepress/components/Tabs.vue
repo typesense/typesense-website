@@ -1,15 +1,17 @@
 <template>
   <div class="mb-3">
-    <ul class="nav-container flex">
-      <li v-for="tab in tabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
-        <span class="nav-title">{{ tab }}</span>
-      </li>
-    </ul>
-    <div class="content-container">
-      <div v-for="tab in tabs" v-show="tab === activeTab" :key="tab" class="tab-content">
-        <slot :name="tab" />
+    <ClientOnly>
+      <ul class="nav-container flex">
+        <li v-for="tab in tabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
+          <span class="nav-title">{{ tab }}</span>
+        </li>
+      </ul>
+      <div class="content-container">
+        <div v-for="tab in tabs" v-show="tab === activeTab" :key="tab" class="tab-content">
+          <slot :name="tab" />
+        </div>
       </div>
-    </div>
+    </ClientOnly>
   </div>
 </template>
 
