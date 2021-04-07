@@ -9,7 +9,7 @@ This guide will walk you through how to integrate Typesense server with MongoDB 
 To install and start Typesense using docker run the following Docker command:
 
 ```bash
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense: \
+docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
 --data-dir /data --api-key=$TYPESENSE_API_KEY
 ```
 
@@ -30,6 +30,7 @@ If you have a standalone MongoDB instance, you can convert it to a replica set b
 
 * Shutdown already running MongoDB server.
 * Start the MongoDB server by specifying -- replSet option
+
 ```bash
 mongod --port "PORT" --dbpath "YOUR_DB_DATA_PATH" --replSet "REPLICA_SET_INSTANCE_NAME"
 ```
@@ -37,6 +38,8 @@ mongod --port "PORT" --dbpath "YOUR_DB_DATA_PATH" --replSet "REPLICA_SET_INSTANC
 Check the status of replica set issuing the command `rs.status()` in mongo shell.
 
 ## Step 3: Open a Change Stream
+
+Now let's open a change stream to listen for any changes to data in our MongoDB cluster. We'll later push these changes to Typesense.
 
 We can open a change stream for MongoDB Replica Set from any of the data-bearing members. For detailed explanation check out [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 
@@ -75,7 +78,7 @@ let typesense = new Typesense.Client({
   'connectionTimeoutSeconds': 2
 })
 ```
-Next, we will create a collection. A collection needs a schema, that represents how a douments would look like.
+Next, we will create a collection. A collection needs a schema, that represents how a doument would look like.
 
 ```js
 let schema = {
@@ -93,25 +96,9 @@ await typesense.collections().create(schema);
 
 ## Step 5: Index documents to Typesense
 
-Next, we'll write function to listen to change streams from MongoDB and write the changes to Typesense.
+Next, we'll create a function to listen to change streams from MongoDB and write the changes to Typesense.
 
-```js
-async function index(next, typesense){
-    if(next.operationType == 'delete') {
-        await typesense.collections('books').documents(next.documentKey._id).delete();
-    } else if(next.operationType == 'update') {
-        let data = JSON.stringify(next.updateDescription.updatedFields);
-        await typesense.collections('books').documents(next.documentKey._id).update(data);
-    } else {
-        next.fullDocument.id = next.fullDocument["_id"];
-        delete next.fullDocument._id;
-        let data = JSON.stringify(next.fullDocument);
-        await typesense.collections('books').documents().upsert(data);
-    }
-}
-```
-
- Here's an example MongoDB change streams response:
+Here's an example MongoDB change streams response:
 
 ```js
 {
@@ -147,6 +134,22 @@ async function index(next, typesense){
   clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 7, high_: 1617074062 },
   ns: { db: 'sample', coll: 'books' },
   documentKey: { _id: 6062978e06e4444ef0c7f16c }
+}
+```
+
+```js
+async function index(next, typesense){
+    if(next.operationType == 'delete') {
+        await typesense.collections('books').documents(next.documentKey._id).delete();
+    } else if(next.operationType == 'update') {
+        let data = JSON.stringify(next.updateDescription.updatedFields);
+        await typesense.collections('books').documents(next.documentKey._id).update(data);
+    } else {
+        next.fullDocument.id = next.fullDocument["_id"];
+        delete next.fullDocument._id;
+        let data = JSON.stringify(next.fullDocument);
+        await typesense.collections('books').documents().upsert(data);
+    }
 }
 ```
 
@@ -271,7 +274,7 @@ main().catch(console.error);
 ```
 
 
-That's it 😊! Now you can easily search through your MongoDB documents using Typsense. You can even use [Typesense Cloud](https://cloud.typesense.org/) and [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for cloud version.
+That's it 😊! Now you can easily search through your MongoDB documents using Typsense. You can even use [Typesense Cloud](https://cloud.typesense.org/) and [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for hosted versions of Typesense and MongoDB.
 
 ## References
 - [Sample Code](https://github.com/HarisaranG/typesense-mongodb)
