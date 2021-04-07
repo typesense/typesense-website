@@ -47,10 +47,10 @@ $override = [
   "excludes" => [
     ["id" => "287"]
   ]
-]
+];
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-$client->collections['companies']->overrides->upsert('customize-apple', $override)
+$client->collections['companies']->overrides->upsert('customize-apple', $override);
 ```
 
   </template>
@@ -159,7 +159,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |excludes	|no	|List of document `id`s that should be excluded from the search results.|
 |includes	|no	|List of document `id`s that should be included in the search results with their corresponding `positions`.|
 |rule.query	|yes	|Indicates what search queries should be overridden.|
@@ -180,7 +180,7 @@ client.collections('companies').overrides().retrieve
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->overrides->retrieve()
+$client->collections['companies']->overrides->retrieve();
 ```
 
   </template>
@@ -264,7 +264,7 @@ client.collections('companies').overrides('customize-apple').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->overrides['customize-apple'].delete()
+$client->collections['companies']->overrides['customize-apple']->delete();
 ```
 
   </template>
