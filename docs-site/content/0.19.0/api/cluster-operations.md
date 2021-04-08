@@ -290,3 +290,34 @@ curl "http://localhost:8108/stats.json" \
 `GET ${TYPESENSE_HOST}/stats.json`
 
 
+## Health
+
+Get health information about a Typesense node.
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/health"
+```
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "status": "ok"
+}
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`GET ${TYPESENSE_HOST}/health`
+
+

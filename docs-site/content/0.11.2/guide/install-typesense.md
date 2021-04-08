@@ -1,19 +1,64 @@
 # Install Typesense
 
-You'll find DEB, RPM and pre-built binaries for Linux (X86_64) and Mac OS X on our [downloads](https://typesense.org/downloads) page.
+You can either self-host Typesense, run it on your local machine or use our managed Typesense Cloud service.
+
+## Typesense Cloud
+
+The easiest way to run Typesense is using our managed Cloud service called [Typesense Cloud](https://cloud.typesense.org/).
+
+Sign-in with Github, pick a configuration and you'll have a production-grade cluster in a few minutes.
+
+## Local Machine / Self-Hosting
+
+You can also run Typesense on your local machine or self-host it.
+
+You'll find DEB, RPM and pre-built binaries for Linux (X86_64) and macOS on our [downloads](https://typesense.org/downloads) page.
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
 
-### Installing Typesense
+### 📥 Download & Install
+
+#### Mac Binary
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-darwin-amd64.tar.gz
+</code></pre>
+
+  </template>
+</Tabs>
+
+#### Linux Binary
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-linux-amd64.tar.gz
+</code></pre>
+
+  </template>
+</Tabs>
+
+#### Docker
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>docker pull typesense/typesense:{{ $page.typesenseVersion }}
+</code></pre>
+
+  </template>
+</Tabs>
 
 #### DEB package on Ubuntu/Debian
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-```bash
-apt install ./typesense-server-<version>-amd64.deb
-```
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-amd64.deb
+sudo apt install ./typesense-server-{{ $page.typesenseVersion }}-amd64.deb
+</code></pre>
 
   </template>
 </Tabs>
@@ -22,24 +67,17 @@ apt install ./typesense-server-<version>-amd64.deb
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-```bash
-yum install ./typesense-server-<version>.x86_64.rpm
-```
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-1.x86_64.rpm
+sudo yum install ./typesense-server-{{ $page.typesenseVersion }}.x86_64.rpm
+</code></pre>
 
   </template>
 </Tabs>
 
-### Starting the Typesense Server
-
-Installed via the package manager
-If you had installed Typesense from a DEB/RPM package, the Typesense server is automatically started as a systemd service when installation is complete. You can check the status via:
-
-`systemctl status typesense-server`
-
-By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the configuration file at `/etc/typesense/typesense-server.ini`
+### 🎬 Start
 
 #### From the pre-built binary
-If you have downloaded the pre-built binary, you can start Typesense with minimal options like this:
+If you downloaded the pre-built binary for Mac / Linux, you can start Typesense with minimal options like this:
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
@@ -65,6 +103,28 @@ docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ $page
 
   </template>
 </Tabs>
+
+#### From DEB / RPM package
+
+If you had installed Typesense from a DEB/RPM package, the Typesense server is automatically started as a systemd service when installation is complete. You can check the status via:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+sudo systemctl status typesense-server.service
+```
+
+  </template>
+</Tabs>
+
+By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the [configuration file](./configure-typesense.md#using-a-configuration-file) at `/etc/typesense/typesense-server.ini`
+
+:::tip
+We are starting a single node here, but Typesense can also run in a clustered mode. See the [High Availability](./high-availability.md) section for more details.
+:::
+
+### 🆗 Health Check
 
 You can use the `/health` API end-point to verify that the server is ready to accept requests.
 
