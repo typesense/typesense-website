@@ -46,7 +46,7 @@ curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-dat
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -60,7 +60,7 @@ curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-dat
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/operations/snapshot`
 
 ### Arguments
@@ -114,7 +114,7 @@ curl "http://localhost:8108/operations/vote" -X POST \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -128,6 +128,6 @@ curl "http://localhost:8108/operations/vote" -X POST \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/operations/vote`
 

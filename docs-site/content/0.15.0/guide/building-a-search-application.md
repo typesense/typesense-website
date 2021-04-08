@@ -25,6 +25,9 @@ Be sure to use the same API key that you used to start the Typesense server earl
  *  search-only API Key rather than the master API key since the latter
  *  has write access to Typesense and you don't want to expose that.
  */
+
+const Typesense = require('typesense')
+
 let client = new Typesense.Client({
   'nodes': [{
     'host': 'localhost',
@@ -398,7 +401,7 @@ curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -523,7 +526,7 @@ curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
 </Tabs>
 
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -646,7 +649,7 @@ curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
 
 As we can see in the result below, Typesense handled the typographic error gracefully and fetched the results correctly. The `facet_by` clause also gives us a neat break-down of the number of books written by each author in the returned search results.
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>

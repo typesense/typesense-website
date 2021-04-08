@@ -78,7 +78,7 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -93,7 +93,7 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PUT ${TYPESENSE_HOST}/aliases/:alias`
 
 ### Arguments
@@ -145,7 +145,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -160,7 +160,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/aliases/:alias`
 
 ## List all aliases
@@ -206,7 +206,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -229,7 +229,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/aliases`
 
 ## Delete an alias
@@ -274,7 +274,7 @@ curl "http://localhost:8108/aliases/companies" -X DELETE
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -289,6 +289,6 @@ curl "http://localhost:8108/aliases/companies" -X DELETE
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/aliases/:alias`
 

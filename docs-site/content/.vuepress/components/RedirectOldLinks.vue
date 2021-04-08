@@ -12,7 +12,7 @@ export default {
       },
       {
         from: `/${this.$page.typesenseVersion}/guide/#start-typesense`,
-        to: `/${this.$page.typesenseVersion}/guide/install-typesense.html#starting-the-typesense-server`,
+        to: `/${this.$page.typesenseVersion}/guide/install-typesense.html#🎬-start`,
       },
       {
         from: `/${this.$page.typesenseVersion}/guide/#configure-typesense`,

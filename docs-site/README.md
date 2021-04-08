@@ -17,6 +17,18 @@ As you write content in the content folder, the page should live reload.
 
 Be sure to add new pages to the side bar in `content/.vuepress/config.js` as needed.
 
+### Adding images
+
+Place images in [content/.vuepress/public/images](content/.vuepress/public/images). Prefer using SVGs. 
+
+Reference images in markdown files like this: 
+
+```
+![Typesense DynamoDB Integration Chart](~@images/typesense-dynamodb.svg)
+```
+
+where `typesense-dynamodb.svg` is located at `./content/.vuepress/public/images/typesense-dynamodb.svg`
+
 ### Template Variables
 
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
@@ -29,7 +41,7 @@ These variables can be used in markdown files as `{{ variableName }}` or in Vue 
 **Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles.
 To partially fix the issue with page titles, we have a workaround in `plugins/typesense-enhancements` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
 
-## To write documentation for a new version:
+### Authoring a new version
 
 1. Add version number to `../typesenseVersions.js`
 1. Clone the latest version directory and make edits to it.

@@ -7,7 +7,9 @@ Typesense supports two types of synonyms:
 
 2. **One-way synonyms**: Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searches for `DEF` or `XYZ` to return records containing `ABC`.
 
-## Create or update a multi-way synonym
+## Create or update a synonym
+
+### Multi-way synonym
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -28,10 +30,10 @@ client.collections('products').synonyms().upsert('coat-synonyms', synonym)
 ```php
 $synonym = [
   "synonyms" => ["blazer", "coat", "jacket"]
-]
+];
 
 # Creates/updates a synonym called `coat-synonyms` in the `products` collection
-$client->collections['products']->synonyms->upsert('coat-synonyms', $synonym)
+$client->collections['products']->synonyms->upsert('coat-synonyms', $synonym);
 ```
 
   </template>
@@ -72,7 +74,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -87,7 +89,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
   </template>
 </Tabs>
 
-## Create or update a one-way synonym
+### One-way synonym
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -107,13 +109,13 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   <template v-slot:PHP>
 
 ```php
-synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
-}
+$synonym = [
+  'root' => 'blazer',
+  'synonyms' => ['coat', 'jacket'],
+];
 
 // Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+$client->collections['products']->synonyms->upsert('blazer-synonyms', $synonym);
 ```
 
   </template>
@@ -158,7 +160,7 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -174,12 +176,12 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PUT ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |synonyms	|yes	|Array of words that should be considered as synonyms.|
 |root	|no	|For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.|
 
@@ -198,7 +200,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   <template v-slot:PHP>
 
 ```php
-client.collections('products').synonyms('coat-synonyms').retrieve
+$client->collections['products']->synonyms['coat-synonyms']->retrieve();
 ```
 
   </template>
@@ -225,7 +227,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -241,7 +243,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 
 ## List all synonyms
@@ -259,7 +261,7 @@ client.collections('products').synonyms().retrieve
   <template v-slot:PHP>
 
 ```php
-$client->collections['products']->synonyms->retrieve()
+$client->collections['products']->synonyms->retrieve();
 ```
 
   </template>
@@ -287,7 +289,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -300,7 +302,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/synonyms`
 
 ## Delete a synonym
@@ -318,7 +320,7 @@ client.collections('books').synonyms('coat-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['books']->synonyms['coat-synonyms'].delete()
+$client->collections['books']->synonyms['coat-synonyms']->delete();
 ```
 
   </template>
@@ -346,7 +348,7 @@ curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -360,6 +362,6 @@ curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE 
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 

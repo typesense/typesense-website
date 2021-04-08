@@ -21,9 +21,9 @@ We'll assume that you're already familiar with Firebase, Firestore and how these
 
 ## Step 1: Run Typesense
 
-The easiest way to run Typesense is using [Typesense cloud](cloud.typesense.org), which is the hosted version of Typesense.
+The easiest way to run Typesense is using [Typesense cloud](https://cloud.typesense.org), which is the hosted version of Typesense.
 
-You can also [install Typesense](https://typesense.org/docs/{{$page.typesenseVersion}}/guide/#install-typesense) locally or on a server in [multiple ways](./running-typesense.md). 
+You can also [install Typesense](./install-typesense.md) locally or on a server in [multiple ways](./install-typesense.md#local-machine-self-hosting). 
 
 For this tutorial, let's use the Docker version:
 
@@ -65,7 +65,7 @@ myCollection = {
   'default_sorting_field': 'publication_year'
 }
 
-client.collections.create(myCollection)
+client.collections().create(myCollection)
 ```
 
 We created a collection called `books` and the documents stored in the `books` collection will have three fields - `id`, `title` and `publication_year`.`id` is an interesting field here as Typesense uses it as an identifier for the document. If there is no `id` field, Typesense automatically assigns an identifier to the document. Note that the `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp). For this tutorial, we will take the firestore id of the document as the `id` value.

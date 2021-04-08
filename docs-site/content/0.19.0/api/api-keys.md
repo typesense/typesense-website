@@ -28,7 +28,7 @@ $key = $client->keys->create([
   'description' => 'Admin key.',
   'actions' => ['*'],
   'collections' => ['*']
-])
+]);
 ```
 
   </template>
@@ -95,7 +95,7 @@ $client->keys->create([
   'description' => 'Search-only companies key.',
   'actions' => ['documents:search'],
   'collections' => ['companies']
-])
+]);
 ```
 
   </template>
@@ -134,7 +134,7 @@ curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_A
 
 By setting the `actions` scope to `["documents:search"]` and the `collections` scope to `["companies"]`, we can generate a key that is allowed to only conduct searches on the `companies` collection.
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -156,12 +156,12 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/keys`
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |actions	|yes	|List of allowed actions. See next table for possible values.|
 |collections	|yes	|List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.|
 |description	|no	|Internal description to identify what the key is for|
@@ -194,7 +194,7 @@ key = client.keys(1).retrieve()
   <template v-slot:PHP>
 
 ```php
-$key = $client->keys[1]->retrieve()
+$key = $client->keys[1]->retrieve();
 
 ```
 
@@ -222,7 +222,7 @@ curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -242,7 +242,7 @@ curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_
 
 Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the create endpoint returns the full API key.
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/keys/:id`
 
 ## List all Keys
@@ -260,7 +260,7 @@ client.keys().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->keys->retrieve()
+$client->keys->retrieve();
 ```
 
   </template>
@@ -287,7 +287,7 @@ curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_AP
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -326,7 +326,7 @@ curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_AP
 
 Notice how only the key prefix is returned when you retrieve a key. Due to security reasons, only the create endpoint returns the full API key.
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/keys/`
 
 ## Delete API Key
@@ -344,7 +344,7 @@ key = client.keys(1).delete()
   <template v-slot:PHP>
 
 ```php
-key = client.keys(1).delete()
+$client->keys[1]->delete();
 ```
 
   </template>
@@ -371,7 +371,7 @@ curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESEN
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -385,7 +385,7 @@ curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESEN
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/keys/:id`
 
 ## Generate Scoped Search Key
@@ -412,8 +412,8 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
   <template v-slot:PHP>
 
 ```php
-$keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465])
+$keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
+$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465]);
 ```
 
   </template>
@@ -439,9 +439,9 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_b
 KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
 EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124","expires_at":1611590465}'
 
-digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64)
+digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64 -w0)
 
-scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64)
+scoped_api_key=$(echo -n "${digest}${KEY_WITH_SEARCH_PERMISSIONS:0:4}${EMBEDDED_SEARCH_PARAMETERS_JSON}" | base64 -w0)
 
 echo $scoped_api_key
 ```
@@ -449,13 +449,13 @@ echo $scoped_api_key
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
 
 ```json
-"SC9sT0hncHFwTHNFc3U3d3psRDZBUGNXQUViQUdDNmRHSmJFQnNnczJ4VT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCJ9"
+"RDhxa2VKTnBQVkxaVlFIOS9JWDZ2bDdtMU5HL3laa0pab2pTeEUzbFBhZz1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCIsImV4cGlyZXNfYXQiOjE2MTE1OTA0NjV9"
 
 ```
 

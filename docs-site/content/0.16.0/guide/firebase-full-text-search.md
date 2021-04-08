@@ -21,9 +21,9 @@ We'll assume that you're already familiar with Firebase, Firestore and how these
 
 ## Step 1: Run Typesense
 
-The easiest way to run Typesense is using [Typesense cloud](cloud.typesense.org), which is the hosted version of Typesense.
+The easiest way to run Typesense is using [Typesense cloud](https://cloud.typesense.org), which is the hosted version of Typesense.
 
-You can also [install Typesense](https://typesense.org/docs/{{$page.typesenseVersion}}/guide/#install-typesense) locally or on a server in [multiple ways](./running-typesense.md). 
+You can also [install Typesense](./install-typesense.md) locally or on a server in [multiple ways](./install-typesense.md#local-machine-self-hosting). 
 
 For this tutorial, let's use the Docker version:
 

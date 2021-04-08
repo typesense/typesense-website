@@ -78,7 +78,7 @@ let config = {
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
-    nav: [{ text: 'Help', link: '/help/' }],
+    nav: [{ text: 'Help', link: '/help' }],
     repo: 'typesense/typesense',
     smoothScroll: true,
     markdown: {
@@ -88,11 +88,12 @@ let config = {
     // if your docs are in a different repo from your main project:
     docsRepo: 'typesense/typesense-website',
     // if your docs are not at the root of the repo:
-    docsDir: 'new-site/docs-site/content',
+    docsDir: 'docs-site/content',
     // if your docs are in a specific branch (defaults to 'master'):
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: 'Edit page',
+    sidebarDepth: 2,
     sidebar: {
       '/overview': [
         ['/', 'Docs Home'],
@@ -128,6 +129,7 @@ let config = {
             ['/0.19.0/guide/search-ui-components', 'Search UI Components'],
             ['/0.19.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
             ['/0.19.0/guide/dynamodb-full-text-search', 'AWS DyanamoDB Full Text Search'],
+            ['/0.19.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
           ],
         },
         {
@@ -694,7 +696,7 @@ let config = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@guide-images': '../../.vuepress/public/images'
+        '@images': '../../.vuepress/public/images'
       }
     }
   }

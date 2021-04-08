@@ -10,6 +10,9 @@
  *  search-only API Key rather than the master API key since the latter
  *  has write access to Typesense and you don't want to expose that.
  */
+
+const Typesense = require('typesense')
+
 let client = new Typesense.Client({
   'masterNode': {
     'host': 'localhost',
