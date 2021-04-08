@@ -99,6 +99,8 @@ export default {
 
   pre[class^=language-]
     margin 0
+    border-top-left-radius 0
+    border-top-right-radius 0
 
   // Remove the duplicate language display
   div[class*="language-"]::before
