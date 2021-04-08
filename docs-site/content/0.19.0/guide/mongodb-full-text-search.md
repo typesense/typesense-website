@@ -8,10 +8,8 @@ This guide will walk you through how to integrate Typesense server with MongoDB 
 
 To install and start Typesense using docker run the following Docker command:
 
-```bash
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
---data-dir /data --api-key=$TYPESENSE_API_KEY
-```
+<pre><code class="language-bash">docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ $page.typesenseVersion }} \
+  --data-dir /data --api-key=$TYPESENSE_API_KEY</code></pre>
 
 Now, we can check if our Typesense server is ready to accept requests.
 
@@ -24,7 +22,7 @@ You can also run Typesense in other ways. Check out [Typesense Installation](./i
 
 ## Step 2: Start a MongoDB Replica Set
 
-MongoDB Replica sets provide redundancy and high availability, and are the basis for all production deployments.
+MongoDB Replica Sets provide redundancy and high availability, and are the basis for all production deployments.
 
 If you have a standalone MongoDB instance, you can convert it to a replica set by following steps:
 
@@ -78,7 +76,7 @@ let typesense = new Typesense.Client({
   'connectionTimeoutSeconds': 2
 })
 ```
-Next, we will create a collection. A collection needs a schema, that represents how a doument would look like.
+Next, we will create a collection. A collection needs a schema, that represents how a document would look like.
 
 ```js
 let schema = {
