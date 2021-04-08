@@ -2,7 +2,7 @@
 
 Typo, short for typographical error, is a mistake made while typing something. A typo is generally an unintentional mistake that can happen due to typing faster or typing on a screen where the keypad is small. However, sometimes your users might not know the exact spelling of the word and they type what they think is an approximation of the exact term, in the hope that the system would understand and bring up the relevant results. 
 
-Typesense can handle typos out of the box. It can understand what users are looking for even if there is a mistake in the search query and provide relevant results.  Let's see it in action! To follow this example, first [create](https://typesense.org/docs/0.19.0/api/collections.html#create-a-collection) a collection named "companies" and [index](https://typesense.org/docs/0.19.0/api/documents.html#index-a-document) a sample document. Now, let's perform a search (notice the typo!): 
+Typesense can handle typos out of the box. It can understand what users are looking for even if there is a mistake in the search query and provide relevant results.  Let's see it in action! To follow this example, first [create](../../api/collections.html#create-a-collection) a collection named "companies" and [index](../../api/documents.html#index-a-document) a sample document. Now, let's perform a search (notice the typo!): 
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
   <template v-slot:JavaScript>
@@ -93,6 +93,6 @@ Here is the sample response:
 }
 ```
 
-Typesense can get you the relevant results even if there is a typo in the search query. You can control the extent of typo toleration using the `num_typos` argument. The default value is 2. You can also keep looking for results with more typos until a threshold is reached using the `typo_tokens_threshold` argument. More details on these arguments can be found [here](https://typesense.org/docs/0.19.0/api/documents.html#arguments).
+Typesense can get you the relevant results even if there is a typo in the search query. You can control the extent of typo toleration using the `num_typos` argument. The default value is 2. You can also keep looking for results with more typos until a threshold is reached using the `typo_tokens_threshold` argument. More details on these arguments can be found [here](../../api/documents.html#arguments).
 
 

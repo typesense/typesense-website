@@ -104,5 +104,5 @@ Here is a sample response:
 }
 ```
 
-You can also filter results by matching a field with more than one value. More details on the argument can be found [here](https://typesense.org/docs/0.19.0/api/documents.html#arguments).
+You can also filter results by matching a field with more than one value. More details on the argument can be found [here](../../api/documents.html#arguments).
 # Filtering

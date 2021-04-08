@@ -335,4 +335,4 @@ Smaple response:
 }
 ```
 
-Note the additional `stats` field in the result that shows the avg, min, max and sum value for `ratings_count` field. You can limit the number of faceted results using `max_facet_value` parameter. More details on these arguments can be found [here](https://typesense.org/docs/0.19.0/api/documents.html#arguments).
+Note the additional `stats` field in the result that shows the avg, min, max and sum value for `ratings_count` field. You can limit the number of faceted results using `max_facet_value` parameter. More details on these arguments can be found [here](../../api/documents.html#arguments).
