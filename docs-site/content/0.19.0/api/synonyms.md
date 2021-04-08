@@ -320,7 +320,7 @@ client.collections('books').synonyms('coat-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['books']->synonyms['coat-synonyms'].delete();
+$client->collections['books']->synonyms['coat-synonyms']->delete();
 ```
 
   </template>
