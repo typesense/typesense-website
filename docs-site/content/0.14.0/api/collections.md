@@ -214,7 +214,7 @@ client.collections['companies'].retrieve
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
     "http://localhost:8108/collections/companies"
 ```
 
