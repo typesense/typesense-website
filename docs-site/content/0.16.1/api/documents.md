@@ -160,9 +160,9 @@ curl "http://localhost:8108/collections/companies/documents?action=upsert" -X PO
   </template>
 </Tabs>
 
-To index multiple documents at the same time, in a batch/bulk operation, see [importing documents]().
+To index multiple documents at the same time, in a batch/bulk operation, see [importing documents](#import-documents).
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -179,7 +179,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
 ## Search
@@ -255,7 +255,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -319,7 +319,10 @@ Grouping hits this way is useful in:
 
 * **Deduplication**: By using one or more `group_by` fields, you can consolidate items and remove duplicates in the search results. For example, if there are multiple shoes of the same size, by doing a `group_by=size&group_limit=1`, you ensure that only a single shoe of each size is returned in the search results.
 * **Correcting skew**: When your results are dominated by documents of a particular type, you can use `group_by` and `group_limit` to correct that skew. For example, if your search results for a query contains way too many documents of the same brand, you can do a `group_by=brand&group_limit=3` to ensure that only the top 3 results of each brand is returned in the search results.
->NOTE: To group on a particular field, it must be a faceted field.
+
+:::tip
+To group on a particular field, it must be a faceted field.
+:::
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
@@ -442,7 +445,7 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments
@@ -514,7 +517,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -531,7 +534,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -603,7 +606,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -618,7 +621,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
@@ -665,7 +668,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -682,7 +685,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 ## Export documents
@@ -727,7 +730,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
@@ -741,7 +744,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
 
@@ -949,7 +952,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 
 **NOTE**: Larger batch sizes will consume larger transient memory during import.
 
-### Sample response
+#### Sample Response
 
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
@@ -977,6 +980,6 @@ If there is a failure, the response line will include a corresponding error mess
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
 

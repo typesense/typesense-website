@@ -1,8 +1,8 @@
 <template>
   <div class="docs-sections">
     <DocsSectionButton section-link="#what-s-new" section-name="What's New" />
-    <DocsSectionButton :section-link="`/${$page.typesenseVersion}/guide`" section-name="Guide" />
-    <DocsSectionButton :section-link="`/${$page.typesenseVersion}/api`" section-name="API Reference" />
+    <DocsSectionButton :section-link="`/${$page.typesenseVersion}/guide/`" section-name="Guide" />
+    <DocsSectionButton :section-link="`/${$page.typesenseVersion}/api/`" section-name="API Reference" />
   </div>
 </template>
 

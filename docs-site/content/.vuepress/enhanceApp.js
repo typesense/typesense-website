@@ -29,7 +29,7 @@ export default ({
         anonymize_ip: true, // anonymize IP
         send_page_view: false, // might be necessary to avoid duplicated page track on page reload
         linker: {
-          domains: ['new-site.typesense.org', 'typesense.org', 'cloud.typesense.org'],
+          domains: ['typesense.org', 'cloud.typesense.org'],
         },
       },
     },

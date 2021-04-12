@@ -121,7 +121,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -154,7 +154,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `PUT ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
 
 ### Arguments
@@ -208,7 +208,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -245,7 +245,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/overrides`
 
 
@@ -292,7 +292,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
   </template>
 </Tabs>
 
-### Sample Response
+#### Sample Response
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -306,6 +306,6 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
   </template>
 </Tabs>
 
-### Definition
+#### Definition
 `DELETE ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
 
