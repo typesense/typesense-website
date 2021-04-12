@@ -1,5 +1,6 @@
 const { description } = require('../../package')
 const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
+const path = require('path')
 
 let config = {
   // The base URL the site will be deployed at
@@ -696,7 +697,7 @@ let config = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@images': '../../.vuepress/public/images'
+        '@images': path.resolve(__dirname, 'public/images/')
       }
     }
   }
