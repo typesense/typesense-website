@@ -1,8 +1,8 @@
 # Filtering
 
-Filtering is the process of excluding results that don't meet certain criteria. Filtering can help users narrow down their searches and find the most relevant result. For example, in a book dataset, users might be looking for a specific book by an author. They can filter the data with the author's name and limit the number of results they need to look through.
+Filtering is the process of excluding results that don't meet certain criteria. Filtering can help users narrow down their searches and find the most relevant result. For example, in a books dataset, users might be looking for a specific book by an author. They can filter the data with the author's name and limit the number of results they need to look through.
 
-Filtering and Faceting can work together in UI based systems. In [book search demo](https://books-search.typesense.org/), if you search for an author, you would see facets on the left navigation panel. The faceted fields in this case are `Subject` and `Authors`.  The widget will show the values and count of documents. But once you click on a facet value, a filter would be applied that will exclude the documents that don't meet the condition. In the image below, when we click on `Fiction`, a filter would be applied to the search results.
+Filtering and Faceting can work together in UI based systems. In our [Book Search Showcase](https://books-search.typesense.org/), if you search for an author, you would see facets on the left navigation panel. The faceted fields in this case are `Subject` and `Authors`.  The widget will show the values and count of documents. But once you click on a facet value, a filter would be applied that will exclude the documents that don't meet the condition. In the image below, when we click on `Fiction`, a filter would be applied to the search results.
 
 ![Typesense filter example](~@images/typesense-filter.png)
 
@@ -12,7 +12,7 @@ With Typesense, you can add `filter_by` parameter to your search query to filter
   <template v-slot:JavaScript>
 
 ```javascript
-llet searchParameters = {
+let searchParameters = {
   'q'         : 'harry',
   'query_by'  : 'title',
   'filter_by' : 'publication_year:<1998',
@@ -105,4 +105,3 @@ Here is a sample response:
 ```
 
 You can also filter results by matching a field with more than one value. More details on the argument can be found [here](../../api/documents.html#arguments).
-# Filtering

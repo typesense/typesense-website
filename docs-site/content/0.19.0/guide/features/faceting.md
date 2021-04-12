@@ -2,7 +2,7 @@
 
 Faceting is a way to classify search results into smaller groups based on the attributes in each result. For example, in a dataset of books, after users search for a book title, they'd want to categorize the search results by authors, genre, etc. Similarly, in a movie dataset, users may want to search for movies by first grouping them via actor, director, genre, etc. This subclassification of search results is known as Faceting. Faceting is not to be confused with Filtering, as Filtering provides a way to remove results that don't meet certain criteria, while Faceting provides a way to group results into categories.
 
-In a UI based system, facets can be used to refine search results. For exmaple, in [book search demo](https://books-search.typesense.org/), if you search for an author, you can see facet fields in the left navigation panels. You can use either subject facet or author facet to narrow down your search. It also shows the count for the facet fields. In the image below, you can see that the `Fiction` facet has 408 docuemnts, while `Classics` facet has 363 documents.
+In a UI based system, facets can be used to show options to users to help them further refine search results. For example, in our [Book Search Showcase](https://books-search.typesense.org/), if you search for an author, you'll see fields in the left panel giving users the option to further refine their search results by subject or author. It also shows the count for the facet fields. In the image below, you can see that the `Fiction` facet has 408 docuemnts, while `Classics` facet has 363 documents. We were able to categorize and count all the authors and subjects in the result set, by setting authors and subject as facet fields.
 
 ![Typesense facet example](~@images/typesense-facet.png)
 
@@ -279,7 +279,7 @@ client.collections['books'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-Smaple response:
+Sample response:
 
 ```json
 {
@@ -336,3 +336,5 @@ Smaple response:
 ```
 
 Note the additional `stats` field in the result that shows the avg, min, max and sum value for `ratings_count` field. You can limit the number of faceted results using `max_facet_value` parameter. More details on these arguments can be found [here](../../api/documents.html#arguments).
+
+In summary, we use facets to group results into categories and present them to users. Then users can pick one of those categories as a [filter](./filtering.md).
