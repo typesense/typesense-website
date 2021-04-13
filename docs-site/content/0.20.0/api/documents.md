@@ -1058,6 +1058,9 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
 
 You can index multiple documents in a batch using the import API.
 
+#### Definition
+`POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
+
 The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format.
 This is essentially one JSON object per line, without commas between documents. For example, here are a set of 3 documents represented in JSONL format.
 
@@ -1324,6 +1327,24 @@ If there is a failure, the response line will include a corresponding error mess
   </template>
 </Tabs>
 
-#### Definition
-`POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
+## Dealing with dirty data
 
+The `dirty_values` parameter determines what Typesense should do when the type of a particular field being 
+indexed does not match the previously inferred type for that field.
+
+
+| Value      | Behavior                                            |
+| -------------- | ----------- |-------------------------------------------------------|
+|`coerce_or_reject`  | Attempt coercion of the field's value to previously inferred type. If coercion fails, reject the write outright with an error message. |
+|`coerce_or_drop`    | Attempt coercion of the field's value to previously inferred type. If coercion fails, drop the particular field and index the rest of the document.  |
+|`drop`              | Drop the particular field and index rest of the document. |
+|`reject`            | Reject the document outright. |
+
+**Default behaviour** 
+
+If a wildcard (`.*`) field is defined in the schema _or_ if the schema contains any field 
+name with a regular expression (e.g a field named `.*_name`), the default behavior is `coerce_or_reject`. Otherwise, 
+the default behavior is `reject` (this ensures backward compatibility with older Typesense versions).
+
+Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
+field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:

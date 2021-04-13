@@ -2,3 +2,6 @@
 .vscode
 .idea
 .DS_Store
+build
+cmake-build-debug
+typesense.org/.sass-cache
