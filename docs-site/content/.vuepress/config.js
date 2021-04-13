@@ -95,6 +95,72 @@ let config = {
     editLinkText: 'Edit page',
     sidebarDepth: 2,
     sidebar: {
+      //For 0.20.0
+      '/0.20.0/guide/': [
+        ['/0.20.0/guide/', 'Introduction'],
+        {
+          title: 'Getting Started', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.20.0/guide/install-typesense', 'Install Typesense'],
+            ['/0.20.0/guide/configure-typesense', 'Configure Typesense'],
+            ['/0.20.0/guide/installing-a-client', 'Installing a Client'],
+          ],
+        },
+        {
+          title: 'Walk-throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.20.0/guide/building-a-search-application', 'Building a Search Application'],
+            ['/0.20.0/guide/search-ui-components', 'Search UI Components'],
+            ['/0.20.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
+            ['/0.20.0/guide/dynamodb-full-text-search', 'AWS DyanamoDB Full Text Search'],
+            ['/0.20.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+          ],
+        },
+        {
+          title: 'Operations', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.20.0/guide/high-availability', 'High Availability'],
+            ['/0.20.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
+            ['/0.20.0/guide/updating-typesense', 'Updating Typesense'],
+          ],
+        },
+      ],
+      '/0.20.0/api/': [
+        ['/0.20.0/api/', 'Introduction'],
+        ['/0.20.0/api/api-clients', 'API Clients'],
+        ['/0.20.0/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.20.0/api/collections', 'Collections'],
+            ['/0.20.0/api/documents', 'Documents'],
+            ['/0.20.0/api/api-keys', 'API Keys'],
+            ['/0.20.0/api/curation', 'Curation'],
+            ['/0.20.0/api/collection-alias', 'Collection Alias'],
+            ['/0.20.0/api/synonyms', 'Synonyms'],
+            ['/0.20.0/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.20.0/api/api-errors', 'API Errors'],
+      ],
+      '/overview': [
+        ['/', 'Docs Home'],
+        {
+          title: 'Overview', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/overview/what-is-typesense', 'What is Typesense?'],
+            ['/overview/why-typesense', 'Why Typesense?'],
+            ['/overview/features', 'Key Features'],
+            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
+          ],
+        },
+      ],
+
       //For 0.19.0
       '/0.19.0/guide/': [
         ['/0.19.0/guide/', 'Introduction'],
@@ -146,19 +212,6 @@ let config = {
           ],
         },
         ['/0.19.0/api/api-errors', 'API Errors'],
-      ],
-      '/overview': [
-        ['/', 'Docs Home'],
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
       ],
 
       //For 0.18.0
