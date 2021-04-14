@@ -1327,7 +1327,7 @@ If there is a failure, the response line will include a corresponding error mess
   </template>
 </Tabs>
 
-## Dealing with dirty data
+## Dealing with Dirty Data
 
 The `dirty_values` parameter determines what Typesense should do when the type of a particular field being 
 indexed does not match the previously inferred type for that field.

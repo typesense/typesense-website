@@ -282,7 +282,7 @@ and store it as a string. However, this may not always work (you can't convert a
 When Typesense is unable to coerce the field value to the previously inferred type, the indexing will fail with 
 the appropriate error. 
 
-You can control this default coercion behavior at write-time with the `dirty_values` parameter. 
+You can control this default coercion behavior at write-time with the [`dirty_values`](./documents.md#dealing-with-dirty-data) parameter. 
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.
