@@ -1413,3 +1413,53 @@ curl "http://localhost:8108/collections/titles/documents" -X POST \
 </Tabs>
 
 Similarly, we can use the `dirty_values` parameter for the update and import operations as well.
+
+### Indexing all values as string
+
+Typesense provides a convenient way to store all fields as strings through the use of the `string*` field type.
+
+Defining a type as `string*` allows Typesense to accept both singular and multi-value/array values. 
+
+Let's say we want to ingest data from multiple devices but want to store them as strings since each device could
+be using a different data type for the same field name (e.g. one device could send an `record_id` as an integer, 
+while another device could send an `record_id` as a string).
+
+To do that, we can define a schema as follows:
+
+```json
+{
+  "name": "device_data",
+  "fields": [
+    {"name": ".*", "type": "string*" }
+  ]
+}
+``` 
+
+Now, Typesense will automatically convert any single/multi-valued data into their corresponding string 
+representations automatically when data is indexed with the `dirty_values: "coerce_or_reject"` mode.
+
+You can see how they will be transformed below:
+
+<Tabs :tabs="['Input','Output']">
+  <template v-slot:Input>
+
+```json
+{
+  "record_id": 141414,
+  "values": [76.24, 88, 100.67]
+}
+```
+
+</template>
+
+<template v-slot:Output>
+
+```json
+{
+  "record_id": "141414",
+  "values": ["76.24", "88", "100.67"]
+}
+```
+
+</template>
+</Tabs>
