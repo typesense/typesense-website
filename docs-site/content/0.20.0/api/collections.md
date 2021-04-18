@@ -220,6 +220,17 @@ You can define an array or multi-valued field by suffixing a [] at the end:
   </tr>
 </table>
 
+There are also two special field types that are used for handling data sources with varying schema via 
+[automatic schema detection](./collections.md#with-auto-schema-detection).
+
+<table>
+  <tr>
+    <td>auto</td>
+  </tr>
+  <tr>
+    <td>string*</td>
+  </tr>
+</table>
 
 ### With auto schema detection
 
@@ -247,8 +258,9 @@ detect the type of the fields automatically.
 When a `.*` field is defined this way,  all the fields in a document are automatically indexed for **searching and filtering**. 
 
 :::tip
-Faceting is not enabled for a wildcard field since that can consume a lot of memory, 
-especially for large text fields.
+Faceting is not enabled for a wildcard field, i.e., `{"name": ".*" , ...}` since that can consume a lot of memory, 
+especially for large text fields. However, you can still explicitly define specific fields to facet by 
+setting `facet: true` for them. For e.g. `{"name": ".*_facet", "facet": true" }`.
 ::: 
 
 You can still define the schema for certain fields explicitly:
