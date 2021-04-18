@@ -1346,5 +1346,70 @@ If a wildcard (`.*`) field is defined in the schema _or_ if the schema contains 
 name with a regular expression (e.g a field named `.*_name`), the default behavior is `coerce_or_reject`. Otherwise, 
 the default behavior is `reject` (this ensures backward compatibility with older Typesense versions).
 
+### Indexing a document with dirty data
+
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let document = {
+    'title': 1984,
+    'points': 100
+}
+
+client.collections('titles').documents().create(document, {
+    "dirty_values": "coerce_or_reject"
+})
+```
+
+</template>
+
+<template v-slot:PHP>
+
+```php
+$document = ['title'  => 1984, 'points' => 100];
+$client->collections['titles']->documents->create($document, [
+    'dirty_values' => 'coerce_or_reject',
+]);
+```
+
+</template>
+<template v-slot:Python>
+
+```py
+document = {'title': 1984, 'points': 100}
+client.collections['titles'].documents.create(document, {
+    'dirty_values': 'coerce_or_reject'
+})
+```
+
+</template>
+<template v-slot:Ruby>
+
+```rb
+document = {'title'  => '1984, 'points' => 100}
+client.collections['titles'].documents.create(document, 
+    dirty_values: 'coerce_or_reject'
+)
+```
+
+</template>
+<template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/titles/documents" -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{
+          "title": 1984,
+          "points": 100
+        }'
+```
+
+  </template>
+</Tabs>
+
+Similarly, we can use the `dirty_values` parameter for the update and import operations as well.
