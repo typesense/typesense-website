@@ -1,6 +1,8 @@
-# MongoDB Integration with Typesense
+# Full-text Fuzzy Search with MongoDB and Typesense
 
-This guide will walk you through how to integrate Typesense server with MongoDB by setting up a trigger using MongoDB's Change Streams.
+This walk-through will show you how to ingest data from MongoDB into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.
+
+At a high-level we'll be setting up a trigger using MongoDB's Change Streams and pushing the data into Typesense on each change event.
 
 ![Typesense MongoDB Integration Chart](@images/typesense-mongodb/mongodb.svg)
 
@@ -45,15 +47,15 @@ Here's an example:
 ```js
 const uri = '<MongoDB-URI>';
 const mongodbOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 }
 const client = new MongoClient(uri, mongodbOptions);
 await client.connect();
 const collection = client.db("sample").collection("books");
 const changeStream = collection.watch();
 changeStream.on('change', (next) => {
-    // process next document
+  // process next document
 });
 ```
 
@@ -80,14 +82,14 @@ Next, we will create a collection. A collection needs a schema, that represents 
 
 ```js
 let schema = {
-    'name': 'books',
-    'fields': [
-        { 'name': 'id', 'type': 'string', 'facet': false },
-        { 'name': 'name', 'type': 'string','facet': false },
-        { 'name': 'author', 'type': 'string', 'facet': false },
-        { 'name': 'year', 'type': 'int32', 'facet': true },
-    ],
-    'default_sorting_field': 'year',
+  'name': 'books',
+  'fields': [
+    { 'name': 'id', 'type': 'string', 'facet': false },
+    { 'name': 'name', 'type': 'string','facet': false },
+    { 'name': 'author', 'type': 'string', 'facet': false },
+    { 'name': 'year', 'type': 'int32', 'facet': true },
+  ],
+  'default_sorting_field': 'year',
 }
 await typesense.collections().create(schema);
 ```
@@ -104,12 +106,12 @@ Here's an example MongoDB change streams response:
     _data: '826062978E000000012B022C0100296E5'
   },
   operationType: 'insert',
-  clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 1, high_: 1617074062 },
+    clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 1, high_: 1617074062 },
   fullDocument: {
     _id: 6062978e06e4444ef0c7f16a,
-    name: 'Davinci Code',
-    author: 'Dan Brown',
-    year: 2003
+      name: 'Davinci Code',
+      author: 'Dan Brown',
+      year: 2003
   },
   ns: { db: 'sample', coll: 'books' },
   documentKey: { _id: 6062978e06e4444ef0c7f16a }
@@ -119,7 +121,7 @@ Here's an example MongoDB change streams response:
     _data: '826062978E000000032B022C0100296E5'
   },
   operationType: 'update',
-  clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 3, high_: 1617074062 },
+    clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 3, high_: 1617074062 },
   ns: { db: 'sample', coll: 'books' },
   documentKey: { _id: 6062978e06e4444ef0c7f16a },
   updateDescription: { updatedFields: { year: 2000 }, removedFields: [] }
@@ -129,7 +131,7 @@ Here's an example MongoDB change streams response:
     _data: '826062978E000000072B022C0100296E5'
   },
   operationType: 'delete',
-  clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 7, high_: 1617074062 },
+    clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 7, high_: 1617074062 },
   ns: { db: 'sample', coll: 'books' },
   documentKey: { _id: 6062978e06e4444ef0c7f16c }
 }
@@ -137,17 +139,17 @@ Here's an example MongoDB change streams response:
 
 ```js
 async function index(next, typesense){
-    if(next.operationType == 'delete') {
-        await typesense.collections('books').documents(next.documentKey._id).delete();
-    } else if(next.operationType == 'update') {
-        let data = JSON.stringify(next.updateDescription.updatedFields);
-        await typesense.collections('books').documents(next.documentKey._id).update(data);
-    } else {
-        next.fullDocument.id = next.fullDocument["_id"];
-        delete next.fullDocument._id;
-        let data = JSON.stringify(next.fullDocument);
-        await typesense.collections('books').documents().upsert(data);
-    }
+  if(next.operationType == 'delete') {
+    await typesense.collections('books').documents(next.documentKey._id).delete();
+  } else if(next.operationType == 'update') {
+    let data = JSON.stringify(next.updateDescription.updatedFields);
+    await typesense.collections('books').documents(next.documentKey._id).update(data);
+  } else {
+    next.fullDocument.id = next.fullDocument["_id"];
+    delete next.fullDocument._id;
+    let data = JSON.stringify(next.fullDocument);
+    await typesense.collections('books').documents().upsert(data);
+  }
 }
 ```
 

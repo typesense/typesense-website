@@ -1,6 +1,6 @@
-# DynamoDB Integration with Typesense
+# Full-text Fuzzy Search with DynamoDB and Typesense
 
-This walk-through will show you how to ingest data from a DynamoDB table into Typesense. 
+This walk-through will show you how to ingest data from a DynamoDB table into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.
 
 At a high level we'll be setting up a Lambda function to listen for change events using [DynamoDB streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) and write the data into Typesense.
 
@@ -47,16 +47,16 @@ You can also do this using AWS CLI:
 Create a file named ```trust-relationship.json``` with the following contents.
 ```json
 {
-   "Version": "2012-10-17",
-   "Statement": [
-     {
-       "Effect": "Allow",
-       "Principal": {
-         "Service": "lambda.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole"
-     }
-   ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
 ```
 
@@ -72,33 +72,33 @@ Now, create ```role-policy.json``` with the following contents. (Replace ```acco
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "lambda:InvokeFunction",
-            "Resource": "arn:aws:lambda:region:accountID:function:typesense-indexing*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "arn:aws:logs:region:accountID:*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
-            ],
-            "Resource": "arn:aws:dynamodb:region:accountID:table/typesense/stream/*"
-        },
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:region:accountID:function:typesense-indexing*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:region:accountID:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeStream",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:ListStreams"
+      ],
+      "Resource": "arn:aws:dynamodb:region:accountID:table/typesense/stream/*"
+    },
+  ]
 }
 ```
 
@@ -124,29 +124,29 @@ For context, here's what an example event that DynamoDB will be calling our Lamb
 
 ```javascript
 {
-    "Records": [
-      {
-        "eventID": "2",
-        "eventVersion": "1.0",
-        "dynamodb": {
-          "OldImage": {
-            // Existing values
-          },
-          "SequenceNumber": "222",
-          "Keys": {
-            // your partion key and sort key
-          },
-          "SizeBytes": 59,
-          "NewImage": {
-            // New Values
-          },
-          "awsRegion": "us-east-2",
-          "eventName": "MODIFY", // this can be 'INSERT', 'MODIFY' and 'DELETE'
-          "eventSourceARN": "<AWS-ARN>",
-          "eventSource": "aws:dynamodb"
+  "Records": [
+    {
+      "eventID": "2",
+      "eventVersion": "1.0",
+      "dynamodb": {
+        "OldImage": {
+          // Existing values
         },
-      }
-    ]
+        "SequenceNumber": "222",
+        "Keys": {
+          // your partion key and sort key
+        },
+        "SizeBytes": 59,
+        "NewImage": {
+          // New Values
+        },
+        "awsRegion": "us-east-2",
+        "eventName": "MODIFY", // this can be 'INSERT', 'MODIFY' and 'DELETE'
+        "eventSourceARN": "<AWS-ARN>",
+        "eventSource": "aws:dynamodb"
+      },
+    }
+  ]
 }
 ```
 
@@ -192,7 +192,7 @@ You can also do this using AWS CLI:
     ```bash
     aws iam get-role --role-name YourLambdaRole
     ```
-    In the output, look for the ARN:
+  In the output, look for the ARN:
     ```json
     ...
     "Arn": "arn:aws:iam::region:role/service-role/YourLambdaRole"
@@ -222,7 +222,7 @@ You can also do this using the AWS CLI:
     ```bash
     aws dynamodb describe-table --table-name YourTableName
     ```
-    Note, the ARN for the stream:
+  Note, the ARN for the stream:
     ```json
     ...
     "LatestStreamArn": "arn:aws:dynamodb:`region`:`accountID`:table/`table-name`/stream/`timestamp`"
