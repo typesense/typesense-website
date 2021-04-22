@@ -1,4 +1,4 @@
-# MongoDB Integration with Typesense
+# Full-text Fuzzy Search with MongoDB and Typesense
 
 This walk-through will show you how to ingest data from MongoDB into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.
 
