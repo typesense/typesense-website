@@ -1,6 +1,8 @@
-# MongoDB Integration with Typesense
+# Full-text Fuzzy Search with MongoDB and Typesense
 
-This guide will walk you through how to integrate Typesense server with MongoDB by setting up a trigger using MongoDB's Change Streams.
+This walk-through will show you how to ingest data from MongoDB into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.
+
+At a high-level we'll be setting up a trigger using MongoDB's Change Streams and pushing the data into Typesense on each change event.
 
 ![Typesense MongoDB Integration Chart](@images/typesense-mongodb/mongodb.svg)
 

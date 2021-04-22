@@ -1,6 +1,6 @@
-# DynamoDB Integration with Typesense
+# Full-text Fuzzy Search with DynamoDB and Typesense
 
-This walk-through will show you how to ingest data from a DynamoDB table into Typesense. 
+This walk-through will show you how to ingest data from a DynamoDB table into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.
 
 At a high level we'll be setting up a Lambda function to listen for change events using [DynamoDB streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html) and write the data into Typesense.
 
