@@ -19,7 +19,7 @@
               side-by-side comparison.
             </p>
             <p class="mt-2">
-              We've strived to provide accurate information above, but if you
+              We've strived to provide accurate information below, but if you
               notice any issues, please open an issue
               <a
                 href="https://github.com/typesense/typesense-website/issues"
@@ -56,8 +56,8 @@
                   <td>Proprietary closed source</td>
                   <td>Source-available, licensed under SSPL</td>
                   <td>
-                    Fully open source, with plans for closed-source extensions
-                    in the future
+                    Currently open source, with plans for closed-source
+                    extensions in the future
                   </td>
                 </tr>
                 <tr>
@@ -85,7 +85,7 @@
                   <td class="font-weight-bold">Best Suited For</td>
                   <td>
                     Instant Search-as-you-type Experiences for data sets that
-                    can be fit in RAM, up to 24 TB (or current commercially
+                    can fit in RAM, up to 24 TB (or current commercially
                     available RAM size).
                   </td>
                   <td>
@@ -98,7 +98,8 @@
                   </td>
                   <td>
                     Instant Search-as-you-type Experiences for up to 10M
-                    records, that don't require a highly available deployment.
+                    records, that don't require a production-grade
+                    highly-available setup.
                   </td>
                 </tr>
                 <tr>
@@ -126,7 +127,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="font-weight-bold">Self Hosted Option</td>
+                  <td class="font-weight-bold">Self-Hosted Option</td>
                   <td>✅️</td>
                   <td>❌</td>
                   <td>✅️</td>
@@ -140,11 +141,14 @@
                   <td>❌</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Fault Tolerance</td>
-                  <td>✅<br /><br />RAFT-based clustering</td>
-                  <td>✅<br /><br />RAFT-based clustering</td>
+                  <td class="font-weight-bold">High Availability</td>
+                  <td>✅<br /><br />RAFT-based multi-node clustering</td>
+                  <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />Active-passive replication</td>
-                  <td>❌</td>
+                  <td>
+                    ❌<br /><br />Only supports single-node deployments, so is
+                    not production-ready
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -248,7 +252,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
-                    Query Field Weights / Boosting
+                    Query Field Weights &<br />Boosting
                   </td>
                   <td>✅️</td>
                   <td>❌</td>
@@ -257,7 +261,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
-                    Scoped API Keys / Multi-tenancy
+                    Scoped API Keys &<br />Multi-tenant indices
                   </td>
                   <td>✅️</td>
                   <td>✅️</td>
@@ -265,7 +269,7 @@
                   <td>❌</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Federated Search</td>
+                  <td class="font-weight-bold">Federated Multi-Index Search</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
@@ -510,15 +514,15 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="font-weight-bold">Index Count Limit</td>
+                  <td class="font-weight-bold">Maximum Indices</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>200</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Index Size Limit</td>
-                  <td>No technical limits, constrained by available RAM</td>
+                  <td class="font-weight-bold">Maximum Index Size</td>
+                  <td>No limitations, only constrained by available RAM</td>
                   <td>128 GB</td>
                   <td>No limitation</td>
                   <td>100GB default, can be modified</td>
@@ -531,7 +535,7 @@
                   <td>1000</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Record Size Limit</td>
+                  <td class="font-weight-bold">Maximum Record Size</td>
                   <td>No limitation</td>
                   <td>10KB</td>
                   <td>No limitation</td>
@@ -560,6 +564,7 @@
                     Github issues<br />
                     Email<br />
                     Community<br />
+                    Phone<br />
                     Slack<br />
                     Paid Prioritized Support
                   </td>
