@@ -37,10 +37,10 @@ Meilisearch is an open search engine written in Rust and is close in spirit to A
 It aims to be on parity with Algolia in terms of architecture, which is good as it relates to a familiar experience for developers,
 but is also bad in that the engine has unfortunately inherited some of Algolia's quirks in the process.
 
-For eg, additional sort orders require duplicate indices in both Algolia and Meilisearch.
+For eg, additional sort orders require duplicate indices in both Algolia and Meilisearch, which increases costs and memory requirements.
 
 Based on the project's documented limitations, it seems to be geared for small dataset sizes,
-and specifically for cases where high availability is not a requirement.
+and specifically for cases where high availability is not a requirement. Since it does not have multi-node clustering or node-node replication, it is not production-ready yet.
 
 That said, Meilisearch is a relatively new project, and while it's not suited for serious production use-cases today,
 the project has a good team & momentum behind it. We're eager to see how the project evolves.
