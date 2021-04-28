@@ -1,6 +1,6 @@
 <template>
-  <div class="container mb-5 mt-5">
-    <div class="row py-4 d-flex justify-content-center">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
       <div class="col-sm col-lg-2 d-flex justify-content-center">
         <a
           href="https://www.producthunt.com/posts/typesense?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-typesense"

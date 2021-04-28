@@ -6,6 +6,10 @@
 
     <div class="mb-5">&nbsp;</div>
 
+    <HomeBadges />
+
+    <div class="mb-5">&nbsp;</div>
+
     <HomeSectionDeveloperExperience />
 
     <div class="mt-3">&nbsp;</div>
@@ -20,9 +24,8 @@
 
     <HomeSectionSupport class="mt-5" />
 
-    <HomeBadges />
-
-    <div class="mt-5 text-center">
+    <div class="mt-5">&nbsp;</div>
+    <div class="my-5 text-center">
       <HomeCTAs />
     </div>
   </div>
