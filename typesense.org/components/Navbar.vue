@@ -96,12 +96,13 @@ export default {
           link: '/about/',
         },
         {
-          text: 'Downloads',
-          link: '/downloads/',
+          text: 'Docs',
+          externalLink: '/docs/',
+          target: '_blank',
         },
         {
-          text: 'Support',
-          link: '/support/',
+          text: 'Downloads',
+          link: '/downloads/',
         },
         {
           text: 'Hosted Search',
@@ -109,8 +110,8 @@ export default {
           target: '_blank',
         },
         {
-          text: 'Docs',
-          externalLink: '/docs/',
+          text: 'Support',
+          link: '/support/',
         },
       ],
     }
