@@ -33,11 +33,14 @@ This release contains new features, performance improvements and important bug f
 - Fixed exact matches [ranking below matches with typos](https://github.com/typesense/typesense/issues/243)
 - Fixed a bug in [filtering of string fields](https://github.com/typesense/typesense/issues/254)
 - Fixed an edge case involving scoped API keys and embedded filters working with multi-search end-point
-- Fixed an edge case with filtering on negative integers
+- Fixed an edge case involving filtering on negative integers
+- Fixed an issue related to [range filter](https://github.com/typesense/typesense/issues/210)
 - Fixed a crash while parsing certain rare + long query string parameters
 - Fixed collection with [`null` value crashing Typesense](https://github.com/typesense/typesense/issues/251) 
 - Fixed a crash when a snapshot was taken on an empty DB but right after a key is created
 
 ### Deprecations
 
-There are no deprecations in this release.
+- The `catch-up-min-sequence-diff` and `catch-up-threshold-percentage` flags that are used for determining the 
+  catch up status of a follower, are replaced with `healthy-read-lag` and `healthy-write-lag` 
+  [flags](./guide/configure-typesense.md#using-command-line-arguments).

@@ -1,6 +1,7 @@
 # Install Typesense
 
-You can either self-host Typesense, run it on your local machine or use our managed Typesense Cloud service.
+You can either self-host Typesense, run it on your local machine or use our managed [Typesense Cloud](https://cloud.typesense.org/) 
+service.
 
 ## Typesense Cloud
 
