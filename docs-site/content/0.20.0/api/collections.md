@@ -12,8 +12,10 @@ From Typesense `v0.20`, we can also create a collection that automatically detec
 
 Let's first create a collection with an explicit, pre-defined schema.
 
-**Note:** Your documents can contain other fields not mentioned in the collection's schema - they will be stored 
+:::tip
+Your documents can contain other fields not mentioned in the collection's schema - they will be stored 
 on _disk_ but not indexed in _memory_.
+:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -130,8 +132,11 @@ client.collections.create(schema)
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
-       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+curl "http://localhost:8108/collections" \
+       -X POST \
+       -H "Content-Type: application/json" \
+       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+       -d '{
          "name": "companies",
          "fields": [
            {"name": "company_name", "type": "string" },
@@ -273,6 +278,7 @@ You can still define the schema for certain fields explicitly:
   "name": "companies",  
   "fields": [
     {"name": ".*", "type": "auto" },
+    {"name": ".*_facet", "type": "auto", "facet": true },
     {"name": "country", "type": "string", "facet": true }
   ]
 }
@@ -288,13 +294,17 @@ When such an explicit field definition is not available, the first document that
 determines the type of that field. For example, if you index a document with a field named `title` and it is a 
 string, then the next document that contains the field named `title` will be expected to have a string too.
 
+#### Data Coercion
+
 What happens when the next document's `title` field is not a string? _By default,_ Typesense will try to 
 coerce the value to the previously inferred type. For example, if you sent a number, Typesense will "stringify" the number 
 and store it as a string. However, this may not always work (you can't convert a string to a number). 
 When Typesense is unable to coerce the field value to the previously inferred type, the indexing will fail with 
 the appropriate error. 
 
+:::tip
 You can control this default coercion behavior at write-time with the [`dirty_values`](./documents.md#dealing-with-dirty-data) parameter. 
+:::
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.
@@ -332,7 +342,8 @@ client.collections['companies'].retrieve
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -X GET \
     "http://localhost:8108/collections/companies"
 ```
 
@@ -400,7 +411,8 @@ client.collections.retrieve
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections"
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    "http://localhost:8108/collections"
 ```
 
   </template>
@@ -479,7 +491,8 @@ client.collections['companies'].delete
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -X DELETE \
     "http://localhost:8108/collections/companies"
 ```
 

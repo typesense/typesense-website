@@ -3,9 +3,11 @@
 You can run a cluster of Typesense nodes for high availability. Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.
 
 :::tip
-Since Raft requires a quorum of nodes for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of higher write latencies.
+Since Raft requires a quorum of nodes for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of higher write latencies. Therefore, we recommend running a 3-node Typesense cluster.
+:::
 
-Therefore, we recommend running a 3-node Typesense cluster.
+:::tip
+In Typesense Cloud, we manage High Availability for you, when you flip the setting ON when launching the cluster. So the rest of this section only applies if you're self-hosting Typesense.
 :::
 
 ## Configuring a Typesense cluster

@@ -11,8 +11,15 @@ We also have the following community-contributed client libraries:
 
 - [Go](https://github.com/typesense/typesense-go)
 - [C#](https://github.com/DAXGRID/typesense-dotnet)
+- [Java](https://github.com/typesense/typesense-java)
+- [Rust](https://github.com/typesense/typesense-rust)
+- [Dart](https://github.com/typesense/typesense-dart)
 
-We recommend that you use our API client if it's available for your language. It's also easy to interact with Typesense through its simple, RESTful HTTP API.
+:::tip
+If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
+:::
+
+<br>
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
   <template v-slot:JavaScript>

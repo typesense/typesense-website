@@ -8,8 +8,8 @@ This release contains new features, performance improvements and important bug f
 
 ### New Features
 
-- Auto schema detection: you can now index documents without a pre-defined schema
-- Data validation during indexing: configure Typesense to coerce, reject or drop bad values
+- [Auto schema detection](../api/collections.md#with-auto-schema-detection): you can now index documents without a pre-defined schema
+- Data validation during indexing: [configure](../api/documents.md#dealing-with-dirty-data) Typesense to coerce, reject or drop bad values
 - Concurrency improvements: utilize all CPU cores and scale to hundreds of thousands of collections
 
 ### Enhancements
@@ -26,7 +26,7 @@ This release contains new features, performance improvements and important bug f
 
 - Fixed exact matches [ranking below matches with typos](https://github.com/typesense/typesense/issues/243)
 - Fixed a bug in [filtering of string fields](https://github.com/typesense/typesense/issues/254)
-- Fixed an edge case involving scoped API keys and embedded filters working with multi-search end-point
+- Fixed an edge case involving [scoped API keys and embedded filters](https://github.com/typesense/typesense/issues/263) working with multi-search end-point
 - Fixed an edge case involving filtering on negative integers
 - Fixed an issue related to [range filter](https://github.com/typesense/typesense/issues/210)
 - Fixed a crash while parsing certain rare + long query string parameters

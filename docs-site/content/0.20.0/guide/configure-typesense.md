@@ -1,5 +1,9 @@
 # Configure Typesense
 
+:::tip
+We manage the following parameters for you in Typesense Cloud. So this section only applies if you're self-hosting Typesense.
+:::
+
 ## Using Command Line Arguments
 
 Command line arguments can be passed to the server as `--parameter=value`.

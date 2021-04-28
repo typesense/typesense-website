@@ -11,15 +11,21 @@ We also have the following community-contributed client libraries:
 
 - [Go](https://github.com/typesense/typesense-go)
 - [C#](https://github.com/DAXGRID/typesense-dotnet)
+- [Java](https://github.com/typesense/typesense-java)
+- [Rust](https://github.com/typesense/typesense-rust)
+- [Dart](https://github.com/typesense/typesense-dart)
 
-We recommend that you use our API client if it's available for your language. It's also easy to interact with Typesense through its simple, RESTful HTTP API.
+:::tip
+If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
+:::
+
+<br>
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
   <template v-slot:JavaScript>
 
 ```js
-// Node.js
-npm install typesense @babel/runtime
+// npm install typesense @babel/runtime
 
 // Browser
 <script src="dist/typesense.min.js"></script>
@@ -29,25 +35,23 @@ npm install typesense @babel/runtime
 
   <template v-slot:PHP>
 
-```php
+```shell
 composer require php-http/curl-client typesense/typesense-php
 ```
 
   </template>
   <template v-slot:Python>
 
-```py
+```shell
 pip install typesense
 ```
 
   </template>
   <template v-slot:Ruby>
 
-```rb
+```shell
 gem install typesense
 ```
 
   </template>
 </Tabs>
-
-If you're using our JavaScript client to access Typesense directly from the browser, be sure to start the Typesense server with the `--enable-cors` flag.

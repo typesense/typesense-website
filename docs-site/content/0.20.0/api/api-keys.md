@@ -6,6 +6,9 @@ We will be using the initial bootstrap key that you started Typesense with (via 
 :::
 
 ## Create an API Key
+
+#### Admin Key
+
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
@@ -59,9 +62,11 @@ key = client.keys.create({
   <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
--H 'Content-Type: application/json' \
--d '{"description":"Admin key.","actions": ["*"], "collections": ["*"]}'
+curl 'http://localhost:8108/keys' \
+    -X POST \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -H 'Content-Type: application/json' \
+    -d '{"description":"Admin key.","actions": ["*"], "collections": ["*"]}'
 ```
 
   </template>
@@ -72,6 +77,8 @@ By setting both `actions` and `collections` to a wildcard `['*']` scope, we're a
 :::warning
 The generated key is only returned during creation. You want to store this key carefully in a secure place.
 :::
+
+#### Search-only API Key
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
@@ -124,9 +131,11 @@ client.keys.create({
   <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/keys' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
--H 'Content-Type: application/json' \
--d '{"description":"Search-only companies key.","actions": ["documents:search"], "collections": ["companies"]}'
+curl 'http://localhost:8108/keys' \
+    -X POST \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -H 'Content-Type: application/json' \
+    -d '{"description":"Search-only companies key.","actions": ["documents:search"], "collections": ["companies"]}'
 ```
 
   </template>
@@ -165,6 +174,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 |actions	|yes	|List of allowed actions. See next table for possible values.|
 |collections	|yes	|List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.|
 |description	|no	|Internal description to identify what the key is for|
+|value	|no	|By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key.|
 |expires_at	|no	|[Unix timestamp](https://www.epochconverter.com/) until which the key is valid.|
 
 ### Sample actions
@@ -216,7 +226,9 @@ key = client.keys[1].retrieve
   <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/keys/1' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/keys/1' \
+    -X GET \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
@@ -281,7 +293,9 @@ client.keys.retrieve
   <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/keys' -X GET -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/keys' \
+    -X GET \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
@@ -365,7 +379,9 @@ key = client.keys[1].delete()
   <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/keys/1' \
+    -X DELETE \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
