@@ -38,7 +38,12 @@ export default {
     switchVersion(event) {
       const newVersion = event.target.value
       if (this.$page.typesenseVersion !== newVersion) {
-        this.$router.push(`/${newVersion}/`)
+        let newPath = `/${newVersion}/`
+        const [ majorVersion, minorVersion, patchVersion] = newVersion.split('.')
+        if(majorVersion >= 0 && minorVersion >= 20) {
+          newPath += 'guide/'
+        }
+        this.$router.push(newPath)
       }
     },
   },

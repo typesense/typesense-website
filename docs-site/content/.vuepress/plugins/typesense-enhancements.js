@@ -18,15 +18,12 @@ module.exports = (options, context) => ({
     const pageNavLinkTypesenseVersion = $page.typesenseVersion || typesenseLatestVersion
     $page.nav = [
       {
-        text: 'Overview',
-        link: '/overview/',
+        text: 'Docs Home',
+        link: '/',
       },
       {
-        text: `What's new`,
-        link: `/${pageNavLinkTypesenseVersion}/`,
-        // Custom flag that gets passed to https://router.vuejs.org/api/#exact-path
-        // Prevents duplicate highlights in Nav
-        exactPath: true,
+        text: 'Overview',
+        link: '/overview/what-is-typesense',
       },
       {
         text: 'Guide',

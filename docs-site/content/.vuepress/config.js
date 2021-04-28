@@ -97,7 +97,12 @@ let config = {
     sidebar: {
       //For 0.20.0
       '/0.20.0/guide/': [
-        ['/0.20.0/guide/', 'Introduction'],
+        {
+          title: 'Introduction',
+          path: '/0.20.0/guide/',
+          collapsable: false,
+          children: [['/0.20.0/guide/whats-new', "What's new"]],
+        },
         {
           title: 'Getting Started', // required
           collapsable: false, // optional, defaults to true
@@ -610,9 +615,7 @@ let config = {
         {
           title: 'Walk-throughs',
           collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.2/guide/building-a-search-application', 'Building a Search Application'],
-          ],
+          children: [['/0.11.2/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
           title: 'Operations', // required
@@ -653,9 +656,7 @@ let config = {
         {
           title: 'Walk-throughs',
           collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.1/guide/building-a-search-application', 'Building a Search Application'],
-          ],
+          children: [['/0.11.1/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
           title: 'Operations', // required
@@ -696,9 +697,7 @@ let config = {
         {
           title: 'Walk-throughs',
           collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.0/guide/building-a-search-application', 'Building a Search Application'],
-          ],
+          children: [['/0.11.0/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
           title: 'Operations', // required
@@ -724,9 +723,7 @@ let config = {
         ['/0.11.0/api/api-errors', 'API Errors'],
       ],
 
-
       '/overview': [
-        ['/', 'Docs Home'],
         {
           title: 'Overview', // required
           collapsable: false, // optional, defaults to true
@@ -753,10 +750,10 @@ let config = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@images': '../../.vuepress/public/images'
-      }
-    }
-  }
+        '@images': '../../.vuepress/public/images',
+      },
+    },
+  },
 }
 
 module.exports = config
