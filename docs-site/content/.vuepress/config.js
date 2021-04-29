@@ -97,12 +97,7 @@ let config = {
     sidebar: {
       //For 0.20.0
       '/0.20.0/guide/': [
-        {
-          title: 'Introduction',
-          path: '/0.20.0/guide/',
-          collapsable: false,
-          children: [['/0.20.0/guide/whats-new', "What's new"]],
-        },
+        ['/0.20.0/guide/', 'Introduction'],
         {
           title: 'Getting Started', // required
           collapsable: false, // optional, defaults to true

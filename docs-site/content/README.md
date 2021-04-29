@@ -19,7 +19,6 @@ sidebar:
 The documentation is divided into the following sections, that you'll find links for on the **top navigation bar**.
 
 - [**Overview**](./overview/what-is-typesense.md) - This section is meant to give you a birds-eye view about Typesense, why you'd want to use it and comparison with alternatives.
-- <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/`"><strong>What's new</strong></RouterLink> - Typesense is versioned software and this section outlines the key changes in the particular version of Typesense you're reading the documentation for.
 - <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/guide/`"><strong>Guide</strong></RouterLink> - This section walks you step-by-step through how you can use Typesense in different scenarios.
 - <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> - This section gives you detailed information about all the API endpoints in Typesense, along with information on configuration parameters.
 
