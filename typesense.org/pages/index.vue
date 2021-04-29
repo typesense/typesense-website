@@ -4,11 +4,24 @@
 
     <HomeSectionFeatureList />
 
+    <div class="mt-4">&nbsp;</div>
+
+    <div class="text-center mt-5">
+      <h2 class="text-center text-gradient-1">
+        Typesense is <br />An Open Source Alternative to Algolia & <br />An
+        Easier To Use Alternative to ElasticSearch
+      </h2>
+      <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
+        >Comparison with Alternatives</NuxtLink
+      >
+      <span class="mx-2">•</span> <NuxtLink to="/about/">About Us</NuxtLink>
+    </div>
+
     <div class="mb-5">&nbsp;</div>
 
     <HomeBadges />
 
-    <div class="mb-5">&nbsp;</div>
+    <div class="my-5">&nbsp;</div>
 
     <HomeSectionDeveloperExperience />
 
