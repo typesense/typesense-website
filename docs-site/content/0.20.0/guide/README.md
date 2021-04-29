@@ -24,7 +24,6 @@ This release contains new features, performance improvements and important bug f
 
 - Default sorting field is now optional: when not present, text match score and insertion order are used
 - Allow custom key value to be provided [during creation of API keys](https://github.com/typesense/typesense/issues/244)
-- Tokenize on special characters [in addition to space and newline](https://github.com/typesense/typesense/issues/241)
 - Faster parallel loading of collections on cold start
 - Ensure that all queried fields are highlighted in search response
 - Reduction in memory consumption of facet fields
