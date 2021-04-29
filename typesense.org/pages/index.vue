@@ -8,8 +8,8 @@
 
     <div class="text-center mt-5">
       <h2 class="text-center text-gradient-1">
-        Typesense is <br />An Open Source Alternative to Algolia & <br />An
-        Easier To Use Alternative to ElasticSearch
+        The Open Source Algolia Alternative <br />
+        The Easier To Use ElasticSearch Alternative
       </h2>
       <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
         >Comparison with Alternatives</NuxtLink
