@@ -1,19 +1,16 @@
 # Build A Search Application
 
-:::tip
-We will be using a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./high-availability.md) section for more details.
-:::
-
-At this point, we are all set to start using Typesense. We will create a Typesense collection, index some documents in it and try searching for them.
+Now that you have Typesense [installed and running](./install-typesense.md), we're now ready to create a Typesense collection, index some documents in it and try searching for them.
 
 ## Sample Dataset
 
 To follow along, [download](https://dl.typesense.org/datasets/books.jsonl.tar.gz) this small dataset that we've put together for this walk-through.
 
 ## Initializing the client
-Let's begin by configuring the Typesense client by pointing it to the Typesense master node.
+Let's begin by configuring the Typesense client by pointing it to a Typesense node.
 
-Be sure to use the same API key that you used to start the Typesense server earlier.
+- Be sure to use the same API key that you used to start the Typesense server earlier. 
+- Or if you're using Typesense Cloud, click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -30,9 +27,9 @@ const Typesense = require('typesense')
 
 let client = new Typesense.Client({
   'nodes': [{
-    'host': 'localhost',
-    'port': '8108',
-    'protocol': 'http'
+    'host': 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+    'port': '8108',      // For Typesense Cloud use 443
+    'protocol': 'http'   // For Typesense Cloud use https
   }],
   'apiKey': '<API_KEY>',
   'connectionTimeoutSeconds': 2
@@ -48,12 +45,12 @@ use Typesense\Client;
 
 $client = new Client(
   [
-    'api_key'         => 'abcd',
+    'api_key'         => '<API_KEY>',
     'nodes'           => [
       [
-        'host'     => 'localhost',
-        'port'     => '8108',
-        'protocol' => 'http',
+        'host'     => 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+        'port'     => '8108',      // For Typesense Cloud use 443
+        'protocol' => 'http',      // For Typesense Cloud use https
       ],
     ],
     'connection_timeout_seconds' => 2,
@@ -69,9 +66,9 @@ import typesense
 
 client = typesense.Client({
   'nodes': [{
-    'host': 'localhost',
-    'port': '8108',
-    'protocol': 'http'
+    'host': 'localhost', # For Typesense Cloud use xxx.a1.typesense.net
+    'port': '8108',      # For Typesense Cloud use 443
+    'protocol': 'http'   # For Typesense Cloud use https
   }],
   'api_key': '<API_KEY>',
   'connection_timeout_seconds': 2
@@ -86,9 +83,9 @@ require 'typesense'
 
 client = Typesense::Client.new(
   nodes: [{
-    host:     'localhost',
-    port:     8108,
-    protocol: 'http'
+    host:     'localhost', # For Typesense Cloud use xxx.a1.typesense.net
+    port:     8108,        # For Typesense Cloud use 443
+    protocol: 'http'       # For Typesense Cloud use https
   }],
   api_key:  '<API_KEY>',
   connection_timeout_seconds: 2
@@ -101,6 +98,9 @@ client = Typesense::Client.new(
 ```bash
 export TYPESENSE_API_KEY='<API_KEY>'
 export TYPESENSE_HOST='http://localhost:8108'
+
+# For Typesense Cloud use:
+# export TYPESENSE_HOST='https://xxx.a1.typesense.net'
 ```
 
   </template>
@@ -219,7 +219,9 @@ client.collections.create(books_schema)
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+curl "${TYPESENSE_HOST}/collections" \
+      -X POST \
+      -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "books",
         "fields": [
@@ -316,10 +318,11 @@ end
 input="/tmp/books.jsonl"
 while IFS= read -r line
 do
-  curl "$TYPESENSE_HOST/collections/books/documents" -X POST \
-  -H "Content-Type: application/json" \
-  -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-  -d "$line"
+  curl "${TYPESENSE_HOST}/collections/books/documents" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d "$line"
 done < "$input"
 ```
 
@@ -393,8 +396,8 @@ client.collections['books'].documents.search(search_parameters)
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_HOST/collections/books/documents/search\
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"${TYPESENSE_HOST}/collections/books/documents/search\
 ?q=harry+potter&query_by=title&sort_by=ratings_count:desc"
 ```
 
@@ -516,8 +519,8 @@ client.collections['books'].documents.search(search_parameters)
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_HOST/collections/books/documents/search\
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"${TYPESENSE_HOST}/collections/books/documents/search\
 ?q=harry+potter&query_by=title&sort_by=publication_year:desc\
 &filter_by=publication_year:<1998"
 ```
@@ -638,8 +641,8 @@ client.collections['books'].documents.search(search_parameters)
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_HOST/collections/books/documents/search\
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"${TYPESENSE_HOST}/collections/books/documents/search\
 ?q=experyment&query_by=title&sort_by=average_rating:desc\
 &facet_by=authors_facet"
 ```
@@ -711,3 +714,6 @@ As we can see in the result below, Typesense handled the typographic error grace
 
 We've come to the end of our little walk-through. For a detailed dive into Typesense, refer to our [API documentation](../api/README.md).
 
+:::tip
+We used a single node in this example, but Typesense can also run in a clustered mode. See the [high availability](./high-availability.md) section for more details.
+:::

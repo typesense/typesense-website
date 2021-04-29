@@ -14,7 +14,7 @@ body {
     margin-bottom: 1050px; // Controls spacing from content to footer
 
     @media (min-width: map-get($grid-breakpoints, 'sm')) {
-      margin-bottom: 400px;
+      margin-bottom: 462px;
     }
   }
 }

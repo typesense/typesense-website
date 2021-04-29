@@ -85,7 +85,7 @@ client = Typesense::Client.new(
 
 ```bash
 export TYPESENSE_API_KEY='<API_KEY>'
-export TYPESENSE_MASTER='http://localhost:8108'
+export TYPESENSE_HOST='http://localhost:8108'
 ```
 
   </template>

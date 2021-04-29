@@ -4,7 +4,24 @@
 
     <HomeSectionFeatureList />
 
+    <div class="mt-4">&nbsp;</div>
+
+    <div class="text-center mt-5">
+      <h2 class="text-center text-gradient-1">
+        The Open Source Algolia Alternative <br />
+        The Easier To Use ElasticSearch Alternative
+      </h2>
+      <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
+        >Comparison with Alternatives</NuxtLink
+      >
+      <span class="mx-2">•</span> <NuxtLink to="/about/">About Us</NuxtLink>
+    </div>
+
     <div class="mb-5">&nbsp;</div>
+
+    <HomeBadges />
+
+    <div class="my-5">&nbsp;</div>
 
     <HomeSectionDeveloperExperience />
 
@@ -20,9 +37,8 @@
 
     <HomeSectionSupport class="mt-5" />
 
-    <HomeBadges />
-
-    <div class="mt-5 text-center">
+    <div class="mt-5">&nbsp;</div>
+    <div class="my-5 text-center">
       <HomeCTAs />
     </div>
   </div>

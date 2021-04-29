@@ -18,8 +18,8 @@
             or are proprietary and expensive.
           </p>
           <p>
-            <strong>Our goal is to democratize search</strong>. We want to
-            reduce the time-to-market for developers to build a blazing fast
+            <strong>We are on a mission to democratize search</strong>. We want
+            to reduce the time-to-market for developers to build a blazing-fast
             search experience that provides relevant results out-of-the-box, all
             without breaking the bank and without operational overhead.
           </p>
@@ -27,12 +27,13 @@
             We are a small team trying to do big things and we believe that open
             sourcing our work helps combine forces with our community and
             force-multiply our collective efforts. If our work resonates with
-            you, we’d love to have you
+            you, come join us.
             <a
               href="https://github.com/typesense/typesense/blob/master/CONTRIBUTING.md"
               target="_blank"
-              >join us</a
-            >.
+              >Here</a
+            >
+            are a couple of ways to contribute.
           </p>
           <div class="mt-5">
             <HomeCTAs />

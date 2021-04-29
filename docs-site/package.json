@@ -1,4 +1,8 @@
 {
+  "name": "typesense-docs",
+  "description": "Documentation site for Typesense Search",
+  "private": true,
+  "license": "GPL-3.0",
   "scripts": {
     "dev": "vuepress dev content --no-cache",
     "build": "vuepress build content --no-cache",

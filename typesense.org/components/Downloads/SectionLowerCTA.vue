@@ -10,7 +10,7 @@
             href="/docs/"
             role="button"
           >
-            <strong>Read the Docs</strong>
+            <strong>Read the Guide</strong>
           </a>
         </div>
       </div>

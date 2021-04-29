@@ -100,7 +100,7 @@ client = Typesense::Client.new(
 
 ```bash
 export TYPESENSE_API_KEY='<API_KEY>'
-export TYPESENSE_MASTER='http://localhost:8108'
+export TYPESENSE_HOST='http://localhost:8108'
 ```
 
   </template>
@@ -316,7 +316,7 @@ end
 input="/tmp/books.jsonl"
 while IFS= read -r line
 do
-  curl "$TYPESENSE_MASTER/collections/books/documents" -X POST \
+  curl "$TYPESENSE_HOST/collections/books/documents" -X POST \
   -H "Content-Type: application/json" \
   -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
   -d "$line"
@@ -394,7 +394,7 @@ client.collections['books'].documents.search(search_parameters)
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_MASTER/collections/books/documents/search\
+"$TYPESENSE_HOST/collections/books/documents/search\
 ?q=harry+potter&query_by=title&sort_by=ratings_count:desc"
 ```
 
@@ -517,7 +517,7 @@ client.collections['books'].documents.search(search_parameters)
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_MASTER/collections/books/documents/search\
+"$TYPESENSE_HOST/collections/books/documents/search\
 ?q=harry+potter&query_by=title&sort_by=publication_year:desc\
 &filter_by=publication_year:<1998"
 ```
@@ -639,7 +639,7 @@ client.collections['books'].documents.search(search_parameters)
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
-"$TYPESENSE_MASTER/collections/books/documents/search\
+"$TYPESENSE_HOST/collections/books/documents/search\
 ?q=experyment&query_by=title&sort_by=average_rating:desc\
 &facet_by=authors_facet"
 ```

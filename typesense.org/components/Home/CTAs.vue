@@ -19,5 +19,6 @@
 <style scoped>
 .btn {
   line-height: 1.3;
+  padding-bottom: 0.7em;
 }
 </style>
