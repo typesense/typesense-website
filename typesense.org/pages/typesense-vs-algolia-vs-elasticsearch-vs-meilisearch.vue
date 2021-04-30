@@ -145,7 +145,7 @@
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />Active-passive replication</td>
-                  <td>
+                  <td class="text-danger">
                     ❌<br /><br />Only supports single-node deployments, so is
                     not production-ready
                   </td>
