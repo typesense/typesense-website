@@ -192,7 +192,7 @@ We can retrieve a single synonym.
   <template v-slot:JavaScript>
 
 ```js
-client.collections('products').synonyms('coat-synonyms').retrieve
+client.collections('products').synonyms('coat-synonyms').retrieve()
 ```
 
   </template>
@@ -253,7 +253,7 @@ List all synonyms associated with a given collection.
   <template v-slot:JavaScript>
 
 ```js
-client.collections('products').synonyms().retrieve
+client.collections('products').synonyms().retrieve()
 ```
 
   </template>
