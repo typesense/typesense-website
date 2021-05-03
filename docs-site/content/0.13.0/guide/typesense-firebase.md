@@ -147,7 +147,7 @@ Typesense is a typo-tolerant search engine. So, even if you make a typographical
 
 ### Build a Search UI
 
-You can now add a search bar using [instantsearch.js](https://github.com/algolia/instantsearch.js), an open-sourced collection of UI components, built originally by Algolia.
+You can now add a search bar using [instantsearch.js](https://github.com/algolia/instantsearch.js), an open-sourced collection of UI components, built by Algolia.
 
 Typesense has an [instantsearch adapter](https://github.com/typesense/typesense-instantsearch-adapter) that you can use to create UI-based search interfaces, but send the queries to Typesense. 
 
