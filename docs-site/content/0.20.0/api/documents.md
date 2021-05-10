@@ -1400,7 +1400,7 @@ client.collections['titles'].documents.create(document,
 <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/titles/documents" -X POST \
+curl "http://localhost:8108/collections/titles/documents?dirty_values=coerce_or_reject" -X POST \
         -H "Content-Type: application/json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         -d '{
