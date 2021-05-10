@@ -474,7 +474,7 @@ client.collections['companies'].documents.search(search_parameters)
 |facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
 |num_typos	|no	|Number of typographical errors (1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
 |page	|no	|Results from this specific page number would be fetched.|
-|per_page	|no	|Number of results to fetch per page.<br><br>Default: `10`|
+|per_page	|no	|Number of results to fetch per page.<br><br>Default: `10` <br><br> NOTE: Only upto 250 hits can be fetched per page.|
 |group_by	|no	|You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`
 |group_limit	|no	|Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`|
 |include_fields	|no	|Comma-separated list of fields from the document to include in the search result.|
