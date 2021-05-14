@@ -117,7 +117,7 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 const INDEX_NAME = 'r'
 
 function typesenseServerConfig($config) {
-  return {
+  const serverConfig = {
     apiKey: $config.typesenseSearchOnlyAPIKey,
     nodes: $config.typesenseHosts.map((h) => {
       return {
@@ -127,6 +127,14 @@ function typesenseServerConfig($config) {
       }
     }),
   }
+  if ($config.typesenseHostNearest) {
+    serverConfig.nearestNode = {
+      host: $config.typesenseHostNearest,
+      port: $config.typesensePort,
+      protocol: $config.typesenseProtocol,
+    }
+  }
+  return serverConfig
 }
 
 export default {
