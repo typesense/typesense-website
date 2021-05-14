@@ -160,7 +160,7 @@ export default {
       INDEX_NAME,
       initialUiState: {
         r: {
-          query: 'cake',
+          query: 'steamed',
         },
       },
       hitsPerPage: 5,
