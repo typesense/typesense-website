@@ -296,8 +296,19 @@
                     a single index
                   </td>
                   <td>
-                    ❌<br /><br />Duplicate indices need to be created for each
-                    sort order
+                    🔶<br /><br />Duplicate indices need to be created for each
+                    sort order, for
+                    <a
+                      href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/"
+                      target="_blank"
+                      >Exhaustive Sorting</a
+                    >.<br /><br />
+                    Virtual replica indices can be used for
+                    <a
+                      href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/"
+                      target="_blank"
+                      >Relevant Sorting</a
+                    >.
                   </td>
                   <td>
                     ✅<br /><br />Sort fields can be defined at query time using
@@ -314,7 +325,7 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>
-                    ✅<br /><br />
+                    🔶<br /><br />
                     Only string-type facets
                   </td>
                 </tr>
@@ -478,7 +489,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Visual Dashboard</td>
-                  <td>❌</td>
+                  <td>✅<br /><br />In Typesense Cloud</td>
                   <td>✅️</td>
                   <td>✅️<br /><br />3rd party plugins</td>
                   <td>✅️<br /><br />Search only</td>
