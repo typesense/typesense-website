@@ -26,14 +26,13 @@
           <p>
             We are a small team trying to do big things and we believe that open
             sourcing our work helps combine forces with our community and
-            force-multiply our collective efforts. If our work resonates with
-            you, come join us.
+            force-multiply our collective efforts. If this resonates with you,
             <a
               href="https://github.com/typesense/typesense/blob/master/CONTRIBUTING.md"
               target="_blank"
-              >Here</a
+              >here</a
             >
-            are a couple of ways to contribute.
+            are a couple of ways to get involved.
           </p>
           <div class="mt-5">
             <HomeCTAs />

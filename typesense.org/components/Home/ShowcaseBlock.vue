@@ -33,9 +33,8 @@ export default {
 
 <style scoped lang="scss">
 .showcase-block {
-  max-width: 300px;
   min-width: 300px;
-  min-height: 150px;
+  min-height: 187px;
 
   @media (min-width: map-get($grid-breakpoints, 'sm')) {
     min-width: 200px;
