@@ -87,7 +87,7 @@ Let's now see how we can create a search-only key that allows you to limit the k
 
 ```js
 client.keys().create({
-  'description': 'Admin key.',
+  'description': 'Search-only companies key.',
   'actions': ['documents:search'],
   'collections': ['companies']
 })
