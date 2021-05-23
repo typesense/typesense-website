@@ -419,6 +419,9 @@ Remember to never expose your main search key client-side, since exposing the ma
   <template v-slot:JavaScript>
 
 ```js
+// Make sure that the parent search key you use to generate a scoped search key 
+//  has no other permissions besides `documents:search`
+
 keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
 client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
 ```
@@ -428,6 +431,9 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
   <template v-slot:PHP>
 
 ```php
+// Make sure that the parent search key you use to generate a scoped search key 
+//  has no other permissions besides `documents:search`
+
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
 $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465]);
 ```
@@ -436,6 +442,9 @@ $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by'
   <template v-slot:Python>
 
 ```py
+# Make sure that the parent search key you use to generate a scoped search key 
+#  has no other permissions besides `documents:search`
+
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
 client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1611590465})
 ```
@@ -444,6 +453,9 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_b
   <template v-slot:Ruby>
 
 ```rb
+# Make sure that the parent search key you use to generate a scoped search key 
+#  has no other permissions besides `documents:search`
+
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
 client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
 ```
@@ -452,6 +464,9 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_b
   <template v-slot:Shell>
 
 ```bash
+# Make sure that the parent search key you use to generate a scoped search key 
+#  has no other permissions besides `documents:search`
+
 KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
 EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124","expires_at":1611590465}'
 
@@ -472,7 +487,6 @@ echo $scoped_api_key
 
 ```json
 "RDhxa2VKTnBQVkxaVlFIOS9JWDZ2bDdtMU5HL3laa0pab2pTeEUzbFBhZz1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCIsImV4cGlyZXNfYXQiOjE2MTE1OTA0NjV9"
-
 ```
 
   </template>
