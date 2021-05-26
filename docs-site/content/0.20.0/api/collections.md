@@ -443,7 +443,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       {"name": "full_name", "type": "string"},
       {"name": "from_year", "type": "int32"}
     ],
-    "default_sorting_field": "num_employees"
+    "default_sorting_field": "from_year"
   }
 ]
 ```
