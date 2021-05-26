@@ -1,5 +1,8 @@
+const resolve = require('path').resolve
+
 module.exports = (options, context) => ({
   name: 'typesense-enhancements',
+  enhanceAppFiles: resolve(__dirname, 'enhanceApp.js'),
   extendPageData($page) {
     const typesenseLatestVersion = context.siteConfig.themeConfig.typesenseLatestVersion
 

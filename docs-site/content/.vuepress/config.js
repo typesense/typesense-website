@@ -80,7 +80,7 @@ let config = {
     // Add any non-versioned pages below
     nav: [{ text: 'Help', link: '/help' }],
     repo: 'typesense/typesense',
-    smoothScroll: true,
+    smoothScroll: false, // We're handling this custom using the typesense-enhancements plugin
     markdown: {
       lineNumbers: true,
     },
