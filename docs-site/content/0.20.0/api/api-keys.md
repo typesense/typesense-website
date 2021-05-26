@@ -405,11 +405,27 @@ curl 'http://localhost:8108/keys/1' \
 `DELETE ${TYPESENSE_HOST}/keys/:id`
 
 ## Generate Scoped Search Key
-You can generate scoped search API keys that have embedded search parameters in them. This is useful for example when you have multi-tenant data indexed in your Typesense instance, but only want your users to access their own subset of the data.
+You can generate scoped search API keys that have embedded search parameters in them. This is useful in a few different scenarios:
 
-To do this, you can embed a filter in a generated scoped search API key. When you use that key for search operations, those filters will get automatically applied and cannot be overriden.
+1. You can index data from multiple users/customers in a single Typesense collection (aka multi-tenancy) and create scoped search keys with embedded `filter_by` parameters that only allow users access to their own subset of data.
+2. You can embed any [search parameters](./documents.md#arguments) (for eg: `exclude_fields` or `limit_hits`) to prevent users from being able to modify it client-side. 
 
-We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope, create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
+When you use these scoped search keys in a search API call, the parameters you embedded in them will be automatically applied by Typesense and users will not be able to override them.
+
+### Example
+
+Let's take the first use-case of storing data from multiple users in a single collection. 
+
+1. First you'd add an array field called `accessible_to_user_ids` to each document in your collection, listing all the users who should have access to the document in that field. 
+2. Then when a user with say `user_id: 1` lands on your search experience, you'd generate a unique scoped search API key for them (on your backend server), with an embedded filter of `filter_by: accessible_to_user_ids:=1`.
+
+When you make a search API call with this scoped search API key, Typesense will automatically apply the `filter_by`, so the user will effectively only have access to search through documents that have their own user_id listed in the `accessible_to_user_ids` field.
+
+Now let's say you also don't want users to know the entire list of users_ids that have access to a document, you can also embed `exclude_fields: accessible_to_user_ids` in the scoped API key, so it doesn't get returned in the response.  
+
+### Usage
+
+We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope (only), create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
 
 :::warning
 Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set without your embedded search parameters.
@@ -423,7 +439,7 @@ Remember to never expose your main search key client-side, since exposing the ma
 //  has no other permissions besides `documents:search`
 
 keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
+client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1906054106})
 ```
 
   </template>
@@ -435,7 +451,7 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
 //  has no other permissions besides `documents:search`
 
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1611590465]);
+$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1906054106]);
 ```
 
   </template>
@@ -446,7 +462,7 @@ $client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by'
 #  has no other permissions besides `documents:search`
 
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1611590465})
+client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1906054106})
 ```
 
   </template>
@@ -457,7 +473,7 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_b
 #  has no other permissions besides `documents:search`
 
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124', 'expires_at': 1611590465})
+client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124', 'expires_at': 1906054106})
 ```
 
   </template>
@@ -468,7 +484,7 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_b
 #  has no other permissions besides `documents:search`
 
 KEY_WITH_SEARCH_PERMISSIONS="RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127"
-EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124","expires_at":1611590465}'
+EMBEDDED_SEARCH_PARAMETERS_JSON='{"filter_by":"company_id:124","expires_at":1906054106}'
 
 digest=$(echo -n $EMBEDDED_SEARCH_PARAMETERS_JSON | openssl dgst -sha256 -hmac $KEY_WITH_SEARCH_PERMISSIONS -binary | base64 -w0)
 
@@ -485,8 +501,8 @@ echo $scoped_api_key
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
 
-```json
-"RDhxa2VKTnBQVkxaVlFIOS9JWDZ2bDdtMU5HL3laa0pab2pTeEUzbFBhZz1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCIsImV4cGlyZXNfYXQiOjE2MTE1OTA0NjV9"
+```
+OW9DYWZGS1Q1RGdSbmo0S1QrOWxhbk9PL2kxbTU1eXA3bCthdmE5eXJKRT1STjIzeyJmaWx0ZXJfYnkiOiJjb21wYW55X2lkOjEyNCIsImV4cGlyZXNfYXQiOjE5MDYwNTQxMDZ9
 ```
 
   </template>
