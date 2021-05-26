@@ -14,7 +14,6 @@
     "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.19.0 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors"
   },
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^8.1.0",
