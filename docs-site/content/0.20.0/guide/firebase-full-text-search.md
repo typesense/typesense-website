@@ -1,10 +1,10 @@
-# Add a fast, typo tolerant search interface to your Firebase App with Typesense
+# Full-text Search for Firebase with Typesense
 
-[Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase. 
+[Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase.
 
-The Firebase [documentation](https://firebase.google.com/docs/firestore/solutions/search) talks about using third-party services like Algolia for full-text search. Algolia is a good solution, but is proprietary and can be expensive for even moderate scale. 
+The Firebase [documentation](https://firebase.google.com/docs/firestore/solutions/search) talks about using third-party services like Algolia for full-text search. Algolia is a good solution, but it is proprietary and can be expensive for even moderate scale.
 
-**Enter Typesense** - Typesense is an [open-source](https://github.com/typesense/typesense) search engine that is easy to use, run and scale, with clean APIs and documentation. Think of it as an open source alternative to Algolia and an easier-to-use, batteries-included alternative to ElasticSearch. Typesense is blazing fast and highly configurable, so you can tailor results according to your needs. You can learn more about Typesense features [here](https://github.com/typesense/typesense#features).
+**Enter Typesense** - Typesense is an [open-source](https://github.com/typesense/typesense) typo-tolerant fuzzy search engine that is easy to use, run and scale, with clean APIs and documentation. Think of it as an open source alternative to Algolia and an easier-to-use, batteries-included alternative to ElasticSearch. Typesense is blazing fast and highly configurable, so you can tailor results according to your needs. You can learn more about Typesense features [here](https://github.com/typesense/typesense#features).
 
 In this walk-through, we are going to show you how to integrate Typesense with Firebase, to build a full-text search experience for your Firebase app. 
 
@@ -21,33 +21,34 @@ We'll assume that you're already familiar with Firebase, Firestore and how these
 
 ## Step 1: Run Typesense
 
-The easiest way to run Typesense is using [Typesense cloud](https://cloud.typesense.org), which is the hosted version of Typesense.
+The easiest way to run Typesense is using [Typesense cloud](https://cloud.typesense.org), which is the hosted version of Typesense:
 
-You can also [install Typesense](./install-typesense.md) locally or on a server in [multiple ways](./install-typesense.md#local-machine-self-hosting). 
+1. Visit [https://cloud.typesense.org](https://cloud.typesense.org) and Login with Github.
+2. Select the configuration you need or leave the defaults as is and click on "Launch"
+3. Your cluster should be fully provisioned and running in about 5 minutes. Then click on "Generate API Key".
 
-For this tutorial, let's use the Docker version:
+We'll now use the hostname and API keys you generate for the rest of the tutorial. 
 
-```shell
-docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:{{$page.typesenseVersion}} --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors
-```
+You can also run Typesense locally or on a server on GCP, if you choose to self-host. 
+[Here](./install-typesense.md#option-2-local-machine-self-hosting) are instructions on how to 
+install Typesense on any cloud server.
 
 ## Step 2: Create a Typesense Collection
 
 To use Typesense, we first need to create a client. Typesense supports [multiple API clients](../api/api-clients.md) including Javascript, Python, Ruby, PHP etc. 
 
-To create the Javascript client, you need the API key of the Typesense server:
+To initialize the Javascript client, you need the API key of the Typesense server you generated in Step 1:
 
 ```javascript
 import Typesense from 'typesense'
 
 let client = new Typesense.Client({
   'nodes': [{
-    'host': '<TYPESENSE_SERVER>',
-    'port': '8108',
-    'protocol': 'http'
+    'host': 'xxx.a1.typesense.net', // where xxx is the ClusterID of your Typesense Cloud cluster
+    'port': '443',
+    'protocol': 'https'
   }],
-  // In default installations, you can find the API key at: /etc/typesense/typesense-server.ini
-  'apiKey': '<API_KEY>',
+  'apiKey': '<ADMIN_API_KEY>',
   'connectionTimeoutSeconds': 2
 })
 ```
@@ -68,7 +69,11 @@ myCollection = {
 client.collections().create(myCollection)
 ```
 
-We created a collection called `books` and the documents stored in the `books` collection will have three fields - `id`, `title` and `publication_year`.`id` is an interesting field here as Typesense uses it as an identifier for the document. If there is no `id` field, Typesense automatically assigns an identifier to the document. Note that the `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp). For this tutorial, we will take the firestore id of the document as the `id` value.
+We created a collection called `books` and the documents stored in the `books` collection will have three fields - `id`, `title` and `publication_year`.
+
+`id` is an interesting field here as Typesense uses it as an identifier for the document. If there is no `id` field, Typesense automatically assigns an identifier to the document. Note that the `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp). 
+
+For this tutorial, we will use the Firestore ID of the document as the `id` value.
 
 ## Step 3: Write data to Typesense
 
@@ -161,12 +166,12 @@ import { InstantSearch, SearchBox, Hits, Stats } from "react-instantsearch-dom"
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter"
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
-    apiKey: "xyz", // Be sure to use the search-only-api-key
+    apiKey: "xyz", // Be sure to use a Search API Key
     nodes: [
       {
-        host: "<TYPESENSE_SERVER>",
-        port: "8108",
-        protocol: "http",
+        host: 'xxx.a1.typesense.net', // where xxx is the ClusterID of your Typesense Cloud cluster
+        port: '443',
+        protocol: 'https'
       },
     ],
   },
@@ -197,3 +202,5 @@ return (
 Instantsearch.js is very powerful and you can use it to create pretty interesting search widgets. You can read more about it [here](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/react/).
 
 And that's it! As we saw above, Typesense is easy to set up and simple to use. You can use it with your apps to create fast, typo-tolerant search interfaces. If you face any difficulties with Typesense or would like to see any new features added, head over to our [Github repo](https://github.com/typesense/typesense) and create an issue.
+
+If we can make any improvements to this guide, click on the "Edit page" link below and send us a pull request. 
