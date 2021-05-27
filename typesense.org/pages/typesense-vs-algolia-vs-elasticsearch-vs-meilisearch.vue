@@ -364,7 +364,14 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Language support</td>
-                  <td>All languages, expect logographic ones</td>
+                  <td>
+                    All languages, expect
+                    <a
+                      href="https://github.com/typesense/typesense/issues/228"
+                      target="_blank"
+                      >logographic ones</a
+                    >
+                  </td>
                   <td>All languages</td>
                   <td>All languages</td>
                   <td>Latin-based languages, English, and kanji languages</td>
@@ -378,7 +385,15 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
-                  <td>❌</td>
+                  <td>
+                    🔶<br /><br />
+                    In
+                    <a
+                      href="https://github.com/typesense/typesense/issues/78#issuecomment-842308057"
+                      target="_blank"
+                      >beta</a
+                    >.
+                  </td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>❌</td>
@@ -491,7 +506,7 @@
                   <td class="font-weight-bold">Visual Dashboard</td>
                   <td>✅<br /><br />In Typesense Cloud</td>
                   <td>✅️</td>
-                  <td>✅️<br /><br />3rd party plugins</td>
+                  <td>🔶️<br /><br />3rd party plugins</td>
                   <td>✅️<br /><br />Search only</td>
                 </tr>
                 <tr>
