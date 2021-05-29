@@ -150,7 +150,7 @@ Listing all overrides associated with a given collection.
   <template v-slot:JavaScript>
 
 ```js
-client.collections('companies').overrides().retrieve
+client.collections('companies').overrides().retrieve()
 ```
 
   </template>
