@@ -219,6 +219,84 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/overrides`
 
+## Retrieve an override
+Fetch an individual override associated with a collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.collections('companies').overrides('customize-apple').retrieve()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->collections['companies']->overrides['customize-apple']->retrieve();
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.collections['companies'].overrides['customize-apple'].retrieve()
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.collections['companies'].overrides['customize-apple'].retrieve
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X GET \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "id":"customize-apple",
+  "excludes":[
+    {
+      "id":"287"
+    }
+  ],
+  "includes":[
+    {
+      "id":"422",
+      "position":1
+    },
+    {
+      "id":"54",
+      "position":2
+    }
+  ],
+  "rule":{
+    "match":"exact",
+    "query":"apple"
+  }
+}
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`GET ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
 
 ## Delete an override
 Deleting an override associated with a collection.
