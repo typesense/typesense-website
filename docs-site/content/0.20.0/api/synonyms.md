@@ -295,8 +295,15 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   <template v-slot:JSON>
 
 ```json
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/products/synonyms"
+{
+  "synonyms": [
+    {
+      "id": "coat-synonyms",
+      "root": "",
+      "synonyms": ["blazer", "coat", "jacket"]
+    }
+  ]
+}
 ```
 
   </template>
