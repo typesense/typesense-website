@@ -312,7 +312,7 @@ Delete a synonym associated with a collection.
   <template v-slot:JavaScript>
 
 ```js
-client.collections('books').synonyms('coat-synonyms').delete()
+client.collections('products').synonyms('coat-synonyms').delete()
 ```
 
   </template>
@@ -320,28 +320,28 @@ client.collections('books').synonyms('coat-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['books']->synonyms['coat-synonyms']->delete();
+$client->collections['products']->synonyms['coat-synonyms']->delete();
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-client.collections['books'].synonyms['coat-synonyms'].delete()
+client.collections['products'].synonyms['coat-synonyms'].delete()
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-client.collections['books'].synonyms['coat-synonyms'].delete
+client.collections['products'].synonyms['coat-synonyms'].delete
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/books/synonyms/coat-synonyms" -X DELETE \
+curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X DELETE \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
