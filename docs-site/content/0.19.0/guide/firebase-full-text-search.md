@@ -84,7 +84,7 @@ Next, we'll write functions to listen to change events from Firestore and write 
 We'll create a function to add to the search index (aka collection) in Typesense, whenever a new document is created.
 
 ```javascript
-exports.makeUppercase = functions.firestore.document('/books/{bookID}')
+exports.onBookCreate = functions.firestore.document('/books/{bookID}')
   .onCreate((snapshot, context) => {
     // Grab the document id as id value.
     id = context.params.bookID
