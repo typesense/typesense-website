@@ -1029,7 +1029,7 @@ client.collections['companies'].documents.export
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
     "http://localhost:8108/collections/companies/documents/export"
 ```
 
