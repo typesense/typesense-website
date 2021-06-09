@@ -1134,8 +1134,8 @@ client.collections['companies'].documents.import(documents, action: 'create')
 
 ```bash
 curl "http://localhost:8108/collections/companies/documents/import?action=create" \
-        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-        -X POST
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -X POST \
         -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
             {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
 ```
