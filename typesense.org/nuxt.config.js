@@ -50,6 +50,8 @@ const config = {
     'bootstrap-vue/nuxt',
     '@nuxtjs/google-gtag',
     '@nuxtjs/redirect-module',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
   ],
 
   styleResources: {
@@ -109,6 +111,19 @@ const config = {
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate#fallback
   generate: {
     fallback: true,
+  },
+
+  sitemap: {
+    hostname: 'https://typesense.org',
+  },
+  robots: {
+    UserAgent: '*',
+    Allow: '/',
+    Sitemap: [
+      'https://typesense.org/sitemap.xml',
+      'https://typesense.org/docs/sitemap.xml',
+      'https://typesense.org/learn/sitemap.xml',
+    ],
   },
 }
 
