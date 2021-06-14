@@ -13,6 +13,7 @@
           "
           alt="Typesense"
           width="200"
+          height="44"
         />
       </NuxtLink>
       <div :class="colorScheme === 'light' ? 'navbar-dark' : 'navbar-light'">
