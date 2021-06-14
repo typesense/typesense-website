@@ -32,26 +32,27 @@ let config = {
     ['meta', { name: 'twitter:description', content: 'Lightning-fast, open source search engine for everyone' }],
     ['meta', { name: 'twitter:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
     ['link', { rel: 'icon', href: '/favicon.png' }],
-    [
-      'script',
-      {},
-      `
-        !function (e, t, n) {
-        function a() {
-          var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
-          n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
-        }
-
-        if (e.Beacon = n = function (t, n, a) {
-          e.Beacon.readyQueue.push({method: t, options: n, data: a})
-        }, n.readyQueue = [], "complete" === t.readyState) return a();
-        e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
-      }(window, document, window.Beacon || function () {
-      });
-      window.Beacon('config', { display: { style: 'icon' } })
-      window.Beacon('init', '11291d62-d72c-4354-9f74-dfd71bb37718')
-    `,
-    ],
+    // Disable helpscout to improve page load times
+    // [
+    //   'script',
+    //   {},
+    //   `
+    //     !function (e, t, n) {
+    //     function a() {
+    //       var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
+    //       n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
+    //     }
+    //
+    //     if (e.Beacon = n = function (t, n, a) {
+    //       e.Beacon.readyQueue.push({method: t, options: n, data: a})
+    //     }, n.readyQueue = [], "complete" === t.readyState) return a();
+    //     e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
+    //   }(window, document, window.Beacon || function () {
+    //   });
+    //   window.Beacon('config', { display: { style: 'icon' } })
+    //   window.Beacon('init', '11291d62-d72c-4354-9f74-dfd71bb37718')
+    // `,
+    // ],
   ],
 
   /**
@@ -61,6 +62,8 @@ let config = {
    */
   themeConfig: {
     logo: '/images/typesense_logo.svg',
+    logoHeight: 44,
+    logoWidth: 200,
     typesenseVersions: typesenseVersions,
     typesenseLatestVersion: typesenseLatestVersion,
     typesenseDocsearch: {
