@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # API Keys
 Typesense allows you to create API Keys with fine-grain access control. You can restrict access on both a per-collection and per-action level.
 

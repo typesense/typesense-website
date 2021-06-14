@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Updating Typesense
 The process of updating Typesense is simple:
 

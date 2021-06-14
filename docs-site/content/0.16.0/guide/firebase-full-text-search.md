@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Add a fast, typo tolerant search interface to your Firebase App with Typesense
 
 [Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase. 

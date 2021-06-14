@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Documents
 
 ## Index a document

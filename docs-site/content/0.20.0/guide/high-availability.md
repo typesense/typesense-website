@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # High Availability
 
 You can run a cluster of Typesense nodes for high availability. Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.

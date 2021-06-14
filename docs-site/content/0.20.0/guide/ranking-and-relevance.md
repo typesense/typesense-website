@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Ranking and Relevance
 
 Typesense ranks search results using a simple tie-breaking sorting algorithm that can rely on one or more of:

@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Build A Search Application
 
 At this point, we are all set to start using Typesense. We will create a Typesense collection, index some documents in it and try searching for them.

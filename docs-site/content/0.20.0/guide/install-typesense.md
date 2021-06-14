@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Install Typesense
 
 Here are a couple of available options to install and run Typesense.

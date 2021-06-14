@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # High Availability
 
 You can run one or more Typesense servers as read-only replicas that asynchronously pull data from a master Typesense server. This way, if your primary Typesense server fails, search requests can be sent to the replicas.

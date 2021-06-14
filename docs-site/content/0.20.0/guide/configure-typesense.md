@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Configure Typesense
 
 :::tip

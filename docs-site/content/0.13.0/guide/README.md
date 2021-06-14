@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Guide v{{ $page.typesenseVersion }}
 
 The guide section of the documentation walks you through how to use Typesense `v{{ $page.typesenseVersion }}` in different scenarios.

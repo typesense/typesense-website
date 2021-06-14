@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # API Clients
 
 We have client libraries for:

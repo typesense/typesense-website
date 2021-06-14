@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Curation
 While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
 

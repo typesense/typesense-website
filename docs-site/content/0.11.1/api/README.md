@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # API Reference for v{{ $page.typesenseVersion }}
 
 This section of the documentation details all the API Endpoints available in Typesense and all the parameters you can use with them.

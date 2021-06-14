@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Cluster Operations
 
 ## Create Snapshot (for backups)

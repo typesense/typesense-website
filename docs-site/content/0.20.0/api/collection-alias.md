@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Collection Alias
 An alias is a virtual collection name that points to a real collection. If you're familiar with symbolic links on Linux, it's very similar to that.
 

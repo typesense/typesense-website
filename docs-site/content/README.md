@@ -1,10 +1,3 @@
----
-sidebar:
- - '/'
- - Hello
-
----
-
 # Typesense Documentation
 
 👋 Welcome! Let's get you familiar with Typesense real quick.

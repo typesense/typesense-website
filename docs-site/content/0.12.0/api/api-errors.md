@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # API errors
 Typesense API uses standard HTTP response codes to indicate the success or failure of a request.
 

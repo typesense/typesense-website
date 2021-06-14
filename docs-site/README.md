@@ -43,6 +43,10 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 
 1. Add version number to `../typesenseVersions.js`
 1. Clone the latest version directory and make edits to it.
+1. Update sitemap priority for old version:
+   ```bash
+   find content/<old.version.number> -type f -name "*.md" -exec gsed -i 's/  priority: 0.7/  priority: 0.3/' {} +
+   ```
 1. Deploy both main site and docs site (since the main site has references to the latest version)
 
 ## Layout

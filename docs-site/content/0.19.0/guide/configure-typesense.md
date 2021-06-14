@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Configure Typesense
 
 ## Using Command Line Arguments

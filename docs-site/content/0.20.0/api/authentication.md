@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.7
+---
+
 # Authentication
 
 You'd need one or more hostnames and [API keys](./api-keys.md) to integrate with Typesense.

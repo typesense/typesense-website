@@ -741,6 +741,14 @@ let config = {
     '@vuepress/plugin-medium-zoom',
     ['@dovyp/vuepress-plugin-clipboard-copy', true],
     require('./plugins/typesense-enhancements'),
+    [
+      'vuepress-plugin-sitemap',
+      {
+        hostname: 'https://typesense.org/docs',
+        exclude: ['/404.html'],
+      },
+    ],
+    '@vuepress/last-updated',
   ],
   configureWebpack: {
     resolve: {

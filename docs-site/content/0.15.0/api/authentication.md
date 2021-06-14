@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Authentication
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">

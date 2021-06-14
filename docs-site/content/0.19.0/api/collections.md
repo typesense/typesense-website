@@ -1,3 +1,8 @@
+---
+sitemap:
+  priority: 0.3
+---
+
 # Collections
 
 In Typesense, a group of related documents is called a collection. A collection is roughly equivalent to a table in a relational database.
