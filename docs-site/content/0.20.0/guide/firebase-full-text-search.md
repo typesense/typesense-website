@@ -19,7 +19,7 @@ to automatically sync Firestore documents into Typesense.
 Here's how to set it up: 
 [https://github.com/typesense/firestore-typesense-search](https://github.com/typesense/firestore-typesense-search).
 
-If you choose to use this extension, you can skip directly to [Step 4](#step-4-let-the-search-begin) below.
+If you choose to use this extension, you can skip directly to [Step 4](#step-4-let-the-search-begin) below, once you set up the extension.
 :::
 
 In this walk-through, we are going to show you how to integrate Typesense with Firebase, to build a full-text search experience for your Firebase app.
