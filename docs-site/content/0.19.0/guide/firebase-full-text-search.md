@@ -11,6 +11,16 @@ The Firebase [documentation](https://firebase.google.com/docs/firestore/solution
 
 **Enter Typesense** - Typesense is an [open-source](https://github.com/typesense/typesense) typo-tolerant fuzzy search engine that is easy to use, run and scale, with clean APIs and documentation. Think of it as an open source alternative to Algolia and an easier-to-use, batteries-included alternative to ElasticSearch. Typesense is blazing fast and highly configurable, so you can tailor results according to your needs. You can learn more about Typesense features [here](https://github.com/typesense/typesense#features).
 
+:::tip UPDATE
+
+We've published a **Firebase Extension** that you can install into your Firebase project with a few clicks,
+to automatically sync Firestore documents into Typesense.
+
+Here's how to set it up:
+[https://github.com/typesense/firestore-typesense-search](https://github.com/typesense/firestore-typesense-search).
+
+:::
+
 In this walk-through, we are going to show you how to integrate Typesense with Firebase, to build a full-text search experience for your Firebase app.
 
 We'll assume that you're already familiar with Firebase, Firestore and how these tools work. To get started, let's take a sample app that stores book titles and their publication year.
@@ -35,7 +45,7 @@ The easiest way to run Typesense is using [Typesense cloud](https://cloud.typese
 We'll now use the hostname and API keys you generate for the rest of the tutorial.
 
 You can also run Typesense locally or on a server on GCP, if you choose to self-host.
-[Here](./install-typesense.md#option-2-local-machine-self-hosting) are instructions on how to
+[Here](./install-typesense.md#option-2-local-machine--self-hosting) are instructions on how to
 install Typesense on any cloud server.
 
 ## Step 2: Create a Typesense Collection
@@ -194,12 +204,12 @@ export default function SearchInterface() {
       {hit.title} - {hit.description}
     </p>
   )
-return (
-      <InstantSearch searchClient={searchClient} indexName="pages_v1">
-        <SearchBox />
-        <Stats />
-        <Hits hitComponent={Hit} />
-      </InstantSearch>
+  return (
+    <InstantSearch searchClient={searchClient} indexName="pages_v1">
+      <SearchBox />
+      <Stats />
+      <Hits hitComponent={Hit} />
+    </InstantSearch>
   )
 }
 ```
