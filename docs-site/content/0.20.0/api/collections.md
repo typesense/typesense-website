@@ -132,7 +132,21 @@ schema = {
 
 client.collections.create(schema)
 ```
+    
+```dart
+final schema = Schema(
+  'companies',
+  {
+    Field('company_name', Type.string),
+    Field('num_employees', Type.int32),
+    Field('country', Type.string, isFacetable: true),
+  },
+  defaultSortingField: Field('num_employees', Type.int32),
+);
 
+await client.collections.create(schema);
+```
+    
   </template>
   <template v-slot:Shell>
 
@@ -342,6 +356,10 @@ client.collections['companies'].retrieve()
 ```rb
 client.collections['companies'].retrieve
 ```
+    
+```dart
+await client.collection('companies').retrieve();
+```    
 
   </template>
   <template v-slot:Shell>
@@ -410,6 +428,10 @@ client.collections.retrieve()
 
 ```rb
 client.collections.retrieve
+```
+
+```dart
+await client.collections.retrieve();
 ```
 
   </template>
@@ -490,6 +512,10 @@ client.collections['companies'].delete()
 
 ```rb
 client.collections['companies'].delete
+```
+
+```dart
+await client.collection('companies').delete();
 ```
 
   </template>
