@@ -41,6 +41,15 @@
             </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
+            emoji="⚡ 🔍 📦️"
+            link="https://ecommerce-store.typesense.org/"
+          >
+            <template #title>
+              E-Commerce Store<br />
+              Browsing Experience
+            </template>
+          </HomeShowcaseBlock>
+          <HomeShowcaseBlock
             emoji="⚡ ⌨️"
             link="https://spellcheck.typesense.org/"
           >
