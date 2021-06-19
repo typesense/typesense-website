@@ -122,6 +122,18 @@ let config = {
           ],
         },
         {
+          title: 'Reference Implementations',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.20.0/guide/reference-implementations/recipe-search', 'Recipe Search'],
+            ['/0.20.0/guide/reference-implementations/linux-commits-search', 'Linux Commits Search'],
+            ['/0.20.0/guide/reference-implementations/ecommerce-storefront', 'E-Commerce Storefront'],
+            ['/0.20.0/guide/reference-implementations/songs-search', 'Songs Search'],
+            ['/0.20.0/guide/reference-implementations/books-search', 'Books Search'],
+            ['/0.20.0/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
+          ],
+        },
+        {
           title: 'Operations', // required
           collapsable: false, // optional, defaults to true
           children: [

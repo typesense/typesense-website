@@ -26,7 +26,7 @@ module.exports = (options, context) => ({
       },
       {
         text: 'Overview',
-        link: '/overview/what-is-typesense',
+        link: '/overview/',
       },
       {
         text: 'Guide',
