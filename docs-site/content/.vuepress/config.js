@@ -744,6 +744,8 @@ let config = {
             ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
           ],
         },
+        ['/overview/demos', 'Live Demos'],
+        ['/overview/benchmarks', 'Benchmarks'],
       ],
     },
   },
