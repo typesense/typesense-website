@@ -12,9 +12,9 @@
         The Easier To Use ElasticSearch Alternative
       </h2>
       <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
-        >Comparison with Alternatives</NuxtLink
+        >Algolia vs ElasticSearch vs Typesense vs Meilisearch</NuxtLink
       >
-      <span class="mx-2">•</span> <NuxtLink to="/about/">About Us</NuxtLink>
+      <span class="mx-2">•</span> <NuxtLink to="/about/">Our Mission</NuxtLink>
     </div>
 
     <div class="mb-5">&nbsp;</div>
