@@ -17,7 +17,6 @@
         <div class="col-sm-11">
           <Transition name="fade">
             <AisSearchBox
-              autofocus
               placeholder="Search for a recipe..."
               :class-names="{
                 'ais-SearchBox-input': 'form-control',

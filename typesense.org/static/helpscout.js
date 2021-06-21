@@ -1,8 +1,10 @@
 /* eslint-disable */
 !function (e, t, n) {
   function a() {
-    var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
-    n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
+    setTimeout(function() {
+      var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
+      n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
+    }, 5000);
   }
 
   if (e.Beacon = n = function (t, n, a) {
