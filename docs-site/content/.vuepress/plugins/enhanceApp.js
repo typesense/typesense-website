@@ -69,9 +69,10 @@ export default ({
     const typesenseServerVersion = splitPath[1]
     if (typesenseServerVersion === 'latest') {
       splitPath[1] = typesenseLatestVersion
-      router.replace(splitPath.join('/'))
+      next({ path: splitPath.join('/'), replace: true })
+    } else {
+      next()
     }
-    next()
   })
 
   // Analytics
