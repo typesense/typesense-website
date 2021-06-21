@@ -12,6 +12,8 @@ import Prism from 'vue-prism-component'
 import Vuex from 'vuex'
 import VueGtag from 'vue-gtag'
 
+import { typesenseLatestVersion } from './../../../../typsenseVersions'
+
 // fork from vue-router@3.0.2
 // src/util/scroll.js
 function getElementPosition(el) {
@@ -61,6 +63,19 @@ export default ({
     },
   })
 
+  // Handle /docs/latest/...
+  router.beforeEach((to, from, next) => {
+    const splitPath = to.fullPath.split('/')
+    const typesenseServerVersion = splitPath[1]
+    if (typesenseServerVersion === 'latest') {
+      splitPath[1] = typesenseLatestVersion
+      next(splitPath.join('/'))
+    } else {
+      next()
+    }
+  })
+
+  // Analytics
   router.afterEach(to => {
     if (!isServer) {
       const pagePath = siteData.base + to.fullPath.substring(1)
