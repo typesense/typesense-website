@@ -52,6 +52,7 @@ const config = {
     '@nuxtjs/redirect-module',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
+    '@nuxtjs/gtm',
   ],
 
   styleResources: {
@@ -101,6 +102,11 @@ const config = {
       },
     },
     debug: false, // enable to track in dev mode
+  },
+
+  gtm: {
+    id: 'GTM-NDZ9CJJ',
+    pageTracking: true,
   },
 
   server: {
