@@ -14,9 +14,9 @@
               vs Meilisearch
             </h1>
             <p>
-              The following content is based on each search engine's
-              documentation and is meant to provide you with an objective
-              side-by-side comparison.
+              This table is meant to give you an objective side-by-side
+              comparison of key features in each search engine and is based on
+              each search engine's documentation.
             </p>
             <p class="mt-2">
               We've strived to provide accurate information below, but if you
@@ -97,9 +97,9 @@
                     datasets (eg: log data)
                   </td>
                   <td>
-                    Instant Search-as-you-type Experiences for up to 10M
-                    records, that don't require a production-grade
-                    highly-available setup.
+                    Instant Search-as-you-type Experiences for up to a few
+                    hundred thousand records, that don't require a
+                    production-grade highly-available setup.
                   </td>
                 </tr>
                 <tr>
