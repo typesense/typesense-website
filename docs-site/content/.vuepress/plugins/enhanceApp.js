@@ -64,6 +64,9 @@ export default ({
   })
 
   // Handle /docs/latest/...
+  // This only handles the redirect once the SPA is loaded.
+  // We also have a Cloudfront function that serves up
+  //  docs-site/index.html for /docs/latest/*, so the route doesn't 404 server-side.
   router.beforeEach((to, from, next) => {
     const splitPath = to.fullPath.split('/')
     const typesenseServerVersion = splitPath[1]
