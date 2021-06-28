@@ -768,6 +768,7 @@ let config = {
     '@vuepress/last-updated',
   ],
   configureWebpack: {
+    devtool: 'source-map',
     resolve: {
       alias: {
         '@images': '../../.vuepress/public/images',
