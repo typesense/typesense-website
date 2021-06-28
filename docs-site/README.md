@@ -8,7 +8,8 @@ On deployment, the dist folder generated is copied to [https://typesense.org/doc
 
 ## Content Authoring & Development Workflow
 
-1. Navigate to project root
+1. Navigate to `typesense-website/docs-site/`
+
 2. Run `yarn`
 3. Run `yarn dev`
 4. Visit the link shown
