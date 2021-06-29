@@ -18,35 +18,41 @@ This release contains new features, performance improvements and important bug f
 
 ### New Features
 
-- [Auto schema detection](../api/collections.md#with-auto-schema-detection): you can now index documents without a pre-defined schema
-- Data validation during indexing: [configure](../api/documents.md#dealing-with-dirty-data) Typesense to coerce, reject or drop bad values
-- Concurrency improvements: utilize all CPU cores and scale to hundreds of thousands of collections
+- Geosearch: Use the `geopoint` data type to index locations, filter and sort on them. We support filtering on 
+  records within a given radius and as well as within any arbitrarily defined geo polygon.
+- Wrap literal strings in `filter_by` values using backticks to ensure that the commas in filter values 
+  don't get parsed as a list separator. Example: <code>filter_by: primary_artist_name:=[\`Apple, Inc.\`]</code>
+- Support exclude / not equals operator for filtering string and boolean facets. Example: `filter_by=author:!= JK Rowling`
+- Ability to turn off prefix search on a per field basis. For example, if you are querying 3 fields and want to enable 
+  prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order in `query_by`.
+- You can now highlight fields that you don't query for. Use `?highlight_fields=title` to specify a custom list of 
+  fields that should be highlighted.
+- Add `filter_by`, `include_fields` and `exclude_fields` options to `documents/export` endpoint. 
 
 ### Enhancements
 
-- Default sorting field is now optional: when not present, text match score and insertion order are used
-- Allow custom key value to be provided [during creation of API keys](https://github.com/typesense/typesense/issues/244)
-- Faster parallel loading of collections on cold start
-- Ensure that all queried fields are highlighted in search response
-- Reduction in memory consumption of facet fields
-- Validate SSL certificate and key before loading SSL certs from disk
+- Increased maximum supported length of HTTP query string to 4K characters: if you wish to send larger payloads, use
+  the [multi-search end-point](../api/documents.md#federated-multi-search).
+- Accept `null` values for [optional fields](https://github.com/typesense/typesense/issues/266).
+- Support for indexing pre-segmented text: you can now index content from any logographic language into Typesense 
+  if you are able to segment / split the text into space-separated words yourself before indexing and querying.
+- If you have some overrides defined but want to disable all of them during query time, you can now do that 
+  by setting `?enable_overrides=false`.
 
 ### Bug Fixes
 
-- Fixed exact matches [ranking below matches with typos](https://github.com/typesense/typesense/issues/243)
-- Fixed a bug in [filtering of string fields](https://github.com/typesense/typesense/issues/254)
-- Fixed an edge case involving [scoped API keys and embedded filters](https://github.com/typesense/typesense/issues/263) working with multi-search end-point
-- Fixed an edge case involving filtering on negative integers
-- Fixed an issue related to [range filter](https://github.com/typesense/typesense/issues/210)
-- Fixed a crash while parsing certain rare + long query string parameters
-- Fixed collection with [`null` value crashing Typesense](https://github.com/typesense/typesense/issues/251)
-- Fixed a crash when a snapshot was taken on an empty DB but right after a key is created
+- Fixed some edge cases with typo correction not finding the correct matches
+- Ensure that exact matches are [ranked above others](https://github.com/typesense/typesense/issues/191). 
+  Set `?prioritize_exact_match=false` to disable this behavior.
+- Fixed `collections:*` API key permission which was not previously being recognized by the authentication engine.
+- Fixed float facets being displayed with imprecise precision when displayed as string.
+
 
 ### Deprecations
 
-- The `catch-up-min-sequence-diff` and `catch-up-threshold-percentage` flags that are used for determining the
-  catch up status of a follower, are replaced with `healthy-read-lag` and `healthy-write-lag`
-  [flags](./configure-typesense.md#using-command-line-arguments).
+- There is a change in the `upsert` behavior to conform to existing popular conventions: The upsert action 
+  now requires the whole document to be sent for indexing. If you wish to update part of a document, use the `update` action.
+
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
