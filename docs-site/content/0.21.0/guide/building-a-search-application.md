@@ -124,15 +124,12 @@ let booksSchema = {
   'name': 'books',
   'fields': [
     {'name': 'title', 'type': 'string' },
-    {'name': 'authors', 'type': 'string[]' },
+    {'name': 'authors', 'type': 'string[]', 'facet': true },
     {'name': 'image_url', 'type': 'string' },
 
-    {'name': 'publication_year', 'type': 'int32' },
+    {'name': 'publication_year', 'type': 'int32', 'facet': true },
     {'name': 'ratings_count', 'type': 'int32' },
-    {'name': 'average_rating', 'type': 'float' },
-
-    {'name': 'authors_facet', 'type': 'string[]', 'facet': true },
-    {'name': 'publication_year_facet', 'type': 'string', 'facet': true },
+    {'name': 'average_rating', 'type': 'float' }
   ],
   'default_sorting_field': 'ratings_count'
 }
@@ -152,15 +149,12 @@ $booksSchema = [
   'name' => 'books',
   'fields' => [
     ['name' => 'title', 'type' => 'string'],
-    ['name' => 'authors', 'type' => 'string[]'],
+    ['name' => 'authors', 'type' => 'string[]', 'facet' => true],
     ['name' => 'image_url', 'type' => 'string'],
 
-    ['name' => 'publication_year', 'type' => 'int32'],
+    ['name' => 'publication_year', 'type' => 'int32', 'facet' => true],
     ['name' => 'ratings_count', 'type' => 'int32'],
-    ['name' => 'average_rating', 'type' => 'float'],
-
-    ['name' => 'authors_facet', 'type' => 'string[]', 'facet' => true],
-    ['name' => 'publication_year_facet', 'type' => 'string', 'facet' => true]
+    ['name' => 'average_rating', 'type' => 'float']
   ],
   'default_sorting_field' => 'ratings_count'
 ]
@@ -178,15 +172,12 @@ books_schema = {
   'name': 'books',
   'fields': [
     {'name': 'title', 'type': 'string' },
-    {'name': 'authors', 'type': 'string[]' },
+    {'name': 'authors', 'type': 'string[]', 'facet': True },
     {'name': 'image_url', 'type': 'string' },
 
-    {'name': 'publication_year', 'type': 'int32' },
+    {'name': 'publication_year', 'type': 'int32', 'facet': True },
     {'name': 'ratings_count', 'type': 'int32' },
-    {'name': 'average_rating', 'type': 'float' },
-
-    {'name': 'authors_facet', 'type': 'string[]', 'facet': True },
-    {'name': 'publication_year_facet', 'type': 'string', 'facet': True },
+    {'name': 'average_rating', 'type': 'float' }
   ],
   'default_sorting_field': 'ratings_count'
 }
@@ -204,15 +195,12 @@ books_schema = {
   'name' => 'books',
   'fields' => [
     {'name' => 'title', 'type' => 'string' },
-    {'name' => 'authors', 'type' => 'string[]' },
+    {'name' => 'authors', 'type' => 'string[]', 'facet' => true },
     {'name' => 'image_url', 'type' => 'string' },
 
-    {'name' => 'publication_year', 'type' => 'int32' },
+    {'name' => 'publication_year', 'type' => 'int32', 'facet' => true },
     {'name' => 'ratings_count', 'type' => 'int32' },
-    {'name' => 'average_rating', 'type' => 'float' },
-
-    {'name' => 'authors_facet', 'type' => 'string[]', 'facet' => true },
-    {'name' => 'publication_year_facet', 'type' => 'string', 'facet' => true }
+    {'name' => 'average_rating', 'type' => 'float' }
   ],
   'default_sorting_field' => 'ratings_count'
 }
@@ -231,15 +219,12 @@ curl "${TYPESENSE_HOST}/collections" \
         "name": "books",
         "fields": [
           {"name": "title", "type": "string" },
-          {"name": "authors", "type": "string[]" },
+          {"name": "authors", "type": "string[]", "facet": true },
           {"name": "image_url", "type": "string" },
 
-          {"name": "publication_year", "type": "int32" },
+          {"name": "publication_year", "type": "int32", "facet": true },
           {"name": "ratings_count", "type": "int32" },
-          {"name": "average_rating", "type": "float" },
-
-          {"name": "authors_facet", "type": "string[]", "facet": true },
-          {"name": "publication_year_facet", "type": "string", "facet": true }
+          {"name": "average_rating", "type": "float" }       
         ],
         "default_sorting_field": "ratings_count"
       }'
@@ -430,14 +415,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         "authors": [
           "J.K. Rowling", "Mary GrandPré"
         ],
-        "authors_facet": [
-          "J.K. Rowling", "Mary GrandPré"
-        ],
         "average_rating": 4.44,
         "id": "2",
         "image_url": "https://images.gr-assets.com/books/1474154022m/3.jpg",
         "publication_year": 1997,
-        "publication_year_facet": "1997",
         "ratings_count": 4602479,
         "title": "Harry Potter and the Philosopher's Stone"
       }
@@ -555,14 +536,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         "authors": [
             "J.K. Rowling", "Mary GrandPré"
         ],
-        "authors_facet": [
-            "J.K. Rowling", "Mary GrandPré"
-        ],
         "average_rating": 4.44,
         "id": "2",
         "image_url": "https://images.gr-assets.com/books/1474154022m/3.jpg",
         "publication_year": 1997,
-        "publication_year_facet": "1997",
         "ratings_count": 4602479,
         "title": "Harry Potter and the Philosopher's Stone"
       }
@@ -587,7 +564,7 @@ Let's facet the search results by the authors field to see how that works. Let's
 let searchParameters = {
   'q'         : 'experyment',
   'query_by'  : 'title',
-  'facet_by' : 'authors_facet',
+  'facet_by'  : 'authors',
   'sort_by'   : 'average_rating:desc'
 }
 
@@ -607,7 +584,7 @@ client.collections('books')
 $searchParameters = [
   'q'         => 'experyment',
   'query_by'  => 'title',
-  'facet_by'  => 'authors_facet',
+  'facet_by'  => 'authors',
   'sort_by'   => 'average_rating:desc'
 ]
 
@@ -621,7 +598,7 @@ $client->collections['books']->documents->search($searchParameters)
 search_parameters = {
   'q'         : 'experyment',
   'query_by'  : 'title',
-  'facet_by' : 'authors_facet',
+  'facet_by'  : 'authors',
   'sort_by'   : 'average_rating:desc'
 }
 
@@ -635,7 +612,7 @@ client.collections['books'].documents.search(search_parameters)
 search_parameters = {
   'q'         => 'experyment',
   'query_by'  => 'title',
-  'facet_by'  => 'authors_facet',
+  'facet_by'  => 'authors',
   'sort_by'   => 'average_rating:desc'
 }
 
@@ -649,7 +626,7 @@ client.collections['books'].documents.search(search_parameters)
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 "${TYPESENSE_HOST}/collections/books/documents/search\
 ?q=experyment&query_by=title&sort_by=average_rating:desc\
-&facet_by=authors_facet"
+&facet_by=authors"
 ```
 
   </template>
@@ -666,7 +643,7 @@ As we can see in the result below, Typesense handled the typographic error grace
 {
   "facet_counts": [
     {
-      "field_name": "authors_facet",
+      "field_name": "authors",
       "counts": [
           {
               "count": 2,
@@ -697,14 +674,10 @@ As we can see in the result below, Typesense handled the typographic error grace
         "authors": [
             "James Patterson"
         ],
-        "authors_facet": [
-            "James Patterson"
-        ],
         "average_rating": 4.08,
         "id": "569",
         "image_url": "https://images.gr-assets.com/books/1339277875m/13152.jpg",
         "publication_year": 2005,
-        "publication_year_facet": "2005",
         "ratings_count": 172302,
         "title": "The Angel Experiment"
       }
