@@ -46,7 +46,7 @@ The easiest way to run Typesense is using [Typesense cloud](https://cloud.typese
 We'll now use the hostname and API keys you generate for the rest of the tutorial. 
 
 You can also run Typesense locally or on a server on GCP, if you choose to self-host. 
-[Here](./install-typesense.md#option-2-local-machine--self-hosting) are instructions on how to 
+[Here](./install-typesense.md#option-2-local-machine-self-hosting) are instructions on how to 
 install Typesense on any cloud server.
 
 ## Step 2: Create a Typesense Collection
@@ -72,7 +72,7 @@ let client = new Typesense.Client({
 Next, we'll create a collection. A collection is a group of related documents, you can think of it as a table in relational databases. A collection needs a schema, that represents how a document would look like. 
 
 ```javascript
-myCollection = {
+const myCollection = {
   'name': 'books',
   'fields': [
     {'name': 'id', 'type': 'string'},
@@ -141,7 +141,7 @@ exports.onBookDelete = functions.firestore.document('books/{bookID}')
 
 ```
 
-You can also delete a bunch of document based on a condition as described [here](../api/documents.md#deleting-documents).
+You can also delete a bunch of document based on a condition as described [here](../api/documents.md#delete-documents).
 
 ## Step 4: Let the search begin!
 

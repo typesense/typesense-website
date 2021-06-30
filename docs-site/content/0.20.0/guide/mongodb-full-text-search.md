@@ -286,4 +286,4 @@ That's it 😊! Now you can easily search through your MongoDB documents using T
 - [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 - [Change Streams NodeJS](https://developer.mongodb.com/quickstart/nodejs-change-streams-triggers/)
 - [Typesense API](../api/README.md)
-- [Typesense guide](./README.md)
+- [Typesense Guide](./README.md)
