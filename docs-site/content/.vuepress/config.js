@@ -162,19 +162,6 @@ let config = {
         },
         ['/0.20.0/api/api-errors', 'API Errors'],
       ],
-      '/overview': [
-        ['/', 'Docs Home'],
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
-      ],
 
       //For 0.19.0
       '/0.19.0/guide/': [
