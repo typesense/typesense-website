@@ -11,7 +11,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -69,6 +69,20 @@ client.collections['companies'].documents.create(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+};
+
+await client.collection('companies').documents.create(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -90,7 +104,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -148,6 +162,20 @@ client.collections['companies'].documents.upsert(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+};
+
+await client.collection('companies').documents.upsert(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -191,7 +219,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Search
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -249,6 +277,20 @@ client.collections['companies'].documents.search(search_parameters)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q': 'stark',
+  'query_by': 'company_name',
+  'filter_by': 'num_employees:>100',
+  'sort_by': 'num_employees:desc'
+};
+
+await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -272,7 +314,11 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   "found": 1,
   "out_of": 1,
   "page": 1,
-  "request_params": { "q" : "" },
+  "request_params": {
+    "collection_name": "companies",
+    "per_page": 10,
+    "q": "stark"
+  },
   "search_time_ms": 1,
   "hits": [
     {
@@ -289,6 +335,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         "num_employees": 5215,
         "country": "USA"
       }
+      "text_match": 130916
     }
   ]
 }
@@ -340,7 +387,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -406,6 +453,22 @@ client.collections['companies'].documents.search(search_parameters)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q': 'stark',
+  'query_by': 'company_name',
+  'filter_by': 'num_employees:>100',
+  'sort_by': 'num_employees:desc',
+  'group_by': 'country',
+  'group_limit': '1'
+};
+
+await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -433,7 +496,11 @@ client.collections['companies'].documents.search(search_parameters)
   "found": 1,
   "out_of": 1,
   "page": 1,
-  "request_params": { "q" : "" },
+  "request_params": {
+    "collection_name": "companies",
+    "per_page": 10,
+    "q": "stark"
+  },
   "search_time_ms": 1,
   "grouped_hits": [
     {
@@ -443,6 +510,7 @@ client.collections['companies'].documents.search(search_parameters)
           "highlights": [
             {
               "field": "company_name",
+              "matched_tokens": ["Stark"],
               "snippet": "<mark>Stark</mark> Industries"
             }
           ],
@@ -451,7 +519,8 @@ client.collections['companies'].documents.search(search_parameters)
             "company_name": "Stark Industries",
             "num_employees": 5215,
             "country": "USA"
-          }
+          },
+          "text_match": 130916
         }
       ]
     }
@@ -501,7 +570,7 @@ You can send multiple search requests in a single HTTP request, using the Multi-
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -604,6 +673,32 @@ common_search_params =  {
 }
 
 client.multi_search.perform(search_requests, common_search_params)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final searchRequests = {
+  'searches': [
+    {
+      'collection': 'products',
+      'q': 'shoe',
+      'filter_by': 'price:=[50..120]'
+    },
+    {
+      'collection': 'brands',
+      'q': 'Nike'
+    }
+  ]
+};
+
+# Search parameters that are common to all searches go here
+final commonSearchParams =  {
+    'query_by': 'name',
+};
+
+await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams);
 ```
 
   </template>
@@ -726,7 +821,7 @@ The `results` array in a `multi_search` response is guaranteed to be in the same
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -753,6 +848,13 @@ client.collections['companies'].documents['124'].retrieve()
 
 ```rb
 client.collections['companies'].documents['124'].retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').document('124').retrieve();
 ```
 
   </template>
@@ -790,7 +892,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -840,6 +942,18 @@ client.collections['companies'].documents['124'].update(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'company_name': 'Stark Industries',
+  'num_employees': 5500
+};
+
+await client.collection('companies').document('124').update(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -877,7 +991,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Delete documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -904,6 +1018,13 @@ client.collections['companies'].documents['124'].delete()
 
 ```rb
 client.collections['companies'].documents['124'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').document('124').delete();
 ```
 
   </template>
@@ -941,7 +1062,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -968,6 +1089,13 @@ client.collections['companies'].documents.delete_({'filter_by': 'num_employees:>
 
 ```rb
 client.collections['companies'].documents.delete(filter_by: 'num_employees:>100')
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').documents.delete({'filter_by': 'num_employees:>100'});
 ```
 
   </template>
@@ -1005,7 +1133,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1032,6 +1160,13 @@ client.collections['companies'].documents.export()
 
 ```rb
 client.collections['companies'].documents.export
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').documents.exportJSONL();
 ```
 
   </template>
@@ -1081,7 +1216,7 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1139,6 +1274,22 @@ client.collections['companies'].documents.import(documents, action: 'create')
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final documents = [
+  {
+    'id': '124',
+    'company_name': 'Stark Industries',
+    'num_employees': 5215,
+    'country': 'USA'
+  }
+];
+
+await client.collection('companies').documents.importDocuments(documents);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1190,7 +1341,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1221,6 +1372,15 @@ with open('documents.jsonl') as jsonl_file:
 ```rb
 documents_jsonl = File.read('documents.jsonl')
 collections['companies'].documents.import(documents_jsonl, action: 'create')
+
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync());
 
 ```
 
@@ -1262,7 +1422,7 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1291,8 +1451,16 @@ with open('documents.jsonl') as jsonl_file:
   <template v-slot:Ruby>
 
 ```rb
-ddocuments_jsonl = File.read('documents.jsonl')
+documents_jsonl = File.read('documents.jsonl')
 collections['companies'].documents.import(documents_jsonl, batch_size: 100)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
 ```
 
   </template>
@@ -1360,7 +1528,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1399,10 +1567,20 @@ client.collections['titles'].documents.create(document, {
 <template v-slot:Ruby>
 
 ```rb
-document = {'title'  => '1984, 'points' => 100}
+document = {'title'  => 1984, 'points' => 100}
 client.collections['titles'].documents.create(document, 
     dirty_values: 'coerce_or_reject'
 )
+```
+
+</template>
+<template v-slot:Dart>
+
+```dart
+final document = {'title': 1984, 'points': 100};
+
+await client.collection('companies').documents.create(document, options: {'dirty_values': 'coerce_or_reject'};
+
 ```
 
 </template>
