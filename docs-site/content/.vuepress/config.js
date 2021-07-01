@@ -78,6 +78,11 @@ let config = {
         apiKey: 'c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6',
       },
       typesenseCollectionName: 'typesense_docs',
+      typesenseSearchParams: {
+        num_typos: 1,
+        drop_tokens_threshold: 3,
+        typo_tokens_threshold: 0,
+      },
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
