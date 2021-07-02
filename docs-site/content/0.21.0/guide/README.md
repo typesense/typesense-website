@@ -47,7 +47,6 @@ This release contains new features, performance improvements and important bug f
 - Fixed `collections:*` API key permission which was not previously being recognized by the authentication engine.
 - Fixed float facets being displayed with imprecise precision when displayed as string.
 
-
 ### Deprecations
 
 - There is a change in the `upsert` behavior to conform to existing popular conventions: The upsert action 

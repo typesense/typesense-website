@@ -531,6 +531,300 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
+
+### Geosearch
+
+Typesense supports geo search on fields containing the `geopoint` type. 
+
+Let's create a collection called `places` with a field called `location` of type `geopoint`.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name': 'title',
+      'type': 'string'
+    },
+    {
+      'name': 'points',
+      'type': 'int32'
+    },
+    {
+      'name': 'location',
+      'type': 'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections().create(schema)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$schema = [
+  'name'      => 'places',
+  'fields'    => [
+    [
+      'name'  => 'title',
+      'type'  => 'string'
+    ],
+    [
+      'name'  => 'points',
+      'type'  => 'int32'
+    ],
+    [
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    ]
+  ],
+  'default_sorting_field' => 'points'
+];
+
+$client->collections->create($schema);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name'  :  'title',
+      'type'  :  'string'
+    },
+    {
+      'name'  :  'points',
+      'type'  :  'int32'
+    },
+    {
+      'name'  :  'location',
+      'type'  :  'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+schema = {
+  'name'      => 'places',
+  'fields'    => [
+    {
+      'name'  => 'title',
+      'type'  => 'string'
+    },
+    {
+      'name'  => 'points',
+      'type'  => 'int32'
+    },
+    {
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    }
+  ],
+  'default_sorting_field' => 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/collections" -X POST 
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "places",
+        "fields": [
+          {"name": "title", "type": "string" },
+          {"name": "points", "type": "int32" }, 
+          {"name": "location", "type": "geopoint"}
+        ],
+        "default_sorting_field": "points"
+      }'
+```
+
+  </template>
+</Tabs>
+
+Let's now index a document.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections('places').documents().create(document)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$document = [
+  'title'   => 'Louvre Museuem',
+  'points'  => 1,
+  'location' => array(48.86093481609114, 2.33698396872901)
+];
+
+$client->collections['places']->documents->create($document);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+document = {
+  'title'    =>   'Louvre Museuem',
+  'points'   =>   1,
+  'location' =>  [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/places/documents" -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{"points":1,"title":"Louvre Museuem", "location": [48.86093481609114, 2.33698396872901]}'
+```
+
+  </template>
+</Tabs>
+
+We can now search for places within a given radius of a given latlong 
+(use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given 
+location (this location can be the same or different from the latlong used for filtering).
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections('companies').documents().search(searchParameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$searchParameters = [
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+];
+
+$client->collections['companies']->documents->search($searchParameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+search_parameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+search_parameters = {
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
+filter_by=location:(48.853,2.344,5 km)&sort_by=sort_by=location(48.853, 2.344):asc"
+```
+
+  </template>
+</Tabs>
+
+The above example uses "5 km" as the radius, but you can also use miles, e.g. 
+`location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
+
+You can also filter for documents within any arbitrary shaped polygon too! The polygon's points must be defined in a 
+**counter-clockwise (i.e. anti-clockwise) direction**.
+
+```shell
+location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)
+```
+
+
+
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
