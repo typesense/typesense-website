@@ -226,7 +226,7 @@ Typesense allows you to index the following types of fields:
     <td>bool</td>
   </tr>
   <tr>
-    <td>geopoint</td>
+    <td><a href="../api/documents.html#geosearch">geopoint</a></td>
   </tr>
 </table>
 

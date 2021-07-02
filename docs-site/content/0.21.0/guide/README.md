@@ -18,7 +18,7 @@ This release contains new features, performance improvements and important bug f
 
 ### New Features
 
-- Geosearch: Use the `geopoint` data type to index locations, filter and sort on them. We support filtering on 
+- [Geosearch](../api/documents.md#geosearch): Use the `geopoint` data type to index locations, filter and sort on them. We support filtering on 
   records within a given radius and as well as within any arbitrarily defined geo polygon.
 - Wrap literal strings in `filter_by` values using backticks to ensure that the commas in filter values 
   don't get parsed as a list separator. Example: <code>filter_by: primary_artist_name:=[\`Apple, Inc.\`]</code>
@@ -35,7 +35,8 @@ This release contains new features, performance improvements and important bug f
   the [multi-search end-point](../api/documents.md#federated-multi-search).
 - Accept `null` values for [optional fields](https://github.com/typesense/typesense/issues/266).
 - Support for indexing pre-segmented text: you can now index content from any logographic language into Typesense 
-  if you are able to segment / split the text into space-separated words yourself before indexing and querying.
+  if you are able to segment / split the text into space-separated words yourself before indexing and querying. You 
+  should also set `?pre_segmented_query=true` during searching.
 - If you have some overrides defined but want to disable all of them during query time, you can now do that 
   by setting `?enable_overrides=false`.
 
