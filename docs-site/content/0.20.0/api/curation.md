@@ -13,7 +13,7 @@ In the following example, we are overriding the search results by placing the do
 
 Note how we are applying these overrides to an `exact` match of the query `apple`. Instead, if we want to match all queries that contained the word `apple`, we will use the `contains` match instead.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -103,6 +103,25 @@ client.collections['companies'].overrides.upsert('customize-apple', override)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final override = {
+  "rule": {"query": "apple", "match": "exact"},
+  "includes": [
+    {"id": "422", "position": 1},
+    {"id": "54", "position": 2}
+  ],
+  "excludes": [
+    {"id": "287"}
+  ]
+};
+
+// Creates/updates an override called `customize-apple` in the `companies` collection
+await client.collection('companies').overrides.upsert('customize-apple', override);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -173,7 +192,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## List all overrides
 Listing all overrides associated with a given collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -200,6 +219,13 @@ client.collections['companies'].overrides.retrieve()
 
 ```rb
 client.collections['companies'].overrides.retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').overrides.retrieve();
 ```
 
   </template>
@@ -257,7 +283,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Retrieve an override
 Fetch an individual override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -284,6 +310,13 @@ client.collections['companies'].overrides['customize-apple'].retrieve()
 
 ```rb
 client.collections['companies'].overrides['customize-apple'].retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').override('customize-apple').retrieve();
 ```
 
   </template>
@@ -337,7 +370,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## Delete an override
 Deleting an override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -364,6 +397,13 @@ client.collections['companies'].overrides['customize-apple'].delete()
 
 ```rb
 client.collections['companies'].overrides['customize-apple'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').override('customize-apple').delete();
 ```
 
   </template>
