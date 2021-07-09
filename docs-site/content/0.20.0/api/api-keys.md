@@ -428,13 +428,28 @@ When you make a search API call with this scoped search API key, Typesense will 
 
 Now let's say you also don't want users to know the entire list of users_ids that have access to a document, you can also embed `exclude_fields: accessible_to_user_ids` in the scoped API key, so it doesn't get returned in the response.  
 
+#### Role-based access <Badge text="Advanced"/>
+
+Let's take another scenario where an organization has many users and users can be a part of one or more roles (eg: admin, sales, support, etc).
+You can store all records/documents belonging to all organizations and users in a single collection and conditionally allow a given logged-in user to only search through their own organization's data and only for the subset of data their role grants them access to, using Scoped API keys.
+
+1. First you'd add a field called `accessible_to_organization_id` to each document in your collection.
+1. Add another array field called `accessible_to_roles` to each document, and add all the roles within that organization that have access to this document.
+1. Generate a parent search API key for each organization using the [API Keys](./api-keys.md) endpoint.
+1. Now when a user belonging to `organization_id: 1` with a role of say `sales` and `marketing` logs in, you would generate a Scoped API Key using the organization's Parent Search API Key and embedded filters of `filter_by: accessible_to_organization_id:=1 && accessible_to_roles:=[sales,marketing]`
+
+When you make a search API call with this scoped search API key, Typesense will automatically apply the `filter_by`, so the user will effectively only have access to search through documents that have their `organization_id` and `role(s)` listed in documents.
+
+Now, when a user leaves an organization, for added security, you can delete the organization's parent search API Key and generate a new one, and use that to generate scoped search API keys for users logging in, in the future.
+Once a parent Search API Key is revoked, all scoped API keys that were generated with it are invalidated automatically.
+
+::: tip
+Once a parent Search API Key is revoked, all scoped API keys that were generated with it are invalidated automatically.
+:::
+
 ### Usage
 
 We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope (only), create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
-
-:::warning
-Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set without your embedded search parameters.
-:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
@@ -514,3 +529,7 @@ OW9DYWZGS1Q1RGdSbmo0S1QrOWxhbk9PL2kxbTU1eXA3bCthdmE5eXJKRT1STjIzeyJmaWx0ZXJfYnki
 </Tabs>
 
 You can also set a custom `expires_at` for a scoped API key. The expiration for a scoped API key should be less than the expiration of the parent API key with which it is generated.
+
+:::warning
+If you have documents in a collection that only a certain subset of users should have access to, remember to never expose your main search key client-side, since exposing the main search key will allow users to query all documents without your embedded search parameters / filters.
+:::
