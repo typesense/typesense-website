@@ -16,7 +16,7 @@ We will be using the initial bootstrap key that you started Typesense with (via 
 
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -25,6 +25,22 @@ key = client.keys().create({
   'actions': ['*'],
   'collections': ['*']
 })
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+ApiKeySchema apiKeySchema = new ApiKeySchema();
+List<String> actionValues = new ArrayList<>();
+List<String> collectionValues = new ArrayList<>();
+
+actionValues.add("*");
+collectionValues.add("*");
+
+apiKeySchema.description("Admin Key").actions(actionValues).collections(collectionValues);
+client.keys().create(apiKeySchema);
 ```
 
   </template>
@@ -87,7 +103,7 @@ The generated key is only returned during creation. You want to store this key c
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -96,6 +112,23 @@ client.keys().create({
   'actions': ['documents:search'],
   'collections': ['companies']
 })
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+ApiKeySchema apiKeySchema = new ApiKeySchema();
+List<String> actionValues = new ArrayList<>();
+List<String> collectionValues = new ArrayList<>();
+
+actionValues.add("documents:search");
+collectionValues.add("intbooks");
+
+apiKeySchema.description("Search only Key").actions(actionValues).collections(collectionValues);
+
+this.client.keys().create(apiKeySchema);
 ```
 
   </template>
@@ -197,11 +230,19 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 key = client.keys(1).retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+ApiKey apiKey = client.keys("1").retrieve();
 ```
 
   </template>
@@ -265,11 +306,19 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## List all Keys
 Retrieve (metadata about) all keys.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.keys().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+ApiKeysResponse apiKeysResponse = client.keys().retrieve();
 ```
 
   </template>
@@ -351,11 +400,19 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## Delete API Key
 Delete an API key given its ID.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 key = client.keys(1).delete()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+ApiKey apiKey = client.keys("1").delete();
 ```
 
   </template>
@@ -436,7 +493,7 @@ We can generate scoped search API keys without having to make any calls to the T
 Remember to never expose your main search key client-side, since exposing the main search key will allow anyone to query the entire data set without your embedded search parameters.
 :::
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -445,6 +502,20 @@ Remember to never expose your main search key client-side, since exposing the ma
 
 keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
 client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1906054106})
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+// Make sure that the parent search key you use to generate a scoped search key 
+//  has no other permissions besides `documents:search`
+String keyWithSearchPermissions = "RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127";
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("filter_by", "company_id:124");
+client.keys().generateScopedSearchKey(keyWithSearchPermissions,parameters);
 ```
 
   </template>

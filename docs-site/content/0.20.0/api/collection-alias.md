@@ -20,7 +20,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -30,6 +30,13 @@ aliased_collection = {
 
 // Creates/updates an alias called `companies` to the `companies_june11` collection
 client.aliases().upsert('companies', aliased_collection)
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
 ```
 
   </template>
