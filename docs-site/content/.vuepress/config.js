@@ -68,9 +68,34 @@ let config = {
     typesenseLatestVersion: typesenseLatestVersion,
     typesenseDocsearch: {
       typesenseServerConfig: {
+        nearestNode: {
+          host: 'x3s805zrawjuod9fp.a1.typesense.net',
+          port: 443,
+          protocol: 'https',
+        },
         nodes: [
           {
-            host: 'x3s805zrawjuod9fp.a1.typesense.net',
+            host: 'x3s805zrawjuod9fp-1.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'x3s805zrawjuod9fp-2.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'x3s805zrawjuod9fp-3.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'x3s805zrawjuod9fp-4.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'x3s805zrawjuod9fp-5.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
@@ -82,6 +107,7 @@ let config = {
         num_typos: 1,
         drop_tokens_threshold: 3,
         typo_tokens_threshold: 0,
+        per_page: 6,
       },
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js

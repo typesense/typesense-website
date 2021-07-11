@@ -517,11 +517,32 @@
                   <td>❌</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">UI Component Library</td>
+                  <td class="font-weight-bold">Search UI Component Library</td>
                   <td>✅<br /><br />Supports InstantSearch.js</td>
                   <td>✅<br /><br />InstantSearch.js</td>
                   <td>✅<br /><br />Search UI, requires hosted search</td>
                   <td>✅<br /><br />Supports InstantSearch.js</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Privacy Friendliness</td>
+                  <td>
+                    ✅<br /><br />Does NOT collect usage analytics, personal
+                    data, or IP addresses in both Self-Hosted and SaaS options.
+                  </td>
+                  <td>
+                    🔶<br /><br />Collects personal data, usage analytics & IP
+                    addresses.
+                  </td>
+                  <td>
+                    🔶<br /><br />
+                    Collects personal data, hardware information, RAM used,
+                    unique fingerprint ID for licensing.
+                  </td>
+                  <td>
+                    🔶<br /><br />Collects personal data, hardware information,
+                    number of documents per index, number of document updates &
+                    server uptime.
+                  </td>
                 </tr>
               </tbody>
             </table>
