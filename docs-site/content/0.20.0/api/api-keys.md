@@ -471,7 +471,7 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
 //  has no other permissions besides `documents:search`
 
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1906054106]);
+$client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1906054106]);
 ```
 
   </template>

@@ -410,7 +410,7 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
 
 ```php
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124')
+$client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124')
 ```
 
   </template>
