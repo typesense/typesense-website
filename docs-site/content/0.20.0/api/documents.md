@@ -30,13 +30,13 @@ client.collections('companies').documents().create(document)
   <template v-slot:Java>
 
 ```java
-HashMap<String, Object> hmap = new HashMap<>();
-hmap.put("id","124");
-hmap.put("company_name","Stark Industries");
-hmap.put("num_employees",5215);
-hmap.put("country","USA");
+HashMap<String, Object> document = new HashMap<>();
+document.put("id","124");
+document.put("company_name","Stark Industries");
+document.put("num_employees",5215);
+document.put("country","USA");
 
-client.collections("companies").documents().create(hmap);
+client.collections("companies").documents().create(document);
 ```
 
   </template>
@@ -123,7 +123,14 @@ client.collections('companies').documents().upsert(document)
   <template v-slot:Java>
 
 ```java
+HashMap<String, Object> document = new HashMap<>();
 
+document.put("id","124");
+document.put("company_name","Stark Industries");
+dpocument.put("num_employees",5215);
+document.put("country","USA");
+
+client.collections("companies").documents().upsert(document);
 ```
 
   </template>
@@ -595,13 +602,13 @@ List<HashMap<String, String>> searches = new ArrayList<>();
 searches.add(search1);
 searches.add(search2);
 
-HashMap<String, List<HashMap<String ,String>>> searchRequest = new HashMap<>();
-searchRequest.put("searches",searches);
+HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
+searchRequests.put("searches",searches);
 
-HashMap<String,String> common_params = new HashMap<>();
-common_params.put("query_by","name");
+HashMap<String,String> commonSearchParams = new HashMap<>();
+commonSearchParams.put("query_by","name");
 
-client.multiSearch.perform(map, common_params);
+client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
   </template>
@@ -811,7 +818,7 @@ client.collections('companies').documents('124').retrieve()
   <template v-slot:Java>
 
 ```java
-Hashmap<String, Object> document = client.collections("companies").documents("124").retrieve());
+Hashmap<String, Object> document = client.collections("companies").documents("124").retrieve();
 ```
 
   </template>
@@ -1419,12 +1426,30 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 const documentsInJsonl = await fs.readFile("documents.jsonl");
 client.collections('companies').documents().import(documentsInJsonl, {batch_size: 100});
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+File myObj = new File("documents.jsonl");
+Scanner myReader = new Scanner(myObj);
+String documentsInJsonl;
+while (myReader.hasNextLine()) {
+    String datdocumentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
+}
+
+HashMap<String, Object> queryParameters = new HashMap<>(;
+queryParameters.put("batch_size", 100);
+
+client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
 ```
 
   </template>
@@ -1517,7 +1542,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1531,7 +1556,23 @@ client.collections('titles').documents().create(document, {
 })
 ```
 
-</template>
+  </template>
+
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object > document = new HashMap<>();
+HashMap<String, String > queryParameters = new HashMap<>();
+
+document.put("title",1984);
+document.put("points",100);
+
+queryParameters.put("dirty_values","coerce_or_reject");
+
+System.out.println(this.client.collections("titles").documents().create(document,queryParameters));
+```
+
+  </template>
 
 <template v-slot:PHP>
 

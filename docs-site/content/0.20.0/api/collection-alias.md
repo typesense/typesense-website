@@ -37,6 +37,10 @@ client.aliases().upsert('companies', aliased_collection)
   <template v-slot:Java>
 
 ```java
+CollectionAlias collectionAlias = new CollectionAlias();
+collectionAlias.collectionName("companies_june11");
+
+client.aliases().upsert("companies", collectionAlias);
 ```
 
   </template>

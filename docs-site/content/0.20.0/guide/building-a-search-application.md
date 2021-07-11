@@ -189,7 +189,7 @@ fields.add(new Field().name("authors_facet").type("string[]").facet(true));
 CollectionSchema collectionSchema = new CollectionSchema();
 collectionSchema.name("books").fields(fields).defaultSortingField("ratings_count");
 
-CollectionResponse cr = client.collections().create(collectionSchema);
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 
 ```
 
@@ -332,7 +332,7 @@ File myObj = new File("books.jsonl");
 Scanner myReader = new Scanner(myObj);
 while (myReader.hasNextLine()) {
     String data = myReader.nextLine();
-    this.client.collections("books").documents().create(data);
+    client.collections("books").documents().create(data);
 }
 ```
 
@@ -425,7 +425,7 @@ client.collections('books')
 SearchParameters searchParameters = new SearchParameters()
                                                 .query("harry")
                                                 .queryBy("title")
-                                                .sort_by("ratings_count:desc");
+                                                .sortBy("ratings_count:desc");
 SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 
@@ -556,8 +556,8 @@ client.collections('books')
 SearchParameters searchParameters = new SearchParameters()
                                                 .query("harry")
                                                 .queryBy("title")
-                                                .filter_by("publication_year:<1998")
-                                                .sort_by("ratings_count:desc");
+                                                .filterBy("publication_year:<1998")
+                                                .sortBy("ratings_count:desc");
 SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 
@@ -691,8 +691,8 @@ client.collections('books')
 SearchParameters searchParameters = new SearchParameters()
                                                 .query("experyment")
                                                 .queryBy("title")
-                                                .facet_by("authors_facet")
-                                                .sort_by("average_rating:desc");
+                                                .facetBy("authors_facet")
+                                                .sortBy("average_rating:desc");
 SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 

@@ -64,7 +64,7 @@ fields.add(new Field().name("country").type("string").facet(true));
 CollectionSchema collectionSchema = new CollectionSchema();
 collectionSchema.name("companies").fields(fields).defaultSortingField("num_employees");
 
-CollectionResponse cr = client.collections().create(collectionSchema);
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
 
   </template>

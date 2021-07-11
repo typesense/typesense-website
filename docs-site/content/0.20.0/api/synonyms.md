@@ -35,7 +35,6 @@ client.collections('products').synonyms().upsert('coat-synonyms', synonym)
 ```java
 SearchSynonymSchema synonym = new SearchSynonymSchema();
 synonym.addSynonymsItem("blazer").addSynonymsItem("coat").addSynonymsItem("jacket");
-synonym.root("blazer");
 
 // Creates/updates a synonym called `coat-synonyms` in the `products` collection
 client.collections("products").synonyms().upsert("coat-synonyms", synonym);
