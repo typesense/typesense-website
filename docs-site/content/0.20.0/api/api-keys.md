@@ -40,7 +40,7 @@ actionValues.add("*");
 collectionValues.add("*");
 
 apiKeySchema.description("Admin Key").actions(actionValues).collections(collectionValues);
-client.keys().create(apiKeySchema);
+ApiKey apiKey = client.keys().create(apiKeySchema);
 ```
 
   </template>
@@ -128,7 +128,7 @@ collectionValues.add("intbooks");
 
 apiKeySchema.description("Search only Key").actions(actionValues).collections(collectionValues);
 
-this.client.keys().create(apiKeySchema);
+ApiKey apiKey = client.keys().create(apiKeySchema);
 ```
 
   </template>
@@ -515,7 +515,8 @@ String keyWithSearchPermissions = "RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127";
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("filter_by", "company_id:124");
-client.keys().generateScopedSearchKey(keyWithSearchPermissions,parameters);
+
+String scopedSearchKey = client.keys().generateScopedSearchKey(keyWithSearchPermissions,parameters);
 ```
 
   </template>
