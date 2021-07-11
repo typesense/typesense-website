@@ -116,11 +116,19 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases('companies').retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAlias collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
@@ -178,11 +186,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAliasesResponse collectionAliasesResponse = client.aliases().retrieve();
 ```
 
   </template>
@@ -246,11 +262,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases('companies').delete()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAlias collectionAlias = client.aliases("companies").delete();
 ```
 
   </template>
