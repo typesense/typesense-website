@@ -816,7 +816,7 @@ filter_by=location:(48.853,2.344,5 km)&sort_by=sort_by=location(48.853, 2.344):a
 The above example uses "5 km" as the radius, but you can also use miles, e.g. 
 `location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
 
-You can also filter for documents within any arbitrary shaped polygon too! The polygon's points must be defined in a 
+You can also filter for documents within any arbitrary shaped polygon! The polygon's points must be defined in a 
 **counter-clockwise (i.e. anti-clockwise) direction**.
 
 ```shell
@@ -840,7 +840,6 @@ location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)
 |facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
 |max_facet_values	|no	|Maximum number of facet values to be returned.|
 |facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
-|num_typos	|no	|Number of typographical errors (1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
 |prioritize_exact_match	|no	|By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`|
 |page	|no	|Results from this specific page number would be fetched.|
 |per_page	|no	|Number of results to fetch per page.<br><br>Default: `10` <br><br> NOTE: Only upto 250 hits can be fetched per page.|
@@ -854,11 +853,12 @@ location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)
 |highlight_start_tag	|no	|The start tag used for the highlighted snippets.<br><br>Default: `<mark>`|
 |highlight_end_tag	|no	|The end tag used for the highlighted snippets.<br><br>Default: `</mark>`|
 |snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
-|drop_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set drop_tokens_threshold to 0 to disable dropping of tokens.<br><br>Default: `10`
-|typo_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found.<br><br>Default: `100`|
+|num_typos	|no	|Maximum number of typographical errors (0, 1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
+|typo_tokens_threshold	|no	|If at least `typo_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to look for results with more typos until `num_typos` is reached or enough results are found. Set `typo_tokens_threshold` to `0` to disable typo tolerance.<br><br>Default: `100`|
+|drop_tokens_threshold	|no	|If at least `drop_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to drop tokens (words) in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set `drop_tokens_threshold` to `0` to disable dropping of tokens.<br><br>Default: `10`
 |pinned_hits	|no	|A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
 |hidden_hits	|no	|A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
-|enable_overrides|no|If you have some overrides defined but want to disable all of them during query time, set `enable_overrides` to `false`. <br><br>Default: `true` |
+|enable_overrides|no|If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true` |
 |pre_segmented_query|no|Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false` |
 |limit_hits	|no	|Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.|
 
