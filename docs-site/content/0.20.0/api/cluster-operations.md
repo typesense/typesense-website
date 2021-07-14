@@ -10,7 +10,7 @@ Creates a point-in-time snapshot of a Typesense node's state and data in the spe
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -85,7 +85,7 @@ Triggers a follower node to initiate the raft voting process, which triggers lea
 
 The follower node that you run this operation against will become the new leader, once this command succeeds.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -157,7 +157,7 @@ Default: `-1` which disables slow request logging.
 
 Slow requests are logged to the primary log file, with the prefix `SLOW REQUEST`.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Shell']">
   <template v-slot:Dart>
 
 ```dart
@@ -199,7 +199,7 @@ curl "http://localhost:8108/config" \
 
 Get current RAM, CPU, Disk & Network usage metrics.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Shell']">
   <template v-slot:Dart>
 
 ```dart
@@ -256,7 +256,7 @@ Get stats about API endpoints.
 
 This endpoint returns average requests per second and latencies for all requests in the last 10 seconds.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Shell']">
   <template v-slot:Dart>
 
 ```dart
@@ -303,7 +303,7 @@ curl "http://localhost:8108/stats.json" \
 
 Get health information about a Typesense node.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Shell']">
   <template v-slot:Dart>
 
 ```dart
