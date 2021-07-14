@@ -166,12 +166,12 @@ client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym
 
 ```dart
 final synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"]
 };
 
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-await client.collection('products').synonyms.upsert('blazer-synonyms', synonym);
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+await client.collection('products').synonyms.upsert('smart-phone-synonyms', synonym);
 ```
 
   </template>
