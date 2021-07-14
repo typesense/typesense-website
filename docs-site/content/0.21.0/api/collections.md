@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Collections
@@ -225,6 +225,9 @@ Typesense allows you to index the following types of fields:
   <tr>
     <td>bool</td>
   </tr>
+  <tr>
+    <td><a href="../api/documents.html#geosearch">geopoint</a></td>
+  </tr>
 </table>
 
 You can define an array or multi-valued field by suffixing a [] at the end:
@@ -315,6 +318,8 @@ preference to that before falling back to the wildcard definition.
 When such an explicit field definition is not available, the first document that contains a field with a given name 
 determines the type of that field. For example, if you index a document with a field named `title` and it is a 
 string, then the next document that contains the field named `title` will be expected to have a string too.
+
+**NOTE:** A `geopoint` field still requires an explicit field type definition. 
 
 #### Data Coercion
 

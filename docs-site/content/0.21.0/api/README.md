@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Typesense API Reference for v{{ $page.typesenseVersion }}

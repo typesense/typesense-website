@@ -6,3 +6,5 @@ build
 cmake-build-debug
 typesense.org/.sass-cache
 .yarn/
+yarn.lock
+.yarn-integrity

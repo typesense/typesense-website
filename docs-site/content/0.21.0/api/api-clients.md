@@ -1,9 +1,9 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
-# Installing a client
+# API Clients
 
 We have client libraries for:
 

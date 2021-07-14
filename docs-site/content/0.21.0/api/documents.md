@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Documents
@@ -531,6 +531,300 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
+
+### Geosearch
+
+Typesense supports geo search on fields containing the `geopoint` type. 
+
+Let's create a collection called `places` with a field called `location` of type `geopoint`.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name': 'title',
+      'type': 'string'
+    },
+    {
+      'name': 'points',
+      'type': 'int32'
+    },
+    {
+      'name': 'location',
+      'type': 'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections().create(schema)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$schema = [
+  'name'      => 'places',
+  'fields'    => [
+    [
+      'name'  => 'title',
+      'type'  => 'string'
+    ],
+    [
+      'name'  => 'points',
+      'type'  => 'int32'
+    ],
+    [
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    ]
+  ],
+  'default_sorting_field' => 'points'
+];
+
+$client->collections->create($schema);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name'  :  'title',
+      'type'  :  'string'
+    },
+    {
+      'name'  :  'points',
+      'type'  :  'int32'
+    },
+    {
+      'name'  :  'location',
+      'type'  :  'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+schema = {
+  'name'      => 'places',
+  'fields'    => [
+    {
+      'name'  => 'title',
+      'type'  => 'string'
+    },
+    {
+      'name'  => 'points',
+      'type'  => 'int32'
+    },
+    {
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    }
+  ],
+  'default_sorting_field' => 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/collections" -X POST 
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "places",
+        "fields": [
+          {"name": "title", "type": "string" },
+          {"name": "points", "type": "int32" }, 
+          {"name": "location", "type": "geopoint"}
+        ],
+        "default_sorting_field": "points"
+      }'
+```
+
+  </template>
+</Tabs>
+
+Let's now index a document.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections('places').documents().create(document)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$document = [
+  'title'   => 'Louvre Museuem',
+  'points'  => 1,
+  'location' => array(48.86093481609114, 2.33698396872901)
+];
+
+$client->collections['places']->documents->create($document);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+document = {
+  'title'    =>   'Louvre Museuem',
+  'points'   =>   1,
+  'location' =>  [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/places/documents" -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{"points":1,"title":"Louvre Museuem", "location": [48.86093481609114, 2.33698396872901]}'
+```
+
+  </template>
+</Tabs>
+
+We can now search for places within a given radius of a given latlong 
+(use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given 
+location (this location can be the same or different from the latlong used for filtering).
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections('companies').documents().search(searchParameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$searchParameters = [
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+];
+
+$client->collections['companies']->documents->search($searchParameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+search_parameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+search_parameters = {
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
+filter_by=location:(48.853,2.344,5 km)&sort_by=sort_by=location(48.853, 2.344):asc"
+```
+
+  </template>
+</Tabs>
+
+The above example uses "5 km" as the radius, but you can also use miles, e.g. 
+`location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
+
+You can also filter for documents within any arbitrary shaped polygon! The polygon's points must be defined in a 
+**counter-clockwise (i.e. anti-clockwise) direction**.
+
+```shell
+location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)
+```
+
+
+
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
@@ -540,28 +834,32 @@ client.collections['companies'].documents.search(search_parameters)
 |q	|yes	|The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`.<br><br>To exclude words in your query explicitly, prefix the word with the `-` operator, e.g. `q: 'electric car -tesla'`.|
 |query_by	|yes	|One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.|
 |query_by_weights	|no	|The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.|
-|prefix	|no	|Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces.<br><br>Default: `true`|
-|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` - returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you have to mark the field as a facet and use the `:=` operator.<br><br>For eg: `category:=Shoe` will match documents from the category shoes and not from a category like `shoe rack`. You can also filter using multiple values: `category:= [Shoe, Sneaker]`.<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
+|prefix	|no	|Indicates that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces. Set this to `false` to disable prefix searching for all queried fields. <br><br>You can control the behavior of prefix search on a per field basis. For example, if you are querying 3 fields and want to enable prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order of fields in `query_by`.<br><br>Default: `true` (prefix searching is enabled for all fields).|
+|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you have to mark the field as a facet and use the `:=` operator. For eg: `category:= Shoe` will match documents from the category shoes and not from a category like `shoe rack`.<br><br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, Sneaker]</code>.<br><br>Not equals / negation is supported for string and boolean facet fields, e.g. `filter_by=author:!= JK Rowling`<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
 |sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.|
 |facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
 |max_facet_values	|no	|Maximum number of facet values to be returned.|
 |facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
-|num_typos	|no	|Number of typographical errors (1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
+|prioritize_exact_match	|no	|By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`|
 |page	|no	|Results from this specific page number would be fetched.|
 |per_page	|no	|Number of results to fetch per page.<br><br>Default: `10` <br><br> NOTE: Only upto 250 hits can be fetched per page.|
 |group_by	|no	|You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`
 |group_limit	|no	|Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`|
 |include_fields	|no	|Comma-separated list of fields from the document to include in the search result.|
 |exclude_fields	|no	|Comma-separated list of fields from the document to exclude in the search result.|
+|highlight_fields|no | Comma separated list of fields that should be highlighted with snippetting. You can use this parameter to highlight fields that you don't query for, as well.<br><br>Default: all queried fields will be highlighted.|
 |highlight_full_fields	|no	|Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.|
 |highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side.<br><br>Default: `4`|
 |highlight_start_tag	|no	|The start tag used for the highlighted snippets.<br><br>Default: `<mark>`|
 |highlight_end_tag	|no	|The end tag used for the highlighted snippets.<br><br>Default: `</mark>`|
 |snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
-|drop_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set drop_tokens_threshold to 0 to disable dropping of tokens.<br><br>Default: `10`
-|typo_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found.<br><br>Default: `100`|
+|num_typos	|no	|Maximum number of typographical errors (0, 1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
+|typo_tokens_threshold	|no	|If at least `typo_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to look for results with more typos until `num_typos` is reached or enough results are found. Set `typo_tokens_threshold` to `0` to disable typo tolerance.<br><br>Default: `100`|
+|drop_tokens_threshold	|no	|If at least `drop_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to drop tokens (words) in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set `drop_tokens_threshold` to `0` to disable dropping of tokens.<br><br>Default: `10`
 |pinned_hits	|no	|A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
 |hidden_hits	|no	|A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
+|enable_overrides|no|If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true` |
+|pre_segmented_query|no|Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false` |
 |limit_hits	|no	|Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.|
 
 
@@ -1194,6 +1492,14 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
+While exporting, you can use the following parameters to control the result of the export:
+
+|Parameter|Description|
+| -------------- | ----------- |
+|filter_by|Restrict the exports to documents that satisfies the filter query.|
+|include_fields|List of fields that will be present in the export documents.|
+|exclude_fields|List of fields that should not be present in the export documents.|
+
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
@@ -1314,11 +1620,13 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
     </tr>
     <tr>
         <td>upsert</td>
-        <td>	Creates a new document or updates an existing document if a document with the same id already exists.</td>
+        <td>Creates a new document or updates an existing document if a document with the same id already exists. 
+           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
     </tr>
     <tr>
         <td>update	</td>
-        <td>Updates an existing document. Fails if a document with the given id does not exist.</td>
+        <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
+            a partial document containing only the fields that are to be updated.</td>
     </tr>
 </table>
 
