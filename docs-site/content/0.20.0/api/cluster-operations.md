@@ -10,11 +10,22 @@ Creates a point-in-time snapshot of a Typesense node's state and data in the spe
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-snapshot'})
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+HashMap<String, String> query = new HashMap<>();
+query.put("snapshot_path","/tmp/typesense-data-snapshot");
+
+HashMap<String,String> response = client.operations.perform("snapshot",query);
 ```
 
   </template>
@@ -85,11 +96,19 @@ Triggers a follower node to initiate the raft voting process, which triggers lea
 
 The follower node that you run this operation against will become the new leader, once this command succeeds.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.operations.perform('vote')
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+HashMap<String,String> response = client.operations.perform("vote");
 ```
 
   </template>

@@ -20,7 +20,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -30,6 +30,17 @@ aliased_collection = {
 
 // Creates/updates an alias called `companies` to the `companies_june11` collection
 client.aliases().upsert('companies', aliased_collection)
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAlias collectionAlias = new CollectionAlias();
+collectionAlias.collectionName("companies_june11");
+
+client.aliases().upsert("companies", collectionAlias);
 ```
 
   </template>
@@ -121,11 +132,19 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases('companies').retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAlias collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
@@ -190,11 +209,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAliasesResponse collectionAliasesResponse = client.aliases().retrieve();
 ```
 
   </template>
@@ -265,11 +292,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.aliases('companies').delete()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionAlias collectionAlias = client.aliases("companies").delete();
 ```
 
   </template>

@@ -16,7 +16,7 @@ Typesense supports two types of synonyms:
 
 ### Multi-way synonym
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -26,6 +26,18 @@ synonym = {
 
 // Creates/updates a synonym called `coat-synonyms` in the `products` collection
 client.collections('products').synonyms().upsert('coat-synonyms', synonym)
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+SearchSynonymSchema synonym = new SearchSynonymSchema();
+synonym.addSynonymsItem("blazer").addSynonymsItem("coat").addSynonymsItem("jacket");
+
+// Creates/updates a synonym called `coat-synonyms` in the `products` collection
+client.collections("products").synonyms().upsert("coat-synonyms", synonym);
 ```
 
   </template>
@@ -108,7 +120,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ### One-way synonym
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -119,6 +131,20 @@ synonym = {
 
 // Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
 client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
+```
+
+  </template>
+
+
+  <template v-slot:Java>
+
+```java
+SearchSynonymSchema synonym = new SearchSynonymSchema();
+synonym.addSynonymsItem("coat").addSynonymsItem("jacket");
+synonym.root("blazer");
+
+// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
+client.collections("products").synonyms().upsert("blazer-synonyms", synonym);
 ```
 
   </template>
@@ -217,11 +243,19 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 ## Retrieve a synonym
 We can retrieve a single synonym.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.collections('products').synonyms('coat-synonyms').retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+SearchSynonym searchSynonym = client.collections("products").synonyms("coat-synonyms").retrieve();
 ```
 
   </template>
@@ -285,11 +319,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/colle
 ## List all synonyms
 List all synonyms associated with a given collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.collections('products').synonyms().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+SearchSynonymsResponse searchSynonymsResponse =  client.collections("products").synonyms().retrieve();
 ```
 
   </template>
@@ -358,11 +400,19 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Delete a synonym
 Delete a synonym associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','Java','PHP','Python','Ruby','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 client.collections('products').synonyms('coat-synonyms').delete()
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+SearchSynonym searchSynonym = client.collections("products").synonyms("coat-synonyms").delete();
 ```
 
   </template>
