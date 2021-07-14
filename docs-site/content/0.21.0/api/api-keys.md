@@ -16,7 +16,7 @@ We will be using the initial bootstrap key that you started Typesense with (via 
 
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -99,7 +99,7 @@ The generated key is only returned during creation. You want to store this key c
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -220,7 +220,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -295,7 +295,7 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## List all Keys
 Retrieve (metadata about) all keys.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -388,7 +388,7 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## Delete API Key
 Delete an API key given its ID.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -495,7 +495,7 @@ Once a parent Search API Key is revoked, all scoped API keys that were generated
 
 We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope (only), create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
