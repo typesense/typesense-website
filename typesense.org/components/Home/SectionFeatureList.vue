@@ -3,7 +3,7 @@
     <h2 class="text-center text-gradient-1">
       Features you love, minus the complexity
     </h2>
-    <div class="text-center">Neatly wrapped in RESTful API</div>
+    <div class="text-center">Neatly wrapped in an intuitive RESTful API</div>
 
     <div class="grid mt-5">
       <div v-for="feature in features" :key="feature.name">
@@ -67,6 +67,12 @@ export default {
           icon: require('~/assets/images/filter_icon.svg'),
         },
         {
+          name: 'Geo Search',
+          description:
+            'Search & sort results within a certain distance from a latitude/longitude or within a polygon region.',
+          icon: require('~/assets/images/geo_search_icon.svg'),
+        },
+        {
           name: 'Federated Search',
           description:
             'Search one or more collections in a single query. Eg: search for both products and brands, given a single search query.',
@@ -83,12 +89,6 @@ export default {
           description:
             'Replace the binary, and restart the process. Typesense will automatically re-index your data in the new version.',
           icon: require('~/assets/images/easy_version_upgrades_icon.svg'),
-        },
-        {
-          name: 'RESTful API',
-          description:
-            'A simple and straight-forward RESTful API, that you’ll understand without having to pore over the docs.',
-          icon: require('~/assets/images/restful_api_icon.svg'),
         },
       ],
     }

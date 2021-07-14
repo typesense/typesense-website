@@ -385,15 +385,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
-                  <td>
-                    🔶<br /><br />
-                    In
-                    <a
-                      href="https://github.com/typesense/typesense/issues/78#issuecomment-842308057"
-                      target="_blank"
-                      >beta</a
-                    >.
-                  </td>
+                  <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>❌</td>
