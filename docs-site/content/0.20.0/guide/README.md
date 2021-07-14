@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 1
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Typesense Guide for v{{ $page.typesenseVersion }}
