@@ -111,6 +111,11 @@ export default {
           target: '_blank',
         },
         {
+          text: 'Blog',
+          externalLink: 'https://typesense.org/blog/',
+          target: '_blank',
+        },
+        {
           text: 'Support',
           link: '/support/',
         },

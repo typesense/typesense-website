@@ -50,6 +50,12 @@
                 >Typesense Cloud</a
               >
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link p-0" href="https://typesense.org/blog/"
+                >Blog</a
+              >
+            </li>
           </ul>
         </div>
 
