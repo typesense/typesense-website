@@ -538,7 +538,7 @@ Typesense supports geo search on fields containing the `geopoint` type.
 
 Let's create a collection called `places` with a field called `location` of type `geopoint`.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -646,6 +646,23 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final schema = Schema(
+  'places',
+  {
+    Field('title', Type.string),
+    Field('points', Type.int32),
+    Field('location', Type.geopoint),
+  },
+  defaultSortingField: Field('points', Type.int32),
+);
+
+await client.collections.create(schema);
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -668,7 +685,7 @@ curl -k "http://localhost:8108/collections" -X POST
 
 Let's now index a document.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -724,6 +741,19 @@ client.collections['places'].documents.create(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+};
+
+await client.collection('places').documents.create(document};
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -741,14 +771,14 @@ We can now search for places within a given radius of a given latlong
 (use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given 
 location (this location can be the same or different from the latlong used for filtering).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 let searchParameters = {
   'q'         : '*',
   'query_by'  : 'title',
-  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
@@ -763,7 +793,7 @@ client.collections('companies').documents().search(searchParameters)
 $searchParameters = [
   'q'         => '*',
   'query_by'  => 'title',
-  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   => 'location(48.853, 2.344):asc'
 ];
 
@@ -778,7 +808,7 @@ $client->collections['companies']->documents->search($searchParameters);
 search_parameters = {
   'q'         : '*',
   'query_by'  : 'title',
-  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
@@ -793,11 +823,25 @@ client.collections['companies'].documents.search(search_parameters)
 search_parameters = {
   'q'         => '*',
   'query_by'  => 'title',
-  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   => 'location(48.853, 2.344):asc'
 }
 
 client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+};
+
+client.collections('companies').documents().search(searchParameters)
 ```
 
   </template>
@@ -807,13 +851,45 @@ client.collections['companies'].documents.search(search_parameters)
 ```bash
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 "http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
-filter_by=location:(48.853,2.344,5 km)&sort_by=sort_by=location(48.853, 2.344):asc"
+filter_by=location:(48.853,2.344,5.1 km)&sort_by=sort_by=location(48.853, 2.344):asc"
 ```
 
   </template>
 </Tabs>
 
-The above example uses "5 km" as the radius, but you can also use miles, e.g. 
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "facet_counts": [],
+  "found": 1,
+  "hits": [
+    {
+      "document": {
+        "id": 0,
+        "location": [48.86093481609114, 2.33698396872901],
+        "points": 1,
+        "title": "Louvre Museuem"
+      },
+      "geo_distance_meters": {"location": 1020},
+      "highlights": [],
+      "text_match": 16737280
+    }
+  ],
+  "out_of": 1,
+  "page": 1,
+  "request_params": {"collection_name": "places", "per_page": 10, "q": "*"},
+  "search_time_ms": 0
+}
+```
+
+  </template>
+</Tabs>
+
+The above example uses "5.1 km" as the radius, but you can also use miles, e.g. 
 `location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
 
 You can also filter for documents within any arbitrary shaped polygon! The polygon's points must be defined in a 
