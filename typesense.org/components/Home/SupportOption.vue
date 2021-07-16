@@ -6,6 +6,7 @@
       :src="image"
       :alt="name"
       :height="imageHeight"
+      :width="imageWidth"
       :style="{ 'margin-bottom': imageMargin }"
     />
     <div class="mt-2">{{ name }}</div>
@@ -22,6 +23,10 @@ export default {
     imageHeight: {
       type: Number,
       default: 50,
+    },
+    imageWidth: {
+      type: Number,
+      default: 100,
     },
     imageMargin: {
       type: String,

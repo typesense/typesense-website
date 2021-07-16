@@ -13,13 +13,17 @@
               <img
                 src="~/assets/images/javascript.svg"
                 alt="javascript"
+                width="46"
+                height="46"
                 class="mt-4 mt-sm-0"
               />
             </a>
             <a href="https://github.com/typesense/typesense-go" target="_blank">
               <img
-                src="~/assets/images/golang.svg"
-                alt="golang"
+                src="~/assets/images/Go-Logo_Blue.svg"
+                width="90"
+                height="80"
+                alt="Golang"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -29,7 +33,9 @@
             >
               <img
                 src="~/assets/images/php.svg"
-                alt="php"
+                alt="PHP"
+                width="64"
+                height="32"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -39,7 +45,9 @@
             >
               <img
                 src="~/assets/images/ruby.svg"
-                alt="ruby"
+                alt="Ruby"
+                width="38"
+                height="38"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -49,7 +57,21 @@
             >
               <img
                 src="~/assets/images/python.svg"
-                alt="python"
+                alt="Python"
+                width="40"
+                height="40"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-dart"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/logo_dart_192px.svg"
+                alt="Dart"
+                width="50"
+                height="50"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -60,7 +82,25 @@
                 href="https://github.com/typesense/gatsby-plugin-typesense"
                 target="_blank"
               >
-                <img src="~/assets/images/gatsby.svg" alt="gatsby" />
+                <img
+                  src="~/assets/images/gatsby.svg"
+                  alt="Gatsby"
+                  width="117"
+                  height="31"
+                  class="mt-4 mt-sm-0"
+                />
+              </a>
+              <a
+                href="https://github.com/typesense/firestore-typesense-search"
+                target="_blank"
+              >
+                <img
+                  src="~/assets/images/firebase-logo-standard.svg"
+                  alt="Firebase Extension"
+                  width="123"
+                  height="35"
+                  class="ml-5 mt-4 mt-sm-0"
+                />
               </a>
             </div>
           </div>
