@@ -14,7 +14,7 @@
       </option>
     </select>
     <div class="old-version-warning" v-show="currentVersion && currentVersion !== '' && currentVersion !== latestVersion">
-      You are viewing docs for an old version. Switch to latest <a @click="switchVersion({target: {value: latestVersion}})"> v{{ latestVersion }}</a>.
+      You are viewing docs for an old version. Switch to latest <RouterLink :to="`/${latestVersion}/`"> v{{ latestVersion }}</RouterLink>.
     </div>
   </div>
 </template>
