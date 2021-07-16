@@ -11,7 +11,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby',  'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -104,7 +104,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby',  'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -219,7 +219,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Search
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -387,7 +387,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -538,7 +538,7 @@ Typesense supports geo search on fields containing the `geopoint` type.
 
 Let's create a collection called `places` with a field called `location` of type `geopoint`.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -646,6 +646,23 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final schema = Schema(
+  'places',
+  {
+    Field('title', Type.string),
+    Field('points', Type.int32),
+    Field('location', Type.geopoint),
+  },
+  defaultSortingField: Field('points', Type.int32),
+);
+
+await client.collections.create(schema);
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -668,7 +685,7 @@ curl -k "http://localhost:8108/collections" -X POST
 
 Let's now index a document.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -724,6 +741,19 @@ client.collections['places'].documents.create(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+};
+
+await client.collection('places').documents.create(document};
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -741,14 +771,14 @@ We can now search for places within a given radius of a given latlong
 (use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given 
 location (this location can be the same or different from the latlong used for filtering).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 let searchParameters = {
   'q'         : '*',
   'query_by'  : 'title',
-  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
@@ -763,7 +793,7 @@ client.collections('companies').documents().search(searchParameters)
 $searchParameters = [
   'q'         => '*',
   'query_by'  => 'title',
-  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   => 'location(48.853, 2.344):asc'
 ];
 
@@ -778,7 +808,7 @@ $client->collections['companies']->documents->search($searchParameters);
 search_parameters = {
   'q'         : '*',
   'query_by'  : 'title',
-  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
@@ -793,11 +823,25 @@ client.collections['companies'].documents.search(search_parameters)
 search_parameters = {
   'q'         => '*',
   'query_by'  => 'title',
-  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5 km)',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
   'sort_by'   => 'location(48.853, 2.344):asc'
 }
 
 client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+};
+
+client.collections('companies').documents().search(searchParameters)
 ```
 
   </template>
@@ -807,13 +851,45 @@ client.collections['companies'].documents.search(search_parameters)
 ```bash
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 "http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
-filter_by=location:(48.853,2.344,5 km)&sort_by=sort_by=location(48.853, 2.344):asc"
+filter_by=location:(48.853,2.344,5.1 km)&sort_by=sort_by=location(48.853, 2.344):asc"
 ```
 
   </template>
 </Tabs>
 
-The above example uses "5 km" as the radius, but you can also use miles, e.g. 
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "facet_counts": [],
+  "found": 1,
+  "hits": [
+    {
+      "document": {
+        "id": 0,
+        "location": [48.86093481609114, 2.33698396872901],
+        "points": 1,
+        "title": "Louvre Museuem"
+      },
+      "geo_distance_meters": {"location": 1020},
+      "highlights": [],
+      "text_match": 16737280
+    }
+  ],
+  "out_of": 1,
+  "page": 1,
+  "request_params": {"collection_name": "places", "per_page": 10, "q": "*"},
+  "search_time_ms": 0
+}
+```
+
+  </template>
+</Tabs>
+
+The above example uses "5.1 km" as the radius, but you can also use miles, e.g. 
 `location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
 
 You can also filter for documents within any arbitrary shaped polygon! The polygon's points must be defined in a 
@@ -868,7 +944,7 @@ You can send multiple search requests in a single HTTP request, using the Multi-
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1119,7 +1195,7 @@ The `results` array in a `multi_search` response is guaranteed to be in the same
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1190,7 +1266,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1289,7 +1365,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Delete documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1360,7 +1436,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1431,7 +1507,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1522,7 +1598,7 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1649,7 +1725,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1730,7 +1806,7 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1836,7 +1912,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js

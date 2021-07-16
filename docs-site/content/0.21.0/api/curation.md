@@ -13,7 +13,7 @@ In the following example, we are overriding the search results by placing the do
 
 Note how we are applying these overrides to an `exact` match of the query `apple`. Instead, if we want to match all queries that contained the word `apple`, we will use the `contains` match instead.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -192,7 +192,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## List all overrides
 Listing all overrides associated with a given collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -283,7 +283,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Retrieve an override
 Fetch an individual override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -370,7 +370,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## Delete an override
 Deleting an override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
