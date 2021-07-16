@@ -13,6 +13,9 @@
         v{{ version }}
       </option>
     </select>
+    <div class="old-version-warning" v-show="currentVersion && currentVersion !== '' && currentVersion !== latestVersion">
+      You are viewing docs for an old version. Switch to latest <a @click="switchVersion({target: {value: latestVersion}})"> v{{ latestVersion }}</a>.
+    </div>
   </div>
 </template>
 
@@ -32,6 +35,9 @@ export default {
   computed: {
     currentVersion() {
       return this.$page.typesenseVersion
+    },
+    latestVersion() {
+      return this.$site.themeConfig.typesenseLatestVersion
     },
   },
   methods: {
@@ -83,4 +89,19 @@ export default {
     display none
     @media (min-width: $MQMobile)
       display inline-block
+
+  .old-version-warning
+    display inline-block
+    font-size 0.75em
+    background-color lighten($badgeWarningColor, 70%)
+    padding 0.5em
+    line-height 1.6
+
+    @media (max-width: $MQMobile)
+      margin-top 1em
+      margin-right 2em
+
+    a:hover
+      text-decoration underline
+      cursor pointer
 </style>
