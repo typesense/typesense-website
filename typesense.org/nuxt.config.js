@@ -129,6 +129,7 @@ const config = {
       'https://typesense.org/sitemap.xml',
       'https://typesense.org/docs/sitemap.xml',
       'https://typesense.org/learn/sitemap.xml',
+      'https://typesense.org/blog/sitemap.xml',
     ],
   },
 }
