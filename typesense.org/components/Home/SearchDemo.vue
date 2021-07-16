@@ -16,86 +16,75 @@
           />
         </div>
         <div class="col-sm-11">
-          <Transition name="fade">
-            <AisSearchBox
-              placeholder="Search for a recipe..."
-              :class-names="{
-                'ais-SearchBox-input': 'form-control',
-                'ais-SearchBox-submit': 'd-none',
-                'ais-SearchBox-reset': 'd-none',
-              }"
-            />
-          </Transition>
+          <AisSearchBox
+            placeholder="Search for a recipe..."
+            :class-names="{
+              'ais-SearchBox-input': 'form-control',
+              'ais-SearchBox-submit': 'd-none',
+              'ais-SearchBox-reset': 'd-none',
+            }"
+          />
         </div>
       </div>
-      <Transition name="fade">
-        <AisStats class="text-right mt-1">
-          <span
-            slot-scope="{ nbHits, processingTimeMS }"
-            class="small text-white"
-          >
-            ✨ Found {{ nbHits.toLocaleString() }} recipes out of
-            {{ starQueryResults['out_of'].toLocaleString() }} in
-            {{ processingTimeMS }} ms
-          </span>
-        </AisStats>
-      </Transition>
-      <Transition name="fade">
-        <div class="row justify-content-end mt-3">
-          <div class="col-sm-1">
-            <img
-              src="~assets/images/magic_wand.svg"
-              height="24"
-              width="24"
-              class="mt-2 d-none d-sm-inline-block"
-            />
-          </div>
-          <div class="col-sm-10">
-            <AisHits
-              :transform-items="transformSearchHits"
-              :class-names="{
-                'ais-Hits-list': 'p-0',
-                'ais-Hits-item':
-                  'small p-2 border-bottom border-primary border-primary-dark d-block',
-              }"
-            >
-              <div slot="item" slot-scope="{ item }">
-                <a :href="item.link" target="_blank">
-                  <div class="d-flex justify-content-between">
-                    <div
-                      class="text-truncate d-inline-block text-white"
-                      style="max-width: 250px"
-                    >
-                      <ais-highlight attribute="title" :hit="item" />
-                    </div>
-                    <div class="d-inline-block">
-                      <img
-                        src="~/assets/images/open_link_icon.svg"
-                        height="12"
-                      />
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </AisHits>
-          </div>
+      <AisStats class="text-right mt-1">
+        <span
+          slot-scope="{ nbHits, processingTimeMS }"
+          class="small text-white"
+        >
+          ✨ Found {{ nbHits.toLocaleString() }} recipes out of
+          {{ starQueryResults['out_of'].toLocaleString() }} in
+          {{ processingTimeMS }} ms
+        </span>
+      </AisStats>
+      <div class="row justify-content-end mt-3">
+        <div class="col-sm-1">
+          <img
+            src="~assets/images/magic_wand.svg"
+            height="24"
+            width="24"
+            class="mt-2 d-none d-sm-inline-block"
+          />
         </div>
-      </Transition>
+        <div class="col-sm-10">
+          <AisHits
+            :transform-items="transformSearchHits"
+            :class-names="{
+              'ais-Hits-list': 'p-0',
+              'ais-Hits-item':
+                'small p-2 border-bottom border-primary border-primary-dark d-block',
+            }"
+          >
+            <div slot="item" slot-scope="{ item }">
+              <a :href="item.link" target="_blank">
+                <div class="d-flex justify-content-between">
+                  <div
+                    class="text-truncate d-inline-block text-white"
+                    style="max-width: 250px"
+                  >
+                    <ais-highlight attribute="title" :hit="item" />
+                  </div>
+                  <div class="d-inline-block">
+                    <img src="~/assets/images/open_link_icon.svg" height="12" />
+                  </div>
+                </div>
+              </a>
+            </div>
+          </AisHits>
+        </div>
+      </div>
       <div class="row justify-content-end">
         <div class="col-sm-10">
           <div class="search-demo-page-numbers d-flex justify-content-end">
-            <Transition name="fade">
-              <AisPagination
-                :show-first="true"
-                :show-previous="false"
-                :show-next="false"
-                :show-last="false"
-                :class-names="{
-                  'ais-Pagination-list': 'd-flex flex-row',
-                  'ais-Pagination-item': 'px-2 d-block',
-                }"
-              />
-            </Transition>
+            <AisPagination
+              :show-first="true"
+              :show-previous="false"
+              :show-next="false"
+              :show-last="false"
+              :class-names="{
+                'ais-Pagination-list': 'd-flex flex-row',
+                'ais-Pagination-item': 'px-2 d-block',
+              }"
+            />
           </div>
         </div>
       </div>

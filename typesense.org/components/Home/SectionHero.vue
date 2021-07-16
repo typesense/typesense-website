@@ -38,9 +38,7 @@
           </div>
           <div class="col-sm-5">
             <div class="mt-4 mt-sm-1">&nbsp;</div>
-            <Transition name="fade">
-              <HomeSearchDemo class="mt-2" />
-            </Transition>
+            <HomeSearchDemo class="mt-2" />
           </div>
         </div>
       </div>
