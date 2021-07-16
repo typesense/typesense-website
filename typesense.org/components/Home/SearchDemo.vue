@@ -11,7 +11,8 @@
           <img
             class="try-it-out-arrow"
             src="~assets/images/try_it_out.svg"
-            height="50"
+            height="60"
+            width="76"
           />
         </div>
         <div class="col-sm-11">
@@ -45,6 +46,7 @@
             <img
               src="~assets/images/magic_wand.svg"
               height="24"
+              width="24"
               class="mt-2 d-none d-sm-inline-block"
             />
           </div>
@@ -190,8 +192,8 @@ export default {
 .try-it-out-arrow {
   @media (min-width: map-get($grid-breakpoints, 'sm')) {
     position: absolute;
-    top: -23px;
-    left: -33px;
+    top: -30px;
+    left: -42px;
   }
 }
 </style>

@@ -115,6 +115,8 @@
               <img
                 src="~/assets/images/magic_wand.svg"
                 alt="magic wand"
+                width="35"
+                height="35"
                 class="mr-2 mb-3 mb-sm-0"
               /><br class="d-block d-sm-none" />
               Compose Powerful Search & Discovery User Interfaces, quickly.

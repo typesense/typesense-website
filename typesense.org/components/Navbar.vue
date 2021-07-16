@@ -43,6 +43,7 @@
                 src="https://img.shields.io/github/stars/typesense/typesense?style=social"
                 alt="Github Stars"
                 class="d-none d-sm-block"
+                height="20"
               />
             </a>
           </li>

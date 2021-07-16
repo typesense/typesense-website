@@ -31,6 +31,7 @@
                   src="https://img.shields.io/github/stars/typesense/typesense?style=social"
                   alt="Github Stars"
                   class="mt-4 d-block d-sm-none"
+                  height="20"
                 />
               </a>
             </div>

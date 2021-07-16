@@ -1,7 +1,7 @@
 <template>
   <div :class="['feature']">
     <div class="mb-2">
-      <img :src="icon" height="25" />
+      <img :src="icon" width="25" height="25" />
     </div>
     <h5 class="mb-2">{{ name }}</h5>
     <p class="description">{{ description }}</p>
