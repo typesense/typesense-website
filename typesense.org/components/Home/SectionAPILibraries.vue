@@ -14,7 +14,7 @@
             <a href="https://github.com/typesense/typesense-js" target="_blank">
               <img
                 src="~/assets/images/javascript.svg"
-                alt="javascript"
+                alt="Javascript"
                 width="46"
                 height="46"
                 class="mt-4 mt-sm-0"
@@ -90,68 +90,105 @@
               />
             </a>
           </div>
-          <div class="mt-4">
-            <div class="text-center">
-              <a
-                href="https://github.com/typesense/gatsby-plugin-typesense"
-                target="_blank"
-              >
-                <img
-                  src="~/assets/images/gatsby.svg"
-                  alt="Gatsby"
-                  width="117"
-                  height="31"
-                  class="mt-4 mt-sm-0"
-                />
-              </a>
-              <a
-                href="https://github.com/typesense/firestore-typesense-search"
-                target="_blank"
-              >
-                <img
-                  src="~/assets/images/firebase-logo-standard.svg"
-                  alt="Firebase Extension"
-                  width="123"
-                  height="35"
-                  class="ml-5 mt-4 mt-sm-0"
-                />
-              </a>
-              <a
-                href="https://github.com/typesense/typesense-instantsearch-adapter"
-                target="_blank"
-              >
-                <img
-                  src="~/assets/images/instantsearch-logo.svg"
-                  alt="InstantSearch.js"
-                  class="ml-5 mt-4 mt-sm-0"
-                  height="35"
-                  width="194"
-                />
-              </a>
-              <a
-                href="https://github.com/typesense/typesense-docsearch.js"
-                target="_blank"
-              >
-                <img
-                  src="~/assets/images/docsearch-logo.svg"
-                  alt="DocSearch"
-                  class="ml-5 mt-4 mt-sm-0"
-                  height="30"
-                  width="182"
-                />
-              </a>
-              <a
-                href="https://github.com/typesense/typesense-wordpress-plugin"
-                target="_blank"
-              >
-                <img
-                  src="~/assets/images/wordpress-logo.svg"
-                  alt="Wordpress"
-                  height="40"
-                  class="ml-5 mt-4 mt-sm-0"
-                />
-              </a>
-            </div>
+          <div class="text-center mt-3">
+            <a
+              href="https://github.com/typesense/typesense-instantsearch-adapter#with-react-instantsearch"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/react-logo.svg"
+                alt="React"
+                width="39"
+                height="35"
+                class="mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-instantsearch-adapter#with-vue-instantsearch"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/vue-logo.svg"
+                alt="Vue"
+                width="40"
+                height="35"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-instantsearch-adapter#with-angular-instantsearch"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/angular.svg"
+                alt="Angular"
+                width="55"
+                height="55"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+          </div>
+          <div class="mt-1">&nbsp;</div>
+          <div class="text-center mt-1">
+            <a
+              href="https://github.com/typesense/gatsby-plugin-typesense"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/gatsby.svg"
+                alt="Gatsby"
+                width="117"
+                height="31"
+                class="mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/firestore-typesense-search"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/firebase-logo-standard.svg"
+                alt="Firebase Extension"
+                width="123"
+                height="35"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-instantsearch-adapter"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/instantsearch-logo.svg"
+                alt="InstantSearch.js"
+                class="ml-5 mt-4 mt-sm-0"
+                height="35"
+                width="194"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-docsearch.js"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/docsearch-logo.svg"
+                alt="DocSearch"
+                class="ml-5 mt-4 mt-sm-0"
+                height="30"
+                width="182"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-wordpress-plugin"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/wordpress-logo.svg"
+                alt="Wordpress"
+                height="40"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
           </div>
         </div>
       </div>
