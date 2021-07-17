@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gradient-2 text-white py-5">
     <div class="container py-5">
-      <h2 class="text-center">API Libraries in your Favorite Languages</h2>
+      <h2 class="text-center">
+        API Libraries & Plugins in your Favorite Languages
+      </h2>
       <div class="text-center">
         And if you don't find a library, reach out to us to collab on one
       </div>
@@ -75,6 +77,18 @@
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
+            <a
+              href="https://github.com/typesense/typesense-rust"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/rust-logo.svg"
+                alt="Rust"
+                height="60"
+                width="60"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
           </div>
           <div class="mt-4">
             <div class="text-center">
@@ -99,6 +113,41 @@
                   alt="Firebase Extension"
                   width="123"
                   height="35"
+                  class="ml-5 mt-4 mt-sm-0"
+                />
+              </a>
+              <a
+                href="https://github.com/typesense/typesense-instantsearch-adapter"
+                target="_blank"
+              >
+                <img
+                  src="~/assets/images/instantsearch-logo.svg"
+                  alt="InstantSearch.js"
+                  class="ml-5 mt-4 mt-sm-0"
+                  height="35"
+                  width="194"
+                />
+              </a>
+              <a
+                href="https://github.com/typesense/typesense-docsearch.js"
+                target="_blank"
+              >
+                <img
+                  src="~/assets/images/docsearch-logo.svg"
+                  alt="DocSearch"
+                  class="ml-5 mt-4 mt-sm-0"
+                  height="30"
+                  width="182"
+                />
+              </a>
+              <a
+                href="https://github.com/typesense/typesense-wordpress-plugin"
+                target="_blank"
+              >
+                <img
+                  src="~/assets/images/wordpress-logo.svg"
+                  alt="Wordpress"
+                  height="40"
                   class="ml-5 mt-4 mt-sm-0"
                 />
               </a>
