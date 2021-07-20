@@ -26,7 +26,7 @@ If you are running Typesense in clustered mode for high availability, make sure 
 ```bash
 docker stop <container_id>
 
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
+docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.21.0 \
   --data-dir /data --api-key=$TYPESENSE_API_KEY
 ```
   </template>
@@ -38,9 +38,9 @@ docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.19.0 \
   <template v-slot:Shell>
 
 ```bash
-wget https://dl.typesense.org/releases/0.19.0/typesense-server-0.19.0-1.x86_64.rpm
+wget https://dl.typesense.org/releases/0.21.0/typesense-server-0.19.0-1.x86_64.rpm
 
-sudo yum install ./typesense-server-0.19.0-1.x86_64.rpm
+sudo yum install ./typesense-server-0.21.0-1.x86_64.rpm
 
 sudo systemctl restart typesense-server.service
 ```
@@ -54,9 +54,9 @@ sudo systemctl restart typesense-server.service
   <template v-slot:Shell>
 
 ```bash
-wget https://dl.typesense.org/releases/0.19.0/typesense-server-0.19.0-amd64.deb
+wget https://dl.typesense.org/releases/0.21.0/typesense-server-0.21.0-amd64.deb
 
-sudo apt install ./typesense-server-0.19.0-amd64.deb
+sudo apt install ./typesense-server-0.21.0-amd64.deb
 
 sudo systemctl restart typesense-server.service
 ```
@@ -70,9 +70,9 @@ sudo systemctl restart typesense-server.service
   <template v-slot:Shell>
 
 ```bash
-wget https://dl.typesense.org/releases/0.19.0/typesense-server-0.19.0-linux-amd64.tar.gz
+wget https://dl.typesense.org/releases/0.21.0/typesense-server-0.21.0-linux-amd64.tar.gz
 
-tar xvzf ./typesense-server-0.19.0-linux-amd64.tar.gz
+tar xvzf ./typesense-server-0.21.0-linux-amd64.tar.gz
 
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
 
@@ -89,9 +89,9 @@ mv ./typesense-server $PATH_TO_EXISTING_BINARY
   <template v-slot:Shell>
 
 ```bash
-wget https://dl.typesense.org/releases/0.19.0/typesense-server-0.19.0-darwin-amd64.tar.gz
+wget https://dl.typesense.org/releases/0.19.0/typesense-server-0.21.0-darwin-amd64.tar.gz
 
-tar xvzf ./typesense-server-0.19.0-darwin-amd64.tar.gz
+tar xvzf ./typesense-server-0.21.0-darwin-amd64.tar.gz
 
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
 
