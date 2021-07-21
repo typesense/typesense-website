@@ -153,6 +153,16 @@ let config = {
           ],
         },
         {
+          title: 'How-To-s', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/0.21.0/guide/high-availability', 'High Availability'],
+            ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
+            ['/0.21.0/guide/search-analytics', 'Search Analytics'],
+            ['/0.21.0/guide/updating-typesense', 'Updating Typesense'],
+          ],
+        },
+        {
           title: 'Reference Implementations',
           collapsable: false, // optional, defaults to true
           children: [
@@ -162,15 +172,6 @@ let config = {
             ['/0.21.0/guide/reference-implementations/songs-search', 'Songs Search'],
             ['/0.21.0/guide/reference-implementations/books-search', 'Books Search'],
             ['/0.21.0/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
-          ],
-        },
-        {
-          title: 'Operations', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.21.0/guide/high-availability', 'High Availability'],
-            ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-            ['/0.21.0/guide/updating-typesense', 'Updating Typesense'],
           ],
         },
       ],
@@ -243,7 +244,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.20.0/guide/high-availability', 'High Availability'],
@@ -296,7 +297,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.19.0/guide/high-availability', 'High Availability'],
@@ -347,7 +348,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.18.0/guide/high-availability', 'High Availability'],
@@ -397,7 +398,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.17.0/guide/high-availability', 'High Availability'],
@@ -445,7 +446,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.16.1/guide/high-availability', 'High Availability'],
@@ -493,7 +494,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.16.0/guide/high-availability', 'High Availability'],
@@ -540,7 +541,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.15.0/guide/high-availability', 'High Availability'],
@@ -587,7 +588,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.14.0/guide/high-availability', 'High Availability'],
@@ -634,7 +635,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.13.0/guide/high-availability', 'High Availability'],
@@ -681,7 +682,7 @@ let config = {
           ],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.12.0/guide/high-availability', 'High Availability'],
@@ -724,7 +725,7 @@ let config = {
           children: [['/0.11.2/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.11.2/guide/high-availability', 'High Availability'],
@@ -765,7 +766,7 @@ let config = {
           children: [['/0.11.1/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.11.1/guide/high-availability', 'High Availability'],
@@ -806,7 +807,7 @@ let config = {
           children: [['/0.11.0/guide/building-a-search-application', 'Building a Search Application']],
         },
         {
-          title: 'Operations', // required
+          title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.11.0/guide/high-availability', 'High Availability'],
