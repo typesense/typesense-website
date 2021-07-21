@@ -160,6 +160,7 @@ let config = {
             ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
             ['/0.21.0/guide/search-analytics', 'Search Analytics'],
             ['/0.21.0/guide/updating-typesense', 'Updating Typesense'],
+            ['/0.21.0/guide/system-requirements', 'System Requirements'],
           ],
         },
         {
