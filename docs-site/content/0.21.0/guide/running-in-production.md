@@ -80,4 +80,4 @@ Most of the server infrastructure related items are not applicable to Typesense 
 
 While we strive to help via [Github Issues](https://github.com/typesense/typesense/issues), for prioritized production-grade support with guaranteed response SLAs from the core team, we'd ask that you sign up for one of our [support plans](https://typesense.org/support) or [sponsor us on Github](https://github.com/sponsors/typesense).
 
-Paid Support is one of the key ways we use to financially support our lean bootstrapped team, so purchasing our support plans helps us improve our core product for everyone in the community. 
+Paid Support is one of the key ways we use to financially support our lean bootstrapped team, so purchasing our support plans helps us improve our core product for everyone in the community, while also providing you peace of mind when running Typesense in production. 
