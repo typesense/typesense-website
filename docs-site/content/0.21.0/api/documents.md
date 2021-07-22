@@ -542,7 +542,7 @@ client.collections['companies'].documents.search(search_parameters)
 |query_by_weights	|no	|The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.|
 |prefix	|no	|Indicates that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces. Set this to `false` to disable prefix searching for all queried fields. <br><br>You can control the behavior of prefix search on a per field basis. For example, if you are querying 3 fields and want to enable prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order of fields in `query_by`.<br><br>Default: `true` (prefix searching is enabled for all fields).|
 |filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you have to mark the field as a facet and use the `:=` operator. For eg: `category:= Shoe` will match documents from the category shoes and not from a category like `shoe rack`.<br><br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, Sneaker]</code>.<br><br>Not equals / negation is supported for string and boolean facet fields, e.g. `filter_by=author:!= JK Rowling`<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
-|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.|
+|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](#geosearch), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](#sorting-by-additional-attributes-within-a-radius). |
 |facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
 |max_facet_values	|no	|Maximum number of facet values to be returned.|
 |facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
@@ -929,29 +929,28 @@ filter_by=location:(48.853,2.344,5.1 km)&sort_by=sort_by=location(48.853, 2.344)
 The above example uses "5.1 km" as the radius, but you can also use miles, e.g.
 `location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
 
-### Searching within a geo polygon
+### Searching Within a Geo Polygon
 
 You can also filter for documents within any arbitrary shaped polygon.
 
 The polygon's points must be defined in a **counter-clockwise (i.e. anti-clockwise) direction**.
 
-```javascript
+```shell
 'filter_by' : 'location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)'
 ```
 
-### Excluding nearby places
+### Sorting by Additional Attributes within a Radius
 
-Sometimes, it's useful to consider all places within a given radius to be equal in terms of distance.
-You might want to instead sort these "nearby" records on another attribute, like `popularity`.
+Sometimes, it's useful to sort nearby places within a radius based on another attribute like `popularity`, and then sort by distance outside this radius.
 You can use the `exclude_radius` option for that.
 
-```javascript
-'sort_by'   : 'location(48.853, 2.344, exclude_radius: 2mi):asc, popularity:desc'
+```shell
+'sort_by' : 'location(48.853, 2.344, exclude_radius: 2mi):asc, popularity:desc'
 ```
 
-Here, we are treating all documents within a 2 mile radius to be the same. So, these will be
-sorted only by their `popularity`. Records outside the 2 mile radius are sorted 
-first on their distance and then on `popularity`.
+Internally, this causes all documents within a 2 mile radius to "tie" with the same value for distance. 
+To break the tie, these records will be sorted by the next field in the list `popularity:desc`. 
+Records outside the 2 mile radius are sorted first on their distance and then on `popularity:desc` as usual.
 
 ## Federated / Multi Search
 You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.
