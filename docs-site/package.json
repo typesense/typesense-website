@@ -1,6 +1,6 @@
 {
   "name": "typesense-docs",
-  "description": "Documentation site for Typesense Search",
+  "description": "Documentation for Typesense Search",
   "private": true,
   "license": "GPL-3.0",
   "scripts": {

@@ -38,9 +38,18 @@ module.exports = (options, context) => ({
       },
     ]
 
-    // Fix for variables not showing up in page titles
     if ($page.title) {
+      // Fix for variables not showing up in page titles
       $page.title = $page.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, $page.typesenseVersion)
+      $page.title = `${$page.title} | Typesense`
+
+      // Dynamic OG/Twitter Tags
+      $page.frontmatter.meta = [
+        { name: 'title', content: $page.title },
+        { name: 'og:title', content: $page.title },
+        { name: 'twitter:title', content: $page.title },
+        ...($page.frontmatter.meta || []),
+      ]
     }
   },
 })
