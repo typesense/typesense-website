@@ -33,7 +33,7 @@ The easiest way to run the scraper is using Docker.
 
 1. [Install Docker](https://docs.docker.com/get-docker/)
 2. [Install jq](https://stedolan.github.io/jq/download/)
-3. [Run Typesense](https://typesense.org/docs/latest/guide/install-typesense.html)
+3. [Run Typesense](./install-typesense.md)
 4. Create a `.env` file with the following contents:
     ```shell
     TYPESENSE_API_KEY=xyz      # Replace with your Typesense admin key
@@ -61,11 +61,11 @@ The Docker command above will run the scraper in interactive mode, outputting lo
 <!-- Before the closing head -->
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@{{docSearchJSVersion}}/dist/cdn/docsearch.min.css"
+  href="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@latest/dist/cdn/docsearch.min.css"
 />
 
 <!-- Before the closing body -->
-<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@{{docSearchJSVersion}}/dist/cdn/docsearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@latest/dist/cdn/docsearch.min.js"></script>
 
 <script>
   docsearch({
@@ -80,7 +80,7 @@ The Docker command above will run the scraper in interactive mode, outputting lo
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
     typesenseSearchParams: { // Optional.
-      filter_by: 'version:=0.21.0'
+      filter_by: 'version:=0.21.0' // Useful when you have versioned docs
     },
   });
 </script>
