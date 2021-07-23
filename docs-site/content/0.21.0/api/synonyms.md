@@ -144,8 +144,8 @@ synonym = {
   "synonyms": ["iphone", "android"]
 }
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
+# Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+client.collections('products').synonyms.upsert('smart-phone-synonyms', synonym)
 ```
 
   </template>
@@ -157,8 +157,8 @@ synonym = {
   "synonyms": ["iphone", "android"]
 }
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
+# Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+client.collections('products').synonyms.upsert('smart-phone-synonyms', synonym)
 ```
 
   </template>
@@ -236,14 +236,14 @@ $client->collections['products']->synonyms['coat-synonyms']->retrieve();
   <template v-slot:Python>
 
 ```py
-client.collections('products').synonyms('coat-synonyms').retrieve
+client.collections('products').synonyms['coat-synonyms'].retrieve
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-client.collections('products').synonyms('coat-synonyms').retrieve
+client.collections('products').synonyms['coat-synonyms'].retrieve
 ```
 
   </template>
