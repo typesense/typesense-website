@@ -150,6 +150,7 @@ let config = {
             ['/0.21.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
             ['/0.21.0/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
             ['/0.21.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+            ['/0.21.0/guide/docsearch', 'Search for Documentation Sites'],
           ],
         },
         {
@@ -157,11 +158,11 @@ let config = {
           collapsable: false, // optional, defaults to true
           children: [
             ['/0.21.0/guide/high-availability', 'High Availability'],
-            ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
             ['/0.21.0/guide/search-analytics', 'Search Analytics'],
+            ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
+            ['/0.21.0/guide/running-in-production', 'Running in Production'],
             ['/0.21.0/guide/updating-typesense', 'Updating Typesense'],
             ['/0.21.0/guide/system-requirements', 'System Requirements'],
-            ['/0.21.0/guide/running-in-production', 'Running in Production'],
           ],
         },
         {
