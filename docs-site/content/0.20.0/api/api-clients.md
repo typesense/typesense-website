@@ -26,7 +26,7 @@ If you don't see an official client in your language, you can still use any HTTP
 
 <br>
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart']">
   <template v-slot:JavaScript>
 
 ```js
@@ -56,6 +56,25 @@ pip install typesense
 
 ```shell
 gem install typesense
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+// With Dart:
+//  $ dart pub add typesense
+
+// With Flutter:
+//  $ flutter pub add typesense
+
+// This will add a line like this to your package's pubspec.yaml:
+// dependencies:
+//   typesense: ^0.1.1
+
+// Now in your Dart code, you can use:
+
+import 'package:typesense/typesense.dart';
 ```
 
   </template>
