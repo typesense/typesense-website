@@ -2,13 +2,23 @@
   <div class="mb-3">
     <ClientOnly>
       <ul class="nav-container flex">
-        <li v-for="tab in tabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
+        <li v-for="tab in augmentedTabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
           <span class="nav-title">{{ tab }}</span>
         </li>
       </ul>
       <div class="content-container">
-        <div v-for="tab in tabs" v-show="tab === activeTab" :key="tab" class="tab-content">
-          <slot :name="tab" />
+        <div v-for="tab in augmentedTabs" v-show="tab === activeTab" :key="tab" class="tab-content">
+          <template v-if="tab === 'Other Languages'" :name="tab">
+            <div class="language-bash">
+              <pre class="language-bash"><code
+              >Typesense has a RESTful HTTP API.
+So you can use any HTTP library in your language of choice to make API calls to it.
+The official client libraries are just thin wrappers around the API, with a retry mechanism.
+Have a look at the "Shell" tab for guidance on HTTP headers, method and parameters to use to make HTTP calls.</code
+              ></pre>
+            </div>
+          </template>
+          <slot v-else :name="tab" />
         </div>
       </div>
     </ClientOnly>
@@ -30,9 +40,17 @@ export default {
     }
   },
   computed: {
+    augmentedTabs() {
+      // We don't want "Other" to show up for Sample Response for eg
+      if(this.tabs.includes('Ruby') && this.tabs.includes('Shell') ) {
+        return [...this.tabs, 'Other Languages']
+      } else {
+        return this.tabs
+      }
+    } ,
     activeTab() {
       if (this.store) {
-        const activeTab = this.tabs.find(tab => tab === this.store.state.defaultTab)
+        const activeTab = this.augmentedTabs.find(tab => tab === this.store.state.defaultTab)
         return activeTab || this.cmpActiveTab
       } else {
         return this.cmpActiveTab
