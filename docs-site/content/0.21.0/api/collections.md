@@ -291,6 +291,9 @@ When a `.*` field is defined this way,  all the fields in a document are automat
 Faceting is not enabled for a wildcard field, i.e., `{"name": ".*" , ...}` since that can consume a lot of memory, 
 especially for large text fields. However, you can still explicitly define specific fields to facet by 
 setting `facet: true` for them. For e.g. `{"name": ".*_facet", "facet": true" }`.
+
+A `geopoint` field also requires an explicit type definition as the geo field value is represented as a 2-element 
+float field and Typesense cannot differentiate between a lat/long definition and an actual float array.
 ::: 
 
 You can still define the schema for certain fields explicitly:
@@ -318,8 +321,6 @@ preference to that before falling back to the wildcard definition.
 When such an explicit field definition is not available, the first document that contains a field with a given name 
 determines the type of that field. For example, if you index a document with a field named `title` and it is a 
 string, then the next document that contains the field named `title` will be expected to have a string too.
-
-**NOTE:** A `geopoint` field still requires an explicit field type definition. 
 
 #### Data Coercion
 
