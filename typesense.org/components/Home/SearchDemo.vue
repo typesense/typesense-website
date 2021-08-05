@@ -116,6 +116,7 @@ function typesenseServerConfig($config) {
         protocol: $config.typesenseProtocol,
       }
     }),
+    connectionTimeoutSeconds: 1,
   }
   if ($config.typesenseHostNearest) {
     serverConfig.nearestNode = {
