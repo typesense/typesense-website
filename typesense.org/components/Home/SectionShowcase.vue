@@ -45,8 +45,17 @@
             link="https://ecommerce-store.typesense.org/"
           >
             <template #title>
-              E-Commerce Store<br />
+              E-Commerce Storefront<br />
               Browsing Experience
+            </template>
+          </HomeShowcaseBlock>
+          <HomeShowcaseBlock
+            emoji="⚡ 🔍 📦️"
+            link="https://showcase-nextjs-typesense-ecommerce-store.vercel.app/"
+          >
+            <template #title>
+              E-Commerce Storefront<br />
+              with Next.js + Typesense
             </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
