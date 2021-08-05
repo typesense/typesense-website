@@ -41,6 +41,35 @@
             </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
+            emoji="⚡ ⌨️"
+            link="https://spellcheck.typesense.org/"
+          >
+            <template #title>
+              <small>Spell Checker with</small> <br />AutoComplete & AutoCorrect
+            </template>
+          </HomeShowcaseBlock>
+          <HomeShowcaseBlock
+            link="https://github.com/typesense/typesense/blob/master/SHOWCASE.md"
+          >
+            <template #title>
+              <small>See More ></small>
+            </template>
+          </HomeShowcaseBlock>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-sm">
+        <h4 class="mt-4 mb-2">
+          Build lightning-fast <em>browsing experiences</em> with Typesense,
+          besides just text-based search.
+        </h4>
+        <div class="mb-3">
+          Let users filter, drill down and explore data in, for example, an
+          ecommerce store, a tourism site like AirBnB, and more.
+        </div>
+        <div class="grid">
+          <HomeShowcaseBlock
             emoji="⚡ 🔍 📦️"
             link="https://ecommerce-store.typesense.org/"
           >
@@ -56,21 +85,6 @@
             <template #title>
               E-Commerce Storefront<br />
               with Next.js + Typesense
-            </template>
-          </HomeShowcaseBlock>
-          <HomeShowcaseBlock
-            emoji="⚡ ⌨️"
-            link="https://spellcheck.typesense.org/"
-          >
-            <template #title>
-              <small>Spell Checker with</small> <br />AutoComplete & AutoCorrect
-            </template>
-          </HomeShowcaseBlock>
-          <HomeShowcaseBlock
-            link="https://github.com/typesense/typesense/blob/master/SHOWCASE.md"
-          >
-            <template #title>
-              <small>See More ></small>
             </template>
           </HomeShowcaseBlock>
         </div>
