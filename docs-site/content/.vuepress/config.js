@@ -62,8 +62,8 @@ let config = {
    */
   themeConfig: {
     logo: '/images/typesense_logo.svg',
-    logoHeight: 44,
-    logoWidth: 200,
+    logoHeight: 42,
+    logoWidth: 150,
     typesenseVersions: typesenseVersions,
     typesenseLatestVersion: typesenseLatestVersion,
     typesenseDocsearch: {
@@ -172,8 +172,16 @@ let config = {
             ['/0.21.0/guide/reference-implementations/recipe-search', 'Recipe Search'],
             ['/0.21.0/guide/reference-implementations/linux-commits-search', 'Linux Commits Search'],
             ['/0.21.0/guide/reference-implementations/ecommerce-storefront', 'E-Commerce Storefront'],
+            [
+              '/0.21.0/guide/reference-implementations/ecommerce-storefront-with-next-js-and-typesense',
+              'E-Commerce Storefront with Next.js',
+            ],
             ['/0.21.0/guide/reference-implementations/songs-search', 'Songs Search'],
             ['/0.21.0/guide/reference-implementations/books-search', 'Books Search'],
+            [
+              '/0.21.0/guide/reference-implementations/good-reads-books-search-with-vue',
+              'Good Reads Books Search with Vue',
+            ],
             ['/0.21.0/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
           ],
         },

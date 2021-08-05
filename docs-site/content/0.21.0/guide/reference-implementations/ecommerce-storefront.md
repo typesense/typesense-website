@@ -1,6 +1,6 @@
 # E-Commerce Storefront
 
-In addition to search experiences, Typesense can also be used to build browsing experiences like product listing pages in an ecommerce store.
+In addition to search experiences, Typesense can also be used to build performant browsing experiences like product listing pages in an ecommerce store.
 
 [Live Demo](https://ecommerce-store.typesense.org/) | [Source Code](https://github.com/typesense/showcase-ecommerce-store)
 
