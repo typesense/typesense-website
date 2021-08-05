@@ -100,6 +100,13 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
+                href="https://github.com/typesense/typesense-dart"
+                >Dart Client
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
                 href="https://github.com/typesense/gatsby-plugin-typesense"
                 >Gatsby Plugin
               </a>
@@ -109,6 +116,27 @@
                 class="nav-link p-0"
                 href="https://github.com/typesense/typesense-instantsearch-adapter"
                 >Instantsearch.js adapter
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/typesense/typesense-docsearch.js"
+                >Documentation Search
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/typesense/firestore-typesense-search"
+                >Firebase Extension
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/typesense/typesense-wordpress-plugin"
+                >Wordpress Plugin
               </a>
             </li>
           </ul>
@@ -124,11 +152,25 @@
                 >Contact Us</a
               >
             </li>
-            <NuxtLink
-              class="nav-link p-0"
-              to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
-              >Algolia vs ElasticSearch vs Typesense</NuxtLink
-            >
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/sponsors/typesense"
+                >Sponsor our Open Source Work</a
+              >
+            </li>
+            <li class="nav-item">
+              <NuxtLink class="nav-link p-0" to="/support/"
+                >Prioritized Support</NuxtLink
+              >
+            </li>
+            <li class="nav-item">
+              <NuxtLink
+                class="nav-link p-0"
+                to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
+                >Algolia vs ElasticSearch vs Typesense</NuxtLink
+              >
+            </li>
             <li class="nav-item">
               <a
                 class="nav-link p-0"

@@ -10,6 +10,12 @@
             Production or locally.
           </div>
           <div class="lead mt-1">
+            We also offer a hosted version of Typesense called
+            <a href="https://cloud.typesense.org" target="_blank"
+              >Typesense Cloud</a
+            >.
+          </div>
+          <div class="lead mt-5">
             Once you’ve downloaded Typesense, read the documentation to
             <a href="/docs/">Get Started</a>.
           </div>

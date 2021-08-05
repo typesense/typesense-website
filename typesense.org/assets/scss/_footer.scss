@@ -11,10 +11,10 @@ body {
   }
 
   &.footer-lg-margin {
-    margin-bottom: 1050px; // Controls spacing from content to footer
+    margin-bottom: 1224px; // Controls spacing from content to footer
 
     @media (min-width: map-get($grid-breakpoints, 'sm')) {
-      margin-bottom: 462px;
+      margin-bottom: 610px;
     }
   }
 }
