@@ -15,10 +15,15 @@ We have client libraries for:
 We also have the following community-contributed client libraries:
 
 - [Go](https://github.com/typesense/typesense-go)
-- [C#](https://github.com/DAXGRID/typesense-dotnet)
+- [.Net](https://github.com/DAXGRID/typesense-dotnet)
 - [Java](https://github.com/typesense/typesense-java)
 - [Rust](https://github.com/typesense/typesense-rust)
 - [Dart](https://github.com/typesense/typesense-dart)
+
+We also have the following community-contributed framework integrations:
+
+- [Symphony](https://github.com/acseo/TypesenseBundle)
+- [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
 
 :::tip
 If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
