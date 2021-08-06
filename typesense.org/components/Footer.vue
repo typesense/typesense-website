@@ -107,6 +107,13 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
+                href="https://github.com/DAXGRID/typesense-dotnet"
+                >.Net Client
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
                 href="https://github.com/typesense/gatsby-plugin-typesense"
                 >Gatsby Plugin
               </a>

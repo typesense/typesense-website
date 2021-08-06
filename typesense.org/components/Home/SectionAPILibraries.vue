@@ -48,8 +48,8 @@
               <img
                 src="~/assets/images/ruby.svg"
                 alt="Ruby"
-                width="38"
-                height="38"
+                width="35"
+                height="35"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -74,6 +74,18 @@
                 alt="Dart"
                 width="50"
                 height="50"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/DAXGRID/typesense-dotnet"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/dotnet-logo.svg"
+                alt="Dot Net"
+                width="42"
+                height="42"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -135,7 +147,7 @@
               target="_blank"
             >
               <img
-                src="~/assets/images/gatsby.svg"
+                src="~/assets/images/gatsby-logo.svg"
                 alt="Gatsby"
                 width="117"
                 height="31"
@@ -161,7 +173,7 @@
               <img
                 src="~/assets/images/instantsearch-logo.svg"
                 alt="InstantSearch.js"
-                class="ml-5 mt-4 mt-sm-0"
+                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
                 height="35"
                 width="194"
               />
@@ -173,7 +185,7 @@
               <img
                 src="~/assets/images/docsearch-logo.svg"
                 alt="DocSearch"
-                class="ml-5 mt-4 mt-sm-0"
+                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
                 height="30"
                 width="182"
               />
@@ -186,7 +198,7 @@
                 src="~/assets/images/wordpress-logo.svg"
                 alt="Wordpress"
                 height="40"
-                class="ml-5 mt-4 mt-sm-0"
+                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
               />
             </a>
           </div>
