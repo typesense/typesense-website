@@ -19,7 +19,8 @@ Let's first create a collection with an explicit, pre-defined schema.
 
 :::tip
 Your documents can contain other fields not mentioned in the collection's schema - they will be stored 
-on _disk_ but not indexed in _memory_.
+on _disk_ but not indexed in _memory_. So, while they will be part of the document in the search response, 
+you can't query on them.
 :::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">

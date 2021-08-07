@@ -526,7 +526,7 @@ $client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' =
 #  has no other permissions besides `documents:search`
 
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1906054106})
+client.keys.generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124", "expires_at": 1906054106})
 ```
 
   </template>
