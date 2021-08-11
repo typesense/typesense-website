@@ -203,7 +203,7 @@ curl "http://localhost:8108/collections" \
 | Parameter      | Required    |Description                                            |
 | -------------- | ----------- |-------------------------------------------------------|
 |name	|yes	|Name of the collection you wish to create. <br><br>This can be a simple string like `"name": "score"`. <br><br>Or you can also use a RegEx to specify field names matching a pattern. For eg: if you want to specify that all fields starting with `score_` should be an integer, you can set name as `"name": "score_.*"`. |
-|fields	|yes	|A list of fields that you wish to index for querying, filtering and faceting. For each field, you have to specify the `name` and `type`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`.<br><br>Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields.<br><br>**Declaring a field as non-indexable**<br>You can ensure that a field is not indexed by setting `"index": false`. This is useful when used along with [auto schema detection](./collections.md#with-auto-schema-detection).  |
+|fields	|yes	|A list of fields that you wish to index for querying, filtering and faceting. For each field, you have to specify the `name` and `type`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`.<br><br>Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields.<br><br>**Declaring a field as non-indexable**<br>You can ensure that a field is not indexed by setting `"index": false`. This is useful when used along with [auto schema detection](#with-auto-schema-detection) and you need to [exclude certain fields from indexing](#indexing-all-but-some-fields).  |
 |default_sorting_field	|no	|The name of an `int32 / float` field that determines the order in which the search results are ranked when a `sort_by` clause is not provided during searching. This field must indicate some kind of popularity. For example, in a product search application, you could define `num_reviews` field as the `default_sorting_field`.<br><br>Additionally, when a word in a search query matches multiple possible words (either because of a typo or during a prefix search), this parameter is used to rank such equally matching tokens. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple" and "apply" would match the prefix "app".|
 
 #### Field types
@@ -265,11 +265,11 @@ There are also two special field types that are used for handling data sources w
 
 ### With auto schema detection
 
-While we encourage the use of a schema to ensure that you index only the fields that you need, 
+While we encourage the use of a schema to ensure that you index only the fields that you need to search / filter / facet in memory, 
 it's not always possible to know upfront what fields your documents might contain.
 
 In such a scenario, you can define a wildcard field with the name `.*` and  type `auto` to let Typesense automatically 
-detect the type of the fields automatically. 
+detect the type of the fields automatically. In fact, you can use any RegEx expression to define a field name.
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -288,13 +288,17 @@ detect the type of the fields automatically.
 
 When a `.*` field is defined this way,  all the fields in a document are automatically indexed for **searching and filtering**. 
 
-:::tip
-Faceting is not enabled for a wildcard field, i.e., `{"name": ".*" , ...}` since that can consume a lot of memory, 
+:::warning
+Faceting is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory, 
 especially for large text fields. However, you can still explicitly define specific fields to facet by 
-setting `facet: true` for them. For e.g. `{"name": ".*_facet", "facet": true" }`.
+setting `facet: true` for them. 
 
+For e.g. `{"name": ".*_facet", "facet": true" }`. This will only set fields names that end with `_facet` as a facet.
+::: 
+
+:::warning
 A `geopoint` field also requires an explicit type definition as the geo field value is represented as a 2-element 
-float field and Typesense cannot differentiate between a lat/long definition and an actual float array.
+float field and we cannot differentiate between a lat/long definition and an actual float array.
 ::: 
 
 You can still define the schema for certain fields explicitly:
@@ -322,6 +326,31 @@ preference to that before falling back to the wildcard definition.
 When such an explicit field definition is not available, the first document that contains a field with a given name 
 determines the type of that field. For example, if you index a document with a field named `title` and it is a 
 string, then the next document that contains the field named `title` will be expected to have a string too.
+
+#### Indexing all but some fields
+
+If you have a case where you do want to index all fields in the document, except for a few fields, you can use the `index: false` setting to exclude fields.
+
+For eg, if you want to index all fields, except for fields that start with `description_`, you can use a schema like this:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "name": "companies",  
+  "fields": [
+    {"name": ".*", "type": "auto" },
+    {"name": ".*_facet", "type": "auto", "facet": true },
+    {"name": "description_.*", "type": "auto", "index": false },
+    {"name": "country", "type": "string", "facet": true }
+  ]
+}
+```
+
+  </template>
+</Tabs>
+
 
 #### Data Coercion
 
