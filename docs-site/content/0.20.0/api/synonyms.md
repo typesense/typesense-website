@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Synonyms
@@ -8,9 +8,9 @@ The synonyms feature allows you to define search terms that should be considered
 
 Typesense supports two types of synonyms:
 
-1. **Multi-way synonyms**: Defining words `ABC, DEF and XYZ` (for eg) as multi-way synonyms will cause searches for any one of those words (eg: `DEF`) to return records containing at least one of the words in the synonym set (eg: records with `ABC` or `DEF` or `XYZ` are returned).
+1. **One-way synonyms**: Defining the words `iphone` and `android` as one-way synonyms of `smart phone` will cause searches for `smart phone` to return documents containing `iphone` or `android` or both.
 
-2. **One-way synonyms**: Defining the words `DEF` and `XYZ` as one-way synonyms of `ABC` will cause searches for `DEF` or `XYZ` to return records containing `ABC`.
+2. **Multi-way synonyms**: Defining the words `blazer`, `coat` and `jacket` as multi-way synonyms will cause searches for any one of those words (eg: `coat`) to return documents containing at least one of the words in the synonym set (eg: records with `blazer` or `coat` or `jacket` are returned).
 
 ## Create or update a synonym
 
@@ -78,6 +78,18 @@ client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final synonym = {
+  "synonyms": ["blazer", "coat", "jacket"]
+};
+
+// Creates/updates a synonym called `coat-synonyms` in the `products` collection
+await client.collection('products').synonyms.upsert('coat-synonyms', synonym);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -113,12 +125,12 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ```js
 synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"]
 }
 
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
 ```
 
   </template>
@@ -141,12 +153,12 @@ client.collections("products").synonyms().upsert("blazer-synonyms", synonym);
 
 ```php
 $synonym = [
-  'root' => 'blazer',
-  'synonyms' => ['coat', 'jacket'],
+  'root' => 'smart phone',
+  'synonyms' => ['iphone', 'android'],
 ];
 
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-$client->collections['products']->synonyms->upsert('blazer-synonyms', $synonym);
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+$client->collections['products']->synonyms->upsert('smart-phone-synonyms', $synonym);
 ```
 
   </template>
@@ -154,12 +166,12 @@ $client->collections['products']->synonyms->upsert('blazer-synonyms', $synonym);
 
 ```py
 synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"]
 }
 
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
 ```
 
   </template>
@@ -167,23 +179,36 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
 
 ```rb
 synonym = {
-  "root": "blazer",
-  "synonyms": ["coat", "jacket"]
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"]
 }
 
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
+client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final synonym = {
+  "root": "blazer",
+  "synonyms": ["coat", "jacket"]
+};
+
 // Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+await client.collection('products').synonyms.upsert('blazer-synonyms', synonym);
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT \
+curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-    "root": "blazer",
-    "synonyms": ["coat", "jacket"]
+    "root": "smart phone",
+    "synonyms": ["iphone", "android"]
 }'
 ```
 
@@ -197,9 +222,9 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ```json
 {
-  "id":"coat-synonyms",
-  "root":"blazer",
-  "synonyms": ["coat", "jacket"]
+  "id":"smart-phone-synonyms",
+  "root":"smart phone",
+  "synonyms": ["iphone", "android"]
 }
 ```
 
@@ -253,6 +278,13 @@ client.collections('products').synonyms('coat-synonyms').retrieve
 
 ```rb
 client.collections('products').synonyms('coat-synonyms').retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('products').synonym('coat-synonyms').retrieve();
 ```
 
   </template>
@@ -322,6 +354,13 @@ client.collections['products'].synonyms.retrieve()
 
 ```rb
 client.collections['products'].synonyms.retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('products').synonyms.retrieve();
 ```
 
   </template>
@@ -396,6 +435,13 @@ client.collections['products'].synonyms['coat-synonyms'].delete()
 
 ```rb
 client.collections['products'].synonyms['coat-synonyms'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('products').synonym('coat-synonyms').delete();
 ```
 
   </template>

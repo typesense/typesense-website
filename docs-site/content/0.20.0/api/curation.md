@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Curation
@@ -126,6 +126,25 @@ client.collections['companies'].overrides.upsert('customize-apple', override)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final override = {
+  "rule": {"query": "apple", "match": "exact"},
+  "includes": [
+    {"id": "422", "position": 1},
+    {"id": "54", "position": 2}
+  ],
+  "excludes": [
+    {"id": "287"}
+  ]
+};
+
+// Creates/updates an override called `customize-apple` in the `companies` collection
+await client.collection('companies').overrides.upsert('customize-apple', override);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -234,6 +253,13 @@ client.collections['companies'].overrides.retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').overrides.retrieve();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -326,6 +352,13 @@ client.collections['companies'].overrides['customize-apple'].retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').override('customize-apple').retrieve();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -411,6 +444,13 @@ client.collections['companies'].overrides['customize-apple'].delete()
 
 ```rb
 client.collections['companies'].overrides['customize-apple'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').override('customize-apple').delete();
 ```
 
   </template>

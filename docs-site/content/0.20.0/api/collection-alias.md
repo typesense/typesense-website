@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Collection Alias
@@ -81,6 +81,18 @@ client.aliases.upsert('companies', aliased_collection)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final aliasedCollection = {
+  'collection_name': 'companies_june11'
+};
+
+// Creates/updates an alias called `companies` to the `companies_june11` collection
+await client.aliases.upsert('companies', aliased_collection);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -158,6 +170,13 @@ client.aliases['companies'].retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.alias('companies').retrieve();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -225,6 +244,13 @@ client.aliases.retrieve()
 
 ```rb
 client.aliases.retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.aliases.retrieve();
 ```
 
   </template>
@@ -301,6 +327,13 @@ client.aliases['companies'].delete()
 
 ```rb
 client.aliases['companies'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.alias('companies').delete();
 ```
 
   </template>

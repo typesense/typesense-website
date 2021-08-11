@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Cluster Operations
@@ -48,6 +48,13 @@ client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-sna
 
 ```rb
 client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-snapshot'})
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.operations.createSnapshot('/tmp/typesense-data-snapshot');
 ```
 
   </template>
@@ -127,6 +134,13 @@ client.operations.perform('vote')
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.operations.initLeaderElection();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -163,32 +177,10 @@ Default: `-1` which disables slow request logging.
 Slow requests are logged to the primary log file, with the prefix `SLOW REQUEST`.
 
 <Tabs :tabs="['Shell']">
-  <template v-slot:JavaScript>
+  <template v-slot:Dart>
 
-```js
-client.operations.perform('vote')
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$client->operations->perform("vote");
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-client.operations.perform('vote')
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-client.operations.perform('vote')
+```dart
+await client.operations.toggleSlowRequestLog(Duration(seconds: 2));
 ```
 
   </template>
@@ -227,6 +219,12 @@ curl "http://localhost:8108/config" \
 Get current RAM, CPU, Disk & Network usage metrics.
 
 <Tabs :tabs="['Shell']">
+  <template v-slot:Dart>
+
+```dart
+await client.metrics.retrieve();
+```
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -278,6 +276,12 @@ Get stats about API endpoints.
 This endpoint returns average requests per second and latencies for all requests in the last 10 seconds.
 
 <Tabs :tabs="['Shell']">
+  <template v-slot:Dart>
+
+```dart
+await client.stats.retrieve();
+```
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -319,6 +323,12 @@ curl "http://localhost:8108/stats.json" \
 Get health information about a Typesense node.
 
 <Tabs :tabs="['Shell']">
+  <template v-slot:Dart>
+
+```dart
+await client.health.retrieve();
+```
+  </template>
   <template v-slot:Shell>
 
 ```bash

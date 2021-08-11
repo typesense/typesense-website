@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Documents
@@ -80,6 +80,20 @@ document = {
 }
 
 client.collections['companies'].documents.create(document)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+};
+
+await client.collection('companies').documents.create(document);
 ```
 
   </template>
@@ -174,6 +188,20 @@ document = {
 }
 
 client.collections['companies'].documents.upsert(document)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+};
+
+await client.collection('companies').documents.upsert(document);
 ```
 
   </template>
@@ -291,6 +319,20 @@ client.collections['companies'].documents.search(search_parameters)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q': 'stark',
+  'query_by': 'company_name',
+  'filter_by': 'num_employees:>100',
+  'sort_by': 'num_employees:desc'
+};
+
+await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -314,7 +356,11 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   "found": 1,
   "out_of": 1,
   "page": 1,
-  "request_params": { "q" : "" },
+  "request_params": {
+    "collection_name": "companies",
+    "per_page": 10,
+    "q": "stark"
+  },
   "search_time_ms": 1,
   "hits": [
     {
@@ -331,6 +377,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         "num_employees": 5215,
         "country": "USA"
       }
+      "text_match": 130916
     }
   ]
 }
@@ -462,6 +509,22 @@ client.collections['companies'].documents.search(search_parameters)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q': 'stark',
+  'query_by': 'company_name',
+  'filter_by': 'num_employees:>100',
+  'sort_by': 'num_employees:desc',
+  'group_by': 'country',
+  'group_limit': '1'
+};
+
+await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -489,7 +552,11 @@ client.collections['companies'].documents.search(search_parameters)
   "found": 1,
   "out_of": 1,
   "page": 1,
-  "request_params": { "q" : "" },
+  "request_params": {
+    "collection_name": "companies",
+    "per_page": 10,
+    "q": "stark"
+  },
   "search_time_ms": 1,
   "grouped_hits": [
     {
@@ -499,6 +566,7 @@ client.collections['companies'].documents.search(search_parameters)
           "highlights": [
             {
               "field": "company_name",
+              "matched_tokens": ["Stark"],
               "snippet": "<mark>Stark</mark> Industries"
             }
           ],
@@ -507,7 +575,8 @@ client.collections['companies'].documents.search(search_parameters)
             "company_name": "Stark Industries",
             "num_employees": 5215,
             "country": "USA"
-          }
+          },
+          "text_match": 130916
         }
       ]
     }
@@ -691,6 +760,32 @@ client.multi_search.perform(search_requests, common_search_params)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final searchRequests = {
+  'searches': [
+    {
+      'collection': 'products',
+      'q': 'shoe',
+      'filter_by': 'price:=[50..120]'
+    },
+    {
+      'collection': 'brands',
+      'q': 'Nike'
+    }
+  ]
+};
+
+# Search parameters that are common to all searches go here
+final commonSearchParams =  {
+    'query_by': 'name',
+};
+
+await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -848,6 +943,13 @@ client.collections['companies'].documents['124'].retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').document('124').retrieve();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -944,6 +1046,18 @@ client.collections['companies'].documents['124'].update(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'company_name': 'Stark Industries',
+  'num_employees': 5500
+};
+
+await client.collection('companies').document('124').update(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1016,6 +1130,13 @@ client.collections['companies'].documents['124'].delete()
 
 ```rb
 client.collections['companies'].documents['124'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').document('124').delete();
 ```
 
   </template>
@@ -1094,6 +1215,13 @@ client.collections['companies'].documents.delete(filter_by: 'num_employees:>100'
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').documents.delete({'filter_by': 'num_employees:>100'});
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1163,6 +1291,13 @@ client.collections['companies'].documents.export()
 
 ```rb
 client.collections['companies'].documents.export
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').documents.exportJSONL();
 ```
 
   </template>
@@ -1291,6 +1426,22 @@ client.collections['companies'].documents.import(documents, action: 'create')
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final documents = [
+  {
+    'id': '124',
+    'company_name': 'Stark Industries',
+    'num_employees': 5215,
+    'country': 'USA'
+  }
+];
+
+await client.collection('companies').documents.importDocuments(documents);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1393,6 +1544,15 @@ collections['companies'].documents.import(documents_jsonl, action: 'create')
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync());
+
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1477,8 +1637,16 @@ with open('documents.jsonl') as jsonl_file:
   <template v-slot:Ruby>
 
 ```rb
-ddocuments_jsonl = File.read('documents.jsonl')
+documents_jsonl = File.read('documents.jsonl')
 collections['companies'].documents.import(documents_jsonl, batch_size: 100)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
 ```
 
   </template>
@@ -1601,10 +1769,20 @@ client.collections['titles'].documents.create(document, {
 <template v-slot:Ruby>
 
 ```rb
-document = {'title'  => '1984, 'points' => 100}
+document = {'title'  => 1984, 'points' => 100}
 client.collections['titles'].documents.create(document, 
     dirty_values: 'coerce_or_reject'
 )
+```
+
+</template>
+<template v-slot:Dart>
+
+```dart
+final document = {'title': 1984, 'points': 100};
+
+await client.collection('companies').documents.create(document, options: {'dirty_values': 'coerce_or_reject'};
+
 ```
 
 </template>

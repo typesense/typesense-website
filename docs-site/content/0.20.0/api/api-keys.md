@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # API Keys
@@ -76,6 +76,18 @@ key = client.keys.create({
   'actions' => ['*'],
   'collections' => ['*']
 })
+
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final key = await client.keys.create({
+  'description': 'Admin key.',
+  'actions': ['*'],
+  'collections': ['*']
+});
 
 ```
 
@@ -163,6 +175,17 @@ client.keys.create({
   'actions' => ['documents:search'],
   'collections' => ['companies']
 })
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.keys.create({
+  'description': 'Search-only companies key.',
+  'actions': ['documents:search'],
+  'collections': ['companies']
+});
 ```
 
   </template>
@@ -269,6 +292,13 @@ key = client.keys[1].retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final key = await client.key(1).retrieve();
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -341,6 +371,13 @@ client.keys.retrieve()
 
 ```rb
 client.keys.retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.keys.retrieve();
 ```
 
   </template>
@@ -435,6 +472,13 @@ key = client.keys[1].delete()
 
 ```rb
 key = client.keys[1].delete()
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final key = await client.key(1).delete();
 ```
 
   </template>
@@ -544,7 +588,7 @@ String scopedSearchKey = client.keys().generateScopedSearchKey(keyWithSearchPerm
 //  has no other permissions besides `documents:search`
 
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
-$client->keys()->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1906054106]);
+$client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124', 'expires_at' => 1906054106]);
 ```
 
   </template>
@@ -567,6 +611,17 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_b
 
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
 client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124', 'expires_at': 1906054106})
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+// Make sure that the parent search key you use to generate a scoped search key 
+//  has no other permissions besides `documents:search`
+
+final keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127';
+client.keys.generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124', 'expires_at': 1906054106});
 ```
 
   </template>

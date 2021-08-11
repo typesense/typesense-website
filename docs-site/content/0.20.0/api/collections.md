@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Collections
@@ -150,6 +150,23 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final schema = Schema(
+  'companies',
+  {
+    Field('company_name', Type.string),
+    Field('num_employees', Type.int32),
+    Field('country', Type.string, isFacetable: true),
+  },
+  defaultSortingField: Field('num_employees', Type.int32),
+);
+
+await client.collections.create(schema);
+```
+    
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -200,7 +217,7 @@ curl "http://localhost:8108/collections" \
 
 | Parameter      | Required    |Description                                            |
 | -------------- | ----------- |-------------------------------------------------------|
-|name	|yes	|Name of the collection you wish to create. |
+|name	|yes	|Name of the collection you wish to create. <br><br>This can be a simple string like `"name": "score"`. <br><br>Or you can also use a RegEx to specify field names matching a pattern. For eg: if you want to specify that all fields starting with `score_` should be an integer, you can set name as `"name": "score_.*"`. |
 |fields	|yes	|A list of fields that you wish to index for querying, filtering and faceting. For each field, you have to specify the `name` and `type`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`.<br><br>Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields.<br><br>**Declaring a field as non-indexable**<br>You can ensure that a field is not indexed by setting `"index": false`. This is useful when used along with [auto schema detection](./collections.md#with-auto-schema-detection).  |
 |default_sorting_field	|no	|The name of an `int32 / float` field that determines the order in which the search results are ranked when a `sort_by` clause is not provided during searching. This field must indicate some kind of popularity. For example, in a product search application, you could define `num_reviews` field as the `default_sorting_field`.<br><br>Additionally, when a word in a search query matches multiple possible words (either because of a typo or during a prefix search), this parameter is used to rank such equally matching tokens. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple" and "apply" would match the prefix "app".|
 
@@ -367,6 +384,13 @@ client.collections['companies'].retrieve
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').retrieve();
+```    
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -441,6 +465,13 @@ client.collections.retrieve()
 
 ```rb
 client.collections.retrieve
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collections.retrieve();
 ```
 
   </template>
@@ -529,6 +560,13 @@ client.collections['companies'].delete()
 
 ```rb
 client.collections['companies'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').delete();
 ```
 
   </template>
