@@ -25,6 +25,7 @@ This release contains new features, performance improvements and important bug f
 - Support exclude / not equals operator for filtering string and boolean facets. Example: `filter_by=author:!= JK Rowling`
 - Ability to turn off prefix search on a per field basis. For example, if you are querying 3 fields and want to enable 
   prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order in `query_by`.
+- Ability to turn off typo tolerance on a per field basis. For example, if you are querying 3 fields and want to disable typo tolerance on the first field, use `?num_typos=0,2,2`. The order should match the order in `query_by`.
 - You can now highlight fields that you don't query for. Use `?highlight_fields=title` to specify a custom list of 
   fields that should be highlighted.
 - Add `filter_by`, `include_fields` and `exclude_fields` options to `documents/export` endpoint. 
