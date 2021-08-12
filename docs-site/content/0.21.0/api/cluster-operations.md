@@ -1,4 +1,5 @@
 ---
+sidebarDepth: 1
 sitemap:
   priority: 0.7
 ---
