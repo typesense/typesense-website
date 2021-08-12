@@ -23,7 +23,7 @@ on _disk_ but not indexed in _memory_. So, while they will be part of the docume
 you can't query on them.
 :::
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -151,6 +151,21 @@ final schema = Schema(
 await client.collections.create(schema);
 ```
     
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+
+collectionschema.name("companies")
+                .addFieldsItem(new Field().name("company_name").type("string"))
+                .addFieldsItem(new Field().name("num_employees").type("int32"))
+                .addFieldsItem(new Field().name("country").type("string").facet(true))
+                .defaultSortingField("num_employees");
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
   </template>
   <template v-slot:Shell>
 
@@ -338,7 +353,7 @@ You can control this default coercion behavior at write-time with the [`dirty_va
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -374,6 +389,12 @@ client.collections['companies'].retrieve
 await client.collection('companies').retrieve();
 ```    
 
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionResponse collection = client.collections("companies").retrieve();
+```
   </template>
   <template v-slot:Shell>
 
@@ -414,7 +435,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all collections
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -448,6 +469,13 @@ client.collections.retrieve
 
 ```dart
 await client.collections.retrieve();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionResponse[] collectionResponses = client.collections().retrieve()
 ```
 
   </template>
@@ -501,7 +529,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Drop a collection
 Permanently drops a collection. This action cannot be undone. For large collections, this might have an impact on read latencies.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -535,6 +563,13 @@ client.collections['companies'].delete
 
 ```dart
 await client.collection('companies').delete();
+```
+
+  </template>
+ <template v-slot:Java>
+
+```java
+CollectionResponse collectionResponse = client.collections("companies").delete()
 ```
 
   </template>

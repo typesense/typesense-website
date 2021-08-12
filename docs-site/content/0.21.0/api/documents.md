@@ -11,7 +11,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -83,6 +83,19 @@ await client.collection('companies').documents.create(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+document.put("id","124");
+document.put("company_name","Stark Industries");
+document.put("num_employees",5215);
+document.put("country","USA");
+
+client.collections("companies").documents().create(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -104,7 +117,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -176,6 +189,20 @@ await client.collection('companies').documents.upsert(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+
+document.put("id","124");
+document.put("company_name","Stark Industries");
+dpocument.put("num_employees",5215);
+document.put("country","USA");
+
+client.collections("companies").documents().upsert(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -219,7 +246,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Search
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -288,6 +315,18 @@ final searchParameters = {
 };
 
 await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("stark")
+                                        .addqueryByItem("company_name")
+                                        .filterBy("num_employees:>100")
+                                        .addsortByItem("num_employees:desc");
+SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```
 
   </template>
@@ -387,7 +426,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -468,6 +507,19 @@ final searchParameters = {
 await client.collection('companies').documents.search(searchParameters);
 ```
 
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("stark")
+                                        .addqueryByItem("company_name")
+                                        .filterBy("num_employees:>100")
+                                        .addsortByItem("num_employees:desc")
+                                        .addgroupByItem("country")
+                                        .groupLimit(1);
+SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
+```
   </template>
   <template v-slot:Shell>
 
@@ -575,7 +627,7 @@ Typesense supports geo search on fields containing the `geopoint` type.
 
 Let's create a collection called `places` with a field called `location` of type `geopoint`.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -700,7 +752,21 @@ await client.collections.create(schema);
 ```
 
   </template>
+<template v-slot:Java>
 
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+
+collectionschema.name("places")
+                .addFieldsItem(new Field().name("title").type("string"))
+                .addFieldsItem(new Field().name("points").type("int32"))
+                .addFieldsItem(new Field().name("location").type("geopoint"))
+                .defaultSortingField("points");
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -722,7 +788,7 @@ curl -k "http://localhost:8108/collections" -X POST
 
 Let's now index a document.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -792,6 +858,21 @@ await client.collection('places').documents.create(document};
 
   </template>
 
+  <template v-slot:Java>
+
+```java
+HaashMap<String, Object> document = new HashMap<>();
+float[] location =  {48.86093481609114, 2.33698396872901}
+
+document.add("title", "Louvre Museuem");
+document.add("points", 1);
+document.add("location", location);
+
+client.collection("places").documents.create(document);
+```
+
+  </template>
+
   <template v-slot:Shell>
 
 ```bash
@@ -808,7 +889,7 @@ We can now search for places within a given radius of a given latlong
 (use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given
 location (this location can be the same or different from the latlong used for filtering).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -882,7 +963,18 @@ client.collections('companies').documents().search(searchParameters)
 ```
 
   </template>
+  <template v-slot:Java>
 
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("*")
+                                        .addQueryByItem("title")
+                                        .filterBy("location:(48.90615915923891, 2.3435897727061175, 5.1 km)")
+                                        .addSortByItem("location(48.853, 2.344):asc");
+SearchResult searchResult = client.collections("places").documents().search(searchParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -957,7 +1049,7 @@ You can send multiple search requests in a single HTTP request, using the Multi-
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1089,6 +1181,33 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String,String > search1 = new HashMap<>();
+HashMap<String,String > search2 = new HashMap<>();
+
+search1.put("collection","products");
+search1.put("q","shoe");
+search1.put("filter_by","price:=[50..120]");
+
+search2.put("collection","brands");
+search2.put("q","Nike");
+
+List<HashMap<String, String>> searches = new ArrayList<>();
+searches.add(search1);
+searches.add(search2);
+
+HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
+searchRequests.put("searches",searches);
+
+HashMap<String,String> commonSearchParams = new HashMap<>();
+commonSearchParams.put("query_by","name");
+
+client.multiSearch.perform(searchRequests, commonSearchParams);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1208,7 +1327,7 @@ The `results` array in a `multi_search` response is guaranteed to be in the same
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1242,6 +1361,13 @@ client.collections['companies'].documents['124'].retrieve
 
 ```dart
 await client.collection('companies').document('124').retrieve();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+Hashmap<String, Object> document = client.collections("companies").documents("124").retrieve();
 ```
 
   </template>
@@ -1279,7 +1405,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1341,6 +1467,17 @@ await client.collection('companies').document('124').update(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+document.put("company_name","Stark Industries"); 
+document.put("num_employees",5500);
+
+HashMap<String, Object> updatedDocument = client.collections("companies").documents("124").update(document) 
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1378,7 +1515,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Delete documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1412,6 +1549,13 @@ client.collections['companies'].documents['124'].delete
 
 ```dart
 await client.collection('companies').document('124').delete();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> deletedDocument = client.collections("companies").documents("124").delete();
 ```
 
   </template>
@@ -1449,7 +1593,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1483,6 +1627,16 @@ client.collections['companies'].documents.delete(filter_by: 'num_employees:>100'
 
 ```dart
 await client.collection('companies').documents.delete({'filter_by': 'num_employees:>100'});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+DeleteDocumentsParameters deleteDocumentsParameters = new DeleteDocumentsParameters();
+deleteDocumentsParameters.filterBy("num_employees:>100");
+
+client.collections("companies").documents().delete(deleteDocumentsParameters);
 ```
 
   </template>
@@ -1520,7 +1674,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1554,6 +1708,13 @@ client.collections['companies'].documents.export
 
 ```dart
 await client.collection('companies').documents.exportJSONL();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+client.collections("companies").documents().export();
 ```
 
   </template>
@@ -1611,7 +1772,7 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1685,6 +1846,27 @@ await client.collection('companies').documents.importDocuments(documents);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document1 = new HashMap<>();
+HashMap<String, String> queryParameters = new HashMap<>();
+ArrayList<HashMap<String, Object>> documentList = new ArrayList<>();
+
+document1.put("id","124");
+document1.put("company_name", "Stark Industries");
+document1.put("num_employees", 5215);
+document1.put("country", "USA");
+
+documentList.add(document1);
+
+ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
+importDocumentsParameters.action("create");
+
+client.collections("Countries").documents().import_(documentList, importDocumentsParameters));
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1738,7 +1920,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1782,6 +1964,21 @@ await client.collection('companies').documents.importJSONL(file.readAsStringSync
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+queryParameters.action("create");
+
+File myObj = new File("documents.jsonl");
+Scanner myReader = new Scanner(myObj);
+while (myReader.hasNextLine()) {
+    String data = myReader.nextLine();
+    this.client.collections("books").documents().import_(data,queryParameters);
+}
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1819,7 +2016,7 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1858,6 +2055,23 @@ collections['companies'].documents.import(documents_jsonl, batch_size: 100)
 ```dart
 final file = File('documents.jsonl');
 await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("documents.jsonl");
+Scanner myReader = new Scanner(myObj);
+String documentsInJsonl;
+while (myReader.hasNextLine()) {
+    String documentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
+}
+
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+queryParameters.batchSize(100);
+
+client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
 ```
 
   </template>
@@ -1925,7 +2139,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1981,6 +2195,21 @@ await client.collection('companies').documents.create(document, options: {'dirty
 ```
 
 </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object > document = new HashMap<>();
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+
+document.put("title",1984);
+document.put("points",100);
+
+queryParameters.dirtyValues(z"coerce_or_reject");
+
+System.out.println(this.client.collections("titles").documents().create(document,queryParameters));
+```
+
+  </template>
 <template v-slot:Shell>
 
 ```bash
