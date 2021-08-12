@@ -11,6 +11,15 @@ At a high-level we'll be setting up a trigger using MongoDB's Change Streams and
 
 ![Typesense MongoDB Integration Chart](@images/typesense-mongodb/mongodb.svg)
 
+:::tip UPDATE
+
+We've published a **Node.js CLI** that you can install to automatically sync MongoDB documents into Typesense.
+
+Here's how to set it up:
+[typesense/typesense-mongodb](https://github.com/typesense/typesense-mongodb#readme).
+
+:::
+
 ## Step 1: Install and Run Typesense
 
 To install and start Typesense using docker run the following Docker command:
@@ -33,8 +42,8 @@ MongoDB Replica Sets provide redundancy and high availability, and are the basis
 
 If you have a standalone MongoDB instance, you can convert it to a replica set by following steps:
 
-* Shutdown already running MongoDB server.
-* Start the MongoDB server by specifying -- replSet option
+- Shutdown already running MongoDB server.
+- Start the MongoDB server by specifying -- replSet option
 
 ```bash
 mongod --port "PORT" --dbpath "YOUR_DB_DATA_PATH" --replSet "REPLICA_SET_INSTANCE_NAME"
@@ -49,19 +58,20 @@ Now let's open a change stream to listen for any changes to data in our MongoDB 
 We can open a change stream for MongoDB Replica Set from any of the data-bearing members. For detailed explanation check out [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 
 Here's an example:
+
 ```js
-const uri = '<MongoDB-URI>';
+const uri = '<MongoDB-URI>'
 const mongodbOptions = {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 }
-const client = new MongoClient(uri, mongodbOptions);
-await client.connect();
-const collection = client.db("sample").collection("books");
-const changeStream = collection.watch();
-changeStream.on('change', (next) => {
+const client = new MongoClient(uri, mongodbOptions)
+await client.connect()
+const collection = client.db('sample').collection('books')
+const changeStream = collection.watch()
+changeStream.on('change', next => {
   // process next document
-});
+})
 ```
 
 ## Step 4: Create a Typesense Collection
@@ -74,29 +84,32 @@ To initalize the Javascript client, you need the API key of the Typesense server
 import Typesense from 'typesense'
 
 let typesense = new Typesense.Client({
-  'nodes': [{
-    'host': 'localhost',
-    'port': '8108',
-    'protocol': 'http'
-  }],
-  'apiKey': '<API_KEY>',
-  'connectionTimeoutSeconds': 2
+  nodes: [
+    {
+      host: 'localhost',
+      port: '8108',
+      protocol: 'http',
+    },
+  ],
+  apiKey: '<API_KEY>',
+  connectionTimeoutSeconds: 2,
 })
 ```
+
 Next, we will create a collection. A collection needs a schema, that represents how a document would look like.
 
 ```js
 let schema = {
-  'name': 'books',
-  'fields': [
-    { 'name': 'id', 'type': 'string', 'facet': false },
-    { 'name': 'name', 'type': 'string','facet': false },
-    { 'name': 'author', 'type': 'string', 'facet': false },
-    { 'name': 'year', 'type': 'int32', 'facet': true },
+  name: 'books',
+  fields: [
+    { name: 'id', type: 'string', facet: false },
+    { name: 'name', type: 'string', facet: false },
+    { name: 'author', type: 'string', facet: false },
+    { name: 'year', type: 'int32', facet: true },
   ],
-  'default_sorting_field': 'year',
+  default_sorting_field: 'year',
 }
-await typesense.collections().create(schema);
+await typesense.collections().create(schema)
 ```
 
 ## Step 5: Index documents to Typesense
@@ -143,17 +156,17 @@ Here's an example MongoDB change streams response:
 ```
 
 ```js
-async function index(next, typesense){
-  if(next.operationType == 'delete') {
-    await typesense.collections('books').documents(next.documentKey._id).delete();
-  } else if(next.operationType == 'update') {
-    let data = JSON.stringify(next.updateDescription.updatedFields);
-    await typesense.collections('books').documents(next.documentKey._id).update(data);
+async function index(next, typesense) {
+  if (next.operationType == 'delete') {
+    await typesense.collections('books').documents(next.documentKey._id).delete()
+  } else if (next.operationType == 'update') {
+    let data = JSON.stringify(next.updateDescription.updatedFields)
+    await typesense.collections('books').documents(next.documentKey._id).update(data)
   } else {
-    next.fullDocument.id = next.fullDocument["_id"];
-    delete next.fullDocument._id;
-    let data = JSON.stringify(next.fullDocument);
-    await typesense.collections('books').documents().upsert(data);
+    next.fullDocument.id = next.fullDocument['_id']
+    delete next.fullDocument._id
+    let data = JSON.stringify(next.fullDocument)
+    await typesense.collections('books').documents().upsert(data)
   }
 }
 ```
@@ -163,125 +176,127 @@ async function index(next, typesense){
 Here is the full code example:
 
 ```js
-const { MongoClient } = require('mongodb');
-const Typesense = require('typesense');
+const { MongoClient } = require('mongodb')
+const Typesense = require('typesense')
 
-async function listDatabases(client){
-    databasesList = await client.db().admin().listDatabases();
- 
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};
+async function listDatabases(client) {
+  databasesList = await client.db().admin().listDatabases()
 
-function closeChangeStream(timeInMs = 60000, changeStream) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Closing the change stream");
-            changeStream.close();
-            resolve();
-        }, timeInMs)
-    })
-};
-
-async function index(next, typesense){
-    console.log(next);
-    if(next.operationType == 'delete') {
-        await typesense.collections('books').documents(next.documentKey._id).delete();
-        console.log(next.documentKey._id);
-    } else if(next.operationType == 'update') {
-        let data = JSON.stringify(next.updateDescription.updatedFields);
-        await typesense.collections('books').documents(next.documentKey._id).update(data);
-        console.log(data);
-    } else {
-        next.fullDocument.id = next.fullDocument["_id"];
-        delete next.fullDocument._id;
-        let data = JSON.stringify(next.fullDocument);
-        await typesense.collections('books').documents().upsert(data);
-        console.log(data);
-    }
+  console.log('Databases:')
+  databasesList.databases.forEach(db => console.log(` - ${db.name}`))
 }
 
-async function monitorListingsUsingEventEmitter(client, typesense, timeInMs = 60000){
-    const collection = client.db("sample").collection("books");
-    const changeStream = collection.watch(pipeline);
-    changeStream.on('change', (next) => {
-        index(next, typesense);
-   });
-   await closeChangeStream(timeInMs, changeStream);
+function closeChangeStream(timeInMs = 60000, changeStream) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('Closing the change stream')
+      changeStream.close()
+      resolve()
+    }, timeInMs)
+  })
+}
+
+async function index(next, typesense) {
+  console.log(next)
+  if (next.operationType == 'delete') {
+    await typesense.collections('books').documents(next.documentKey._id).delete()
+    console.log(next.documentKey._id)
+  } else if (next.operationType == 'update') {
+    let data = JSON.stringify(next.updateDescription.updatedFields)
+    await typesense.collections('books').documents(next.documentKey._id).update(data)
+    console.log(data)
+  } else {
+    next.fullDocument.id = next.fullDocument['_id']
+    delete next.fullDocument._id
+    let data = JSON.stringify(next.fullDocument)
+    await typesense.collections('books').documents().upsert(data)
+    console.log(data)
+  }
+}
+
+async function monitorListingsUsingEventEmitter(client, typesense, timeInMs = 60000) {
+  const collection = client.db('sample').collection('books')
+  const changeStream = collection.watch(pipeline)
+  changeStream.on('change', next => {
+    index(next, typesense)
+  })
+  await closeChangeStream(timeInMs, changeStream)
 }
 
 async function createSchema(schema, typesense) {
-    const collectionsList = await typesense.collections().retrieve();
-    var toCreate = collectionsList.find((value, index, array) => {
-        return value["name"] == schema["name"];
-    });
+  const collectionsList = await typesense.collections().retrieve()
+  var toCreate = collectionsList.find((value, index, array) => {
+    return value['name'] == schema['name']
+  })
 
-    if(!toCreate){
-        await typesense.collections().create(schema);
-    }
+  if (!toCreate) {
+    await typesense.collections().create(schema)
+  }
 }
 
 async function main() {
-    const typesense = new Typesense.Client({
-        'nodes': [{
-            'host': 'localhost',
-            'port': '8108',
-            'protocol': 'http'
-        }],
-        'apiKey': 'hari',
-        'connectionTimeoutSeconds': 2
-    });
-    let schema = {
-        'name': 'books',
-        'fields': [
-            {
-                'name': 'id',
-                'type': 'string',
-                'facet': false
-            },
-            {
-                'name': 'name',
-                'type': 'string',
-                'facet': false
-            },
-            {
-                'name': 'author',
-                'type': 'string',
-                'facet': false
-            },
-            {
-                'name': 'year',
-                'type': 'int32',
-                'facet': true
-            },
-        ],
-        'default_sorting_field': 'year',
-    }
-    createSchema(schema, typesense);
-    const mongodbOptions = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-    const uri = '<Mongo-URI>';
-    const client = new MongoClient(uri, mongodbOptions);
-    try {
-        await client.connect();
-        await listDatabases(client);
-        await monitorListingsUsingEventEmitter(client, typesense);
-    } catch(e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+  const typesense = new Typesense.Client({
+    nodes: [
+      {
+        host: 'localhost',
+        port: '8108',
+        protocol: 'http',
+      },
+    ],
+    apiKey: 'hari',
+    connectionTimeoutSeconds: 2,
+  })
+  let schema = {
+    name: 'books',
+    fields: [
+      {
+        name: 'id',
+        type: 'string',
+        facet: false,
+      },
+      {
+        name: 'name',
+        type: 'string',
+        facet: false,
+      },
+      {
+        name: 'author',
+        type: 'string',
+        facet: false,
+      },
+      {
+        name: 'year',
+        type: 'int32',
+        facet: true,
+      },
+    ],
+    default_sorting_field: 'year',
+  }
+  createSchema(schema, typesense)
+  const mongodbOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+  const uri = '<Mongo-URI>'
+  const client = new MongoClient(uri, mongodbOptions)
+  try {
+    await client.connect()
+    await listDatabases(client)
+    await monitorListingsUsingEventEmitter(client, typesense)
+  } catch (e) {
+    console.error(e)
+  } finally {
+    await client.close()
+  }
 }
 
-main().catch(console.error);
+main().catch(console.error)
 ```
-
 
 That's it 😊! Now you can easily search through your MongoDB documents using Typsense. You can even use [Typesense Cloud](https://cloud.typesense.org/) and [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for hosted versions of Typesense and MongoDB.
 
 ## References
+
 - [Sample Code](https://github.com/HarisaranG/typesense-mongodb)
 - [MongoDB Change Streams](https://docs.mongodb.com/manual/changeStreams/)
 - [Change Streams NodeJS](https://developer.mongodb.com/quickstart/nodejs-change-streams-triggers/)
