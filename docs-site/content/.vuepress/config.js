@@ -127,7 +127,7 @@ let config = {
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: 'Edit page',
-    sidebarDepth: 2,
+    sidebarDepth: 2, // Can also be overridden via frontmatter
     sidebar: {
       //For 0.21.0
       '/0.21.0/guide/': [

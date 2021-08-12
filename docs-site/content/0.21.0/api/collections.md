@@ -1,4 +1,5 @@
 ---
+sidebarDepth: 1
 sitemap:
   priority: 0.7
 ---
@@ -10,18 +11,16 @@ In Typesense, a group of related documents is called a collection. A collection 
 ## Create a collection
 
 When a `collection` is created, we give it a name and describe the fields that will be indexed from the documents that are added to the `collection`.
+We call this the collection's `schema`, which is just a fancy term to describe your documents' structure.
 
-From Typesense `v0.20`, we can also create a collection that automatically detects the types of the various fields in the document. 
+It might help to think of a collection "schema" as being similar to defining "types" in a strongly-typed programming language like Typescript, C, Java, Dart, Rust, etc.
+This ensures that the documents you add to your collection have consistent data types and are validated, and this helps prevent a while class of errors you might typically see when building a search index.
+
+From Typesense `v0.20`, we can also create a collection that [automatically detects](#with-auto-schema-detection) the types of the various fields in the document. 
 
 ### With pre-defined schema
 
 Let's first create a collection with an explicit, pre-defined schema.
-
-:::tip
-Your documents can contain other fields not mentioned in the collection's schema - they will be stored 
-on _disk_ but not indexed in _memory_. So, while they will be part of the document in the search response, 
-you can't query on them.
-:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
@@ -198,6 +197,16 @@ curl "http://localhost:8108/collections" \
 
 `POST ${TYPESENSE_HOST}/collections`
 
+:::warning
+All fields you mention in a collection's schema will be indexed _in memory_. 
+
+There might be cases where you don't intend to search / filter / facet / group by a particular field and just want it to be stored (on disk) and returned as is when a document is a search hit.
+
+You can just have these additional fields in the documents when adding them to a collection, and need not mention them in your collection schema.
+They will be stored on disk, and will not take up any memory.
+:::
+
+
 #### Field Arguments
 
 | Parameter      | Required    |Description                                            |
@@ -269,7 +278,7 @@ While we encourage the use of a schema to ensure that you index only the fields 
 it's not always possible to know upfront what fields your documents might contain.
 
 In such a scenario, you can define a wildcard field with the name `.*` and  type `auto` to let Typesense automatically 
-detect the type of the fields automatically. In fact, you can use any RegEx expression to define a field name.
+detect the type of the fields automatically. In fact, you can use **any RegEx expression to define a field name**.
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -290,14 +299,14 @@ When a `.*` field is defined this way,  all the fields in a document are automat
 
 :::warning
 Faceting is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory, 
-especially for large text fields. However, you can still explicitly define specific fields to facet by 
+especially for large text fields. However, you can still explicitly define specific fields (with or without RegEx names) to facet by 
 setting `facet: true` for them. 
 
-For e.g. `{"name": ".*_facet", "facet": true" }`. This will only set fields names that end with `_facet` as a facet.
+For e.g. `{"name": ".*_facet", "facet": true" }`. This will only set field names that end with `_facet` in the document, as a facet.
 ::: 
 
 :::warning
-A `geopoint` field also requires an explicit type definition as the geo field value is represented as a 2-element 
+A `geopoint` field requires an explicit type definition, as the geo field value is represented as a 2-element 
 float field and we cannot differentiate between a lat/long definition and an actual float array.
 ::: 
 
