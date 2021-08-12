@@ -263,16 +263,12 @@ You can define an array or multi-valued field by suffixing a [] at the end:
 </table>
 
 There are also two special field types that are used for handling data sources with varying schema via 
-[automatic schema detection](./collections.md#with-auto-schema-detection).
+[automatic schema detection](#with-auto-schema-detection).
 
-<table>
-  <tr>
-    <td>auto</td>
-  </tr>
-  <tr>
-    <td>string*</td>
-  </tr>
-</table>
+| Special Type |Description |
+|:---|:---|
+| auto | Automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
+| string* | Automatically converts values to a string. |
 
 ### With auto schema detection
 
@@ -365,11 +361,45 @@ For eg, if you want to index all fields, except for fields that start with `desc
 
 #### Data Coercion
 
-What happens when the next document's `title` field is not a string? _By default,_ Typesense will try to 
-coerce the value to the previously inferred type. For example, if you sent a number, Typesense will "stringify" the number 
-and store it as a string. However, this may not always work (you can't convert a string to a number). 
-When Typesense is unable to coerce the field value to the previously inferred type, the indexing will fail with 
-the appropriate error. 
+Say you've set `type: auto` for a particular field (or fields) (eg: `popularity_score`) in a collection and send the first document as:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "title": "A Brief History of Time",
+  "author": "Stephen Hawking",
+  "popularity_score": 4200
+}
+```
+
+  </template>
+</Tabs>
+
+Since `popularity_score` has `type: auto`, the data-type will automatically be set to `int64` internally. 
+
+What happens when the next document's `popularity_score` field is not an integer field, but a string? For eg:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "title": "The Hunger Games",
+  "author": "Suzanne Collins",
+  "popularity_score": "4230"
+}
+```
+
+  </template>
+</Tabs>
+
+_By default,_ Typesense will try to coerce (convert) the value to the previously inferred type. 
+So in this example, since the first document had a numeric data-type for `popularity_score`, the second document's `popularity_score` field will be coerced to an integer from string.
+
+However, this may not always work - (for eg: say the value has alphabets, it can't be coerced to an integer). 
+In such cases, when Typesense is unable to coerce the field value to the previously inferred type, the indexing will fail with the appropriate error.
 
 :::tip
 You can control this default coercion behavior at write-time with the [`dirty_values`](./documents.md#dealing-with-dirty-data) parameter. 
