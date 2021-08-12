@@ -16,7 +16,9 @@ We call this the collection's `schema`, which is just a fancy term to describe y
 It might help to think of a collection "schema" as being similar to defining "types" in a strongly-typed programming language like Typescript, C, Java, Dart, Rust, etc.
 This ensures that the documents you add to your collection have consistent data types and are validated, and this helps prevent a whole class of errors you might typically see with mis-matched or inconsistent data types across documents.
 
+:::tip
 From Typesense `v0.20`, we can also create a collection that [automatically detects](#with-auto-schema-detection) the types of the various fields in the document. 
+:::
 
 ### With pre-defined schema
 
