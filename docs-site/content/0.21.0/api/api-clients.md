@@ -22,7 +22,7 @@ We also have the following community-contributed client libraries:
 
 We also have the following community-contributed framework integrations:
 
-- [Symphony](https://github.com/acseo/TypesenseBundle)
+- [Symfony](https://github.com/acseo/TypesenseBundle)
 - [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
 
 :::tip
