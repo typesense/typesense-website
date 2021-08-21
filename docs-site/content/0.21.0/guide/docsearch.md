@@ -36,10 +36,10 @@ The easiest way to run the scraper is using Docker.
 3. [Run Typesense](./install-typesense.md)
 4. Create a `.env` file with the following contents:
     ```shell
-    TYPESENSE_API_KEY=xyz      # Replace with your Typesense admin key
-    TYPESENSE_HOST=localhost   # Replace with your Typesense host
-    TYPESENSE_PORT=8108        # Replace with the port you are running Typesense on (443 for Typesense Cloud)
-    TYPESENSE_PROTOCOL=http    # Use https for production deployments (https for Typesense Cloud)
+    TYPESENSE_API_KEY=xyz
+    TYPESENSE_HOST=xxx.a1.typesense.net
+    TYPESENSE_PORT=443
+    TYPESENSE_PROTOCOL=https
     ```
 5. Run the scraper:
     ```shellsession
