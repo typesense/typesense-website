@@ -328,7 +328,7 @@ We will start with a really simple search query - let's search for `harry potter
 
 ```js
 let searchParameters = {
-  'q'         : 'harry',
+  'q'         : 'harry potter',
   'query_by'  : 'title',
   'sort_by'   : 'ratings_count:desc'
 }
@@ -361,7 +361,7 @@ $client->collections['books']->documents->search($searchParameters)
 
 ```py
 search_parameters = {
-  'q'         : 'harry',
+  'q'         : 'harry potter',
   'query_by'  : 'title',
   'sort_by'   : 'ratings_count:desc'
 }
@@ -402,7 +402,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ```json
 {
   "facet_counts": [],
-  "found": 62,
+  "found": 27,
   "hits": [
     {
       "highlights": [
@@ -444,7 +444,7 @@ Now, let's tweak our query to only fetch books that are published before the yea
 
 ```js
 let searchParameters = {
-  'q'         : 'harry',
+  'q'         : 'harry potter',
   'query_by'  : 'title',
   'filter_by' : 'publication_year:<1998',
   'sort_by'   : 'publication_year:desc'
@@ -478,7 +478,7 @@ $client->collections['books']->documents->search($searchParameters)
 
 ```py
 search_parameters = {
-  'q'         : 'harry',
+  'q'         : 'harry potter',
   'query_by'  : 'title',
   'filter_by' : 'publication_year:<1998',
   'sort_by'   : 'publication_year:desc'
