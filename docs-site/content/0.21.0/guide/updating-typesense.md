@@ -38,7 +38,7 @@ docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:0.21.0 \
   <template v-slot:Shell>
 
 ```bash
-wget https://dl.typesense.org/releases/0.21.0/typesense-server-0.19.0-1.x86_64.rpm
+wget https://dl.typesense.org/releases/0.21.0/typesense-server-0.21.0-1.x86_64.rpm
 
 sudo yum install ./typesense-server-0.21.0-1.x86_64.rpm
 
