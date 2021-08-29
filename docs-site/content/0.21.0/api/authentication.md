@@ -257,7 +257,8 @@ final config = Configuration(
     nearestNode: Node(
       protocol,
       'xxx.a1.typesense.net',
-      // Dart client initializes port to 443 and 80 for https and http respectively. So if dealing with standard ports, specifying them is optional.
+      // Dart client initializes port to 443 and 80 for https and http respectively.
+      // So if dealing with standard ports, specifying them is optional.
       port: 443,
     ),
     nodes: {
