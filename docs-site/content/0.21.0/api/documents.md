@@ -556,7 +556,7 @@ client.collections['companies'].documents.search(search_parameters)
 |exclude_fields	|no	|Comma-separated list of fields from the document to exclude in the search result.|
 |highlight_fields|no | Comma separated list of fields that should be highlighted with snippetting. You can use this parameter to highlight fields that you don't query for, as well.<br><br>Default: all queried fields will be highlighted.|
 |highlight_full_fields	|no	|Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.|
-|highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side.<br><br>Default: `4`|
+|highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side. This controls the length of the snippet. <br><br>Default: `4`|
 |highlight_start_tag	|no	|The start tag used for the highlighted snippets.<br><br>Default: `<mark>`|
 |highlight_end_tag	|no	|The end tag used for the highlighted snippets.<br><br>Default: `</mark>`|
 |snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
