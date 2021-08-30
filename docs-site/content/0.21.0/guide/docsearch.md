@@ -15,11 +15,11 @@ Typesense's customized version of DocSearch is made up of two components:
 1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - Scraper that scans your documentation site and indexes the content in Typesense.
 1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
 
-## Setting up DocSearch
+## Step 1: Set up DocSearch Scraper
 
 Let's first set up the scraper and point it at your documentation site.
 
-### Step 1: Create a DocSearch Config File
+### Create a DocSearch Config File
 
 Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs/required-configuration/) to create a `config.json` file.
 
@@ -27,7 +27,7 @@ Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs
 
 You can use one of those as templates to create your own `config.js`, pointing to your documentation site.
 
-### Step 2: Run the Scraper
+### Run the Scraper
 
 The easiest way to run the scraper is using Docker.
 
@@ -49,10 +49,125 @@ The easiest way to run the scraper is using Docker.
 This will scrape your documentation site and index it into Typesense.
 
 ::: tip
-The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substiting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d))
+The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substiting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d)).
+
+You can also run it on every deployment using AWS Fargate, Google Cloud Run, etc. 
 :::
 
-### Step 3: Add the Following DocSearch.JS Snippet to all your Documentation Pages
+## Step 2: Add a Search Bar to your Documentation Site 
+
+### Option A: Docusaurus-powered sites
+
+If you use [Docusaurus](https://docusaurus.io/) as your documentation framework, 
+use the [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) plugin to add a search bar to your Docusaurus site.
+
+```shellsession
+$ npm install docusaurus-theme-search-typesense --save
+
+# or 
+
+$ yarn add docusaurus-theme-search-typesense
+```
+
+Add the following to your `docusaurus.config.js` file:
+
+```javascript
+{
+  themes: ['docusaurus-theme-search-typesense'],
+  themeConfig: {
+    typesense: {
+      typesenseCollectionName: 'docusaurus-2', // Replace with your own doc site's name. Should match the collection name in the scraper settings.
+      
+      typesenseServerConfig: {
+        nodes: [
+          {
+            host: 'xxx-1.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'xxx-2.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'xxx-3.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+        ],
+        apiKey: 'xyz',
+      },
+
+      // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/documents.html#arguments
+      typesenseSearchParameters: {},
+
+      // Optional
+      contextualSearch: true,
+    },
+  }
+}
+```
+
+Style your search component following the instructions [here](https://docusaurus.io/docs/search#styling-your-algolia-search).
+
+### Option B: Vuepress-powered sites
+
+If you use [Vuepress](https://vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site), 
+here's a [Vue Component](https://github.com/typesense/typesense-website/blob/master/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) you can use.
+
+Copy that component into `.vuepress/components/TypesenseSearchBox.vue` and edit it as needed.
+
+Then add a key called `typesenseDocsearch` to your `.vuepress/config.js` file with these contents:
+
+```javascript
+{
+  themeConfig: {
+    typesenseDocsearch: {
+      typesenseServerConfig: {
+        nearestNode: {
+          host: 'xxx.a1.typesense.net',
+          port: 443,
+          protocol: 'https',
+        },
+        nodes: [
+          {
+            host: 'xxx-1.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'xxx-2.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+          {
+            host: 'xxx-3.a1.typesense.net',
+            port: 443,
+            protocol: 'https',
+          },
+        ],
+        apiKey: '<your-search-only-api-key>',
+      },
+      typesenseCollectionName: 'docs', // Should match the collection name you use in the scraper configuration
+      typesenseSearchParams: {
+        num_typos: 1,
+        drop_tokens_threshold: 3,
+        typo_tokens_threshold: 1,
+        per_page: 6,
+      },
+    },
+  }
+}
+```
+
+:::tip Reference
+Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/eb0a1915de76d0b0d4c0b4b0d06ce10f6989388c/docs-site/docsearch.config.js) we use for Typesense's own Vuepress-powered documentation site.
+:::
+
+### Option C: Custom Docs Framework
+
+Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
 <!-- Somwhere in your doc site's navigation -->
@@ -86,13 +201,12 @@ The Docker command above will run the scraper in interactive mode, outputting lo
 </script>
 ```
 
-Read the [Authentication Section](../api/authentication.md) for all possible options under the `typesenseServerConfig` key.
+#### Reference:
+- Read the [Authentication Section](../api/authentication.md) for all possible options under the `typesenseServerConfig` key.
+- Read the [Search Parameters Section](../api/documents.md#arguments) for all possible options under the `typesenseSearchParams` key.
+- Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/behavior#handleselected) for information about additional options.
 
-Read the [Search Parameters Section](../api/documents.md#arguments) for all possible options under the `typesenseSearchParams` key.
-
-Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/behavior#handleselected) for information about additional options.
-
-### Step 4: Style your DocSearch Dropdown
+#### Styling 
 
 You can override the following styles as needed:
 
@@ -127,10 +241,3 @@ You can override the following styles as needed:
 ```
 
 Notice that you still need to use `.algolia-autocomplete` class names since we use [autocomplete.js](https://github.com/algolia/autocomplete) unmodified, but for docsearch classnames the class names are `.typesense-docsearch-*` since this is a modified version of DocSearch.js.
-
-
-## Bonus
-
-### Vuepress DocSearch Component
-
-If you use Vuepress for a documentation framework, here's a [Vue Component](https://github.com/typesense/typesense-website/blob/master/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) that uses this version of DocSearch.
