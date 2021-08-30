@@ -76,7 +76,9 @@ tar xvzf ./typesense-server-0.21.0-linux-amd64.tar.gz
 
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
 
-## Finally Restart the Typesense process
+kill <TYPESENSE_PROCESS_ID> # will gracefully shutdown
+
+## Finally, run Typesense server binary again
 
 ```
 
@@ -95,7 +97,9 @@ tar xvzf ./typesense-server-0.21.0-darwin-amd64.tar.gz
 
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
 
-## Finally Restart the Typesense process
+kill <TYPESENSE_PROCESS_ID> # will gracefully shutdown
+
+## Finally, run Typesense server binary again
 
 ```
 
