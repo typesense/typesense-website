@@ -1761,7 +1761,7 @@ client.collections['companies'].documents.import($documentsInJsonl, ['action' =>
 
 ```py
 with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'action': 'create'})
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'create'})
 ```
 
   </template>
@@ -1842,7 +1842,7 @@ client.collections['companies'].documents.import($documentsInJsonl, ['batch_size
 
 ```py
 with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'batch_size': 100})
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'batch_size': 100})
 ```
 
   </template>
