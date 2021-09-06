@@ -1691,6 +1691,7 @@ await client.collection('companies').documents.importDocuments(documents);
 ```bash
 curl "http://localhost:8108/collections/companies/documents/import?action=create" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -H "Content-Type: text/plain" \
         -X POST \
         -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
             {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
