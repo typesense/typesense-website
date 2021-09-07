@@ -21,7 +21,7 @@ export default {
         {
           name: 'Typo Tolerance',
           description:
-            'Spellng Mistakes? Not a problem. Typesense automatically tries to correct typos.',
+            'Spelling Mistakes? Not a problem. Typesense automatically tries to correct typos.',
           icon: require('~/assets/images/typo_tolerance_icon.svg'),
         },
         {
