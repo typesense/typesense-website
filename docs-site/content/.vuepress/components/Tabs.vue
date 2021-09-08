@@ -42,7 +42,7 @@ export default {
   computed: {
     augmentedTabs() {
       // We don't want "Other" to show up for Sample Response for eg
-      if(this.tabs.includes('Ruby') && this.tabs.includes('Shell') ) {
+      if(this.tabs.includes('Ruby') && this.tabs.includes('Python') ) {
         return [...this.tabs, 'Other Languages']
       } else {
         return this.tabs

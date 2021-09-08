@@ -5,6 +5,14 @@ sitemap:
 
 # API Clients
 
+## Libraries
+
+The following client libraries are thin wrappers around Typesense's RESTful APIs and provide an idiomatic way to make Typesense API calls from your preferred language.
+
+:::tip
+Typesense has a RESTful API so it can be used with any HTTP library in any programming language, even the ones not listed below. The client libraries are just thin wrappers around Typesense's HTTP API.
+:::
+
 We have client libraries for:
 
 - [JavaScript](https://github.com/typesense/typesense-js)
@@ -19,15 +27,13 @@ We also have the following community-contributed client libraries:
 - [Java](https://github.com/typesense/typesense-java)
 - [Rust](https://github.com/typesense/typesense-rust)
 - [Dart](https://github.com/typesense/typesense-dart)
+- [Perl](https://github.com/Ovid/Search-Typesense)
 
 We also have the following community-contributed framework integrations:
 
 - [Symfony](https://github.com/acseo/TypesenseBundle)
 - [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
-
-:::tip
-If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
-:::
+- [Wordpress](https://github.com/typesense/typesense-wordpress-plugin)
 
 <br>
 
@@ -84,3 +90,10 @@ import 'package:typesense/typesense.dart';
 
   </template>
 </Tabs>
+
+## Postman Collection
+
+We have a community-maintained Postman Collection here: [https://github.com/typesense/postman](https://github.com/typesense/postman).
+
+[Postman](https://www.postman.com/downloads/) is an app that let's you perform HTTP requests by pointing and clicking, instead of having to type them out in the terminal. 
+The Postman Collection above gives you template requests that you can import into Postman, to quickly make API calls to Typesense.
