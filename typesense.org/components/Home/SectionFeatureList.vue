@@ -57,7 +57,7 @@ export default {
         {
           name: 'Grouping & Distinct',
           description:
-            'Provide more varietry in your results by grouping results. Eg: combine all color variations of a shirt into a single result.',
+            'Provide more variety in your results by grouping results. Eg: combine all color variations of a shirt into a single result.',
           icon: require('~/assets/images/grouping_icon.svg'),
         },
         {
