@@ -730,7 +730,7 @@ $client->collections['companies']->documents->delete(['filter_by' => 'num_employ
   <template v-slot:Python>
 
 ```py
-client.collections['companies'].documents.delete_({'filter_by': 'num_employees:>100'})
+client.collections['companies'].documents.delete({'filter_by': 'num_employees:>100'})
 ```
 
   </template>
