@@ -55,10 +55,7 @@
                   <td>Fully open source</td>
                   <td>Proprietary closed source</td>
                   <td>Source-available, licensed under SSPL</td>
-                  <td>
-                    Currently open source, with plans for closed-source
-                    extensions in the future
-                  </td>
+                  <td>Fully open source</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">First Commit</td>
@@ -107,7 +104,7 @@
                   <td>RAM</td>
                   <td>RAM</td>
                   <td>Disk, with RAM cache</td>
-                  <td>RAM</td>
+                  <td>Disk with Memory Mapped files</td>
                 </tr>
               </tbody>
             </table>
@@ -182,8 +179,8 @@
                     apache or the like as a reverse proxy in front
                   </td>
                   <td>
-                    Requires use of nginx, apache or the like as a reverse proxy
-                    in front, before exposing to frontend
+                    Recommends use of nginx, apache or the like as a reverse
+                    proxy in front, before exposing to frontend
                   </td>
                 </tr>
                 <tr>
@@ -315,8 +312,8 @@
                     a single index
                   </td>
                   <td>
-                    ❌<br /><br />Duplicate indices need to be created for each
-                    sort order
+                    ✅<br /><br />Sort fields need to be defined upfront, but
+                    can be changed at query time, using a single index.
                   </td>
                 </tr>
                 <tr>
@@ -324,10 +321,7 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>
-                    🔶<br /><br />
-                    Only string-type facets
-                  </td>
+                  <td>✅</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Facet Value Searches</td>
@@ -374,7 +368,7 @@
                   </td>
                   <td>All languages</td>
                   <td>All languages</td>
-                  <td>Latin-based languages, English, and kanji languages</td>
+                  <td>Latin-based languages, English, CJK & Kanji languages</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
@@ -451,12 +445,12 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
-                    Exact Keyword Search <br />(<code>"query"</code>)
+                    Phrase Search <br />(<code>"some query"</code>)
                   </td>
                   <td>❌</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>❌</td>
+                  <td>✅</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -503,10 +497,20 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Site Crawler</td>
+                  <td>
+                    🔶️<br /><br />
+                    DocSearch crawler for docs sites.
+                  </td>
+                  <td>
+                    ✅<br /><br />
+                    DocSearch crawler for docs sites.<br />
+                    General site crawler is part of Premium Tier.
+                  </td>
                   <td>❌</td>
-                  <td>✅<br /><br />Premium Tier</td>
-                  <td>❌</td>
-                  <td>❌</td>
+                  <td>
+                    🔶️<br /><br />
+                    DocSearch crawler for docs sites.
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
@@ -532,8 +536,8 @@
                   </td>
                   <td>
                     🔶<br /><br />Collects personal data, hardware information,
-                    number of documents per index, number of document updates &
-                    server uptime.
+                    total number of documents, number of document updates &
+                    server uptime. Opt-out supported.
                   </td>
                 </tr>
               </tbody>
@@ -558,7 +562,7 @@
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
-                  <td>200</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
@@ -579,7 +583,7 @@
                   <td>No limitation</td>
                   <td>10KB</td>
                   <td>No limitation</td>
-                  <td>Not published</td>
+                  <td>2GB</td>
                 </tr>
               </tbody>
             </table>
@@ -603,28 +607,28 @@
                   <td>
                     Github issues<br />
                     Email<br />
-                    Community<br />
+                    Public Slack Community<br />
                     Phone<br />
-                    Slack<br />
+                    Private Slack<br />
                     Paid Prioritized Support
                   </td>
                   <td>
                     Github issues<br />
                     Email<br />
-                    Community<br />
+                    Public Slack Community<br />
                     Phone<br />
                     Paid Prioritized Support
                   </td>
                   <td>
                     Github issues<br />
                     Email<br />
-                    Community<br />
+                    Public Slack Community<br />
                     Paid Prioritized Support
                   </td>
                   <td>
                     Github issues<br />
                     Email<br />
-                    Community
+                    Public Slack Community
                   </td>
                 </tr>
                 <tr>
