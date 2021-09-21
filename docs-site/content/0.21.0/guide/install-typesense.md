@@ -30,7 +30,7 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-darwin-amd64.tar.gz
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $page.typesenseVersion }}/typesense-server-{{ $page.typesenseVersion }}-darwin-amd64.tar.gz
 </code></pre>
 
   </template>
