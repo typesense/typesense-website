@@ -359,7 +359,7 @@
                 <tr>
                   <td class="font-weight-bold">Language support</td>
                   <td>
-                    All languages, expect
+                    All languages, except
                     <a
                       href="https://github.com/typesense/typesense/issues/228"
                       target="_blank"
