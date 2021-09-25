@@ -47,7 +47,7 @@ export default {
         let newPath = `/${newVersion}/`
         const [ majorVersion, minorVersion, patchVersion] = newVersion.split('.')
         if(majorVersion >= 0 && minorVersion >= 20) {
-          newPath += 'guide/'
+          newPath += 'api/'
         }
         this.$router.push(newPath)
       }

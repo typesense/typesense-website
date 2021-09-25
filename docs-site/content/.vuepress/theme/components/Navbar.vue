@@ -8,7 +8,7 @@
       }}</span>
     </a>
 
-    <VersionDropdown show-on-desktop-only />
+    <VersionDropdown show-on-desktop-only v-if="showVersionDropdown"/>
 
     <div
       class="links"
@@ -63,6 +63,10 @@ export default {
     isTypesenseSearch() {
       return this.typesense && this.typesense.typesenseServerConfig && this.typesense.typesenseCollectionName
     },
+
+    showVersionDropdown() {
+      return this.$page.path.split('/')[2] === 'api'
+    }
   },
 
   mounted() {
