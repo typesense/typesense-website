@@ -9,7 +9,7 @@ The documentation is divided into the following sections, that you'll find links
 | Section| Purpose |
 | --- | --- |
 | [**Overview**](./overview/what-is-typesense.md) |  This section gives you a birds-eye view of Typesense, why you'd want to use it and comparison with alternatives. |
-| <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/guide/`"><strong>Guide</strong></RouterLink> | This section walks you step-by-step through how you can use Typesense in different scenarios. |
+| <RouterLink :to="`/guide/`"><strong>Guide</strong></RouterLink> | This section walks you step-by-step through how you can use Typesense in different scenarios. |
 | <RouterLink :to="`${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> | This section gives you detailed information about all the API endpoints and parameters in Typesense. |
 
 :::tip

@@ -9,7 +9,7 @@ This section of the documentation details all the API Endpoints available in Typ
 
 Use the links on the side navigation bar to get to the appropriate section you're looking for.
 
-To learn how to install and run Typesense, see the [Guide section](../guide/README.md) instead.
+To learn how to install and run Typesense, see the [Guide section](/guide/README.md) instead.
 
 <br/>
 

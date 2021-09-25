@@ -1,5 +1,6 @@
 const { description } = require('../../package')
 const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
+const path = require('path')
 
 let config = {
   // The base URL the site will be deployed at
@@ -129,65 +130,77 @@ let config = {
     editLinkText: 'Edit page',
     sidebarDepth: 2, // Can also be overridden via frontmatter
     sidebar: {
-      //For 0.21.0
-      '/0.21.0/guide/': [
-        ['/0.21.0/guide/', 'Introduction'],
+      '/overview': [
+        {
+          title: 'Overview', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/overview/what-is-typesense', 'What is Typesense?'],
+            ['/overview/why-typesense', 'Why Typesense?'],
+            ['/overview/features', 'Key Features'],
+            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
+          ],
+        },
+        ['/overview/demos', 'Live Demos'],
+        ['/overview/benchmarks', 'Benchmarks'],
+      ],
+      '/guide/': [
+        ['/guide/', 'Introduction'],
         {
           title: 'Getting Started', // required
           collapsable: false, // optional, defaults to true
           children: [
-            ['/0.21.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.21.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.21.0/guide/installing-a-client', 'Installing a Client'],
+            ['/guide/install-typesense', 'Install Typesense'],
+            ['/guide/installing-a-client', 'Installing a Client'],
           ],
         },
         {
           title: 'Walk-throughs',
           collapsable: false, // optional, defaults to true
           children: [
-            ['/0.21.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.21.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.21.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
-            ['/0.21.0/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
-            ['/0.21.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
-            ['/0.21.0/guide/docsearch', 'Search for Documentation Sites'],
+            ['/guide/building-a-search-application', 'Building a Search Application'],
+            ['/guide/search-ui-components', 'Search UI Components'],
+            ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
+            ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
+            ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+            ['/guide/docsearch', 'Search for Documentation Sites'],
           ],
         },
         {
           title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
-            ['/0.21.0/guide/high-availability', 'High Availability'],
-            ['/0.21.0/guide/search-analytics', 'Search Analytics'],
-            ['/0.21.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-            ['/0.21.0/guide/running-in-production', 'Running in Production'],
-            ['/0.21.0/guide/updating-typesense', 'Updating Typesense'],
-            ['/0.21.0/guide/system-requirements', 'System Requirements'],
+            ['/guide/high-availability', 'High Availability'],
+            ['/guide/search-analytics', 'Search Analytics'],
+            ['/guide/ranking-and-relevance', 'Ranking and Relevance'],
+            ['/guide/running-in-production', 'Running in Production'],
+            ['/guide/updating-typesense', 'Updating Typesense'],
+            ['/guide/system-requirements', 'System Requirements'],
           ],
         },
         {
           title: 'Reference Implementations',
           collapsable: false, // optional, defaults to true
           children: [
-            ['/0.21.0/guide/reference-implementations/recipe-search', 'Recipe Search'],
-            ['/0.21.0/guide/reference-implementations/linux-commits-search', 'Linux Commits Search'],
-            ['/0.21.0/guide/reference-implementations/ecommerce-storefront', 'E-Commerce Storefront'],
+            ['/guide/reference-implementations/recipe-search', 'Recipe Search'],
+            ['/guide/reference-implementations/linux-commits-search', 'Linux Commits Search'],
+            ['/guide/reference-implementations/ecommerce-storefront', 'E-Commerce Storefront'],
             [
-              '/0.21.0/guide/reference-implementations/ecommerce-storefront-with-next-js-and-typesense',
+              '/guide/reference-implementations/ecommerce-storefront-with-next-js-and-typesense',
               'E-Commerce Storefront with Next.js',
             ],
-            ['/0.21.0/guide/reference-implementations/songs-search', 'Songs Search'],
-            ['/0.21.0/guide/reference-implementations/books-search', 'Books Search'],
-            [
-              '/0.21.0/guide/reference-implementations/good-reads-books-search-with-vue',
-              'Good Reads Books Search with Vue',
-            ],
-            ['/0.21.0/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
+            ['/guide/reference-implementations/songs-search', 'Songs Search'],
+            ['/guide/reference-implementations/books-search', 'Books Search'],
+            ['/guide/reference-implementations/good-reads-books-search-with-vue', 'Good Reads Books Search with Vue'],
+            ['/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
           ],
         },
       ],
+
+      //For 0.21.0
       '/0.21.0/api/': [
         ['/0.21.0/api/', 'Introduction'],
+        ['/0.21.0/api/server-configuration', 'Server Configuration'],
         ['/0.21.0/api/api-clients', 'API Clients'],
         ['/0.21.0/api/authentication', 'Authentication'],
         {
@@ -205,67 +218,11 @@ let config = {
         },
         ['/0.21.0/api/api-errors', 'API Errors'],
       ],
-      '/overview': [
-        ['/', 'Docs Home'],
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
-      ],
 
       //For 0.20.0
-      '/0.20.0/guide/': [
-        ['/0.20.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.20.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.20.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.20.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.20.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.20.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.20.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
-            ['/0.20.0/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
-            ['/0.20.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
-          ],
-        },
-        {
-          title: 'Reference Implementations',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.20.0/guide/reference-implementations/recipe-search', 'Recipe Search'],
-            ['/0.20.0/guide/reference-implementations/linux-commits-search', 'Linux Commits Search'],
-            ['/0.20.0/guide/reference-implementations/ecommerce-storefront', 'E-Commerce Storefront'],
-            ['/0.20.0/guide/reference-implementations/songs-search', 'Songs Search'],
-            ['/0.20.0/guide/reference-implementations/books-search', 'Books Search'],
-            ['/0.20.0/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.20.0/guide/high-availability', 'High Availability'],
-            ['/0.20.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-            ['/0.20.0/guide/updating-typesense', 'Updating Typesense'],
-          ],
-        },
-      ],
       '/0.20.0/api/': [
         ['/0.20.0/api/', 'Introduction'],
+        ['/0.20.0/api/server-configuration', 'Server Configuration'],
         ['/0.20.0/api/api-clients', 'API Clients'],
         ['/0.20.0/api/authentication', 'Authentication'],
         {
@@ -285,40 +242,9 @@ let config = {
       ],
 
       //For 0.19.0
-      '/0.19.0/guide/': [
-        ['/0.19.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.19.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.19.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.19.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.19.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.19.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.19.0/guide/firebase-full-text-search', 'Firebase Full Text Search'],
-            ['/0.19.0/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
-            ['/0.19.0/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.19.0/guide/high-availability', 'High Availability'],
-            ['/0.19.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-            ['/0.19.0/guide/updating-typesense', 'Updating Typesense'],
-          ],
-        },
-      ],
       '/0.19.0/api/': [
         ['/0.19.0/api/', 'Introduction'],
+        ['/0.19.0/api/server-configuration', 'Server Configuration'],
         ['/0.19.0/api/api-clients', 'API Clients'],
         ['/0.19.0/api/authentication', 'Authentication'],
         {
@@ -338,37 +264,9 @@ let config = {
       ],
 
       //For 0.18.0
-      '/0.18.0/guide/': [
-        ['/0.18.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.18.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.18.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.18.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.18.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.18.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.18.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.18.0/guide/high-availability', 'High Availability'],
-            ['/0.18.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.18.0/api/': [
         ['/0.18.0/api/', 'Introduction'],
+        ['/0.18.0/api/server-configuration', 'Server Configuration'],
         ['/0.18.0/api/api-clients', 'API Clients'],
         ['/0.18.0/api/authentication', 'Authentication'],
         {
@@ -388,37 +286,9 @@ let config = {
       ],
 
       //For 0.17.0
-      '/0.17.0/guide/': [
-        ['/0.17.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.17.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.17.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.17.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.17.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.17.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.17.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.17.0/guide/high-availability', 'High Availability'],
-            ['/0.17.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.17.0/api/': [
         ['/0.17.0/api/', 'Introduction'],
+        ['/0.17.0/api/server-configuration', 'Server Configuration'],
         ['/0.17.0/api/api-clients', 'API Clients'],
         ['/0.17.0/api/authentication', 'Authentication'],
         {
@@ -436,37 +306,9 @@ let config = {
       ],
 
       //For 0.16.1
-      '/0.16.1/guide/': [
-        ['/0.16.1/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.1/guide/install-typesense', 'Install Typesense'],
-            ['/0.16.1/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.16.1/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.1/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.16.1/guide/search-ui-components', 'Search UI Components'],
-            ['/0.16.1/guide/firebase-full-text-search', 'Integrating with Firebase'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.1/guide/high-availability', 'High Availability'],
-            ['/0.16.1/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.16.1/api/': [
         ['/0.16.1/api/', 'Introduction'],
+        ['/0.16.1/api/server-configuration', 'Server Configuration'],
         ['/0.16.1/api/api-clients', 'API Clients'],
         ['/0.16.1/api/authentication', 'Authentication'],
         {
@@ -484,37 +326,9 @@ let config = {
       ],
 
       //For 0.16.0
-      '/0.16.0/guide/': [
-        ['/0.16.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.16.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.16.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.16.0/guide/search-ui-components', 'Search UI Components'],
-            ['/0.16.0/guide/firebase-full-text-search', 'Integrating with Firebase'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.16.0/guide/high-availability', 'High Availability'],
-            ['/0.16.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.16.0/api/': [
         ['/0.16.0/api/', 'Introduction'],
+        ['/0.16.0/api/server-configuration', 'Server Configuration'],
         ['/0.16.0/api/api-clients', 'API Clients'],
         ['/0.16.0/api/authentication', 'Authentication'],
         {
@@ -532,36 +346,9 @@ let config = {
       ],
 
       //For 0.15.0
-      '/0.15.0/guide/': [
-        ['/0.15.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.15.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.15.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.15.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.15.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.15.0/guide/search-ui-components', 'Search UI Components'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.15.0/guide/high-availability', 'High Availability'],
-            ['/0.15.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.15.0/api/': [
         ['/0.15.0/api/', 'Introduction'],
+        ['/0.15.0/api/server-configuration', 'Server Configuration'],
         ['/0.15.0/api/api-clients', 'API Clients'],
         ['/0.15.0/api/authentication', 'Authentication'],
         {
@@ -579,36 +366,9 @@ let config = {
       ],
 
       // For 0.14.0
-      '/0.14.0/guide/': [
-        ['/0.14.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.14.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.14.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.14.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.14.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.14.0/guide/search-ui-components', 'Search UI Components'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.14.0/guide/high-availability', 'High Availability'],
-            ['/0.14.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.14.0/api/': [
         ['/0.14.0/api/', 'Introduction'],
+        ['/0.14.0/api/server-configuration', 'Server Configuration'],
         ['/0.14.0/api/api-clients', 'API Clients'],
         ['/0.14.0/api/authentication', 'Authentication'],
         {
@@ -626,36 +386,9 @@ let config = {
       ],
 
       // For 0.13.0
-      '/0.13.0/guide/': [
-        ['/0.13.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.13.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.13.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.13.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.13.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.13.0/guide/search-ui-components', 'Search UI Components'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.13.0/guide/high-availability', 'High Availability'],
-            ['/0.13.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.13.0/api/': [
         ['/0.13.0/api/', 'Introduction'],
+        ['/0.13.0/api/server-configuration', 'Server Configuration'],
         ['/0.13.0/api/api-clients', 'API Clients'],
         ['/0.13.0/api/authentication', 'Authentication'],
         {
@@ -673,36 +406,9 @@ let config = {
       ],
 
       // For 0.12.0
-      '/0.12.0/guide/': [
-        ['/0.12.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.12.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.12.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.12.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.12.0/guide/building-a-search-application', 'Building a Search Application'],
-            ['/0.12.0/guide/search-ui-components', 'Search UI Components'],
-          ],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.12.0/guide/high-availability', 'High Availability'],
-            ['/0.12.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.12.0/api/': [
         ['/0.12.0/api/', 'Introduction'],
+        ['/0.12.0/api/server-configuration', 'Server Configuration'],
         ['/0.12.0/api/api-clients', 'API Clients'],
         ['/0.12.0/api/authentication', 'Authentication'],
         {
@@ -719,33 +425,9 @@ let config = {
       ],
 
       // For 0.11.2
-      '/0.11.2/guide/': [
-        ['/0.11.2/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.2/guide/install-typesense', 'Install Typesense'],
-            ['/0.11.2/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.11.2/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [['/0.11.2/guide/building-a-search-application', 'Building a Search Application']],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.2/guide/high-availability', 'High Availability'],
-            ['/0.11.2/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.11.2/api/': [
         ['/0.11.2/api/', 'Introduction'],
+        ['/0.11.2/api/server-configuration', 'Server Configuration'],
         ['/0.11.2/api/api-clients', 'API Clients'],
         ['/0.11.2/api/authentication', 'Authentication'],
         {
@@ -760,33 +442,9 @@ let config = {
       ],
 
       // For 0.11.1
-      '/0.11.1/guide/': [
-        ['/0.11.1/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.1/guide/install-typesense', 'Install Typesense'],
-            ['/0.11.1/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.11.1/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [['/0.11.1/guide/building-a-search-application', 'Building a Search Application']],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.1/guide/high-availability', 'High Availability'],
-            ['/0.11.1/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.11.1/api/': [
         ['/0.11.1/api/', 'Introduction'],
+        ['/0.11.1/api/server-configuration', 'Server Configuration'],
         ['/0.11.1/api/api-clients', 'API Clients'],
         ['/0.11.1/api/authentication', 'Authentication'],
         {
@@ -801,33 +459,9 @@ let config = {
       ],
 
       // For 0.11.0
-      '/0.11.0/guide/': [
-        ['/0.11.0/guide/', 'Introduction'],
-        {
-          title: 'Getting Started', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.0/guide/install-typesense', 'Install Typesense'],
-            ['/0.11.0/guide/configure-typesense', 'Configure Typesense'],
-            ['/0.11.0/guide/installing-a-client', 'Installing a Client'],
-          ],
-        },
-        {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [['/0.11.0/guide/building-a-search-application', 'Building a Search Application']],
-        },
-        {
-          title: 'How-To-s', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/0.11.0/guide/high-availability', 'High Availability'],
-            ['/0.11.0/guide/ranking-and-relevance', 'Ranking and Relevance'],
-          ],
-        },
-      ],
       '/0.11.0/api/': [
         ['/0.11.0/api/', 'Introduction'],
+        ['/0.11.0/api/server-configuration', 'Server Configuration'],
         ['/0.11.0/api/api-clients', 'API Clients'],
         ['/0.11.0/api/authentication', 'Authentication'],
         {
@@ -839,21 +473,6 @@ let config = {
           ],
         },
         ['/0.11.0/api/api-errors', 'API Errors'],
-      ],
-
-      '/overview': [
-        {
-          title: 'Overview', // required
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/overview/what-is-typesense', 'What is Typesense?'],
-            ['/overview/why-typesense', 'Why Typesense?'],
-            ['/overview/features', 'Key Features'],
-            ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
-          ],
-        },
-        ['/overview/demos', 'Live Demos'],
-        ['/overview/benchmarks', 'Benchmarks'],
       ],
     },
   },
@@ -879,7 +498,7 @@ let config = {
     // devtool: 'source-map',
     resolve: {
       alias: {
-        '@images': '../../.vuepress/public/images',
+        '@images': path.resolve(__dirname, 'public/images/'),
       },
     },
   },
