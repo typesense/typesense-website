@@ -91,6 +91,7 @@ export default {
 
 <style lang="stylus">
 .typesense-search-wrapper
+  margin-right 0
   span.typesense-docsearch-suggestion--highlight
     color unset !important
     border-bottom 2px solid $accentColor2 !important

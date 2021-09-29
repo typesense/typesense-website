@@ -7,60 +7,64 @@ export default {
   mounted() {
     const redirects = [
       {
-        from: `/${this.$page.typesenseVersion}/guide/#install-typesense`,
-        to: `/${this.$page.typesenseVersion}/guide/install-typesense.html`,
+        from: `/guide/#install-typesense`,
+        to: `/guide/install-typesense.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#start-typesense`,
-        to: `/${this.$page.typesenseVersion}/guide/install-typesense.html#🎬-start`,
+        from: `/guide/#start-typesense`,
+        to: `/guide/install-typesense.html#🎬-start`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#configure-typesense`,
-        to: `/${this.$page.typesenseVersion}/guide/configure-typesense.html`,
+        from: `/guide/#configure-typesense`,
+        to: `/${this.$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#update-typesense`,
-        to: `/${this.$page.typesenseVersion}/guide/updating-typesense.html`,
+        from: `/guide/configure-typesense.html`,
+        to: `/${this.$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#install-client`,
-        to: `/${this.$page.typesenseVersion}/guide/installing-a-client.html`,
+        from: `/guide/#update-typesense`,
+        to: `/guide/updating-typesense.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#example-application`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html`,
+        from: `/guide/#install-client`,
+        to: `/guide/installing-a-client.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#init-client`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#initializing-the-client`,
+        from: `/guide/#example-application`,
+        to: `/guide/building-a-search-application.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#create-collection`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#creating-a-books-collection`,
+        from: `/guide/#init-client`,
+        to: `/guide/building-a-search-application.html#initializing-the-client`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#index-documents`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#adding-books-to-the-collection`,
+        from: `/guide/#create-collection`,
+        to: `/guide/building-a-search-application.html#creating-a-books-collection`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#search-collection`,
-        to: `/${this.$page.typesenseVersion}/guide/building-a-search-application.html#searching-for-books`,
+        from: `/guide/#index-documents`,
+        to: `/guide/building-a-search-application.html#adding-books-to-the-collection`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#search-ui`,
-        to: `/${this.$page.typesenseVersion}/guide/search-ui-components.html`,
+        from: `/guide/#search-collection`,
+        to: `/guide/building-a-search-application.html#searching-for-books`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#typesense-instantsearch-demo`,
-        to: `/${this.$page.typesenseVersion}/guide/search-ui-components.html#demo-app`,
+        from: `/guide/#search-ui`,
+        to: `/guide/search-ui-components.html`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#ranking-relevance`,
-        to: `/${this.$page.typesenseVersion}/guide/ranking-and-relevance.html`,
+        from: `/guide/#typesense-instantsearch-demo`,
+        to: `/guide/search-ui-components.html#demo-app`,
       },
       {
-        from: `/${this.$page.typesenseVersion}/guide/#high-availability`,
-        to: `/${this.$page.typesenseVersion}/guide/high-availability.html`,
+        from: `/guide/#ranking-relevance`,
+        to: `/guide/ranking-and-relevance.html`,
+      },
+      {
+        from: `/guide/#high-availability`,
+        to: `/guide/high-availability.html`,
       },
       { from: `/${this.$page.typesenseVersion}/api/#api-clients`, to: `/${this.$page.typesenseVersion}/api/` },
       {
@@ -203,7 +207,10 @@ export default {
         from: `/${this.$page.typesenseVersion}/api/#config-slow-request-log`,
         to: `/${this.$page.typesenseVersion}/api/cluster-operations.html#toggle-slow-request-log`,
       },
-      { from: `/${this.$page.typesenseVersion}/api/#whats-new`, to: `/${this.$page.typesenseVersion}/#what-s-new` },
+      {
+        from: `/${this.$page.typesenseVersion}/api/#whats-new`,
+        to: `/${this.$page.typesenseVersion}/#what-s-new`
+      },
       {
         from: `/${this.$page.typesenseVersion}/api/#errors`,
         to: `/${this.$page.typesenseVersion}/api/api-errors.html`,

@@ -8,7 +8,7 @@
       }}</span>
     </a>
 
-    <VersionDropdown show-on-desktop-only />
+    <VersionDropdown show-on-desktop-only v-if="showVersionDropdown"/>
 
     <div
       class="links"
@@ -33,6 +33,7 @@ import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
 import VersionDropdown from '../../components/VersionDropdown'
 import TypesenseSearchBox from '../../components/TypesenseSearchBox'
+import isSemVer from "../../utils/isSemVer";
 
 export default {
   name: 'Navbar',
@@ -63,6 +64,10 @@ export default {
     isTypesenseSearch() {
       return this.typesense && this.typesense.typesenseServerConfig && this.typesense.typesenseCollectionName
     },
+
+    showVersionDropdown() {
+      return isSemVer(this.$page.path.split('/')[1])
+    }
   },
 
   mounted() {
@@ -111,7 +116,7 @@ $navbar-horizontal-padding = 1.5rem
     color $textColor
     position relative
   .links
-    padding-left 1.5rem
+    padding-left 1rem
     box-sizing border-box
     background-color white
     white-space nowrap

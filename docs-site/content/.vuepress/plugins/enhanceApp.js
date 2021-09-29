@@ -10,6 +10,7 @@ import Vuex from 'vuex'
 import VueGtag from 'vue-gtag'
 
 import { typesenseLatestVersion } from './../../../../typsenseVersions'
+import isSemVer from '../utils/isSemVer'
 
 // fork from vue-router@3.0.2
 // src/util/scroll.js
@@ -59,16 +60,36 @@ export default ({
     },
   })
 
-  // Handle /docs/latest/...
-  // This only handles the redirect once the SPA is loaded.
-  // We also have a Cloudfront function that serves up
-  //  docs-site/index.html for /docs/latest/*, so the route doesn't 404 server-side.
   router.beforeEach((to, from, next) => {
     const splitPath = to.fullPath.split('/')
     const typesenseServerVersion = splitPath[1]
+
+    // Handle /docs/latest/...
+    // This only handles the redirect once the SPA is loaded.
+    // We also have a Cloudfront function that serves up
+    //  docs-site/index.html for /docs/latest/*, so the route doesn't 404 server-side.
     if (typesenseServerVersion === 'latest') {
       splitPath[1] = typesenseLatestVersion
       router.replace(splitPath.join('/'))
+      return next()
+    }
+
+    // Handle /docs/version/guide/... -> /docs/guide
+    // TODO: Need to add to cloudfront function
+    if (isSemVer(typesenseServerVersion) && splitPath[2] === 'guide') {
+      if (splitPath[3] === '#what-s-new') {
+        const [majorVersion, minorVersion, patchVersion] = typesenseServerVersion.split('.')
+        if (parseInt(majorVersion) >= 0 && parseInt(minorVersion) >= 20) {
+          // After v0.20, replace /guide with /api
+          splitPath[2] = 'api'
+        }
+      } else {
+        // Remove version from URL
+        splitPath.splice(1, 1)
+      }
+
+      router.replace(splitPath.join('/'))
+      return next()
     }
     next()
   })

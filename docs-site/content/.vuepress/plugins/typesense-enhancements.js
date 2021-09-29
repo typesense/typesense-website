@@ -30,7 +30,7 @@ module.exports = (options, context) => ({
       },
       {
         text: 'Guide',
-        link: `/${pageNavLinkTypesenseVersion}/guide/`,
+        link: `/guide/`,
       },
       {
         text: 'API Reference',

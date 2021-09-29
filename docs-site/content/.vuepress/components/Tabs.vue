@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-3">
+  <div class="code-tabs-container">
     <ClientOnly>
       <ul class="nav-container flex">
         <li v-for="tab in augmentedTabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
@@ -72,6 +72,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+.code-tabs-container
+  margin-bottom: 1rem;
 
 .nav-container
   display flex
