@@ -10,9 +10,7 @@ import Vuex from 'vuex'
 import VueGtag from 'vue-gtag'
 
 import { typesenseLatestVersion } from './../../../../typsenseVersions'
-
-// From: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-const SEMVER_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+import isSemVer from '../utils/isSemVer'
 
 // fork from vue-router@3.0.2
 // src/util/scroll.js
@@ -78,7 +76,7 @@ export default ({
 
     // Handle /docs/version/guide/... -> /docs/guide
     // TODO: Need to add to cloudfront function
-    if (SEMVER_REGEX.test(typesenseServerVersion) && splitPath[2] === 'guide') {
+    if (isSemVer(typesenseServerVersion) && splitPath[2] === 'guide') {
       if (splitPath[3] === '#what-s-new') {
         const [majorVersion, minorVersion, patchVersion] = typesenseServerVersion.split('.')
         if (parseInt(majorVersion) >= 0 && parseInt(minorVersion) >= 20) {

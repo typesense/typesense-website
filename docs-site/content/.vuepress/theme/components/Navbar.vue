@@ -33,6 +33,7 @@ import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
 import VersionDropdown from '../../components/VersionDropdown'
 import TypesenseSearchBox from '../../components/TypesenseSearchBox'
+import isSemVer from "../../utils/isSemVer";
 
 export default {
   name: 'Navbar',
@@ -65,7 +66,7 @@ export default {
     },
 
     showVersionDropdown() {
-      return this.$page.path.split('/')[2] === 'api'
+      return isSemVer(this.$page.path.split('/')[1])
     }
   },
 
@@ -115,7 +116,7 @@ $navbar-horizontal-padding = 1.5rem
     color $textColor
     position relative
   .links
-    padding-left 1.5rem
+    padding-left 1rem
     box-sizing border-box
     background-color white
     white-space nowrap

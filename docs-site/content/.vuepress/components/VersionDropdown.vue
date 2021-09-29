@@ -13,7 +13,7 @@
         v{{ version }}
       </option>
     </select>
-    <div class="old-version-warning" v-show="currentVersion && currentVersion !== '' && currentVersion !== latestVersion">
+    <div class="old-version-warning" v-show="showOldVersionWarning">
       You are viewing docs for an old version. Switch to latest <RouterLink :to="`/${latestVersion}/`"> v{{ latestVersion }}</RouterLink>.
     </div>
   </div>
@@ -39,6 +39,9 @@ export default {
     latestVersion() {
       return this.$site.themeConfig.typesenseLatestVersion
     },
+    showOldVersionWarning() {
+      return this.currentVersion && this.currentVersion !== '' && this.currentVersion !== this.latestVersion
+    }
   },
   methods: {
     switchVersion(event) {
