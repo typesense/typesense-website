@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Running Typesense in Production
 
 In addition to performance and ease-of-use, Typesense is also designed to have low operational overhead in Production.

@@ -1,9 +1,5 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Updating Typesense
+
 The process of updating Typesense is simple:
 
 1. Install the new version of Typesense

@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Full-text Search for Firebase with Typesense
 
 [Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase.

@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Search Analytics
 
 A common need when building search experiences is to get answers to questions like:

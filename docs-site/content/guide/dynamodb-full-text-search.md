@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Full-text Fuzzy Search with DynamoDB and Typesense
 
 This walk-through will show you how to ingest data from a DynamoDB table into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.

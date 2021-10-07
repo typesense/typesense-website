@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Installing a client
 
 We have client libraries for:

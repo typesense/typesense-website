@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Building Search UIs
 You can use the open source [InstantSearch.js](https://github.com/algolia/instantsearch.js) library, along with our [Typesense-InstantSearch-Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to build a plug-and-play full-featured search interface, with just a few lines of code.
 

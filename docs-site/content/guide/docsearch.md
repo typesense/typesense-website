@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # Search for Documentation Sites
 
 The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch) which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.

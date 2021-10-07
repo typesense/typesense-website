@@ -1,8 +1,3 @@
----
-sitemap:
-  priority: 0.7
----
-
 # System Requirements
 
 Typesense is an in-memory datastore optimized for fast, low-latency retrieval.
