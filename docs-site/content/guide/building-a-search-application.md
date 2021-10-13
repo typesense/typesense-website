@@ -12,7 +12,7 @@ Let's begin by configuring the Typesense client by pointing it to a Typesense no
 - Be sure to use the same API key that you used to start the Typesense server earlier. 
 - Or if you're using Typesense Cloud, click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -93,6 +93,24 @@ client = Typesense::Client.new(
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+ArrayList<Node> nodes = new ArrayList<>();
+nodes.add(
+  new Node(
+    "http",       // For Typesense Cloud use https
+    "localhost",  // For Typesense Cloud use xxx.a1.typesense.net
+    "8108"        // For Typesense Cloud use 443
+  )
+);
+
+Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2),"<API_KEY>");
+
+Clienr client = new Client(configuration);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -111,7 +129,7 @@ That's it - we're now ready to start interacting with the Typesense server.
 ## Creating a "books" collection
 In Typesense, a collection is a group of related documents that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -204,6 +222,25 @@ client.collections.create(books_schema)
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+collectionSchema.name("books").defaultSortingField("ratings_count")
+                .addFieldsItem(new Field().name("title").type("string"))
+                .addFieldsItem(new Field().name("authors").type("string[]"))
+                .addFieldsItem(new Field().name("image_url").type("string"))
+                .addFieldsItem(new Field().name("publication_year").type("int32"))
+                .addFieldsItem(new Field().name("ratings_count").type("int32"))
+                .addFieldsItem(new Field().name("average_rating").type("float"))
+                .addFieldsItem(nnew Field().name("publication_year_facet").type("string").facet(true))
+                .addFieldsItem(new Field().name("authors_facet").type("string[]").facet(true))
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -236,7 +273,7 @@ We also define a `default_sorting_field` that determines how the results must be
 
 We're now ready to index some books into the collection we just created.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -296,6 +333,18 @@ end
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("books.jsonl");
+Scanner myReader = new Scanner(myObj);
+while (myReader.hasNextLine()) {
+    String data = myReader.nextLine();
+    client.collections("books").documents().create(data);
+}
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -318,7 +367,7 @@ done < "$input"
 We will start with a really simple search query - let's search for `harry potter` and ask Typesense to rank books that have more ratings higher in the results.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -375,6 +424,17 @@ search_parameters = {
 }
 
 client.collections['books'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                                .q("harry")
+                                                .addQueryByItem("title")
+                                                .addSortByItem("ratings_count:desc");
+SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 
   </template>
@@ -434,7 +494,7 @@ Want to actually see newest `harry potter` books returned first? No problem, we 
 ## Filtering results
 Now, let's tweak our query to only fetch books that are published before the year 1998. To do that, we just have to add a `filter_by` clause to our query:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -494,6 +554,18 @@ search_parameters = {
 }
 
 client.collections['books'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                                .q("harry")
+                                                .addQueryByItem("title")
+                                                .filterBy("publication_year:<1998")
+                                                .addSortByItem("ratings_count:desc");
+SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 
   </template>
@@ -552,7 +624,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 Let's facet the search results by the authors field to see how that works. Let's also use this example to see how Typesense handles typographic errors. Let's search for `experyment` (notice the typo!).
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -612,6 +684,18 @@ search_parameters = {
 }
 
 client.collections['books'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                                .q("experyment")
+                                                .addQueryByItem("title")
+                                                .addFacetByItem("authors_facet")
+                                                .addSortByItem("average_rating:desc");
+SearchResult searchResult = client.collections("books").documents().search(searchParameters);
 ```
 
   </template>
