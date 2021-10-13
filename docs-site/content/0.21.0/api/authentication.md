@@ -10,7 +10,7 @@ You'd need one or more hostnames and [API keys](./api-keys.md) to integrate with
 If you're self-hosting Typesense, the hostnames are the IP addresses or DNS names of each of your Typesense nodes. 
 If you're using Typesense Cloud, we generate unique hostnames for each of your nodes and show them on the dashboard for you to use. 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
