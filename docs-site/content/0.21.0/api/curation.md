@@ -401,7 +401,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## Delete an override
 Deleting an override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java',Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
