@@ -11,7 +11,7 @@ Creates a point-in-time snapshot of a Typesense node's state and data in the spe
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -96,7 +96,7 @@ Triggers a follower node to initiate the raft voting process, which triggers lea
 
 The follower node that you run this operation against will become the new leader, once this command succeeds.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js

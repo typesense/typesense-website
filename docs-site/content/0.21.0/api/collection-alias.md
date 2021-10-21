@@ -21,7 +21,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -132,7 +132,7 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -208,7 +208,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -290,7 +290,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
