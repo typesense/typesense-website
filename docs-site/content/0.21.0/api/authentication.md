@@ -131,6 +131,10 @@ final config = Configuration(
   <template v-slot:Java>
 
 ```java
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+
 ArrayList<Node> nodes = new ArrayList<>();
 nodes.add(
   new Node(

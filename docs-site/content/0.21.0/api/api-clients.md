@@ -37,7 +37,7 @@ We also have the following community-contributed framework integrations:
 
 <br>
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java']">
   <template v-slot:JavaScript>
 
 ```js
@@ -86,6 +86,19 @@ gem install typesense
 // Now in your Dart code, you can use:
 
 import 'package:typesense/typesense.dart';
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+// Download the JAR file from the releases section in the typesense-java repository. 
+// (https://github.com/typesense/typesense-java/releases)
+// And the import it them to your project
+
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
 ```
 
   </template>
