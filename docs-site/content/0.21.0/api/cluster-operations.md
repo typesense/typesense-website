@@ -218,11 +218,17 @@ curl "http://localhost:8108/config" \
 
 Get current RAM, CPU, Disk & Network usage metrics.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Dart','Java','Shell']">
   <template v-slot:Dart>
 
 ```dart
 await client.metrics.retrieve();
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+client.metrics.retrieve();
 ```
   </template>
   <template v-slot:Shell>
@@ -232,6 +238,7 @@ curl "http://localhost:8108/metrics.json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
   </template>
+
 </Tabs>
 
 #### Sample Response

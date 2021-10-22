@@ -131,7 +131,7 @@ SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
 searchOverrideSchema.addIncludesItem(new SearchOverrideInclude().id("422").position(1))
                     .addIncludesItem(new SearchOverrideInclude().id("54").position(2))
                     .addExcludesItem(new SearchOverrideExclude().id("287"))
-                    .rule(new SearchOverrideRule().query("apple").match("exact"))
+                    .rule(new SearchOverrideRule().query("apple").match(SearchOverrideRule.MatchEnum.EXACT))
 
 // Creates/updates an override called `customize-apple` in the `companies` collection
 SearchOverride searchOverride = client.collections("companies").overrides().upsert("customize-apple", searchOverrideSchema);

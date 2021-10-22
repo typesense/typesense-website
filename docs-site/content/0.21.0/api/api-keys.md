@@ -291,7 +291,7 @@ final key = await client.key(1).retrieve();
   <template v-slot:Java>
 
 ```java
-ApiKey apiKey = client.keys("1").retrieve();
+ApiKey apiKey = client.keys(1).retrieve();
 ```
 
   </template>
@@ -471,7 +471,7 @@ final key = await client.key(1).delete();
   <template v-slot:Java>
 
 ```java
-ApiKey apiKey = client.keys("1").delete();
+ApiKey apiKey = client.keys(1).delete();
 ```
 
   </template>
