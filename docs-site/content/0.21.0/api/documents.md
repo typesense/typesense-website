@@ -1715,7 +1715,11 @@ await client.collection('companies').documents.exportJSONL();
   <template v-slot:Java>
 
 ```java
-client.collections("companies").documents().export();
+ExportDocumentsParameters exportDocumentsParameters = new ExportDocumentsParameters();
+exportDocumentsParameters.addExcludeFieldsItem("id");
+exportDocumentsParameters.addIncludeFieldsItem("publication_year");
+exportDocumentsParameters.addIncludeFieldsItem("authors");
+client.collections("companies").documents().export(exportDocumentsParameters);
 ```
 
   </template>
@@ -1864,7 +1868,7 @@ documentList.add(document1);
 ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
 importDocumentsParameters.action("create");
 
-client.collections("Countries").documents().import_(documentList, importDocumentsParameters));
+client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
 ```
 
   </template>
@@ -1969,15 +1973,14 @@ await client.collection('companies').documents.importJSONL(file.readAsStringSync
   <template v-slot:Java>
 
 ```java
+File myObj = new File("/books.jsonl");
 ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
-queryParameters.action("create");
-
-File myObj = new File("documents.jsonl");
 Scanner myReader = new Scanner(myObj);
+StringBuilder data = new StringBuilder();
 while (myReader.hasNextLine()) {
-    String data = myReader.nextLine();
-    this.client.collections("books").documents().import_(data,queryParameters);
+    data.append(myReader.nextLine()).append("\n");
 }
+client.collections("books").documents().import_(data.toString(), queryParameters);
 ```
 
   </template>
@@ -2200,15 +2203,18 @@ await client.collection('companies').documents.create(document, options: {'dirty
   <template v-slot:Java>
 
 ```java
-HashMap<String, Object > document = new HashMap<>();
 ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
-
-document.put("title",1984);
-document.put("points",100);
-
-queryParameters.dirtyValues(z"coerce_or_reject");
-
-System.out.println(this.client.collections("titles").documents().create(document,queryParameters));
+queryParameters.dirtyValues(ImportDocumentsParameters.DirtyValuesEnum.COERCE_OR_REJECT);
+queryParameters.action("upsert");
+String[] authors = {"shakspeare","william"};
+HashMap<String, Object> hmap = new HashMap<>();
+hmap.put("title", 111);
+hmap.put("authors",authors);
+hmap.put("publication_year",1666);
+hmap.put("ratings_count",124);
+hmap.put("average_rating",3.2);
+hmap.put("id","2");
+client.collections("books").documents().create(hmap,queryParameters);
 ```
 
   </template>
