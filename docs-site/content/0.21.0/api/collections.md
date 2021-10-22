@@ -166,10 +166,9 @@ await client.collections.create(schema);
 CollectionSchema collectionSchema = new CollectionSchema();
 
 collectionschema.name("companies")
-                .addFieldsItem(new Field().name("company_name").type("string"))
-                .addFieldsItem(new Field().name("num_employees").type("int32"))
-                .addFieldsItem(new Field().name("country").type("string").facet(true))
-                .defaultSortingField("num_employees");
+                .addFieldsItem(new Field().name("company_name").type(Field.TypeEnum.STRING))
+                .addFieldsItem(new Field().name("num_employees").type(Field.TypeEnum.INT32))
+                .addFieldsItem(new Field().name("country").type(Field.TypeEnum.STRING).facet(true));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
@@ -552,7 +551,7 @@ await client.collections.retrieve();
   <template v-slot:Java>
 
 ```java
-CollectionResponse[] collectionResponses = client.collections().retrieve()
+CollectionResponse[] collectionResponses = client.collections().retrieve();
 ```
 
   </template>
@@ -646,7 +645,7 @@ await client.collection('companies').delete();
  <template v-slot:Java>
 
 ```java
-CollectionResponse collectionResponse = client.collections("companies").delete()
+CollectionResponse collectionResponse = client.collections("companies").delete();
 ```
 
   </template>
