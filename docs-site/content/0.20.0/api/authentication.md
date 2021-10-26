@@ -99,14 +99,14 @@ import 'package:typesense/typesense.dart';
 
 final host = InternetAddress.loopbackIPv4.address;
 final config = Configuration(
+    '<API_KEY>',
     nodes: {
       Node(
-        host: host,        // For Typesense Cloud use xxx.a1.typesense.net
+        Protocol.http,     // For Typesense Cloud use https
+        host,              // For Typesense Cloud use xxx.a1.typesense.net
         port: 8108,        // For Typesense Cloud use 443
-        protocol: 'http',  // For Typesense Cloud use https
       ),
     },
-    apiKey: '<API_KEY>',
     connectionTimeout: Duration(seconds: 2),
   );
 ```
@@ -220,32 +220,32 @@ client = Typesense::Client.new(
 ```dart
 import 'package:typesense/typesense.dart';
 
+final protocol = Protocol.https;
 final config = Configuration(
+    '<API_KEY>',
     // This is the special Nearest Node hostname that you'll see in the
     // Typesense Cloud dashboard if you turn on Search Delivery Network.
     nearestNode: Node(
-      host: 'xxx.a1.typesense.net',
+      protocol,
+      'xxx.a1.typesense.net',
+      // Dart client initializes port to 443 and 80 for https and http respectively.
+      // So if dealing with standard ports, specifying them is optional.
       port: 443,
-      protocol: 'https',
     ),
     nodes: {
       Node(
-        host: 'xxx-1.a1.typesense.net',
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'xxx-1.a1.typesense.net',
       ),
       Node(
-        host: 'xxx-2.a1.typesense.net',
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'xxx-2.a1.typesense.net',
       ),
       Node(
-        host: 'xxx-3.a1.typesense.net',
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'xxx-3.a1.typesense.net',
       ),
     },
-    apiKey: '<API_KEY>',
     connectionTimeout: Duration(seconds: 2),
   );
 ```
