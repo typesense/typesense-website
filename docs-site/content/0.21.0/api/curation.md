@@ -14,7 +14,7 @@ In the following example, we are overriding the search results by placing the do
 
 Note how we are applying these overrides to an `exact` match of the query `apple`. Instead, if we want to match all queries that contained the word `apple`, we will use the `contains` match instead.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -123,6 +123,22 @@ await client.collection('companies').overrides.upsert('customize-apple', overrid
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
+
+searchOverrideSchema.addIncludesItem(new SearchOverrideInclude().id("422").position(1))
+                    .addIncludesItem(new SearchOverrideInclude().id("54").position(2))
+                    .addExcludesItem(new SearchOverrideExclude().id("287"))
+                    .rule(new SearchOverrideRule().query("apple").match(SearchOverrideRule.MatchEnum.EXACT))
+
+// Creates/updates an override called `customize-apple` in the `companies` collection
+SearchOverride searchOverride = client.collections("companies").overrides().upsert("customize-apple", searchOverrideSchema);
+
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -193,7 +209,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## List all overrides
 Listing all overrides associated with a given collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -227,6 +243,13 @@ client.collections['companies'].overrides.retrieve
 
 ```dart
 await client.collection('companies').overrides.retrieve();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchOverridesResponse searchOverridesResponse = client.collections("companies").overrides().retrieve();
 ```
 
   </template>
@@ -284,7 +307,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## Retrieve an override
 Fetch an individual override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -318,6 +341,13 @@ client.collections['companies'].overrides['customize-apple'].retrieve
 
 ```dart
 await client.collection('companies').override('customize-apple').retrieve();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchOverride searchOverride = client.collections("companies").overrides("customize-apple").retrieve();
 ```
 
   </template>
@@ -371,7 +401,7 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 ## Delete an override
 Deleting an override associated with a collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -405,6 +435,13 @@ client.collections['companies'].overrides['customize-apple'].delete
 
 ```dart
 await client.collection('companies').override('customize-apple').delete();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchOverride searchOverride = client.collections("companies").overrides("customize-apple").delete();
 ```
 
   </template>

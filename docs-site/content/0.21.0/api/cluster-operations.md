@@ -11,7 +11,7 @@ Creates a point-in-time snapshot of a Typesense node's state and data in the spe
 
 You can then backup the snapshot directory that gets created and later restore it as a data directory, as needed.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -45,6 +45,16 @@ client.operations.perform('snapshot', {'snapshot_path': '/tmp/typesense-data-sna
 
 ```dart
 await client.operations.createSnapshot('/tmp/typesense-data-snapshot');
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, String> query = new HashMap<>();
+query.put("snapshot_path","/tmp/typesense-data-snapshot");
+
+client.operations.perform("snapshot",query);
 ```
 
   </template>
@@ -86,7 +96,7 @@ Triggers a follower node to initiate the raft voting process, which triggers lea
 
 The follower node that you run this operation against will become the new leader, once this command succeeds.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -120,6 +130,13 @@ client.operations.perform('vote')
 
 ```dart
 await client.operations.initLeaderElection();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+client.operations.perform("vote");
 ```
 
   </template>
@@ -201,11 +218,17 @@ curl "http://localhost:8108/config" \
 
 Get current RAM, CPU, Disk & Network usage metrics.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Dart','Java','Shell']">
   <template v-slot:Dart>
 
 ```dart
 await client.metrics.retrieve();
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+client.metrics.retrieve();
 ```
   </template>
   <template v-slot:Shell>
@@ -215,6 +238,7 @@ curl "http://localhost:8108/metrics.json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
   </template>
+
 </Tabs>
 
 #### Sample Response

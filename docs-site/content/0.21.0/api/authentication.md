@@ -10,7 +10,7 @@ You'd need one or more hostnames and [API keys](./api-keys.md) to integrate with
 If you're self-hosting Typesense, the hostnames are the IP addresses or DNS names of each of your Typesense nodes. 
 If you're using Typesense Cloud, we generate unique hostnames for each of your nodes and show them on the dashboard for you to use. 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -128,6 +128,28 @@ final config = Configuration(
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+
+ArrayList<Node> nodes = new ArrayList<>();
+nodes.add(
+  new Node(
+    "http",       // For Typesense Cloud use https
+    "localhost",  // For Typesense Cloud use xxx.a1.typesense.net
+    "8108"        // For Typesense Cloud use 443
+  )
+);
+
+Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2),"<API_KEY>");
+
+Client client = new Client(configuration);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -161,7 +183,7 @@ On Typesense Cloud, you can turn ON a setting called `Search Delivery Network` a
 You'll be a given a special hostname called the Nearest Node hostname when you turn this setting on for your cluster. You'd then need to configure your clients to use this hostname:
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -277,6 +299,28 @@ final config = Configuration(
     },
     connectionTimeout: Duration(seconds: 2),
   );
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+
+ArrayList<Node> nodes = new ArrayList<>();
+nodes.add(new Node("https", "xxx-1.a1.typesense.net", "443"));
+nodes.add(new Node("https", "xxx-2.a1.typesense.net", "443"));
+nodes.add(new Node("https", "xxx-3.a1.typesense.net", "443"));
+
+// This is the special Nearest Node hostname that you'll see in the
+// Typesense Cloud dashboard if you turn on Search Delivery Network.
+Node nearestNode = new Node("https", "xxx.a1.typesense.net", "443");
+
+Configuration configuration = new Configuration(nearestNode, nodes, Duration.ofSeconds(2),"<API_KEY>");
+
+Client client = new Client(configuration);
 ```
 
   </template>
