@@ -19,42 +19,39 @@ This release contains new features, performance improvements and important bug f
 
 ### New Features
 
-- [Geosearch](../api/documents.md#geosearch): Use the `geopoint` data type to index locations, filter and sort on them. We support filtering on
-  records within a given radius and as well as within any arbitrarily defined geo polygon.
-- Wrap literal strings in `filter_by` values using backticks to ensure that the commas in filter values
-  don't get parsed as a list separator. Example: <code>filter_by: primary_artist_name:=[\`Apple, Inc.\`]</code>
-- Support exclude / not equals operator for filtering string and boolean facets. Example: `filter_by=author:!= JK Rowling`
-- Ability to turn off prefix search on a per field basis. For example, if you are querying 3 fields and want to enable
-  prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order in `query_by`.
-- Ability to turn off typo tolerance on a per field basis. For example, if you are querying 3 fields and want to disable typo tolerance on the first field, use `?num_typos=0,2,2`. The order should match the order in `query_by`.
-- You can now highlight fields that you don't query for. Use `?highlight_fields=title` to specify a custom list of
-  fields that should be highlighted.
-- Add `filter_by`, `include_fields` and `exclude_fields` options to `documents/export` endpoint.
+- Customizable word separators and special characters for indexing: it's now possible to split words on special characters and index them as separate words. You can also index and search special characters / symbols.
+- Dynamic filtering based on rules: overrides now support a `filter_by` clause that can apply filters dynamically to query rules defined in the override.
+- Server side caching: cache search requests for a configurable amount of time to improve perceived latencies on heavy queries. Refer to the `use_cache` and `cache_ttl` parameters. By default, caching is disabled.
+- Protection against expensive queries via the use of `search_cutoff_ms` parameter that attempts to return results early when the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.
+- Added `geo_precision` sorting option to geo fields. This will bucket/group geo points into "slots" determined by the given precision value, such that points that fall within the same bucket are treated as equal, and the next sorting field can be considered for ranking.
 
 ### Enhancements
 
-- Increased maximum supported length of HTTP query string to 4K characters: if you wish to send larger payloads, use
-  the [multi-search end-point](../api/documents.md#federated-multi-search).
-- Accept `null` values for [optional fields](https://github.com/typesense/typesense/issues/266).
-- Support for indexing pre-segmented text: you can now index content from any logographic language into Typesense
-  if you are able to segment / split the text into space-separated words yourself before indexing and querying. You
-  should also set `?pre_segmented_query=true` during searching.
-- If you have some overrides defined but want to disable all of them during query time, you can now do that
-  by setting `?enable_overrides=false`.
+- Reduced memory consumption: 20-30% depending on the shape of your data.
+- Improved update performance: updates on string fields are now 5-6x faster.
+- Improved parallelization for multi-collection writes: collections are now indexed independently, making indexing much faster when you are writing to hundreds of collections at the same time.
+- Allow exhaustive searching via the `exhaustive_search` parameter. Setting `?exhaustive_search=true` will make Typesense consider _all_ prefixes and typo corrections of the words in the query without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored).
+- Make minimum word length for 1-char typo and 2-char typos configurable via `min_len_1typo` and `min_len_2typo` parameters. Defaults are 4 and 7 respectively.
+- Support filtering by document `id` in filter_by query.
+- Support API key permission for creating a specific collection: previously, there was no way to generate an API key that allows you to create a collection with a specific name.
+- Allow use of type `auto` for a field whose name does not contain a regular expression.
+- Geosearch filter automatically sorts the geo points for the polygon in the correct order: so you don't have to define them in counter clockwise order anymore.
 
 ### Bug Fixes
 
-- Fixed some edge cases with typo correction not finding the correct matches
-- Ensure that exact matches are [ranked above others](https://github.com/typesense/typesense/issues/191).
-  Set `?prioritize_exact_match=false` to disable this behavior.
-- Fixed `collections:*` API key permission which was not previously being recognized by the authentication engine.
-- Fixed float facets being displayed with imprecise precision when displayed as string.
+- Fixed edge cases in import of large documents where sometimes, imports hanged mysteriously or ended prematurely.
+- Fixed document with duplicate IDs within an import upsert batch being imported as two separate documents.
+- Fixed fields with names that contain a regular expression acting as an `auto` type instead of respecting the schema type.
+- Fixed a few edge cases in multi-field searching, especially around field weighting and boosting.
+- Fixed deletion of collections with slashes or spaces in their names not working: you can now URL encode the names while calling the API.
 
-### Deprecations
+### Deprecations / behavioral changes
 
-- There is a change in the `upsert` behavior to conform to existing popular conventions: The upsert action
-  now requires the whole document to be sent for indexing. If you wish to update part of a document, use the `update` action.
-
+- The `drop_tokens_threshold` and `typo_tokens_threshold` now default to a value of `1`. 
+  If you were relying on the earlier defaults (`10` and `100` respectively), please set these parameters explicitly.
+- Minimum word length for 1-char typo correction has been increased to 4. 
+  Likewise, minimum length for 2-char typo has been increased to 7. This has helped to reduce false fuzzy matches.
+  You can use the `min_len_1typo` and `min_len_2typo` parameters to customize these default values. 
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
