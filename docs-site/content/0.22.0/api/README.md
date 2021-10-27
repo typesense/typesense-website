@@ -13,13 +13,16 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 <br/>
 
-## What's new
+## What's new on v{{ $page.typesenseVersion }}
 
 This release contains new features, performance improvements and important bug fixes.
 
 ### New Features
 
-- Customizable word separators and special characters for indexing: it's now possible to split words on special characters and index them as separate words. You can also index and search special characters / symbols.
+- Customizable word separators: define a list of special characters via the `token_separators` configuration 
+  during schema creation. These characters are then used as word separators, _in addition_ to space and new-line characters.
+- Index and search special characters: define a list of special characters that will be indexed as text via the 
+  `symbols_to_index` configuration during schema creation.
 - Dynamic filtering based on rules: overrides now support a `filter_by` clause that can apply filters dynamically to query rules defined in the override.
 - Server side caching: cache search requests for a configurable amount of time to improve perceived latencies on heavy queries. Refer to the `use_cache` and `cache_ttl` parameters. By default, caching is disabled.
 - Protection against expensive queries via the use of `search_cutoff_ms` parameter that attempts to return results early when the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.

@@ -230,12 +230,14 @@ They will be stored on disk, and will not take up any memory.
 :::
 
 
-#### Field Arguments
+#### Schema Arguments
 
 | Parameter      | Required    |Description                                            |
 | -------------- | ----------- |-------------------------------------------------------|
 |name	|yes	|Name of the collection you wish to create. <br><br>This can be a simple string like `"name": "score"`. <br><br>Or you can also use a RegEx to specify field names matching a pattern. For eg: if you want to specify that all fields starting with `score_` should be an integer, you can set name as `"name": "score_.*"`. |
 |fields	|yes	|A list of fields that you wish to index for querying, filtering and faceting. For each field, you have to specify the `name` and `type`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`.<br><br>Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields.<br><br>**Declaring a field as non-indexable**<br>You can ensure that a field is not indexed by setting `"index": false`. This is useful when used along with [auto schema detection](#with-auto-schema-detection) and you need to [exclude certain fields from indexing](#indexing-all-but-some-fields).  |
+|token_separators	|no	| List of symbols or special characters to be used for splitting the text into individual words _**in addition**_ to space and new-line characters.<br><br> For e.g. you can add `-` (hyphen) to this list to make a word like `non-stick` to be split on hyphen and indexed as two separate words. |
+|symbols_to_index	|no	| List of symbols or special characters to be indexed. <br><br>For e.g. you can add `+` to this list to make the word `c++` indexable verbatim. |
 |default_sorting_field	|no	|The name of an `int32 / float` field that determines the order in which the search results are ranked when a `sort_by` clause is not provided during searching. This field must indicate some kind of popularity. For example, in a product search application, you could define `num_reviews` field as the `default_sorting_field`.<br><br>Additionally, when a word in a search query matches multiple possible words (either because of a typo or during a prefix search), this parameter is used to rank such equally matching tokens. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple" and "apply" would match the prefix "app".|
 
 #### Field types
