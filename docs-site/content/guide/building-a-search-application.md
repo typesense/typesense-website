@@ -297,11 +297,11 @@ readline.createInterface({
 
 ```php
 $booksData = file_get_contents('/tmp/books.jsonl')
-$booksStrs = explode('\n', $booksData)
+$books = explode(PHP_EOL, $booksData);
 
-foreach($booksStrs as $bookStr) {
-  $book = json_decode($bookStr);
-  $client->collections['books']->documents->create($book)
+foreach($books as $bookItem) {
+    $book = json_decode($bookItem, true);
+    $client->collections['books']->documents->create($book);
 }
 ```
 
