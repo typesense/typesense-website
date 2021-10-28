@@ -13,7 +13,7 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 <br/>
 
-## What's new on v{{ $page.typesenseVersion }}
+## What's new
 
 This release contains new features, performance improvements and important bug fixes.
 
@@ -48,13 +48,48 @@ This release contains new features, performance improvements and important bug f
 - Fixed a few edge cases in multi-field searching, especially around field weighting and boosting.
 - Fixed deletion of collections with slashes or spaces in their names not working: you can now URL encode the names while calling the API.
 
-### Deprecations / behavioral changes
+### Deprecations / behavior changes
 
 - The `drop_tokens_threshold` and `typo_tokens_threshold` now default to a value of `1`. 
   If you were relying on the earlier defaults (`10` and `100` respectively), please set these parameters explicitly.
 - Minimum word length for 1-char typo correction has been increased to 4. 
   Likewise, minimum length for 2-char typo has been increased to 7. This has helped to reduce false fuzzy matches.
-  You can use the `min_len_1typo` and `min_len_2typo` parameters to customize these default values. 
+  You can use the `min_len_1typo` and `min_len_2typo` parameters to customize these default values.
+
+## Upgrading
+
+Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior 
+changes above to prepare your application for the upgrade.
+
+### Single node deployment
+
+1. Trigger a snapshot to [create a backup](cluster-operations.html#create-snapshot-for-backups) of your data.
+2. Stop Typesense server.
+3. Replace the binary via the tar package or via the DEB/RPM installer. 
+4. Start Typesense server back again.
+
+### Multi-node deployment
+
+To upgrade a multi-node cluster, we will be proceeding node by node. 
+
+**NOTE:** During the upgrade, we have to ensure that the leader of the cluster is using the **older** Typesense version. 
+So we will upgrade the leader last. You can determine whether a node is a leader or follower by the value of the `state` 
+field in the `/debug` end-point response.
+
+|State|Role|
+|-----|----|
+|1|LEADER|
+|4|FOLLOWER|
+
+1. Trigger a snapshot to [create a backup](cluster-operations.html#create-snapshot-for-backups) of your data 
+   on the leader node.
+2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
+3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up. 
+4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node alone for now.
+5. Once all the followers have been upgraded to v{{ $page.typesenseVersion }}, stop Typesense on the leader.
+6. The other nodes will elect a new leader and keep working. 
+7. Replace the binary on the old leader and start the Typesense server back again. 
+8. This node will re-join the cluster as a follower, and we are done.
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
