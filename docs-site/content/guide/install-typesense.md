@@ -148,4 +148,4 @@ curl http://localhost:8108/health
 
 You can configure various Typesense Server settings using command line arguments. 
 Read this reference article for more information on 
-<RouterLink :to="`/${this.$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">How To Configure Typesense Server</RouterLink>.
+<RouterLink :to="`/${this.$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">How To Configure Typesense Server</RouterLink>.
