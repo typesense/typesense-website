@@ -1040,6 +1040,8 @@ The polygon's points must be defined in a **counter-clockwise (i.e. anti-clockwi
 
 ### Sorting by Additional Attributes within a Radius
 
+#### exclude_radius
+
 Sometimes, it's useful to sort nearby places within a radius based on another attribute like `popularity`, and then sort by distance outside this radius.
 You can use the `exclude_radius` option for that.
 
@@ -1047,9 +1049,19 @@ You can use the `exclude_radius` option for that.
 'sort_by' : 'location(48.853, 2.344, exclude_radius: 2mi):asc, popularity:desc'
 ```
 
-Internally, this causes all documents within a 2 mile radius to "tie" with the same value for distance. 
+This makes all documents within a 2 mile radius to "tie" with the same value for distance. 
 To break the tie, these records will be sorted by the next field in the list `popularity:desc`. 
 Records outside the 2 mile radius are sorted first on their distance and then on `popularity:desc` as usual.
+
+#### geo_precision
+
+Similarly, you can bucket all geo points into "groups" using the `geo_precision` parameter.
+
+```shell
+'sort_by' : 'location(48.853, 2.344, geo_precision: 2mi):asc, popularity:desc'
+```
+
+This will bucket all points into 2 mile groups so that the popularity metric can fall through.
 
 ## Federated / Multi Search
 You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.

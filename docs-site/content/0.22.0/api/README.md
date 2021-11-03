@@ -26,7 +26,7 @@ This release contains new features, performance improvements and important bug f
 - Dynamic filtering based on rules: overrides now support a `filter_by` clause that can apply filters dynamically to query rules defined in the override.
 - Server side caching: cache search requests for a configurable amount of time to improve perceived latencies on heavy queries. Refer to the `use_cache` and `cache_ttl` parameters. By default, caching is disabled.
 - Protection against expensive queries via the use of `search_cutoff_ms` parameter that attempts to return results early when the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.
-- Added `geo_precision` sorting option to geo fields. This will bucket/group geo points into "slots" determined by the given precision value, such that points that fall within the same bucket are treated as equal, and the next sorting field can be considered for ranking.
+- Added `geo_precision` sorting option to geo fields. This will bucket geo points into "groups" determined by the given precision value, such that points that fall within the same group are treated as equal, and the next sorting field can be considered for ranking.
 
 ### Enhancements
 
@@ -50,6 +50,8 @@ This release contains new features, performance improvements and important bug f
 
 ### Deprecations / behavior changes
 
+- Once you upgrade your Typesense server to `v0.22`, the data directory cannot be used with
+  `v0.21.0` binary again. So, please take a snapshot/backup of the data directory before upgrading. 
 - The `drop_tokens_threshold` and `typo_tokens_threshold` now default to a value of `1`. 
   If you were relying on the earlier defaults (`10` and `100` respectively), please set these parameters explicitly.
 - Minimum word length for 1-char typo correction has been increased to 4. 
