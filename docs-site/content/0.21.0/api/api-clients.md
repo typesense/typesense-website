@@ -94,7 +94,7 @@ import 'package:typesense/typesense.dart';
 ```java
 // Download the JAR file from the releases section in the typesense-java repository. 
 // (https://github.com/typesense/typesense-java/releases)
-// And the import it them to your project
+// And import it into your project
 
 import org.typesense.api.*;
 import org.typesense.models.*;
