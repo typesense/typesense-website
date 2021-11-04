@@ -143,6 +143,7 @@ export default {
       server: typesenseServerConfig($config),
       additionalSearchParameters: {
         queryBy: 'title',
+        prioritizeExactMatch: false,
       },
     })
 
