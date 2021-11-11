@@ -8,7 +8,7 @@ In fact, the search bar you see on Typesense's own documentation site is built w
 Typesense's customized version of DocSearch is made up of two components:
 
 1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - Scraper that scans your documentation site and indexes the content in Typesense.
-1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
+2. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
 
 ## Step 1: Set up DocSearch Scraper
 
@@ -21,6 +21,12 @@ Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs
 [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites and [here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense Documentation Site's docsearch config.
 
 You can use one of those as templates to create your own `config.js`, pointing to your documentation site.
+
+#### Key Concepts
+
+- Your main text content, which is usually within a `<main>` or an `<article>` HTML element, should be identifiable with a class such as `.main`
+- Docsearch organizes the scraped information's hierarchy using variables called `lvl0`, `lvl1`, `lvl2`..., which usually map to the `h1`, `h2`, `h3`... tags within an article
+- `lvlX` selectors can also be queried with CSS classes or xpath queries
 
 ### Run the Scraper
 
