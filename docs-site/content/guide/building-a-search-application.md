@@ -277,17 +277,11 @@ We're now ready to index some books into the collection we just created.
   <template v-slot:JavaScript>
 
 ```js
-var fs = require('fs');
+var fs = require('fs/promises');
 var readline = require('readline');
 
-readline.createInterface({
-    input: fs.createReadStream('/tmp/books.jsonl'),
-    terminal: false
-}).on('line', function(line) {
-   let bookDocument = JSON.parse(line);
-   client.collections('books').documents().create(bookDocument)
-});
-
+const bookssInJsonl = await fs.readFile("/tmp/books.jsonl");
+client.collections('books').documents().import(booksInJsonl, {batch_size: 100});
 })
 ```
 
