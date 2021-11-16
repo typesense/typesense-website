@@ -716,7 +716,7 @@ curl "http://localhost:8108/multi_search?query_by=name" \
 
 | Parameter      | Required    |Description                                            |
 | -------------- | ----------- |-------------------------------------------------------|
-|limit_multi_searches	|no	|Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.
+|limit_multi_searches	|no	|Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: `50`<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.
 
 
 ## Retrieve a document
