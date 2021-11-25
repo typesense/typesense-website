@@ -280,9 +280,8 @@ We're now ready to index some books into the collection we just created.
 var fs = require('fs/promises');
 var readline = require('readline');
 
-const bookssInJsonl = await fs.readFile("/tmp/books.jsonl");
+const booksInJsonl = await fs.readFile("/tmp/books.jsonl");
 client.collections('books').documents().import(booksInJsonl, {batch_size: 100});
-})
 ```
 
   </template>
