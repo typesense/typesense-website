@@ -34,6 +34,7 @@ This release contains new features, performance improvements and important bug f
 - Improved update performance: updates on string fields are now 5-6x faster.
 - Improved parallelization for multi-collection writes: collections are now indexed independently, making indexing much faster when you are writing to hundreds of collections at the same time.
 - Allow exhaustive searching via the `exhaustive_search` parameter. Setting `?exhaustive_search=true` will make Typesense consider _all_ prefixes and typo corrections of the words in the query without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored).
+- Exact filtering on strings (using the `:=` operator) no longer requires the field to be facetable.
 - Make minimum word length for 1-char typo and 2-char typos configurable via `min_len_1typo` and `min_len_2typo` parameters. Defaults are 4 and 7 respectively.
 - Support filtering by document `id` in filter_by query.
 - Support API key permission for creating a specific collection: previously, there was no way to generate an API key that allows you to create a collection with a specific name.
