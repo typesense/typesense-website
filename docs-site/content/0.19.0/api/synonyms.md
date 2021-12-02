@@ -225,7 +225,7 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections/products/synonyms"
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections/products/synonyms/coat-synonyms"
 ```
 
   </template>
