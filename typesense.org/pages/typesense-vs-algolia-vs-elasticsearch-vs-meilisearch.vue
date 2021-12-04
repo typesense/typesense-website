@@ -372,7 +372,15 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
-                  <td>❌</td>
+                  <td>
+                    ❌<br /><br />
+                    Can be implemented
+                    <a
+                      href="https://github.com/typesense/showcase-books-search/blob/b0b15dc88179566f85db21d2455c2d6c68668d5a/src/app.js#L186-L194"
+                      target="_blank"
+                      >client-side</a
+                    >.
+                  </td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
@@ -382,7 +390,7 @@
                   <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>❌</td>
+                  <td>✅</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -405,11 +413,17 @@
                     >
                   </td>
                   <td>✅️</td>
-                  <td>❌</td>
+                  <td>✅</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search Analytics</td>
-                  <td>Client-side, through InstantSearch.js</td>
+                  <td>
+                    <a
+                      href="https://typesense.org/docs/guide/search-analytics.html"
+                      target="_blank"
+                      >Client-side</a
+                    >, through InstantSearch.js
+                  </td>
                   <td>Client-side and Server-side</td>
                   <td>❌</td>
                   <td>Client-side, through InstantSearch.js</td>
@@ -535,9 +549,9 @@
                     unique fingerprint ID for licensing.
                   </td>
                   <td>
-                    🔶<br /><br />Collects personal data, hardware information,
-                    total number of documents, number of document updates &
-                    server uptime. Opt-out supported.
+                    🔶<br /><br />Collects hardware information, total number of
+                    documents, number of document updates & server uptime.
+                    Opt-out supported.
                   </td>
                 </tr>
               </tbody>
