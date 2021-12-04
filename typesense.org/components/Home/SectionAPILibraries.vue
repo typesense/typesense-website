@@ -186,19 +186,7 @@
                 alt="Gatsby"
                 width="117"
                 height="31"
-                class="mt-4 mt-sm-0"
-              />
-            </a>
-            <a
-              href="https://github.com/typesense/firestore-typesense-search"
-              target="_blank"
-            >
-              <img
-                src="~/assets/images/firebase-logo-standard.svg"
-                alt="Firebase Extension"
-                width="123"
-                height="35"
-                class="ml-5 mt-4 mt-sm-0"
+                class="ml-2 mt-4"
               />
             </a>
             <a
@@ -208,7 +196,7 @@
               <img
                 src="~/assets/images/instantsearch-logo.svg"
                 alt="InstantSearch.js"
-                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
+                class="ml-2 ml-sm-5 mt-4"
                 height="35"
                 width="194"
               />
@@ -220,9 +208,21 @@
               <img
                 src="~/assets/images/docsearch-logo.svg"
                 alt="DocSearch"
-                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
+                class="ml-2 ml-sm-3 ml-sm-5 mt-4"
                 height="30"
                 width="182"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/docusaurus-theme-search-typesense"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/docusaurus-logo.svg"
+                alt="DocSearch"
+                class="ml-2 ml-sm-3 ml-sm-5 mt-4"
+                width="185"
+                height="30"
               />
             </a>
             <a
@@ -233,7 +233,20 @@
                 src="~/assets/images/wordpress-logo.svg"
                 alt="Wordpress"
                 height="40"
-                class="ml-3 ml-sm-5 mt-4 mt-sm-0"
+                width="176"
+                class="ml-2 ml-sm-3 ml-sm-5 mt-4"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/firestore-typesense-search"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/firebase-logo-standard.svg"
+                alt="Firebase Extension"
+                height="40"
+                width="142"
+                class="ml-2 ml-sm-3 mt-4"
               />
             </a>
           </div>
