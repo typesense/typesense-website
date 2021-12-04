@@ -87,6 +87,15 @@
               with Next.js + Typesense
             </template>
           </HomeShowcaseBlock>
+          <HomeShowcaseBlock
+            emoji="⚡ 🔍 🌎️"
+            link="https://airbnb-geosearch.typesense.org/"
+          >
+            <template #title>
+              AirBnB Browsing Experience<br />
+              with 1M listings.
+            </template>
+          </HomeShowcaseBlock>
         </div>
       </div>
     </div>

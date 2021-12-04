@@ -90,6 +90,29 @@
               />
             </a>
             <a
+              href="https://github.com/runeanielsen/typesense-clj"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/clojure-logo.svg"
+                alt="Clojure"
+                width="42"
+                height="42"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-java"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/java-logo.svg"
+                alt="Clojure"
+                height="60"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
               href="https://github.com/typesense/typesense-rust"
               target="_blank"
             >
@@ -136,6 +159,18 @@
                 alt="Angular"
                 width="55"
                 height="55"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/laravel-scout-typesense-driver"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/laravel-logo.svg"
+                alt="Laravel"
+                width="46"
+                height="46"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
