@@ -1,6 +1,7 @@
 ---
+sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Documents
@@ -11,7 +12,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -83,6 +84,19 @@ await client.collection('companies').documents.create(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+document.put("id","124");
+document.put("company_name","Stark Industries");
+document.put("num_employees",5215);
+document.put("country","USA");
+
+client.collections("companies").documents().create(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -104,7 +118,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -176,6 +190,20 @@ await client.collection('companies').documents.upsert(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+
+document.put("id","124");
+document.put("company_name","Stark Industries");
+dpocument.put("num_employees",5215);
+document.put("country","USA");
+
+client.collections("companies").documents().upsert(document);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -219,7 +247,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Search
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -288,6 +316,18 @@ final searchParameters = {
 };
 
 await client.collection('companies').documents.search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("stark")
+                                        .addqueryByItem("company_name")
+                                        .filterBy("num_employees:>100")
+                                        .addsortByItem("num_employees:desc");
+SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```
 
   </template>
@@ -387,7 +427,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -469,6 +509,19 @@ await client.collection('companies').documents.search(searchParameters);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("stark")
+                                        .addqueryByItem("company_name")
+                                        .filterBy("num_employees:>100")
+                                        .addsortByItem("num_employees:desc")
+                                        .addgroupByItem("country")
+                                        .groupLimit(1);
+SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
+```
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -540,37 +593,482 @@ client.collections['companies'].documents.search(search_parameters)
 |q	|yes	|The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`.<br><br>To exclude words in your query explicitly, prefix the word with the `-` operator, e.g. `q: 'electric car -tesla'`.|
 |query_by	|yes	|One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.|
 |query_by_weights	|no	|The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.|
-|prefix	|no	|Boolean field to indicate that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces.<br><br>Default: `true`|
-|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` - returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you have to mark the field as a facet and use the `:=` operator.<br><br>For eg: `category:=Shoe` will match documents from the category shoes and not from a category like `shoe rack`. You can also filter using multiple values: `category:= [Shoe, Sneaker]`.<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
-|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.|
+|prefix	|no	|Indicates that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces. Set this to `false` to disable prefix searching for all queried fields. <br><br>You can also control the behavior of prefix search on a per field basis. For example, if you are querying 3 fields and want to enable prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order of fields in `query_by`. If a single value is specified for `prefix` the same value is used for all fields specified in `query_by`.<br><br>Default: `true` (prefix searching is enabled for all fields).|
+|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you can use the `:=` operator. For eg: `category:= Shoe` will match documents from the category shoes and not from a category like `shoe rack`.<br><br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, Sneaker]</code>.<br><br>Not equals / negation is supported for string and boolean facet fields, e.g. `filter_by=author:!= JK Rowling`<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
+|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](#geosearch), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](#sorting-by-additional-attributes-within-a-radius). |
 |facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
-|max_facet_values	|no	|Maximum number of facet values to be returned.|
+|max_facet_values	|no	|Maximum number of facet values to be returned. <br><br>Default: `10`|
 |facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
-|num_typos	|no	|Number of typographical errors (1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>Default: `2`|
-|page	|no	|Results from this specific page number would be fetched.|
-|per_page	|no	|Number of results to fetch per page.<br><br>Default: `10` <br><br> NOTE: Only upto 250 hits can be fetched per page.|
+|prioritize_exact_match	|no	|By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`|
+|page	|no	|Results from this specific page number would be fetched.<br><br>Page numbers start at `1` for the first page.<br><br>Default: `1`|
+|per_page	|no	|Number of results to fetch per page.<br><br>When `group_by` is used, `per_page` refers to the number of _groups_ to fetch per page, in order to properly preserve pagination. <br><br>Default: `10` <br><br> NOTE: Only upto 250 hits (or groups of hits when using `group_by`) can be fetched per page.|
 |group_by	|no	|You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`
 |group_limit	|no	|Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`|
 |include_fields	|no	|Comma-separated list of fields from the document to include in the search result.|
 |exclude_fields	|no	|Comma-separated list of fields from the document to exclude in the search result.|
+|highlight_fields|no | Comma separated list of fields that should be highlighted with snippetting. You can use this parameter to highlight fields that you don't query for, as well.<br><br>Default: all queried fields will be highlighted.|
 |highlight_full_fields	|no	|Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.|
-|highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side.<br><br>Default: `4`|
+|highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side. This controls the length of the snippet. <br><br>Default: `4`|
 |highlight_start_tag	|no	|The start tag used for the highlighted snippets.<br><br>Default: `<mark>`|
 |highlight_end_tag	|no	|The end tag used for the highlighted snippets.<br><br>Default: `</mark>`|
 |snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
-|drop_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to drop the tokens in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set drop_tokens_threshold to 0 to disable dropping of tokens.<br><br>Default: `10`
-|typo_tokens_threshold	|no	|If the number of results found for a specific query is less than this number, Typesense will attempt to look for tokens with more typos until enough results are found.<br><br>Default: `100`|
+|num_typos	|no	|Maximum number of typographical errors (0, 1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>You can also control `num_typos` on a per field basis. For example, if you are querying 3 fields and want to disable typo tolerance on the first field, use `?num_typos=0,1,1`. The order should match the order of fields in `query_by`. If a single value is specified for `num_typos` the same value is used for all fields specified in `query_by`. <br><br>Default: `2` (`num_typos` is `2` for *all* fields specified in `query_by`).|
+|min_len_1typo	|no	|Minimum word length for 1-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `3`.|
+|min_len_2typo	|no	|Minimum word length for 2-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `7`.|
+|typo_tokens_threshold	|no	|If at least `typo_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to look for results with more typos until `num_typos` is reached or enough results are found. Set `typo_tokens_threshold` to `0` to disable typo tolerance.<br><br>Default: `1`|
+|drop_tokens_threshold	|no	|If at least `drop_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to drop tokens (words) in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set `drop_tokens_threshold` to `0` to disable dropping of tokens.<br><br>Default: `1`
+|exhaustive_search	|no	| Setting this to `true` will make Typesense consider all variations of prefixes and typo corrections of the words in the query exhaustively, without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored). <br><br>Default: `false`|
 |pinned_hits	|no	|A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
 |hidden_hits	|no	|A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
+|enable_overrides|no|If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true` |
+|pre_segmented_query|no|Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false` |
 |limit_hits	|no	|Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.|
+|search_cutoff_ms |no	|Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: no search cutoff happens.|
+|use_cache |no	| Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`|
+|cache_ttl |no	|The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`|
 
+
+## Geosearch
+
+Typesense supports geo search on fields containing the `geopoint` type.
+
+Let's create a collection called `places` with a field called `location` of type `geopoint`.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name': 'title',
+      'type': 'string'
+    },
+    {
+      'name': 'points',
+      'type': 'int32'
+    },
+    {
+      'name': 'location',
+      'type': 'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections().create(schema)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$schema = [
+  'name'      => 'places',
+  'fields'    => [
+    [
+      'name'  => 'title',
+      'type'  => 'string'
+    ],
+    [
+      'name'  => 'points',
+      'type'  => 'int32'
+    ],
+    [
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    ]
+  ],
+  'default_sorting_field' => 'points'
+];
+
+$client->collections->create($schema);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+schema = {
+  'name': 'places',
+  'fields': [
+    {
+      'name'  :  'title',
+      'type'  :  'string'
+    },
+    {
+      'name'  :  'points',
+      'type'  :  'int32'
+    },
+    {
+      'name'  :  'location',
+      'type'  :  'geopoint'
+    }
+  ],
+  'default_sorting_field': 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+schema = {
+  'name'      => 'places',
+  'fields'    => [
+    {
+      'name'  => 'title',
+      'type'  => 'string'
+    },
+    {
+      'name'  => 'points',
+      'type'  => 'int32'
+    },
+    {
+      'name'  => 'location',
+      'type'  => 'geopoint'
+    }
+  ],
+  'default_sorting_field' => 'points'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final schema = Schema(
+  'places',
+  {
+    Field('title', Type.string),
+    Field('points', Type.int32),
+    Field('location', Type.geopoint),
+  },
+  defaultSortingField: Field('points', Type.int32),
+);
+
+await client.collections.create(schema);
+```
+
+  </template>
+<template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+
+collectionschema.name("places")
+                .addFieldsItem(new Field().name("title").type("string"))
+                .addFieldsItem(new Field().name("points").type("int32"))
+                .addFieldsItem(new Field().name("location").type("geopoint"))
+                .defaultSortingField("points");
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/collections" -X POST 
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "places",
+        "fields": [
+          {"name": "title", "type": "string" },
+          {"name": "points", "type": "int32" }, 
+          {"name": "location", "type": "geopoint"}
+        ],
+        "default_sorting_field": "points"
+      }'
+```
+
+  </template>
+</Tabs>
+
+Let's now index a document.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections('places').documents().create(document)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$document = [
+  'title'   => 'Louvre Museuem',
+  'points'  => 1,
+  'location' => array(48.86093481609114, 2.33698396872901)
+];
+
+$client->collections['places']->documents->create($document);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+document = {
+  'title'    =>   'Louvre Museuem',
+  'points'   =>   1,
+  'location' =>  [48.86093481609114, 2.33698396872901]
+}
+
+client.collections['places'].documents.create(document)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'location': [48.86093481609114, 2.33698396872901]
+};
+
+await client.collection('places').documents.create(document};
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+HaashMap<String, Object> document = new HashMap<>();
+float[] location =  {48.86093481609114, 2.33698396872901}
+
+document.add("title", "Louvre Museuem");
+document.add("points", 1);
+document.add("location", location);
+
+client.collection("places").documents.create(document);
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/places/documents" -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{"points":1,"title":"Louvre Museuem", "location": [48.86093481609114, 2.33698396872901]}'
+```
+
+  </template>
+</Tabs>
+
+We can now search for places within a given radius of a given latlong
+(use `mi` for miles and `km` for kilometers). In addition, let's also sort the records that are closest to a given
+location (this location can be the same or different from the latlong used for filtering).
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections('companies').documents().search(searchParameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$searchParameters = [
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+];
+
+$client->collections['companies']->documents->search($searchParameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+```py
+search_parameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+search_parameters = {
+  'q'         => '*',
+  'query_by'  => 'title',
+  'filter_by' => 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   => 'location(48.853, 2.344):asc'
+}
+
+client.collections['companies'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final searchParameters = {
+  'q'         : '*',
+  'query_by'  : 'title',
+  'filter_by' : 'location:(48.90615915923891, 2.3435897727061175, 5.1 km)',
+  'sort_by'   : 'location(48.853, 2.344):asc'
+};
+
+client.collections('companies').documents().search(searchParameters)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters()
+                                        .q("*")
+                                        .addQueryByItem("title")
+                                        .filterBy("location:(48.90615915923891, 2.3435897727061175, 5.1 km)")
+                                        .addSortByItem("location(48.853, 2.344):asc");
+SearchResult searchResult = client.collections("places").documents().search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
+filter_by=location:(48.853,2.344,5.1 km)&sort_by=location(48.853, 2.344):asc"
+```
+
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "facet_counts": [],
+  "found": 1,
+  "hits": [
+    {
+      "document": {
+        "id": 0,
+        "location": [48.86093481609114, 2.33698396872901],
+        "points": 1,
+        "title": "Louvre Museuem"
+      },
+      "geo_distance_meters": {"location": 1020},
+      "highlights": [],
+      "text_match": 16737280
+    }
+  ],
+  "out_of": 1,
+  "page": 1,
+  "request_params": {"collection_name": "places", "per_page": 10, "q": "*"},
+  "search_time_ms": 0
+}
+```
+
+  </template>
+</Tabs>
+
+The above example uses "5.1 km" as the radius, but you can also use miles, e.g.
+`location:(48.90615915923891, 2.3435897727061175, 2 mi)`.
+
+### Searching Within a Geo Polygon
+
+You can also filter for documents within any arbitrary shaped polygon.
+
+The polygon's points must be defined in a **counter-clockwise (i.e. anti-clockwise) direction**.
+
+```shell
+'filter_by' : 'location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)'
+```
+
+### Sorting by Additional Attributes within a Radius
+
+#### exclude_radius
+
+Sometimes, it's useful to sort nearby places within a radius based on another attribute like `popularity`, and then sort by distance outside this radius.
+You can use the `exclude_radius` option for that.
+
+```shell
+'sort_by' : 'location(48.853, 2.344, exclude_radius: 2mi):asc, popularity:desc'
+```
+
+This makes all documents within a 2 mile radius to "tie" with the same value for distance. 
+To break the tie, these records will be sorted by the next field in the list `popularity:desc`. 
+Records outside the 2 mile radius are sorted first on their distance and then on `popularity:desc` as usual.
+
+#### geo_precision
+
+Similarly, you can bucket all geo points into "groups" using the `geo_precision` parameter.
+
+```shell
+'sort_by' : 'location(48.853, 2.344, geo_precision: 2mi):asc, popularity:desc'
+```
+
+This will bucket all points into 2 mile groups so that the popularity metric can fall through.
 
 ## Federated / Multi Search
 You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.
 
 You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -702,6 +1200,33 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String,String > search1 = new HashMap<>();
+HashMap<String,String > search2 = new HashMap<>();
+
+search1.put("collection","products");
+search1.put("q","shoe");
+search1.put("filter_by","price:=[50..120]");
+
+search2.put("collection","brands");
+search2.put("q","Nike");
+
+List<HashMap<String, String>> searches = new ArrayList<>();
+searches.add(search1);
+searches.add(search2);
+
+HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
+searchRequests.put("searches",searches);
+
+HashMap<String,String> commonSearchParams = new HashMap<>();
+commonSearchParams.put("query_by","name");
+
+client.multiSearch.perform(searchRequests, commonSearchParams);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -821,7 +1346,7 @@ The `results` array in a `multi_search` response is guaranteed to be in the same
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -855,6 +1380,13 @@ client.collections['companies'].documents['124'].retrieve
 
 ```dart
 await client.collection('companies').document('124').retrieve();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+Hashmap<String, Object> document = client.collections("companies").documents("124").retrieve();
 ```
 
   </template>
@@ -892,7 +1424,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -954,6 +1486,17 @@ await client.collection('companies').document('124').update(document);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+document.put("company_name","Stark Industries"); 
+document.put("num_employees",5500);
+
+HashMap<String, Object> updatedDocument = client.collections("companies").documents("124").update(document) 
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -991,7 +1534,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Delete documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1025,6 +1568,13 @@ client.collections['companies'].documents['124'].delete
 
 ```dart
 await client.collection('companies').document('124').delete();
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> deletedDocument = client.collections("companies").documents("124").delete();
 ```
 
   </template>
@@ -1062,7 +1612,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1096,6 +1646,16 @@ client.collections['companies'].documents.delete(filter_by: 'num_employees:>100'
 
 ```dart
 await client.collection('companies').documents.delete({'filter_by': 'num_employees:>100'});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+DeleteDocumentsParameters deleteDocumentsParameters = new DeleteDocumentsParameters();
+deleteDocumentsParameters.filterBy("num_employees:>100");
+
+client.collections("companies").documents().delete(deleteDocumentsParameters);
 ```
 
   </template>
@@ -1133,7 +1693,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1170,6 +1730,17 @@ await client.collection('companies').documents.exportJSONL();
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+ExportDocumentsParameters exportDocumentsParameters = new ExportDocumentsParameters();
+exportDocumentsParameters.addExcludeFieldsItem("id");
+exportDocumentsParameters.addIncludeFieldsItem("publication_year");
+exportDocumentsParameters.addIncludeFieldsItem("authors");
+client.collections("companies").documents().export(exportDocumentsParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1194,6 +1765,14 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
+While exporting, you can use the following parameters to control the result of the export:
+
+|Parameter|Description|
+| -------------- | ----------- |
+|filter_by|Restrict the exports to documents that satisfies the filter query.|
+|include_fields|List of fields that will be present in the export documents.|
+|exclude_fields|List of fields that should not be present in the export documents.|
+
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
@@ -1216,7 +1795,7 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1290,11 +1869,33 @@ await client.collection('companies').documents.importDocuments(documents);
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document1 = new HashMap<>();
+HashMap<String, String> queryParameters = new HashMap<>();
+ArrayList<HashMap<String, Object>> documentList = new ArrayList<>();
+
+document1.put("id","124");
+document1.put("company_name", "Stark Industries");
+document1.put("num_employees", 5215);
+document1.put("country", "USA");
+
+documentList.add(document1);
+
+ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
+importDocumentsParameters.action("create");
+
+client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
 curl "http://localhost:8108/collections/companies/documents/import?action=create" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -H "Content-Type: text/plain" \
         -X POST \
         -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
             {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
@@ -1314,11 +1915,13 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
     </tr>
     <tr>
         <td>upsert</td>
-        <td>	Creates a new document or updates an existing document if a document with the same id already exists.</td>
+        <td>Creates a new document or updates an existing document if a document with the same id already exists. 
+           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
     </tr>
     <tr>
         <td>update	</td>
-        <td>Updates an existing document. Fails if a document with the given id does not exist.</td>
+        <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
+            a partial document containing only the fields that are to be updated.</td>
     </tr>
 </table>
 
@@ -1341,7 +1944,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1363,7 +1966,7 @@ client.collections['companies'].documents.import($documentsInJsonl, ['action' =>
 
 ```py
 with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'action': 'create'})
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'create'})
 ```
 
   </template>
@@ -1385,6 +1988,20 @@ await client.collection('companies').documents.importJSONL(file.readAsStringSync
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("/books.jsonl");
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+Scanner myReader = new Scanner(myObj);
+StringBuilder data = new StringBuilder();
+while (myReader.hasNextLine()) {
+    data.append(myReader.nextLine()).append("\n");
+}
+client.collections("books").documents().import_(data.toString(), queryParameters);
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1403,7 +2020,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
 
 ```shell
-cat documents.json | jq -c .[] > documents.jsonl
+cat documents.json | jq -c '.[]' > documents.jsonl
 ```
 
 Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
@@ -1422,7 +2039,7 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1444,7 +2061,7 @@ client.collections['companies'].documents.import($documentsInJsonl, ['batch_size
 
 ```py
 with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_jsonl(jsonl_file.read(), {'batch_size': 100})
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'batch_size': 100})
 ```
 
   </template>
@@ -1461,6 +2078,23 @@ collections['companies'].documents.import(documents_jsonl, batch_size: 100)
 ```dart
 final file = File('documents.jsonl');
 await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("documents.jsonl");
+Scanner myReader = new Scanner(myObj);
+String documentsInJsonl;
+while (myReader.hasNextLine()) {
+    String documentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
+}
+
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+queryParameters.batchSize(100);
+
+client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
 ```
 
   </template>
@@ -1528,7 +2162,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1584,6 +2218,24 @@ await client.collection('companies').documents.create(document, options: {'dirty
 ```
 
 </template>
+  <template v-slot:Java>
+
+```java
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+queryParameters.dirtyValues(ImportDocumentsParameters.DirtyValuesEnum.COERCE_OR_REJECT);
+queryParameters.action("upsert");
+String[] authors = {"shakspeare","william"};
+HashMap<String, Object> hmap = new HashMap<>();
+hmap.put("title", 111);
+hmap.put("authors",authors);
+hmap.put("publication_year",1666);
+hmap.put("ratings_count",124);
+hmap.put("average_rating",3.2);
+hmap.put("id","2");
+client.collections("books").documents().create(hmap,queryParameters);
+```
+
+  </template>
 <template v-slot:Shell>
 
 ```bash
