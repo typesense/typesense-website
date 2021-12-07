@@ -32,6 +32,7 @@ This release contains new features, performance improvements and important bug f
 
 - Reduced memory consumption: 20-30% depending on the shape of your data.
 - Improved update performance: updates on string fields are now 5-6x faster.
+- Improved search performance: 20-25% faster on a variety of datasets we tested on. 
 - Improved parallelization for multi-collection writes: collections are now indexed independently, making indexing much faster when you are writing to hundreds of collections at the same time.
 - Allow exhaustive searching via the `exhaustive_search` parameter. Setting `?exhaustive_search=true` will make Typesense consider _all_ prefixes and typo corrections of the words in the query without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored).
 - Exact filtering on strings (using the `:=` operator) no longer requires the field to be facetable.

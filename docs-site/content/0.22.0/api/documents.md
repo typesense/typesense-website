@@ -623,7 +623,7 @@ client.collections['companies'].documents.search(search_parameters)
 |enable_overrides|no|If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true` |
 |pre_segmented_query|no|Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false` |
 |limit_hits	|no	|Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.|
-|search_cutoff_ms |no	|Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: `2000`|
+|search_cutoff_ms |no	|Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: no search cutoff happens.|
 |use_cache |no	| Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`|
 |cache_ttl |no	|The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`|
 
