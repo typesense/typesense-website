@@ -263,7 +263,7 @@ puts client.collections['books'].documents.search({
 </template>
 
 <script>
-import { typesenseLatestVersion } from '../../../typsenseVersions'
+import { typesenseLatestVersion } from '../../../typesenseVersions'
 
 export default {
   data() {

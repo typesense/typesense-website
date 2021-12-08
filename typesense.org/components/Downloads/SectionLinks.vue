@@ -71,7 +71,7 @@ docker pull typesense/typesense:{{ typesenseLatestVersion }}
 </template>
 
 <script>
-import { typesenseLatestVersion } from '../../../typsenseVersions'
+import { typesenseLatestVersion } from '../../../typesenseVersions'
 export default {
   data() {
     return {
