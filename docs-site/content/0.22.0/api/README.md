@@ -99,4 +99,8 @@ field in the `/debug` end-point response.
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
 :::
 
+## Downgrading
+
+If you need to downgrade back to `v0.21.0` of Typesense for any reason, we've published a patched version `v0.21.1` with some backported changes that allow a v0.21 node to be started on a data directory that was previously upgraded by a `v0.22.0` upgrade. The other option is to clear the data directory (which will wipe out all data), install a previous version afresh and then re-index your data.
+
 <RedirectOldLinks />
