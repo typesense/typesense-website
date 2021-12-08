@@ -1,5 +1,5 @@
 const { description } = require('../../package')
-const { typesenseVersions, typesenseLatestVersion } = require('../../../typsenseVersions')
+const { typesenseVersions, typesenseLatestVersion } = require('../../../typesenseVersions')
 const path = require('path')
 
 let config = {

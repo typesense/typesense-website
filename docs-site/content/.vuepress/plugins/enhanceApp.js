@@ -9,7 +9,7 @@
 import Vuex from 'vuex'
 import VueGtag from 'vue-gtag'
 
-import { typesenseLatestVersion } from './../../../../typsenseVersions'
+import { typesenseLatestVersion } from './../../../../typesenseVersions'
 import isSemVer from '../utils/isSemVer'
 
 // fork from vue-router@3.0.2

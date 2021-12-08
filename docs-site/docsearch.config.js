@@ -1,5 +1,5 @@
 // Echoes a JSON config that can be passed to the `CONFIG` env variable of docsearch scraper
-const { typesenseVersions } = require('../typsenseVersions')
+const { typesenseVersions } = require('../typesenseVersions')
 const config = {
   index_name: 'typesense_docs',
   start_urls: [
