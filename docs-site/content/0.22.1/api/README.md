@@ -15,7 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains new features, performance improvements and important bug fixes.
+This version `v0.22.1` fixes some important bugs in the recently released [`v0.22.0`](../../0.22.0/).
+
+The changelog below contains aggregates all the changes between `v0.21.0` and `v0.22.x`.
 
 ### New Features
 
@@ -49,8 +51,8 @@ This release contains new features, performance improvements and important bug f
 - Fixed fields with names that contain a regular expression acting as an `auto` type instead of respecting the schema type.
 - Fixed a few edge cases in multi-field searching, especially around field weighting and boosting.
 - Fixed deletion of collections with slashes or spaces in their names not working: you can now URL encode the names while calling the API.
-- Fixed an edge case in exporting of documents using a `filter_by` condition: documents were being duplicated.
-- Allow a document to contain a dict/hashmap field when a wildcard auto (`.*`) field is present in the collection schema.
+- **[New in v0.22.1]** Fixed an edge case in exporting of documents using a `filter_by` condition: documents were being duplicated.
+- **[New in v0.22.1]** Allow a document to contain a dict/hashmap field when a wildcard auto (`.*`) field is present in the collection schema.
 
 ### Deprecations / behavior changes
 
