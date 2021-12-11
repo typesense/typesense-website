@@ -197,6 +197,28 @@ let config = {
         },
       ],
 
+      //For 0.22.1
+      '/0.22.1/api/': [
+        ['/0.22.1/api/', 'Introduction'],
+        ['/0.22.1/api/server-configuration', 'Server Configuration'],
+        ['/0.22.1/api/api-clients', 'API Clients'],
+        ['/0.22.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.22.1/api/collections', 'Collections'],
+            ['/0.22.1/api/documents', 'Documents'],
+            ['/0.22.1/api/api-keys', 'API Keys'],
+            ['/0.22.1/api/curation', 'Curation'],
+            ['/0.22.1/api/collection-alias', 'Collection Alias'],
+            ['/0.22.1/api/synonyms', 'Synonyms'],
+            ['/0.22.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.22.1/api/api-errors', 'API Errors'],
+      ],
+
       //For 0.22.0
       '/0.22.0/api/': [
         ['/0.22.0/api/', 'Introduction'],
