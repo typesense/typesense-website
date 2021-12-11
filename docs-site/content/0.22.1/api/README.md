@@ -49,6 +49,8 @@ This release contains new features, performance improvements and important bug f
 - Fixed fields with names that contain a regular expression acting as an `auto` type instead of respecting the schema type.
 - Fixed a few edge cases in multi-field searching, especially around field weighting and boosting.
 - Fixed deletion of collections with slashes or spaces in their names not working: you can now URL encode the names while calling the API.
+- Fixed an edge case in exporting of documents using a `filter_by` condition: documents were being duplicated.
+- Allow a document to contain a dict/hashmap field when a wildcard auto (`.*`) field is present in the collection schema.
 
 ### Deprecations / behavior changes
 
@@ -101,6 +103,6 @@ This documentation itself is open source. If you find any issues, click on the E
 
 ## Downgrading
 
-If you need to downgrade back to `v0.21.0` of Typesense for any reason, we've published a patched version `v0.21.1` with some backported changes that allow a v0.21 node to be started on a data directory that was previously upgraded by a `v0.22.0` upgrade. The other option is to clear the data directory (which will wipe out all data), install a previous version afresh and then re-index your data.
+If you need to downgrade back to `v0.21.0` of Typesense for any reason, we've published a patched version `v0.21.1` with some backported changes that allow a v0.21 node to be started on a data directory that was previously upgraded by a `v0.22.1` upgrade. The other option is to clear the data directory (which will wipe out all data), install a previous version afresh and then re-index your data.
 
 <RedirectOldLinks />
