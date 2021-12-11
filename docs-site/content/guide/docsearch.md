@@ -27,7 +27,7 @@ You can use one of those as templates to create your own `config.js`, pointing t
 The crawler automatically extracts information from the DocSearch meta tags and attaches the `content` value to all records extracted on the page. This is a great way to filter searches on custom attributes.
 
 ```html
-<meta name="docsearch:{$NAME}_tag" content="{CONTENT}" />
+<meta name="docsearch:{$NAME}_tag" content="{$CONTENT}" />
 ```
 Example: all extracted records on the page will have a `language` atttibute of `en` and a `version` attribute of `1.24`
 
