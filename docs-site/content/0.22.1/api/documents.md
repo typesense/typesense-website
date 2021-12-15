@@ -793,7 +793,7 @@ curl -k "http://localhost:8108/collections" -X POST
   </template>
 </Tabs>
 
-Let's now index a document.
+Let's now index a document. Make sure to set the coordinates in the correct order: `[Latitude, Longitude]`. GeoJSON often uses `[Longitude, Latitude]` which is invalid!
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
