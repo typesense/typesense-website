@@ -59,6 +59,9 @@ This release contains new features, performance improvements and important bug f
 - Minimum word length for 1-char typo correction has been increased to 4. 
   Likewise, minimum length for 2-char typo has been increased to 7. This has helped to reduce false fuzzy matches.
   You can use the `min_len_1typo` and `min_len_2typo` parameters to customize these default values.
+- The `id` field cannot be part of the collection schema anymore. You can filter on the implicit `id` field (via `filter_by`)
+  but it cannot be queried upon (via `q` and `query_by`). If you wish to search on an identifier, you can define a
+  custom field name like `_id` and use that.
 
 ## Upgrading
 
