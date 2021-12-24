@@ -197,8 +197,8 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 ```
 
 #### Reference:
-- Read the [Authentication Section](../api/authentication.md) for all possible options under the `typesenseServerConfig` key.
-- Read the [Search Parameters Section](../api/documents.md#arguments) for all possible options under the `typesenseSearchParams` key.
+- Read the [Authentication Section](../latest/api/authentication.md) for all possible options under the `typesenseServerConfig` key.
+- Read the [Search Parameters Section](../latest/api/documents.md#arguments) for all possible options under the `typesenseSearchParams` key.
 - Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/behavior#handleselected) for information about additional options.
 
 #### Styling 

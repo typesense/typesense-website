@@ -46,7 +46,7 @@ install Typesense on any cloud server.
 
 ## Step 2: Create a Typesense Collection
 
-To use Typesense, we first need to create a client. Typesense supports [multiple API clients](../api/api-clients.md) including Javascript, Python, Ruby, PHP etc. 
+To use Typesense, we first need to create a client. Typesense supports [multiple API clients](../latest/api/api-clients.md) including Javascript, Python, Ruby, PHP etc. 
 
 To initialize the Javascript client, you need the API key of the Typesense server you generated in Step 1:
 
@@ -136,7 +136,7 @@ exports.onBookDelete = functions.firestore.document('books/{bookID}')
 
 ```
 
-You can also delete a bunch of document based on a condition as described [here](../api/documents.md#delete-documents).
+You can also delete a bunch of document based on a condition as described [here](../latest/api/documents.md#delete-documents).
 
 ## Step 4: Let the search begin!
 
