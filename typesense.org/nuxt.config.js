@@ -117,6 +117,7 @@ const config = {
   // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-generate#fallback
   generate: {
     fallback: true,
+    cache: false,
   },
 
   sitemap: {
