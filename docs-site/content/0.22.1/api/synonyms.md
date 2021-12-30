@@ -204,7 +204,7 @@ SearchSynonymSchema synonym = new SearchSynonymSchema();
 synonym.addSynonymsItem("iphone").addSynonymsItem("android");
 synonym.root("smart phone");
 
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
+// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
 client.collections("products").synonyms().upsert("smart-phone-synonyms", synonym);
 ```
 
