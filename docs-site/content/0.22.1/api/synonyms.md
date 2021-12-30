@@ -96,7 +96,7 @@ client.collections("products").synonyms().upsert("coat-synonyms", synonym);
 let synonymSchema = SearchSynonymSchema(synonyms: ["blazer", "coat", "jacket"])
 
 // Creates/updates a synonym called `coat-synonyms` in the `products` collection
-let (searchSynonym, response) = try await myClient.collection(name: "products").synonyms().upsert(id: "coat-synonyms", synonymSchema)
+let (searchSynonym, response) = try await client.collection(name: "products").synonyms().upsert(id: "coat-synonyms", synonymSchema)
 ```
 
   </template>
@@ -218,7 +218,7 @@ let synonymSchema = SearchSynonymSchema(
 )
 
 // Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-let (searchSynonym, response) = try await myClient.collection(name: "products").synonyms().upsert(id: "smart-phone-synonyms", synonymSchema)
+let (searchSynonym, response) = try await client.collection(name: "products").synonyms().upsert(id: "smart-phone-synonyms", synonymSchema)
 ```
 
   </template>
@@ -311,7 +311,7 @@ SearchSynonym searchSynonym = client.collections("products").synonyms("coat-syno
   <template v-slot:Swift>
 
 ```swift
-let (searchSynonym, response) = try await myClient.collection(name: "products").synonyms().retrieve(id: "coat-synonyms")
+let (searchSynonym, response) = try await client.collection(name: "products").synonyms().retrieve(id: "coat-synonyms")
 ```
 
   </template>
@@ -393,7 +393,7 @@ SearchSynonymsResponse searchSynonymsResponse =  client.collections("products").
   <template v-slot:Swift>
 
 ```swift
-let (searchSynonyms, response) = try await myClient.collection(name: "products").synonyms().retrieve()
+let (searchSynonyms, response) = try await client.collection(name: "products").synonyms().retrieve()
 ```
 
   </template>
@@ -480,7 +480,7 @@ SearchSynonym searchSynonym = client.collections("products").synonyms("coat-syno
   <template v-slot:Swift>
 
 ```swift
-let (searchSynonym, response) = try await myClient.collection(name: "products").synonyms().delete(id: "coat-synonyms")
+let (searchSynonym, response) = try await client.collection(name: "products").synonyms().delete(id: "coat-synonyms")
 ```
 
   </template>
