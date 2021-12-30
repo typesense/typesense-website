@@ -186,8 +186,9 @@ let schema = CollectionSchema(
   ],
   defaultSortingField: "num_employees"
 )
-
-let (data, response) = try await client.collections.create(schema: schema)
+let (collectionResponse, response) = try await client.collections.create(schema: schema)
+// collectionResponse is a CollectionResponse object and response refers to
+// the HTTP response (URLResponse?) and can be used for debugging
 ```
 
   </template>
@@ -495,7 +496,7 @@ CollectionResponse collection = client.collections("companies").retrieve();
   <template v-slot:Swift>
 
 ```swift
-let (data, response) = try await client.collection(name: "companies").retrieve()
+let (collectionResponse, response) = try await client.collection(name: "companies").retrieve()
 ```
 
   </template>
@@ -585,7 +586,8 @@ CollectionResponse[] collectionResponses = client.collections().retrieve();
   <template v-slot:Swift>
 
 ```swift
-let (data, response) = try await client.collections().retrieveAll()
+let (collections, response) = try await client.collections().retrieveAll()
+// collections is of type [CollectionResponse]
 ```
 
   </template>
@@ -686,7 +688,7 @@ CollectionResponse collectionResponse = client.collections("companies").delete()
   <template v-slot:Swift>
 
 ```swift
-let (data, response) = try await client.collection(name: "companies").delete()
+let (collectionResponse, response) = try await client.collection(name: "companies").delete()
 ```
 
   </template>
