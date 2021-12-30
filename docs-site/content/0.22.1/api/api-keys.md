@@ -322,7 +322,7 @@ ApiKey apiKey = client.keys(1).retrieve();
   <template v-slot:Swift>
 
 ```swift
-let (apiKey, response) = try await myClient.keys().retrieve(id: 1)
+let (apiKey, response) = try await client.keys().retrieve(id: 1)
 ```
 
   </template>
@@ -409,7 +409,7 @@ ApiKeysResponse apiKeysResponse = client.keys().retrieve();
   <template v-slot:Swift>
 
 ```swift
-let (apiKeys, response) = try await myClient.keys().retrieve()
+let (apiKeys, response) = try await client.keys().retrieve()
 ```
 
   </template>
@@ -516,7 +516,7 @@ ApiKey apiKey = client.keys(1).delete();
   <template v-slot:Swift>
 
 ```swift
-let (apiKey, response) = try await myClient.keys().delete(id: 1)
+let (apiKey, response) = try await client.keys().delete(id: 1)
 ```
 
   </template>

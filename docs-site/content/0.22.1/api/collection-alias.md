@@ -21,7 +21,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -93,6 +93,16 @@ client.aliases().upsert("companies", collectionAlias);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let collection = CollectionAliasSchema(collectionName: "companies_june11")
+
+// Creates/updates an alias called `companies` to the `companies_june11` collection
+let (collectionAlias, response) = try await client.aliases().upsert(name: "companies", collection: collection)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -132,7 +142,7 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -176,6 +186,13 @@ CollectionAlias collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (collectionAlias, response) = try await client.aliases().retrieve(name: "companies")
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -208,7 +225,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -252,6 +269,13 @@ CollectionAliasesResponse collectionAliasesResponse = client.aliases().retrieve(
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (collectionAliases, response) = try await client.aliases().retrieve()
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -290,7 +314,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -331,6 +355,13 @@ await client.alias('companies').delete();
 
 ```java
 CollectionAlias collectionAlias = client.aliases("companies").delete();
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let (collectionAlias, response) = try await client.aliases().delete(name: "companies")
 ```
 
   </template>
