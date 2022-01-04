@@ -17,7 +17,7 @@ We will be using the initial bootstrap key that you started Typesense with (via 
 
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -91,6 +91,18 @@ ApiKey apiKey = client.keys().create(apiKeySchema);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let adminKey = ApiKeySchema(
+  _description: "Admin Key",
+  actions: ["*"],
+  collections: ["*"]
+)
+let (apiKey, response) = try await client.keys().create(adminKey)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -114,7 +126,7 @@ The generated key is only returned during creation. You want to store this key c
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -187,6 +199,18 @@ ApiKey apiKey = client.keys().create(apiKeySchema);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let searchKey = ApiKeySchema(
+  _description: "Admin Key",
+  actions: ["documents:search"],
+  collections: ["companies"]
+)
+let (apiKey, response) = try await client.keys().create(searchKey)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -251,7 +275,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -295,6 +319,13 @@ ApiKey apiKey = client.keys(1).retrieve();
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (apiKey, response) = try await client.keys().retrieve(id: 1)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -332,7 +363,7 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## List all Keys
 Retrieve (metadata about) all keys.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -372,6 +403,13 @@ await client.keys.retrieve();
 
 ```java
 ApiKeysResponse apiKeysResponse = client.keys().retrieve();
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let (apiKeys, response) = try await client.keys().retrieve()
 ```
 
   </template>
@@ -431,7 +469,7 @@ Notice how only the key prefix is returned when you retrieve a key. Due to secur
 ## Delete API Key
 Delete an API key given its ID.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -472,6 +510,13 @@ final key = await client.key(1).delete();
 
 ```java
 ApiKey apiKey = client.keys(1).delete();
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let (apiKey, response) = try await client.keys().delete(id: 1)
 ```
 
   </template>

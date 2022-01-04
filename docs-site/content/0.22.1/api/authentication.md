@@ -10,7 +10,7 @@ You'd need one or more hostnames and [API keys](./api-keys.md) to integrate with
 If you're self-hosting Typesense, the hostnames are the IP addresses or DNS names of each of your Typesense nodes. 
 If you're using Typesense Cloud, we generate unique hostnames for each of your nodes and show them on the dashboard for you to use. 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -150,6 +150,23 @@ Client client = new Client(configuration);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+import Typesense
+
+let node = Node(
+  host: "localhost",    // For Typesense Cloud use xxx.a1.typesense.net
+  port: "8108",         // For Typesense Cloud use 443
+  nodeProtocol: "http"  // For Typesense Cloud use https
+)
+
+let config = Configuration(nodes: [node], apiKey: "<API_KEY>", connectionTimeoutSeconds: 2)
+
+let client = Client(config: config)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -182,8 +199,7 @@ On Typesense Cloud, you can turn ON a setting called `Search Delivery Network` a
 
 You'll be a given a special hostname called the Nearest Node hostname when you turn this setting on for your cluster. You'd then need to configure your clients to use this hostname:
 
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -321,6 +337,24 @@ Node nearestNode = new Node("https", "xxx.a1.typesense.net", "443");
 Configuration configuration = new Configuration(nearestNode, nodes, Duration.ofSeconds(2),"<API_KEY>");
 
 Client client = new Client(configuration);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+import Typesense
+
+var nodes: [Node] = []
+nodes.append(Node(host: "xxx-1.a1.typesense.net", port: "443", nodeProtocol: "https"))
+nodes.append(Node(host: "xxx-2.a1.typesense.net", port: "443", nodeProtocol: "https"))
+nodes.append(Node(host: "xxx-3.a1.typesense.net", port: "443", nodeProtocol: "https"))
+
+let nearestNode = Node(host: "xxx.a1.typesense.net", port: "443", nodeProtocol: "https")
+
+let config = Configuration(nodes: nodes, apiKey: "<API_KEY>", connectionTimeoutSeconds: 2, nearestNode: nearestNode)
+
+let client = Client(config: config)
 ```
 
   </template>

@@ -12,7 +12,7 @@ A document to be indexed in a given collection must conform to the schema of the
 
 If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -97,6 +97,30 @@ client.collections("companies").documents().create(document);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+//Primarily make sure that the document type is defined as a Codable struct/class
+struct Company: Codable {
+  var id: String?
+  var company_name: String?
+  var num_employees: Int?
+  var country: String?
+}
+
+let document = Company(
+  id: "124",
+  company_name: "Stark Industries",
+  num_employees: 5215,
+  country: "USA"
+)
+
+let documentData = try encoder.encode(document)
+let (data, response) = try await client.collection(name: "companies").documents().create(document: documentData)
+let documentResponse = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -118,7 +142,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 You can also upsert a document.
 
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -204,6 +228,22 @@ client.collections("companies").documents().upsert(document);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let document = Company(
+  id: "124",
+  company_name: "Stark Industries",
+  num_employees: 5215,
+  country: "USA"
+)
+
+let documentData = try encoder.encode(document)
+let (data, response) = try await client.collection(name: "companies").documents().upsert(document: documentData)
+let documentResponse = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -247,7 +287,7 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 ## Search
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields. You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -328,6 +368,19 @@ SearchParameters searchParameters = new SearchParameters()
                                         .filterBy("num_employees:>100")
                                         .addsortByItem("num_employees:desc");
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let searchParameters = SearchParameters(
+  q: "stark",
+  queryBy: "company_name",
+  filterBy: "num_employees:>100",
+  sortBy: "num_employees:desc"
+)
+let (searchResult, response) = try await client.collection(name: "companies").documents().search(searchParameters, for: Company.self)
 ```
 
   </template>
@@ -427,7 +480,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -521,6 +574,21 @@ SearchParameters searchParameters = new SearchParameters()
                                         .groupLimit(1);
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let searchParameters = SearchParameters(
+  q: "stark",
+  queryBy: "company_name",
+  filterBy: "num_employees:>100",
+  sortBy: "num_employees:desc",
+  groupBy: "country",
+  groupLimit: 1
+)
+let (searchResult, response) = try await client.collection(name: "companies").documents().search(searchParameters, for: Company.self)
+```
+
   </template>
   <template v-slot:Shell>
 
@@ -1346,7 +1414,7 @@ The `results` array in a `multi_search` response is guaranteed to be in the same
 ## Retrieve a document
 Fetch an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1390,6 +1458,14 @@ Hashmap<String, Object> document = client.collections("companies").documents("12
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (data, response) = try await client.collection(name: "companies").document(id: "124").retrieve()
+let document = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1424,7 +1500,7 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ## Update a document
 Update an individual document from a collection by using its id. The update can be partial, as shown below:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1497,6 +1573,20 @@ HashMap<String, Object> updatedDocument = client.collections("companies").docume
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let document = Company(
+  company_name: "Stark Industries",
+  num_employees: 5500,
+)
+
+let documentData = try encoder.encode(document)
+let (data, response) = try await client.collection(name: "companies").document(id: "124").update(newDocument: documentData)
+let documentResponse = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1534,7 +1624,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ## Delete documents
 Delete an individual document from a collection by using its id.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1578,6 +1668,14 @@ HashMap<String, Object> deletedDocument = client.collections("companies").docume
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (data, response) = try await client.collection(name: "companies").document(id: "124").delete()
+let document = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1612,7 +1710,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 You can also delete a bunch of documents that match a specific filter condition:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1659,6 +1757,14 @@ client.collections("companies").documents().delete(deleteDocumentsParameters);
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let (data, response) = try await client.collection(name: "companies").documents().delete(filter: "num_employees:>100")
+let document = try decoder.decode(Company.self, from: data!)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1693,7 +1799,7 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 ## Export documents
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1738,6 +1844,13 @@ exportDocumentsParameters.addExcludeFieldsItem("id");
 exportDocumentsParameters.addIncludeFieldsItem("publication_year");
 exportDocumentsParameters.addIncludeFieldsItem("authors");
 client.collections("companies").documents().export(exportDocumentsParameters);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let (data, response) = try await client.collection(name: "companies").documents().export()
 ```
 
   </template>
@@ -1795,7 +1908,7 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1890,6 +2003,33 @@ client.collections("Countries").documents().import_(documentList, importDocument
 ```
 
   </template>
+  <template v-slot:Swift>
+
+```swift
+let documents = [
+  Company(
+    id: "124",
+    company_name: "Stark Industries",
+    num_employees: 5125,
+    country: "USA"
+  )
+]
+
+var jsonLStrings:[String] = []
+for doc in documents {
+    let data = try encoder.encode(doc)
+    let str = String(data: data, encoding: .utf8)!
+    jsonLStrings.append(str)
+}
+
+let jsonLString = jsonLStrings.joined(separator: "\n")
+let jsonL = Data(jsonLString.utf8)
+
+let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
+
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -1944,7 +2084,7 @@ Here's an example file:
 
 You can import the above `documents.jsonl` file like this.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1999,6 +2139,16 @@ while (myReader.hasNextLine()) {
     data.append(myReader.nextLine()).append("\n");
 }
 client.collections("books").documents().import_(data.toString(), queryParameters);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let urlPath = URL(fileURLWithPath: "<PATH_TO>/documents.jsonl")
+let jsonL = try Data(contentsOf: urlPath)
+
+let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
 ```
 
   </template>

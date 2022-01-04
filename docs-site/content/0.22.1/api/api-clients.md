@@ -28,6 +28,7 @@ We also have the following community-contributed client libraries:
 - [Rust](https://github.com/typesense/typesense-rust)
 - [Dart](https://github.com/typesense/typesense-dart)
 - [Perl](https://github.com/Ovid/Search-Typesense)
+- [Swift](https://github.com/typesense/typesense-swift)
 
 We also have the following community-contributed framework integrations:
 
@@ -37,7 +38,7 @@ We also have the following community-contributed framework integrations:
 
 <br>
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>
 
 ```js
@@ -99,6 +100,21 @@ import 'package:typesense/typesense.dart';
 import org.typesense.api.*;
 import org.typesense.models.*;
 import org.typesense.resources.*;
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+// For an iOS app, add typesense-swift as a framework dependency:
+// Target -> General -> Frameworks, Libraries, and Embedded Content -> "+" -> Add Package Dependency -> typesense-swift
+
+//For swift packages, add typesense-swift to the dependencies array in Package.swift:
+...
+dependencies: [
+           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "0.1.0"),
+],
+...
 ```
 
   </template>
