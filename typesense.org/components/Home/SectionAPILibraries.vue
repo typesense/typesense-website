@@ -107,8 +107,21 @@
             >
               <img
                 src="~/assets/images/java-logo.svg"
-                alt="Clojure"
+                alt="Java"
                 height="60"
+                width="32"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
+            <a
+              href="https://github.com/typesense/typesense-swift"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/swift_logo.svg"
+                alt="Swift"
+                height="43"
+                width="43"
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
@@ -226,7 +239,7 @@
               />
             </a>
             <a
-              href="https://github.com/typesense/typesense-wordpress-plugin"
+              href="https://wordpress.org/plugins/search-with-typesense/?ref=typesense"
               target="_blank"
             >
               <img
@@ -247,6 +260,15 @@
                 height="40"
                 width="142"
                 class="ml-2 ml-sm-3 mt-4"
+              />
+            </a>
+            <a href="https://tooljet.com/?ref=typesense" target="_blank">
+              <img
+                src="~/assets/images/tooljet-logo.svg"
+                alt="Tooljet Extension"
+                height="32"
+                width="133"
+                class="ml-2 ml-sm-5 mt-4"
               />
             </a>
           </div>
