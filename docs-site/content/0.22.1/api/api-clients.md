@@ -34,7 +34,7 @@ We also have the following community-contributed framework integrations:
 
 - [Symfony](https://github.com/acseo/TypesenseBundle)
 - [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
-- [Wordpress](https://github.com/typesense/typesense-wordpress-plugin)
+- [Wordpress](https://wordpress.org/plugins/search-with-typesense/)
 
 <br>
 
