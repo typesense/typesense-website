@@ -248,6 +248,21 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
   </template>
 </Tabs>
 
+The collection names can contain regular expressions. For example, if you have multiple collections that begin with
+`org_` and want to have a common key for all of them, you can define the permissions this way:
+
+```json
+{
+  "description": "Key for searching org collections.",
+  "actions": [
+    "documents:search"
+  ],
+  "collections": [
+    "org_.*"
+  ]
+}
+```
+
 #### Definition
 `POST ${TYPESENSE_HOST}/keys`
 
@@ -256,7 +271,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
 | -------------- | ----------- |-------------------------------------------------------|
 |actions	|yes	|List of allowed actions. See next table for possible values.|
 |collections	|yes	|List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.|
-|description	|no	|Internal description to identify what the key is for|
+|description	|yes	|Internal description to identify what the key is for|
 |value	|no	|By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key.|
 |expires_at	|no	|[Unix timestamp](https://www.epochconverter.com/) until which the key is valid.|
 
