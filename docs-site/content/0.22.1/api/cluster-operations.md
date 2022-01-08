@@ -390,7 +390,7 @@ curl "http://localhost:8108/health"
 
 ```json
 {
-  "status": "ok"
+  "ok": true
 }
 ```
 
