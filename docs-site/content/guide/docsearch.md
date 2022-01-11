@@ -20,7 +20,7 @@ Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs
 
 [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites and [here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense Documentation Site's docsearch config.
 
-You can use one of those as templates to create your own `config.js`, pointing to your documentation site.
+You can use one of those as a template to create your own `config.js`, pointing to your documentation site.
 
 ### Run the Scraper
 
