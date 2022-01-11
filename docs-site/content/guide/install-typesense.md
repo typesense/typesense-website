@@ -73,6 +73,21 @@ sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion 
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}.x86_64.rpm
 </code></pre>
 
+#### Windows  [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wsl
+wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+</code></pre>
+Note: Post install you would see the message "installed typesense-server package post-installation script subprocess returned error exit status 1"
+ignore this error message , executing `apt list --installed | grep typesense` would show that instillation was successfull.
+
+  </template>
+</Tabs>
+
   </template>
 </Tabs>
 
@@ -122,6 +137,22 @@ sudo systemctl status typesense-server.service
 
   </template>
 </Tabs>
+
+#### Windows 10 (WSL)
+Typesense server can be started by logging into WSL and executing the below given command.
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+sudo /usr/bin/./typesense-server --config=/etc/typesense/typesense-server.ini
+```
+
+  </template>
+</Tabs>
+
+If you are using Typesense on Windows WSL , get the hostname for server on which Typesense is running using `wsl hostname -I` in cmd .**You would be able to connect to this hostname/ip directly from windows**.A BAT file can be created with command `powershell.exe /c wsl.exe sudo /usr/bin/./typesense-server --config=/etc/typesense/typesense-server.ini` and set to execute at startup.
+
 
 By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the [configuration file](./configure-typesense.md#using-a-configuration-file) at `/etc/typesense/typesense-server.ini`
 
