@@ -171,11 +171,18 @@ let config = {
           collapsable: false, // optional, defaults to true
           children: [
             ['/guide/high-availability', 'High Availability'],
-            ['/guide/search-analytics', 'Search Analytics'],
-            ['/guide/ranking-and-relevance', 'Ranking and Relevance'],
-            ['/guide/running-in-production', 'Running in Production'],
             ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/system-requirements', 'System Requirements'],
+            ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
+            ['/guide/running-in-production', 'Running in Production'],
+          ],
+        },
+        {
+          title: 'Cookbooks', // required
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/guide/search-analytics', 'Search Analytics'],
+            ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
           ],
         },
         {
