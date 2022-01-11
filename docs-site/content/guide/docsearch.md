@@ -22,6 +22,24 @@ Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs
 
 You can use one of those as a template to create your own `config.js`, pointing to your documentation site.
 
+### Add DocSearch meta tags (optional)
+
+The crawler automatically extracts information from the DocSearch meta tags and attaches the `content` value to all records extracted on the page. This is a great way to filter searches on custom attributes.
+
+```html
+<meta name="docsearch:{$NAME}_tag" content="{$CONTENT}" />
+```
+Example: all extracted records on the page will have a `language` atttibute of `en` and a `version` attribute of `1.24`
+
+```html 
+<meta name="docsearch:language_tag" content="en" />
+<meta name="docsearch:version_tag" content="1.2.4" />
+```
+
+::: tip
+`_tag` must be appended to the end of the `$NAME` variable for the attibute to be saved in the schema
+:::
+
 ### Run the Scraper
 
 The easiest way to run the scraper is using Docker.
