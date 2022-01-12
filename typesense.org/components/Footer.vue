@@ -14,9 +14,7 @@
           <div class="mt-4 font-weight-light">
             <address>
               <strong>Typesense Inc.</strong> <br />
-              3415 S Sepulveda Blvd<br />
-              Suite 1100<br />
-              Los Angeles, CA<br /><br />
+              Houston, TX<br /><br />
               <a href="https://twitter.com/typesense" target="_blank"
                 >@typesense</a
               ><br />
