@@ -60,10 +60,10 @@ However, there might be cases where this might not be desirable behavior. You ca
 
 ### Default Ranking Order
 
-When you don't provide a `sort_by` parameter to your search request, the documents will be ranked on the text match score and default sorting field values specified in the collection's schema:
+When you don't provide a `sort_by` parameter to your search request, the documents will be ranked first on the _text_match score, then default sorting field values specified in the collection's schema, and if not specified the document insertion order:
 
 ```
-sort_by=_text_match:desc,default_sorting_field:desc
+sort_by=_text_match:desc,default_sorting_field:desc,document_insertion_order:desc
 ```
 
 ## Strict Ordering or Hard Sorting
