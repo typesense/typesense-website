@@ -403,7 +403,15 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Sort by String field</td>
-                  <td>❌</td>
+                  <td>
+                    ✅<br /><br />
+                    Available in
+                    <a
+                      href="https://github.com/typesense/typesense/issues/117#issuecomment-1000857228"
+                      target="_blank"
+                      >RC build</a
+                    >.
+                  </td>
                   <td>
                     ✅<br /><br />But
                     <a
@@ -487,7 +495,11 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
-                  <td>❌</td>
+                  <td>
+                    ❌<br /><br />
+                    Can be done client-side by swapping collections and search
+                    parameters based on AB Test Bucket
+                  </td>
                   <td>
                     ✅<br /><br />
                     Premium Tier
@@ -497,7 +509,16 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
-                  <td>❌</td>
+                  <td>
+                    ❌<br /><br />
+                    Can be done by indexing popular search terms from
+                    <a
+                      href="https://typesense.org/docs/guide/search-analytics.html"
+                      target="_blank"
+                      >Search Analytics</a
+                    >
+                    data into a separate collection.
+                  </td>
                   <td>✅️</td>
                   <td>❌</td>
                   <td>❌</td>
@@ -598,6 +619,13 @@
                   <td>10KB</td>
                   <td>No limitation</td>
                   <td>2GB</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Number of API Keys</td>
+                  <td>No limitation</td>
+                  <td>5000</td>
+                  <td>No limitation</td>
+                  <td>2</td>
                 </tr>
               </tbody>
             </table>
