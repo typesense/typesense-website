@@ -6,11 +6,25 @@ sitemap:
 
 # Documents
 
-## Index a document
+Every record you index in Typesense is called a `Document`.
 
-A document to be indexed in a given collection must conform to the schema of the collection.
+## Index documents
 
-If the document contains an `id` field of type `string`, Typesense would use that field as the identifier for the document. Otherwise, Typesense would assign an identifier of its choice to the document. Note that the id should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
+A document to be indexed in a given collection must conform to the [schema of the collection](./collections.md#create-a-collection).
+
+If the document contains an `id` field of type `string`, Typesense will use that field as the identifier for the document. 
+Otherwise, Typesense will assign an identifier of its choice to the document. 
+
+:::warning NOTE
+The `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
+:::
+
+### Index a single document {#index-a-document}
+
+If you need to index a document in response to some user action in your application, you can use the single document create endpoint.
+
+If you need to index multiple documents at a time, we highly recommend using the [import documents](#import-documents) endpoint, which is optimized for bulk imports.
+For eg: If you have 100 documents, indexing them using the import endpoint at once will be much more performant than indexing documents one a time. 
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
@@ -138,9 +152,12 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
   </template>
 </Tabs>
 
-### Upsert
-You can also upsert a document.
+### Upsert a single document
 
+The endpoint will replace a document with the same `id` if it already exists, or create a new document if one doesn't already exist with the same `id`.
+
+If you need to upsert multiple documents at a time, we highly recommend using the [import documents](#import-documents) endpoint with `action=upsert`, which is optimized for bulk upserts.
+For eg: If you have 100 documents, upserting them using the import endpoint at once will be much more performant than upserting documents one a time.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
@@ -261,8 +278,6 @@ curl "http://localhost:8108/collections/companies/documents?action=upsert" -X PO
   </template>
 </Tabs>
 
-To index multiple documents at the same time, in a batch/bulk operation, see [importing documents](#import-documents).
-
 #### Sample Response
 
 <Tabs :tabs="['JSON']">
@@ -282,6 +297,406 @@ To index multiple documents at the same time, in a batch/bulk operation, see [im
 
 #### Definition
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
+
+### Index multiple documents {#import-documents}
+
+You can index multiple documents in a batch using the import API.
+
+When indexing multiple documents, this endpoint is much more performant, than calling the [single document create endpoint](#index-a-single-document) multiple times in quick succession.
+
+#### Definition
+`POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
+
+The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format.
+This is essentially one JSON object per line, without commas between documents. For example, here are a set of 3 documents represented in JSONL format.
+
+```json lines
+{"id": "124", "company_name": "Stark Industries", "num_employees": 5215, "country": "US"}
+{"id": "125", "company_name": "Future Technology", "num_employees": 1232, "country": "UK"}
+{"id": "126", "company_name": "Random Corp.", "num_employees": 531, "country": "AU"}
+```
+
+If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let documents = [{
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+}]
+
+client.collections('companies').documents().import(documents, {action: 'create'})
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$documents = [[
+  'id'            => '124',
+  'company_name'  => 'Stark Industries',
+  'num_employees' => 5215,
+  'country'       => 'USA'
+]];
+
+$client->collections['companies']->documents->import($documents, ['action' => 'create']);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+documents = [{
+  'id': '124',
+  'company_name': 'Stark Industries',
+  'num_employees': 5215,
+  'country': 'USA'
+}]
+
+client.collections['companies'].documents.import_(documents, {'action': 'create'})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+documents = [{
+  'id'            => '124',
+  'company_name'  => 'Stark Industries',
+  'num_employees' => 5215,
+  'country'       => 'USA'
+}]
+
+client.collections['companies'].documents.import(documents, action: 'create')
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final documents = [
+  {
+    'id': '124',
+    'company_name': 'Stark Industries',
+    'num_employees': 5215,
+    'country': 'USA'
+  }
+];
+
+await client.collection('companies').documents.importDocuments(documents);
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document1 = new HashMap<>();
+HashMap<String, String> queryParameters = new HashMap<>();
+ArrayList<HashMap<String, Object>> documentList = new ArrayList<>();
+
+document1.put("id","124");
+document1.put("company_name", "Stark Industries");
+document1.put("num_employees", 5215);
+document1.put("country", "USA");
+
+documentList.add(document1);
+
+ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
+importDocumentsParameters.action("create");
+
+client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let documents = [
+  Company(
+    id: "124",
+    company_name: "Stark Industries",
+    num_employees: 5125,
+    country: "USA"
+  )
+]
+
+var jsonLStrings:[String] = []
+for doc in documents {
+    let data = try encoder.encode(doc)
+    let str = String(data: data, encoding: .utf8)!
+    jsonLStrings.append(str)
+}
+
+let jsonLString = jsonLStrings.joined(separator: "\n")
+let jsonL = Data(jsonLString.utf8)
+
+let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
+
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/companies/documents/import?action=create" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -H "Content-Type: text/plain" \
+        -X POST \
+        -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
+            {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
+```
+
+  </template>
+</Tabs>
+
+Besides `create`, the other allowed `action` modes are `upsert` and `update`.
+
+#### Action modes
+
+<table>
+    <tr>
+        <td>create (default)</td>
+        <td>Creates a new document. Fails if a document with the same id already exists</td>
+    </tr>
+    <tr>
+        <td>upsert</td>
+        <td>Creates a new document or updates an existing document if a document with the same id already exists. 
+           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
+    </tr>
+    <tr>
+        <td>update	</td>
+        <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
+            a partial document containing only the fields that are to be updated.</td>
+    </tr>
+</table>
+
+### Import a JSONL file
+
+You can feed the output of a Typesense export operation directly as import to the import end-point since both use JSONL.
+
+Here's an example file:
+
+<Tabs :tabs="['JSONLines']">
+  <template v-slot:JSONLines>
+
+```json lines
+{"id": "1", "company_name": "Stark Industries", "num_employees": 5215, "country": "USA"}
+{"id": "2", "company_name": "Orbit Inc.", "num_employees": 256, "country": "UK"}
+```
+
+  </template>
+</Tabs>
+
+You can import the above `documents.jsonl` file like this.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+const documentsInJsonl = await fs.readFile("documents.jsonl");
+client.collections('companies').documents().import(documentsInJsonl, {action: 'create'});
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$documentsInJsonl = file_get_contents('documents.jsonl');
+client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create']);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+with open('documents.jsonl') as jsonl_file:
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'create'})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+documents_jsonl = File.read('documents.jsonl')
+collections['companies'].documents.import(documents_jsonl, action: 'create')
+
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync());
+
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("/books.jsonl");
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+Scanner myReader = new Scanner(myObj);
+StringBuilder data = new StringBuilder();
+while (myReader.hasNextLine()) {
+    data.append(myReader.nextLine()).append("\n");
+}
+client.collections("books").documents().import_(data.toString(), queryParameters);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let urlPath = URL(fileURLWithPath: "<PATH_TO>/documents.jsonl")
+let jsonL = try Data(contentsOf: urlPath)
+
+let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
+"http://localhost:8108/collections/companies/documents/import?action=create"
+
+```
+
+  </template>
+</Tabs>
+
+<br/>
+
+### Import a JSON file
+
+If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
+
+```shell
+cat documents.json | jq -c '.[]' > documents.jsonl
+```
+
+Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
+
+### Import a CSV file
+
+If you have a CSV file with column headers, you can convert it into JSONL format using [`mlr`](https://github.com/johnkerl/miller):
+
+```shell
+mlr --c2j cat documents.csv > documents.jsonl
+```
+
+Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
+
+### Configure batch size
+
+By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+const documentsInJsonl = await fs.readFile("documents.jsonl");
+client.collections('companies').documents().import(documentsInJsonl, {batch_size: 100});
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$documentsInJsonl = file_get_contents('documents.jsonl');
+client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100]);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+with open('documents.jsonl') as jsonl_file:
+  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'batch_size': 100})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+documents_jsonl = File.read('documents.jsonl')
+collections['companies'].documents.import(documents_jsonl, batch_size: 100)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final file = File('documents.jsonl');
+await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+File myObj = new File("documents.jsonl");
+Scanner myReader = new Scanner(myObj);
+String documentsInJsonl;
+while (myReader.hasNextLine()) {
+    String documentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
+}
+
+ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
+queryParameters.batchSize(100);
+
+client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
+"http://localhost:8108/collections/companies/documents/import?batch_size=100"
+```
+
+  </template>
+</Tabs>
+
+**NOTE**: Larger batch sizes will consume larger transient memory during import.
+
+#### Sample Response
+
+<Tabs :tabs="['JSONLines']">
+  <template v-slot:JSONLines>
+
+```json lines
+{"success": true}
+{"success": true}
+```
+
+  </template>
+</Tabs>
+
+Each line of the response indicates the result of each document present in the request body (in the same order). If the import of a single document fails, it does not affect the other documents.
+
+If there is a failure, the response line will include a corresponding error message and as well as the actual document content. For example, the second document had an import failure in the following response:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json lines
+{"success": true}
+{"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
+```
+
+  </template>
+</Tabs>
 
 
 ## Search
@@ -427,7 +842,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         "company_name": "Stark Industries",
         "num_employees": 5215,
         "country": "USA"
-      }
+      },
       "text_match": 130916
     }
   ]
@@ -656,44 +1071,44 @@ client.collections['companies'].documents.search(search_parameters)
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/search`
 
 ### Arguments
-| Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------|
-|q	|yes	|The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`.<br><br>To exclude words in your query explicitly, prefix the word with the `-` operator, e.g. `q: 'electric car -tesla'`.|
-|query_by	|yes	|One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.|
-|query_by_weights	|no	|The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields higher in the `query_by` list will be considered to have greater weight.|
-|prefix	|no	|Indicates that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces. Set this to `false` to disable prefix searching for all queried fields. <br><br>You can also control the behavior of prefix search on a per field basis. For example, if you are querying 3 fields and want to enable prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order of fields in `query_by`. If a single value is specified for `prefix` the same value is used for all fields specified in `query_by`.<br><br>Default: `true` (prefix searching is enabled for all fields).|
-|filter_by	|no	|Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you can use the `:=` operator. For eg: `category:= Shoe` will match documents from the category shoes and not from a category like `shoe rack`.<br><br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, Sneaker]</code>.<br><br>Not equals / negation is supported for string and boolean facet fields, e.g. `filter_by=author:!= JK Rowling`<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`|
-|sort_by	|no	|A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](#geosearch), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](#sorting-by-additional-attributes-within-a-radius). |
-|facet_by	|no	|A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.|
-|max_facet_values	|no	|Maximum number of facet values to be returned. <br><br>Default: `10`|
-|facet_query	|no	|Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".|
-|prioritize_exact_match	|no	|By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`|
-|page	|no	|Results from this specific page number would be fetched.<br><br>Page numbers start at `1` for the first page.<br><br>Default: `1`|
-|per_page	|no	|Number of results to fetch per page.<br><br>When `group_by` is used, `per_page` refers to the number of _groups_ to fetch per page, in order to properly preserve pagination. <br><br>Default: `10` <br><br> NOTE: Only upto 250 hits (or groups of hits when using `group_by`) can be fetched per page.|
-|group_by	|no	|You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`
-|group_limit	|no	|Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`|
-|include_fields	|no	|Comma-separated list of fields from the document to include in the search result.|
-|exclude_fields	|no	|Comma-separated list of fields from the document to exclude in the search result.|
-|highlight_fields|no | Comma separated list of fields that should be highlighted with snippetting. You can use this parameter to highlight fields that you don't query for, as well.<br><br>Default: all queried fields will be highlighted.|
-|highlight_full_fields	|no	|Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.|
-|highlight_affix_num_tokens	|no	|The number of tokens that should surround the highlighted text on each side. This controls the length of the snippet. <br><br>Default: `4`|
-|highlight_start_tag	|no	|The start tag used for the highlighted snippets.<br><br>Default: `<mark>`|
-|highlight_end_tag	|no	|The end tag used for the highlighted snippets.<br><br>Default: `</mark>`|
-|snippet_threshold	|no	|Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`|
-|num_typos	|no	|Maximum number of typographical errors (0, 1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>You can also control `num_typos` on a per field basis. For example, if you are querying 3 fields and want to disable typo tolerance on the first field, use `?num_typos=0,1,1`. The order should match the order of fields in `query_by`. If a single value is specified for `num_typos` the same value is used for all fields specified in `query_by`. <br><br>Default: `2` (`num_typos` is `2` for *all* fields specified in `query_by`).|
-|min_len_1typo	|no	|Minimum word length for 1-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `3`.|
-|min_len_2typo	|no	|Minimum word length for 2-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `7`.|
-|typo_tokens_threshold	|no	|If at least `typo_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to look for results with more typos until `num_typos` is reached or enough results are found. Set `typo_tokens_threshold` to `0` to disable typo tolerance.<br><br>Default: `1`|
-|drop_tokens_threshold	|no	|If at least `drop_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to drop tokens (words) in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set `drop_tokens_threshold` to `0` to disable dropping of tokens.<br><br>Default: `1`
-|exhaustive_search	|no	| Setting this to `true` will make Typesense consider all variations of prefixes and typo corrections of the words in the query exhaustively, without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored). <br><br>Default: `false`|
-|pinned_hits	|no	|A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
-|hidden_hits	|no	|A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.|
-|enable_overrides|no|If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true` |
-|pre_segmented_query|no|Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false` |
-|limit_hits	|no	|Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.|
-|search_cutoff_ms |no	|Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: no search cutoff happens.|
-|use_cache |no	| Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`|
-|cache_ttl |no	|The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`|
+| Parameter                    | Required  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:-----------------------------|:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| q	                           | yes	      | The query text to search for in the collection.<br><br>Use * as the search string to return all documents. This is typically useful when used in conjunction with `filter_by`.<br><br>For example, to return all documents that match a filter, use:`q=*&filter_by=num_employees:10`.<br><br>To exclude words in your query explicitly, prefix the word with the `-` operator, e.g. `q: 'electric car -tesla'`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| query_by	                    | yes	      | One or more `string / string[]` fields that should be queried against. Separate multiple fields with a comma: `company_name, country`<br><br>The order of the fields is important: a record that matches on a field earlier in the list is considered more relevant than a record matched on a field later in the list. So, in the example above, documents that match on the `company_name` field are ranked above documents matched on the `country` field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| query_by_weights	            | no	       | The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields higher in the `query_by` list will be considered to have greater weight.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| prefix	                      | no	       | Indicates that the last word in the query should be treated as a prefix, and not as a whole word. This is necessary for building autocomplete and instant search interfaces. Set this to `false` to disable prefix searching for all queried fields. <br><br>You can also control the behavior of prefix search on a per field basis. For example, if you are querying 3 fields and want to enable prefix searching only on the first field, use `?prefix=true,false,false`. The order should match the order of fields in `query_by`. If a single value is specified for `prefix` the same value is used for all fields specified in `query_by`.<br><br>Default: `true` (prefix searching is enabled for all fields).                                                                                                                                                                                                                                                                                                                           |
+| filter_by	                   | no	       | Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>`country: USA`<br><br>`country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>To match a string field exactly, you can use the `:=` operator. For eg: `category:= Shoe` will match documents from the category shoes and not from a category like `shoe rack`.<br><br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, Sneaker]</code>.<br><br>Not equals / negation is supported for string and boolean facet fields, e.g. `filter_by=author:!= JK Rowling`<br><br>Get numeric values between a min and max value, using the range operator `[min..max]`<br><br>For eg: `num_employees:[10..100]`<br><br>Separate multiple conditions with the `&&` operator.<br><br>For eg: `num_employees:>100 && country: [USA, UK]`<br><br>More examples:<br><br>`num_employees:10`<br>`num_employees:<=10`  |
+| sort_by	                     | no	       | A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](#geosearch), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](#sorting-by-additional-attributes-within-a-radius).                                                                                                                          |
+| facet_by	                    | no	       | A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| max_facet_values	            | no	       | Maximum number of facet values to be returned. <br><br>Default: `10`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| facet_query	                 | no	       | Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| prioritize_exact_match	      | no	       | By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| page	                        | no	       | Results from this specific page number would be fetched.<br><br>Page numbers start at `1` for the first page.<br><br>Default: `1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| per_page	                    | no	       | Number of results to fetch per page.<br><br>When `group_by` is used, `per_page` refers to the number of _groups_ to fetch per page, in order to properly preserve pagination. <br><br>Default: `10` <br><br> NOTE: Only upto 250 hits (or groups of hits when using `group_by`) can be fetched per page.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| group_by	                    | no	       | You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| group_limit	                 | no	       | Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| include_fields	              | no	       | Comma-separated list of fields from the document to include in the search result.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| exclude_fields	              | no	       | Comma-separated list of fields from the document to exclude in the search result.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| highlight_fields             | no        | Comma separated list of fields that should be highlighted with snippetting. You can use this parameter to highlight fields that you don't query for, as well.<br><br>Default: all queried fields will be highlighted.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| highlight_full_fields	       | no	       | Comma separated list of fields which should be highlighted fully without snippeting.<br><br>Default: all fields will be snippeted.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| highlight_affix_num_tokens	  | no	       | The number of tokens that should surround the highlighted text on each side. This controls the length of the snippet. <br><br>Default: `4`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| highlight_start_tag	         | no	       | The start tag used for the highlighted snippets.<br><br>Default: `<mark>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| highlight_end_tag	           | no	       | The end tag used for the highlighted snippets.<br><br>Default: `</mark>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| snippet_threshold	           | no	       | Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| num_typos	                   | no	       | Maximum number of typographical errors (0, 1 or 2) that would be tolerated.<br><br>[Damerau–Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance) is used to calculate the number of errors.<br><br>You can also control `num_typos` on a per field basis. For example, if you are querying 3 fields and want to disable typo tolerance on the first field, use `?num_typos=0,1,1`. The order should match the order of fields in `query_by`. If a single value is specified for `num_typos` the same value is used for all fields specified in `query_by`. <br><br>Default: `2` (`num_typos` is `2` for *all* fields specified in `query_by`).                                                                                                                                                                                                                                                                                                                                                              |
+| min_len_1typo	               | no	       | Minimum word length for 1-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `3`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| min_len_2typo	               | no	       | Minimum word length for 2-typo correction to be applied. The value of `num_typos` is still treated as the maximum allowed typos. <br><br>Default: `7`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| typo_tokens_threshold	       | no	       | If at least `typo_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to look for results with more typos until `num_typos` is reached or enough results are found. Set `typo_tokens_threshold` to `0` to disable typo tolerance.<br><br>Default: `1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| drop_tokens_threshold	       | no	       | If at least `drop_tokens_threshold` number of results are not found for a specific query, Typesense will attempt to drop tokens (words) in the query until enough results are found. Tokens that have the least individual hits are dropped first. Set `drop_tokens_threshold` to `0` to disable dropping of tokens.<br><br>Default: `1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| exhaustive_search	           | no	       | Setting this to `true` will make Typesense consider all variations of prefixes and typo corrections of the words in the query exhaustively, without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored). <br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| pinned_hits	                 | no	       | A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| hidden_hits	                 | no	       | A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| enable_overrides             | no        | If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| pre_segmented_query          | no        | Set this parameter to `true` if you wish to split the search query into space separated words yourself. When set to `true`, we will only split the search query by space, instead of using the locale-aware, built-in tokenizer.<br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| limit_hits	                  | no	       | Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| search_cutoff_ms             | no	       | Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: no search cutoff happens.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| use_cache                    | no	       | Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| cache_ttl                    | no	       | The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 
 ## Geosearch
@@ -1389,7 +1804,7 @@ curl "http://localhost:8108/multi_search?query_by=name" \
         "q": "Nike"
       },
       "search_time_ms": 1
-    },
+    }
   ]
 }
 ```
@@ -1869,7 +2284,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 <Tabs :tabs="['JSONLines']">
   <template v-slot:JSONLines>
 
-```json
+```json lines
 {"id": "124", "company_name": "Stark Industries", "num_employees": 5215, "country": "US"}
 {"id": "125", "company_name": "Future Technology", "num_employees": 1232, "country": "UK"}
 {"id": "126", "company_name": "Random Corp.", "num_employees": 531, "country": "AU"}
@@ -1889,404 +2304,6 @@ While exporting, you can use the following parameters to control the result of t
 #### Definition
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/export`
 
-
-## Import documents
-
-You can index multiple documents in a batch using the import API.
-
-#### Definition
-`POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
-
-The documents to import need to be formatted as a newline delimited JSON string, aka [JSONLines](https://jsonlines.org/) format.
-This is essentially one JSON object per line, without commas between documents. For example, here are a set of 3 documents represented in JSONL format.
-
-```js
-{"id": "124", "company_name": "Stark Industries", "num_employees": 5215, "country": "US"}
-{"id": "125", "company_name": "Future Technology", "num_employees": 1232, "country": "UK"}
-{"id": "126", "company_name": "Random Corp.", "num_employees": 531, "country": "AU"}
-```
-
-If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-let documents = [{
-  'id': '124',
-  'company_name': 'Stark Industries',
-  'num_employees': 5215,
-  'country': 'USA'
-}]
-
-client.collections('companies').documents().import(documents, {action: 'create'})
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$documents = [[
-  'id'            => '124',
-  'company_name'  => 'Stark Industries',
-  'num_employees' => 5215,
-  'country'       => 'USA'
-]];
-
-$client->collections['companies']->documents->import($documents, ['action' => 'create']);
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-documents = [{
-  'id': '124',
-  'company_name': 'Stark Industries',
-  'num_employees': 5215,
-  'country': 'USA'
-}]
-
-client.collections['companies'].documents.import_(documents, {'action': 'create'})
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-documents = [{
-  'id'            => '124',
-  'company_name'  => 'Stark Industries',
-  'num_employees' => 5215,
-  'country'       => 'USA'
-}]
-
-client.collections['companies'].documents.import(documents, action: 'create')
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-final documents = [
-  {
-    'id': '124',
-    'company_name': 'Stark Industries',
-    'num_employees': 5215,
-    'country': 'USA'
-  }
-];
-
-await client.collection('companies').documents.importDocuments(documents);
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-HashMap<String, Object> document1 = new HashMap<>();
-HashMap<String, String> queryParameters = new HashMap<>();
-ArrayList<HashMap<String, Object>> documentList = new ArrayList<>();
-
-document1.put("id","124");
-document1.put("company_name", "Stark Industries");
-document1.put("num_employees", 5215);
-document1.put("country", "USA");
-
-documentList.add(document1);
-
-ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
-importDocumentsParameters.action("create");
-
-client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
-```
-
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let documents = [
-  Company(
-    id: "124",
-    company_name: "Stark Industries",
-    num_employees: 5125,
-    country: "USA"
-  )
-]
-
-var jsonLStrings:[String] = []
-for doc in documents {
-    let data = try encoder.encode(doc)
-    let str = String(data: data, encoding: .utf8)!
-    jsonLStrings.append(str)
-}
-
-let jsonLString = jsonLStrings.joined(separator: "\n")
-let jsonL = Data(jsonLString.utf8)
-
-let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
-
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl "http://localhost:8108/collections/companies/documents/import?action=create" \
-        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-        -H "Content-Type: text/plain" \
-        -X POST \
-        -d '{"id": "124","company_name": "Stark Industries","num_employees": 5215,"country": "USA"}
-            {"id": "125","company_name": "Acme Corp","num_employees": 2133,"country": "CA"}'
-```
-
-  </template>
-</Tabs>
-
-Besides `create`, the other allowed `action` modes are `upsert` and `update`.
-
-#### Action modes
-
-<table>
-    <tr>
-        <td>create (default)</td>
-        <td>Creates a new document. Fails if a document with the same id already exists</td>
-    </tr>
-    <tr>
-        <td>upsert</td>
-        <td>Creates a new document or updates an existing document if a document with the same id already exists. 
-           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
-    </tr>
-    <tr>
-        <td>update	</td>
-        <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
-            a partial document containing only the fields that are to be updated.</td>
-    </tr>
-</table>
-
-### Import a JSONL file
-
-You can feed the output of a Typesense export operation directly as import to the import end-point since both use JSONL.
-
-Here's an example file:
-
-<Tabs :tabs="['JSONLines']">
-  <template v-slot:JSONLines>
-
-```json
-{"id": "1", "company_name": "Stark Industries", "num_employees": 5215, "country": "USA"}
-{"id": "2", "company_name": "Orbit Inc.", "num_employees": 256, "country": "UK"}
-```
-
-  </template>
-</Tabs>
-
-You can import the above `documents.jsonl` file like this.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-const documentsInJsonl = await fs.readFile("documents.jsonl");
-client.collections('companies').documents().import(documentsInJsonl, {action: 'create'});
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create']);
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'action': 'create'})
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-documents_jsonl = File.read('documents.jsonl')
-collections['companies'].documents.import(documents_jsonl, action: 'create')
-
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-final file = File('documents.jsonl');
-await client.collection('companies').documents.importJSONL(file.readAsStringSync());
-
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-File myObj = new File("/books.jsonl");
-ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
-Scanner myReader = new Scanner(myObj);
-StringBuilder data = new StringBuilder();
-while (myReader.hasNextLine()) {
-    data.append(myReader.nextLine()).append("\n");
-}
-client.collections("books").documents().import_(data.toString(), queryParameters);
-```
-
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let urlPath = URL(fileURLWithPath: "<PATH_TO>/documents.jsonl")
-let jsonL = try Data(contentsOf: urlPath)
-
-let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
-"http://localhost:8108/collections/companies/documents/import?action=create"
-
-```
-
-  </template>
-</Tabs>
-
-<br/>
-
-### Import a JSON file
-
-If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
-
-```shell
-cat documents.json | jq -c '.[]' > documents.jsonl
-```
-
-Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
-
-### Import a CSV file
-
-If you have a CSV file with column headers, you can convert it into JSONL format using [`mlr`](https://github.com/johnkerl/miller):
-
-```shell
-mlr --c2j cat documents.csv > documents.jsonl
-```
-
-Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
-
-### Configure batch size
-
-By default, Typesense ingests 40 documents at a time into Typesense. To increase this value, use the `batch_size` parameter.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-const documentsInJsonl = await fs.readFile("documents.jsonl");
-client.collections('companies').documents().import(documentsInJsonl, {batch_size: 100});
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100]);
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-with open('documents.jsonl') as jsonl_file:
-  client.collections['companies'].documents.import_(jsonl_file.read().encode('utf-8'), {'batch_size': 100})
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-documents_jsonl = File.read('documents.jsonl')
-collections['companies'].documents.import(documents_jsonl, batch_size: 100)
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-final file = File('documents.jsonl');
-await client.collection('companies').documents.importJSONL(file.readAsStringSync(), options: {'batch_size': 100});
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-File myObj = new File("documents.jsonl");
-Scanner myReader = new Scanner(myObj);
-String documentsInJsonl;
-while (myReader.hasNextLine()) {
-    String documentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
-}
-
-ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
-queryParameters.batchSize(100);
-
-client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
-"http://localhost:8108/collections/companies/documents/import?batch_size=100"
-```
-
-  </template>
-</Tabs>
-
-**NOTE**: Larger batch sizes will consume larger transient memory during import.
-
-#### Sample Response
-
-<Tabs :tabs="['JSONLines']">
-  <template v-slot:JSONLines>
-
-```json
-{"success": true}
-{"success": true}
-```
-
-  </template>
-</Tabs>
-
-Each line of the response indicates the result of each document present in the request body (in the same order). If the import of a single document fails, it does not affect the other documents.
-
-If there is a failure, the response line will include a corresponding error message and as well as the actual document content. For example, the second document had an import failure in the following response:
-
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
-
-```json
-{"success": true}
-{"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
-```
-
-  </template>
-</Tabs>
 
 ## Dealing with Dirty Data
 

@@ -3,7 +3,7 @@
 If you are currently using Algolia and are planning a migration to Typesense, this guide is meant to give you some helpful pointers to help ease your transition.
 We've put this together based on common things we've seen Algolia users experience when switching to Typesense.
 
-## API Compatability
+## API Compatibility
 
 While Typesense _is_ an open source alternative to Algolia that gives you the same instant-search-as-you-type experience,
 it also improves on some key aspects of Algolia.

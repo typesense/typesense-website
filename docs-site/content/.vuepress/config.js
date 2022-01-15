@@ -117,7 +117,7 @@ let config = {
     repo: 'typesense/typesense',
     smoothScroll: false, // We're handling this custom using the typesense-enhancements plugin
     markdown: {
-      lineNumbers: true,
+      lineNumbers: false,
     },
     // https://vuepress.vuejs.org/theme/default-theme-config.html#git-repository-and-edit-links
     // if your docs are in a different repo from your main project:
@@ -551,6 +551,14 @@ let config = {
       alias: {
         '@images': path.resolve(__dirname, 'public/images/'),
       },
+    },
+  },
+
+  markdown: {
+    plugins: ['markdown-it-attrs'],
+    extendMarkdown: md => {
+      // use more markdown-it plugins!
+      md.use(require('markdown-it-attrs'))
     },
   },
 }
