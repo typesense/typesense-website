@@ -20,7 +20,7 @@ We have client libraries for:
 - [Python](https://github.com/typesense/typesense-python)
 - [Ruby](https://github.com/typesense/typesense-ruby)
 
-We also have the following community-contributed client libraries:
+We also have the following community-maintained client libraries:
 
 - [Go](https://github.com/typesense/typesense-go)
 - [.Net](https://github.com/DAXGRID/typesense-dotnet)
@@ -29,14 +29,7 @@ We also have the following community-contributed client libraries:
 - [Dart](https://github.com/typesense/typesense-dart)
 - [Perl](https://github.com/Ovid/Search-Typesense)
 - [Swift](https://github.com/typesense/typesense-swift)
-
-We also have the following community-contributed framework integrations:
-
-- [Symfony](https://github.com/acseo/TypesenseBundle)
-- [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
-- [Wordpress](https://wordpress.org/plugins/search-with-typesense/)
-
-<br>
+- [Clojure](https://github.com/runeanielsen/typesense-clj)
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>
@@ -126,3 +119,24 @@ We have a community-maintained Postman Collection here: [https://github.com/type
 
 [Postman](https://www.postman.com/downloads/) is an app that let's you perform HTTP requests by pointing and clicking, instead of having to type them out in the terminal. 
 The Postman Collection above gives you template requests that you can import into Postman, to quickly make API calls to Typesense.
+
+## Framework Integrations
+
+We also have the following framework integrations:
+
+- [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
+- [Firebase](https://github.com/typesense/firestore-typesense-search)
+- [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
+- [WordPress](https://wordpress.org/plugins/search-with-typesense/)
+- [Symfony](https://github.com/acseo/TypesenseBundle)
+- [InstantSearch](https://github.com/typesense/typesense-instantsearch-adapter)
+- [DocSearch](https://typesense.org/docs/guide/docsearch.html)
+- [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
+- [ToolJet](https://tooljet.com/)
+
+## Utilities
+
+We also have the following utilities:
+
+- [Generate Sitemaps from Typesense data](https://github.com/adviise/typesense-sitemap)
+- [typesense-cli](https://github.com/AlexBV117/typesense-cli)
