@@ -1,8 +1,13 @@
 # High Availability
 
-You can run a cluster of Typesense nodes for high availability. Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.
+You can run a cluster of Typesense nodes for high availability. 
+Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.
 
-Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies. Therefore, we recommend running a 3-node Typesense cluster.
+In cluster mode, Typesense will automatically replicate copies of the data to all nodes in the cluster. 
+Read and write API calls can be sent to any nodes in the cluster - 
+read API calls will be served by the node that receives it, write API calls are automatically forwarded to the leader of the cluster internally. 
+
+Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
 
 :::tip
 In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you, when you flip the setting ON when launching the cluster. So the rest of this section only applies if you are self-hosting Typesense.
@@ -10,15 +15,17 @@ In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability f
 
 ## Configuring a Typesense cluster
 
-To start a Typesense node as part of a cluster, create a new file on each node that's part of the cluster with the following format, and use the `--nodes` server configuration to point to the file.
+To start a Typesense node as part of a cluster, create a new file on each node that's part of the cluster with the following format, and use the [`--nodes` server configuration](../latest/api/server-configuration.md) to point to the file.
 
 Each node definition in the file should be in the following format, separated by commas:
 
 `<peering_address>:<peering_port>:<api_port>`
 
-These values should match the corresponding <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">Server Configuration Parameters</RouterLink> used when starting the Typesense process on each node.
+`peering_address`, `peering_port` and `api_port` should match the corresponding <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">Server Configuration Parameters</RouterLink> used when starting the Typesense process on each node.
 
-### Example
+All nodes in the cluster should have the same bootstrap `--api-key` for security purposes.
+
+### Nodes File Example
 
 Here's an example of a `--nodes` file for a 3-node cluster:
 
@@ -122,6 +129,7 @@ Read more about [Docker Networking](https://docs.docker.com/network/).
 Typesense clients allow you to specify one or more nodes during client initialization.
 
 Client libraries will load balance reads and writes across all nodes and will automatically strive to recover from transient failures through built-in retries.
+So there you do not need a server-side load balancer when deploying Typesense.
 
 Here's a sample 3-node client configuration:
 
@@ -136,17 +144,17 @@ $client = new Client(
   [
     'nodes' => [ 
       [
-        'host'     => '93.184.216.34',  // Can be an IP or more commonly a hostname mapped to the IP
+        'host'     => 'x.x.x.x',  // Can be an IP or more commonly a hostname mapped to the IP
         'port'     => 443, 
         'protocol' => 'https'
       ],
       [
-        'host'     => '93.184.216.35',  // Can be an IP or more commonly a hostname mapped to the IP
+        'host'     => 'y.y.y.y',  // Can be an IP or more commonly a hostname mapped to the IP
         'port'     => 443, 
         'protocol' => 'https'
       ],
       [
-        'host'     => '93.184.216.36',  // Can be an IP or more commonly a hostname mapped to the IP
+        'host'     => 'z.z.z.z',  // Can be an IP or more commonly a hostname mapped to the IP
         'port'     => 443, 
         'protocol' => 'https'
       ],
@@ -165,17 +173,17 @@ require 'typesense'
 client = Typesense::Client.new(
   nodes: [
     {
-      host:     '93.184.216.34', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'x.x.x.x', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.35', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'y.y.y.y', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.36', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'z.z.z.z', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     }
@@ -194,17 +202,17 @@ import typesense
 client = typesense.Client({
   'nodes': [
     {
-      host:     '93.184.216.34', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'x.x.x.x', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.35', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'y.y.y.y', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.36', # Can be an IP or more commonly a hostname mapped to the IP
+      host:     'z.z.z.z', # Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     }
@@ -221,17 +229,17 @@ client = typesense.Client({
 let client = new Typesense.Client({
   'nodes': [
     {
-      host:     '93.184.216.34', // Can be an IP or more commonly a hostname mapped to the IP
+      host:     'x.x.x.x', // Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.35', // Can be an IP or more commonly a hostname mapped to the IP
+      host:     'y.y.y.y', // Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     },
     {
-      host:     '93.184.216.36', // Can be an IP or more commonly a hostname mapped to the IP
+      host:     'z.z.z.z', // Can be an IP or more commonly a hostname mapped to the IP
       port:     443,
       protocol: 'https'
     }
@@ -250,17 +258,17 @@ import 'package:typesense/typesense.dart';
 final config = Configuration(
     nodes: {
       Node(
-        host: '93.184.216.34', // Can be an IP or more commonly a hostname mapped to the IP
+        host: 'x.x.x.x', // Can be an IP or more commonly a hostname mapped to the IP
         port: 443,
         protocol: 'https',
       ),
       Node(
-        host: '93.184.216.35', // Can be an IP or more commonly a hostname mapped to the IP
+        host: 'y.y.y.y', // Can be an IP or more commonly a hostname mapped to the IP
         port: 443,
         protocol: 'https',
       ),
       Node(
-        host: '93.184.216.36', // Can be an IP or more commonly a hostname mapped to the IP
+        host: 'z.z.z.z', // Can be an IP or more commonly a hostname mapped to the IP
         port: 443,
         protocol: 'https',
       ),
