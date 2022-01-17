@@ -4,13 +4,21 @@ Now that you have Typesense [installed and running](./install-typesense.md), we'
 
 ## Sample Dataset
 
-To follow along, [download](https://dl.typesense.org/datasets/books.jsonl.tar.gz) this small dataset that we've put together for this walk-through.
+To follow along, [download](https://dl.typesense.org/datasets/books.jsonl.gz) this small dataset that we've put together for this walk-through.
+
+```shell
+cd /tmp
+curl -OJ https://dl.typesense.org/datasets/books.jsonl.gz
+gunzip books.jsonl.gz
+```
+
+This should give you a file called `books.jsonl` which we'll use below.
 
 ## Initializing the client
 Let's begin by configuring the Typesense client by pointing it to a Typesense node.
 
-- Be sure to use the same API key that you used to start the Typesense server earlier. 
-- Or if you're using Typesense Cloud, click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
+- Be sure to use the same API key that you used to [start the Typesense server](./install-typesense.md#🎬-start) earlier. 
+- Or if you're using [Typesense Cloud](./install-typesense.md#option-1-typesense-cloud), click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
@@ -127,7 +135,7 @@ export TYPESENSE_HOST='http://localhost:8108'
 That's it - we're now ready to start interacting with the Typesense server.
 
 ## Creating a "books" collection
-In Typesense, a collection is a group of related documents that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
+In Typesense, a [`Collection`](../latest/api/collections.md) is a group of related [`Documents`](../latest/api/documents.md) that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
@@ -138,7 +146,6 @@ let booksSchema = {
   'fields': [
     {'name': 'title', 'type': 'string' },
     {'name': 'authors', 'type': 'string[]', 'facet': true },
-    {'name': 'image_url', 'type': 'string' },
 
     {'name': 'publication_year', 'type': 'int32', 'facet': true },
     {'name': 'ratings_count', 'type': 'int32' },
@@ -163,7 +170,6 @@ $booksSchema = [
   'fields' => [
     ['name' => 'title', 'type' => 'string'],
     ['name' => 'authors', 'type' => 'string[]', 'facet' => true],
-    ['name' => 'image_url', 'type' => 'string'],
 
     ['name' => 'publication_year', 'type' => 'int32', 'facet' => true],
     ['name' => 'ratings_count', 'type' => 'int32'],
@@ -186,7 +192,6 @@ books_schema = {
   'fields': [
     {'name': 'title', 'type': 'string' },
     {'name': 'authors', 'type': 'string[]', 'facet': True },
-    {'name': 'image_url', 'type': 'string' },
 
     {'name': 'publication_year', 'type': 'int32', 'facet': True },
     {'name': 'ratings_count', 'type': 'int32' },
@@ -209,7 +214,6 @@ books_schema = {
   'fields' => [
     {'name' => 'title', 'type' => 'string' },
     {'name' => 'authors', 'type' => 'string[]', 'facet' => true },
-    {'name' => 'image_url', 'type' => 'string' },
 
     {'name' => 'publication_year', 'type' => 'int32', 'facet' => true },
     {'name' => 'ratings_count', 'type' => 'int32' },
@@ -228,13 +232,10 @@ client.collections.create(books_schema)
 CollectionSchema collectionSchema = new CollectionSchema();
 collectionSchema.name("books").defaultSortingField("ratings_count")
                 .addFieldsItem(new Field().name("title").type("string"))
-                .addFieldsItem(new Field().name("authors").type("string[]"))
-                .addFieldsItem(new Field().name("image_url").type("string"))
-                .addFieldsItem(new Field().name("publication_year").type("int32"))
+                .addFieldsItem(new Field().name("authors").type("string[]").facet(true))
+                .addFieldsItem(nnew Field().name("publication_year").type("string").facet(true))
                 .addFieldsItem(new Field().name("ratings_count").type("int32"))
-                .addFieldsItem(new Field().name("average_rating").type("float"))
-                .addFieldsItem(nnew Field().name("publication_year_facet").type("string").facet(true))
-                .addFieldsItem(new Field().name("authors_facet").type("string[]").facet(true))
+                .addFieldsItem(new Field().name("average_rating").type("float"));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 
@@ -252,7 +253,6 @@ curl "${TYPESENSE_HOST}/collections" \
         "fields": [
           {"name": "title", "type": "string" },
           {"name": "authors", "type": "string[]", "facet": true },
-          {"name": "image_url", "type": "string" },
 
           {"name": "publication_year", "type": "int32", "facet": true },
           {"name": "ratings_count", "type": "int32" },
@@ -265,7 +265,7 @@ curl "${TYPESENSE_HOST}/collections" \
   </template>
 </Tabs>
 
-For each field, we define its `name, type` and whether it's a `facet` field. A facet field allows us to cluster the search results into categories and let us drill into each of those categories. We will be seeing faceted results in action at the end of this guide.
+For each field, we define its `name, type` and whether it's a `facet` field. A facet field allows us to cluster the search results into categories and lets us drill into each of those categories. We will be seeing faceted results in action at the end of this guide.
 
 We also define a `default_sorting_field` that determines how the results must be sorted when no `sort_by` clause is provided. In this case, books that have more ratings will be ranked higher.
 
@@ -278,10 +278,9 @@ We're now ready to index some books into the collection we just created.
 
 ```js
 var fs = require('fs/promises');
-var readline = require('readline');
 
 const booksInJsonl = await fs.readFile("/tmp/books.jsonl");
-client.collections('books').documents().import(booksInJsonl, {batch_size: 100});
+client.collections('books').documents().import(booksInJsonl);
 ```
 
   </template>
@@ -289,68 +288,43 @@ client.collections('books').documents().import(booksInJsonl, {batch_size: 100});
   <template v-slot:PHP>
 
 ```php
-$booksData = file_get_contents('/tmp/books.jsonl')
-$books = explode(PHP_EOL, $booksData);
+$booksData = file_get_contents('/tmp/books.jsonl');
 
-foreach($books as $bookItem) {
-    $book = json_decode($bookItem, true);
-    $client->collections['books']->documents->create($book);
-}
+$client->collections['books']->documents->import($booksData);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-import json
-import typesense
-
-with open('/tmp/books.jsonl') as infile:
-  for json_line in infile:
-    book_document = json.loads(json_line)
-    client.collections['books'].documents.create(book_document)
+with open('/tmp/books.jsonl') as jsonl_file:
+  client.collections['books'].documents.import_(jsonl_file.read().encode('utf-8'))
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-require 'rubygems'
-require 'json'
-require 'typesense'
-
-File.readlines('/tmp/books.jsonl').each do |json_line|
-  book_document = JSON.parse(json_line)
-  client.collections['books'].documents.create(book_document)
-end
+books_data = File.read('/tmp/books.jsonl')
+collections['books'].documents.import(books_data)
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-File myObj = new File("books.jsonl");
-Scanner myReader = new Scanner(myObj);
-while (myReader.hasNextLine()) {
-    String data = myReader.nextLine();
-    client.collections("books").documents().create(data);
-}
+String booksData = Files.readString("/tmp/books.jsonl");
+client.collections("books").documents().import_(booksData)
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-#!/bin/bash
-input="/tmp/books.jsonl"
-while IFS= read -r line
-do
-  curl "${TYPESENSE_HOST}/collections/books/documents" \
-        -X POST \
-        -H "Content-Type: application/json" \
-        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-        -d "$line"
-done < "$input"
+curl "${TYPESENSE_HOST}/collections/books/documents/import" \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      --data-binary @/tmp/books.jsonl
 ```
 
   </template>
