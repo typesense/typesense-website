@@ -31,7 +31,7 @@ But if you need more fine-grained control and/or validation, you want to use [#1
 
 Let's first create a collection with an explicit, pre-defined schema.
 
-This option gives you fine-grained control over your document fields' data types and configures your collection to reject documents that don't match the data types defined in your schema ([by default](./documents.md#dealing-with-dirty-data)).
+This option gives you fine-grained control over your document fields' [data types](#field-types) and configures your collection to reject documents that don't match the data types defined in your schema ([by default](./documents.md#dealing-with-dirty-data)).
 
 If you want Typesense to automatically detect your schema for you, skip over to [auto-schema detection](#with-auto-schema-detection). 
 
@@ -217,6 +217,8 @@ curl "http://localhost:8108/collections" \
   </template>
 </Tabs>
 
+See [Schema Parameters](#schema-parameters) for all available options, and [Field Types](#field-types) for all available data types.
+
 **Sample Response**
 
 <Tabs :tabs="['JSON']">
@@ -248,78 +250,9 @@ All fields you mention in a collection's schema will be indexed _in memory_.
 There might be cases where you don't intend to search / filter / facet / group by a particular field and just want it to be stored (on disk) and returned as is when a document is a search hit.
 For eg: you can store image URLs in every document that you might use when displaying search results, but you might not want to text-search the actual URLs. 
 
-You want to NOT mention these fields in the collection's schema or mark these fields as `index: false` (see `fields` schema argument below) to mark it as an unindexed field. 
+You want to NOT mention these fields in the collection's schema or mark these fields as `index: false` (see `fields` [schema parameter](#schema-parameters) below) to mark it as an unindexed field. 
 You can have any number of these additional unindexed fields in the documents when adding them to a collection - they will just be stored on disk, and will not take up any memory.
 :::
-
-
-#### Schema parameters
-
-| Parameter              | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| name                   | yes      | Name of the collection you wish to create.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| fields                 | yes      | A list of fields that you wish to index for querying, filtering and faceting. For each field, you have to specify at least it's `name` and [`type`](#field-types).<br><br> Eg: ```{"name": "title", "type": "string", "facet": false, "index": true}``` <br><br>`name` can be a simple string like `"name": "score"`. Or you can also use a RegEx to specify field names matching a pattern. For eg: if you want to specify that all fields starting with `score_` should be an integer, you can set name as `"name": "score_.*"`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`. Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields.<br><br>**Declaring a field as un-indexed**<br>You can set a field as un-indexed by setting `"index": false`. This is useful when used along with [auto schema detection](#with-auto-schema-detection) and you need to [exclude certain fields from indexing](#indexing-all-but-some-fields). |
-| token_separators       | no	      | List of symbols or special characters to be used for splitting the text into individual words _**in addition**_ to space and new-line characters.<br><br> For e.g. you can add `-` (hyphen) to this list to make a word like `non-stick` to be split on hyphen and indexed as two separate words.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| symbols_to_index       | no	      | List of symbols or special characters to be indexed. <br><br>For e.g. you can add `+` to this list to make the word `c++` indexable verbatim.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| default_sorting_field	 | no       | The name of an `int32 / float` field that determines the order in which the search results are ranked when a `sort_by` clause is not provided during searching. This field must indicate some kind of popularity. For example, in a product search application, you could define `num_reviews` field as the `default_sorting_field`.<br><br>Additionally, when a word in a search query matches multiple possible words (either because of a typo or during a prefix search), this parameter is used to rank such equally matching tokens. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple" and "apply" would match the prefix "app". In these cases, the `default_sorting_field` is used as the tie-breaker to rank.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-
-#### Field types
-
-Typesense allows you to index the following types of fields:
-
-| `type`                                   | Description                                                                                                                                                                    |
-|:-----------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `string`                                 | String values                                                                                                                                                                  |
-| `string[]`                               | Array of strings                                                                                                                                                               |
-| `int32`                                  | Integer values up to 2,147,483,647                                                                                                                                             |
-| `int32[]`                                | Array of `int32`                                                                                                                                                               |
-| `int64`                                  | Integer values larger than 2,147,483,647                                                                                                                                       |
-| `int64[]`                                | Array of `int64`                                                                                                                                                               |
-| `float`                                  | Floating point / decimal numbers                                                                                                                                               |
-| `float[]`                                | Array of floating point / decimal numbers                                                                                                                                      |
-| `bool`                                   | `true` or `false`                                                                                                                                                              |
-| `bool[]`                                 | Array of booleans                                                                                                                                                              |
-| [`geopoint`](./documents.md#geosearch)   | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
-| [`geopoint[]`](./documents.md#geosearch) | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`                                                                                                   |
-| `string*`                                | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
-| `auto`                                   | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
-
-#### Indexing nested fields
-
-Typesense currently does not support indexing nested objects, or arrays of objects. We plan to add support for this shortly as part of ([#227](https://github.com/typesense/typesense/issues/227)).
-In the meantime, you would have to flatten objects and arrays of objects into top-level keys before sending the data into Typesense.
-
-For example, a document like this containing nested objects:
-
-```json
-{
-  "nested_field": {
-    "field1": "value1",
-    "field2": ["value2", "value3", "value4"],
-    "field3": {
-      "fieldA": "valueA",
-      "fieldB": ["valueB", "valueC", "valueD"]
-    }
-  }
-}  
-```
-
-would need to be flattened as:
-
-```json
-{
-  "nested_field.field1": "value1",
-  "nested_field.field2":  ["value2", "value3", "value4"],
-  "nested_field.field3.fieldA": "valueA",
-  "nested_field.field3.fieldB": ["valueB", "valueC", "valueD"]
-}
-```
-
-before indexing it into Typesense.
-
-To simplify traversing the data in the results, you might want to send both the flattened and unflattened version of the nested fields into Typesense,
-and only set the flattened keys as indexed in the collection's schema and use them for search/filtering/faceting.
-At display time when parsing the results, you can then use the nested version.
 
 ### With auto schema detection
  
@@ -395,7 +328,7 @@ You can control this default coercion behavior at write-time with the [`dirty_va
 
 #### Faceting fields with auto-schema detection
 
-Faceting is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory, 
+[Faceting](./documents.md#facet-results) is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory, 
 especially for large text fields. However, you can still explicitly define specific fields (with or without RegEx names) to facet by 
 setting `facet: true` for them. 
 
@@ -418,7 +351,7 @@ This will only set field names that end with `_facet` in the document, as a face
 
 #### `Geopoint` and auto-schema detection
 
-A `geopoint` field requires an explicit type definition, as the geo field value is represented as a 2-element 
+A [`geopoint` field](#field-types) requires an explicit type definition, as the geo field value is represented as a 2-element 
 float field and we cannot differentiate between a lat/long definition and an actual float array.
 
 #### Indexing all but some fields
@@ -457,6 +390,74 @@ determines the type of that field.
 For example, if you index a document with a field named `title` and it is a
 string, then the next document that contains the field named `title` will be expected to have a string too.
 :::
+
+### Schema parameters
+
+| Parameter             | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|:----------------------|:---------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name                  | yes      | Name of the collection you wish to create.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| fields                | yes      | A list of fields that you wish to index for [querying](./documents.md#query-parameters), [filtering](./documents.md#filter-results) and [faceting](./documents.md#facet-results). For each field, you have to specify at least it's `name` and [`type`](#field-types).<br><br> Eg: ```{"name": "title", "type": "string", "facet": false, "index": true}``` <br><br>`name` can be a simple string like `"name": "score"`. Or you can also use a RegEx to specify field names matching a pattern. For eg: if you want to specify that all fields starting with `score_` should be an integer, you can set name as `"name": "score_.*"`.<br><br>**Declaring a field as optional**<br>A field can be declared as optional by setting `"optional": true`.<br><br>**Declaring a field as a facet**<br>A field can be declared as a facetable field by setting `"facet": true`. Faceted fields are indexed verbatim without any tokenization or preprocessing. For example, if you are building a product search, `color` and `brand` could be defined as facet fields. Once a field is enabled for faceting in the schema, it can be used in the [`facet_by` search parameter](./documents.md#facet-results).<br><br>**Declaring a field as un-indexed**<br>You can set a field as un-indexed by setting `"index": false`. This is useful when used along with [auto schema detection](#with-auto-schema-detection) and you need to [exclude certain fields from indexing](#indexing-all-but-some-fields). |
+| token_separators      | no       | List of symbols or special characters to be used for splitting the text into individual words _**in addition**_ to space and new-line characters.<br><br> For e.g. you can add `-` (hyphen) to this list to make a word like `non-stick` to be split on hyphen and indexed as two separate words.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| symbols_to_index      | no       | List of symbols or special characters to be indexed. <br><br>For e.g. you can add `+` to this list to make the word `c++` indexable verbatim.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 
+| default_sorting_field | no       | The name of an `int32 / float` field that determines the order in which the search results are ranked when a `sort_by` clause is not provided during searching. This field must indicate some kind of popularity. For example, in a product search application, you could define `num_reviews` field as the `default_sorting_field`.<br><br>Additionally, when a word in a search query matches multiple possible words (either because of a typo or during a prefix search), this parameter is used to rank such equally matching tokens. For e.g. both "john" and "joan" are 1-typo away from "jofn". Similarly, in a prefix search, both "apple" and "apply" would match the prefix "app". In these cases, the `default_sorting_field` is used as the tie-breaker to rank.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+### Field types
+
+Typesense allows you to index the following types of fields:
+
+| `type`                                   | Description                                                                                                                                                                    |
+|:-----------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `string`                                 | String values                                                                                                                                                                  |
+| `string[]`                               | Array of strings                                                                                                                                                               |
+| `int32`                                  | Integer values up to 2,147,483,647                                                                                                                                             |
+| `int32[]`                                | Array of `int32`                                                                                                                                                               |
+| `int64`                                  | Integer values larger than 2,147,483,647                                                                                                                                       |
+| `int64[]`                                | Array of `int64`                                                                                                                                                               |
+| `float`                                  | Floating point / decimal numbers                                                                                                                                               |
+| `float[]`                                | Array of floating point / decimal numbers                                                                                                                                      |
+| `bool`                                   | `true` or `false`                                                                                                                                                              |
+| `bool[]`                                 | Array of booleans                                                                                                                                                              |
+| [`geopoint`](./documents.md#geosearch)   | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
+| [`geopoint[]`](./documents.md#geosearch) | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`                                                                                                   |
+| `string*`                                | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
+| `auto`                                   | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
+
+#### Indexing nested fields
+
+Typesense currently does not support indexing nested objects, or arrays of objects. We plan to add support for this shortly as part of ([#227](https://github.com/typesense/typesense/issues/227)).
+In the meantime, you would have to flatten objects and arrays of objects into top-level keys before sending the data into Typesense.
+
+For example, a document like this containing nested objects:
+
+```json
+{
+  "nested_field": {
+    "field1": "value1",
+    "field2": ["value2", "value3", "value4"],
+    "field3": {
+      "fieldA": "valueA",
+      "fieldB": ["valueB", "valueC", "valueD"]
+    }
+  }
+}  
+```
+
+would need to be flattened as:
+
+```json
+{
+  "nested_field.field1": "value1",
+  "nested_field.field2":  ["value2", "value3", "value4"],
+  "nested_field.field3.fieldA": "valueA",
+  "nested_field.field3.fieldB": ["valueB", "valueC", "valueD"]
+}
+```
+
+before indexing it into Typesense.
+
+To simplify traversing the data in the results, you might want to send both the flattened and unflattened version of the nested fields into Typesense,
+and only set the flattened keys as indexed in the collection's schema and use them for search/filtering/faceting.
+At display time when parsing the results, you can then use the nested version.
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.

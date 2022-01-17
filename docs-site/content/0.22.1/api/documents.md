@@ -1158,7 +1158,8 @@ You'll find detailed documentation for `filter_by` in the [Search Parameters](#s
 
 ### Facet Results
 
-You can use the `facet_by` search parameter to have Typesense return facet counts for a particular set of fields.
+You can use the `facet_by` search parameter to have Typesense return aggregate facet counts for a particular set of fields.
+For integer fields, Typesense will also return max, min and average values, in addition to counts.
 
 For eg: if you have a dataset of songs, and if you facet by the genre field and do a search, Typesense will return the number of matching songs in every genre in the results.
 This is useful to show users a summary of results, so they can further drill-down the results.
@@ -2087,7 +2088,11 @@ curl "http://localhost:8108/multi_search?query_by=name" \
 
 `POST ${TYPESENSE_HOST}/multi_search`
 
-### Arguments
+### `multi_search` Parameters
+
+You can use any of the [Search Parameters here](#search-parameters) for each individual search operation within a `multi_search` request.
+
+In addition, you can use the following parameters with `multi_search` requests:
 
 | Parameter             | Required | Description                                                                                                                                                                                                                                                                                                  |
 |-----------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
