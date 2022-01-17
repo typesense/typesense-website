@@ -110,7 +110,10 @@ let config = {
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
     // Add any non-versioned pages below
-    nav: [{ text: 'Help', link: '/help' }],
+    nav: [
+      { text: 'Help', link: '/help' },
+      { text: 'Roadmap', link: 'https://github.com/typesense/typesense/projects/2' },
+    ],
     repo: 'typesense/typesense',
     smoothScroll: false, // We're handling this custom using the typesense-enhancements plugin
     markdown: {
