@@ -8,7 +8,7 @@ To follow along, [download](https://dl.typesense.org/datasets/books.jsonl.gz) th
 
 ```shell
 cd /tmp
-curl -OJ https://dl.typesense.org/datasets/books.jsonl.gz
+curl -O https://dl.typesense.org/datasets/books.jsonl.gz
 gunzip books.jsonl.gz
 ```
 

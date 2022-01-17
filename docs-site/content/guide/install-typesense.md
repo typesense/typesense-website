@@ -37,7 +37,7 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 </code></pre>
 
@@ -50,7 +50,7 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-linux-amd64.tar.gz
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-linux-amd64.tar.gz
 tar -xzf typesense-server-0.23.0.rc20-linux-amd64.tar.gz
 </code></pre>
 
@@ -77,7 +77,7 @@ tar -xzf typesense-server-0.23.0.rc20-linux-amd64.tar.gz
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 </code></pre>
 
@@ -90,7 +90,7 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-amd64.deb
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-amd64.deb
 sudo apt install ./typesense-server-0.23.0.rc20-amd64.deb
 </code></pre>
 
@@ -104,7 +104,7 @@ sudo apt install ./typesense-server-0.23.0.rc20-amd64.deb
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 </code></pre>
 
@@ -117,7 +117,7 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-1.x86_64.rpm
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-1.x86_64.rpm
 sudo yum install ./typesense-server-0.23.0.rc20.x86_64-1.rpm
 </code></pre>
 
@@ -132,7 +132,7 @@ sudo yum install ./typesense-server-0.23.0.rc20.x86_64-1.rpm
   <template v-slot:Shell>
 
 <pre class="language-bash"><code>wsl
-wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 </code></pre>
 Note: Post install you would see the message "installed typesense-server package post-installation script subprocess returned error exit status 1"
