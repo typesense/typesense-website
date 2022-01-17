@@ -26,6 +26,7 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
   <template v-slot:Shell>
 
 <pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 </code></pre>
 
   </template>
@@ -37,10 +38,28 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
   <template v-slot:Shell>
 
 <pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 </code></pre>
 
   </template>
 </Tabs>
+
+:::warning NOTE
+If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc5/typesense-server-0.23.0.rc5-linux-amd64.tar.gz
+tar -xzf typesense-server-0.23.0.rc5-linux-amd64.tar.gz
+</code></pre>
+
+  </template>
+</Tabs>
+
+:::
+
+
 
 #### Docker
 
@@ -102,7 +121,7 @@ If you downloaded the pre-built binary for Mac / Linux, you can start Typesense 
 ```bash
 export TYPESENSE_API_KEY=xyz
 mkdir /tmp/typesense-data
-./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY
+./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
 ```
 
   </template>
@@ -119,7 +138,7 @@ If you want to use Docker, you can run Typesense like this:
 mkdir /tmp/typesense-data
 
 docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
-  --data-dir /data --api-key=$TYPESENSE_API_KEY </code></pre>
+  --data-dir /data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
 
   </template>
 </Tabs>
