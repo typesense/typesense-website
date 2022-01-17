@@ -105,9 +105,6 @@ let config = {
       },
       typesenseCollectionName: 'typesense_docs',
       typesenseSearchParams: {
-        num_typos: 1,
-        drop_tokens_threshold: 3,
-        typo_tokens_threshold: 1,
         per_page: 6,
       },
     },

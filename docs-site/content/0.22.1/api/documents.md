@@ -316,6 +316,8 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
+You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL](#import-a-json-file) before importing to Typesense. 
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
@@ -326,6 +328,9 @@ let documents = [{
   'num_employees': 5215,
   'country': 'USA'
 }]
+
+// Be sure to increase connectionTimeoutSeconds appropriately for large imports,
+//  when instantiating the client
 
 client.collections('companies').documents().import(documents, {action: 'create'})
 ```
@@ -342,6 +347,8 @@ $documents = [[
   'country'       => 'USA'
 ]];
 
+// Be sure to increase the connection timeout in your HTTP library appropriately for large imports
+
 $client->collections['companies']->documents->import($documents, ['action' => 'create']);
 ```
 
@@ -356,6 +363,9 @@ documents = [{
   'country': 'USA'
 }]
 
+# Be sure to increase connection_timeout_seconds appropriately for large imports,
+#  when instantiating the client
+
 client.collections['companies'].documents.import_(documents, {'action': 'create'})
 ```
 
@@ -369,6 +379,9 @@ documents = [{
   'num_employees' => 5215,
   'country'       => 'USA'
 }]
+
+# Be sure to increase connection_timeout_seconds appropriately for large imports,
+#  when instantiating the client
 
 client.collections['companies'].documents.import(documents, action: 'create')
 ```
@@ -385,6 +398,9 @@ final documents = [
     'country': 'USA'
   }
 ];
+
+// Be sure to increase connectionTimeout appropriately for large imports,
+//  when instantiating the client
 
 await client.collection('companies').documents.importDocuments(documents);
 ```
@@ -406,6 +422,9 @@ documentList.add(document1);
 
 ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
 importDocumentsParameters.action("create");
+
+// Be sure to increase connectionTimeout appropriately for large imports,
+//  when instantiating the client
 
 client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
 ```
@@ -432,6 +451,9 @@ for doc in documents {
 
 let jsonLString = jsonLStrings.joined(separator: "\n")
 let jsonL = Data(jsonLString.utf8)
+
+// Be sure to increase connectionTimeoutSeconds appropriately for large imports,
+//  when instantiating the client
 
 let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
 
@@ -1123,8 +1145,13 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 | snippet_threshold          | no       | Field values under this length will be fully highlighted, instead of showing a snippet of relevant portion.<br><br>Default: `30`                                                                                                                                                                                                                                                                           |
 | limit_hits                 | no       | Maximum number of hits that can be fetched from the collection. Eg: `200`<br><br>`page * per_page` should be less than this number for the search request to return results.<br><br>Default: no limit<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time. |
 | search_cutoff_ms           | no       | Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.<br><br>Default: no search cutoff happens.                                                                                                                                                                                              |
-| use_cache                  | no       | Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`                                                                                                                                                                                                                                                                                               |
-| cache_ttl                  | no       | The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`                                                                                                                                                                                                    |
+
+#### Caching parameters
+
+| Parameter | Required | Description                                                                                                                                                                                             |
+|:----------|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| use_cache | no       | Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`                                                                                            |
+| cache_ttl | no       | The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60` |
 
 #### Typo-Tolerance parameters
 
@@ -1140,7 +1167,7 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 
 | Parameter              | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |:-----------------------|:---------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| query_by_weights       | no       | The relative weight to give each `query_by` field when ranking results. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields higher in the `query_by` list will be considered to have greater weight.                                                                                                                                                                                                                                                                                                                                               |
+| query_by_weights       | no       | The relative weight to give each `query_by` field when ranking results. Values can be between `0` and `127`. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields earlier in the `query_by` list will be considered to have greater weight.                                                                                                                                                                                                                                                                                                         |
 | sort_by                | no       | A list of numerical fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](#geosearch), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](#sorting-by-additional-attributes-within-a-radius). |
 | prioritize_exact_match | no       | By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | exhaustive_search      | no       | Setting this to `true` will make Typesense consider all variations of prefixes and typo corrections of the words in the query exhaustively, without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored). <br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
