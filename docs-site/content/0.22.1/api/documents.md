@@ -865,7 +865,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @docum
 If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
 
 ```shell
-cat documents.json | jq -c '.[]' > documents.jsonl
+jq -c '.[]' documents.json > documents.jsonl
 ```
 
 Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
