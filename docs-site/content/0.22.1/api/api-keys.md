@@ -5,7 +5,7 @@ sitemap:
 ---
 
 # API Keys
-Typesense allows you to create API Keys with fine-grain access control. You can restrict access on both a per-collection and per-action level.
+Typesense allows you to create API Keys with fine-grained access control. You can restrict access on a per-collection, per-action, per-record or even per-field level or a mixture of these.
 
 :::warning
 We will be using the initial bootstrap key that you started Typesense with (via `--api-key`>) to create additional keys. It's **strongly recommended** that you don't use the bootstrap API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.
@@ -267,24 +267,26 @@ The collection names can contain regular expressions. For example, if you have m
 `POST ${TYPESENSE_HOST}/keys`
 
 ### Arguments
-| Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------|
-|actions	|yes	|List of allowed actions. See next table for possible values.|
-|collections	|yes	|List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.|
-|description	|yes	|Internal description to identify what the key is for|
-|value	|no	|By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key.|
-|expires_at	|no	|[Unix timestamp](https://www.epochconverter.com/) until which the key is valid.|
+| Parameter    | Required  | Description                                                                                                                                                                                                            |
+|:-------------|:----------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| actions      | yes       | List of allowed actions. See next table for possible values.                                                                                                                                                           |
+| collections  | yes       | List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.                                                                                |
+| description  | yes       | Internal description to identify what the key is for                                                                                                                                                                   |
+| value        | no        | By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key.  |
+| expires_at   | no        | [Unix timestamp](https://www.epochconverter.com/) until which the key is valid.                                                                                                                                        |
 
 ### Sample actions
 
-| Action         | Description |
-| -------------- | ----------- |
-|`documents:search	`|Allows only search requests.|
-|`documents:get	`|Allows fetching a single document.|
-|`collections:delete	`|Allows a collection to be deleted.|
-|`collections:create	`|Allows a collection to be created.|
-|`collections:*	`|Allow all kinds of collection related operations.|
-|`*	`|Allows all operations.|
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
+| `documents:search`   | Allows only search requests.                      |
+| `documents:get`      | Allows fetching a single document.                |
+| `collections:delete` | Allows a collection to be deleted.                |
+| `collections:create` | Allows a collection to be created.                |
+| `collections:*`      | Allow all kinds of collection related operations. |
+| `metrics.json:list`  | Allows access to the metrics endpoint.            |
+| `aliases:list`       | Allows access to the `GET /aliases` endpoint.     |
+| `*`                  | Allows all operations.                            |
 
 
 ## Retrieve an API Key

@@ -11,7 +11,7 @@ A Collection is roughly equivalent to a table in a relational database.
 
 ## Create a collection
 
-Before we can [add documents](./documents.md#index-a-document) to Typesense, we need to first create a `Collection` - we give it a name and describe the fields that will be indexed from our `Documents`.
+Before we can [add documents](./documents.md#index-a-single-document) to Typesense, we need to first create a `Collection` - we give it a name and describe the fields that will be indexed from our `Documents`.
 We call this definition the collection's `schema`, which is just a fancy term to describe the fields (and their [data types](#field-types)) in your documents.
 
 :::tip
@@ -217,7 +217,7 @@ curl "http://localhost:8108/collections" \
   </template>
 </Tabs>
 
-#### Sample Response
+**Sample Response**
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -253,7 +253,7 @@ You can have any number of these additional unindexed fields in the documents wh
 :::
 
 
-#### Schema Arguments
+#### Schema parameters
 
 | Parameter              | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -267,36 +267,22 @@ You can have any number of these additional unindexed fields in the documents wh
 
 Typesense allows you to index the following types of fields:
 
-| `type`                                 | Description                                                                                                                                                                    |
-|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `string`                               | String values                                                                                                                                                                  |
-| `int32`                                | Integer values up to 2,147,483,647                                                                                                                                             |
-| `int64`                                | Integer values larger than 2,147,483,647                                                                                                                                       |
-| `float`                                | Floating point / decimal numbers                                                                                                                                               |
-| `bool`                                 | `true` or `false`                                                                                                                                                              |
-| [`geopoint`](./documents.md#geosearch) | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
-| `string*`                              | Special type that automatically converts values to a string.                                                                                                                   |
-| `auto`                                 | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
-
-You can define an array or multi-valued field by suffixing a [] at the end:
-
-<table>
-  <tr>
-    <td>string[]</td>
-  </tr>
-  <tr>
-    <td>int32[]</td>
-  </tr>
-  <tr>
-    <td>int64[]</td>
-  </tr>
-  <tr>
-    <td>float[]</td>
-  </tr>
-  <tr>
-    <td>bool[]</td>
-  </tr>
-</table>
+| `type`                                   | Description                                                                                                                                                                    |
+|:-----------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `string`                                 | String values                                                                                                                                                                  |
+| `string[]`                               | Array of strings                                                                                                                                                               |
+| `int32`                                  | Integer values up to 2,147,483,647                                                                                                                                             |
+| `int32[]`                                | Array of `int32`                                                                                                                                                               |
+| `int64`                                  | Integer values larger than 2,147,483,647                                                                                                                                       |
+| `int64[]`                                | Array of `int64`                                                                                                                                                               |
+| `float`                                  | Floating point / decimal numbers                                                                                                                                               |
+| `float[]`                                | Array of floating point / decimal numbers                                                                                                                                      |
+| `bool`                                   | `true` or `false`                                                                                                                                                              |
+| `bool[]`                                 | Array of booleans                                                                                                                                                              |
+| [`geopoint`](./documents.md#geosearch)   | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
+| [`geopoint[]`](./documents.md#geosearch) | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`                                                                                                   |
+| `string*`                                | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
+| `auto`                                   | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
 
 #### Indexing nested fields
 
@@ -341,7 +327,7 @@ If your field names are dynamic and not known upfront, or if you just want to ke
 auto-schema detection should help you. 
 
 You can define a wildcard field with the name `.*` and  type `auto` to let Typesense automatically 
-detect the type of the fields when you [add documents](./documents.md#index-a-document) to the collection. 
+detect the type of the fields when you [add documents](./documents.md#index-a-single-document) to the collection. 
 In fact, you can use **any RegEx expression to define a field name**.
 
 <Tabs :tabs="['JSON']">
@@ -537,7 +523,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Sample Response
+**Sample Response**
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -558,7 +544,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Definition
+**Definition**
 `GET ${TYPESENSE_HOST}/collections/:collection`
 
 ## List all collections
@@ -626,7 +612,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Sample Response
+**Sample Response**
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -659,7 +645,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Definition
+**Definition**
 `GET ${TYPESENSE_HOST}/collections`
 
 ## Drop a collection
@@ -728,7 +714,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Sample Response
+**Sample Response**
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -749,9 +735,8 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-#### Definition
+**Definition**
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
-
 
 ## Update a collection
 

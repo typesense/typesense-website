@@ -74,7 +74,7 @@ changes above to prepare your application for the upgrade.
 
 ### Single node deployment
 
-1. Trigger a snapshot to [create a backup](cluster-operations.html#create-snapshot-for-backups) of your data.
+1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -87,12 +87,12 @@ To upgrade a multi-node cluster, we will be proceeding node by node.
 So we will upgrade the leader last. You can determine whether a node is a leader or follower by the value of the `state` 
 field in the `/debug` end-point response.
 
-|State|Role|
-|-----|----|
-|1|LEADER|
-|4|FOLLOWER|
+| State | Role     |
+|-------|----------|
+| 1     | LEADER   |
+| 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](cluster-operations.html#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up. 

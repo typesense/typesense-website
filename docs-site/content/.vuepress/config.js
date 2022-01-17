@@ -544,6 +544,7 @@ let config = {
       },
     ],
     '@vuepress/last-updated',
+    'check-md', // To check for deadlinks: https://www.npmjs.com/package/vuepress-plugin-check-md
   ],
   configureWebpack: {
     // devtool: 'source-map',
@@ -551,14 +552,6 @@ let config = {
       alias: {
         '@images': path.resolve(__dirname, 'public/images/'),
       },
-    },
-  },
-
-  markdown: {
-    plugins: ['markdown-it-attrs'],
-    extendMarkdown: md => {
-      // use more markdown-it plugins!
-      md.use(require('markdown-it-attrs'))
     },
   },
 }

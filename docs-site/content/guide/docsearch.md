@@ -112,7 +112,7 @@ Add the following to your `docusaurus.config.js` file:
         apiKey: 'xyz',
       },
 
-      // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/documents.html#arguments
+      // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/documents.md#search-parameters
       typesenseSearchParameters: {},
 
       // Optional
@@ -216,7 +216,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 #### Reference:
 - Read the [Authentication Section](../latest/api/authentication.md) for all possible options under the `typesenseServerConfig` key.
-- Read the [Search Parameters Section](../latest/api/documents.md#arguments) for all possible options under the `typesenseSearchParams` key.
+- Read the [Search Parameters Section](../latest/api/documents.md#search-parameters) for all possible options under the `typesenseSearchParams` key.
 - Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/behavior#handleselected) for information about additional options.
 
 #### Styling 

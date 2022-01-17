@@ -4,6 +4,7 @@
   "private": true,
   "license": "GPL-3.0",
   "scripts": {
+    "check-md": "vuepress check-md ./content",
     "dev": "vuepress dev content",
     "build": "vuepress build content --no-cache",
     "deploy": "yarn build && aws s3 cp --recursive ./content/.vuepress/dist s3://typesense.org/docs/ --profile typesense && yarn clearCDNCache && yarn scrapeAndIndexDocs",
@@ -24,6 +25,7 @@
     "prettier": "^2.2.1",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
+    "vuepress-plugin-check-md": "^0.0.2",
     "vuepress-plugin-sitemap": "jasonbosco/vuepress-plugin-sitemap",
     "watchpack": "1.6.1"
   },
