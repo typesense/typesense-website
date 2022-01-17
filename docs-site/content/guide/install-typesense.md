@@ -50,8 +50,8 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc5/typesense-server-0.23.0.rc5-linux-amd64.tar.gz
-tar -xzf typesense-server-0.23.0.rc5-linux-amd64.tar.gz
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-linux-amd64.tar.gz
+tar -xzf typesense-server-0.23.0.rc20-linux-amd64.tar.gz
 </code></pre>
 
   </template>
@@ -84,13 +84,47 @@ sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion 
   </template>
 </Tabs>
 
+:::warning NOTE
+If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-amd64.deb
+sudo apt install ./typesense-server-0.23.0.rc20-amd64.deb
+</code></pre>
+
+  </template>
+</Tabs>
+
+:::
+
+
 #### RPM package on CentOS/RHEL
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
 <pre class="language-bash"><code>wget https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
-sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}.x86_64.rpm
+sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 </code></pre>
+
+  </template>
+</Tabs>
+
+:::warning NOTE
+If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>wget https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-1.x86_64.rpm
+sudo yum install ./typesense-server-0.23.0.rc20.x86_64-1.rpm
+</code></pre>
+
+  </template>
+</Tabs>
+
+:::
 
 #### Windows  [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
 
@@ -103,9 +137,6 @@ sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion 
 </code></pre>
 Note: Post install you would see the message "installed typesense-server package post-installation script subprocess returned error exit status 1"
 ignore this error message , executing `apt list --installed | grep typesense` would show that instillation was successfull.
-
-  </template>
-</Tabs>
 
   </template>
 </Tabs>
