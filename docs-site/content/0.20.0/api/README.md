@@ -47,7 +47,7 @@ This release contains new features, performance improvements and important bug f
 
 - The `catch-up-min-sequence-diff` and `catch-up-threshold-percentage` flags that are used for determining the
   catch up status of a follower, are replaced with `healthy-read-lag` and `healthy-write-lag`
-  [flags](./configure-typesense.md#using-command-line-arguments).
+  [flags](./server-configuration.md#using-command-line-arguments).
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.

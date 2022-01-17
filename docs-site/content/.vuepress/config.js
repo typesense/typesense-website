@@ -117,7 +117,7 @@ let config = {
     repo: 'typesense/typesense',
     smoothScroll: false, // We're handling this custom using the typesense-enhancements plugin
     markdown: {
-      lineNumbers: true,
+      lineNumbers: false,
     },
     // https://vuepress.vuejs.org/theme/default-theme-config.html#git-repository-and-edit-links
     // if your docs are in a different repo from your main project:
@@ -544,6 +544,7 @@ let config = {
       },
     ],
     '@vuepress/last-updated',
+    'check-md', // To check for deadlinks: https://www.npmjs.com/package/vuepress-plugin-check-md
   ],
   configureWebpack: {
     // devtool: 'source-map',

@@ -38,7 +38,7 @@ Most of the server infrastructure related items are not applicable to Typesense 
 - Monitor the [`/stats.json` API endpoint](../latest/api/cluster-operations.md#api-stats) for request rate and latency. 
 - Monitor CPU usage to ensure that it is below 90% on average. If it spikes beyond that, you might need to upgrade to higher CPU capacity.
   - You can access CPU usage metrics via the [`/metrics.json` endpoint](../latest/api/cluster-operations.md#cluster-metrics) or via the Typesense Cloud Dashboard.
-- When using the [`import` API](../latest/api/documents.md#import-documents) with large batches of data, make sure that you have configured a sufficiently high timeout value to let your large imports complete, since all write operations are synchronous in Typesense.
+- When using the [`import` API](../latest/api/documents.md#index-multiple-documents) with large batches of data, make sure that you have configured a sufficiently high timeout value to let your large imports complete, since all write operations are synchronous in Typesense.
 
 ### Search Relevance
 

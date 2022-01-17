@@ -240,7 +240,7 @@ You can also do this using the AWS CLI:
 
 :::tip
 When dealing with a large amount of changes in a high-traffic environment, we'd highly recommend that you batch writes into Typesense.
-You want to use something like Kinesis to stage the DynamoDB events and then batch write the changes into Typesense using the [import endpoint](../latest/api/documents.md#import-documents).
+You want to use something like Kinesis to stage the DynamoDB events and then batch write the changes into Typesense using the [import endpoint](../latest/api/documents.md#index-multiple-documents).
 :::
 
 And that's a wrap! Now your any data you create, update or delete in your DynamoDB table will be automatically indexed in your Typesense cluster.
