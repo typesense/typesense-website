@@ -112,6 +112,46 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
+                href="https://github.com/typesense/typesense-java"
+                >Java Client
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/typesense/typesense-swift"
+                >Swift Client
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/runeanielsen/typesense-clj"
+                >Clojure Client
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://github.com/typesense/laravel-scout-typesense-driver"
+                >Laravel Scout Driver
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
+                href="https://wordpress.org/plugins/search-with-typesense/?ref=typesense"
+                >Wordpress Plugin
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link p-0" href="https://tooljet.com/?ref=typesense"
+                >Tooljet Extension
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-0"
                 href="https://github.com/typesense/gatsby-plugin-typesense"
                 >Gatsby Plugin
               </a>
@@ -133,15 +173,15 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
-                href="https://github.com/typesense/firestore-typesense-search"
-                >Firebase Extension
+                href="https://github.com/typesense/docusaurus-theme-search-typesense"
+                >Docusaurus Search Theme
               </a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link p-0"
-                href="https://github.com/typesense/typesense-wordpress-plugin"
-                >Wordpress Plugin
+                href="https://github.com/typesense/firestore-typesense-search"
+                >Firebase Extension
               </a>
             </li>
           </ul>

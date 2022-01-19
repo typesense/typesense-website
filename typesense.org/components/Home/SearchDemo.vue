@@ -18,6 +18,7 @@
         <div class="col-sm-11">
           <AisSearchBox
             placeholder="Search for a recipe..."
+            :autofocus="true"
             :class-names="{
               'ais-SearchBox-input': 'form-control',
               'ais-SearchBox-submit': 'd-none',
