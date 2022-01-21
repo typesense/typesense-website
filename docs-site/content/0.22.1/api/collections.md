@@ -422,6 +422,11 @@ Typesense allows you to index the following types of fields:
 | `string*`                                | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
 | `auto`                                   | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
 
+Here's how to index other common types of data, using the basic primitives in the table above:
+
+- [Nested fields / objects](#indexing-nested-fields)
+- [Dates](#indexing-dates)
+
 #### Indexing nested fields
 
 Typesense currently does not support indexing nested objects, or arrays of objects. We plan to add support for this shortly as part of ([#227](https://github.com/typesense/typesense/issues/227)).
@@ -458,6 +463,13 @@ before indexing it into Typesense.
 To simplify traversing the data in the results, you might want to send both the flattened and unflattened version of the nested fields into Typesense,
 and only set the flattened keys as indexed in the collection's schema and use them for search/filtering/faceting.
 At display time when parsing the results, you can then use the nested version.
+
+#### Indexing Dates
+
+Dates need to be converted into [Unix timestamps](https://en.wikipedia.org/wiki/Unix_time) and stored as `int64` fields in Typesense.
+Most languages have libraries that help do this conversion for you. 
+
+You'll then be able to use numerical operators like `<`, `>`, etc to filter records that are before or after or between dates. 
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.
