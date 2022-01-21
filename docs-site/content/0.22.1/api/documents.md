@@ -1193,7 +1193,7 @@ This is useful to show users a summary of results, so they can further drill-dow
 
 Note that you need to enable faceting on a field using `{fields: [{facet: true, name: "<field>", type: "<datatype>"}]}` in the [Collection Schema](./collections.md#create-a-collection) before using it in `facet_by`.
 
-You'll find detailed documentation for `facet_by` in the [Search Parameters](#search-parameters) table above.
+You'll find detailed documentation for `facet_by` in the [Facet Parameters](#faceting-parameters) table above.
 
 ### Group Results
 
@@ -1392,7 +1392,7 @@ You can use the `page` and `per_page` search parameters to control pagination of
 
 By default, Typesense returns the top 10 results (`page: 1`, `per_page: 10`).
 
-You'll find detailed documentation for these pagination parameters in the [Search Parameters](#search-parameters) table above.
+You'll find detailed documentation for these pagination parameters in the [Pagination Parameters](#pagination-parameters) table above.
 
 ### Ranking
 
@@ -2349,6 +2349,8 @@ To update multiple documents, use the import endpoint with [`action=update`](#ac
 
 ## Delete documents
 
+### Delete a single document
+
 Delete an individual document from a collection by using its `id`.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
@@ -2525,6 +2527,14 @@ Use the `batch_size` parameter to control the number of documents that should de
 
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents?filter_by=X&batch_size=N`
 
+:::tip
+To delete multiple documents by ID, you can use `filter_by=id: [id1, id2, id3]`.
+
+To delete all documents in a collection, you can use a filter that matches all documents in your collection.
+For eg, if you have an `int32` field called `popularity` in your documents, you can use `filter_by=popularity:>0` to delete all documents.
+Or if you have a `bool` field called `in_stock` in your documents, you can use `filter_by=in_stock:[true,false]` to delete all documents.  
+
+:::
 
 ## Export documents
 
