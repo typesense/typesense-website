@@ -211,7 +211,7 @@ async function index(next, typesense) {
 
 async function monitorListingsUsingEventEmitter(client, typesense, timeInMs = 60000) {
   const collection = client.db('sample').collection('books')
-  const changeStream = collection.watch(pipeline)
+  const changeStream = collection.watch()
   changeStream.on('change', next => {
     index(next, typesense)
   })
@@ -238,7 +238,7 @@ async function main() {
         protocol: 'http',
       },
     ],
-    apiKey: 'hari',
+    apiKey: '<API_KEY>',
     connectionTimeoutSeconds: 2,
   })
   let schema = {
