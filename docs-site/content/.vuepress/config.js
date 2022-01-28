@@ -183,6 +183,7 @@ let config = {
           children: [
             ['/guide/search-analytics', 'Search Analytics'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
+            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
           ],
         },
         {
