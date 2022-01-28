@@ -272,5 +272,3 @@ final config = Configuration(
 
   </template>
 </Tabs>
- 
- 
