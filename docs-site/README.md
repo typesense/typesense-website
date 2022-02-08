@@ -32,10 +32,10 @@ where `typesense-dynamodb.svg` is located at `./content/.vuepress/public/images/
 
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
 
-| Variable | Definition |
-|----------|------------|
-| $page.typesenseVersion | The current Typesense version that the user is looking at docs for. Will be `null` for non-versioned top level files. |
-| $site.themeConfig.typesenseVersions | List of all Typesense versions |
+| Variable                            | Definition                                                                                                            |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| $page.typesenseVersion              | The current Typesense version that the user is looking at docs for. Will be `null` for non-versioned top level files. |
+| $site.themeConfig.typesenseVersions | List of all Typesense versions                                                                                        |
 
 **Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles.
 To partially fix the issue with page titles, we have a workaround in `plugins/typesense-enhancements` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
