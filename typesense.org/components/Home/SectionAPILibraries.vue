@@ -138,7 +138,7 @@
               />
             </a>
           </div>
-          <div class="text-center mt-3">
+          <div class="text-center mt-4">
             <a
               href="https://github.com/typesense/typesense-instantsearch-adapter#with-react-instantsearch"
               target="_blank"
@@ -238,6 +238,8 @@
                 height="30"
               />
             </a>
+          </div>
+          <div class="text-center mt-3">
             <a
               href="https://wordpress.org/plugins/search-with-typesense/?ref=typesense"
               target="_blank"
@@ -247,7 +249,18 @@
                 alt="Wordpress"
                 height="40"
                 width="176"
-                class="ml-2 ml-sm-3 ml-sm-5 mt-4"
+                class="ml-2 ml-sm-3 mt-4"
+              />
+            </a>
+            <a
+              href="https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/woocommerce-logo-color-white.svg"
+                alt="WooCommerce"
+                width="176"
+                class="ml-2 ml-sm-5 mt-4"
               />
             </a>
             <a
@@ -259,7 +272,7 @@
                 alt="Firebase Extension"
                 height="40"
                 width="142"
-                class="ml-2 ml-sm-3 mt-4"
+                class="ml-2 ml-sm-5 mt-4"
               />
             </a>
             <a href="https://tooljet.com/?ref=typesense" target="_blank">
