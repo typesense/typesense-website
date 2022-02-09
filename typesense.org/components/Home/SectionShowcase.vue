@@ -78,6 +78,12 @@
               Browsing Experience
             </template>
           </HomeShowcaseBlock>
+          <HomeShowcaseBlock emoji="⚡ ⌨️" link="https://findxkcd.com/">
+            <template #title
+              ><small>findxckd</small><br />
+              Browse & Find xckd Comics by Topic
+            </template>
+          </HomeShowcaseBlock>
           <HomeShowcaseBlock
             emoji="⚡ 🔍 📦️"
             link="https://showcase-nextjs-typesense-ecommerce-store.vercel.app/"
