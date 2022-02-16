@@ -7,13 +7,18 @@ We have client libraries for:
 - [Python](https://github.com/typesense/typesense-python)
 - [Ruby](https://github.com/typesense/typesense-ruby)
 
-We also have the following community-contributed client libraries:
+We also have the following community-maintained client libraries:
 
 - [Go](https://github.com/typesense/typesense-go)
-- [C#](https://github.com/DAXGRID/typesense-dotnet)
+- [.Net](https://github.com/DAXGRID/typesense-dotnet)
 - [Java](https://github.com/typesense/typesense-java)
 - [Rust](https://github.com/typesense/typesense-rust)
 - [Dart](https://github.com/typesense/typesense-dart)
+- [Perl](https://github.com/Ovid/Search-Typesense)
+- [Swift](https://github.com/typesense/typesense-swift)
+- [Clojure](https://github.com/runeanielsen/typesense-clj)
+
+We also have several framework integrations listed [here](https://typesense.org/docs/latest/api/api-clients.html#framework-integrations).
 
 :::tip
 If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
