@@ -42,7 +42,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   Take a note of the `subnet` value. The same `subnet` value will be used in `docker-stack.yml --peering-subnet` flag below.
 
 - Add Docker instance running on rest of the Docker nodes to the existing Docker Swarm as `worker`. 
-  Remember to change the `token` and repeat the command below on all the docker nodes.
+  Remember to change the `token` or retrieve the `token` using the command `docker swarm join-token worker` and repeat the command below on all the docker nodes.
 
   <Tabs :tabs="['Node2', 'Node3', 'Node4']">
     <template v-slot:Node2>
@@ -176,7 +176,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   #### Content for `docker-stack.yml` file
 
   :::warning IMPORTANT 
-  In the Docker swarm setup `--peering-subnet` flag should be the same `subnet` defined in the default or user-defined `overlay` network. `--peering-subnet` was introduced in [`typesense/typesense:0.23.0.rc21`](https://hub.docker.com/layers/typesense/typesense/0.23.0.rc21/images/sha256-d0fd1b142b10600cb8518cc5f313683324d53f3791c0dad509033445c2c3bfdf?context=explore). For more information on `Overlay` networks, read the official Docker documentation [here](https://docs.docker.com/network/overlay/).
+  In the `Docker swarm` setup `--peering-subnet` flag should be the same `subnet` defined in the default or user-defined `overlay` network. `--peering-subnet` was introduced in [`typesense/typesense:0.23.0.rc21`](https://hub.docker.com/layers/typesense/typesense/0.23.0.rc21/images/sha256-d0fd1b142b10600cb8518cc5f313683324d53f3791c0dad509033445c2c3bfdf?context=explore). For more information on `Overlay` networks, read the official Docker documentation [here](https://docs.docker.com/network/overlay/).
   :::
 
   ```yaml
@@ -199,7 +199,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
         restart_policy:
           condition: any
         placement:
-          constraints: [node.role == worker]
+          constraints: [node.hostname == node2]
       networks:
           - ts_net
     typesense-2:
@@ -219,7 +219,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
         restart_policy:
           condition: any
         placement:
-          constraints: [node.role == worker]
+          constraints: [node.hostname == node3]
       networks:
           - ts_net
     typesense-3:
@@ -240,7 +240,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
         restart_policy:
           condition: any
         placement:
-          constraints: [node.role == worker]
+          constraints: [node.hostname == node4]
       networks:
           - ts_net
   networks:
