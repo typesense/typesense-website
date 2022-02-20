@@ -24,9 +24,8 @@ You can use one of those as templates to create your own `config.js`, pointing t
 
 #### Key Concepts
 
-- Your main text content, which is usually within a `<main>` or an `<article>` HTML element, should be identifiable with a class such as `.main`
-- Docsearch organizes the scraped information's hierarchy using variables called `lvl0`, `lvl1`, `lvl2`..., which usually map to the `h1`, `h2`, `h3`... tags within an article
-- `lvlX` selectors can also be queried with CSS classes or xpath queries
+- Docsearch organizes the scraped information using records called `text`, `lvl0`, `lvl1`, `lvl2`...`lvl6`, which usually map to the main content and and header elements within most web articles.
+- `text` and `lvlX` records can be queried using CSS selectors or xpath queries.
 
 ### Run the Scraper
 
