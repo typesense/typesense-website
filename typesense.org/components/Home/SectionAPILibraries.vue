@@ -241,6 +241,18 @@
           </div>
           <div class="text-center mt-3">
             <a
+              href="https://github.com/typesense/firestore-typesense-search"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/firebase-logo-standard.svg"
+                alt="Firebase Extension"
+                height="40"
+                width="142"
+                class="ml-2 ml-sm-3 mt-4"
+              />
+            </a>
+            <a
               href="https://wordpress.org/plugins/search-with-typesense/?ref=typesense"
               target="_blank"
             >
@@ -249,7 +261,7 @@
                 alt="Wordpress"
                 height="40"
                 width="176"
-                class="ml-2 ml-sm-3 mt-4"
+                class="ml-2 ml-sm-5 mt-4"
               />
             </a>
             <a
@@ -260,18 +272,16 @@
                 src="~/assets/images/woocommerce-logo-color-white.svg"
                 alt="WooCommerce"
                 width="176"
+                height="41"
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
-            <a
-              href="https://github.com/typesense/firestore-typesense-search"
-              target="_blank"
-            >
+            <a href="https://pypi.org/project/zopyx.typesense/" target="_blank">
               <img
-                src="~/assets/images/firebase-logo-standard.svg"
-                alt="Firebase Extension"
-                height="40"
-                width="142"
+                src="~/assets/images/plone-logo.svg"
+                alt="Plone CMS"
+                height="31"
+                width="121"
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
