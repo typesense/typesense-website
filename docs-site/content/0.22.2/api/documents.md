@@ -1184,11 +1184,15 @@ You'll find detailed documentation for `filter_by` in the [Search Parameters](#s
 
 ### Facet Results
 
-You can use the `facet_by` search parameter to have Typesense return aggregate facet counts for a particular set of fields.
+You can use the `facet_by` search parameter to have Typesense return aggregate counts of values for one or more fields.
 For integer fields, Typesense will also return min, max, sum and average values, in addition to counts.
 
-For eg: if you have a dataset of songs, and if you facet by the genre field and do a search, Typesense will return the number of matching songs in every genre in the results.
-This is useful to show users a summary of results, so they can further drill-down the results.
+For eg: if you have a [dataset of songs](https://songs-search.typesense.org/) like in the screenshot below, 
+the **_count_** next to each of the "Release Dates" and "Artists" on the left is obtained by faceting on the `release_date` and `artist` fields.
+
+![Facting Usecase Example](~@images/faceting_usecase_example.png)
+
+This is useful to show users a summary of results, so they can refine the results further to get to what they're looking for efficiently.
 
 Note that you need to enable faceting on a field using `{fields: [{facet: true, name: "<field>", type: "<datatype>"}]}` in the [Collection Schema](./collections.md#create-a-collection) before using it in `facet_by`.
 
