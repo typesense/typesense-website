@@ -16,20 +16,30 @@ Let's first set up the scraper and point it at your documentation site.
 
 ### Create a DocSearch Config File
 
-Follow the official [DocSearch documentation](https://docsearch.algolia.com/docs/required-configuration/) to create a `config.json` file.
+Follow one of the templates below to create your own `config.json` file, pointing to your documentation site:
 
-[This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites and [here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense Documentation Site's docsearch config.
+- [Here's](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json) Docusaurus' documentation docsearch config.
+- [Here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense (Vuepress-based) Documentation Site's docsearch config.
+- [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites.
 
-You can use one of those as a template to create your own `config.js`, pointing to your documentation site.
+Here's the official [DocSearch Scraper documentation](https://docsearch.algolia.com/docs/legacy/config-file) that describes all the available config options.
+
+:::tip
+You might notice that the links to Algolia's DocSearch scraper documentation and scraper config files repo above say they're legacy or deprecated. 
+This is because Algolia has recently started asking their users to migrate to their proprietary closed-source crawler, and have marked their open source DocSearch Scraper as deprecated.
+
+Given this, we intend to maintain and develop [Typesense's DocSearch Scraper fork](https://github.com/typesense/typesense-docsearch-scraper) long after Algolia's deprecation.
+So you can safely ignore the deprecation warnings in their documentation.
+:::
 
 ### Add DocSearch meta tags (optional)
 
-The crawler automatically extracts information from the DocSearch meta tags and attaches the `content` value to all records extracted on the page. This is a great way to filter searches on custom attributes.
+The scraper automatically extracts information from the DocSearch meta tags and attaches the `content` value to all records extracted on the page. This is a great way to filter searches on custom attributes.
 
 ```html
 <meta name="docsearch:{$NAME}_tag" content="{$CONTENT}" />
 ```
-Example: all extracted records on the page will have a `language` atttibute of `en` and a `version` attribute of `1.24`
+Example: all extracted records on the page will have a `language` attribute of `en` and a `version` attribute of `1.24`
 
 ```html 
 <meta name="docsearch:language_tag" content="en" />
@@ -37,7 +47,7 @@ Example: all extracted records on the page will have a `language` atttibute of `
 ```
 
 ::: tip
-`_tag` must be appended to the end of the `$NAME` variable for the attibute to be saved in the schema
+`_tag` must be appended to the end of the `$NAME` variable for the attribute to be saved in the schema.
 :::
 
 ### Run the Scraper
@@ -54,7 +64,14 @@ The easiest way to run the scraper is using Docker.
     TYPESENSE_PORT=443
     TYPESENSE_PROTOCOL=https
     ```
-5. Run the scraper:
+   ::: tip
+   If you're running Typesense on `localhost` and you're using Docker to run the scraper, 
+   using `TYPESENSE_HOSE=localhost` will not work because localhost in this context refers to localhost within the container. 
+   Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host.
+   Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. 
+   For eg, on macOS you want to use `TYPESENSE_HOST=host.docker.internal` 
+   :::
+6. Run the scraper:
     ```shellsession
     $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" typesense/docsearch-scraper
     ```
@@ -62,7 +79,7 @@ The easiest way to run the scraper is using Docker.
 This will scrape your documentation site and index it into Typesense.
 
 ::: tip
-The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substiting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d)).
+The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substituting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d)).
 
 You can also run it on every deployment using AWS Fargate, Google Cloud Run, etc. 
 :::
