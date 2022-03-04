@@ -56,7 +56,7 @@ A couple of setup pointers for the `npx create-instantsearch-app` command above:
 * Application ID: can be any string - we'll be replacing this later in the guide
 * Search API key: can be any string - we'll be replacing this later in the guide with your Typesense Search-only API Key
 * Index name: the name of your collection in Typesense
-* Attributes to display: leave it as (none)
+* Attributes to display: **Uncheck** all the options by pressing space bar **(this step is important)**.
 
 Let's now install the Typesense InstantSearch adapter, to be able to use InstantSearch with a Typesense backend:
 
@@ -129,34 +129,34 @@ We're essentially creating a `searchClient` with the adapter and passing it to `
 Now, you can use any of the widgets supported by InstantSearch to build a search interface. In this walkthrough, we'll add a search box, along with results:
 
 ```js
-    search.addWidgets([
-    instantsearch.widgets.searchBox({
-      container: '#searchbox',
-    }),
-    instantsearch.widgets.hits({
-      container: '#hits',
-      templates: {
-        item: `
-          <div>
-            <img src="" align="left" alt="" />
-            <div class="hit-name">
-              {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
-            </div>
-            <div class="hit-description">
-              {{#helpers.highlight}}{ "attribute": "authors" }{{/helpers.highlight}}
-            </div>
-            <div class="hit-price">\$</div>
-            <div class="hit-rating">Rating: </div>
+search.addWidgets([
+  instantsearch.widgets.searchBox({
+    container: '#searchbox',
+  }),
+  instantsearch.widgets.hits({
+    container: '#hits',
+    templates: {
+      item: `
+        <div>
+          <img src="" align="left" alt="" />
+          <div class="hit-name">
+            {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
           </div>
-        `,
-      },
-    }),
-    instantsearch.widgets.pagination({
-      container: '#pagination',
-    }),
-  ]);
+          <div class="hit-description">
+            {{#helpers.highlight}}{ "attribute": "authors" }{{/helpers.highlight}}
+          </div>
+          <div class="hit-price">\$</div>
+          <div class="hit-rating">Rating: </div>
+        </div>
+      `,
+    },
+  }),
+  instantsearch.widgets.pagination({
+    container: '#pagination',
+  }),
+]);
 
-  search.start();
+search.start();
 ```
 
 Now run `npm start` to start the dev server and view the app. You should now have a fully-functioning instant search interface with a search box, results that update as you type and pagination.
