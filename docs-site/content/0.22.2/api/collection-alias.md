@@ -11,11 +11,11 @@ Aliases are useful when you want to reindex your data in the background on a new
 
 Let's say we have a collection called `companies_june10` and an alias called `companies` pointing to that collection.
 
-`collection ---> companies_june10`
+`companies ---> companies_june10`
 
 On the next day (June 11), we will create a new collection called `companies_june11` and start indexing the documents in the background into this collection. When we are done indexing, if we updated the `companies` alias to point to this new collection, your application would immediately start querying against the freshly indexed collection.
 
-`collection ---> companies_june11`
+`companies ---> companies_june11`
 
 Convenient isn't it? Let's now look at how we can create, update and manage aliases.
 
