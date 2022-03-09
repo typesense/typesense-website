@@ -92,11 +92,11 @@ If you use [Docusaurus](https://docusaurus.io/) as your documentation framework,
 use the [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) plugin to add a search bar to your Docusaurus site.
 
 ```shellsession
-$ npm install docusaurus-theme-search-typesense --save
+$ npm install docusaurus-theme-search-typesense@next --save
 
 # or 
 
-$ yarn add docusaurus-theme-search-typesense
+$ yarn add docusaurus-theme-search-typesense@next
 ```
 
 Add the following to your `docusaurus.config.js` file:
