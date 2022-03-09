@@ -2,18 +2,14 @@
   <div>
     <HomeSectionHero />
 
-    <HomeSectionFeatureList />
-
-    <div class="mt-4">&nbsp;</div>
-
-    <div class="text-center mt-5">
+    <div class="text-center">
       <h2 class="text-center text-gradient-1">
         The Open Source Algolia Alternative <br />
-        The Easier To Use ElasticSearch Alternative
+        The Easier To Use Elasticsearch Alternative
       </h2>
       <div style="line-height: 2">
         <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
-          >Algolia vs ElasticSearch vs Typesense vs Meilisearch</NuxtLink
+          >Algolia vs Elasticsearch vs Typesense vs Meilisearch</NuxtLink
         >
         <span class="mx-2 d-none d-sm-inline">•</span
         ><br class="d-block d-sm-none" />
@@ -21,9 +17,9 @@
       </div>
       <div class="container-fluid">
         <div class="row mt-5 d-flex justify-content-md-center">
-          <div class="col-md-4 p-0">
-            <p>Search meets {{ currentYear }}.</p>
-            <p>
+          <div class="col-md-7 p-0">
+            <div class="lead">Search meets {{ currentYear }}.</div>
+            <p class="mt-5">
               Typesense is a modern, privacy-friendly, open source search engine
               built from the ground up using cutting-edge search algorithms,
               that take advantage of the latest advances in hardware
@@ -34,9 +30,14 @@
       </div>
     </div>
 
-    <div class="mb-5">&nbsp;</div>
+    <div class="mb-4">&nbsp;</div>
 
     <HomeBadges />
+
+    <div class="mt-5">&nbsp;</div>
+    <div class="mt-3">&nbsp;</div>
+
+    <HomeSectionFeatureList />
 
     <div class="my-5">&nbsp;</div>
 

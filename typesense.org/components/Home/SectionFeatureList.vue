@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-xxl-5">
-    <h2 class="text-center text-gradient-1">
+    <h2 class="text-center text-gradient-2">
       Features you love, minus the complexity
     </h2>
     <div class="text-center">Neatly wrapped in an intuitive RESTful API</div>
