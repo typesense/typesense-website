@@ -32,13 +32,21 @@ If you are hosting Typesense locally / on your own server. Then please see the s
 
 Otherwise, if you have gone with Typesense cloud option - then once the cluster is set up. There will be an option to generate your API keys. "Generate API Keys" - will generate and download API Keys to be used. Keep this file safe and secure for future use.
 
+![Typesense API Keys Generate](~@images/wordpress/api-keys-overview.png)
+
 The text file will have the following information.
+
+![Typesense DynamoDB Integration Chart](~@images/wordpress/configuration-txt.png)
+
 - Admin API Key
 - Search Only API Key
 - Nodes (along with port number):
 
 After retrieving the required info go to WordPress > Admin Area > Typesense > Settings
 Here you will need to fill in the details retrieved from the text file.
+
+![Typesense DynamoDB Integration Chart](~@images/wordpress/typesense-wp-api-configuration.png)
+
 The fields are
 - Protocol
 - Node URI
@@ -57,6 +65,8 @@ From here you can
 - Autocomplete Placeholder
 - Autocomplete Input Delay
 - Replace WordPress Search
+
+![Typesense DynamoDB Integration Chart](~@images/wordpress/typesense-search-configuration.png)
 
 #### Enable Post Types
 This option allows you to select which post types to index. By default the plugin allows you to index posts and pages. There are WordPress action hooks and filters that allow adding custom post types.
