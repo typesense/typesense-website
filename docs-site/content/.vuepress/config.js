@@ -184,7 +184,7 @@ let config = {
             ['/guide/search-analytics', 'Search Analytics'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
-            ['/guide/wordpress-integration','WordPress Integration']
+            ['/guide/wordpress-search', 'Search for WordPress Sites'],
           ],
         },
         {
