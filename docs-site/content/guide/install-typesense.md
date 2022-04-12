@@ -136,7 +136,7 @@ curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVe
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 </code></pre>
 Note: Post install you would see the message "installed typesense-server package post-installation script subprocess returned error exit status 1"
-ignore this error message , executing `apt list --installed | grep typesense` would show that instillation was successfull.
+ignore this error message , executing `apt list --installed | grep typesense` would show that installation was successfull.
 
   </template>
 </Tabs>
