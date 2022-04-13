@@ -76,6 +76,7 @@ To get InstantSearch.js to use the Typesense adapter, open `src/app.js` and edit
   <template v-slot:JavaScript>
 
 ```js
+import instantsearch from "instantsearch.js";
 const searchClient = algoliasearch('typesense', 'typesense_search_only_api_key');
 
 const search = instantsearch({
@@ -94,6 +95,7 @@ to this:
 
 ```js
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
+import instantsearch from "instantsearch.js";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
