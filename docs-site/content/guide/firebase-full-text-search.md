@@ -34,7 +34,7 @@ We'll assume that you're already familiar with Firebase, Firestore and how these
 
 The easiest way to run Typesense is using [Typesense cloud](https://cloud.typesense.org), which is the hosted version of Typesense:
 
-1. Visit [https://cloud.typesense.org](https://cloud.typesense.org) and Login with Github.
+1. Visit [https://cloud.typesense.org](https://cloud.typesense.org) and Login with GitHub.
 2. Select the configuration you need or leave the defaults as is and click on "Launch"
 3. Your cluster should be fully provisioned and running in about 5 minutes. Then click on "Generate API Key".
 
@@ -212,6 +212,6 @@ return (
 
 Instantsearch.js is very powerful and you can use it to create pretty interesting search widgets. You can read more about it [here](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/react/).
 
-And that's it! As we saw above, Typesense is easy to set up and simple to use. You can use it with your apps to create fast, typo-tolerant search interfaces. If you face any difficulties with Typesense or would like to see any new features added, head over to our [Github repo](https://github.com/typesense/typesense) and create an issue.
+And that's it! As we saw above, Typesense is easy to set up and simple to use. You can use it with your apps to create fast, typo-tolerant search interfaces. If you face any difficulties with Typesense or would like to see any new features added, head over to our [GitHub repo](https://github.com/typesense/typesense) and create an issue.
 
 If we can make any improvements to this guide, click on the "Edit page" link below and send us a pull request. 

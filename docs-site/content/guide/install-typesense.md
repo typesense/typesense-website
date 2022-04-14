@@ -6,7 +6,7 @@ Here are a couple of available options to install and run Typesense.
 
 The easiest way to run Typesense is using our managed Cloud service called [Typesense Cloud](https://cloud.typesense.org/). 
 
-- Sign-in with Github 
+- Sign-in with GitHub 
 - Pick a configuration and click on Launch. You'll have a ready-to-use cluster in a few minutes.
 - Then click on "Generate API Key", which will give you the hostnames and API keys to use in your code.
 
