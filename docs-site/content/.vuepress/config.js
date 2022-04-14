@@ -183,6 +183,7 @@ let config = {
           children: [
             ['/guide/search-analytics', 'Search Analytics'],
             ['/guide/personalization', 'Personalization'],
+            ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
