@@ -9,6 +9,12 @@ const config = {
         version: typesenseVersions,
       },
     },
+    {
+      url: 'https://typesense.org/docs/overview/',
+    },
+    {
+      url: 'https://typesense.org/docs/guide/',
+    },
   ],
   selectors: {
     default: {
