@@ -54,8 +54,8 @@ export default {
             typesenseSearchParams: {
               ...typesenseSearchParams,
               filter_by: userOptions.typesenseVersion
-                ? `version:=${userOptions.typesenseVersion}`
-                : `version:=${this.$site.themeConfig.typesenseLatestVersion}`,
+                ? `version:=[${userOptions.typesenseVersion},unversioned]`
+                : `version:=[${this.$site.themeConfig.typesenseLatestVersion},unversioned]`,
             },
             handleSelected: (input, event, suggestion) => {
               const { pathname, hash } = new URL(suggestion.url)

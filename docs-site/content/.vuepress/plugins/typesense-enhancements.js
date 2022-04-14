@@ -6,6 +6,8 @@ module.exports = (options, context) => ({
   extendPageData($page) {
     const typesenseLatestVersion = context.siteConfig.themeConfig.typesenseLatestVersion
 
+    let  additionalMetaTags = []
+
     // Set typesenseVersion by reading the version from the path
     $page.typesenseVersion = $page.path.split('/')[1]
     // Only set this as a version, if it's in the list of versions defined
@@ -15,6 +17,9 @@ module.exports = (options, context) => ({
       !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)
     ) {
       $page.typesenseVersion = null
+      additionalMetaTags.push(
+        { name: 'docsearch:version', content: 'unversioned' },
+      )
     }
 
     // Set dynamic nav links
@@ -44,12 +49,13 @@ module.exports = (options, context) => ({
       $page.title = `${$page.title} | Typesense`
 
       // Dynamic OG/Twitter Tags
-      $page.frontmatter.meta = [
+      additionalMetaTags.concat([
         { name: 'title', content: $page.title },
         { name: 'og:title', content: $page.title },
         { name: 'twitter:title', content: $page.title },
-        ...($page.frontmatter.meta || []),
-      ]
+      ])
+
+      $page.frontmatter.meta = [...additionalMetaTags, ...($page.frontmatter.meta || [])]
     }
   },
 })

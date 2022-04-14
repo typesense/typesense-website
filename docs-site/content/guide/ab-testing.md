@@ -71,3 +71,5 @@ We can use a similar mechanism to switch out the collection name to test overrid
 To track results, we'd instrument our search results page to send click-events to our A/B Testing platform, along with other standard conversion events like purchases.
 
 The A/B Testing platform should then aggregate results across all variations and show you which variation performed the best based on your objective.
+
+<meta name="docsearch:version" content="1.0.0" />
