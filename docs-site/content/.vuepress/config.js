@@ -182,9 +182,10 @@ let config = {
           collapsable: false, // optional, defaults to true
           children: [
             ['/guide/search-analytics', 'Search Analytics'],
+            ['/guide/personalization', 'Personalization'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
-            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
+            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
           ],
         },
         {
