@@ -49,7 +49,7 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 - [Optional Filters](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/how-to-promote-with-optional-filters/)
 - AI/ML Features
   - Dynamic Synonym Suggestion
-  - User-level personalization
+  - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
   - AI Re-Ranking
   - Recommendations
 - Indexing nested fields (they need to be [flattened](#indexing-nested-fields) to top-level keys in Typesense).
