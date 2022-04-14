@@ -186,6 +186,7 @@ let config = {
             ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
+            ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
           ],
         },
