@@ -42,7 +42,7 @@ The first change we'd need to do is to tell Typesense to split the product ident
 This way `K83913.39F29.59444AT` will get indexed as three separate tokens (words) `K83913`, `39F29` and `59444AT`.
 Now when you search for `39F29` or `5944` that will return the product `K83913.39F29.59444AT`.
 
-You can do this by setting <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">creating the collection</RouterLink>:
+You can do this by setting <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">creating the collection</RouterLink>:
 
 ```json{7}
 {
@@ -121,7 +121,7 @@ So searching for `234` or `5678901` or `234 567-8901` will return results, but t
 
 #### Fine Tuning
 
-We first want to tell Typesense to split by by `(`, `)` and `-` using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> setting in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">creating the collection</RouterLink>:
+We first want to tell Typesense to split by by `(`, `)` and `-` using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> setting in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">creating the collection</RouterLink>:
 
 ```json{7}
 {
@@ -217,7 +217,7 @@ So the search terms with a :white_check_mark: will return this record, and the o
 
 #### Fine Tuning
 
-To solve for the remaining cases above, we can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> setting in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">creating the collection</RouterLink>: 
+To solve for the remaining cases above, we can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> setting in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">creating the collection</RouterLink>: 
 
 ```json{6}
 {
