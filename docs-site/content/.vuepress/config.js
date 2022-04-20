@@ -184,6 +184,7 @@ let config = {
             ['/guide/search-analytics', 'Search Analytics'],
             ['/guide/personalization', 'Personalization'],
             ['/guide/ab-testing', 'A/B Testing'],
+            ['/guide/query-suggestions', 'Query Suggestions'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
