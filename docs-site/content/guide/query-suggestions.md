@@ -44,7 +44,7 @@ For example, here's a search-as-you-type experience that shows this user experie
 Notice how instead of showing suggestions in one step and then full results in another page, it directly shows users the full results in less than 50ms for most queries, even with 32 Million records: 
 
 <div style="text-align: center; margin: 3em;">
-  <video width="640" autoplay muted controls>
+  <video width="640" muted controls preload="none" poster="~@images/query-suggestions/search-as-you-type-poster.png">
       <source src="~@images/query-suggestions/search-as-you-type.mp4"
               type="video/mp4">
   
