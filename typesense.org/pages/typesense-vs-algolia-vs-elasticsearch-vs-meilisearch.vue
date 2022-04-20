@@ -469,7 +469,10 @@
                   <td class="font-weight-bold">
                     Phrase Search <br />(<code>"some query"</code>)
                   </td>
-                  <td>❌</td>
+                  <td>
+                    ✅<br /><br />
+                    Available in 0.23.0.rc55
+                  </td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅</td>
@@ -478,7 +481,16 @@
                   <td class="font-weight-bold">
                     User-level Search Personalization
                   </td>
-                  <td>❌</td>
+                  <td>
+                    ❌<br /><br />
+                    User-group level personalization can be implemented with
+                    your own models. Read more
+                    <a
+                      href="https://typesense.org/docs/guide/personalization.html"
+                      target="_blank"
+                      >here</a
+                    >.
+                  </td>
                   <td>
                     ✅<br /><br />
                     Premium Tier
@@ -496,9 +508,14 @@
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
-                    ❌<br /><br />
+                    ✅<br /><br />
                     Can be done client-side by swapping collections and search
-                    parameters based on AB Test Bucket
+                    parameters based on AB Test Bucket. Read more
+                    <a
+                      href="https://typesense.org/docs/guide/ab-testing.html"
+                      target="_blank"
+                      >here</a
+                    >.
                   </td>
                   <td>
                     ✅<br /><br />
@@ -510,14 +527,14 @@
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
                   <td>
-                    ❌<br /><br />
-                    Can be done by indexing popular search terms from
+                    ✅️<br /><br />
+                    Can be done by sending requests to the primary collection.
+                    Read more
                     <a
-                      href="https://typesense.org/docs/guide/search-analytics.html"
+                      href="https://typesense.org/docs/guide/query-suggestions.html"
                       target="_blank"
-                      >Search Analytics</a
-                    >
-                    data into a separate collection.
+                      >here</a
+                    >.
                   </td>
                   <td>✅️</td>
                   <td>❌</td>
