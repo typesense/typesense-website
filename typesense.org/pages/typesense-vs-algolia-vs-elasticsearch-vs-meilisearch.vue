@@ -264,7 +264,7 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>❌</td>
-                  <td>❌</td>
+                  <td>✅</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Federated Multi-Index Search</td>
@@ -282,8 +282,8 @@
                   </td>
                   <td>✅️</td>
                   <td>
-                    ✅<br /><br />
-                    Upto one distinct field
+                    🔶<br /><br />
+                    Upto one distinct field, no support for grouping
                   </td>
                 </tr>
                 <tr>
@@ -339,7 +339,10 @@
                     ✅<br /><br />Upto 10 results in Free Tier, Upto 10,000
                     results in Premium Tier
                   </td>
-                  <td>✅️</td>
+                  <td>
+                    ✅️<br /><br />
+                    Available only in closed-source version
+                  </td>
                   <td>❌</td>
                 </tr>
                 <tr>
@@ -483,13 +486,12 @@
                   </td>
                   <td>
                     ❌<br /><br />
-                    User-group level personalization can be implemented with
-                    your own models. Read more
                     <a
                       href="https://typesense.org/docs/guide/personalization.html"
                       target="_blank"
-                      >here</a
-                    >.
+                      >User-group level personalization</a
+                    >
+                    can be implemented with your own models.
                   </td>
                   <td>
                     ✅<br /><br />
@@ -508,14 +510,14 @@
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
-                    ✅<br /><br />
-                    Can be done client-side by swapping collections and search
-                    parameters based on AB Test Bucket. Read more
+                    🔶️<br /><br />
                     <a
                       href="https://typesense.org/docs/guide/ab-testing.html"
                       target="_blank"
-                      >here</a
-                    >.
+                      >Can be implemented</a
+                    >
+                    by swapping collections and search parameters based on AB
+                    Test Bucket
                   </td>
                   <td>
                     ✅<br /><br />
@@ -527,14 +529,13 @@
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
                   <td>
-                    ✅️<br /><br />
-                    Can be done by sending requests to the primary collection.
-                    Read more
+                    🔶️<br /><br />
                     <a
                       href="https://typesense.org/docs/guide/query-suggestions.html"
                       target="_blank"
-                      >here</a
-                    >.
+                      >Can be implemented</a
+                    >
+                    by sending requests to the primary collection.
                   </td>
                   <td>✅️</td>
                   <td>❌</td>
@@ -551,7 +552,12 @@
                   <td class="font-weight-bold">Site Crawler</td>
                   <td>
                     🔶️<br /><br />
-                    DocSearch crawler for docs sites.
+                    <a
+                      href="https://typesense.org/docs/guide/docsearch.html"
+                      target="_blank"
+                      >DocSearch crawler</a
+                    >
+                    for docs sites.
                   </td>
                   <td>
                     ✅<br /><br />
