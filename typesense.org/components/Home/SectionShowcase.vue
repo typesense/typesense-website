@@ -49,6 +49,12 @@
             </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
+            emoji="⚡ 🔍️ ⚡"
+            link="https://federated-search.typesense.org/"
+          >
+            <template #title> Federated Search Experiences </template>
+          </HomeShowcaseBlock>
+          <HomeShowcaseBlock
             link="https://github.com/typesense/typesense/blob/master/SHOWCASE.md"
           >
             <template #title>

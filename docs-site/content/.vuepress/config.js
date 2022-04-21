@@ -207,6 +207,7 @@ let config = {
             ['/guide/reference-implementations/good-reads-books-search-with-vue', 'Good Reads Books Search with Vue'],
             ['/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
             ['/guide/reference-implementations/xkcd-search', 'xkcd Search'],
+            ['/guide/reference-implementations/federated-search', 'Federated Search'],
           ],
         },
       ],
