@@ -176,14 +176,14 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   #### Content for `docker-stack.yml` file
 
   :::warning IMPORTANT 
-  In the `Docker swarm` setup `--peering-subnet` flag should be the same `subnet` defined in the default or user-defined `overlay` network. `--peering-subnet` was introduced in [`typesense/typesense:0.23.0.rc21`](https://hub.docker.com/layers/typesense/typesense/0.23.0.rc21/images/sha256-d0fd1b142b10600cb8518cc5f313683324d53f3791c0dad509033445c2c3bfdf?context=explore). For more information on `Overlay` networks, read the official Docker documentation [here](https://docs.docker.com/network/overlay/).
+  In the `Docker swarm` setup `--peering-subnet` flag should be the same `subnet` defined in the default or user-defined `overlay` network. `--peering-subnet` was introduced in [`typesense/typesense:0.23.0`](https://hub.docker.com/layers/typesense/typesense/0.23.0/images/sha256-d0fd1b142b10600cb8518cc5f313683324d53f3791c0dad509033445c2c3bfdf?context=explore). For more information on `Overlay` networks, read the official Docker documentation [here](https://docs.docker.com/network/overlay/).
   :::
 
   ```yaml
   version: "3.8"
   services:
     typesense-1:
-      image: typesense/typesense:0.23.0.rc22
+      image: typesense/typesense:0.23.0
       hostname: typesense-1
       volumes:
         - /tmp/typesense-data-1/:/data
@@ -203,7 +203,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
       networks:
           - ts_net
     typesense-2:
-      image: typesense/typesense:0.23.0.rc22
+      image: typesense/typesense:0.23.0
       hostname: typesense-2
       volumes:
         - /tmp/typesense-data-2/:/data
@@ -223,7 +223,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
       networks:
           - ts_net
     typesense-3:
-      image: typesense/typesense:0.23.0.rc22
+      image: typesense/typesense:0.23.0
       hostname: typesense-3
       volumes:
         - /tmp/typesense-data-3/:/data
@@ -268,9 +268,9 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   ```shell
   docker stack ps ts
   ID             NAME               IMAGE                        NODE      DESIRED STATE   CURRENT STATE           ERROR     PORTS
-  x4w38438c7bn   ts_typesense-1.1   typesense/typesense:0.23.0.rc22   node2     Running         Running 5 minutes ago
-  0iacq1bhw1ia   ts_typesense-2.1   typesense/typesense:0.23.0.rc22   node1     Running         Running 5 minutes ago
-  wqyec57a3d4o   ts_typesense-3.1   typesense/typesense:0.23.0.rc22   node3     Running         Running 5 minutes ago
+  x4w38438c7bn   ts_typesense-1.1   typesense/typesense:0.23.0   node2     Running         Running 5 minutes ago
+  0iacq1bhw1ia   ts_typesense-2.1   typesense/typesense:0.23.0   node1     Running         Running 5 minutes ago
+  wqyec57a3d4o   ts_typesense-3.1   typesense/typesense:0.23.0   node3     Running         Running 5 minutes ago
   ```
   
     </template>
@@ -290,7 +290,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   
   
   root@typesense-1:/# curl 'http://typesense-1:7108/debug' -X GET -H "x-typesense-api-key: xyz" && curl 'http://typesense-2:8108/debug' -X GET -H "x-typesense-api-key: xyz" && curl 'http://typesense-3:9108/debug' -X GET -H "x-typesense-api-key: xyz"
-  {"state":1,"version":"0.23.0.rc22"}{"state":4,"version":"0.23.0.rc22"}{"state":4,"version":"0.23.0.rc22"}
+  {"state":1,"version":"0.23.0"}{"state":4,"version":"0.23.0"}{"state":4,"version":"0.23.0"}
   ```
     </template>
   </Tabs>

@@ -45,13 +45,13 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-a
 </Tabs>
 
 :::warning NOTE
-If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
+If you are using a recent version of your Linux Distro (released after Nov 2021), please install Typesense v0.23, which contains a compatibility fix:
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-linux-amd64.tar.gz
-tar -xzf typesense-server-0.23.0.rc20-linux-amd64.tar.gz
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-linux-amd64.tar.gz
+tar -xzf typesense-server-0.23.0-linux-amd64.tar.gz
 </code></pre>
 
   </template>
@@ -90,8 +90,8 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-amd64.deb
-sudo apt install ./typesense-server-0.23.0.rc20-amd64.deb
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-amd64.deb
+sudo apt install ./typesense-server-0.23.0-amd64.deb
 </code></pre>
 
   </template>
@@ -117,8 +117,8 @@ If you are using a recent version of your Linux Distro (released after Nov 2021)
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0.rc20/typesense-server-0.23.0.rc20-1.x86_64.rpm
-sudo yum install ./typesense-server-0.23.0.rc20.x86_64-1.rpm
+<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-1.x86_64.rpm
+sudo yum install ./typesense-server-0.23.0.x86_64-1.rpm
 </code></pre>
 
   </template>

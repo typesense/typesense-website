@@ -59,7 +59,7 @@ We still have the case of searching for `83913` or `9444AT` which occur in the m
 
 To solve for this, we have two options:
 
-1. Use the new `infix` search feature available as of `v0.23.0.rc53`:
+1. Use the new `infix` search feature available as of `v0.23.0`:
 
    [https://github.com/typesense/typesense/issues/393#issuecomment-1065367947](https://github.com/typesense/typesense/issues/393#issuecomment-1065367947)
    
@@ -247,7 +247,7 @@ Now all the search terms will pull this document up:
 - :white_check_mark: `typesense`
 - :white_check_mark: `typesense.org`
 
-If you also want `ample` to return this record, you can use the `infix` search feature available as of `v0.23.0.rc53`: 
+If you also want `ample` to return this record, you can use the `infix` search feature available as of `v0.23.0`: 
 [https://github.com/typesense/typesense/issues/393#issuecomment-1065367947](https://github.com/typesense/typesense/issues/393#issuecomment-1065367947)
 
 ## Dates / Times

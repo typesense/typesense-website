@@ -4,7 +4,7 @@ Typesense ranks search results using a simple tie-breaking sorting algorithm tha
 
 1. Text match score, exposed as a special ` _text_match` field.
 2. User-defined indexed numerical fields (eg: popularity, rating, score, etc)
-3. User-defined indexed string fields (eg: name) <Badge type="tip" text="v0.23.0.rc17" vertical="middle" />
+3. User-defined indexed string fields (eg: name) <Badge type="tip" text="v0.23.0" vertical="middle" />
 
 ## Text Match Score
 
@@ -41,7 +41,7 @@ This would sort the results in the following manner:
 2. If any two document share the same text match score, sort them by average rating.
 3. If there is still a tie, sort them by their year of publication.
 
-### Ranking based on Relevance and Popularity <Badge type="tip" text="v0.23.0.rc17" vertical="top" />
+### Ranking based on Relevance and Popularity <Badge type="tip" text="v0.23.0" vertical="top" />
 
 You can bucket results based on textual relevance and then sort within those buckets by a custom ranking/popularity score you've calculated on your end using the following:
 
