@@ -15,61 +15,46 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This version `v0.22.2` fixes some important bugs in the recently released [`v0.22.1`](../../0.22.1/).
-
-The changelog below contains aggregates all the changes between `v0.21.0` and `v0.22.x`.
+This release contains new features, performance improvements and important bug fixes.
 
 ### New Features
 
-- Customizable word separators: define a list of special characters via the `token_separators` configuration 
-  during schema creation. These characters are then used as word separators, _in addition_ to space and new-line characters.
-- Index and search special characters: define a list of special characters that will be indexed as text via the 
-  `symbols_to_index` configuration during schema creation.
-- Dynamic filtering based on rules: overrides now support a `filter_by` clause that can apply filters dynamically to query rules defined in the override.
-- Server side caching: cache search requests for a configurable amount of time to improve perceived latencies on heavy queries. Refer to the `use_cache` and `cache_ttl` parameters. By default, caching is disabled.
-- Protection against expensive queries via the use of `search_cutoff_ms` parameter that attempts to return results early when the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.
-- Added `geo_precision` sorting option to geo fields. This will bucket geo points into "groups" determined by the given precision value, such that points that fall within the same group are treated as equal, and the next sorting field can be considered for ranking.
+- Phrase search: wrap keywords in a query with double quotes to search them as a phrase, e.g. `"new york"`.
+- Schema changes: we now support fields to be added or dropped from a collection schema in-place.
+- Improved multi-field matching: much better performance and accuracy when query keywords have to be matched across
+  multiple fields in a document.
+- Infix searching: find string within strings, which is useful for entities like model number or email address.
+- Allow string fields to be sorted: sorting on string fields can be enabled by setting `sort: true` parameter of the field.
 
 ### Enhancements
 
-- Reduced memory consumption: 20-30% depending on the shape of your data.
-- Improved update performance: updates on string fields are now 5-6x faster.
-- Improved search performance: 20-25% faster on a variety of datasets we tested on. 
-- Improved parallelization for multi-collection writes: collections are now indexed independently, making indexing much faster when you are writing to hundreds of collections at the same time.
-- Allow exhaustive searching via the `exhaustive_search` parameter. Setting `?exhaustive_search=true` will make Typesense consider _all_ prefixes and typo corrections of the words in the query without stopping early when enough results are found (`drop_tokens_threshold` and `typo_tokens_threshold` configurations are ignored).
-- Exact filtering on strings (using the `:=` operator) no longer requires the field to be facetable.
-- Make minimum word length for 1-char typo and 2-char typos configurable via `min_len_1typo` and `min_len_2typo` parameters. Defaults are 4 and 7 respectively.
-- Support filtering by document `id` in filter_by query.
-- Support API key permission for creating a specific collection: previously, there was no way to generate an API key that allows you to create a collection with a specific name.
-- Allow use of type `auto` for a field whose name does not contain a regular expression.
-- Geosearch filter automatically sorts the geo points for the polygon in the correct order: so you don't have to define them in counter clockwise order anymore.
+- Improved update and delete performance of numerical fields by 10x.
+- Emplace mode for imports: using the `emplace` action creates a document if it does not exist in a collection 
+  or updates it (partially or fully) if it already exists.
+- Treat space as typo: search for `basket ball` if `basketball` is not found or vice-versa.
+- Improved Cyrillic support: better highlighting and fuzzy search for fields configured with: 
+  `el`, `ru`, `sr`, `uk` and `be` locales.
+- ARM compatibility: an ARM build is now published for every release.
+- Each multi-search query can have an independent `x-typesense-api-key` key.
+- Control the number of words that Typesense considers for typo and prefix searching via the `max_candidates` parameter.
+- CORS can now be enabled for a specific set of websites using the `--cors-domains` flag. 
 
 ### Bug Fixes
 
-- Fixed edge cases in import of large documents where sometimes, imports hanged mysteriously or ended prematurely.
-- Fixed document with duplicate IDs within an import upsert batch being imported as two separate documents.
-- Fixed fields with names that contain a regular expression acting as an `auto` type instead of respecting the schema type.
-- Fixed a few edge cases in multi-field searching, especially around field weighting and boosting.
-- Fixed deletion of collections with slashes or spaces in their names not working: you can now URL encode the names while calling the API.
-- Fixed an edge case in exporting of documents using a `filter_by` condition: documents were being duplicated.
-- Allow a document to contain a dict/hashmap field when a wildcard auto (`.*`) field is present in the collection schema.
-- **[New in v0.22.2]** Handle bad geo polygon vertices (e.g. duplicate points).
-- **[New in v0.22.2]** Fixed an edge case in ranking of words that share a prefix during prefix search.
-- **[New in v0.22.2]** Better validation + handling of unexpected data errors during indexing.
-- **[New in v0.22.2]** Fixed a rare but critical bug that manifested during document updates that had performance implications.
+- Fixed exact match of synonym query candidates not being ranked correctly.
+- Fix glibc incompatibility on recent Linux distros (Ubuntu 21.04+). [#531](https://github.com/typesense/typesense/issues/531)
+- Fixed the `snippet` containing the full field value when `highlight_full_fields` is enabled.
+- Fixed `--enable-cors=true` flag format not working. Earlier, only the `--enable-cors` format worked.
+- Fixed exact match for repeated words (when searching for repeated words such as "Boom Boom"). [#427](https://github.com/typesense/typesense/issues/427)
+- Fixed `highlight_fields` parameter not respecting `include_fields`. [#556](https://github.com/typesense/typesense/issues/556)
+- Fixed document ids that are accepted with space char (%20) but cannot be deleted later. [#574](https://github.com/typesense/typesense/issues/574)
+- Improved highlighting of text containing punctuations. [#528](https://github.com/typesense/typesense/issues/528)
+- Fixed case sensitivity of facet fields. [#504](https://github.com/typesense/typesense/issues/504)
 
 ### Deprecations / behavior changes
 
-- Once you upgrade your Typesense server to `v0.22`, the data directory cannot be used with
-  `v0.21.0` binary again. So, please take a snapshot/backup of the data directory before upgrading. 
-- The `drop_tokens_threshold` and `typo_tokens_threshold` now default to a value of `1`. 
-  If you were relying on the earlier defaults (`10` and `100` respectively), please set these parameters explicitly.
-- Minimum word length for 1-char typo correction has been increased to 4. 
-  Likewise, minimum length for 2-char typo has been increased to 7. This has helped to reduce false fuzzy matches.
-  You can use the `min_len_1typo` and `min_len_2typo` parameters to customize these default values.
-- The `id` field cannot be part of the collection schema anymore. You can filter on the implicit `id` field (via `filter_by`) 
-  but it cannot be queried upon (via `q` and `query_by`). If you wish to search on an identifier, you can define a 
-  custom field name like `_id` and use that.
+- In prefix queries, only the prefix part of a word in the result is highlighted now, instead of the whole word. 
+  For e.g. given a query like "new y", the result will be highlighted as `<mark>New Y</mark>ork City`.
 
 ## Upgrading
 
@@ -109,9 +94,5 @@ field in the `/debug` end-point response.
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
 :::
-
-## Downgrading
-
-If you need to downgrade back to `v0.21.0` of Typesense for any reason, we've published a patched version `v0.21.1` with some backported changes that allow a v0.21 node to be started on a data directory that was previously upgraded by a `v0.22.2` upgrade. The other option is to clear the data directory (which will wipe out all data), install a previous version afresh and then re-index your data.
 
 <RedirectOldLinks />
