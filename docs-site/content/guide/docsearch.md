@@ -66,7 +66,7 @@ The easiest way to run the scraper is using Docker.
     ```
    ::: tip
    If you're running Typesense on `localhost` and you're using Docker to run the scraper, 
-   using `TYPESENSE_HOSE=localhost` will not work because localhost in this context refers to localhost within the container. 
+   using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. 
    Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host.
    Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. 
    For eg, on macOS you want to use `TYPESENSE_HOST=host.docker.internal` 
