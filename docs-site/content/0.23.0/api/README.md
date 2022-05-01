@@ -31,7 +31,8 @@ This release contains new features, performance improvements and important bug f
 - Improved update and delete performance of numerical fields by 10x.
 - Emplace mode for imports: using the `emplace` action creates a document if it does not exist in a collection 
   or updates it (partially or fully) if it already exists.
-- Treat space as typo: search for `basket ball` if `basketball` is not found or vice-versa.
+- Treat space as typo: search for `basket ball` if `basketball` is not found or vice-versa. You can disable this behavior
+  by setting `split_join_tokens: false`.
 - Improved Cyrillic support: better highlighting and fuzzy search for fields configured with: 
   `el`, `ru`, `sr`, `uk` and `be` locales.
 - ARM compatibility: an ARM build is now published for every release.

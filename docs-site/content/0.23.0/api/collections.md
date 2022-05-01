@@ -751,14 +751,205 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 **Definition**
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
 
-## Update a collection
+## Update or alter a collection
 
-If you only need to _add_ new fields to the schema on the fly, we recommend using [auto-schema detection](#with-auto-schema-detection) when creating the collection. 
-You can essentially define RegEx field names and when documents containing new field names that match the RegEx come in, the new fields will automatically be added to the schema.
+Typesense supports adding or removing fields to a collection's schema in-place.
 
-Typesense currently does not support _in-place_ updates to a field's definition once it is added to the schema.
-We plan to address this as part of [this issue](https://github.com/typesense/typesense/issues/96). 
-But in the meantime, if you need to change field definitions in the schema, we recommend using the [Collection Alias](./collection-alias.md) feature to do zero-downtime schema updates:
+Let's see how we can add a new `company_category` field to the `companies` collection and also drop the existing
+`num_employees` field.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+schema_changes = {
+  "fields":[
+    {"name":"company_category", "type":"string"},
+    {"name":"num_employees", "drop": true}
+  ]
+}
+client.collections('companies').update(schema_changes)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema_changes = [
+  'fields'    => [
+    [
+      'name'  => 'company_category',
+      'type'  => 'string'
+    ],
+    [
+      'name'  => 'num_employees',
+      'drop'  => true
+    ]
+  ]
+];
+$client->collections['companies']->update($schema_changes);
+```
+
+</template>
+<template v-slot:Python>
+
+```py
+schema_changes = {
+  'fields': [
+    {
+      'name'  :  'company_category',
+      'type'  :  'string'
+    },
+    {
+      'name'  :  'num_employees',
+      'drop'  :  True
+    }
+  ]
+}
+client.collections['companies'].update(schema_changes)
+```
+
+</template>
+<template v-slot:Ruby>
+
+```rb
+schema_changes = {
+  'fields'    => [
+    {
+      'name'  => 'company_category',
+      'type'  => 'string'
+    },
+    {
+      'name'  => 'num_employees',
+      'drop'  => true
+    }
+  ]  
+}
+client.collections['companies'].update(schema_changes)
+```
+
+</template>
+<template v-slot:Dart>
+
+```dart
+final schema_changes = SchemaChange(
+  'companies',
+  {
+    Field('company_category', Type.string),
+    Field('num_employees', drop: true)
+  }
+);
+await client.collection('companies').update(schema_changes);
+```
+
+</template>
+<template v-slot:Java>
+
+```java
+CollectionSchema schemaChanges = new CollectionSchema();
+collectionschema.name("companies")
+                .addFieldsItem(new Field().name("company_category").type(Field.TypeEnum.STRING))
+                .addFieldsItem(new Field().name("num_employees").drop(true));
+
+client.collections("companies").update(schemaChanges);
+```
+
+</template>
+<template v-slot:Swift>
+
+```swift
+let schemaChanges = CollectionSchema(
+  name: "companies",
+  fields: [
+    Field(name: "company_category", type: "string"),
+    Field(name: "num_employees", drop: true)
+  ]
+)
+try await client.collections.update(schema: schemaChanges)
+```
+
+</template>
+
+<template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/companies" \
+       -X PATCH \
+       -H "Content-Type: application/json" \
+       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+       -d '{
+         "fields": [
+           {"name": "company_category", "type": "string" },
+           {"name": "num_employees", "drop": true }
+         ]
+       }'
+```
+
+</template>
+</Tabs>
+
+**Sample Response**
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+   "fields": [
+      {
+         "name": "company_category",
+         "facet": false,
+         "index": true,
+         "infix": false,
+         "locale": "",
+         "optional": false,
+         "sort": false,
+         "type": "string"
+      },
+      {
+         "drop": true,
+         "name": "num_employees"
+      }
+   ]
+}
+```
+
+  </template>
+</Tabs>
+
+**Definition**
+`PATCH ${TYPESENSE_HOST}/collections/:collection`
+
+:::tip
+The schema update is a synchronous blocking operation. When the update is in progress, all incoming writes and reads to
+_that particular collection_ will wait for the schema update to finish.
+:::
+
+### Modifying an existing field
+
+Since Typesense currently only supports adding/deleting a field, any modifications to an existing field should be 
+expressed as a drop + add operation.
+
+For example, to add a `facet` property to the `company_category` field, we will drop + add it in the same change set:
+
+```bash
+curl "http://localhost:8108/collections/companies" \
+       -X PATCH \
+       -H "Content-Type: application/json" \
+       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+       -d '{
+         "fields": [
+           {"name": "company_category", "drop": true }
+           {"name": "company_category", "type": "string", "facet": true }   
+         ]
+       }'
+```
+
+### Using an alias
+
+If your documents are static or updated infrequently, you could also re-create the collection fully and use 
+the [Collection Alias](./collection-alias.md) feature to do a zero-downtime switch over to the new collection:
 
 1. [Create your collection](#create-a-collection) as usual with a timestamped name. For eg: `movies_jan_1`
 2. [Create an alias](./collection-alias.md#create-or-update-an-alias) pointing to your collection. For eg: create an alias called `movies` pointing to `movies_jan_1`
@@ -767,5 +958,11 @@ But in the meantime, if you need to change field definitions in the schema, we r
 5. [Update the collection alias](./collection-alias.md#create-or-update-an-alias) to now point to the new collection. Eg: Update `movies` to now point to `movies_feb_1`.
 6. [Drop the old collection](#drop-a-collection), `movies_jan_1` in our example.
 
-Once you update the alias, any search / indexing operations will go to the new collection (eg: `movies_feb_1`) without you having to do any application-side changes.
+Once you update the alias, any search / indexing operations will go to the new collection (eg: `movies_feb_1`) 
+without you having to do any application-side changes.
 
+### Dynamic field additions
+
+If you only need to _add_ new fields to the schema on the fly, we recommend using [auto-schema detection](#with-auto-schema-detection) 
+when creating the collection. You can essentially define RegEx field names and when documents containing 
+new field names that match the RegEx come in, the new fields will automatically be added to the schema.

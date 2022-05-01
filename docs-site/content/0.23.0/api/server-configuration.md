@@ -28,6 +28,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--ssl-certificate-key`	|false	|Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.|
 |`--ssl-refresh-interval-seconds`	|false	|Frequency of automatic reloading of SSL certs from disk. Default: `8 * 60 * 60`.|
 |`--enable-cors`	|false	|Allow JavaScript client to access Typesense directly from the browser.|
+|`--cors-domains`	|false	|Comma separated list of domains which are allowed for CORS. E.g. `https://example.com,https://example2.com` (no trailing slashes!)|
 |`--thread-pool-size`	|false	|Number of threads used for handling concurrent requests. Default: `NUM_CORES * 8`.|
 |`--num-collections-parallel-load`	|false	|Number of collections that are loaded in parallel during start up. Default: `NUM_CORES * 4`.|
 |`--num-documents-parallel-load`	|false	|Number of documents per collection that are indexed in parallel during start up. Default: `1000`.|
