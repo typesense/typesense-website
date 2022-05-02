@@ -170,9 +170,9 @@ await client.collections.create(schema);
 CollectionSchema collectionSchema = new CollectionSchema();
 
 collectionschema.name("companies")
-                .addFieldsItem(new Field().name("company_name").type(Field.TypeEnum.STRING))
-                .addFieldsItem(new Field().name("num_employees").type(Field.TypeEnum.INT32))
-                .addFieldsItem(new Field().name("country").type(Field.TypeEnum.STRING).facet(true));
+                .addFieldsItem(new Field().name("company_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("num_employees").type(FieldTypes.INT32))
+                .addFieldsItem(new Field().name("country").type(FieldTypes.STRING).facet(true));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
@@ -762,13 +762,13 @@ Let's see how we can add a new `company_category` field to the `companies` colle
   <template v-slot:JavaScript>
 
 ```js
-schema_changes = {
+update_schema = {
   "fields":[
     {"name":"company_category", "type":"string"},
     {"name":"num_employees", "drop": true}
   ]
 }
-client.collections('companies').update(schema_changes)
+client.collections('companies').update(update_schema)
 ```
 
   </template>
@@ -776,7 +776,7 @@ client.collections('companies').update(schema_changes)
   <template v-slot:PHP>
 
 ```php
-$schema_changes = [
+$update_schema = [
   'fields'    => [
     [
       'name'  => 'company_category',
@@ -788,14 +788,14 @@ $schema_changes = [
     ]
   ]
 ];
-$client->collections['companies']->update($schema_changes);
+$client->collections['companies']->update($update_schema);
 ```
 
 </template>
 <template v-slot:Python>
 
 ```py
-schema_changes = {
+update_schema = {
   'fields': [
     {
       'name'  :  'company_category',
@@ -807,14 +807,14 @@ schema_changes = {
     }
   ]
 }
-client.collections['companies'].update(schema_changes)
+client.collections['companies'].update(update_schema)
 ```
 
 </template>
 <template v-slot:Ruby>
 
 ```rb
-schema_changes = {
+update_schema = {
   'fields'    => [
     {
       'name'  => 'company_category',
@@ -826,47 +826,43 @@ schema_changes = {
     }
   ]  
 }
-client.collections['companies'].update(schema_changes)
+client.collections['companies'].update(update_schema)
 ```
 
 </template>
 <template v-slot:Dart>
 
 ```dart
-final schema_changes = SchemaChange(
-  'companies',
+final updateSchema = UpdateSchema(
   {
     Field('company_category', Type.string),
     Field('num_employees', drop: true)
   }
 );
-await client.collection('companies').update(schema_changes);
+await client.collection('companies').update(updateSchema);
 ```
 
 </template>
 <template v-slot:Java>
 
 ```java
-CollectionSchema schemaChanges = new CollectionSchema();
-collectionschema.name("companies")
-                .addFieldsItem(new Field().name("company_category").type(Field.TypeEnum.STRING))
-                .addFieldsItem(new Field().name("num_employees").drop(true));
-
-client.collections("companies").update(schemaChanges);
+CollectionUpdateSchema updateSchema = new CollectionUpdateSchema();
+updateSchema.addFieldsItem(new Field().name("company_category").type(FieldTypes.STRING))
+            .addFieldsItem(new Field().name("num_employees").drop(true));
+client.collections("companies").update(updateSchema);
 ```
 
 </template>
 <template v-slot:Swift>
 
 ```swift
-let schemaChanges = CollectionSchema(
-  name: "companies",
+let updateSchema = CollectionUpdateSchema(
   fields: [
     Field(name: "company_category", type: "string"),
     Field(name: "num_employees", drop: true)
   ]
 )
-try await client.collections.update(schema: schemaChanges)
+try await client.collections.update(updateSchema: updateSchema)
 ```
 
 </template>
