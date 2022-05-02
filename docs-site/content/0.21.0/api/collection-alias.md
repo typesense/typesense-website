@@ -86,7 +86,7 @@ await client.aliases.upsert('companies', aliased_collection);
   <template v-slot:Java>
 
 ```java
-CollectionAlias collectionAlias = new CollectionAlias();
+CollectionAliasSchema collectionAlias = new CollectionAliasSchema();
 collectionAlias.collectionName("companies_june11");
 
 client.aliases().upsert("companies", collectionAlias);
@@ -172,7 +172,7 @@ await client.alias('companies').retrieve();
   <template v-slot:Java>
 
 ```java
-CollectionAlias collectionAlias = client.aliases("companies").retrieve();
+CollectionAliasSchema collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
@@ -330,7 +330,7 @@ await client.alias('companies').delete();
   <template v-slot:Java>
 
 ```java
-CollectionAlias collectionAlias = client.aliases("companies").delete();
+CollectionAliasSchema collectionAlias = client.aliases("companies").delete();
 ```
 
   </template>
