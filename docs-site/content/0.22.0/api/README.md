@@ -26,7 +26,7 @@ This release contains new features, performance improvements and important bug f
 - Dynamic filtering based on rules: overrides now support a `filter_by` clause that can apply filters dynamically to query rules defined in the override.
 - Server side caching: cache search requests for a configurable amount of time to improve perceived latencies on heavy queries. Refer to the `use_cache` and `cache_ttl` parameters. By default, caching is disabled.
 - Protection against expensive queries via the use of `search_cutoff_ms` parameter that attempts to return results early when the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.
-- Added `geo_precision` sorting option to geo fields. This will bucket geo points into "groups" determined by the given precision value, such that points that fall within the same group are treated as equal, and the next sorting field can be considered for ranking.
+- Added `precision` sorting option to geo fields. This will bucket geo points into "groups" determined by the given precision value, such that points that fall within the same group are treated as equal, and the next sorting field can be considered for ranking.
 
 ### Enhancements
 

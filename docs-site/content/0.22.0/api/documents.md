@@ -1053,12 +1053,12 @@ This makes all documents within a 2 mile radius to "tie" with the same value for
 To break the tie, these records will be sorted by the next field in the list `popularity:desc`. 
 Records outside the 2 mile radius are sorted first on their distance and then on `popularity:desc` as usual.
 
-#### geo_precision
+#### precision
 
-Similarly, you can bucket all geo points into "groups" using the `geo_precision` parameter.
+Similarly, you can bucket all geo points into "groups" using the `precision` parameter.
 
 ```shell
-'sort_by' : 'location(48.853, 2.344, geo_precision: 2mi):asc, popularity:desc'
+'sort_by' : 'location(48.853, 2.344, precision: 2mi):asc, popularity:desc'
 ```
 
 This will bucket all points into 2 mile groups so that the popularity metric can fall through.
