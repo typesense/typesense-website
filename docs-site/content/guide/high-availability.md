@@ -124,6 +124,42 @@ If you are using Docker, make sure that you've configured the Docker network in 
 Read more about [Docker Networking](https://docs.docker.com/network/).
 :::
 
+## Verifying Cluster Formation
+
+Once you've setup all the nodes in a cluster, you can verify that they've successfully formed a cluster by sending a GET request to the `/debug` endpoint of each node:
+
+```shell
+curl "http://${TYPESENSE_HOST}/debug/" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+On one of the nodes you should see the following response:
+
+```json
+{
+  "state": 1,
+  "version": "x.x.x"
+}
+```
+
+where `state: 1` indicates that this is the node that was elected to be the leader.
+
+All the other nodes should return a response of:
+
+```json
+{
+  "state": 4,
+  "version": "x.x.x"
+}
+```
+
+where `state: 4` indicates that the node was selected to be a follower.
+
+If you see `state: 1` on more than one node, that indicates that the cluster was not formed properly. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information. Ensure that the nodes can talk to each other on the ports you've configured as the HTTP port and the Peering port. 
+
+If you see a value other than `state: 4` or `state: 1` that indicates an error. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information.
+
+
 ## Client configuration
 
 Typesense clients allow you to specify one or more nodes during client initialization.
