@@ -69,7 +69,7 @@ Most of the server infrastructure related items are not applicable to Typesense 
  
 - To get updates when new versions of Typesense are released, click on "Watch" -> "Custom" -> "Releases" in the [Typesense GitHub repository](https://github.com/typesense/typesense).
   - Follow these [update instructions](./updating-typesense.md) to update to the latest version.
-- We also post updates on Twitter [@typesense](https://twitter.com/typesense) and in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-AuOL89O7iBtvkz136egSJg).
+- We also post updates on Twitter [@typesense](https://twitter.com/typesense) and in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-RLRTGP6w0gbO3ZUICbbRHw).
 
 ### Support
 

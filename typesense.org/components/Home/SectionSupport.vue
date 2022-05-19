@@ -33,7 +33,7 @@
               name="Slack"
               :image-height="35"
               image-margin="6px"
-              href="https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-AuOL89O7iBtvkz136egSJg"
+              href="https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-RLRTGP6w0gbO3ZUICbbRHw"
               target="_blank"
             ></HomeSupportOption>
           </div>
