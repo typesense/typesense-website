@@ -1212,6 +1212,8 @@ You can use the `sort_by` search parameter to sort results by upto 3 fields.
 
 The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.
 
+#### Sorting on strings
+
 While sorting is enabled by default on numerical and boolean fields, sorting on a string field is only allowed 
 if that field has `sort` property enabled in the collection schema. For e.g. here's a collection schema where 
 sorting is allowed on the `email` string field.
@@ -1227,6 +1229,24 @@ sorting is allowed on the `email` string field.
 ```
 
 In the `users` collection defined above, the `email` field can be sorted upon, but the `name` field is not sortable.
+
+By default, empty (`""`) or `null` string values are considered to have the "highest" value, so on ascending sort, 
+`null` or empty values are placed at the end of the results.
+
+You can use the `missing_values` parameter to alter this behavior. For example, here's how you can ensure that 
+titles with null/empty values are present at the top of an ascending sort:
+
+```shell
+sort_by=title(missing_values: first):asc
+```
+
+Likewise, to ensure that empty/null values appear at the end of a descending sort:
+
+```shell
+sort_by=title(missing_values: last):desc
+```
+
+The possible values of `missing_values` are: `first`, `last` or `ordered` (default).
 
 :::tip
 Sorting on a string field requires the construction of a separate index that can consume a lot of memory 
