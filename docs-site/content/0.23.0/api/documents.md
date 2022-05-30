@@ -1230,29 +1230,35 @@ sorting is allowed on the `email` string field.
 
 In the `users` collection defined above, the `email` field can be sorted upon, but the `name` field is not sortable.
 
-By default, empty (`""`) or `null` string values are considered to have the "highest" value, so on ascending sort, 
-`null` or empty values are placed at the end of the results.
+:::tip
+Sorting on a string field requires the construction of a separate index that can consume a lot of memory
+for long string fields (like `description`) or in large datasets. So, care must be taken to enable sorting on only
+relevant string fields.
+:::
 
-You can use the `missing_values` parameter to alter this behavior. For example, here's how you can ensure that 
-titles with null/empty values are present at the top of an ascending sort:
+#### Sorting null, empty or missing values 
+
+For optional numerical fields, missing or `null` values are always sorted to the end _regardless_ of the sort order. 
+
+In the case of optional string fields, empty (`""`), missing or `null` string values are considered to 
+have the "highest" value, so on ascending sort, these values are placed at the end of the results. Likewise, 
+on descending sort, these values are placed at the top of the results.
+
+For both numerical and string fields, you can use the `missing_values` parameter to alter this behavior. 
+For example, here's how you can ensure that titles with null/empty/missing values are present at the top of the result 
+set in an ascending sort:
 
 ```shell
 sort_by=title(missing_values: first):asc
 ```
 
-Likewise, to ensure that empty/null values appear at the end of a descending sort:
+Likewise, to ensure that null/empty/missing values appear at the end of the results in a descending sort:
 
 ```shell
 sort_by=title(missing_values: last):desc
 ```
 
-The possible values of `missing_values` are: `first`, `last` or `ordered` (default).
-
-:::tip
-Sorting on a string field requires the construction of a separate index that can consume a lot of memory 
-for long string fields (like `description`) or in large datasets. So, care must be taken to enable sorting on only
-relevant string fields.
-:::
+The possible values of `missing_values` are: `first` or `last`. 
 
 You'll find detailed documentation for `sort_by` in the [Ranking Parameters](#ranking-parameters) table above.
 
