@@ -36,9 +36,16 @@ This release contains new features, performance improvements and important bug f
 - Improved Cyrillic support: better highlighting and fuzzy search for fields configured with: 
   `el`, `ru`, `sr`, `uk` and `be` locales.
 - ARM compatibility: an ARM build is now published for every release.
-- Each multi-search query can have an independent `x-typesense-api-key` key.
+- Each multi-search query can have an independent `x-typesense-api-key` key. This is useful to specify different scoped search API keys for each search.
 - Control the number of words that Typesense considers for typo and prefix searching via the `max_candidates` parameter.
-- CORS can now be enabled for a specific set of websites using the `--cors-domains` flag. 
+- CORS can now be enabled for a specific set of domains using the `--cors-domains` flag.
+- Search results are now highlighted by prefix, rather than the full world. 
+  Previously, searching for "app" will highlight the full word "apple" in the results, but now it will only highlight the "app"le prefix within the word.
+- "Remove Matched Tokens" can be used by itself in Overrides. So you can now setup rules like, if query contains "word", remove "word" from the search query.
+- Ability to toggle if filters should by applied to overrides or not using the `filter_curated_hits` flag.
+- Ability to hide `out_of` and `search_time_ms` from the search API response, using the `exclude_fields` parameter.
+- Ability to control typo tolerance for facet queries using `facet_query_num_typos`.
+- Ability to specify which subnet to use for peering using `--peering-subnet` server parameter.
 
 ### Bug Fixes
 
