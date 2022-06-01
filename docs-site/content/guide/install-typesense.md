@@ -20,6 +20,17 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
 
 ### 📥 Download & Install
 
+#### Mac via Homebrew
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+<pre class="language-bash"><code>brew install typesense/tap/typesense-server
+</code></pre>
+
+  </template>
+</Tabs>
+
 #### Mac Binary
 
 <Tabs :tabs="['Shell']">
@@ -143,6 +154,23 @@ ignore this error message , executing `apt list --installed | grep typesense` wo
 
 ### 🎬 Start
 
+#### From Homebrew on macOS
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+brew services start typesense-server
+```
+
+  </template>
+</Tabs>
+
+- The default API key is `xyz` and the default port is `8108`
+- The config file is at `/usr/local/etc/typesense/typesense.ini`
+- Logs are under `/usr/local/var/log/typesense/`
+- Data dir is under `/usr/local/var/lib/typesense/`
+
 #### From the pre-built binary
 If you downloaded the pre-built binary for Mac / Linux, you can start Typesense with minimal options like this:
 
@@ -187,6 +215,11 @@ sudo systemctl status typesense-server.service
 
   </template>
 </Tabs>
+
+- The config file is at `/etc/typesense/typesense.ini`
+  - The admin API key is auto-generated and can be found inside the config file. 
+- Logs are under `/var/log/typesense/`
+- Data dir is under `/var/lib/typesense/`
 
 #### Windows 10 (WSL)
 Typesense server can be started by logging into WSL and executing the below given command.
