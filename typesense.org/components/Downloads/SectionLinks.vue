@@ -17,19 +17,19 @@ docker pull typesense/typesense:{{ typesenseLatestVersion }}
           <h2 class="text-primary">Linux</h2>
           <CodeBlockTabbed :underline-links="true">
             <pre data-language="bash" data-display-language="DEB">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
             </pre>
 
             <pre data-language="bash" data-display-language="RPM">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
             </pre>
 
             <pre data-language="bash" data-display-language="Binary">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{
                 typesenseLatestVersion
@@ -45,8 +45,11 @@ wget https://dl.typesense.org/releases/{{
             <h2 class="text-primary">MacOS</h2>
           </div>
           <CodeBlockTabbed :underline-links="true">
+            <pre data-language="bash" data-display-language="Homebrew">
+brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}
+            </pre>
             <pre data-language="bash" data-display-language="Binary">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{
                 typesenseLatestVersion
