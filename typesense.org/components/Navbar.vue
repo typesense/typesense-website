@@ -1,79 +1,95 @@
 <template>
-  <nav
-    class="navbar navbar-expand-lg py-4"
-    :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
-  >
-    <div class="container">
-      <NuxtLink :to="'/'" class="navbar-brand">
-        <img
-          :src="
-            colorScheme === 'light'
-              ? require('~/assets/images/typesense_logo_white.svg')
-              : require('~/assets/images/typesense_logo.svg')
-          "
-          alt="Typesense"
-          width="200"
-          height="44"
-        />
-      </NuxtLink>
-      <div :class="colorScheme === 'light' ? 'navbar-dark' : 'navbar-light'">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          @click="toggleNavbar"
-        >
-          <span class="navbar-toggler-icon" />
-        </button>
-      </div>
-
-      <div
-        id="navbarSupportedContent"
-        class="collapse navbar-collapse"
-        :class="{ show }"
+  <div>
+    <div
+      class="py-2 text-center bg-frosted-glass"
+      :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+    >
+      Check out Typesense's
+      <a
+        href="https://youtu.be/qBkyU1TJKDg?t=2399"
+        target="_blank"
+        class="text-primary"
+        >recent mention</a
       >
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item justify-content-center align-self-center mr-5">
-            <a href="https://github.com/typesense/typesense">
-              <img
-                src="https://img.shields.io/github/stars/typesense/typesense?style=social"
-                alt="Github Stars"
-                class="d-none d-sm-block"
-                height="20"
-              />
-            </a>
-          </li>
-          <li
-            v-for="item in navLinks"
-            :key="item.link || item.externalLink"
-            class="nav-item"
-          >
-            <a
-              v-if="item.externalLink"
-              :href="item.externalLink"
-              :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
-              class="nav-link"
-              :target="item.target ? item.target : '_self'"
-            >
-              {{ item.text }}
-            </a>
-            <NuxtLink
-              v-if="item.link"
-              :to="item.link"
-              :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
-              class="nav-link"
-            >
-              {{ item.text }}
-            </NuxtLink>
-          </li>
-        </ul>
-      </div>
+      <br class="d-block d-sm-none" />
+      during the Google I/O Developer Keynote!
     </div>
-  </nav>
+    <nav
+      class="navbar navbar-expand-lg py-4"
+      :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+    >
+      <div class="container">
+        <NuxtLink :to="'/'" class="navbar-brand">
+          <img
+            :src="
+              colorScheme === 'light'
+                ? require('~/assets/images/typesense_logo_white.svg')
+                : require('~/assets/images/typesense_logo.svg')
+            "
+            alt="Typesense"
+            width="200"
+            height="44"
+          />
+        </NuxtLink>
+        <div :class="colorScheme === 'light' ? 'navbar-dark' : 'navbar-light'">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            @click="toggleNavbar"
+          >
+            <span class="navbar-toggler-icon" />
+          </button>
+        </div>
+
+        <div
+          id="navbarSupportedContent"
+          class="collapse navbar-collapse"
+          :class="{ show }"
+        >
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item justify-content-center align-self-center mr-5">
+              <a href="https://github.com/typesense/typesense">
+                <img
+                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"
+                  alt="Github Stars"
+                  class="d-none d-sm-block"
+                  height="20"
+                />
+              </a>
+            </li>
+            <li
+              v-for="item in navLinks"
+              :key="item.link || item.externalLink"
+              class="nav-item"
+            >
+              <a
+                v-if="item.externalLink"
+                :href="item.externalLink"
+                :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+                class="nav-link"
+                :target="item.target ? item.target : '_self'"
+              >
+                {{ item.text }}
+              </a>
+              <NuxtLink
+                v-if="item.link"
+                :to="item.link"
+                :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+                class="nav-link"
+              >
+                {{ item.text }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script>
