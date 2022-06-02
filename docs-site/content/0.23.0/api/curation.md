@@ -336,6 +336,8 @@ For example, if someone searches for `sony ericsson phone`, the query will be re
 `sony ericsson` brand filter will be directly applied. If you don't wish to remove matching tokens from the query, 
 set `remove_matched_tokens` to `false`. By default, this parameter is set to `true`.
 
+### Override parameters
+
 #### Definition
 `PUT ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
 
@@ -348,6 +350,7 @@ set `remove_matched_tokens` to `false`. By default, this parameter is set to `tr
 |includes	|no	|List of document `id`s that should be included in the search results with their corresponding `positions`.|
 |filter_by	|no	|A filter by clause that is applied to any search query that matches the override rule.|
 |remove_matched_tokens	|no	|Indicates whether search query tokens that exist in the override's rule should be removed from the search query. <br/><br/>Default: `true`.|
+|filter_curated_hits	|no	|When set to `true`, the filter conditions of the query is applied to the curated records as well. <br/><br/>Default: `false`.|
 
 
 ## List all overrides

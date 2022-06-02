@@ -22,6 +22,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--api-port`	|false	|Port on which Typesense API service listens. Default: `8108`|
 |`--peering-address`	|false	|Internal IP address to which Typesense peering service binds. If this parameter is not specified, Typesense will attempt to use the first available internal IP.|
 |`--peering-port`	|false	|Port on which Typesense peering service listens. Default: `8107`|
+|`--peering-subnet`	|false	|Internal subnet that Typesense should use for peering, e.g. `192.160.1.0/24`.|
 |`--nodes`	|false	|Path to file containing comma separated string of all nodes in the cluster.|
 |`--log-dir`	|false	|By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.|
 |`--ssl-certificate`	|false	|Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.|
@@ -32,6 +33,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--thread-pool-size`	|false	|Number of threads used for handling concurrent requests. Default: `NUM_CORES * 8`.|
 |`--num-collections-parallel-load`	|false	|Number of collections that are loaded in parallel during start up. Default: `NUM_CORES * 4`.|
 |`--num-documents-parallel-load`	|false	|Number of documents per collection that are indexed in parallel during start up. Default: `1000`.|
+|`--disk-used-max-percentage`	|false	|Reject writes when used disk space exceeds this percentage. Default: `100` (never reject).|
 |`--healthy-read-lag`	|false	|Reads are rejected if the updates lag behind this threshold. Default: `1000`.|
 |`--healthy-write-lag`	|false	|Writes are rejected if the updates lag behind this threshold. Default: `500`.|
 |`--snapshot-interval-seconds`	|false	|Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.|
