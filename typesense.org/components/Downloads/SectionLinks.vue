@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm">
           <h2 class="text-primary">Docker</h2>
-          <CodeBlockTabbed>
+          <CodeBlockTabbed state-id="docker">
             <pre data-language="bash" data-display-language="Docker">
 docker pull typesense/typesense:{{ typesenseLatestVersion }}
             </pre>
@@ -15,25 +15,44 @@ docker pull typesense/typesense:{{ typesenseLatestVersion }}
       <div class="row mt-5">
         <div class="col-sm">
           <h2 class="text-primary">Linux</h2>
-          <CodeBlockTabbed :underline-links="true">
-            <pre data-language="bash" data-display-language="DEB">
+          <CodeBlockTabbed :underline-links="true" state-id="linux">
+            <pre data-language="bash" data-display-language="DEB (x64)">
 curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
             </pre>
 
-            <pre data-language="bash" data-display-language="RPM">
+            <pre data-language="bash" data-display-language="RPM (x64)">
 curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
             </pre>
 
-            <pre data-language="bash" data-display-language="Binary">
+            <pre data-language="bash" data-display-language="Binary (x64)">
 curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
               }}/typesense-server-{{
                 typesenseLatestVersion
               }}-linux-amd64.tar.gz
+            </pre>
+            <pre data-language="bash" data-display-language="DEB (arm64)">
+curl -O https://dl.typesense.org/releases/{{
+                typesenseLatestVersion
+              }}/typesense-server-{{ typesenseLatestVersion }}-arm64.deb
+            </pre>
+
+            <pre data-language="bash" data-display-language="RPM (arm64)">
+curl -O https://dl.typesense.org/releases/{{
+                typesenseLatestVersion
+              }}/typesense-server-{{ typesenseLatestVersion }}-1.arm64.rpm
+            </pre>
+
+            <pre data-language="bash" data-display-language="Binary (arm64)">
+curl -O https://dl.typesense.org/releases/{{
+                typesenseLatestVersion
+              }}/typesense-server-{{
+                typesenseLatestVersion
+              }}-linux-arm64.tar.gz
             </pre>
           </CodeBlockTabbed>
         </div>
@@ -44,7 +63,7 @@ curl -O https://dl.typesense.org/releases/{{
           <div class="mt-4 d-flex align-items-center">
             <h2 class="text-primary">MacOS</h2>
           </div>
-          <CodeBlockTabbed :underline-links="true">
+          <CodeBlockTabbed :underline-links="true" state-id="macOS">
             <pre data-language="bash" data-display-language="Homebrew">
 brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}
             </pre>
@@ -62,7 +81,7 @@ curl -O https://dl.typesense.org/releases/{{
       <div class="row mt-5">
         <div class="col-sm">
           <h2 class="text-primary">Windows</h2>
-          <CodeBlockTabbed>
+          <CodeBlockTabbed state-id="windows">
             <pre data-language="powershell" data-display-language="Docker">
 docker pull typesense/typesense:{{ typesenseLatestVersion }}
             </pre>

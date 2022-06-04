@@ -48,28 +48,17 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+<pre class="language-bash"><code># x64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+
+# arm64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
 </code></pre>
 
   </template>
 </Tabs>
-
-:::warning NOTE
-If you are using a recent version of your Linux Distro (released after Nov 2021), please install Typesense v0.23, which contains a compatibility fix:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-linux-amd64.tar.gz
-tar -xzf typesense-server-0.23.0-linux-amd64.tar.gz
-</code></pre>
-
-  </template>
-</Tabs>
-
-:::
-
 
 
 #### Docker
@@ -88,54 +77,33 @@ tar -xzf typesense-server-0.23.0-linux-amd64.tar.gz
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+<pre class="language-bash"><code># x64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+
+# arm64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 </code></pre>
 
   </template>
 </Tabs>
-
-:::warning NOTE
-If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-amd64.deb
-sudo apt install ./typesense-server-0.23.0-amd64.deb
-</code></pre>
-
-  </template>
-</Tabs>
-
-:::
-
 
 #### RPM package on CentOS/RHEL
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+<pre class="language-bash"><code># x64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+
+# arm64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
+sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
 </code></pre>
 
   </template>
 </Tabs>
-
-:::warning NOTE
-If you are using a recent version of your Linux Distro (released after Nov 2021), please install the RC build of the latest Typesense version, which contains a compatibility fix:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-
-<pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/0.23.0/typesense-server-0.23.0-1.x86_64.rpm
-sudo yum install ./typesense-server-0.23.0.x86_64-1.rpm
-</code></pre>
-
-  </template>
-</Tabs>
-
-:::
 
 #### Windows  [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
 

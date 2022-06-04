@@ -12,40 +12,34 @@
 docker run \
         -p 8108:8108 -v/tmp:/data \
         typesense/typesense:{{ typesenseLatestVersion }} \
-          --data-dir /data --api-key=xyz
-          </pre>
+          --data-dir /data --api-key=xyz</pre
+          >
           <pre data-language="bash" data-display-language="DEB">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
               typesenseLatestVersion
             }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
 
-apt install ./typesense-server-{{ typesenseLatestVersion }}-amd64.deb
-          </pre>
+apt install ./typesense-server-{{ typesenseLatestVersion }}-amd64.deb</pre
+          >
           <pre data-language="bash" data-display-language="RPM">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
               typesenseLatestVersion
             }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
 
-yum install ./typesense-server-{{ typesenseLatestVersion }}.x86_64.rpm
-          </pre>
+yum install ./typesense-server-{{ typesenseLatestVersion }}.x86_64.rpm</pre
+          >
           <pre data-language="bash" data-display-language="Linux">
-wget https://dl.typesense.org/releases/{{
+curl -O https://dl.typesense.org/releases/{{
               typesenseLatestVersion
             }}/typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
 
 tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
 
-./typesense-server --data-dir /tmp --api-key=xyz
-          </pre>
+./typesense-server --data-dir /tmp --api-key=xyz</pre
+          >
           <pre data-language="bash" data-display-language="macOS">
-wget https://dl.typesense.org/releases/{{
-              typesenseLatestVersion
-            }}/typesense-server-{{ typesenseLatestVersion }}-darwin-amd64.tar.gz
-
-tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-darwin-amd64.tar.gz
-
-./typesense-server --data-dir /tmp --api-key=xyz
-          </pre>
+brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}</pre
+          >
         </CodeBlockTabbed>
       </template>
       <template #description>
@@ -84,8 +78,8 @@ curl "http://localhost:8108/collections/books/documents/import" \
         -d '
           {"title":"Book 1","author":"Author1","ratings":24}
           {"title":"Book 2","author":"Author2","ratings":31}
-          {"title":"Book 3","author":"Author3","ratings":30}'
-          </pre>
+          {"title":"Book 3","author":"Author3","ratings":30}'</pre
+          >
           <pre data-language="javascript">
 // npm install typesense @babel/runtime
 
@@ -113,8 +107,8 @@ const documents = [
 
 client.collections().create(schema).then(() => {
   client.collections('books').documents().import(documents)
-})
-          </pre>
+})</pre
+          >
           <pre data-language="php" data-display-language="PHP">
 // composer require php-http/curl-client typesense/typesense-php
 
@@ -142,8 +136,8 @@ $documents = [
   ["title"=>"Book 2","author"=>"Author2","ratings"=>31],
   ["title"=>"Book 3","author"=>"Author3","ratings"=>30]
 ];
-$client->collections['books']->documents->import($documents);
-          </pre>
+$client->collections['books']->documents->import($documents);</pre
+          >
 
           <pre data-language="python">
 # pip install typesense
@@ -170,8 +164,8 @@ documents = [
   {"title":"Book 2","author":"Author2","ratings":31},
   {"title":"Book 3","author":"Author3","ratings":30}
 ]
-client.collections['books'].documents.import_(documents)
-          </pre>
+client.collections['books'].documents.import_(documents)</pre
+          >
 
           <pre data-language="ruby">
 # gem install typesense
@@ -198,8 +192,8 @@ documents = [
   {"title" => "Book 2", "author" => "Author2", "ratings" => 31},
   {"title" => "Book 3", "author" => "Author3", "ratings" => 30}
 ]
-client.collections['books'].documents.import(documents)
-          </pre>
+client.collections['books'].documents.import(documents)</pre
+          >
         </CodeBlockTabbed>
       </template>
       <template #description>
@@ -219,26 +213,26 @@ curl "http://localhost:8108/collections/books/documents/search?query_by=title,au
 console.log(client.collections('books').documents().search({
   'query_by': 'title,author',
   'q': 'boo'
-}))
-          </pre>
+}))</pre
+          >
           <pre data-language="php" data-display-language="PHP">
 print_r($client->collections['books']->documents->search([
   'query_by' => 'title,author',
   'q' => 'boo'
-]));
-          </pre>
+]));</pre
+          >
           <pre data-language="python">
 print(client.collections['books'].documents.search({
   'query_by': 'title,author',
   'q': 'boo'
-}))
-          </pre>
+}))</pre
+          >
           <pre data-language="ruby">
 puts client.collections['books'].documents.search({
   query_by: 'title,author',
   q: 'boo'
-})
-          </pre>
+})</pre
+          >
         </CodeBlockTabbed>
       </template>
       <template #description>
