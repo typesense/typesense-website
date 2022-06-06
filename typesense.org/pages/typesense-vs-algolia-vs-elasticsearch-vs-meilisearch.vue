@@ -8,10 +8,10 @@
         <div class="row">
           <div class="col-sm">
             <h1 class="display-4">
-              Compare Typesense<br />
-              vs Algolia<br />
+              Compare Algolia<br />
               vs ElasticSearch<br />
-              vs Meilisearch
+              vs Meilisearch<br />
+              vs Typesense
             </h1>
             <p>
               This table is meant to give you an objective side-by-side
@@ -406,15 +406,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Sort by String field</td>
-                  <td>
-                    ✅<br /><br />
-                    Available in
-                    <a
-                      href="https://github.com/typesense/typesense/issues/117#issuecomment-1000857228"
-                      target="_blank"
-                      >RC build</a
-                    >.
-                  </td>
+                  <td>✅</td>
                   <td>
                     ✅<br /><br />But
                     <a
@@ -437,7 +429,7 @@
                   </td>
                   <td>Client-side and Server-side</td>
                   <td>❌</td>
-                  <td>Client-side, through InstantSearch.js</td>
+                  <td>❌</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Record Validations</td>
@@ -472,10 +464,7 @@
                   <td class="font-weight-bold">
                     Phrase Search <br />(<code>"some query"</code>)
                   </td>
-                  <td>
-                    ✅<br /><br />
-                    Available in 0.23.0.rc55
-                  </td>
+                  <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅</td>
@@ -575,13 +564,13 @@
                   <td>✅<br /><br />Supports InstantSearch.js</td>
                   <td>✅<br /><br />InstantSearch.js</td>
                   <td>✅<br /><br />Search UI, requires hosted search</td>
-                  <td>✅<br /><br />Supports InstantSearch.js</td>
+                  <td>✅<br /><br />Forked version of InstantSearch.js</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Privacy Friendliness</td>
                   <td>
-                    ✅<br /><br />Does NOT collect usage analytics, personal
-                    data, or IP addresses in both Self-Hosted and SaaS options.
+                    ✅<br /><br />Does NOT collect usage analytics or personal
+                    data in both Self-Hosted and SaaS options.
                   </td>
                   <td>
                     🔶<br /><br />Collects personal data, usage analytics & IP
@@ -593,8 +582,13 @@
                     unique fingerprint ID for licensing.
                   </td>
                   <td>
-                    🔶<br /><br />Collects hardware information, total number of
-                    documents, number of document updates & server uptime.
+                    🔶<br /><br /><a
+                      href="https://docs.meilisearch.com/learn/what_is_meilisearch/telemetry.html#exhaustive-list-of-all-collected-data"
+                      target="_blank"
+                      >Collects</a
+                    >
+                    hardware information, total number of documents, number of
+                    document updates, server uptime, search settings, etc.
                     Opt-out supported.
                   </td>
                 </tr>
@@ -615,6 +609,24 @@
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td class="font-weight-bold">Number of Documents</td>
+                  <td>No limitation, only constrained by available RAM</td>
+                  <td>Unknown</td>
+                  <td>
+                    No limitation, only constrained by available disk space
+                  </td>
+                  <td class="text-danger">
+                    Slow indexing performance
+                    <a
+                      href="https://github.com/meilisearch/meilisearch/discussions/2131"
+                      target="_blank"
+                      class="text-danger"
+                      >reported</a
+                    >
+                    for over 10K records.
+                  </td>
+                </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Indices</td>
                   <td>No limitation</td>
@@ -716,7 +728,7 @@
 export default {
   head() {
     return {
-      title: 'Typesense vs Algolia vs Elasticsearch vs Meilisearch Comparison',
+      title: 'Algolia vs Elasticsearch vs Meilisearch vs Typesense Comparison',
       meta: [
         {
           hid: 'description',

@@ -241,7 +241,7 @@
           </div>
           <div class="text-center mt-3">
             <a
-              href="https://github.com/typesense/firestore-typesense-search"
+              href="https://firebase.google.com/products/extensions/typesense-firestore-typesense-search"
               target="_blank"
             >
               <img

@@ -213,7 +213,7 @@
               <NuxtLink
                 class="nav-link p-0"
                 to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
-                >Algolia vs ElasticSearch vs Typesense</NuxtLink
+                >Algolia vs Elasticsearch vs Typesense</NuxtLink
               >
             </li>
             <li class="nav-item">
