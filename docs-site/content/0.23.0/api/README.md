@@ -66,19 +66,34 @@ This release contains new features, performance improvements and important bug f
 
 ## Upgrading
 
-Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior 
+Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
 changes above to prepare your application for the upgrade.
 
-### Single node deployment
+We'd recommend testing on your development / staging environments before upgrading. 
+
+### Typesense Cloud
+
+If you're on Typesense Cloud:
+
+1. Go to [https://cloud.typesense.org/clusters](https://cloud.typesense.org/clusters).
+2. Click on your cluster
+3. Click on "Modify Configuration" on the right side pane
+4. Schedule a time for the upgrade.
+
+### Self Hosted
+
+If you're self-hosting Typesense, here's how to upgrade:
+
+#### Single node deployment
 
 1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
 
-### Multi-node deployment
+#### Multi-node deployment
 
-To upgrade a multi-node cluster, we will be proceeding node by node. 
+To upgrade a multi-node cluster, we will be proceeding node by node to ensure the cluster remains healthy during the rolling upgrade.
 
 **NOTE:** During the upgrade, we have to ensure that the leader of the cluster is using the **older** Typesense version. 
 So we will upgrade the leader last. You can determine whether a node is a leader or follower by the value of the `state` 
@@ -92,7 +107,7 @@ field in the `/debug` end-point response.
 1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
-3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up. 
+3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
 4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node alone for now.
 5. Once all the followers have been upgraded to v{{ $page.typesenseVersion }}, stop Typesense on the leader.
 6. The other nodes will elect a new leader and keep working. 
