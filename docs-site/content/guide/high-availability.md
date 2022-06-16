@@ -3,17 +3,36 @@
 You can run a cluster of Typesense nodes for high availability. 
 Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.
 
-In cluster mode, Typesense will automatically replicate copies of the data to all nodes in the cluster. 
+In cluster mode, Typesense will automatically replicate your entire dataset to all nodes in the cluster, automatically and continuously. 
 Read and write API calls can be sent to any nodes in the cluster - 
 read API calls will be served by the node that receives it, write API calls are automatically forwarded to the leader of the cluster internally. 
 
 Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
 
-:::tip
-In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you, when you flip the setting ON when launching the cluster. So the rest of this section only applies if you are self-hosting Typesense.
+[[toc]]
+
+## High Availability in Typesense Cloud
+
+In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you. 
+
+When you flip the setting ON when launching a cluster, you'll see a special Load Balanced endpoint in addition to the individual hostnames*, in your cluster dashboard: 
+
+<img src="~@images/high-availability/ha-hostnames.png" height="350" width="367" alt="Typesense Cloud HA Hostnames">
+
+Requests sent to the Load-Balanced endpoint are distributed between all the 3 nodes in the cluster.
+If a particular node has an infrastructure issue, or is inaccessible for any reason, it is automatically quarantined and traffic is re-routed to the other healthy nodes.
+
+::: warning *Note
+
+You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**. 
+
+For HA clusters provisioned **before June 16, 2022**, you will only see the individual hostnames. Health-checking and traffic re-routing are done client-side in our official client libraries.
+See [Client Configuration](#client-configuration) below. If you'd like to enable server-side load-balancing for your existing clusters, please reach out to us at support at typesense d0t org with your Cluster ID.
 :::
 
-## Configuring a Typesense cluster
+## High Availability when Self-Hosting Typesense
+
+### Configuring a Typesense cluster
 
 To start a Typesense node as part of a cluster, create a new file on each node that's part of the cluster with the following format, and use the [`--nodes` server configuration](../latest/api/server-configuration.md) to point to the file.
 
@@ -25,7 +44,7 @@ Each node definition in the file should be in the following format, separated by
 
 All nodes in the cluster should have the same bootstrap `--api-key` for security purposes.
 
-### Nodes File Example
+#### Nodes File Example
 
 Here's an example of a `--nodes` file for a 3-node cluster:
 
@@ -124,7 +143,7 @@ If you are using Docker, make sure that you've configured the Docker network in 
 Read more about [Docker Networking](https://docs.docker.com/network/).
 :::
 
-## Verifying Cluster Formation
+### Verifying Cluster Formation
 
 Once you've setup all the nodes in a cluster, you can verify that they've successfully formed a cluster by sending a GET request to the `/debug` endpoint of each node:
 
@@ -160,16 +179,41 @@ If you see `state: 1` on more than one node, that indicates that the cluster was
 If you see a value other than `state: 4` or `state: 1` that indicates an error. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information.
 
 
-## Client configuration
+## Client Configuration
+
+### When deployed without a load balancer
 
 Typesense clients allow you to specify one or more nodes during client initialization.
-
-Client libraries will load balance reads and writes across all nodes and will automatically strive to recover from transient failures through built-in retries.
-So there you do not need a server-side load balancer when deploying Typesense.
+So you can specify the individual hostnames in the cluster when instantiating the client library,
+and it will load balance reads & writes across all nodes and will automatically strive to recover from transient failures through built-in retries.
 
 Here's a sample 3-node client configuration:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
+  <template v-slot:JavaScript>
+
+```js
+/*
+ *  Our JavaScript client library works on both the server and the browser.
+ *  When using the library on the browser, please be sure to use the
+ *  search-only API Key rather than the master API key since the latter
+ *  has write access to Typesense and you don't want to expose that.
+ */
+
+const Typesense = require('typesense')
+
+let client = new Typesense.Client({
+  'nodes': [
+    { 'host': 'typesense-1.example.net', 'port': '443', 'protocol': 'https' },
+    { 'host': 'typesense-2.example.net', 'port': '443', 'protocol': 'https' },
+    { 'host': 'typesense-3.example.net', 'port': '443', 'protocol': 'https' },
+  ],
+  'apiKey': '<API_KEY>',
+  'connectionTimeoutSeconds': 2
+})
+```
+
+  </template>
 
   <template v-slot:PHP>
 
@@ -179,54 +223,14 @@ use Typesense\Client;
 $client = new Client(
   [
     'nodes' => [ 
-      [
-        'host'     => 'x.x.x.x',  // Can be an IP or more commonly a hostname mapped to the IP
-        'port'     => 443, 
-        'protocol' => 'https'
-      ],
-      [
-        'host'     => 'y.y.y.y',  // Can be an IP or more commonly a hostname mapped to the IP
-        'port'     => 443, 
-        'protocol' => 'https'
-      ],
-      [
-        'host'     => 'z.z.z.z',  // Can be an IP or more commonly a hostname mapped to the IP
-        'port'     => 443, 
-        'protocol' => 'https'
-      ],
+      ['host' => 'typesense-1.example.net', 'port' => '443', 'protocol' => 'https'],
+      ['host' => 'typesense-2.example.net', 'port' => '443', 'protocol' => 'https'],
+      ['host' => 'typesense-3.example.net', 'port' => '443', 'protocol' => 'https'],
     ],
-    'api_key' => '<API_KEY>',
+    'api_key'         => '<API_KEY>',
     'connection_timeout_seconds' => 2,
   ]
 );
-```
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-require 'typesense'
-
-client = Typesense::Client.new(
-  nodes: [
-    {
-      host:     'x.x.x.x', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'y.y.y.y', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'z.z.z.z', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    }
-  ],
-  api_key:  '<API_KEY>',
-  connection_timeout_seconds: 2
-)
 ```
 
   </template>
@@ -237,21 +241,9 @@ import typesense
 
 client = typesense.Client({
   'nodes': [
-    {
-      host:     'x.x.x.x', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'y.y.y.y', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'z.z.z.z', # Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    }
+    {'host': 'typesense-1.example.net', 'port': '443', 'protocol': 'https'},
+    {'host': 'typesense-2.example.net', 'port': '443', 'protocol': 'https'},
+    {'host': 'typesense-3.example.net', 'port': '443', 'protocol': 'https'}
   ],
   'api_key': '<API_KEY>',
   'connection_timeout_seconds': 2
@@ -259,30 +251,20 @@ client = typesense.Client({
 ```
 
   </template>
-  <template v-slot:JavaScript>
+  <template v-slot:Ruby>
 
-```js
-let client = new Typesense.Client({
-  'nodes': [
-    {
-      host:     'x.x.x.x', // Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'y.y.y.y', // Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    },
-    {
-      host:     'z.z.z.z', // Can be an IP or more commonly a hostname mapped to the IP
-      port:     443,
-      protocol: 'https'
-    }
+```rb
+require 'typesense'
+
+client = Typesense::Client.new(
+  nodes: [
+    { host: 'typesense-1.example.net', port: 443, protocol: 'https' },
+    { host: 'typesense-2.example.net', port: 443, protocol: 'https' },
+    { host: 'typesense-3.example.net', port: 443, protocol: 'https' },
   ],
-  'apiKey': '<API_KEY>',
-  'connectionTimeoutSeconds': 2
-})
+  api_key:  '<API_KEY>',
+  connection_timeout_seconds: 2
+)
 ```
 
   </template>
@@ -291,28 +273,204 @@ let client = new Typesense.Client({
 ```dart
 import 'package:typesense/typesense.dart';
 
+final protocol = Protocol.https;
 final config = Configuration(
+    '<API_KEY>',
     nodes: {
       Node(
-        host: 'x.x.x.x', // Can be an IP or more commonly a hostname mapped to the IP
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'typesense-1.example.net',
       ),
       Node(
-        host: 'y.y.y.y', // Can be an IP or more commonly a hostname mapped to the IP
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'typesense-2.example.net',
       ),
       Node(
-        host: 'z.z.z.z', // Can be an IP or more commonly a hostname mapped to the IP
-        port: 443,
-        protocol: 'https',
+        protocol,
+        'typesense-3.example.net',
       ),
     },
-    apiKey: '<API_KEY>',
     connectionTimeout: Duration(seconds: 2),
   );
 ```
 
   </template>
+  <template v-slot:Java>
+
+```java
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+
+ArrayList<Node> nodes = new ArrayList<>();
+nodes.add(new Node("https", "typesense-1.example.net", "443"));
+nodes.add(new Node("https", "typesense-2.example.net", "443"));
+nodes.add(new Node("https", "typesense-3.example.net", "443"));
+
+Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2),"<API_KEY>");
+
+Client client = new Client(configuration);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+import Typesense
+
+var nodes: [Node] = []
+nodes.append(Node(host: "typesense-1.example.net", port: "443", nodeProtocol: "https"))
+nodes.append(Node(host: "typesense-2.example.net", port: "443", nodeProtocol: "https"))
+nodes.append(Node(host: "typesense-3.example.net", port: "443", nodeProtocol: "https"))
+
+let config = Configuration(nodes: nodes, apiKey: "<API_KEY>", connectionTimeoutSeconds: 2)
+
+let client = Client(config: config)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+export TYPESENSE_API_KEY='<API_KEY>'
+export TYPESENSE_HOST='https://typesense.example.net'
+```
+
+  </template>
 </Tabs>
+
+### When using Typesense Cloud or a Load Balancer
+
+If you use Typesense Cloud, or if you choose to set up a server-side load-balancer for convenience, you can specify the single load-balanced endpoint, instead of specifying each of the individual ones in the client libraries.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
+  <template v-slot:JavaScript>
+
+```js
+/*
+ *  Our JavaScript client library works on both the server and the browser.
+ *  When using the library on the browser, please be sure to use the
+ *  search-only API Key rather than the master API key since the latter
+ *  has write access to Typesense and you don't want to expose that.
+ */
+
+const Typesense = require('typesense')
+
+let client = new Typesense.Client({
+  'nodes': [
+    { 'host': 'clusterid.a1.typesense.net', 'port': '443', 'protocol': 'https' }
+  ],
+  'apiKey': '<API_KEY>',
+  'connectionTimeoutSeconds': 2
+})
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+use Typesense\Client;
+
+$client = new Client(
+  [
+    'nodes' => [ 
+      ['host' => 'clusterid.a1.typesense.net', 'port' => '443', 'protocol' => 'https']
+    ],
+    'api_key'         => '<API_KEY>',
+    'connection_timeout_seconds' => 2,
+  ]
+);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+import typesense
+
+client = typesense.Client({
+  'nodes': [
+    {'host': 'clusterid.a1.typesense.net', 'port': '443', 'protocol': 'https'}
+  ],
+  'api_key': '<API_KEY>',
+  'connection_timeout_seconds': 2
+})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+require 'typesense'
+
+client = Typesense::Client.new(
+  nodes: [
+    { host: 'clusterid.a1.typesense.net', port: 443, protocol: 'https' }
+  ],
+  api_key:  '<API_KEY>',
+  connection_timeout_seconds: 2
+)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+import 'package:typesense/typesense.dart';
+
+final protocol = Protocol.https;
+final config = Configuration(
+    '<API_KEY>',
+    nodes: {
+      Node(
+        protocol,
+        'clusterid.a1.typesense.net',
+      )
+    },
+    connectionTimeout: Duration(seconds: 2),
+  );
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+
+ArrayList<Node> nodes = new ArrayList<>();
+nodes.add(new Node("https", "clusterid.a1.typesense.net", "443"));
+
+Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2),"<API_KEY>");
+
+Client client = new Client(configuration);
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+import Typesense
+
+var nodes: [Node] = []
+nodes.append(Node(host: "clusterid.a1.typesense.net", port: "443", nodeProtocol: "https"))
+
+let config = Configuration(nodes: nodes, apiKey: "<API_KEY>", connectionTimeoutSeconds: 2)
+
+let client = Client(config: config)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+export TYPESENSE_API_KEY='<API_KEY>'
+export TYPESENSE_HOST='https://clusterid.a1.typesense.net'
+```
+
+  </template>
+</Tabs>
+
+Here `clusterid.a1.typesense.net` is a load-balanced endpoint. 
