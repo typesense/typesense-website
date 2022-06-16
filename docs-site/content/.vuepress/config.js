@@ -171,6 +171,7 @@ let config = {
           collapsable: false, // optional, defaults to true
           children: [
             ['/guide/high-availability', 'High Availability'],
+            ['/guide/search-delivery-network', 'Search Delivery Network'],
             ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/system-requirements', 'System Requirements'],
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
