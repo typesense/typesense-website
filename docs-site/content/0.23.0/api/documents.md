@@ -329,7 +329,7 @@ let documents = [{
   'country': 'USA'
 }]
 
-// Be sure to increase connectionTimeoutSeconds appropriately for large imports,
+// IMPORTANT: Be sure to increase connectionTimeoutSeconds to at least 5 minutes or more for imports,
 //  when instantiating the client
 
 client.collections('companies').documents().import(documents, {action: 'create'})
@@ -347,7 +347,7 @@ $documents = [[
   'country'       => 'USA'
 ]];
 
-// Be sure to increase the connection timeout in your HTTP library appropriately for large imports
+// IMPORTANT: Be sure to increase the connection timeout in your HTTP library to at least 5 minutes or more for imports
 
 $client->collections['companies']->documents->import($documents, ['action' => 'create']);
 ```
@@ -363,7 +363,7 @@ documents = [{
   'country': 'USA'
 }]
 
-# Be sure to increase connection_timeout_seconds appropriately for large imports,
+# IMPORTANT: Be sure to increase connection_timeout_seconds to at least 5 minutes or more for imports,
 #  when instantiating the client
 
 client.collections['companies'].documents.import_(documents, {'action': 'create'})
@@ -380,7 +380,7 @@ documents = [{
   'country'       => 'USA'
 }]
 
-# Be sure to increase connection_timeout_seconds appropriately for large imports,
+# IMPORTANT: Be sure to increase connection_timeout_seconds to at least 5 minutes or more for imports,
 #  when instantiating the client
 
 client.collections['companies'].documents.import(documents, action: 'create')
@@ -399,7 +399,7 @@ final documents = [
   }
 ];
 
-// Be sure to increase connectionTimeout appropriately for large imports,
+// IMPORTANT: Be sure to increase connectionTimeout to at least 5 minutes or more for imports,
 //  when instantiating the client
 
 await client.collection('companies').documents.importDocuments(documents);
@@ -423,7 +423,7 @@ documentList.add(document1);
 ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
 importDocumentsParameters.action("create");
 
-// Be sure to increase connectionTimeout appropriately for large imports,
+// IMPORTANT: Be sure to increase connectionTimeout to at least 5 minutes or more for imports,
 //  when instantiating the client
 
 client.collections("Countries").documents().import_(documentList, importDocumentsParameters);
@@ -452,7 +452,7 @@ for doc in documents {
 let jsonLString = jsonLStrings.joined(separator: "\n")
 let jsonL = Data(jsonLString.utf8)
 
-// Be sure to increase connectionTimeoutSeconds appropriately for large imports,
+// IMPORTANT: Be sure to increase connectionTimeoutSeconds to at least 5 minutes or more for imports,
 //  when instantiating the client
 
 let (data, response) = try await client.collection(name: "companies").documents().importBatch(jsonL)
