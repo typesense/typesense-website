@@ -30,6 +30,7 @@ We also have the following community-maintained client libraries:
 - [Perl](https://github.com/Ovid/Search-Typesense)
 - [Swift](https://github.com/typesense/typesense-swift)
 - [Clojure](https://github.com/runeanielsen/typesense-clj)
+- [python orm client](https://github.com/RedSnail/typesense_orm)
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>
