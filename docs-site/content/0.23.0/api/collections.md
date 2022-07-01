@@ -756,7 +756,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 Typesense supports adding or removing fields to a collection's schema in-place.
 
 :::tip
-Typesense supports alerting all fields **except** the `id` field (since it's a special field within Typesense).
+Typesense supports updating all fields **except** the `id` field (since it's a special field within Typesense).
 :::
 
 Let's see how we can add a new `company_category` field to the `companies` collection and also drop the existing
