@@ -10,12 +10,12 @@ export default {
   mounted() {
     const redirects = [
       {
-        from: `/${this.$page.typesenseVersion}/api/documents.html#search`,
-        to: `/${this.$page.typesenseVersion}/api/search.html#search`,
-      },
-      {
         from: `/${this.$page.typesenseVersion}/api/documents.html#search-parameters`,
         to: `/${this.$page.typesenseVersion}/api/search.html#search-parameters`,
+      },
+      {
+        from: `/${this.$page.typesenseVersion}/api/documents.html#search`,
+        to: `/${this.$page.typesenseVersion}/api/search.html#search`,
       },
       {
         from: `/${this.$page.typesenseVersion}/api/documents.html#query-parameters`,
