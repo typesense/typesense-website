@@ -755,6 +755,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 Typesense supports adding or removing fields to a collection's schema in-place.
 
+:::tip
+Typesense supports alerting all fields **except** the `id` field (since it's a special field within Typesense).
+:::
+
 Let's see how we can add a new `company_category` field to the `companies` collection and also drop the existing
 `num_employees` field.
 
@@ -920,12 +924,14 @@ curl "http://localhost:8108/collections/companies" \
 :::tip
 The schema update is a synchronous blocking operation. When the update is in progress, all incoming writes and reads to
 _that particular collection_ will wait for the schema update to finish.
+
+So, we recommend updating fields one at a time, especially for large collections.
 :::
 
 ### Modifying an existing field
 
 Since Typesense currently only supports adding/deleting a field, any modifications to an existing field should be 
-expressed as a drop + add operation.
+expressed as a drop + add operation. All fields **except** the `id` field can be modified.
 
 For example, to add a `facet` property to the `company_category` field, we will drop + add it in the same change set:
 
