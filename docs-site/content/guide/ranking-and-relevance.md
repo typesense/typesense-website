@@ -56,7 +56,7 @@ which will then cause those tied results to be sorted by your custom `weighted_s
 
 By default, if the search query matches a particular field value verbatim, Typesense deems that document to have the highest relevancy and prioritizes it. 
 
-However, there might be cases where this might not be desirable behavior. You can turn this off by setting `prioritize_exact_match=false` when [searching](../latest/api/documents.md#search-parameters).
+However, there might be cases where this might not be desirable behavior. You can turn this off by setting `prioritize_exact_match=false` when [searching](../latest/api/search.md#search-parameters).
 
 ### Default Ranking Order
 
@@ -79,7 +79,7 @@ sort_by=price:desc,_text_match:desc
 You can choose to pin (or hide) particular records by ID in particular ranking positions:
 
 1. Based on a search query by setting up [Overrides (aka Curation)](../latest/api/curation.md) or
-2. Dynamically using the [`pinned_hits` and `hidden_hits`](../latest/api/documents.md#search-parameters) search parameter
+2. Dynamically using the [`pinned_hits` and `hidden_hits`](../latest/api/search.md#search-parameters) search parameter
 
 For eg: if someone searches for `phone`, you could setup an override to pin a particular product that has a good deal on it in position 1. 
 
@@ -94,10 +94,10 @@ If you maintain the `Category Page -> pinned_hits` mapping in a CMS system, you 
 Typesense handles typographical errors automatically for you out-of-the-box.
 But there might be use cases where you might need to turn off typo tolerance or tweak its sensitivity (eg: part numbers, phone numbers)
 
-To turn off typo tolerance completely, set `num_typos=0` and `typo_tokens_threshold=0` when [searching](../latest/api/documents.md#search-parameters).
+To turn off typo tolerance completely, set `num_typos=0` and `typo_tokens_threshold=0` when [searching](../latest/api/search.md#search-parameters).
 
 You can also tweak typo tolerance sensitivity by setting those values to higher numbers as needed.
-To control typo tolerance based on word length, you can use the `min_len_1typo` and `min_len_2typo` [search parameters](../latest/api/documents.md#search-parameters).
+To control typo tolerance based on word length, you can use the `min_len_1typo` and `min_len_2typo` [search parameters](../latest/api/search.md#search-parameters).
 
 You can also adjust typo tolerance settings for individual fields by specifying multiple comma-separated values for `num_typos`. 
 For eg: if you have `query_by=name,phone_number,zip_code` and you don't want typo tolerance on `phone_number` or `zip_code` you can set `num_typos=2,0,0`.

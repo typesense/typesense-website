@@ -569,7 +569,7 @@ curl 'http://localhost:8108/keys/1' \
 You can generate scoped search API keys that have embedded search parameters in them. This is useful in a few different scenarios:
 
 1. You can index data from multiple users/customers in a single Typesense collection (aka multi-tenancy) and create scoped search keys with embedded `filter_by` parameters that only allow users access to their own subset of data.
-2. You can embed any [search parameters](./documents.md#arguments) (for eg: `exclude_fields` or `limit_hits`) to prevent users from being able to modify it client-side. 
+2. You can embed any [search parameters](search.md#search-parameters) (for eg: `exclude_fields` or `limit_hits`) to prevent users from being able to modify it client-side. 
 
 When you use these scoped search keys in a search API call, the parameters you embedded in them will be automatically applied by Typesense and users will not be able to override them.
 

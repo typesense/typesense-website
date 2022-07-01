@@ -225,6 +225,9 @@ let config = {
           children: [
             ['/0.23.0/api/collections', 'Collections'],
             ['/0.23.0/api/documents', 'Documents'],
+            ['/0.23.0/api/search', 'Search'],
+            ['/0.23.0/api/geosearch', 'GeoSearch'],
+            ['/0.23.0/api/federated-multi-search', 'Federated / Multi Search'],
             ['/0.23.0/api/api-keys', 'API Keys'],
             ['/0.23.0/api/curation', 'Curation'],
             ['/0.23.0/api/collection-alias', 'Collection Alias'],
