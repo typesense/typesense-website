@@ -213,6 +213,31 @@ let config = {
         },
       ],
 
+      //For 0.23.1
+      '/0.23.1/api/': [
+        ['/0.23.1/api/', 'Introduction'],
+        ['/0.23.1/api/server-configuration', 'Server Configuration'],
+        ['/0.23.1/api/api-clients', 'API Clients'],
+        ['/0.23.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.23.1/api/collections', 'Collections'],
+            ['/0.23.1/api/documents', 'Documents'],
+            ['/0.23.1/api/search', 'Search'],
+            ['/0.23.1/api/geosearch', 'GeoSearch'],
+            ['/0.23.1/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/0.23.1/api/api-keys', 'API Keys'],
+            ['/0.23.1/api/curation', 'Curation'],
+            ['/0.23.1/api/collection-alias', 'Collection Alias'],
+            ['/0.23.1/api/synonyms', 'Synonyms'],
+            ['/0.23.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.23.1/api/api-errors', 'API Errors'],
+      ],
+
       //For 0.23.0
       '/0.23.0/api/': [
         ['/0.23.0/api/', 'Introduction'],
