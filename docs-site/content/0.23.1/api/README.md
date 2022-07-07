@@ -27,6 +27,7 @@ The changelog below contains aggregates all the changes between `v0.22.2` and `v
   multiple fields in a document.
 - Infix searching: find string within strings, which is useful for entities like model number or email address.
 - Allow string fields to be sorted: sorting on string fields can be enabled by setting `sort: true` parameter of the field.
+- **[New in v0.23.1]** Support for `sort_by` parameter in override rule.
 
 ### Enhancements
 
@@ -48,9 +49,10 @@ The changelog below contains aggregates all the changes between `v0.22.2` and `v
 - Ability to hide `out_of` and `search_time_ms` from the search API response, using the `exclude_fields` parameter.
 - Ability to control typo tolerance for facet queries using `facet_query_num_typos`.
 - Ability to specify which subnet to use for peering using `--peering-subnet` server parameter.
-- **[New in v0.23.1]** Support for `sort_by` parameter in override rule.
+- **[New in v0.23.1]** Improved filtering performance, upto 5x-10x faster when querying a small subset on large datasets.
 - **[New in v0.23.1]** Allow word position in a field value to be used a ranking signal via the `prioritize_token_position` search parameter.
 - **[New in v0.23.1]** Improved stability in rotation of geographically distributed clusters having a large dataset.
+- **[New in v0.23.1]** ARM builds now work on more ARM processors (previously worked only on Graviton instances)
 
 ### Bug Fixes
 
