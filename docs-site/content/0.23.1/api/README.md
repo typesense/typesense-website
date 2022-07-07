@@ -15,7 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains new features, performance improvements and important bug fixes.
+This version `v0.23.1` fixes some important bugs in the recently released [`v0.23.0`](../../0.23.0/).
+
+The changelog below contains aggregates all the changes between `v0.22.2` and `v0.23.x`.
 
 ### New Features
 
@@ -46,6 +48,8 @@ This release contains new features, performance improvements and important bug f
 - Ability to hide `out_of` and `search_time_ms` from the search API response, using the `exclude_fields` parameter.
 - Ability to control typo tolerance for facet queries using `facet_query_num_typos`.
 - Ability to specify which subnet to use for peering using `--peering-subnet` server parameter.
+- **[New in v0.23.1]** Allow word position in a field value to be used a ranking signal via the `prioritize_token_position` search parameter.
+- **[New in v0.23.1]** Improved stability in rotation of geographically distributed clusters having a large dataset.
 
 ### Bug Fixes
 
@@ -58,6 +62,11 @@ This release contains new features, performance improvements and important bug f
 - Fixed document ids that are accepted with space char (%20) but cannot be deleted later. [#574](https://github.com/typesense/typesense/issues/574)
 - Improved highlighting of text containing punctuations. [#528](https://github.com/typesense/typesense/issues/528)
 - Fixed case sensitivity of facet fields. [#504](https://github.com/typesense/typesense/issues/504)
+- **[New in v0.23.1]** Fixed a potential crash caused by attempting to alter the `id` field.
+- **[New in v0.23.1]** Fixed synonym queries not respecting the `prefix` setting.
+- **[New in v0.23.1]** Fixed a rare bug present in exact filtering of string arrays.
+- **[New in v0.23.1]** Fixed a race condition in slow request logging that led to a crash under high concurrency.
+- **[New in v0.23.1]** Better validation of regular expression used in API key collection allow list.
 
 ### Deprecations / behavior changes
 
