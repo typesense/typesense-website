@@ -48,6 +48,7 @@ The changelog below contains aggregates all the changes between `v0.22.2` and `v
 - Ability to hide `out_of` and `search_time_ms` from the search API response, using the `exclude_fields` parameter.
 - Ability to control typo tolerance for facet queries using `facet_query_num_typos`.
 - Ability to specify which subnet to use for peering using `--peering-subnet` server parameter.
+- **[New in v0.23.1]** Support for `sort_by` parameter in override rule.
 - **[New in v0.23.1]** Allow word position in a field value to be used a ranking signal via the `prioritize_token_position` search parameter.
 - **[New in v0.23.1]** Improved stability in rotation of geographically distributed clusters having a large dataset.
 

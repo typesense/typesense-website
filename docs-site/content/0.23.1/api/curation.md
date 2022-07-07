@@ -349,6 +349,7 @@ set `remove_matched_tokens` to `false`. By default, this parameter is set to `tr
 |excludes	|no	|List of document `id`s that should be excluded from the search results.|
 |includes	|no	|List of document `id`s that should be included in the search results with their corresponding `positions`.|
 |filter_by	|no	|A filter by clause that is applied to any search query that matches the override rule.|
+|sort_by	|no	|A sort by clause that is applied to any search query that matches the override rule.|
 |remove_matched_tokens	|no	|Indicates whether search query tokens that exist in the override's rule should be removed from the search query. <br/><br/>Default: `true`.|
 |filter_curated_hits	|no	|When set to `true`, the filter conditions of the query is applied to the curated records as well. <br/><br/>Default: `false`.|
 
