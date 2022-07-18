@@ -768,8 +768,8 @@ Let's see how we can add a new `company_category` field to the `companies` colle
 ```js
 update_schema = {
   "fields":[
-    {"name":"company_category", "type":"string"},
-    {"name":"num_employees", "drop": true}
+    {"name":"num_employees", "drop": true},
+    {"name":"company_category", "type":"string"}
   ]
 }
 client.collections('companies').update(update_schema)
@@ -783,13 +783,13 @@ client.collections('companies').update(update_schema)
 $update_schema = [
   'fields'    => [
     [
-      'name'  => 'company_category',
-      'type'  => 'string'
-    ],
-    [
       'name'  => 'num_employees',
       'drop'  => true
-    ]
+    ],
+    [
+      'name'  => 'company_category',
+      'type'  => 'string'
+    ]    
   ]
 ];
 $client->collections['companies']->update($update_schema);
@@ -800,14 +800,14 @@ $client->collections['companies']->update($update_schema);
 
 ```py
 update_schema = {
-  'fields': [
-    {
-      'name'  :  'company_category',
-      'type'  :  'string'
-    },
+  'fields': [    
     {
       'name'  :  'num_employees',
       'drop'  :  True
+    },
+    {
+      'name'  :  'company_category',
+      'type'  :  'string'
     }
   ]
 }
@@ -821,13 +821,13 @@ client.collections['companies'].update(update_schema)
 update_schema = {
   'fields'    => [
     {
-      'name'  => 'company_category',
-      'type'  => 'string'
-    },
-    {
       'name'  => 'num_employees',
       'drop'  => true
-    }
+    },
+    {
+      'name'  => 'company_category',
+      'type'  => 'string'
+    }    
   ]  
 }
 client.collections['companies'].update(update_schema)
@@ -839,8 +839,8 @@ client.collections['companies'].update(update_schema)
 ```dart
 final updateSchema = UpdateSchema(
   {
-    Field('company_category', Type.string),
-    Field('num_employees', drop: true)
+    Field('num_employees', drop: true),
+    Field('company_category', Type.string)    
   }
 );
 await client.collection('companies').update(updateSchema);
@@ -851,8 +851,8 @@ await client.collection('companies').update(updateSchema);
 
 ```java
 CollectionUpdateSchema updateSchema = new CollectionUpdateSchema();
-updateSchema.addFieldsItem(new Field().name("company_category").type(FieldTypes.STRING))
-            .addFieldsItem(new Field().name("num_employees").drop(true));
+updateSchema.addFieldsItem(new Field().name("num_employees").drop(true))
+            .addFieldsItem(new Field().name("company_category").type(FieldTypes.STRING));
 client.collections("companies").update(updateSchema);
 ```
 
@@ -862,8 +862,8 @@ client.collections("companies").update(updateSchema);
 ```swift
 let updateSchema = CollectionUpdateSchema(
   fields: [
-    Field(name: "company_category", type: "string"),
-    Field(name: "num_employees", drop: true)
+    Field(name: "num_employees", drop: true),
+    Field(name: "company_category", type: "string")    
   ]
 )
 try await client.collections.update(updateSchema: updateSchema)
@@ -880,8 +880,8 @@ curl "http://localhost:8108/collections/companies" \
        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
        -d '{
          "fields": [
-           {"name": "company_category", "type": "string" },
-           {"name": "num_employees", "drop": true }
+           {"name": "num_employees", "drop": true },
+           {"name": "company_category", "type": "string" }           
          ]
        }'
 ```
@@ -898,6 +898,10 @@ curl "http://localhost:8108/collections/companies" \
 {
    "fields": [
       {
+         "drop": true,
+         "name": "num_employees"
+      },
+      {
          "name": "company_category",
          "facet": false,
          "index": true,
@@ -906,10 +910,6 @@ curl "http://localhost:8108/collections/companies" \
          "optional": false,
          "sort": false,
          "type": "string"
-      },
-      {
-         "drop": true,
-         "name": "num_employees"
       }
    ]
 }
@@ -923,10 +923,20 @@ curl "http://localhost:8108/collections/companies" \
 
 :::tip
 The schema update is a synchronous blocking operation. When the update is in progress, all incoming writes and reads to
-_that particular collection_ will wait for the schema update to finish.
-
-So, we recommend updating fields one at a time, especially for large collections.
+_that particular collection_ will wait for the schema update to finish. So, we recommend updating fields one at a time, 
+especially for large collections and during off-peak hours.
 :::
+
+The update operation consists of an initial validation step where the records on-disk are assessed to ensure 
+that they are compatible with the proposed schema change. For example, let's say there is a `string` field `A` which 
+is already present in the documents on-disk but is not part of the schema. If you try to update the collection 
+schema by adding a field `A` with type `integer`, the validation step will reject this change as it's incompatible 
+with the type of data already present.
+
+If the validation is successful, the actual schema change is done and the records are 
+indexed / re-indexed / dropped as per the requested change. The process is complete as soon as the API call 
+returns (make sure you use a large client timeout value). Because of the blocking nature of the update, we 
+recommend doing the change during off-peak hours. 
 
 ### Modifying an existing field
 
