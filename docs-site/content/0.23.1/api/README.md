@@ -53,6 +53,7 @@ The changelog below contains aggregates all the changes between `v0.22.2` and `v
 - **[New in v0.23.1]** Allow word position in a field value to be used a ranking signal via the `prioritize_token_position` search parameter.
 - **[New in v0.23.1]** Improved stability in rotation of geographically distributed clusters having a large dataset.
 - **[New in v0.23.1]** ARM builds now work on more ARM processors (previously worked only on Graviton instances)
+- **[New in v0.23.1]** Null / empty string values can be configured to be pushed to the end during sorting.
 
 ### Bug Fixes
 
