@@ -16,7 +16,7 @@
               :image-height="45"
               href="https://github.com/typesense/typesense/issues"
               target="_blank"
-              name="Github Issues"
+              name="GitHub Issues"
             ></HomeSupportOption>
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">

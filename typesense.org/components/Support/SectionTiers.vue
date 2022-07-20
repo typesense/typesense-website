@@ -33,7 +33,7 @@
                 <tr class="text-center">
                   <td class="text-right">Support Channels</td>
                   <td>
-                    Github Issues<br />
+                    GitHub Issues<br />
                     Slack Community<br />
                     Weekly Office Hours
                   </td>
