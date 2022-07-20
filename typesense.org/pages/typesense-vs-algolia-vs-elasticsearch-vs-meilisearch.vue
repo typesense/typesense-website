@@ -682,7 +682,7 @@
                 <tr>
                   <td class="font-weight-bold">Channels</td>
                   <td>
-                    Github issues<br />
+                    GitHub issues<br />
                     Email<br />
                     Public Slack Community<br />
                     Phone<br />
@@ -690,20 +690,20 @@
                     Paid Prioritized Support
                   </td>
                   <td>
-                    Github issues<br />
+                    GitHub issues<br />
                     Email<br />
                     Public Slack Community<br />
                     Phone<br />
                     Paid Prioritized Support
                   </td>
                   <td>
-                    Github issues<br />
+                    GitHub issues<br />
                     Email<br />
                     Public Slack Community<br />
                     Paid Prioritized Support
                   </td>
                   <td>
-                    Github issues<br />
+                    GitHub issues<br />
                     Email<br />
                     Public Slack Community
                   </td>

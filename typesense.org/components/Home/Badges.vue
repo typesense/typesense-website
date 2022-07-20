@@ -5,7 +5,7 @@
         <a href="https://github.com/typesense/typesense" target="_blank"
           ><img
             src="https://img.shields.io/github/stars/typesense/typesense?label=stars&style=for-the-badge&logo=github&color=020102"
-            alt="typesense/typesense on Github"
+            alt="typesense/typesense on GitHub"
             style="width: 173px; height: 36px"
             width="173"
             height="36"

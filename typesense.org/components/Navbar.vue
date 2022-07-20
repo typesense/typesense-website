@@ -56,7 +56,7 @@
               <a href="https://github.com/typesense/typesense">
                 <img
                   src="https://img.shields.io/github/stars/typesense/typesense?style=social"
-                  alt="Github Stars"
+                  alt="GitHub Stars"
                   class="d-none d-sm-block"
                   height="20"
                 />

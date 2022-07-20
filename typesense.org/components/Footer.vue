@@ -40,7 +40,7 @@
               <a
                 class="nav-link p-0"
                 href="https://github.com/typesense/typesense"
-                >Github Repo</a
+                >GitHub Repo</a
               >
             </li>
             <li class="nav-item">

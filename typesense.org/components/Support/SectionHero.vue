@@ -9,7 +9,7 @@
             We know someone <small>✋</small>
           </h1>
           <div>
-            We strive to provide good support through our Github Issue tracker.
+            We strive to provide good support through our GitHub Issue tracker.
           </div>
           <div class="mt-1">
             We also offer paid prioritized support with guaranteed SLAs,
