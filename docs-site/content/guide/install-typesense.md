@@ -25,7 +25,7 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-<pre class="language-bash"><code>brew install typesense/tap/typesense-server
+<pre class="language-bash"><code>brew install typesense/tap/typesense-server@{{ $site.themeConfig.typesenseLatestVersion }}
 </code></pre>
 
   </template>
@@ -127,9 +127,8 @@ ignore this error message , executing `apt list --installed | grep typesense` wo
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
 
-```bash
-brew services start typesense-server
-```
+<pre class="language-bash"><code>brew services start typesense-server@{{ $site.themeConfig.typesenseLatestVersion }}
+</code></pre>
 
   </template>
 </Tabs>
