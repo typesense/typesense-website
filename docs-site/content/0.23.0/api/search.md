@@ -86,9 +86,9 @@ await client.collection('companies').documents.search(searchParameters);
 ```java
 SearchParameters searchParameters = new SearchParameters()
                                         .q("stark")
-                                        .addqueryByItem("company_name")
+                                        .queryBy("company_name")
                                         .filterBy("num_employees:>100")
-                                        .addsortByItem("num_employees:desc");
+                                        .sortBy("num_employees:desc");
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```
 
@@ -452,10 +452,10 @@ await client.collection('companies').documents.search(searchParameters);
 ```java
 SearchParameters searchParameters = new SearchParameters()
                                         .q("stark")
-                                        .addqueryByItem("company_name")
+                                        .queryBy("company_name")
                                         .filterBy("num_employees:>100")
-                                        .addsortByItem("num_employees:desc")
-                                        .addgroupByItem("country")
+                                        .sortBy("num_employees:desc")
+                                        .groupBy("country")
                                         .groupLimit(1);
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```

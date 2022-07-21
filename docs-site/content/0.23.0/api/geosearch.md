@@ -359,9 +359,9 @@ client.collections('companies').documents().search(searchParameters)
 ```java
 SearchParameters searchParameters = new SearchParameters()
                                         .q("*")
-                                        .addQueryByItem("title")
+                                        .queryBy("title")
                                         .filterBy("location:(48.90615915923891, 2.3435897727061175, 5.1 km)")
-                                        .addSortByItem("location(48.853, 2.344):asc");
+                                        .sortBy("location(48.853, 2.344):asc");
 SearchResult searchResult = client.collections("places").documents().search(searchParameters);
 ```
 

@@ -1369,9 +1369,7 @@ await client.collection('companies').documents.exportJSONL();
 
 ```java
 ExportDocumentsParameters exportDocumentsParameters = new ExportDocumentsParameters();
-exportDocumentsParameters.addExcludeFieldsItem("id");
-exportDocumentsParameters.addIncludeFieldsItem("publication_year");
-exportDocumentsParameters.addIncludeFieldsItem("authors");
+exportDocumentsParameters.setIncludeFields("id,publication_year,authors");
 client.collections("companies").documents().export(exportDocumentsParameters);
 ```
 
