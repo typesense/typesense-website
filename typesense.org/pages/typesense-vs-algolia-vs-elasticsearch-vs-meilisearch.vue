@@ -660,7 +660,7 @@
                   <td>No limitation</td>
                   <td>5000</td>
                   <td>No limitation</td>
-                  <td>2</td>
+                  <td>No limitation</td>
                 </tr>
               </tbody>
             </table>
