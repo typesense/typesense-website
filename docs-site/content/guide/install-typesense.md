@@ -184,7 +184,7 @@ sudo systemctl status typesense-server.service
   </template>
 </Tabs>
 
-- The config file is at `/etc/typesense/typesense.ini`
+- The config file is at `/etc/typesense/typesense-server.ini`
   - The admin API key is auto-generated and can be found inside the config file. 
 - Logs are under `/var/log/typesense/`
 - Data dir is under `/var/lib/typesense/`
