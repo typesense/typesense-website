@@ -195,7 +195,48 @@ Then add a key called `typesenseDocsearch` to your `.vuepress/config.js` file wi
 Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/eb0a1915de76d0b0d4c0b4b0d06ce10f6989388c/docs-site/docsearch.config.js) we use for Typesense's own Vuepress-powered documentation site.
 :::
 
-### Option C: Custom Docs Framework
+### Option C: Custom Docs Framework with DocSearch.js v3 (modal layout)
+
+Add the Following DocSearch.JS Snippet to all your Documentation Pages:
+
+```html
+<!-- Somwhere in your doc site's navigation -->
+<div id="searchbar">
+
+<!-- Before the closing head -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
+/>
+
+<!-- Before the closing body -->
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.0.0-3"></script>
+
+<script>
+  docsearch({
+    container: '#searchbar',
+    typesenseCollectionName: 'docs', // Should match the collection name you mention in the docsearch scraper config.js
+    typesenseServerConfig: { 
+      nodes: [{
+        host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+        port: '8108',      // For Typesense Cloud use 443
+        protocol: 'http'   // For Typesense Cloud use https
+      }],
+      apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
+    },
+    typesenseSearchParams: { // Optional.
+      filter_by: 'version:=0.21.0' // Useful when you have versioned docs
+    },
+  });
+</script>
+```
+
+#### Reference:
+- Read the [Authentication Section](../latest/api/authentication.md) for all possible options under the `typesenseServerConfig` key.
+- Read the [Search Parameters Section](../latest/api/search.md#search-parameters) for all possible options under the `typesenseSearchParams` key.
+- Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/api) for information about additional options.
+
+### Option D: Custom Docs Framework with DocSearch.js v2 (Dropdown layout)
 
 Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
@@ -234,7 +275,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 #### Reference:
 - Read the [Authentication Section](../latest/api/authentication.md) for all possible options under the `typesenseServerConfig` key.
 - Read the [Search Parameters Section](../latest/api/search.md#search-parameters) for all possible options under the `typesenseSearchParams` key.
-- Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/behavior#handleselected) for information about additional options.
+- Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/legacy/dropdown) for information about additional options.
 
 #### Styling 
 
@@ -270,8 +311,8 @@ You can override the following styles as needed:
 }
 ```
 
+Notice that you still need to use `.algolia-autocomplete` class names since we use [autocomplete.js](https://github.com/algolia/autocomplete) unmodified, but for docsearch classnames the class names are `.typesense-docsearch-*` since this is a modified version of DocSearch.js.
+
 :::tip Debugging CSS
 In order to inspect and debug your CSS without having the searchbar close when you click on the devtool panels, you can initialize the docsearch library with the ``debug: true`` option!
 :::
-
-Notice that you still need to use `.algolia-autocomplete` class names since we use [autocomplete.js](https://github.com/algolia/autocomplete) unmodified, but for docsearch classnames the class names are `.typesense-docsearch-*` since this is a modified version of DocSearch.js.
