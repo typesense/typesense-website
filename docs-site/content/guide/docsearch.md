@@ -224,7 +224,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
       }],
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
-    typesenseSearchParams: { // Optional.
+    typesenseSearchParameters: { // Optional.
       filter_by: 'version:=0.21.0' // Useful when you have versioned docs
     },
   });
@@ -233,7 +233,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 #### Reference:
 - Read the [Authentication Section](../latest/api/authentication.md) for all possible options under the `typesenseServerConfig` key.
-- Read the [Search Parameters Section](../latest/api/search.md#search-parameters) for all possible options under the `typesenseSearchParams` key.
+- Read the [Search Parameters Section](../latest/api/search.md#search-parameters) for all possible options under the `typesenseSearchParameters` key.
 - Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/api) for information about additional options.
 
 ### Option D: Custom Docs Framework with DocSearch.js v2 (Dropdown layout)
