@@ -247,11 +247,11 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 <!-- Before the closing head -->
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@latest/dist/cdn/docsearch.min.css"
+  href="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@1/dist/cdn/docsearch.min.css"
 />
 
 <!-- Before the closing body -->
-<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@latest/dist/cdn/docsearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@1/dist/cdn/docsearch.min.js"></script>
 
 <script>
   docsearch({
