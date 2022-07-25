@@ -206,11 +206,11 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 <!-- Before the closing head -->
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
+  href="https://cdn.jsdelivr.net/npm/typesense-docsearch-css@0.3.0"
 />
 
 <!-- Before the closing body -->
-<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.0.0-3"></script>
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.0.1"></script>
 
 <script>
   docsearch({
