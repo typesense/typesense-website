@@ -925,6 +925,8 @@ curl "http://localhost:8108/collections/companies" \
 The schema update is a synchronous blocking operation. When the update is in progress, all incoming writes and reads to
 _that particular collection_ will wait for the schema update to finish. So, we recommend updating fields one at a time, 
 especially for large collections and during off-peak hours.
+
+Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 :::
 
 The update operation consists of an initial validation step where the records on-disk are assessed to ensure 
@@ -937,6 +939,7 @@ If the validation is successful, the actual schema change is done and the record
 indexed / re-indexed / dropped as per the requested change. The process is complete as soon as the API call 
 returns (make sure you use a large client timeout value). Because of the blocking nature of the update, we 
 recommend doing the change during off-peak hours. 
+Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 
 ### Modifying an existing field
 
@@ -960,7 +963,7 @@ curl "http://localhost:8108/collections/companies" \
 
 ### Using an alias
 
-If your documents are static or updated infrequently, you could also re-create the collection fully and use 
+If you need to do zero-downtime schema changes, you could also re-create the collection fully and use 
 the [Collection Alias](./collection-alias.md) feature to do a zero-downtime switch over to the new collection:
 
 1. [Create your collection](#create-a-collection) as usual with a timestamped name. For eg: `movies_jan_1`
