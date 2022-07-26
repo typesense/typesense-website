@@ -11,7 +11,7 @@ A cluster can have one or more collections, and a collection can have many docum
 For eg, say you have CRM system that stores details of people and companies. 
 To store this data in Typesense, you would create:
 
-- a collection called `people` that stores individual documents containing information about individuals (eg: attributes like `name`, `title`, `company_name`, etc) 
+- a collection called `people` that stores individual documents containing information about people (eg: attributes like `name`, `title`, `company_name`, etc) 
 - a collection called `companies` that stores individual documents containing information about companies (eg: attributes like `name`, `location`, `num_employees`, etc).
 
 Here's a visual representation of this hierarchy:
@@ -37,7 +37,7 @@ A user can have multiple accounts (for eg, when you're part of multiple teams), 
 In general, we recommend that you create one collection per type of document / record you have. 
 It might help to think of a collection as being similar to a table in a relational database.
 
-So for eg, if you have an ecommerce store and you want users to search on products and blog articles, 
+So for eg, if you have an ecommerce store, and you want users to search on products and blog articles, 
 you would create two collections:
 
 - `products` collection to store all product records
@@ -59,9 +59,9 @@ The tradeoff is that you now have to manage API keys and collections on multiple
 **Approach 2:** You can use one cluster, but create separate suffixed collections.
 For eg: `collectionx_production`, `collectionx_staging`, etc.
 You can then create separate API keys for each environment and isolate access.
-Now, if you mirror your entire production data in staging, this approach will get more expensive because if you have High Availability turned ON for your single cluster, you'll be paying for more RAM for both staging and production.
+Now, if you mirror your entire production data in staging, this approach will get more expensive because if you have High Availability turned ON for your single cluster, you'll be paying for more RAM for both staging and production data.
 Whereas with Approach 1, you can turn off HA on your staging cluster and save costs.
-But if you only have a tiny subset of your data in staging, then Approach 2 would be more economical.
+But if you only have a small subset of your data in staging, then Approach 2 would be more economical.
 
 ## Multi-tenant Applications
 
@@ -76,12 +76,13 @@ Effectively, each user can only search / access their own data within the larger
 
 Typesense has been tested and used with 100s of millions of documents per collection (so far, as reported by users). 
 
-However, as the number of documents in a collection increases and/or the complexity of filtering increases, search response times tend to be correlated to the size of the collection.
-This is very similar to the size of tables in a relational database affecting query processing times at scale.
+However, as the number of documents in a collection increases and/or the complexity of filtering increases, search response times tend to be correlated with the size of the collection.
+This is very similar to how the size of tables in a relational database affect query processing times at scale.
 
-If you happen to notice any write / read performance issues at scale, 
+If you happen to notice any write / read performance issues at scale in Typesense, 
 a good way to improve performance is by sharding the single collection into multiple collections using an attribute like `user_id`, `created_at`, `country`, etc. 
 So for eg, you could create collections like `users_usa`, `users_canada`, `users_uk` and place users in each of those countries in separate collections.
+Or you could create collections like `users_1`, `users_2`, ... `users_n` and place all users with user_id of `user_id mod n` in the respective collection.   
 
 Another use case is in a [multi-tenant application](#multi-tenant-applications) - if there is one particular user whose data is sufficiently large,
 you could move just that user's data into a new collection, while leaving all other users' data in the main collection.
