@@ -174,6 +174,7 @@ let config = {
             ['/guide/search-delivery-network', 'Search Delivery Network'],
             ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/system-requirements', 'System Requirements'],
+            ['/guide/organizing-collections', 'Organizing Collections'],
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
             ['/guide/running-in-production', 'Running in Production'],
           ],
