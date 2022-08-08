@@ -134,6 +134,7 @@ ignore this error message , executing `apt list --installed | grep typesense` wo
 </Tabs>
 
 For macOS running on Intel:
+- The default API key is `xyz` and the default port is `8108`
 - The config file is at `/usr/local/etc/typesense/typesense.ini`
 - Logs are under `/usr/local/var/log/typesense/`
 - Data dir is under `/usr/local/var/lib/typesense/`
