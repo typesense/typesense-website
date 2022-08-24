@@ -312,7 +312,7 @@ sorting is allowed on the `email` string field.
   "name": "users",
   "fields": [
     {"name": "name", "type": "string" },
-    {"name": "email", "type": "int32", "sort": true }
+    {"name": "email", "type": "string", "sort": true }
   ]
 }
 ```
