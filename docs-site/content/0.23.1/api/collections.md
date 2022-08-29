@@ -19,6 +19,12 @@ It might help to think of defining a collection "schema" as being similar to def
 This ensures that the documents you add to your collection have consistent data types and are validated, and this helps prevent a whole class of errors you might typically see with mis-matched or inconsistent data types across documents.
 :::
 
+:::tip Organizing Collections
+
+Read more on how to organize data into collections in this dedicated guide article: [Organizing Collections](/guide/organizing-collections.md).
+
+:::
+
 There are two ways to specify a schema:
 
 1. [Pre-define all the fields to be indexed](#with-pre-defined-schema) from your documents OR
