@@ -29,6 +29,8 @@ Most of the server infrastructure related items are not applicable to Typesense 
   - Make sure that you have configured your API clients to use all nodes in your cluster.
   - If you're using the [Search Delivery Network](./system-requirements.md#choosing-search-delivery-network-sdn) (SDN) option in [Typesense Cloud](https://cloud.typesense.org), make sure that you have [configured the clients](../latest/api/authentication.md#search-delivery-network) appropriately to use the SDN endpoint.
 - Configure a minimal amount of swap space for safety reasons, but if you see swap being used, that will start affecting performance and is a sure sign that you'd need to upgrade RAM capacity.
+- If you're integrating Typesense with a mobile app, we highly recommend that you store the Typesense hostnames and API Key(s) on your backend, and have your app dynamically fetch the remote configs on load, instead of hard-coding these in the app. 
+  This is helpful if you need to change the hostnames / API keys for any reason. With remote configs, you can change these values without having to go through a round of app store review processes.  
 
 ### Monitoring
 
