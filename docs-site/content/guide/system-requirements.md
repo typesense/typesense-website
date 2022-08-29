@@ -70,3 +70,5 @@ You are given an SDN endpoint and queries sent to this endpoint will automatical
 If your users are geographically distributed across countries (or even across states in the case of the US, where we have multiple data center options in different cities),
 and you make calls out to Typesense from your website/app directly, then choosing an SDN configuration will ensure that your users get **consistent ultra-low-latency searches regardless of their location**,
 since the SDN endpoint automatically routes each search query to the data center that's closest to your user.
+
+Read more about Search Delivery Network [here](typesense-cloud/search-delivery-network.md).

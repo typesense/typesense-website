@@ -63,6 +63,10 @@ export default {
         to: `/guide/ranking-and-relevance.html`,
       },
       {
+        from: `/guide/search-delivery-network.html`,
+        to: `/guide/typesense-cloud/search-delivery-network.html`,
+      },
+      {
         from: `/guide/#high-availability`,
         to: `/guide/high-availability.html`,
       },
