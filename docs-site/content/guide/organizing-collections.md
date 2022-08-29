@@ -68,7 +68,7 @@ But if you only have a small subset of your data in staging, then Approach 2 wou
 Let's say you have a social media app, and you want to restrict users to only search through their own friends' names. 
 
 You can store all users in a single collection called say `users` in Typesense, along with an array attribute in each user document called say `friends_with_user_ids`.
-You can then generate individual <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/keys.html#generate-scoped-search-key`">Scoped Search API Keys</RouterLink> for each user and restrict that key to only be able to access records that have this user's ID in the `friends_with_user_ids` attribute.
+You can then generate individual <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">Scoped Search API Keys</RouterLink> for each user and restrict that key to only be able to access records that have this user's ID in the `friends_with_user_ids` attribute.
 
 Effectively, each user can only search / access their own data within the larger collection that stores all user records. 
 
