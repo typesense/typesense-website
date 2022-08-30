@@ -1,6 +1,6 @@
 # Team Accounts in Typesense Cloud
 
-In Typesense Cloud, we have a way to share access to clusters with members of your team. 
+In Typesense Cloud, you can share access to your clusters with members of your team (without having to distribute API keys to each user). 
 
 We create "teams" in Typesense for each GitHub organization you're a part of. 
 This is automatically done when you login the first time (if you had authorized access to your GitHub orgs).
