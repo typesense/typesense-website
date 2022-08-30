@@ -80,8 +80,22 @@ This will scrape your documentation site and index it into Typesense.
 
 ::: tip
 The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substituting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d)).
+:::
 
-You can also run it on every deployment using AWS Fargate, Google Cloud Run, etc. 
+::: tip Running the Scraper in Production
+
+The docsearch-scraper Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
+
+- GitHub Actions
+- CircleCI
+- AWS Fargate
+- Google Cloud Run
+- Heroku
+- Render
+
+and many more.
+
+You can run the container on-demand any time you need to re-crawl your site and refresh your search index.
 :::
 
 ## Step 2: Add a Search Bar to your Documentation Site 
