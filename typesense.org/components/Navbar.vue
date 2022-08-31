@@ -4,15 +4,24 @@
       class="py-2 text-center bg-frosted-glass"
       :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
     >
-      Check out Typesense's
+      Check out Typesense's recent mention
+      <br class="d-block d-sm-none" />
+      during the
       <a
         href="https://youtu.be/qBkyU1TJKDg?t=2399"
         target="_blank"
         class="text-primary"
-        >recent mention</a
+        >Google I/O Developer Keynote</a
       >
-      <br class="d-block d-sm-none" />
-      during the Google I/O Developer Keynote!
+      <br />
+      and <span class="d-none d-sm-inline">appearance</span> on the iconic
+      <a
+        href="https://twitter.com/typesense/status/1565077234624462850?s=20&t=nDZx9xWjW7sAVV73hUQJUQ"
+        target="_blank"
+        class="text-primary"
+        >Nasdaq billboard</a
+      >
+      in Times Square!
     </div>
     <nav
       class="navbar navbar-expand-lg py-4"
