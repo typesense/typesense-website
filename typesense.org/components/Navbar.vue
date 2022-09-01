@@ -16,7 +16,7 @@
       <br />
       and <span class="d-none d-sm-inline">appearance</span> on the iconic
       <a
-        href="https://twitter.com/typesense/status/1565077234624462850?s=20&t=nDZx9xWjW7sAVV73hUQJUQ"
+        href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
         target="_blank"
         class="text-primary"
         >Nasdaq billboard</a
