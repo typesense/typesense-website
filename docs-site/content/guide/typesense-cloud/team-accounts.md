@@ -2,7 +2,9 @@
 
 In Typesense Cloud, you can share access to your clusters with members of your team. 
 
-We create "teams" in Typesense for each GitHub organization you're a part of. 
+## Using GitHub-based Auth
+
+When you sign up with GitHub, we create "teams" in Typesense for each GitHub organization you're a part of. 
 This is automatically done when you log in the first time (if you had authorized access to your GitHub orgs).
 
 Once you're logged in, you'll see an account switcher on the top right with your username. 
@@ -25,3 +27,14 @@ If you do not have a GitHub organization, you can create one for free (even if i
 
 Click on "Create a free organization" on the left pane, and then invite your other team members to this Github organization.
 :::
+
+## Using Email/Password-based Auth
+
+When you sign up for Typesense Cloud with your email address and a password, you'll see the option to create a team account when you click on your email address on the top right of the screen.
+
+This will open up the account switcher, and when you click on "+ New Team", you'll be able to create a new team and send out email invitations to other members of your team.
+
+Clusters that you create under your team account are then shared with all members of your team. 
+
+By default, all members of your team have Administrator access.
+But you can [customize access roles and permissions](./role-based-access-control-admin-dashboard.md) for each user from your team's account page.

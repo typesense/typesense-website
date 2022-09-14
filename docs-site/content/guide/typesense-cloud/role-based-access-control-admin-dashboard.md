@@ -21,4 +21,4 @@ Here are the roles available and their corresponding permissions:
 | Curator         | Only has access to the following sections of the cluster dashboard: Search, Synonyms and Curation                                 |
 | Billing Manager | Only has access to account billing management areas                                                                               |
 
-By default new team members are assigned the Administrator role, but you can change this default setting to a different role(s) from your team account page. 
+By default, new team members are assigned the Administrator role, but you can change this default setting to a different role(s) from your team account page. 
