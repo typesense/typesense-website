@@ -216,6 +216,20 @@ let config = {
         },
       ],
 
+      '/cloud-management-api/v1/': [
+        ['/cloud-management-api/v1/', 'Overview'],
+        ['/cloud-management-api/v1/authentication', 'Authentication'],
+        ['/cloud-management-api/v1/error-codes', 'Error Codes'],
+        ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/cluster-management', 'Cluster Management']
+          ],
+        },
+      ],
+
       //For 0.23.1
       '/0.23.1/api/': [
         ['/0.23.1/api/', 'Introduction'],
