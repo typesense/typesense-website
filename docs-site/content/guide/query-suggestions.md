@@ -4,12 +4,12 @@ When you start typing a search term into say Google or Amazon,
 you might have seen a drop-down showing you suggestions for queries to try:
 
 <figure>
-<img src="~@images/query-suggestions/query-suggestions-google.png" alt="Sarch Suggestions on Google" height="300">
+<img src="~@images/query-suggestions/query-suggestions-google.png" alt="Search Suggestions on Google" height="300">
 <figcaption>Search Suggestions on Google</figcaption>
 </figure>
 <br>
 <figure>
-<img src="~@images/query-suggestions/query-suggestions-amazon.png" alt="arch Suggestions on Amazon" height="240">
+<img src="~@images/query-suggestions/query-suggestions-amazon.png" alt="Search Suggestions on Amazon" height="240">
 <figcaption>Search Suggestions on Amazon</figcaption>
 </figure>
 <br>
