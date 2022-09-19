@@ -4,6 +4,19 @@ This section talks about how to use the [Typesense Cloud **Cluster Management AP
 
 If you're looking for the Typesense Server API docs, see [here](/api).
 
+## Workflow
+
+Here's a typical sequence of API Calls you'd perform when using this API:
+
+1. [Create a new cluster](#create-new-cluster) (which is an asynchronous process that will take 4 - 5 minutes).
+2. Poll the [single cluster info endpoint](#get-single-cluster) to get the status of the cluster.
+3. Once the cluster has `status: in_status`, save the `hostnames` field returned by the cluster info endpoint.
+4. [Generate Typesense API keys](#generate-api-key) for the cluster and store these keys in a secrets store on your side.
+5. Now, you can make [Typesense API calls](/api) directly to your new cluster using the hostnames in Step 3 and API Keys in Step 4.
+6. Once you're done with the cluster, you can terminate it using the [lifecycle](#terminate-cluster) endpoint.
+
+The rest of this document will talk about the individual endpoints.
+
 ## Create new cluster
 
 This endpoint lets you provision a new cluster under your Typesense Cloud account.
@@ -240,33 +253,45 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 
 ```json
 {
-  "id": "az9p28gwxfdsye40d",
+  "id": "nuj9s7k6vplrg15yp",
   "name": null,
   "memory": "0.5_gb",
   "vcpu": "2_vcpus_1_hr_burst_per_day",
   "high_performance_disk": "no",
   "typesense_server_version": "0.23.1",
-  "high_availability": "no",
+  "high_availability": "yes",
   "search_delivery_network": "off",
-  "load_balancing": "no",
-  "regions": ["oregon"],
-  "auto_upgrade_capacity": false,
+  "load_balancing": "yes",
+  "regions": [
+    "mumbai",
+    "mumbai",
+    "mumbai"
+  ],
+  "auto_upgrade_capacity": null,
+  "hostnames": {
+    "load_balanced": "94m7u0neqigpb65dp.a1.typesense.net",
+    "nodes": [
+      "94m7u0neqigpb65dp-1.a1.typesense.net",
+      "94m7u0neqigpb65dp-2.a1.typesense.net",
+      "94m7u0neqigpb65dp-3.a1.typesense.net"
+    ]
+  },
   "usage": {
-    "runtime_hours": 5643,
+    "runtime_hours": 1,
     "used_bandwidth_kb": {
       "last_7_days": {}
     }
   },
   "provisioned_by": {
-    "user_name": "John Doe",
-    "user_type": "User"
+    "user_name": "API Key: sc4DyvAzf*****",
+    "user_type": "API Key"
   },
-  "provisioned_at": 1663382520,
+  "provisioned_at": 1663616196,
   "status": "in_service"
 }
 ```
 
-# List all clusters
+## List all clusters
 
 This endpoint can be used to list all clusters under this account.
 
@@ -309,7 +334,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
         "user_type": "User"
       },
       "provisioned_at": 1663382520,
-      "status": "in_service"
+      "status": "initializing"
     }
   ]
 }
