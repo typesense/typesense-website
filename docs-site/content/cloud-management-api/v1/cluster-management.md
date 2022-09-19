@@ -269,11 +269,11 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
   ],
   "auto_upgrade_capacity": null,
   "hostnames": {
-    "load_balanced": "94m7u0neqigpb65dp.a1.typesense.net",
+    "load_balanced": "nuj9s7k6vplrg15yp.a1.typesense.net",
     "nodes": [
-      "94m7u0neqigpb65dp-1.a1.typesense.net",
-      "94m7u0neqigpb65dp-2.a1.typesense.net",
-      "94m7u0neqigpb65dp-3.a1.typesense.net"
+      "nuj9s7k6vplrg15yp-1.a1.typesense.net",
+      "nuj9s7k6vplrg15yp-2.a1.typesense.net",
+      "nuj9s7k6vplrg15yp-3.a1.typesense.net"
     ]
   },
   "usage": {
