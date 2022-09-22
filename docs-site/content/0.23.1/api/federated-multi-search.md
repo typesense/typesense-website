@@ -281,10 +281,17 @@ You can use any of the [Search Parameters here](./search.md#search-parameters) f
 
 In addition, you can use the following parameters with `multi_search` requests:
 
-| Parameter             | Required | Description                                                                                                                                                                                                                                                                                                  |
-|-----------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| limit_multi_searches	 | no	      | Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: `50`<br><br>You'd typically want to generate a scoped API key with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time. |
+| Parameter            | Required | Description                                                                                                                                                                                                                                                                                                                                   |
+|----------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| limit_multi_searches | no	      | Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: `50`<br><br>You want to generate a [scoped API key](./api-keys.md##generate-scoped-search-key) with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time. |
+| x-typesense-api-key  | no	      | You can embed a separate search API key for each search within a multi_search request. <br><br> This is useful when you want to apply different embedded filters for each collection in individual [scoped API keys](./api-keys.md##generate-scoped-search-key).                                                                              |
 
 ::: tip
 The `results` array in a `multi_search` response is guaranteed to be in the same order as the queries you send in the `searches` array in your request.
 :::
+
+## Example UI Implementation
+
+Here's a demo Frontend app that shows you how to implement a Federated Search UI: [federated-search.typesense.org](https://federated-search.typesense.org/).
+
+Here's the source code for it: [https://github.com/typesense/showcase-federated-search/blob/master/src/app.js](https://github.com/typesense/showcase-federated-search/blob/master/src/app.js)
