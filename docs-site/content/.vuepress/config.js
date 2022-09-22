@@ -112,7 +112,7 @@ let config = {
     // Add any non-versioned pages below
     nav: [
       { text: 'Help', link: '/help' },
-      { text: 'Roadmap', link: 'https://github.com/typesense/typesense/projects/2' },
+      { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
     ],
     repo: 'typesense/typesense',
     smoothScroll: false, // We're handling this custom using the typesense-enhancements plugin

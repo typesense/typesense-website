@@ -132,6 +132,11 @@ export default {
           link: '/downloads/',
         },
         {
+          text: 'Roadmap',
+          externalLink: 'https://github.com/orgs/typesense/projects/1',
+          target: '_blank',
+        },
+        {
           text: 'Hosted Search',
           externalLink: 'https://cloud.typesense.org',
           target: '_blank',
