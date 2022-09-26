@@ -362,7 +362,9 @@ float field and we cannot differentiate between a lat/long definition and an act
 
 #### Indexing all but some fields
 
-If you have a case where you do want to index all fields in the document, except for a few fields, you can use the `index: false` setting to exclude fields.
+If you have a case where you do want to index all fields in the document, except for a few fields, you can use the `{"index": false, "optional": true}` settings to exclude fields.
+
+Note: it is not currently possible to have a mandatory field excluded from the indexing, hence the setting to optional.
 
 For eg, if you want to index all fields, except for fields that start with `description_`, you can use a schema like this:
 
@@ -375,7 +377,7 @@ For eg, if you want to index all fields, except for fields that start with `desc
   "fields": [
     {"name": ".*", "type": "auto" },
     {"name": ".*_facet", "type": "auto", "facet": true },
-    {"name": "description_.*", "type": "auto", "index": false },
+    {"name": "description_.*", "type": "auto", "index": false, "optional": true },
     {"name": "country", "type": "string", "facet": true }
   ]
 }
