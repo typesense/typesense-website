@@ -92,10 +92,10 @@ you could move just that user's data into a new collection, while leaving all ot
 
 There are a couple of scenarios were multiple clusters could be beneficial:
 
-**Multiple Environments**: Read more [above](#handling-dev--staging--prod-environments)
+**Multiple Environments**: Read more [above](#handling-dev-staging-prod-environments)
 
 **Multi-tenant Applications**: In a [multi-tenant environment](#multi-tenant-applications), 
-you could a particular user's data into a completely separate / independent Typesense cluster 
+you could place a particular user's data into a completely independent Typesense cluster 
 for performance reasons or compliance reasons or both as needed. 
 
 **Based on Use-Case**: Let's say you have an application that has multiple search experiences: 
