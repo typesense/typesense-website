@@ -877,8 +877,10 @@ let (data, response) = try await client.collection(name: "companies").documents(
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
-"http://localhost:8108/collections/companies/documents/import?action=create"
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -X POST \
+      -T documents.jsonl \
+      "http://localhost:8108/collections/companies/documents/import?action=create"
 
 ```
 
