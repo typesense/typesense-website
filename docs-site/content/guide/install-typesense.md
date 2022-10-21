@@ -153,8 +153,8 @@ If you downloaded the pre-built binary for Mac / Linux, you can start Typesense 
 
 ```bash
 export TYPESENSE_API_KEY=xyz
-mkdir /tmp/typesense-data
-./typesense-server --data-dir=/tmp/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
+mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in production
+./typesense-server --data-dir=$(pwd)/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
 ```
 
   </template>
@@ -168,9 +168,9 @@ If you want to use Docker, you can run Typesense like this:
 
 <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
 
-mkdir /tmp/typesense-data
+mkdir $(pwd)/typesense-data
 
-docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+docker run -p 8108:8108 -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
   --data-dir /data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
 
   </template>

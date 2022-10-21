@@ -68,8 +68,8 @@ The configuration file uses a simple INI format:
 [server]
 
 api-key = Rhsdhas2asasdasj2
-data-dir = /tmp/ts
-log-dir = /tmp/logs
+data-dir = /var/lib/typesense
+log-dir = /var/log/typesense
 api-port = 9090
 ```
   </template>
@@ -85,7 +85,7 @@ For example, use `TYPESENSE_DATA_DIR` for the `--data-dir` argument.
   <template v-slot:Shell>
 
 ```bash
-TYPESENSE_DATA_DIR=/tmp/ts TYPESENSE_API_KEY=AS3das2awQ2 ./typesense-server
+TYPESENSE_DATA_DIR=/var/lib/typesense TYPESENSE_API_KEY=AS3das2awQ2 ./typesense-server
 ```
   </template>
 </Tabs>

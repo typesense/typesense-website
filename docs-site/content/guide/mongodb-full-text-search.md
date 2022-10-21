@@ -19,7 +19,7 @@ Here's how to set it up:
 
 To install and start Typesense using docker run the following Docker command:
 
-<pre><code class="language-bash">docker run -p 8108:8108 -v/tmp/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+<pre><code class="language-bash">docker run -p 8108:8108 -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
   --data-dir /data --api-key=$TYPESENSE_API_KEY</code></pre>
 
 Now, we can check if our Typesense server is ready to accept requests.

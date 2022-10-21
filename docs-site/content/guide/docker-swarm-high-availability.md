@@ -136,7 +136,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   ```shell
   # Create data folder
   #   This command is identical on all docker nodes
-  mkdir /tmp/typesense-data-1/ &&  mkdir /tmp/typesense-data-2/ && mkdir /tmp/typesense-data-3/
+  mkdir /var/lib/typesense-data-1/ &&  mkdir /var/lib/typesense-data-2/ && mkdir /var/lib/typesense-data-3/
    ```
   
     </template>
@@ -145,7 +145,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
    ```shell
    # Create data folder
    #   This command is identical on all docker nodes
-   mkdir /tmp/typesense-data-1/ &&  mkdir /tmp/typesense-data-2/ && mkdir /tmp/typesense-data-3/
+   mkdir /var/lib/typesense-data-1/ &&  mkdir /var/lib/typesense-data-2/ && mkdir /var/lib/typesense-data-3/
    ```
   
     </template>
@@ -154,7 +154,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
   ```shell
   # Create data folder
   #   This command is identical on all docker nodes
-   mkdir /tmp/typesense-data-1/ &&  mkdir /tmp/typesense-data-2/ && mkdir /tmp/typesense-data-3/
+   mkdir /var/lib/typesense-data-1/ &&  mkdir /var/lib/typesense-data-2/ && mkdir /var/lib/typesense-data-3/
   ```
   
     </template>
@@ -186,7 +186,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
       image: typesense/typesense:0.23.0
       hostname: typesense-1
       volumes:
-        - /tmp/typesense-data-1/:/data
+        - /var/lib/typesense-data-1/:/data
         - ./nodes:/nodes
       ports:
         - 7108:7108
@@ -206,7 +206,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
       image: typesense/typesense:0.23.0
       hostname: typesense-2
       volumes:
-        - /tmp/typesense-data-2/:/data
+        - /var/lib/typesense-data-2/:/data
         - ./nodes:/nodes
       ports:
         - 8108:8108
@@ -226,7 +226,7 @@ To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](http
       image: typesense/typesense:0.23.0
       hostname: typesense-3
       volumes:
-        - /tmp/typesense-data-3/:/data
+        - /var/lib/typesense-data-3/:/data
         - ./nodes:/nodes
       ports:
         - 9108:9108
