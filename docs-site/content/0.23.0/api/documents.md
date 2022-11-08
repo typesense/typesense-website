@@ -902,7 +902,7 @@ Once you have the JSONL file, you can then import it following the [instructions
 If you have a CSV file with column headers, you can convert it into JSONL format using [`mlr`](https://github.com/johnkerl/miller):
 
 ```shell
-mlr --c2j cat documents.csv > documents.jsonl
+mlr --icsv --ojsonl cat documents.csv > documents.jsonl
 ```
 
 Once you have the JSONL file, you can then import it following the [instructions above](#import-a-jsonl-file) to import a JSONL file.
