@@ -8,7 +8,7 @@
       <br class="d-block d-sm-none" />
       during the
       <a
-        href="https://youtu.be/qBkyU1TJKDg?t=2399"
+        href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
         target="_blank"
         class="text-primary"
         >Google I/O Developer Keynote</a

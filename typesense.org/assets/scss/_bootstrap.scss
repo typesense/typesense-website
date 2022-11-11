@@ -50,6 +50,10 @@ body {
   background: linear-gradient(#000000 0%, darken($secondary-dark-2, 10%) 70%, $secondary-dark-2 100%);
 }
 
+.bg-light-2 {
+  background-color: $primary-light-1 !important;
+}
+
 // Source: https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in-css--cms-32535
 .bg-frosted-glass {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
@@ -88,6 +92,10 @@ body {
   background: linear-gradient(270deg, $secondary 40%, darken($secondary, 30%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.text-dark-brown {
+  color: $dark-brown;
 }
 
 strong {

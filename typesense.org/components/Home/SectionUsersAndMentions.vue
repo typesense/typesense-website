@@ -27,6 +27,43 @@
     <div class="mb-4">&nbsp;</div>
 
     <HomeBadges />
+
+    <div class="mb-3">&nbsp;</div>
+
+    <div class="bg-light-2 p-5 mt-5">
+      <div class="row">
+        <div class="col-sm">
+          <div class="text-center">
+            <h5 class="mb-3">As Seen At</h5>
+            <div class="d-flex justify-content-center align-items-baseline">
+              <a
+                href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
+                target="_blank"
+              >
+                <img
+                  :src="require(`~/assets/images/Google-IO-Logo.svg`)"
+                  alt="Typesense at Google/IO"
+                  width="200"
+                  height="83"
+                />
+              </a>
+              <a
+                href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
+                target="_blank"
+                class="ml-5"
+              >
+                <img
+                  :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
+                  alt="Typesense on Nasdaq Billboard"
+                  width="170"
+                  height="48"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
