@@ -4,8 +4,8 @@
 
     <div class="text-center">
       <h2 class="text-center text-gradient-1">
-        The Open Source Algolia Alternative <br />
-        The Easier To Use Elasticsearch Alternative
+        The Open Source Alternative to Algolia <br />
+        The Easier To Use Alternative to Elasticsearch
       </h2>
       <div style="line-height: 2">
         <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
@@ -30,9 +30,9 @@
       </div>
     </div>
 
-    <div class="mb-4">&nbsp;</div>
+    <div class="mt-4">&nbsp;</div>
 
-    <HomeBadges />
+    <HomeSectionUsersAndMentions />
 
     <div class="mt-5">&nbsp;</div>
     <div class="mt-3">&nbsp;</div>

@@ -6,9 +6,8 @@
           ><img
             src="https://img.shields.io/github/stars/typesense/typesense?label=stars&style=for-the-badge&logo=github&color=020102"
             alt="typesense/typesense on GitHub"
-            style="width: 173px; height: 36px"
-            width="173"
-            height="36"
+            width="130"
+            height="28"
         /></a>
       </div>
       <div
@@ -18,9 +17,8 @@
           ><img
             src="https://img.shields.io/docker/pulls/typesense/typesense?label=pulls&style=for-the-badge&logo=docker&color=0db7ed&labelColor=020102"
             alt="typesense/typesense on Docker Hub"
-            style="width: 173px; height: 36px"
-            width="173"
-            height="36"
+            width="130"
+            height="28"
         /></a>
       </div>
       <div
@@ -32,9 +30,8 @@
           ><img
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=123903&theme=dark"
             alt="Typesense - Typo tolerant, delightfully simple, open source search 🔍 | Product Hunt"
-            style="width: 171px; height: 36px"
-            width="171"
-            height="36"
+            width="130"
+            height="28"
         /></a>
       </div>
       <div
@@ -44,9 +41,8 @@
           <img
             alt="Featured on Hacker News"
             src="https://hackerbadge.now.sh/api?id=22181437&type=dark"
-            style="width: 171px; height: 36px"
-            width="171"
-            height="36"
+            width="130"
+            height="28"
           />
         </a>
       </div>
