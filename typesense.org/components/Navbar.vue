@@ -137,7 +137,7 @@ export default {
           target: '_blank',
         },
         {
-          text: 'Hosted Search',
+          text: 'Typesense Cloud',
           externalLink: 'https://cloud.typesense.org',
           target: '_blank',
         },
