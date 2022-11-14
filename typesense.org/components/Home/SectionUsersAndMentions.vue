@@ -80,11 +80,11 @@ export default {
           alt: 'AeroTrade',
         },
         {
-          href: 'https://tradingstrategy.ai/blog/world-fastest-token-search',
-          imgPath: 'user_logos/trading-strategy.svg',
-          width: 125,
-          height: 31,
-          alt: 'Trading Stragey',
+          href: 'https://codecademy.com',
+          imgPath: 'user_logos/codecademy-logo.svg',
+          width: 150,
+          height: 30,
+          alt: 'Codecademy',
         },
         {
           href: 'https://eats.oddle.me',
@@ -116,11 +116,11 @@ export default {
           alt: 'Poorvika Mobiles',
         },
         {
-          href: 'https://whatsinmyjar.com',
-          imgPath: 'user_logos/whats_in_my_jar.svg',
-          width: 75,
-          height: 20,
-          alt: "What's In My Jar",
+          href: 'https://tradingstrategy.ai/blog/world-fastest-token-search',
+          imgPath: 'user_logos/trading-strategy.svg',
+          width: 125,
+          height: 31,
+          alt: 'Trading Strategy',
         },
         {
           href: 'https://instatus.com',
