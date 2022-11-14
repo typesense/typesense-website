@@ -48,7 +48,7 @@
                 />
               </a>
               <a
-                href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
+                href="https://twitter.com/jasonbosco/status/1565073075040882688"
                 target="_blank"
                 class="ml-5"
               >
