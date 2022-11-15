@@ -1134,7 +1134,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 `PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 :::tip
-To update multiple documents, use the import endpoint with [`action=update`](#action-modes-batch-create-upsert-update-emplace) or [`action=upsert`](#action-modes-batch-create-upsert-update). 
+To update multiple documents, use the import endpoint with [`action=update`](#action-modes-batch-create-upsert-update-emplace) or [`action=upsert`](#action-modes-batch-create-upsert-update-emplace). 
 :::
 
 ## Delete documents
