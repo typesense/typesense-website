@@ -175,6 +175,7 @@ let config = {
             ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/system-requirements', 'System Requirements'],
             ['/guide/organizing-collections', 'Organizing Collections'],
+            ['/guide/syncing-data-into-typesense', 'Syncing Data into Typesense'],
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
             ['/guide/running-in-production', 'Running in Production'],
             ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
