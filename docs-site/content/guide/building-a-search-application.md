@@ -176,9 +176,9 @@ $booksSchema = [
     ['name' => 'average_rating', 'type' => 'float']
   ],
   'default_sorting_field' => 'ratings_count'
-]
+];
 
-$client->collections->create($booksSchema)
+$client->collections->create($booksSchema);
 ```
 
   </template>
@@ -361,10 +361,9 @@ $searchParameters = [
   'q'         => 'harry potter',
   'query_by'  => 'title',
   'sort_by'   => 'ratings_count:desc'
-]
+];
 
-$client->collections['books']->documents->search($searchParameters)
-}
+$client->collections['books']->documents->search($searchParameters);
 ```
 
   </template>
@@ -490,9 +489,9 @@ $searchParameters = [
   'query_by'  => 'title',
   'filter_by' => 'publication_year:<1998',
   'sort_by'   => 'publication_year:desc'
-]
+];
 
-$client->collections['books']->documents->search($searchParameters)
+$client->collections['books']->documents->search($searchParameters);
 ```
 
   </template>
