@@ -1,10 +1,17 @@
 # Full-text Search for Firebase with Typesense
 
-[Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase.
+[Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. 
+It gives you a variety of tools to build, release and monitor your applications. However, there is no native indexing or search solution with Firebase.
 
-The Firebase [documentation](https://firebase.google.com/docs/firestore/solutions/search) talks about using third-party services like Algolia for full-text search. Algolia is a good solution, but it is proprietary and can be expensive for even moderate scale.
+The Firebase [documentation](https://firebase.google.com/docs/firestore/solutions/search) talks about using services like Algolia and Elasticsearch and more recently Typesense for full-text search. 
+Algolia is a good solution, but it is proprietary and can be expensive for even moderate scale.
+Elasticsearch is a versatile search solution, but it has a steep learning curve and running Elasticsearch in production requires a non-trivial amount of devops knowledge, even with Elastic Cloud.
 
-**Enter Typesense** - Typesense is an [open-source](https://github.com/typesense/typesense) typo-tolerant fuzzy search engine that is easy to use, run and scale, with clean APIs and documentation. Think of it as an open source alternative to Algolia and an easier-to-use, batteries-included alternative to ElasticSearch. Typesense is blazing fast and highly configurable, so you can tailor results according to your needs. You can learn more about Typesense features [here](https://github.com/typesense/typesense#features).
+**Enter Typesense** - Typesense is an [open-source](https://github.com/typesense/typesense) typo-tolerant fuzzy search engine that is easy to use, run and scale, with clean APIs and documentation. 
+Think of it as an open source alternative to Algolia and an easier-to-use, batteries-included alternative to ElasticSearch. 
+Typesense is blazing fast and highly configurable, so you can tailor results according to your needs. You can learn more about Typesense features [here](https://github.com/typesense/typesense#features).
+
+You can either self-host Typesense or use the managed SaaS service [Typesense Cloud](https://cloud.typesense.org).
 
 :::tip UPDATE
 
@@ -12,7 +19,7 @@ We've published a **Firebase Extension** that you can install into your Firebase
 to automatically sync Firestore documents into Typesense. 
 
 Here's how to set it up: 
-[https://github.com/typesense/firestore-typesense-search](https://github.com/typesense/firestore-typesense-search).
+[https://github.com/typesense/firestore-typesense-search](https://github.com/typesense/firestore-typesense-search#readme).
 
 If you choose to use this extension, you can skip directly to [Step 4](#step-4-let-the-search-begin) below, once you set up the extension.
 :::
