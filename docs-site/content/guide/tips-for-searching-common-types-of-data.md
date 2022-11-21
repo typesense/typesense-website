@@ -92,8 +92,7 @@ To solve for this, we have two options:
    }
    ```
    
-   When you use this in conjunction with `token_separators`, you'll be able to search all the patterns we discussed above. 
-
+   When you use this in conjunction with `token_separators`, you'll be able to search all the patterns we discussed above.
 
 ## Phone Numbers
 
@@ -258,7 +257,15 @@ So you would have to convert dates and times to Unix Timestamps as described <Ro
 
 ## Nested Objects
 
-Typesense currently only supports indexing field values that are integers, floats, strings, booleans and arrays containing each of those <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-types`">data types</RouterLink>.
+::: tip UPDATE
+
+We've added support for nested objects and arrays of objects in the latest RC build of `0.24.0`: https://github.com/typesense/typesense/issues/227#issuecomment-1211666924
+
+The rest of the below text applies to Typesense `0.23.1` and below.
+
+:::
+
+As of 0.23.1, Typesense only supports indexing field values that are integers, floats, strings, booleans and arrays containing each of those <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-types`">data types</RouterLink>.
 Only these data types can be specified for fields in the collection, which are the ones that will be indexed.
 
 **Important Side Note:** You can still send nested objects into Typesense, in fields not mentioned in the schema. These will not be indexed or type-checked. They will just be stored on disk and returned if the document is a hit for a search query.
@@ -304,6 +311,22 @@ Typesense supports GeoSearch queries using latitude/longitude data in your docum
 You can filter documents in a given radius around a lat/lng, or sort results by closeness to a given lat/lng or return results within a bounding box. 
 
 Here's more information about GeoSearch queries: <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#geosearch`">GeoSearch API Reference</RouterLink>.
+
+## Long Pieces of Text
+
+If you have long pieces of text, like say a long journal article, website pages, transcripts, etc, 
+we'd recommend that you break down the long piece of text into smaller "paragraphs" and store each paragraph in a separate document in Typesense. 
+
+This helps increase the granularity of search results and improve relevancy, because otherwise with sufficiently long text, 
+there could be enough overlap in keywords between the documents, that searching for common keywords ends up matching most articles.  
+
+## HTML Content
+
+If you're searching HTML content, you want to create a field in your document which contains just the plain text version of the content without HTML tags and use that field in the `query_by` search parameter.
+
+You can still store the raw HTML field in the document as an un-indexed field (by just leaving it from the schema), so the raw HTML will be returned in the document when it is a hit. 
+
+[Here's](https://github.com/typesense/typesense/issues/265#issuecomment-832051823) more context around this.
 
 ## Other Types of Data
 
