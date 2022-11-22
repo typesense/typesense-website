@@ -141,6 +141,7 @@ let config = {
             ['/overview/comparison-with-alternatives', 'Comparison with alternatives'],
           ],
         },
+        ['/overview/use-cases', 'Use Cases'],
         ['/overview/demos', 'Live Demos'],
         ['/overview/benchmarks', 'Benchmarks'],
       ],
