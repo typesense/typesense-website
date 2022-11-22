@@ -178,6 +178,23 @@ If you see `state: 1` on more than one node, that indicates that the cluster was
 
 If you see a value other than `state: 4` or `state: 1` that indicates an error. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information.
 
+### Recovering a cluster that has lost quorum
+
+A Typesense cluster with N nodes can tolerate a failure of at most `(N-1)/2` nodes without affecting reads or writes. 
+
+So for example:
+
+- A 3 node cluster can handle a loss of 1 node.
+- A 5 node cluster can handle a loss of 2 nodes.
+
+If a Typesense cluster loses more than `(N-1/2)` nodes at the same time, the cluster becomes unstable because it loses quorum and the remaining node(s) cannot safely build consensus on which node is the leader.
+To avoid a potential split brain issue, Typesense then stops accepting writes and reads until some manual verification and intervention is done.
+
+To recover a cluster in this state:
+
+1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. You don't have to restart the Typesense process, since changes to the node file are automatically picked up within 30s.
+2. Once this node returns ok when you call `/health`, edit the nodes file and then add back another node in the cluster, and wait for it to catch up with the new leader.
+3. Repeat Step 2 for each node until the cluster is healthy again.
 
 ## Client Configuration
 
