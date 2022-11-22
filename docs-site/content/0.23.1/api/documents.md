@@ -546,7 +546,8 @@ So always be sure to check the API response for any `{success: false, ...}` reco
 By default, Typesense ingests 40 documents at a time into Typesense - after every 40 documents are ingested, Typesense will then service the search request queue, before switching back to imports.
 To increase this value, use the `batch_size` parameter.
 
-Note that this parameter controls server-side batching of documents sent in a single import API call.
+Note that this parameter controls server-side batching of documents sent in a single import API call. 
+Increasing this value might affect search performance, so we'd recommend that you not change the default unless you really need to.
 You can also do client-side batching, by sending your documents over multiple import API calls (potentially in parallel).
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">

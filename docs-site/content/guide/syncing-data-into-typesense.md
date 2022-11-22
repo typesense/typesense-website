@@ -16,17 +16,7 @@ There are a couple of ways to do this, depending on your architecture, CPU capac
 4. Make a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">Bulk Import API call</RouterLink> to Typesense with just the records in Step 3, with `action=upsert` 
 5. For records that were marked as deleted in Step 2, make a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#delete-by-query`">Delete by Query</RouterLink> API call to Typesense with all the record IDs in a filter like this: `filter_by:=[id1,id2,id3]`.
 
-If you have data that spans multiple tables and your database supports the concept of views, you could create a database view that `JOIN`s all the tables you need and polls that view instead of individual tables. 
-
-:::tip
-
-In order to update records you push into Typesense at a later point in time, you want to set the `id` field in each document you send to Typesense.
-This is a special field that Typesense uses internally to reference documents.
-
-If an explicit `id` field is not set, Typesense will auto-generate one for the document and can return it if you set `return_ids=true` as a parameter to the import endpoint.
-You will then have to save this `id` field in your database and use that to update the same record in the future. 
-
-:::
+If you have data that spans multiple tables and your database supports the concept of views, you could create a database view that `JOIN`s all the tables you need and polls that view instead of individual tables.
 
 ### Using change listeners
 
@@ -67,3 +57,37 @@ In addition to the above strategies, you could also do a re-index of your entire
 
 You want to use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">Collection Alias</RouterLink> feature to do a reindex without any downtime into a new collection and then switch the alias over to the new collection.
 
+## Tips when importing data
+
+Here are some tips when importing data in batches into Typesense:
+
+### Document IDs
+
+In order to update records you push into Typesense at a later point in time, you want to set the `id` field in each document you send to Typesense.
+This is a special field that Typesense uses internally to reference documents.
+
+If an explicit `id` field is not set, Typesense will auto-generate one for the document and can return it if you set `return_ids=true` as a parameter to the import endpoint.
+You will then have to save this `id` field in your database and use that to update the same record in the future.
+
+### Client-side timeouts
+
+When importing large batches of data, make sure that you've increased the default client-side timeout when instantiating the client-libraries, to as high as 60 minutes.
+
+Typesense write API calls are synchronous, so you do not want the client to terminate a connection prematurely due to a timeout, and then retry the same write operation again.
+
+### Handling HTTP 503s
+
+When the volume of writes is high, Typesense will sometimes return an HTTP 503, Not Ready or Lagging.
+
+This is a backpressure mechanism built into Typesense, to ensure that heavy writes don't saturate CPU and end up affecting reads. 
+
+If you see an HTTP 503, you want to apply an exponential backoff mechanism, to retry the write API request at a later point in time.
+
+You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameters</RouterLink>.
+
+### Client-side batch size vs server-side batching
+
+In the import API call, you'll notice a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#configure-batch-size`">parameter called `batch_size`</RouterLink>.
+This controls server-side batching (how many documents from the import API call are processed, before the search queue is serviced), and you almost never want to change this value from the default.
+
+Instead, you want to do client-side batching, by controlling the number of documents in a single import API call and potentially do multiple API calls in parallel.
