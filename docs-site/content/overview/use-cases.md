@@ -16,7 +16,8 @@ Here is an evolving set of use-cases where Typesense can be used:
    Using this, you can implement features like personalization, recommendations, visual search, semantic search, similarity search, etc.
 5. To power data visualizations like charts and tables, using the aggregated facet metrics returned by Typesense.
 6. Multi-tenant search, where certain records / fields can only be accessed by certain sets of users (eg, logged-in users, admins, users on a certain pricing plan, etc)
-7. Federated search, where the search is performed across multiple indices and the results are shown to users side-by-side. 
+7. Federated search, where the search is performed across multiple indices and the results are shown to users side-by-side.
+8. Geo-search, to search / sort records that are in proximity to a given latitude/longitude.
 
 If you're using Typesense for any other use-cases let us know in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-AuOL89O7iBtvkz136egSJg)!
 
