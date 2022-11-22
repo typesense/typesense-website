@@ -178,6 +178,7 @@ let config = {
             ['/guide/syncing-data-into-typesense', 'Syncing Data into Typesense'],
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
             ['/guide/running-in-production', 'Running in Production'],
+            ['/guide/backups', 'Backups'],
             ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
             ['/guide/typesense-cloud/role-based-access-control-admin-dashboard', 'Role-Based Access Control for Admin Dashboard (Typesense Cloud)'],
           ],
