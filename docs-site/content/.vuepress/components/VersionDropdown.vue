@@ -70,8 +70,9 @@ export default {
     select
       display: inline-block;
       box-sizing: border-box;
-      padding: 0 1.6em 0 0.5em;
+      padding: 0 1.6rem 0 1rem;
       border: 1px solid $white;
+      background-color $lightGrayColor;
       font: inherit;
       line-height: inherit;
       -webkit-appearance: none;
