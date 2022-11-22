@@ -130,6 +130,8 @@ export default {
     &:hover, &.router-link-active
       color $textColor
   .nav-item > a:not(.external)
+    &.router-link-active
+      font-weight bold
     &:hover, &.router-link-active
       margin-bottom -2px
       border-bottom 2px solid lighten($accentColor, 8%)

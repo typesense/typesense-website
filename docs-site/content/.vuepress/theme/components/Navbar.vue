@@ -1,28 +1,31 @@
 <template>
   <header class="navbar">
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
-    <a href="/" class="home-link">
-      <img v-if="$site.themeConfig.logo" class="logo" :src="$withBase($site.themeConfig.logo)" :alt="$siteTitle" :width="$site.themeConfig.logoWidth" :height="$site.themeConfig.logoHeight" />
-      <span v-if="$siteTitle" ref="siteName" class="site-name" :class="{ 'can-hide': $site.themeConfig.logo }">{{
-        $siteTitle
-      }}</span>
-    </a>
+    <div class="logo-and-links">
+      <a href="/" class="home-link">
+        <img v-if="$site.themeConfig.logo" class="logo" :src="$withBase($site.themeConfig.logo)" :alt="$siteTitle" :width="$site.themeConfig.logoWidth" :height="$site.themeConfig.logoHeight" />
+        <span v-if="$siteTitle" ref="siteName" class="site-name" :class="{ 'can-hide': $site.themeConfig.logo }">{{
+          $siteTitle
+        }}</span>
+      </a>
 
-    <VersionDropdown show-on-desktop-only v-if="showVersionDropdown"/>
-
-    <div
-      class="links"
-      :style="
-        linksWrapMaxWidth
-          ? {
-              'max-width': linksWrapMaxWidth + 'px',
-            }
-          : {}
-      "
-    >
+      <div
+        class="links"
+        :style="
+          linksWrapMaxWidth
+            ? {
+                'max-width': linksWrapMaxWidth + 'px',
+              }
+            : {}
+        "
+      >
+        <NavLinks class="can-hide" />
+      </div>
+    </div>
+    <div>
+      <VersionDropdown show-on-desktop-only v-if="showVersionDropdown" />
       <TypesenseSearchBox v-if="isTypesenseSearch" :options="typesense" />
       <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false" />
-      <NavLinks class="can-hide" />
     </div>
   </header>
 </template>
@@ -101,10 +104,15 @@ $navbar-vertical-padding = 0.7rem
 $navbar-horizontal-padding = 1.5rem
 
 .navbar
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding $navbar-vertical-padding $navbar-horizontal-padding
   line-height $navbarHeight - 1.4rem
   a, span, img
     display inline-block
+  .logo-and-links
+    display flex
   .logo
     height $navbarHeight - 1.4rem
     min-width $navbarHeight - 1.4rem
@@ -121,13 +129,13 @@ $navbar-horizontal-padding = 1.5rem
     background-color white
     white-space nowrap
     font-size 0.9rem
-    position absolute
     right $navbar-horizontal-padding
     top $navbar-vertical-padding
     display flex
-    .search-box
-      flex: 0 0 auto
-      vertical-align top
+  .search-box
+    flex: 0 0 auto
+    vertical-align top
+    margin-left 1.7rem
 
 @media (max-width: $MQMobile)
   .navbar
