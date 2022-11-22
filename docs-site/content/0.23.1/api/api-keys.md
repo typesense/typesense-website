@@ -7,6 +7,8 @@ sitemap:
 # API Keys
 Typesense allows you to create API Keys with fine-grained access control. You can restrict access on a per-collection, per-action, per-record or even per-field level or a mixture of these.
 
+Read more about how to manage access to data in Typesense in this [dedicated guide article](../../guide/data-access-control.md). 
+
 :::warning
 We will be using the initial bootstrap key that you started Typesense with (via `--api-key`>) to create additional keys. It's **strongly recommended** that you don't use the bootstrap API key directly in your production applications. Instead you want to generate an appropriately-scoped key for the application at hand.
 :::
@@ -240,6 +242,7 @@ By setting the `actions` scope to `["documents:search"]` and the `collections` s
     "*"
   ],
   "description": "Admin key.",
+  "expires_at": 64723363199,
   "id": 1,
   "value": "k8pX5hD0793d8YQC5aD1aEPd7VleSuGP"
 }
@@ -277,17 +280,27 @@ The collection names can contain regular expressions. For example, if you have m
 
 ### Sample actions
 
+This is a _sample_ list of actions.
+
+In general, you want to use the format `resource:verb` pattern to indicate an action, where `verb` can be one of `create`, `delete`, `get`, `list` or `search`. 
+
 | Action               | Description                                       |
 |:---------------------|:--------------------------------------------------|
+| `collections:create` | Allows a collection to be created.                |
+| `collections:delete` | Allows a collection to be deleted.                |
+| `collections:get`    | Allows a collection schema to be retrieved.       |
+| `collections:list`   | Allows retrieving all collection schema.          |
+| `collections:*`      | Allow all kinds of collection related operations. |
 | `documents:search`   | Allows only search requests.                      |
 | `documents:get`      | Allows fetching a single document.                |
-| `collections:delete` | Allows a collection to be deleted.                |
-| `collections:create` | Allows a collection to be created.                |
-| `collections:*`      | Allow all kinds of collection related operations. |
+| `documents:create`   | Allows creating documents.                        |
+| `documents:delete`   | Allows deletion of documents.                     |
 | `metrics.json:list`  | Allows access to the metrics endpoint.            |
+| `debug:list`         | Allows access to the `/debug` endpoint.           |
 | `aliases:list`       | Allows access to the `GET /aliases` endpoint.     |
+| `synonyms:list`      | Allows access to the `GET /synonyms` endpoint.    |
+| `synonyms:create`    | Allows the creation of synonyms.                  |
 | `*`                  | Allows all operations.                            |
-
 
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
@@ -364,6 +377,7 @@ curl 'http://localhost:8108/keys/1' \
   "actions": [ "documents:search" ],
   "collections": [ "*" ],
   "description": "Search-only key.",
+  "expires_at": 64723363199,
   "id": 1,
   "value_prefix": "vxpx"
 }
@@ -457,6 +471,7 @@ curl 'http://localhost:8108/keys' \
         "users"
       ],
       "description": "Search-only key.",
+      "expires_at": 64723363199,
       "id": 1,
       "value_prefix": "iKBT"
     },
@@ -468,6 +483,7 @@ curl 'http://localhost:8108/keys' \
         "users"
       ],
       "description": "Search-only key.",
+      "expires_at": 64723363199,
       "id": 2,
       "value_prefix": "wst8"
     }

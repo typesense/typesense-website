@@ -178,6 +178,7 @@ let config = {
             ['/guide/organizing-collections', 'Organizing Collections'],
             ['/guide/syncing-data-into-typesense', 'Syncing Data into Typesense'],
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
+            ['/guide/data-access-control', 'Managing Access to Data'],
             ['/guide/running-in-production', 'Running in Production'],
             ['/guide/backups', 'Backups'],
             ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
