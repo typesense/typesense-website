@@ -15,7 +15,7 @@ We will be using the initial bootstrap key that you started Typesense with (via 
 
 ## Create an API Key
 
-#### Admin Key
+### Admin Key
 
 Let's begin by creating an API key that allows you to do all operations, i.e. it's effectively an admin key and is equivalent to the key that you start Typesense with (via `--api-key`).
 
@@ -124,7 +124,7 @@ By setting both `actions` and `collections` to a wildcard `['*']` scope, we're a
 The generated key is only returned during creation. You want to store this key carefully in a secure place.
 :::
 
-#### Search-only API Key
+### Search-only API Key
 
 Let's now see how we can create a search-only key that allows you to limit the key's scope to only the search action, and also for only a specific collection.
 
@@ -282,7 +282,9 @@ The collection names can contain regular expressions. For example, if you have m
 
 This is a _sample_ list of actions.
 
-In general, you want to use the format `resource:verb` pattern to indicate an action, where `verb` can be one of `create`, `delete`, `get`, `list` or `search`. 
+In general, you want to use the format `resource:verb` pattern to indicate an action, where `verb` can be one of `create`, `delete`, `get`, `list`, `search`, or `*`. 
+
+#### Collection actions
 
 | Action               | Description                                       |
 |:---------------------|:--------------------------------------------------|
@@ -291,15 +293,53 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `collections:get`    | Allows a collection schema to be retrieved.       |
 | `collections:list`   | Allows retrieving all collection schema.          |
 | `collections:*`      | Allow all kinds of collection related operations. |
+
+#### Document actions
+
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
 | `documents:search`   | Allows only search requests.                      |
 | `documents:get`      | Allows fetching a single document.                |
 | `documents:create`   | Allows creating documents.                        |
 | `documents:delete`   | Allows deletion of documents.                     |
+| `documents:*`        | Allows all document operations.                   |
+
+#### Alias actions
+
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
+| `aliases:list`       | Allows all aliases to be fetched.                 |
+| `aliases:get`        | Allows a single alias to be retrieved             |
+| `aliases:create`     | Allows the creation of aliases.                   |
+| `aliases:delete`     | Allows the deletion of aliases.                   |
+| `aliases:*`          | Allows all alias operations.                      |
+
+#### Synonym actions
+
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
+| `synonyms:list`      | Allows all synonyms to be fetched.                |
+| `synonyms:get`       | Allows a single synonym to be retrieved           |
+| `synonyms:create`    | Allows the creation of synonyms.                  |
+| `synonyms:delete`    | Allows the deletion of synonyms.                  |
+| `synonyms:*`         | Allows all synonym operations.                    |
+
+#### Override actions
+
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
+| `overrides:list`     | Allows all overrides to be fetched.               |
+| `overrides:get`      | Allows a single override to be retrieved          |
+| `overrides:create`   | Allows the creation of overrides.                 |
+| `overrides:delete`   | Allows the deletion of overrides.                 |
+| `overrides:*`        | Allows all override operations.                   |
+
+#### Misc actions
+
+| Action               | Description                                       |
+|:---------------------|:--------------------------------------------------|
 | `metrics.json:list`  | Allows access to the metrics endpoint.            |
 | `debug:list`         | Allows access to the `/debug` endpoint.           |
-| `aliases:list`       | Allows access to the `GET /aliases` endpoint.     |
-| `synonyms:list`      | Allows access to the `GET /synonyms` endpoint.    |
-| `synonyms:create`    | Allows the creation of synonyms.                  |
 | `*`                  | Allows all operations.                            |
 
 ## Retrieve an API Key
@@ -600,7 +640,7 @@ When you make a search API call with this scoped search API key, Typesense will 
 
 Now let's say you also don't want users to know the entire list of users_ids that have access to a document, you can also embed `exclude_fields: accessible_to_user_ids` in the scoped API key, so it doesn't get returned in the response.  
 
-#### Role-based access <Badge text="Advanced"/>
+### Role-based access <Badge text="Advanced"/>
 
 Let's take another scenario where an organization has many users and users can be a part of one or more roles (eg: admin, sales, support, etc).
 You can store all records/documents belonging to all organizations and users in a single collection and conditionally allow a given logged-in user to only search through their own organization's data and only for the subset of data their role grants them access to, using Scoped API keys.
