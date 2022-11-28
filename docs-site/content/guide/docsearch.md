@@ -10,6 +10,11 @@ Typesense's customized version of DocSearch is made up of two components:
 1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - Scraper that scans your documentation site and indexes the content in Typesense.
 1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
 
+:::tip Tip: Usage on Non-Documentation Sites
+Even though DocSearch was originally built for Documentation sites, 
+it can actually be used for any site that has structured, hierarchical and consistent HTML markup (maybe using a common set of templates) across pages.  
+:::
+
 ## Step 1: Set up DocSearch Scraper
 
 Let's first set up the scraper and point it at your documentation site.
