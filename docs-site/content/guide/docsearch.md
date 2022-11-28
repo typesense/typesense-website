@@ -12,7 +12,7 @@ Typesense's customized version of DocSearch is made up of two components:
 
 :::tip Tip: Usage on Non-Documentation Sites
 Even though DocSearch was originally built for Documentation sites, 
-it can actually be used for any site that has structured, hierarchical and consistent HTML markup (maybe using a common set of templates) across pages.  
+it can actually be used for any site that has structured, hierarchical and consistent HTML markup across pages.  
 :::
 
 ## Step 1: Set up DocSearch Scraper
