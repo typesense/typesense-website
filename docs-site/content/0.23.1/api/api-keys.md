@@ -296,13 +296,16 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 
 #### Document actions
 
-| Action               | Description                                       |
-|:---------------------|:--------------------------------------------------|
-| `documents:search`   | Allows only search requests.                      |
-| `documents:get`      | Allows fetching a single document.                |
-| `documents:create`   | Allows creating documents.                        |
-| `documents:delete`   | Allows deletion of documents.                     |
-| `documents:*`        | Allows all document operations.                   |
+| Action             | Description                         |
+|:-------------------|:------------------------------------|
+| `documents:search` | Allows only search requests.        |
+| `documents:get`    | Allows fetching a single document.  |
+| `documents:create` | Allows creating documents.          |
+| `documents:upsert` | Allows upserting documents.         |
+| `documents:update` | Allows updating documents.          |
+| `documents:delete` | Allows deletion of documents.       |
+| `documents:import` | Allows import of documents in bulk. |
+| `documents:*`      | Allows all document operations.     |
 
 #### Alias actions
 
