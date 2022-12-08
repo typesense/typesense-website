@@ -337,6 +337,16 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `overrides:delete`   | Allows the deletion of overrides.                 |
 | `overrides:*`        | Allows all override operations.                   |
 
+#### Keys actions
+
+| Action        | Description                                    |
+|:--------------|:-----------------------------------------------|
+| `keys:list`   | Allows fetching of metadata for all keys       |
+| `keys:get`    | Allows metadata for a signle key to be fetched |
+| `keys:create` | Allows the creation of API keys.               |
+| `keys:delete` | Allows the deletion of API keys.               |
+| `keys:*`      | Allows all API Key related operations.         |
+
 #### Misc actions
 
 | Action               | Description                                       |
