@@ -336,6 +336,59 @@ For example, if someone searches for `sony ericsson phone`, the query will be re
 `sony ericsson` brand filter will be directly applied. If you don't wish to remove matching tokens from the query, 
 set `remove_matched_tokens` to `false`. By default, this parameter is set to `true`.
 
+### Curation and filtering
+
+`includes` is used to fix documents at certain positions in the results, but it's possible for these documents to
+be filtered out. When this happens, Typesense "slides" any remaining documents added by `includes` up in the results.
+For example, say you have a collection of product records that look like this when sorted on a `ranking` field:
+
+```
+1. ABC123 (in stock)
+2. DEF456 (sold out)
+3. XYZ999 (sold out)
+4. QWE127 (in stock)
+5. BNM847 (in stock)
+6. JKL999 (in stock)
+7. CVB333 (in stock)
+```
+
+An override is created that uses `includes` to set the following records to specific positions. The override also has
+`filter_curated_hits` set to true, so the documents added by `includes` can be filtered out if they don't match any
+filter conditions:
+
+```
+- QWE127 to position 1
+- DEF456 to position 2
+- CVB333 to position 3
+```
+
+When this override is applied to a search, the result will be:
+
+```
+1. QWE127 (in stock) <- Position set by includes
+2. DEF456 (sold out) <- Position set by includes
+3. CVB333 (in stock) <- Position set by includes
+4. ABC123 (in stock)
+5. XYZ999 (sold out)
+6. BNM847 (in stock)
+7. JKL999 (in stock)
+```
+
+If a `status = in stock` filter is then added to the search, the sold-out records are removed. This includes `DEF456`,
+even though it's one of the records the override is trying to add via `includes` (because it's out of stock and the
+override has `filter_curated_hits: true`). The end result is that the two in-stock records from the override appear at
+positions 1 and 2, with the remaining records below them:
+
+```
+1. QWE127 (in stock) <- Position set by includes
+2. CVB333 (in stock) <- Position set by includes (moved up)
+3. ABC123 (in stock)
+4. BNM847 (in stock)
+5. JKL999 (in stock)
+```
+
+Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (which has been filtered out).
+
 ### Override parameters
 
 #### Definition
