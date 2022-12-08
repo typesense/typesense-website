@@ -339,7 +339,9 @@ set `remove_matched_tokens` to `false`. By default, this parameter is set to `tr
 ### Curation and filtering
 
 `includes` is used to fix documents at certain positions in the results, but it's possible for these documents to
-be filtered out. When this happens, Typesense "slides" any remaining documents added by `includes` up in the results.
+be filtered out when using `filter_curated_hits: true`. 
+
+When this happens, Typesense "slides" any remaining documents added by `includes` up in the results.
 For example, say you have a collection of product records that look like this when sorted on a `ranking` field:
 
 ```
@@ -352,14 +354,14 @@ For example, say you have a collection of product records that look like this wh
 7. CVB333 (in stock)
 ```
 
-An override is created that uses `includes` to set the following records to specific positions. The override also has
+Let's say an override is created that uses `includes` to pin the following records to specific positions. The override also has
 `filter_curated_hits` set to true, so the documents added by `includes` can be filtered out if they don't match any
-filter conditions:
+`filter_by` conditions:
 
 ```
-- QWE127 to position 1
-- DEF456 to position 2
-- CVB333 to position 3
+- QWE127 pinned to position 1
+- DEF456 pinned to position 2
+- CVB333 pinned to position 3
 ```
 
 When this override is applied to a search, the result will be:
@@ -374,7 +376,7 @@ When this override is applied to a search, the result will be:
 7. JKL999 (in stock)
 ```
 
-If a `status = in stock` filter is then added to the search, the sold-out records are removed. This includes `DEF456`,
+If a `status:=in stock` filter is then added to the search, the sold-out records are removed. This includes `DEF456`,
 even though it's one of the records the override is trying to add via `includes` (because it's out of stock and the
 override has `filter_curated_hits: true`). The end result is that the two in-stock records from the override appear at
 positions 1 and 2, with the remaining records below them:
