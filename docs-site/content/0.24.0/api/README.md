@@ -19,18 +19,60 @@ This release contains new features, performance improvements and important bug f
 
 ### New Features
 
-- 
+- **Indexing of nested object fields**: feature must be enabled via the `enable_nested_fields` 
+  option during collection creation.
+- **Cross-field OR and complex filter expressions**: a filter query like 
+  `is_premium: true || (price:> 100 && category: shoes)` is now possible.
+- **Vector search**: support for both exact & HNSW-based approximate vector searching.
+- **Multi-lingual support**: Chinese, Japanese, Korean, Cyrillic and Thai are now supported via the use of field-level 
+  `locale` flag in the collection schema.
+- **Optional filtering**: `sort_by` clause can now accept an expression whose result is used for sorting, e.g. 
+  `sort_by=_eval(brand:nike):desc,_text_match:desc`.
+- **Rate limiting**: implement IP and API key based throttling of requests.
+- **Preset search configurations**: manage your search query parameters by storing them within Typesense as a "preset", 
+  that you can refer to during query time. This helps in keeping the query parameters hidden away from public view.
 
 ### Enhancements
 
-- 
+- Further improvements in relevance scoring for matching text across multiple matching fields.
+- Improve performance of large collection deletions.
+- New highlight structure that mimics the original document structure. Nested fields are highlighted only in this new
+  structure, which is returned in a key named `highlight` in the JSON response.
+- Allow override rules to be processed past the first match via the `stop_processing` flag (default is `true`).
+- Support locale and symbols in synonyms via the `locale` and `symbols_to_index` options during synonym creation.
+- Allow cloning of collection schema & linked assets (like synonyms, overrides) from a reference collection.
+- Support query replacement action in an override via the `replace_query` option.
+- Support an override to be active with a given time window via the `effective_from_ts` and `effective_to_ts` options.
+- Support `filter_by` rule in overrides.
+- New `--skip-writes` flag for starting Typesense in a mode that does not read recent writes in the Raft log. This is
+  useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.
+- New `--memory-used-max-percentage` flag for preventing writes when a specified memory threshold is breached.
+- Allow the imported documents and their `id`s to be returned in the import response via 
+  the `return_doc` and `return_id` options.
+- API for compacting the on-disk database via the `POST /operations/db/compact` end-point.
+
 ### Bug Fixes
 
-- 
+- Fixed some edge cases with schema alteration.
+- Fixed a race condition in parallel collection creation that manifested on localhost, especially on Mac.
+- Fixed an edge case in highlighting involving non-ASCII unicode characters.
+- Fixed sort by string not accounting for accented characters.
+- Fixed an edge case in numerical facet field values not being fully removed on deletion.
+- Fixed HTTPS POST body buffering removing genuine trailing white space in the chunked payload in some cases.
+- Fixed float field validation to handle scientific notation.
+- Fixed a bug involving exact filter match on array.
+- Fixed a few edge cases that showed up in super-large documents that contained greater than 64,000 tokens.
+- Implemented automatic log rotation for RocksDB info logs. Previously, one had to restart the server for truncation or 
+  perform external truncation via `logrotate`.
 
 ### Deprecations / behavior changes
 
-- 
+- Disable text match score bucketing, if there are more buckets than the number of results found. Previously, results 
+  were being aggregated into a single score.
+- The older `highlights` key in the response is deprecated (but is still returned for now). Use the new `highlight` 
+  object in the response for highlighting information.
+- The `text_match` key in the response is deprecated (but is still returned for now) in favor of the 
+  new `text_match_info` object that returns fine grain matching information, including the score.
 
 ## Upgrading
 
