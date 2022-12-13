@@ -46,7 +46,8 @@ This release contains new features, performance improvements and important bug f
 - Support `filter_by` rule in overrides.
 - New `--skip-writes` flag for starting Typesense in a mode that does not read recent writes in the Raft log. This is
   useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.
-- New `--memory-used-max-percentage` flag for preventing writes when a specified memory threshold is breached.
+- New `--memory-used-max-percentage` and `--disk-used-max-percentage` flags for preventing writes when a specified 
+  memory/disk threshold is breached.
 - Allow the imported documents and their `id`s to be returned in the import response via 
   the `return_doc` and `return_id` options.
 - API for compacting the on-disk database via the `POST /operations/db/compact` end-point.

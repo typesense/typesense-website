@@ -437,8 +437,41 @@ Here's how to index other common types of data, using the basic primitives in th
 
 #### Indexing nested fields
 
-Typesense currently does not support indexing nested objects, or arrays of objects. We plan to add support for this shortly as part of ([#227](https://github.com/typesense/typesense/issues/227)).
-In the meantime, you would have to flatten objects and arrays of objects into top-level keys before sending the data into Typesense.
+Typesense supports indexing nested objects (and array of objects) from `v0.24`.
+
+You must first enable nested fields at a collection level via the `enable_nested_fields` schema property:
+
+```shell
+curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "docs", 
+        "enable_nested_fields": true,
+        "fields": [
+          {"name": ".*", "type": "auto"}
+        ]
+      }'
+```
+
+The schema can also explicitly index specific object fields or object arrays, e.g.:
+
+```shell
+curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "docs", 
+        "enable_nested_fields": true,
+        "fields": [
+          {"name": "person", "type": "object"},
+          {"name": "details", "type": "object[]"},
+        ]
+      }'
+```
+
+When you now search on an object field name, all sub-fields will be automatically searched. Use a dot notation to 
+refer to specific sub-fields, e.g. `person.last_name` or `person.school.name`.
+
+**Indexing nested objects via flattening**
+
+You can also flatten objects and arrays of objects into top-level keys before sending the data into Typesense.
 
 For example, a document like this containing nested objects:
 
