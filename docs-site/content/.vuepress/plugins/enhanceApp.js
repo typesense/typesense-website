@@ -95,12 +95,18 @@ export default ({
   })
 
   // Analytics
+  let gtagPageViewDebounceTimerId
   router.afterEach(to => {
     if (!isServer) {
       const pagePath = siteData.base + to.fullPath.substring(1)
       const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
 
-      gtag('config', 'UA-116415641-1', { page_path: pagePath, location_path: locationPath })
+      if(gtagPageViewDebounceTimerId) {
+        clearTimeout(gtagPageViewDebounceTimerId)
+      }
+      gtagPageViewDebounceTimerId = setTimeout(() => {
+        window.gtag('config', 'UA-116415641-1', { page_path: pagePath, location_path: locationPath })
+      }, 2000)
     }
   })
 
