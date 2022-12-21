@@ -261,7 +261,7 @@ So you would have to convert dates and times to Unix Timestamps as described <Ro
 
 We've added support for nested objects and arrays of objects in the latest RC build of `0.24.0`: https://github.com/typesense/typesense/issues/227#issuecomment-1211666924
 
-The rest of the below text applies to Typesense `0.23.1` and below.
+The rest of the text below applies to Typesense `0.23.1` and below.
 
 :::
 
