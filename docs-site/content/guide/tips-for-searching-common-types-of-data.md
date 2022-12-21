@@ -218,7 +218,7 @@ So the search terms with a :white_check_mark: will return this record, and the o
 
 To solve for the remaining cases above, we can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`token_separators`</RouterLink> setting in the schema when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">creating the collection</RouterLink>: 
 
-```json{6}
+```json{7}
 {
   "name": "users",
   "fields": [
