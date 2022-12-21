@@ -146,14 +146,14 @@ client.collections.create(schema)
   <template v-slot:Dart>
 
 ```dart
-final schema = Schema(
+final schema = CreateSchema(
   'companies',
   {
-    Field('company_name', Type.string),
-    Field('num_employees', Type.int32),
-    Field('country', Type.string, isFacetable: true),
+    CreateField('company_name', type: Type.string),
+    CreateField('num_employees', type: Type.int32),
+    CreateField('country', type: Type.string, isFacetable: true),
   },
-  defaultSortingField: Field('num_employees', Type.int32),
+  defaultSortingField: CreateField('num_employees', type: Type.int32),
 );
 
 await client.collections.create(schema);
