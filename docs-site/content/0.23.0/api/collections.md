@@ -839,8 +839,8 @@ client.collections['companies'].update(update_schema)
 ```dart
 final updateSchema = UpdateSchema(
   {
-    Field('company_category', Type.string),
-    Field('num_employees', drop: true)
+    UpdateField('company_category', type: Type.string),
+    UpdateField('num_employees', shouldDrop: true)
   }
 );
 await client.collection('companies').update(updateSchema);
