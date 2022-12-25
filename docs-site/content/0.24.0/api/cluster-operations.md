@@ -98,6 +98,21 @@ curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-dat
 | -------------- | ----------- |-------------------------------------------------------|
 |snapshot_path	|yes	|The directory on the server where the snapshot should be saved.|
 
+## Compacting the on-disk database
+
+Typesense uses RocksDB to store your documents on the disk. If you do frequent writes or updates, you could benefit 
+from running a compaction of the underlying RocksDB database. This could reduce the size of the database and decrease 
+read latency.
+
+While the database will _not_ block during this operation, we recommend running it during off-peak hours.
+
+```shell
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST http://localhost:8108/operations/db/compact
+```
+
+#### Definition
+`POST ${TYPESENSE_HOST}/operations/db/compact`
+
 ## Re-elect Leader
 Triggers a follower node to initiate the raft voting process, which triggers leader re-election.
 

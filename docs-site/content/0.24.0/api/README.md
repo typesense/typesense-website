@@ -28,7 +28,6 @@ This release contains new features, performance improvements and important bug f
   `locale` flag in the collection schema.
 - **Optional filtering**: `sort_by` clause can now accept an expression whose result is used for sorting, e.g. 
   `sort_by=_eval(brand:nike):desc,_text_match:desc`.
-- **Rate limiting**: implement IP and API key based throttling of requests.
 - **Preset search configurations**: manage your search query parameters by storing them within Typesense as a "preset", 
   that you can refer to during query time. This helps in keeping the query parameters hidden away from public view.
 
@@ -44,7 +43,7 @@ This release contains new features, performance improvements and important bug f
 - Support query replacement action in an override via the `replace_query` option.
 - Support an override to be active with a given time window via the `effective_from_ts` and `effective_to_ts` options.
 - Support `filter_by` rule in overrides.
-- New `--skip-writes` flag for starting Typesense in a mode that does not read recent writes in the Raft log. This is
+- New `--skip-writes` flag for starting Typesense in a mode that does not read writes from the Raft log. This is
   useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.
 - New `--memory-used-max-percentage` and `--disk-used-max-percentage` flags for preventing writes when a specified 
   memory/disk threshold is breached.

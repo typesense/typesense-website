@@ -563,3 +563,44 @@ By default, Typesense ranks results by a `text_match` relevance score it calcula
 
 You can use various Search Parameters to influence the text match score, sort results by additional parameters and conditionally promote or hide results.
 Read more in the [Ranking and Relevance Guide](../../guide/ranking-and-relevance.md).
+
+## Presets
+
+Search presets allow you to store a bunch of search parameters together, and refererence them by a name. You can then 
+use this preset name when you make a search request, instead of passing all the search parameters individually 
+in each search request.
+
+For example, you can create a preset configuration called a `listing_view` which does a wildcard search and sorts 
+the results by a `popularity` score.
+
+Let's create a preset with name `listing_view`.
+
+```shell
+curl "http://localhost:8108/presets/listing_view" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+-d '{"value": {"searches":[{"collection":"products","q":"*", "sort_by": "popularity"}]}}'
+```
+
+You can refer to this preset configuration during a search operation.
+
+```shell
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
+'http://localhost:8108/multi_search?preset=listing_view'
+```
+
+You can use the preset configuration for a `GET /search` end-point as well. 
+
+The only requirement is that for 
+`GET /search`, the stored preset value should be a simple dictionary of search configurations, like this.
+
+```shell
+curl "http://localhost:8108/presets/listing_view" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
+{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
+```
+
+:::tip
+Explicit query parameters passed to the search end-point will override parameters stored in preset value.
+:::

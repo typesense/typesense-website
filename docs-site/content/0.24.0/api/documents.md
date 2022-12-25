@@ -541,6 +541,22 @@ To keep it consistent, we just return HTTP 200 in all cases.
 So always be sure to check the API response for any `{success: false, ...}` records to see if there are any documents that failed import.
 :::
 
+<b>Returning the `id` of the imported documents</b>
+
+If you want the import response to return the ingested document's `id` in the response,
+you can use the `return_id` parameter.
+
+```shell
+# Makes the import response return the `id` field of imported documents in the response
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST --data-binary @documents.jsonl \
+'http://localhost:8108/collections/companies/documents/import?return_id=true'
+{"success": true, "id": "0"}
+{"success": true, "id": "1"}
+...
+```
+
+Likewise, using the `return_doc` parameter will return the entire document back in response.
+
 #### Configure batch size
 
 By default, Typesense ingests 40 documents at a time into Typesense - after every 40 documents are ingested, Typesense will then service the search request queue, before switching back to imports.
