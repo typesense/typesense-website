@@ -318,6 +318,10 @@ If you are using one of our client libraries, you can also pass in an array of d
 
 You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL](#import-a-json-file) before importing to Typesense. 
 
+:::tip
+Here are some [tips when importing data into Typesense](../../guide/syncing-data-into-typesense.md#tips-when-importing-data).
+:::
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
@@ -541,7 +545,7 @@ To keep it consistent, we just return HTTP 200 in all cases.
 So always be sure to check the API response for any `{success: false, ...}` records to see if there are any documents that failed import.
 :::
 
-<b>Returning the `id` of the imported documents</b>
+#### Returning the `id` of the imported documents
 
 If you want the import response to return the ingested document's `id` in the response,
 you can use the `return_id` parameter.
@@ -932,9 +936,10 @@ Typesense is primarily a JSON store, optimized for fast search.
 So if you can extract data from other file types and convert it into structured JSON, you can import it into Typesense and search through it.
 
 For eg, here's one library you can use to [convert DOCX files to JSON](https://github.com/microsoft/Simplify-Docx). 
-Once you've extracted the JSON, you can then [index](#index-documents) them in Typesense just like any other JSON file.
 
-In general, you want to find libraries to convert your file type to JSON, and index that JSON into Typesense to search through it.
+[Apache Tika](https://tika.apache.org/) is another library to extract text and metadata from PDF, PPT, XLS and over a 1000 different file formats. 
+
+Once you've extracted the JSON, you can then [index](#index-documents) them in Typesense just like any other JSON file.
 
 
 ## Retrieve a document
