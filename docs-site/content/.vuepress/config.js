@@ -251,7 +251,7 @@ let config = {
             ['/0.24.0/api/documents', 'Documents'],
             ['/0.24.0/api/search', 'Search'],
             ['/0.24.0/api/geosearch', 'GeoSearch'],
-            ['/0.24.0/api/vectorsearch', 'Vector Search'],
+            ['/0.24.0/api/vector-search', 'Vector Search'],
             ['/0.24.0/api/federated-multi-search', 'Federated / Multi Search'],
             ['/0.24.0/api/api-keys', 'API Keys'],
             ['/0.24.0/api/curation', 'Curation'],
