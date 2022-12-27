@@ -208,15 +208,15 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 
 ### Ranking and Sorting parameters
 
-| Parameter                 | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|:--------------------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| query_by_weights          | no       | The relative weight to give each `query_by` field when ranking results. Values can be between `0` and `127`. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields earlier in the `query_by` list will be considered to have greater weight.                                                                                                                                                                                                                                                                                                             |
-| sort_by                   | no       | A list of fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**GeoSort**: When using [GeoSearch](geosearch.md), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](geosearch.md#sorting-by-additional-attributes-within-a-radius). |
-| prioritize_exact_match    | no       | By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| prioritize_token_position | no       | Make Typesense prioritize documents where the query words appear earlier in the text.<br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| pinned_hits               | no       | A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                            |
-| hidden_hits               | no       | A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| enable_overrides          | no       | If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Parameter                 | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|:--------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| query_by_weights          | no       | The relative weight to give each `query_by` field when ranking results. Values can be between `0` and `127`. This can be used to boost fields in priority, when looking for matches.<br><br>Separate each weight with a comma, in the same order as the `query_by` fields. For eg: `query_by_weights: 1,1,2` with `query_by: field_a,field_b,field_c` will give equal weightage to `field_a` and `field_b`, and will give twice the weightage to `field_c` comparatively.<br><br>Default: If no explicit weights are provided, fields earlier in the `query_by` list will be considered to have greater weight.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| sort_by                   | no       | A list of fields and their corresponding sort orders that will be used for ordering your results. Separate multiple fields with a comma. Up to 3 sort fields can be specified.<br><br>E.g. `num_employees:desc,year_started:asc`<br><br>This results in documents being sorted by `num_employees` in descending order, and if two records have the same `num_employees`, the `year_started` field is used to break the tie.<br><br>The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.<br><br>If one or two sorting fields are specified, `_text_match` is used for tie breaking, as the last sorting field.<br><br>Default:<br><br>If no `sort_by` parameter is specified, results are sorted by: `_text_match:desc,default_sorting_field:desc`.<br><br>**Sorting on String Values**: Read more [here](#sorting-on-strings). <br><br>**Sorting on Missing Values**: Read more [here](#sorting-null-empty-or-missing-values). <br><br>**Sorting Based on Conditions** (aka Optional Filtering): Read more [here](#sorting-based-on-conditions).<br><br>**GeoSort**: When using [GeoSearch](geosearch.md), documents can be sorted around a given lat/long using `location_field_name(48.853, 2.344):asc`. You can also sort by additional fields within a radius. Read more [here](geosearch.md#sorting-by-additional-attributes-within-a-radius). |
+| prioritize_exact_match    | no       | By default, Typesense prioritizes documents whose field value matches exactly with the query. Set this parameter to `false` to disable this behavior. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| prioritize_token_position | no       | Make Typesense prioritize documents where the query words appear earlier in the text.<br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| pinned_hits               | no       | A list of records to unconditionally include in the search results at specific positions.<br><br>An example use case would be to feature or promote certain items on the top of search results.<br><br>A comma separated list of `record_id:hit_position`. Eg: to include a record with ID 123 at Position 1 and another record with ID 456 at Position 5, you'd specify `123:1,456:5`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| hidden_hits               | no       | A list of records to unconditionally hide from search results.<br><br>A comma separated list of `record_ids` to hide. Eg: to hide records with IDs 123 and 456, you'd specify `123,456`.<br><br>You could also use the Overrides feature to override search results based on rules. Overrides are applied first, followed by pinned_hits and finally hidden_hits.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| enable_overrides          | no       | If you have some overrides defined but want to disable all of them for a particular search query, set `enable_overrides` to `false`. <br><br>Default: `true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 ### Pagination parameters
 
@@ -284,42 +284,65 @@ You can use the `filter_by` search parameter to filter results by a particular v
 
 For eg: if you have dataset of movies, you can apply a filter to only return movies in a certain genre or published after a certain date, etc.
 
-You'll find detailed documentation for `filter_by` in the [Search Parameters](#search-parameters) table above.
+🔗 You'll find detailed documentation for `filter_by` in the [Filter Parameters](#filter-parameters) table above.
 
 ## Facet Results
 
 You can use the `facet_by` search parameter to have Typesense return aggregate counts of values for one or more fields.
 For integer fields, Typesense will also return min, max, sum and average values, in addition to counts.
 
-For eg: if you have a [dataset of songs](https://songs-search.typesense.org/) like in the screenshot below,
+🔗 You'll find detailed documentation for `facet_by` in the [Facet Parameters](#faceting-parameters) table above.
+
+**Example**: if you have a [dataset of songs](https://songs-search.typesense.org/) like in the screenshot below,
 the **_count_** next to each of the "Release Dates" and "Artists" on the left is obtained by faceting on the `release_date` and `artist` fields.
 
-![Facting Usecase Example](~@images/faceting_usecase_example.png)
+![Faceting Usecase Example](~@images/faceting_usecase_example.png)
 
 This is useful to show users a summary of results, so they can refine the results further to get to what they're looking for efficiently.
 
-Note that you need to enable faceting on a field using `{fields: [{facet: true, name: "<field>", type: "<datatype>"}]}` in the [Collection Schema](./collections.md#create-a-collection) before using it in `facet_by`.
+Note that you need to enable faceting for fields in the [Collection Schema](./collections.md#create-a-collection) before using it in `facet_by` like this:
 
-You'll find detailed documentation for `facet_by` in the [Facet Parameters](#faceting-parameters) table above.
+```json{4}
+{
+  fields: [
+    {
+      facet: true, 
+      name: "<field>", 
+      type: "<datatype>"
+    }
+  ]
+}
+```
 
 ## Sort Results
 
-You can use the `sort_by` search parameter to sort results by upto 3 fields.
+You can use the `sort_by` search parameter to sort results by upto 3 fields in a tie-breaking mechanism - 
+if the first field has the same values, then the second field is used. If the 1st and 2nd fields have the same values, then the 3rd field is used to break the tie.
 
 The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.
 
+🔗 You'll find detailed documentation for `sort_by` in the [Ranking Parameters](#ranking-parameters) table above.
+
+### Sorting on numeric values
+
+Sorting is enabled by default on all numeric and boolean values. You can directly use these fields in the `sort_by` parameter. 
+
 ### Sorting on strings
 
-While sorting is enabled by default on numerical and boolean fields, sorting on a string field is only allowed
-if that field has `sort` property enabled in the collection schema. For e.g. here's a collection schema where
-sorting is allowed on the `email` string field.
+Sorting on a string field is only allowed if that field has the `sort` property enabled in the collection schema.
 
-```shell
+For e.g. here's a collection schema where sorting is allowed on the `email` string field.
+
+```json{8}
 {
   "name": "users",
   "fields": [
     {"name": "name", "type": "string" },
-    {"name": "email", "type": "string", "sort": true }
+    {
+      "name": "email", 
+      "type": "string", 
+      "sort": true 
+    }
   ]
 }
 ```
@@ -331,6 +354,20 @@ Sorting on a string field requires the construction of a separate index that can
 for long string fields (like `description`) or in large datasets. So, care must be taken to enable sorting on only
 relevant string fields.
 :::
+
+### Sorting based on conditions
+
+You can sort documents based on any expressions that evaluate to either `true` or `false`, using the special `_eval(<expression>)` operation as a `sort_by` parameter.
+
+The syntax for the expression inside `_eval()` is the same as the [`filter_by` search parameter](#filter-parameters), so we also call this feature "Optional Filtering".
+
+For eg:
+
+```
+sort_by: _eval(in_stock:true):desc,popularity:desc
+```
+
+This will result in documents where `in_stock` is set to `true` to be ranked above, document where `in_stock` is set to `false`.
 
 ### Sorting null, empty or missing values
 
@@ -355,8 +392,6 @@ sort_by=title(missing_values: last):desc
 ```
 
 The possible values of `missing_values` are: `first` or `last`.
-
-You'll find detailed documentation for `sort_by` in the [Ranking Parameters](#ranking-parameters) table above.
 
 ## Group Results
 
