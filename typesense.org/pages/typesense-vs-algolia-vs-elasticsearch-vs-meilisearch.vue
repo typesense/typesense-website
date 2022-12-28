@@ -205,10 +205,14 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Upgrade Path</td>
-                  <td>Replace binary, restart process</td>
-                  <td>Managed SaaS service, doesn't require upgrades</td>
-                  <td>Replace binary, restart process</td>
-                  <td>Replace binary, re-index all documents</td>
+                  <td>
+                    Replace binary, restart process. No re-indexing required.
+                  </td>
+                  <td>Managed SaaS service, doesn't require upgrades.</td>
+                  <td>
+                    Replace binary, restart process. No re-indexing required.
+                  </td>
+                  <td>Replace binary, re-index all documents.</td>
                 </tr>
               </tbody>
             </table>
@@ -361,14 +365,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Language support</td>
-                  <td>
-                    All languages, except
-                    <a
-                      href="https://github.com/typesense/typesense/issues/228"
-                      target="_blank"
-                      >logographic ones</a
-                    >
-                  </td>
+                  <td>All languages</td>
                   <td>All languages</td>
                   <td>All languages</td>
                   <td>Latin-based languages, English, CJK & Kanji languages</td>
@@ -468,6 +465,23 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">
+                    Vector Search <br />
+                    (Nearest-Neighbor Search)
+                  </td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>✅️</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Similarity Search</td>
+                  <td>✅<br /><br />Can be implemented using Vector Search</td>
+                  <td>✅</td>
+                  <td>✅️<br /><br />Can be implemented using Vector Search</td>
+                  <td>❌</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
