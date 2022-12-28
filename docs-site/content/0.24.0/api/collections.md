@@ -427,13 +427,18 @@ Typesense allows you to index the following types of fields:
 | `bool[]`                     | Array of booleans                                                                                                                                                              |
 | [`geopoint`](geosearch.md)   | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
 | [`geopoint[]`](geosearch.md) | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`                                                                                                   |
+| `object`                     | Nested objects                                                                                                                                                                 |
+| `object[]`                   | Arrays of nested objects                                                                                                                                                       |
 | `string*`                    | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
 | `auto`                       | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
+
+### Notes on indexing common types of data
 
 Here's how to index other common types of data, using the basic primitives in the table above:
 
 - [Nested fields / objects](#indexing-nested-fields)
 - [Dates](#indexing-dates)
+- [Other Types](#indexing-other-types-of-data)
 
 #### Indexing nested fields
 
@@ -441,7 +446,7 @@ Typesense supports indexing nested objects (and array of objects) from `v0.24`.
 
 You must first enable nested fields at a collection level via the `enable_nested_fields` schema property:
 
-```shell
+```shell{4}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "docs", 
@@ -454,7 +459,7 @@ curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: applicatio
 
 The schema can also explicitly index specific object fields or object arrays, e.g.:
 
-```shell
+```shell{6-7}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "docs", 
@@ -511,6 +516,10 @@ Dates need to be converted into [Unix timestamps](https://en.wikipedia.org/wiki/
 Most languages have libraries that help do this conversion for you. 
 
 You'll then be able to use numerical operators like `<`, `>`, etc to filter records that are before or after or between dates. 
+
+#### Indexing other types of data
+
+Read our dedicated guide article on how to index other common types of data like emails, phone numbers, SKUs, model numbers, etc [here](../../guide/tips-for-searching-common-types-of-data.md).
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.

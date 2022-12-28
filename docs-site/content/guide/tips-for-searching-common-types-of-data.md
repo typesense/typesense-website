@@ -257,15 +257,27 @@ So you would have to convert dates and times to Unix Timestamps as described <Ro
 
 ## Nested Objects
 
-::: tip UPDATE
+### From Typesense v0.24.0
 
-We've added support for nested objects and arrays of objects in the latest RC build of `0.24.0`: https://github.com/typesense/typesense/issues/227#issuecomment-1211666924
+Typesense v0.24.0 supports nested objects and arrays of objects natively.
+To enable nested fields, you'll need to use the `enable_nested_fields` property when creating the collection, along with the `object` or `object[]` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-types`">data type</RouterLink>:
 
-The rest of the below text applies to Typesense `0.23.1` and below.
+```json{3}
+{
+  "name": "docs", 
+  "enable_nested_fields": true,
+  "fields": [
+    {"name": "person", "type": "object"},
+    {"name": "details", "type": "object[]"},
+  ]
+}
+```
 
-:::
+Read more <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#indexing-nested-fields`">here</RouterLink>.
 
-As of 0.23.1, Typesense only supports indexing field values that are integers, floats, strings, booleans and arrays containing each of those <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-types`">data types</RouterLink>.
+### Typesense v0.23.1 and earlier
+
+Typesense v0.23.1 and earlier only supports indexing field values that are integers, floats, strings, booleans and arrays containing each of those data types.
 Only these data types can be specified for fields in the collection, which are the ones that will be indexed.
 
 **Important Side Note:** You can still send nested objects into Typesense, in fields not mentioned in the schema. These will not be indexed or type-checked. They will just be stored on disk and returned if the document is a hit for a search query.
