@@ -159,11 +159,11 @@ client.collections.create(schema)
 final schema = Schema(
   'companies',
   {
-    Field('company_name', Type.string),
-    Field('num_employees', Type.int32),
-    Field('country', Type.string, isFacetable: true),
+    Field('company_name', type: Type.string),
+    Field('num_employees',type: Type.int32),
+    Field('country', type: Type.string, isFacetable: true),
   },
-  defaultSortingField: Field('num_employees', Type.int32),
+  defaultSortingField: Field('num_employees',type: Type.int32),
 );
 
 await client.collections.create(schema);
@@ -847,8 +847,8 @@ client.collections['companies'].update(update_schema)
 ```dart
 final updateSchema = UpdateSchema(
   {
-    Field('num_employees', drop: true),
-    Field('company_category', Type.string)    
+    UpdateField('num_employees', shouldDrop: true),
+    UpdateField('company_category', type: Type.string)    
   }
 );
 await client.collection('companies').update(updateSchema);
