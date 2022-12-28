@@ -245,7 +245,9 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 {
   "id":"smart-phone-synonyms",
   "root":"smart phone",
-  "synonyms": ["iphone", "android"]
+  "synonyms": ["iphone", "android"],
+  "locale": "",
+  "symbols_to_index": []
 }
 ```
 
@@ -256,10 +258,12 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 `PUT ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
 
 ### Arguments
-| Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------|
-|synonyms	|yes	|Array of words that should be considered as synonyms.|
-|root	|no	|For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.|
+| Parameter        | Required | Description                                                                                                                               |
+|------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| synonyms         | yes      | Array of words that should be considered as synonyms.                                                                                     |
+| root             | no       | For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.                                                  |
+| locale           | no       | Locale for the synonym, leave blank to use the standard tokenizer.                                                                        |
+| symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is. |
 
 ## Retrieve a synonym
 We can retrieve a single synonym.
