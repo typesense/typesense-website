@@ -35,6 +35,7 @@ This release contains new features, performance improvements and important bug f
 
 - Further improvements in relevance scoring for matching text across multiple matching fields.
 - Improve performance of large collection deletions.
+- Ability to clone a collection schema (without documents), overrides and synonyms.
 - New highlight structure that mimics the original document structure. Nested fields are highlighted only in this new
   structure, which is returned in a key named `highlight` in the JSON response.
 - Allow override rules to be processed past the first match via the `stop_processing` flag (default is `true`).

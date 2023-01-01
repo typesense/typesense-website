@@ -432,6 +432,25 @@ Typesense allows you to index the following types of fields:
 | `string*`                    | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
 | `auto`                       | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
 
+### Cloning a collection schema
+
+Here's how you can clone an existing collection's schema (documents are not copied), overrides and synonyms. 
+
+```shell
+curl -k "http://localhost:8108/collections?src_name=existing_coll" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "new_coll"
+      }'
+```
+
+The above API call will create a new collection called `new_coll` that contains the schema, overrides and synonyms of 
+the collection `existing_coll`. The actual documents in the `existing_coll` collection are **not** copied, 
+so this is primarily useful for creating new collections from an existing reference template.
+
+:::tip
+Cloning a collection this way, does **not** copy the data. 
+:::
+
 ### Notes on indexing common types of data
 
 Here's how to index other common types of data, using the basic primitives in the table above:
