@@ -359,6 +359,25 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
+## Querying for similar documents
+
+If you have a particular document `id` and want to find documents that are "similar" to this document, you can 
+do a vector query that references this `id` directly.
+
+```shell
+export VEC_QUERY="vec:([], id: foobar)"
+
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/docs/documents/search?q=*&vector_query=$VEC_QUERY"
+```
+
+By specifying an empty query vector `[]` and passing an `id` parameter, this query 
+would return all documents whose `vec` value is closest to the `foobar` document's `vec` value.
+
+:::tip
+The `foobar` document itself will not be returned in the results.
+:::
+
 ## Brute-force searching
 
 By default, Typesense uses the built-in HNSW index to do approximate nearest neighbor vector searches. This scales 
