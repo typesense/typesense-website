@@ -233,7 +233,7 @@ CollectionSchema collectionSchema = new CollectionSchema();
 collectionSchema.name("books").defaultSortingField("ratings_count")
                 .addFieldsItem(new Field().name("title").type("string"))
                 .addFieldsItem(new Field().name("authors").type("string[]").facet(true))
-                .addFieldsItem(nnew Field().name("publication_year").type("string").facet(true))
+                .addFieldsItem(new Field().name("publication_year").type("string").facet(true))
                 .addFieldsItem(new Field().name("ratings_count").type("int32"))
                 .addFieldsItem(new Field().name("average_rating").type("float"));
 
