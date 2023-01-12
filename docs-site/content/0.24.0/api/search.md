@@ -602,9 +602,11 @@ Read more in the [Ranking and Relevance Guide](../../guide/ranking-and-relevance
 
 ## Presets
 
-Search presets allow you to store a bunch of search parameters together, and refererence them by a name. You can then 
+Search presets allow you to store a bunch of search parameters together, and reference them by a name. You can then 
 use this preset name when you make a search request, instead of passing all the search parameters individually 
 in each search request.
+
+You can then change the preset configuration on the Typesense side, to change your search parameters, without having to re-deploy your application.
 
 For example, you can create a preset configuration called a `listing_view` which does a wildcard search and sorts 
 the results by a `popularity` score.
@@ -625,10 +627,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
 'http://localhost:8108/multi_search?preset=listing_view'
 ```
 
-You can use the preset configuration for a `GET /search` end-point as well. 
+You can use the preset configuration for a `GET .../search` end-point as well. 
 
 The only requirement is that for 
-`GET /search`, the stored preset value should be a simple dictionary of search configurations, like this.
+`GET .../search`, the stored preset value should be a simple dictionary of search configurations, like this.
 
 ```shell
 curl "http://localhost:8108/presets/listing_view" -X PUT \
