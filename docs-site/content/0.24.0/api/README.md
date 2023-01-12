@@ -33,7 +33,7 @@ This release contains new features, performance improvements and important bug f
 
 ### Enhancements
 
-- Further improvements in relevance scoring for matching text across multiple matching fields.
+- New `text_match_type` parameter that allows you to customize how multi-field text relevancy score is computed.
 - Improve performance of large collection deletions.
 - Ability to clone a collection schema (without documents), overrides and synonyms.
 - New highlight structure that mimics the original document structure. Nested fields are highlighted only in this new
@@ -68,6 +68,8 @@ This release contains new features, performance improvements and important bug f
 
 ### Deprecations / behavior changes
 
+- The default value for `search_cutoff_ms` is now `30000`, i.e. 30 seconds. If you wish to allow searches to run 
+  longer than that, you can pass a higher value as a search parameter.
 - Disable text match score bucketing, if there are more buckets than the number of results found. Previously, results 
   were being aggregated into a single score.
 - The older `highlights` key in the response is deprecated (but is still returned for now). Use the new `highlight` 
