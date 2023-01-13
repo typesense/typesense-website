@@ -246,79 +246,121 @@ curl "http://localhost:8108/collections/docs/documents" -X POST \
 
 We can now search for documents that contain a `vec` field value "closest" to a given query vector. 
 
-We use the `k` parameter to control the number of documents that are returned.  
+We use the `k` parameter to control the number of documents that are returned.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
-  <template v-slot:JavaScript>
+<template v-slot:JavaScript>
 
 ```js
-let searchParameters = {
-  'q'            : '*',
-  'vector_query' : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+let searchRequests = {
+  'searches': [
+    {
+      'collection': 'docs',
+      'q': '*',
+      'vector_query' : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+    }
+  ]
 }
-
-client.collections('docs').documents().search(searchParameters)
+let commonSearchParams = {}
+client.multiSearch.perform(searchRequests, commonSearchParams)
 ```
 
-  </template>
+</template>
 
 <template v-slot:PHP>
 
 ```php
-$searchParameters = [
-  'q'            => '*',
-  'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+$searchRequests = [
+  'searches' => [
+    [
+      'collection' => 'docs',
+      'q' => '*',
+      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+    ]
+  ]
 ];
 
-$client->collections['docs']->documents->search($searchParameters);
+// Search parameters that are common to all searches go here
+$commonSearchParams =  [];
+$client->multiSearch->perform($searchRequests, $commonSearchParams);
 ```
 
-  </template>
+</template>
 
 <template v-slot:Python>
 
 ```py
-search_parameters = {
-  'q'              : '*',
-  'vector_query'   : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+search_requests = {
+  'searches': [
+    {
+      'collection': 'docs',
+      'q' : '*',
+      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+    }
+  ]
 }
 
-client.collections['docs'].documents.search(search_parameters)
+# Search parameters that are common to all searches go here
+common_search_params =  {}
+client.multi_search.perform(search_requests, common_search_params)
 ```
-
-  </template>
+</template>
 
 <template v-slot:Ruby>
 
 ```rb
-search_parameters = {
-  'q'              => '*',
-  'vector_query'   => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+search_requests = {
+  'searches': [
+    {
+      'collection' => 'docs',
+      'q' => '*',
+      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+    }
+  ]
 }
 
-client.collections['docs'].documents.search(search_parameters)
+# Search parameters that are common to all searches go here
+common_search_params =  {}
+client.multi_search.perform(search_requests, common_search_params)
 ```
 
-  </template>
-  <template v-slot:Java>
+</template>
+<template v-slot:Java>
 
 ```java
-SearchParameters searchParameters = new SearchParameters()
-                                        .q("*")
-                                        .vectorQuery("vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)");
-SearchResult searchResult = client.collections("docs").documents().search(searchParameters);
+HashMap<String,String > search1 = new HashMap<>();
+search1.put("collection","docs");
+search1.put("q","*");
+search1.put("vector_query", "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)");
+
+List<HashMap<String, String>> searches = new ArrayList<>();
+searches.add(search1);
+
+HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
+searchRequests.put("searches", searches);
+
+HashMap<String,String> commonSearchParams = new HashMap<>();
+commonSearchParams.put("query_by","name");
+
+client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
-  </template>
-  <template v-slot:Shell>
+</template>
+<template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/docs/documents/search?q=*&vector_query=vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)"
+export VEC_QUERY="vec:([0.96826,0.94,0.39557,0.306488])"
+curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+--data-raw '{"searches":[{"q":"*", "vector_query": "$VEC_QUERY" }]}'
 ```
 
   </template>
 </Tabs>
+
+:::tip
+Since vector search queries tend to be large because of the large dimension of the query vector, we are
+using the multi_search end-point that sends the search parameters as a POST request body.
+:::
 
 **Sample Response**
 
@@ -366,9 +408,8 @@ do a vector query that references this `id` directly.
 
 ```shell
 export VEC_QUERY="vec:([], id: foobar)"
-
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/docs/documents/search?q=*&vector_query=$VEC_QUERY"
+curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+--data-raw '{"searches":[{"q":"*", "vector_query": "$VEC_QUERY" }]}'
 ```
 
 By specifying an empty query vector `[]` and passing an `id` parameter, this query 
@@ -391,6 +432,7 @@ Here's an example where we are filtering on the `category` field and asking the 
 flat searching if the number of results produced by the filtering operation is less than 20 results.
 
 ```shell
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/docs/documents/search?q=*&filter_by=category:shoes&vector_query=vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)"
+export VEC_QUERY="vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)"
+curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+--data-raw '{"searches":[{"q":"*", "filter_by": "category:shoes", "vector_query": "$VEC_QUERY" }]}'
 ```
