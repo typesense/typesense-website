@@ -313,7 +313,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 |:---------------------|:--------------------------------------------------|
 | `aliases:list`       | Allows all aliases to be fetched.                 |
 | `aliases:get`        | Allows a single alias to be retrieved             |
-| `aliases:create`     | Allows the creation of aliases.                   |
+| `aliases:upsert`     | Allows upserting aliases.                         |
 | `aliases:delete`     | Allows the deletion of aliases.                   |
 | `aliases:*`          | Allows all alias operations.                      |
 
