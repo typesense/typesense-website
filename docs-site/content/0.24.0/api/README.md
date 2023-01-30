@@ -90,7 +90,7 @@ If you're on Typesense Cloud:
 
 1. Go to [https://cloud.typesense.org/clusters](https://cloud.typesense.org/clusters).
 2. Click on your cluster
-3. Click on "Modify Configuration" on the right side pane
+3. Click on "Cluster Configuration" on the left-side pane, and then click on "Modify"
 4. Schedule a time for the upgrade.
 
 ### Self Hosted
