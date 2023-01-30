@@ -21,7 +21,7 @@ Here are some common models you can use to generate these document embeddings: S
 Once you've generated these embeddings, you can import them into Typesense into a special vector field and then do a nearest neighbor search, giving another set of vectors or a document ID as the input, 
 and get the documents that are closest (cosine similarity) to your input. 
 
-Here's an example practical application of vector search - a "Find Similar" feature in an ecommerce store: https://ecommerce-store.typesense.org/. (Click on `Find Similar` below each product). 
+Here's an example practical application of vector search - a "Find Similar" feature in an ecommerce store: [ecommerce-store.typesense.org](https://ecommerce-store.typesense.org/). (Click on `Find Similar` below each product). 
 
 Let's discuss how to do this in Typesense.
 
