@@ -51,7 +51,6 @@ We plan to close the gap based on feedback we get from Algolia users switching o
   - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
   - AI Re-Ranking
   - Recommendations
-- Indexing nested fields (they need to be [flattened](#indexing-nested-fields) to top-level keys in Typesense).
 - Querying plurals / singulars of indexed keywords (plurals need to be setup as synonyms in Typesense).
 
 ### Key Features in Typesense, not in Algolia
@@ -132,48 +131,6 @@ You would just have to install the adapter into your application via `npm` or `y
 and your existing UI widgets will work with your Typesense cluster, without any additional changes in most cases. 
 
 A few widgets need [small changes](https://github.com/typesense/typesense-instantsearch-adapter#widget-specific-instructions) to use them with Typesense.
-
-## Indexing Nested Fields
-
-Typesense currently only supports indexing field values that are integers, floats, strings, booleans and arrays containing each of those data types.
-Only these data types can be specified for fields in the collection, which are the ones that will be indexed. 
-
-**Important Side Note:** You can still send nested objects into Typesense, in fields not mentioned in the schema. These will not be indexed or type-checked. They will just be stored on disk and returned if the document is a hit for a search query. 
-
-Typesense specifically does not support indexing nested objects, or arrays of objects. We plan to add support for this shortly as part of ([#227](https://github.com/typesense/typesense/issues/227)).
-In the meantime, you would have to flatten objects and arrays of objects into top-level keys before sending the data into Typesense.
-
-For example, a document like this containing nested objects:
-
-```json
-{
-  "nested_field": {
-    "field1": "value1",
-    "field2": ["value2", "value3", "value4"],
-    "field3": {
-      "fieldA": "valueA",
-      "fieldB": ["valueB", "valueC", "valueD"]
-    }
-  }
-}  
-```
-
-would need to be flattened as:
-
-```json
-{
-  "nested_field.field1": "value1",
-  "nested_field.field2":  ["value2", "value3", "value4"],
-  "nested_field.field3.fieldA": "valueA",
-  "nested_field.field3.fieldB": ["valueB", "valueC", "valueD"]
-}
-```
-
-before indexing it into Typesense.
-
-To simplify traversing the data in the results, you might want to send both the flattened and unflattened version of the nested fields into Typesense, 
-and only set the flattened keys as indexed in the collection's schema and use them for search/filtering/faceting.
-At display time when parsing the results, you can then use the nested version.
 
 ## Geo-Distributed Clusters
 
