@@ -79,16 +79,16 @@ export default {
           icon: require('~/assets/images/federated_search_icon.svg'),
         },
         {
+          name: 'Vector Search',
+          description:
+            'Index embeddings from your machine learning models in Typesense and do a nearest-neighbor search.',
+          icon: require('~/assets/images/vector_search_icon.svg'),
+        },
+        {
           name: 'Easy High Availability',
           description:
             'Build a resilient production-grade search service, with a few simple steps.',
           icon: require('~/assets/images/high_availability_icon.svg'),
-        },
-        {
-          name: 'Easy Version Upgrades',
-          description:
-            'Replace the binary, and restart the process. Typesense will automatically re-index your data in the new version.',
-          icon: require('~/assets/images/easy_version_upgrades_icon.svg'),
         },
       ],
     }
