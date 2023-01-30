@@ -21,11 +21,16 @@ Here are some common models you can use to generate these document embeddings: S
 Once you've generated these embeddings, you can import them into Typesense into a special vector field and then do a nearest neighbor search, giving another set of vectors or a document ID as the input, 
 and get the documents that are closest (cosine similarity) to your input. 
 
+Here's an example practical application of vector search - a "Find Similar" feature in an ecommerce store: https://ecommerce-store.typesense.org/. (Click on `Find Similar` below each product). 
+
 Let's discuss how to do this in Typesense.
 
 ## Adding a Vector Field
 
-Typesense supports vector search on `float[]` fields that specify a dimension via the `num_dim` property.
+We'll assume that you've already generated your embeddings using a machine learning model. 
+If not, [here's](https://github.com/typesense/showcase-ecommerce-store/blob/7637d2c4e967419ac8a874c28d3f3e20d79040fa/scripts/vector-generation/main.py) a quick example of how to use the Sentence-BERT model to generate embeddings.
+
+Once you have your document embeddings, you want to add a `float[]` field to your collection schema that holds these embeddings, and specify the number of dimensions (length of the float array) via the `num_dim` property.
 
 Let's create a collection called `docs` with a vector field called `vec` that contains just 4 dimensions. 
 

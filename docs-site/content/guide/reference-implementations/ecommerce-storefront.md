@@ -15,4 +15,5 @@ In addition to search experiences, Typesense can also be used to build performan
 - [Here's](https://github.com/typesense/showcase-ecommerce-store/blob/901f3b2f08aea4950ddd34a394c6b161eaf74658/src/app.js#L234-L243) how to let users pick the number of results they want to see on the page.
 - [Here's](https://github.com/typesense/showcase-ecommerce-store/blob/901f3b2f08aea4950ddd34a394c6b161eaf74658/src/app.js#L258-L263) how to let users clear all their filter / refinement selections.
 - [Here's](https://github.com/typesense/showcase-ecommerce-store/blob/901f3b2f08aea4950ddd34a394c6b161eaf74658/src/app.js#L266-L279) how to capture analytics on how users are interacting with the widgets and send it to a web analytics tool.
-
+- [Here's](https://github.com/typesense/showcase-ecommerce-store/blob/7637d2c4e967419ac8a874c28d3f3e20d79040fa/src/app.js#L295-L302) how to search for products that are similar to a given product.
+- [Here's](https://github.com/typesense/showcase-ecommerce-store/blob/7637d2c4e967419ac8a874c28d3f3e20d79040fa/scripts/vector-generation/main.py) how to generate embeddings using the Sentence-BERT model. 
