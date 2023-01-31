@@ -135,7 +135,7 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>❌</td>
+                  <td>✅️</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">High Availability</td>
@@ -429,7 +429,7 @@
                   <td>❌</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Record Validations</td>
+                  <td class="font-weight-bold">Record Schema Validations</td>
                   <td>✅️</td>
                   <td>❌</td>
                   <td>
@@ -479,7 +479,7 @@
                 <tr>
                   <td class="font-weight-bold">Similarity Search</td>
                   <td>✅<br /><br />Can be implemented using Vector Search</td>
-                  <td>✅</td>
+                  <td>❌</td>
                   <td>✅️<br /><br />Can be implemented using Vector Search</td>
                   <td>❌</td>
                 </tr>
