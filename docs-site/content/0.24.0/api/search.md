@@ -369,7 +369,7 @@ For eg:
 sort_by: _eval(in_stock:true):desc,popularity:desc
 ```
 
-This will result in documents where `in_stock` is set to `true` to be ranked above, document where `in_stock` is set to `false`.
+This will result in documents where `in_stock` is set to `true` to be ranked first, followed by documents where `in_stock` is set to `false`.
 
 ### Sorting null, empty or missing values
 
