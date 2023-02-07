@@ -145,7 +145,7 @@
                   <td class="text-danger">
                     ❌<br /><br />Only supports a single-node setup, which
                     creates a potential single point of failure and so is not
-                    production-ready.
+                    production-ready, despite the v1.x versioning.
                   </td>
                 </tr>
                 <tr>
@@ -642,18 +642,18 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Maximum Indices</td>
+                  <td class="font-weight-bold">Maximum Number of Indices</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
-                  <td>No limitation</td>
+                  <td>200 for Linux/MacOS, 20 for Windows</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
                   <td>No limitations, only constrained by available RAM</td>
                   <td>128 GB</td>
                   <td>No limitation</td>
-                  <td>100GB default, can be modified</td>
+                  <td>500GB default</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Words per field</td>
