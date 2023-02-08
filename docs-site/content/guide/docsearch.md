@@ -27,8 +27,8 @@ Follow one of the templates below to create your own `config.json` file, pointin
 - [Here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense (Vuepress-based) Documentation Site's docsearch config.
 - [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites.
 
-After starting with the template, you will want to change some other fields:
-- `index_name` - This corresponds to "typesenseCollectionName" in other places. (The reason for the mismatch is because Algolia calls a collection of documents an "index", whereas Typesense calls a collection of documents a collection, and the crawler was originally forked from Algolia.)
+After starting with the template, you will want to change a few fields in the configuration:
+- `index_name` - This corresponds to `typesenseCollectionName` in the frontend configuration further down below. (The reason for the mismatch is because Algolia calls a collection of documents an "index", whereas Typesense calls a collection of documents a collection, and the scraper was originally forked from Algolia.)
 - `start_urls` - This corresponds to the URL for your website.
 - `sitemap_urls` - (Docusaurus-only) You'll need to change this URL to match, just like you changed the `start_urls`.
 
@@ -85,13 +85,15 @@ The easiest way to run the scraper is using Docker.
     TYPESENSE_PROTOCOL=https
     ```
    ::: tip
-   If you are self-hosting Typesense, then you can usually find your API key and port number in the "/etc/typesense/typesense-server.ini" file.
-   The host will be equal to the FQDN of your server (i.e. the first part of the public URL that end-users will connect to).
-   By default, self-hosted TypeSense uses HTTP, so you will probably also need to change `https` to `http` above. (Unless of course you specified `ssl-certificate` and `ssl-certificate-key` in your ini file.)
+   If you are self-hosting Typesense, then you can usually find your API key and port number in the `/etc/typesense/typesense-server.ini` file.
+
+   The host will be equal to the FQDN or IP address of your server.
+
+   By default, self-hosted Typesense uses HTTP, so you might need to change `https` to `http` above. (Unless of course you specified `ssl-certificate` and `ssl-certificate-key` in your ini file.)
    :::
 
    ::: tip
-   If you're running Typesense on `localhost` and you're using Docker to run the scraper, 
+   If you are running Typesense on `localhost` and you're using Docker to run the scraper, 
    using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. 
    Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host.
    Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. 
