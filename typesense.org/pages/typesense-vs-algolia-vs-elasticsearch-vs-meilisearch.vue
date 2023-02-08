@@ -96,7 +96,7 @@
                   <td>
                     Instant Search-as-you-type Experiences for up to a few
                     hundred thousand records, that don't require a
-                    production-grade highly-available setup.
+                    highly-available fault-tolerant setup.
                   </td>
                 </tr>
                 <tr>
@@ -138,14 +138,16 @@
                   <td>✅️</td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">High Availability</td>
+                  <td class="font-weight-bold">
+                    High Availability / <br />Fault Tolerance
+                  </td>
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />Active-passive replication</td>
                   <td class="text-danger">
                     ❌<br /><br />Only supports a single-node setup, which
                     creates a potential single point of failure and so is not
-                    production-ready, despite the v1.x versioning.
+                    fault tolerant / production-ready.
                   </td>
                 </tr>
                 <tr>
@@ -368,7 +370,7 @@
                   <td>All languages</td>
                   <td>All languages</td>
                   <td>All languages</td>
-                  <td>Latin-based languages, English, CJK & Kanji languages</td>
+                  <td>All languages</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
@@ -653,7 +655,7 @@
                   <td>No limitations, only constrained by available RAM</td>
                   <td>128 GB</td>
                   <td>No limitation</td>
-                  <td>500GB default</td>
+                  <td>500GB</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Words per field</td>
