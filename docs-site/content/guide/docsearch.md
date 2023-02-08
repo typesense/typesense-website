@@ -27,6 +27,11 @@ Follow one of the templates below to create your own `config.json` file, pointin
 - [Here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense (Vuepress-based) Documentation Site's docsearch config.
 - [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites.
 
+After starting with the template, you will want to change some other fields:
+- `index_name` - This corresponds to "typesenseCollectionName" in other places. (The reason for the mismatch is because Algolia calls a collection of documents an "index", whereas Typesense calls a collection of documents a collection, and the crawler was originally forked from Algolia.)
+- `start_urls` - This corresponds to the URL for your website.
+- `sitemap_urls` - (Docusaurus-only) You'll need to change this URL to match, just like you changed the `start_urls`.
+
 Here's the official [DocSearch Scraper documentation](https://docsearch.algolia.com/docs/legacy/config-file) that describes all the available config options.
 
 :::tip
@@ -35,6 +40,16 @@ This is because Algolia has recently started asking their users to migrate to th
 
 Given this, we intend to maintain and develop [Typesense's DocSearch Scraper fork](https://github.com/typesense/typesense-docsearch-scraper) long after Algolia's deprecation.
 So you can safely ignore the deprecation warnings in their documentation.
+:::
+
+:::tip
+If you look at the logs of your Typesense instance, you might see that it reports that the internal index name / collection name is something like `foo_1675838072` instead of `foo`. This is because every time that the crawler runs:
+
+- It creates a new collection called: `foo_<current_unix_timestamp>`
+- It creates/updates an alias called `foo` that points to: `foo_<current_unix_timestamp>`
+- It deletes the previously scrapped version of the docs, stored in: `foo_<previous_timestamp>`
+
+For this reason, when configuring your website search engine, you should specify the index name / collection name as `foo` instead of `foo_<unix_timestamp>`.
 :::
 
 ### Add DocSearch meta tags (optional)
