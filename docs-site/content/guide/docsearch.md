@@ -72,7 +72,7 @@ The easiest way to run the scraper is using Docker.
    ::: tip
    If you are self-hosting Typesense, then you can usually find your API key and port number in the "/etc/typesense/typesense-server.ini" file.
    The host will be equal to the FQDN of your server (i.e. the first part of the public URL that end-users will connect to).
-   By default, self-hosted TypeSense uses HTTP, so you will probably also need to change `https` to `http` above.
+   By default, self-hosted TypeSense uses HTTP, so you will probably also need to change `https` to `http` above. (Unless of course you specified `ssl-certificate` and `ssl-certificate-key` in your ini file.)
    :::
 
    ::: tip
