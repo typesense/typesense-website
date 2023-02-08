@@ -8,7 +8,7 @@ In fact, the search bar you see on Typesense's own documentation site is built w
 Typesense's customized version of DocSearch is made up of two components:
 
 1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - Scraper that scans your documentation site and indexes the content in Typesense.
-1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
+2. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
 
 :::tip Tip: Usage on Non-Documentation Sites
 Even though DocSearch was originally built for Documentation sites, 
@@ -69,6 +69,11 @@ Example: all extracted records on the page will have a `language` attribute of `
 ::: tip
 `_tag` must be appended to the end of the `$NAME` variable for the attribute to be saved in the schema.
 :::
+
+#### Key Concepts
+
+- Docsearch organizes the scraped information using records called `text`, `lvl0`, `lvl1`, `lvl2`...`lvl6`, which usually map to the main content and and header elements within most web articles.
+- `text` and `lvlX` records can be queried using CSS selectors or xpath queries.
 
 ### Run the Scraper
 
