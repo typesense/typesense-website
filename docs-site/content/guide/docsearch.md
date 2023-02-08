@@ -62,13 +62,19 @@ The easiest way to run the scraper is using Docker.
 1. [Install Docker](https://docs.docker.com/get-docker/)
 2. [Install jq](https://stedolan.github.io/jq/download/)
 3. [Run Typesense](./install-typesense.md)
-4. Create a `.env` file with the following contents:
+4. Create a `.env` file with the following contents, replacing them with the correct values for your particular situation:
     ```shell
     TYPESENSE_API_KEY=xyz
     TYPESENSE_HOST=xxx.a1.typesense.net
     TYPESENSE_PORT=443
     TYPESENSE_PROTOCOL=https
     ```
+   ::: tip
+   If you are self-hosting Typesense, then you can usually find your API key and port number in the "/etc/typesense/typesense-server.ini" file.
+   The host will be equal to the FQDN of your server (i.e. the first part of the public URL that end-users will connect to).
+   By default, self-hosted TypeSense uses HTTP, so you will probably also need to change `https` to `http` above.
+   :::
+
    ::: tip
    If you're running Typesense on `localhost` and you're using Docker to run the scraper, 
    using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. 
