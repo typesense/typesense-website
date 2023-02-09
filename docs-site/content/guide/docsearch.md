@@ -171,7 +171,7 @@ Add the following to your `docusaurus.config.js` file:
         apiKey: 'xyz',
       },
 
-      // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/search.md#search-parameters
+      // Optional: Typesense search parameters: https://typesense.org/docs/0.24.0/api/search.html#search-parameters
       typesenseSearchParameters: {},
 
       // Optional
