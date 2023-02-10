@@ -72,6 +72,30 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-a
   </template>
 </Tabs>
 
+#### Docker Compose
+
+<Tabs :tabs="['yml']">
+  <template v-slot:yml>
+
+<pre class="language-yaml"><code>version: '3.4'
+services:
+  typesense:
+    image: typesense/typesense:0.24.0
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=xyz --enable-cors'
+</code></pre>
+
+  </template>
+</Tabs>
+
+```shell
+docker-compose up
+```
+
 #### DEB package on Ubuntu/Debian
 
 <Tabs :tabs="['Shell']">
