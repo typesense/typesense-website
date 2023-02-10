@@ -378,9 +378,8 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 <template v-slot:Shell>
 
 ```bash
-export VEC_QUERY="vec:([0.96826,0.94,0.39557,0.306488])"
 curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "vector_query": "$VEC_QUERY" }]}'
+--data-raw '{"searches":[{"q":"*", "vector_query": "vec:([0.96826,0.94,0.39557,0.306488])" }]}'
 ```
 
   </template>
@@ -436,9 +435,8 @@ If you have a particular document `id` and want to find documents that are "simi
 do a vector query that references this `id` directly.
 
 ```shell
-export VEC_QUERY="vec:([], id: foobar)"
 curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "vector_query": "$VEC_QUERY" }]}'
+--data-raw '{"searches":[{"q":"*", "vector_query": "vec:([], id: foobar)" }]}'
 ```
 
 By specifying an empty query vector `[]` and passing an `id` parameter, this query 
@@ -461,7 +459,6 @@ Here's an example where we are filtering on the `category` field and asking the 
 flat searching if the number of results produced by the filtering operation is less than 20 results.
 
 ```shell
-export VEC_QUERY="vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)"
 curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "filter_by": "category:shoes", "vector_query": "$VEC_QUERY" }]}'
+--data-raw '{"searches":[{"q":"*", "filter_by": "category:shoes", "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" }]}'
 ```
