@@ -47,7 +47,7 @@ Algolia's DocSearch repositories are archived. This is because Algolia has migra
 
 Given this, Typesense intends to maintain and develop [a fork](https://github.com/typesense/typesense-docsearch-scraper). Thus, you can safely ignore the deprecation warnings in their documentation.
 
-In the long term, we intend on updating all of the documentation to Typesense repositories to avoid this issue.
+In the long term, we intend on updating all of the documentation to Typesense repositories to avoid the confusion.
 :::
 
 :::tip
