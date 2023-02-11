@@ -126,7 +126,7 @@ You can also run the scraper as a daemon by substituting the `-it` flags with `-
 
 If you are setting up Typesense for the first time, then skip down to the next section. But once you have confirmed that the indexer works and confirmed that your website has coherent search results, you should set things up so that your website can get continually scraped.
 
-The Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
+The scraper Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
 
 - GitHub Actions
 - CircleCI
