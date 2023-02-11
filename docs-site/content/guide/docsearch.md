@@ -22,7 +22,7 @@ Most documentation websites change over time. Thus, the scaper will need to be r
 :::
 
 :::tip
-Tip: Even if you are paying for [TypeSense cloud](https://cloud.typesense.org/), you are still in charge of running the scaper to update your index. (As previously mentioned, most people do this in CI.)
+Tip: Even if you are paying for [TypeSense Cloud](https://cloud.typesense.org/), you are still in charge of running the scaper to update your index. (As previously mentioned, most people do this in CI.)
 :::
 
 ### Create a DocSearch Config File
