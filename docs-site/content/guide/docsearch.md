@@ -1,58 +1,70 @@
 # Search for Documentation Sites
 
-The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch) which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.
+The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch), which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.
 
-This article will show you how to use a customized version of DocSearch that works with Typesense.
-In fact, the search bar you see on Typesense's own documentation site is built with this customized version of DocSearch.
+This article will show you how to use a customized version of DocSearch that works with Typesense. In fact, the search bar you see on Typesense's own documentation site is built with this customized version of DocSearch.
 
 Typesense's customized version of DocSearch is made up of two components:
 
-1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - Scraper that scans your documentation site and indexes the content in Typesense.
-1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - Javascript library that adds a search bar to your documentation site, that uses the index built by the DocSearch scraper.
+1. [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - A web-scraper that scans your documentation site and indexes the content in Typesense.
+1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - A JavaScript library that adds a search bar to your documentation site. When end-users start typing into the search bar, it queries the content index built by the DocSearch scraper.
 
-:::tip Tip: Usage on Non-Documentation Sites
-Even though DocSearch was originally built for Documentation sites, 
-it can actually be used for any site that has structured, hierarchical and consistent HTML markup across pages.  
+:::tip TIP: Usage on Non-Documentation Sites
+Even though DocSearch was originally built for documentation sites, it can actually be used for any site that has structured, hierarchical, and consistent HTML markup across pages.  
 :::
 
 ## Step 1: Set up DocSearch Scraper
 
-Let's first set up the scraper and point it at your documentation site.
+First, we need to set up the scraper to point at your documentation site. Running the scraper will generate an index for each word on your website, and then upload it to your Typesense server. That's what makes your website searchable!
+
+:::tip
+Most documentation websites change over time. Thus, the scaper will need to be re-run regularly in order to keep the index in sync with your content. As a first step, you should get the scraper running on your local computer, which will create an index for the first time. Then, you can test out the search results and see if everything is working okay. After that, you will likely want to set up the scraper to automatically run after each commit to your repository using [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) (e.g. [GitHub Actions](https://github.com/features/actions), [CircleCI](https://circleci.com/), etc.). More discussion on that can be found [below](#deploy-the-scraper-to-a-server-somewhere).
+:::
+
+:::tip
+Tip: Even if you are paying for [TypeSense cloud](https://cloud.typesense.org/), you are still in charge of running the scaper to update your index. (As previously mentioned, most people do this in CI.)
+:::
 
 ### Create a DocSearch Config File
 
 Follow one of the templates below to create your own `config.json` file, pointing to your documentation site:
 
-- [Here's](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json) Docusaurus' documentation docsearch config.
-- [Here's](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) Typesense (Vuepress-based) Documentation Site's docsearch config.
-- [This repo](https://github.com/algolia/docsearch-configs/tree/master/configs) contains several Docsearch configuration files used by different documentation sites.
-
-After starting with the template, you will want to change a few fields in the configuration:
-- `index_name` - This corresponds to `typesenseCollectionName` in the frontend configuration further down below. (The reason for the mismatch is because Algolia calls a collection of documents an "index", whereas Typesense calls a collection of documents a collection, and the scraper was originally forked from Algolia.)
-- `start_urls` - This corresponds to the URL for your website.
-- `sitemap_urls` - (Docusaurus-only) You'll need to change this URL to match, just like you changed the `start_urls`.
+- [Docusaurus](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json)
+- [Vuepress](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js)
+- More templates can be found in [Algolia's repo](https://github.com/algolia/docsearch-configs/tree/master/configs).
 
 Here's the official [DocSearch Scraper documentation](https://docsearch.algolia.com/docs/legacy/config-file) that describes all the available config options.
 
-:::tip
-You might notice that the links to Algolia's DocSearch scraper documentation and scraper config files repo above say they're legacy or deprecated. 
-This is because Algolia has recently started asking their users to migrate to their proprietary closed-source crawler, and have marked their open source DocSearch Scraper as deprecated.
+After starting with one of the templates, you will want to change a few fields in the configuration:
+- `index_name` - Should be a unique string that identifies your website. This corresponds to `typesenseCollectionName` in the front-end configuration further down below.
+- `start_urls` - This corresponds to the URL for your website.
+- `end_urls` - An array of URLs to ignore. For example, if you have a change log on your website, you might want to ignore it so that it does not interfere with the search results for actual content.
+- `sitemap_urls` - (Docusaurus-only) You will need to change this URL to match, just like you changed the `start_urls`. (This XML file is automatically generated by Docusaurus during its build process.)
+- `lvl1` - (Docusaurus-only) Change "header h1" to "article h1, header h1".
 
-Given this, we intend to maintain and develop [Typesense's DocSearch Scraper fork](https://github.com/typesense/typesense-docsearch-scraper) long after Algolia's deprecation.
-So you can safely ignore the deprecation warnings in their documentation.
+:::tip
+Algolia's DocSearch repositories are archived. This is because Algolia has migrated to their proprietary closed-source crawler in February 2022. Thus, they no longer maintain the open-source version.
+
+Given this, Typesense intends to maintain and develop [a fork](https://github.com/typesense/typesense-docsearch-scraper). Thus, you can safely ignore the deprecation warnings in their documentation.
+
+In the long term, we intend on updating all of the documentation to Typesense repositories to avoid this issue.
 :::
 
 :::tip
-If you look at the logs of your Typesense instance, you might see that it reports that the internal index name / collection name is something like `foo_1675838072` instead of `foo`. This is because every time that the crawler runs:
+There is a mismatch between `index_name` in the scraper config and `typesenseCollectionName` in the front-end config because Algolia calls a collection of documents an "index", and Typesense calls a collection of documents a collection. The scraper was originally forked from Algolia and the name was kept to maintain backwards compatibility with the ecosystem.
+:::
+
+:::tip
+If you look at the logs of your Typesense instance, you might see that it reports the index/collectible name as something like `foo_1675838072` instead of `foo`. This is because every time the crawler runs:
 
 - It creates a new collection called: `foo_<current_unix_timestamp>`
 - It creates/updates an alias called `foo` that points to: `foo_<current_unix_timestamp>`
 - It deletes the previously scrapped version of the docs, stored in: `foo_<previous_timestamp>`
 
-For this reason, when configuring your website search engine, you should specify the index name / collection name as `foo` instead of `foo_<unix_timestamp>`.
+For this reason, when configuring your front-end search engine, you should specify the index/collection name as `foo` instead of `foo_<unix_timestamp>`.
 :::
 
-### Add DocSearch meta tags (optional)
+### Add DocSearch Meta Tags (optional)
 
 The scraper automatically extracts information from the DocSearch meta tags and attaches the `content` value to all records extracted on the page. This is a great way to filter searches on custom attributes.
 
@@ -74,10 +86,10 @@ Example: all extracted records on the page will have a `language` attribute of `
 
 The easiest way to run the scraper is using Docker.
 
-1. [Install Docker](https://docs.docker.com/get-docker/)
-2. [Install jq](https://stedolan.github.io/jq/download/)
-3. [Run Typesense](./install-typesense.md)
-4. Create a `.env` file with the following contents, replacing them with the correct values for your particular situation:
+1. [Install Docker.](https://docs.docker.com/get-docker/)
+1. [Install `jq`.](https://stedolan.github.io/jq/download/)
+1. [Make sure your Typesense server is operational.](./install-typesense.md)
+1. Create a `.env` file with the following contents, replacing them with the correct values for your particular situation:
     ```shell
     TYPESENSE_API_KEY=xyz
     TYPESENSE_HOST=xxx.a1.typesense.net
@@ -89,30 +101,32 @@ The easiest way to run the scraper is using Docker.
 
    The host will be equal to the FQDN or IP address of your server.
 
-   By default, self-hosted Typesense uses HTTP, so you might need to change `https` to `http` above. (Unless of course you specified `ssl-certificate` and `ssl-certificate-key` in your ini file.)
+   By default, self-hosted Typesense uses HTTP, so you might need to change `https` to `http`. (Unless of course you specified `ssl-certificate` and `ssl-certificate-key` in your ini file.)
    :::
 
    ::: tip
-   If you are running Typesense on `localhost` and you're using Docker to run the scraper, 
-   using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. 
-   Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host.
-   Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. 
-   For eg, on macOS you want to use `TYPESENSE_HOST=host.docker.internal` 
+   If you are running Typesense on `localhost` and you're using Docker to run the scraper,  using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
    :::
-6. Run the scraper:
+1. Run the scraper:
     ```shellsession
-    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat /path/to/your/config.json | jq -r tostring)" typesense/docsearch-scraper
+    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper
     ```
 
 This will scrape your documentation site and index it into Typesense.
 
 ::: tip
-The Docker command above will run the scraper in interactive mode, outputting logs to stdout. You can also run it as a daemon, by substituting the `-it` flags with `-d` ([Detached Mode](https://docs.docker.com/engine/reference/run/#detached--d)).
+The Docker command above will run the scraper in interactive mode, outputting logs to stdout.
+
+If needed, you can send the output to both stdout and a file at the same time by adding `| tee scraper-output.txt` to the end of the command. This is helpful because the output can be very verbose.
+
+You can also run the scraper as a daemon by substituting the `-it` flags with `-d` ([detached mode](https://docs.docker.com/engine/reference/run/#detached--d)).
 :::
 
-::: tip Running the Scraper in Production
+### Integrate With CI / Deploy It to a Server
 
-The docsearch-scraper Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
+Now that you have confirmed that the indexer works and confirmed that your website has coherent search results, it's time to set things up so that your website can get continually scraped.
+
+The Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
 
 - GitHub Actions
 - CircleCI
@@ -121,24 +135,24 @@ The docsearch-scraper Docker container is stateless and so can be run on any pla
 - Heroku
 - Render
 
-and many more.
-
-You can run the container on-demand any time you need to re-crawl your site and refresh your search index.
-:::
+And many more. We recommend running the scraper in CI so that your search index will always stay up-to-date. (As opposed to e.g. a cron job that runs every day.)
 
 ## Step 2: Add a Search Bar to your Documentation Site 
 
 ### Option A: Docusaurus-powered sites
 
-If you use [Docusaurus](https://docusaurus.io/) as your documentation framework, 
-use the [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) plugin to add a search bar to your Docusaurus site.
+If you use [Docusaurus](https://docusaurus.io/) as your documentation framework, use the [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) plugin to add a search bar to your Docusaurus site.
 
 ```shellsession
 $ npm install docusaurus-theme-search-typesense@next --save
 
-# or 
+# or
 
 $ yarn add docusaurus-theme-search-typesense@next
+
+# or
+
+$ pnpm add docusaurus-theme-search-typesense@next
 ```
 
 Add the following to your `docusaurus.config.js` file:
@@ -148,8 +162,10 @@ Add the following to your `docusaurus.config.js` file:
   themes: ['docusaurus-theme-search-typesense'],
   themeConfig: {
     typesense: {
-      typesenseCollectionName: 'docusaurus-2', // Replace with your own doc site's name. Should match the collection name in the scraper settings.
-      
+      // Replace this with the name of your index/collection.
+      // It should match the "index_name" entry in the scraper's "config.json" file.
+      typesenseCollectionName: 'docusaurus-2',
+
       typesenseServerConfig: {
         nodes: [
           {
@@ -181,7 +197,7 @@ Add the following to your `docusaurus.config.js` file:
 }
 ```
 
-Style your search component following the instructions [here](https://docusaurus.io/docs/search#styling-your-algolia-search).
+Style your search component following [these instructions](https://docusaurus.io/docs/search#styling-your-algolia-search).
 
 ### Option B: Vuepress-powered sites
 
