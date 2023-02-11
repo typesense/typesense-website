@@ -51,7 +51,7 @@ In the long term, we intend on updating all of the documentation to Typesense re
 :::
 
 :::tip
-There is a mismatch between `index_name` in the scraper config and `typesenseCollectionName` in the front-end config because Algolia calls a collection of documents an "index", and Typesense calls a collection of documents a collection. The scraper was originally forked from Algolia and the name was kept to maintain backwards compatibility with the ecosystem.
+There is a mismatch between `index_name` in the scraper config and `typesenseCollectionName` in the front-end config. This is because Algolia calls a collection of documents an "index" and Typesense calls a collection of documents a collection. The scraper was originally forked from Algolia and the name was deliberately kept to maintain backwards compatibility with the ecosystem.
 :::
 
 :::tip
