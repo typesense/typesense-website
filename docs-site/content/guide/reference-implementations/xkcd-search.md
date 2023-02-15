@@ -1,4 +1,4 @@
-# Books Search
+# xkcd Search
 
 This site indexes transcripts and topics from xkcd and let's you browse and search by topic, character names and date. 
 
