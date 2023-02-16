@@ -94,9 +94,9 @@
                     datasets (eg: log data)
                   </td>
                   <td>
-                    Instant Search-as-you-type Experiences for up to a few
-                    hundred thousand records, that don't require a
-                    highly-available fault-tolerant setup.
+                    Instant Search-as-you-type Experiences for data sets that
+                    can fit on Disk, that don't require a highly-available
+                    fault-tolerant setup.
                   </td>
                 </tr>
                 <tr>
@@ -181,8 +181,10 @@
                     apache or the like as a reverse proxy in front
                   </td>
                   <td>
-                    Recommends use of nginx, apache or the like as a reverse
-                    proxy in front, before exposing to frontend
+                    None. Self-contained binary. <br /><br />Built-in high
+                    performance HTTP server, that can be exposed to the frontend
+                    directly. Recommends use of nginx, apache or the like as a reverse
+                    proxy in front, to manage the renewal of the SSL certificate
                   </td>
                 </tr>
                 <tr>
@@ -214,7 +216,9 @@
                   <td>
                     Replace binary, restart process. No re-indexing required.
                   </td>
-                  <td>Replace binary, re-index all documents.</td>
+                  <td>
+                    <a href="https://docs.meilisearch.com/learn/update_and_migration/updating.html">Create a dump, replace binary, load the dump</a>.
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -441,6 +445,18 @@
                   <td>❌</td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">Schemaless</td>
+                  <td>🔶<br /><br />
+                    Automatic schema detection is supported but needs to be specified
+                  </td>
+                  <td>✅</td>
+                  <td>
+                    ✅<br /><br />
+                    with coerced mapping
+                  </td>
+                  <td>✅</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">Custom Ranking Rules</td>
                   <td>
                     ✅<br /><br />
@@ -513,6 +529,13 @@
                   <td>❌</td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">Collection Swapping</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅️</td>
+                  <td>✅️</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
                     🔶️<br /><br />
@@ -529,7 +552,9 @@
                     Premium Tier
                   </td>
                   <td>❌</td>
-                  <td>❌</td>
+                  <td>🔶️<br /><br />
+                    Can be implemented by swapping collections and search parameters
+                    based on AB Test Bucket</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
@@ -571,8 +596,12 @@
                   </td>
                   <td>❌</td>
                   <td>
-                    🔶️<br /><br />
-                    DocSearch crawler for docs sites.
+                    <a
+                      href="https://github.com/meilisearch/docs-scraper"
+                      target="_blank"
+                      >DocSearch crawler</a
+                    >
+                    for docs sites.
                   </td>
                 </tr>
                 <tr>
@@ -632,15 +661,8 @@
                   <td>
                     No limitation, only constrained by available disk space
                   </td>
-                  <td class="text-danger">
-                    Slow indexing performance
-                    <a
-                      href="https://github.com/meilisearch/meilisearch/discussions/2131"
-                      target="_blank"
-                      class="text-danger"
-                      >reported</a
-                    >
-                    for over 10K records.
+                  <td>
+                    No limitation, only constrained by available disk space
                   </td>
                 </tr>
                 <tr>
@@ -662,7 +684,7 @@
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
-                  <td>1000</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Record Size</td>
@@ -721,7 +743,7 @@
                   <td>
                     GitHub issues<br />
                     Email<br />
-                    Public Slack Community
+                    Public Discord Community
                   </td>
                 </tr>
                 <tr>
