@@ -94,9 +94,15 @@
                     datasets (eg: log data)
                   </td>
                   <td>
-                    Instant Search-as-you-type Experiences for data sets that
-                    can fit on Disk, that don't require a highly-available
-                    fault-tolerant setup.
+                    Instant Search-as-you-type Experiences for use cases that
+                    don't require a highly-available fault-tolerant setup.
+                    <a
+                      href="https://docs.meilisearch.com/learn/advanced/storage.html#:~:text=it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk,%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      target="_blank"
+                      >Recommends</a
+                    >
+                    providing enough RAM to hold entire dataset in RAM for ideal
+                    performance.
                   </td>
                 </tr>
                 <tr>
@@ -183,8 +189,9 @@
                   <td>
                     None. Self-contained binary. <br /><br />Built-in high
                     performance HTTP server, that can be exposed to the frontend
-                    directly. Recommends use of nginx, apache or the like as a reverse
-                    proxy in front, to manage the renewal of the SSL certificate
+                    directly. Recommends use of nginx, apache or the like as a
+                    reverse proxy in front, to manage the renewal of the SSL
+                    certificate
                   </td>
                 </tr>
                 <tr>
@@ -216,9 +223,7 @@
                   <td>
                     Replace binary, restart process. No re-indexing required.
                   </td>
-                  <td>
-                    <a href="https://docs.meilisearch.com/learn/update_and_migration/updating.html">Create a dump, replace binary, load the dump</a>.
-                  </td>
+                  <td>Create a dump, replace binary, load the dump.</td>
                 </tr>
               </tbody>
             </table>
@@ -446,8 +451,14 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Schemaless</td>
-                  <td>🔶<br /><br />
-                    Automatic schema detection is supported but needs to be specified
+                  <td>
+                    ✅<br /><br />
+                    <a
+                      href="https://typesense.org/docs/0.24.0/api/collections.html#with-auto-schema-detection"
+                      target="_blank"
+                      >Automatic schema detection</a
+                    >
+                    needs to be enabled.
                   </td>
                   <td>✅</td>
                   <td>
@@ -530,8 +541,8 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Collection Swapping</td>
-                  <td>❌</td>
-                  <td>❌</td>
+                  <td>✅️</td>
+                  <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
                 </tr>
@@ -552,9 +563,11 @@
                     Premium Tier
                   </td>
                   <td>❌</td>
-                  <td>🔶️<br /><br />
-                    Can be implemented by swapping collections and search parameters
-                    based on AB Test Bucket</td>
+                  <td>
+                    🔶️<br /><br />
+                    Can be implemented by swapping collections and search
+                    parameters based on AB Test Bucket
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
@@ -595,14 +608,7 @@
                     General site crawler is part of Premium Tier.
                   </td>
                   <td>❌</td>
-                  <td>
-                    <a
-                      href="https://github.com/meilisearch/docs-scraper"
-                      target="_blank"
-                      >DocSearch crawler</a
-                    >
-                    for docs sites.
-                  </td>
+                  <td>DocSearch crawler for docs sites.</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
@@ -662,7 +668,13 @@
                     No limitation, only constrained by available disk space
                   </td>
                   <td>
-                    No limitation, only constrained by available disk space
+                    No limitation, constrained by available disk space and
+                    <a
+                      href="https://docs.meilisearch.com/learn/advanced/storage.html#:~:text=it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk,%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      target="_blank"
+                    >
+                      performance is constrained by available RAM</a
+                    >.
                   </td>
                 </tr>
                 <tr>
