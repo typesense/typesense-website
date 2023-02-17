@@ -413,7 +413,10 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Sort by String field</td>
-                  <td>✅</td>
+                  <td>
+                    ✅<br /><br />
+                    Up to 3 tie-breaking sort fields per search query
+                  </td>
                   <td>
                     ✅<br /><br />But
                     <a
@@ -468,10 +471,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Custom Ranking Rules</td>
-                  <td>
-                    ✅<br /><br />
-                    Upto 3 fields
-                  </td>
+                  <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
