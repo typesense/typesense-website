@@ -201,27 +201,26 @@
                     Fully backward compatible
                   </td>
                   <td>
+                    N/A<br /><br />
+                    As a SaaS service, Algolia does not expose this detail to
+                    end users.
+                  </td>
+                  <td>
                     ✅<br /><br />
-                    Fully backward compatible
+                    Backward compatible up to 1 major version.
                   </td>
                   <td>
                     ✅<br /><br />
                     Fully backward compatible
-                  </td>
-                  <td>
-                    ❌<br /><br />
-                    Not backward compatible across versions. Version upgrades
-                    require re-indexing.
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Upgrade Path</td>
-                  <td>
-                    Replace binary, restart process. No re-indexing required.
-                  </td>
+                  <td>Replace binary, restart process.</td>
                   <td>Managed SaaS service, doesn't require upgrades.</td>
                   <td>
-                    Replace binary, restart process. No re-indexing required.
+                    Replace binary, restart process. Re-indexing required if
+                    upgrading more than 1 major version.
                   </td>
                   <td>Create a dump, replace binary, load the dump.</td>
                 </tr>
