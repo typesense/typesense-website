@@ -105,7 +105,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     nodes: [
       {
         host: "localhost",
-        port: "8108",
+        port: 8108,
         protocol: "http"
       }
     ]
@@ -114,7 +114,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  queryBy is required.
   additionalSearchParameters: {
-    queryBy: "title,authors"
+    query_by: "title,authors"
   }
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
