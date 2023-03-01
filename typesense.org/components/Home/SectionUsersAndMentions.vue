@@ -73,18 +73,18 @@ export default {
     return {
       userLogos: [
         {
-          href: 'https://ade.aero',
-          imgPath: 'user_logos/aerotrade.svg',
-          width: 150,
-          height: 16,
-          alt: 'AeroTrade',
-        },
-        {
           href: 'https://codecademy.com',
           imgPath: 'user_logos/codecademy-logo.svg',
           width: 150,
           height: 30,
           alt: 'Codecademy',
+        },
+        {
+          href: 'https://changelog.com',
+          imgPath: 'user_logos/changelog.svg',
+          width: 146,
+          height: 45,
+          alt: 'Changelog',
         },
         {
           href: 'https://eats.oddle.me',
@@ -102,18 +102,25 @@ export default {
           noref: true,
         },
         {
-          href: 'https://soundsnap.com',
-          imgPath: 'user_logos/soundsnap.svg',
-          width: 150,
-          height: 28,
-          alt: 'Soundsnap',
-        },
-        {
           href: 'https://poorvika.com',
           imgPath: 'user_logos/poorvika-logo.svg',
           width: 150,
           height: 31,
           alt: 'Poorvika Mobiles',
+        },
+        {
+          href: 'https://ade.aero',
+          imgPath: 'user_logos/aerotrade.svg',
+          width: 150,
+          height: 16,
+          alt: 'AeroTrade',
+        },
+        {
+          href: 'https://soundsnap.com',
+          imgPath: 'user_logos/soundsnap.svg',
+          width: 150,
+          height: 28,
+          alt: 'Soundsnap',
         },
         {
           href: 'https://tradingstrategy.ai/blog/world-fastest-token-search',
@@ -128,13 +135,6 @@ export default {
           width: 120,
           height: 26,
           alt: 'Instatus',
-        },
-        {
-          href: 'https://www.echidnasewing.com.au',
-          imgPath: 'user_logos/echidna-sewing-logo.svg',
-          width: 95,
-          height: 39,
-          alt: 'Echidna Sewing',
         },
         {
           href: 'https://rerobe.se',
