@@ -12,8 +12,7 @@ but you can integrate any SSO vendor that offers SAML-based SSO with Typesense C
 
 ## How much does SSO cost?
 
-Unlike [several companies](https://sso.tax/) that only offer SSO as a feature in their enterprise plans, we believe that good security is not an optional feature. 
-So we make SSO available to all teams without any additional charges.
+We believe that good security is not an optional feature, so we make SSO available to all teams without any additional charges.
 
 ## How to configure SSO
 
