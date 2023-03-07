@@ -38,3 +38,9 @@ Clusters that you create under your team account are then shared with all member
 
 By default, all members of your team have Administrator access.
 But you can [customize access roles and permissions](./role-based-access-control-admin-dashboard.md) for each user from your team's account page.
+
+## Using Single Sign-on based Auth
+
+When you sign up via [Email/Password-based Auth](#using-emailpassword-based-auth) and create a team, you can set up any SAML-based SSO platform to be the identity provider for that team. 
+
+Read this dedicated guide about [setting up Single Sign-on](./single-sign-on.md) for more information. 

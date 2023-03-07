@@ -183,6 +183,7 @@ let config = {
             ['/guide/backups', 'Backups'],
             ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
             ['/guide/typesense-cloud/role-based-access-control-admin-dashboard', 'Role-Based Access Control for Admin Dashboard (Typesense Cloud)'],
+            ['/guide/typesense-cloud/single-sign-on', 'Single Sign-On (Typesense Cloud)'],
           ],
         },
         {
