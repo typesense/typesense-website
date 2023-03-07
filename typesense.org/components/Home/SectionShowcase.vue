@@ -86,8 +86,8 @@
           </HomeShowcaseBlock>
           <HomeShowcaseBlock emoji="⚡ ⌨️" link="https://findxkcd.com/">
             <template #title
-              ><small>findxckd</small><br />
-              Browse & Find xckd Comics by Topic
+              ><small>findxkcd</small><br />
+              Browse & Find xkcd Comics by Topic
             </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
