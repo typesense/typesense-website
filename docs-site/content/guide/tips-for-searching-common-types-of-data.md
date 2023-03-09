@@ -268,7 +268,7 @@ To enable nested fields, you'll need to use the `enable_nested_fields` property 
   "enable_nested_fields": true,
   "fields": [
     {"name": "person", "type": "object"},
-    {"name": "details", "type": "object[]"},
+    {"name": "details", "type": "object[]"}
   ]
 }
 ```

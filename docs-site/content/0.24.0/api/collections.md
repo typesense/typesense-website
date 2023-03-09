@@ -485,7 +485,7 @@ curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: applicatio
         "enable_nested_fields": true,
         "fields": [
           {"name": "person", "type": "object"},
-          {"name": "details", "type": "object[]"},
+          {"name": "details", "type": "object[]"}
         ]
       }'
 ```
