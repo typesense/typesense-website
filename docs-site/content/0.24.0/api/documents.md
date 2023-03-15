@@ -903,6 +903,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       -T documents.jsonl \
       "http://localhost:8108/collections/companies/documents/import?action=create"
 
+# If you have a large JSONL file, 
+#   you can split the file and 
+#   parallelize the import using this one liner:
+parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST -T {} http://localhost:8108/collections/companies/documents/import?action=create'
 ```
 
   </template>
