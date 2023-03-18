@@ -153,16 +153,22 @@ The table below lists all available regions:
 | ireland      |
 | london       |
 | paris        |
+| zurich       |
 | frankfurt    |
 | stockholm    |
 | milan        |
+| spain        |
 | cape_town    |
 | bahrain      |
+| uae          |
 | mumbai       |
+| hyderabad    |
 | singapore    |
+| jakarta      |
 | seoul        |
 | osaka        |
 | tokyo        |
+| melbourne    |
 | sydney       |
 
 
