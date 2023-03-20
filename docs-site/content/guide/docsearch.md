@@ -283,7 +283,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
     typesenseSearchParameters: { // Optional.
-      filter_by: 'version:=0.21.0' // Useful when you have versioned docs
+      filter_by: 'version_tag:=0.21.0' // Useful when you have versioned docs
     },
   });
 </script>
@@ -324,7 +324,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
     typesenseSearchParams: { // Optional.
-      filter_by: 'version:=0.21.0' // Useful when you have versioned docs
+      filter_by: 'version_tag:=0.21.0' // Useful when you have versioned docs
     },
   });
 </script>
