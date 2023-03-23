@@ -17,13 +17,25 @@
       </div>
       <div class="container-fluid">
         <div class="row mt-5 d-flex justify-content-md-center">
-          <div class="col-md-7 p-0">
+          <div class="col-md-5 p-0">
             <div class="lead">Search meets {{ currentYear }}.</div>
             <p class="mt-5">
               Typesense is a modern, privacy-friendly, open source search engine
               built from the ground up using cutting-edge search algorithms,
               that take advantage of the latest advances in hardware
               capabilities.
+            </p>
+
+            <p class="mt-5">
+              Typesense can be used to build blazing-fast search experiences,
+              faceted navigation experiences, geo-search, vector search,
+              semantic search, similarity search and much more.<br />
+              Read more about
+              <a
+                href="https://typesense.org/docs/overview/use-cases.html"
+                target="_blank"
+                >Typesense's use-cases here</a
+              >.
             </p>
           </div>
         </div>
