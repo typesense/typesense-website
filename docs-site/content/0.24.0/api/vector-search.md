@@ -462,3 +462,12 @@ flat searching if the number of results produced by the filtering operation is l
 curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 --data-raw '{"searches":[{"q":"*", "filter_by": "category:shoes", "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" }]}'
 ```
+
+
+## UI Examples
+
+- Here's a demo that shows you how to implement a "Find Similar" feature using Vector Search in an ecommerce store: [https://ecommerce-store.typesense.org/](https://ecommerce-store.typesense.org/).
+  
+  Click on "Find Similar" below each product tile for notes on how to implement this.
+
+- Here's a demo that shows you how to implement Semantic Search, using an embeddings API and Vector Search: [https://github.com/typesense/typesense-instantsearch-semantic-search-demo](https://github.com/typesense/typesense-instantsearch-semantic-search-demo) 
