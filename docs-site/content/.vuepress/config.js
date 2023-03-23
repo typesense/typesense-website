@@ -219,6 +219,7 @@ let config = {
             ['/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
             ['/guide/reference-implementations/xkcd-search', 'xkcd Search'],
             ['/guide/reference-implementations/federated-search', 'Federated Search'],
+            ['/guide/reference-implementations/geo-search', 'Geo Search'],
             ['/guide/reference-implementations/typesense-autocomplete-js', 'Autocomplete.js with Typesense'],
           ],
         },
