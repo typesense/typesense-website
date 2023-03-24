@@ -1,5 +1,9 @@
 # Building Search UIs
-You can use the open source [InstantSearch.js](https://github.com/algolia/instantsearch.js) library or its [React](https://github.com/algolia/react-instantsearch), [Vue](https://github.com/algolia/vue-instantsearch), [Angular](https://github.com/algolia/angular-instantsearch) cousins, along with our [Typesense-InstantSearch-Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to build a plug-and-play full-featured search interface, with just a few lines of code.
+
+The good folks over at Algolia have built and open-sourced [Instantsearch.js](https://github.com/algolia/instantsearch.js) (and its [React](https://github.com/algolia/react-instantsearch), [Vue](https://github.com/algolia/vue-instantsearch) and [Angular](https://github.com/algolia/angular-instantsearch) cousins) which is a collection of out-of-the-box UI components that you can use to build interactive search experiences quickly.
+
+At Typesense, we've built [an adapter](https://github.com/typesense/typesense-instantsearch-adapter) that lets you use the same Instantsearch widgets as is, but send the queries to Typesense instead.
+This guide will walk you through how to use Instantsearch, with the typesense-instantsearch-adapter to build a fully functioning search UI with just a few lines of code.
 
 If you prefer a video walk-through, here are two videos where a member of our community, [Zaiste](https://twitter.com/zaiste) walks you through how to build an end-to-end search experience with Typesense:
 

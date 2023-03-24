@@ -153,14 +153,14 @@ let config = {
           children: [
             ['/guide/install-typesense', 'Install Typesense'],
             ['/guide/installing-a-client', 'Installing a Client'],
+            ['/guide/building-a-search-application', 'Building a Search Application'],
+            ['/guide/search-ui-components', 'Search UI Components'],
           ],
         },
         {
           title: 'Walk-throughs',
           collapsable: false, // optional, defaults to true
           children: [
-            ['/guide/building-a-search-application', 'Building a Search Application'],
-            ['/guide/search-ui-components', 'Search UI Components'],
             ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
             ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
             ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
