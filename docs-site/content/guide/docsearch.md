@@ -45,12 +45,6 @@ In the long term, we intend to update all the documentation to Typesense reposit
 :::
 
 :::tip
-Most documentation websites change over time. Thus, the scraper will need to be re-run regularly in order to keep the index in sync with your content. As a first step, you should get the scraper running on your local computer, which will create an index for the first time. Then, you can test out the search results and see if everything is working okay. After that, you will likely want to set up the scraper to automatically run after each commit to your repository using [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) (e.g. [GitHub Actions](https://github.com/features/actions), [CircleCI](https://circleci.com/), etc.). More discussion on that can be found below.
-
-In [TypeSense Cloud](https://cloud.typesense.org/), we only host your Typesense cluster for you. You are still responsible for running the scraper to update your index in your CI pipeline / infrastructure.
-:::
-
-:::tip
 There is a mismatch between `index_name` in the scraper config and `typesenseCollectionName` in the front-end config. This is because Algolia calls a collection of documents an "index" and Typesense calls a collection of documents a collection. The scraper was originally forked from Algolia and the name was deliberately kept to maintain backwards compatibility with the ecosystem.
 :::
 
@@ -124,16 +118,23 @@ You can also run the scraper as a daemon by substituting the `-it` flags with `-
 
 ### Integrate With CI / Deploy It to a Server
 
-If you are setting up Typesense for the first time, then skip down to the next section. But once you have confirmed that the indexer works and confirmed that your website has coherent search results, you should set things up so that your website can get continually scraped.
+If you are setting up Typesense for the first time, then skip down to the next section. But once you have confirmed that the scraper works and confirmed that your website has coherent search results, you should set things up so that your website can get continually scraped.
+
+:::tip
+
+In [Typesense Cloud](https://cloud.typesense.org/), we only host your Typesense cluster for you. You are still responsible for running the scraper to update your index in your CI pipeline / infrastructure.
+
+:::
 
 The scraper Docker container is stateless and so can be run on any platform that allows you to run stateless Docker containers like:
 
-- GitHub Actions
+- GitHub Actions (here's a [pre-built action](https://github.com/marketplace/actions/run-typesense-docsearch-scraper))
 - CircleCI
 - AWS Fargate
 - Google Cloud Run
 - Heroku
 - Render
+- Railway
 
 And many more. We recommend running the scraper in CI so that your search index will always stay up-to-date (as opposed to e.g. a cron job that runs every day).
 
