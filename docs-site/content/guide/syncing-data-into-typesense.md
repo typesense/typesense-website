@@ -100,3 +100,8 @@ In the import API call, you'll notice a <RouterLink :to="`/${$site.themeConfig.t
 This controls server-side batching (how many documents from the import API call are processed, before the search queue is serviced), and you almost never want to change this value from the default.
 
 Instead, you want to do client-side batching, by controlling the number of documents in a single import API call and potentially do multiple API calls in parallel.
+
+### Routines for restoring state
+When you sync data between your database and Typesense, your database is likely your single source of truth, which is why you want to replicate its state in the first place. For any number of reasons, on accident or because of other failures, the two states can become asynchronous. In such a scenario, it is very important that you have prepared a routine to recover the current state beforehand. Like loading a backup, you should be able to fully load all data again from the database. If you usually index each document individually, you should use bulk imports for this usecase as it is much more performant. Be prepared, implement and test such a routine before you need it urgently.
+
+Typesense is well equipped to handle your data persistently without any loss. There is also a HA option available for critical deployments. Furthermore, state discrepancies should not happen randomly in your implementation. In that case, you would have to hunt down the bug causing this as well. You should still have such a routine in place for quick recoveries or to aid you with data migrations.
