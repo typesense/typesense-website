@@ -65,12 +65,15 @@ The scraper automatically extracts information from the DocSearch meta tags and 
 ```html
 <meta name="docsearch:{$NAME}_tag" content="{$CONTENT}" />
 ```
-Example: all extracted records on the page will have a `language` attribute of `en` and a `version` attribute of `1.24`
+
+Example: If you have the following markup across a certain set of pages: 
 
 ```html 
 <meta name="docsearch:language_tag" content="en" />
 <meta name="docsearch:version_tag" content="1.2.4" />
 ```
+
+All extracted records on these pages will have a `language_tag` attribute with a value of `en` and a `version_tag` attribute with a value of `1.24`, that you can use in `filter_by` to restrict the search to particular sets of records.
 
 ::: tip
 `_tag` must be appended to the end of the `$NAME` variable for the attribute to be saved in the schema.
