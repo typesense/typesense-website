@@ -239,6 +239,32 @@ let config = {
         ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
       ],
 
+      //For 0.24.1
+      '/0.24.1/api/': [
+        ['/0.24.1/api/', 'Introduction'],
+        ['/0.24.1/api/server-configuration', 'Server Configuration'],
+        ['/0.24.1/api/api-clients', 'API Clients'],
+        ['/0.24.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.24.1/api/collections', 'Collections'],
+            ['/0.24.1/api/documents', 'Documents'],
+            ['/0.24.1/api/search', 'Search'],
+            ['/0.24.1/api/geosearch', 'GeoSearch'],
+            ['/0.24.1/api/vector-search', 'Vector Search'],
+            ['/0.24.1/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/0.24.1/api/api-keys', 'API Keys'],
+            ['/0.24.1/api/curation', 'Curation'],
+            ['/0.24.1/api/collection-alias', 'Collection Alias'],
+            ['/0.24.1/api/synonyms', 'Synonyms'],
+            ['/0.24.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.24.1/api/api-errors', 'API Errors'],
+      ],
+
       //For 0.24.0
       '/0.24.0/api/': [
         ['/0.24.0/api/', 'Introduction'],
