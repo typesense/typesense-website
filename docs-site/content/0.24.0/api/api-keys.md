@@ -305,6 +305,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `documents:update` | Allows updating documents.          |
 | `documents:delete` | Allows deletion of documents.       |
 | `documents:import` | Allows import of documents in bulk. |
+| `documents:export` | Allows export of documents in bulk. |
 | `documents:*`      | Allows all document operations.     |
 
 #### Alias actions
