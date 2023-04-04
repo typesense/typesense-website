@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Typesense API Reference for v{{ $page.typesenseVersion }}
@@ -15,7 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains new features, performance improvements and important bug fixes.
+This release fixes some important bugs identified in the recently released [`v0.24.0`](../../0.24.0/).
+
+The changelog below contains aggregates all the changes between `v0.23.1` and `v0.24.x`.
 
 ### New Features
 
@@ -65,6 +67,19 @@ This release contains new features, performance improvements and important bug f
 - Fixed a few edge cases that showed up in super-large documents that contained greater than 64,000 tokens.
 - Implemented automatic log rotation for RocksDB info logs. Previously, one had to restart the server for truncation or 
   perform external truncation via `logrotate`.
+- **[New in v0.24.1]** Improved memory footprint of export API.
+- **[New in v0.24.1]** Fixed an edge case in deletion of deeply nested fields.
+- **[New in v0.24.1]** Fixed weighting of fields in phrase search.
+- **[New in v0.24.1]** Handle `NaN` values for geo filter query.
+- **[New in v0.24.1]** Fixed indexing of nested geopoint array values.
+- **[New in v0.24.1]** Added validation for vector dimensions during indexing.
+- **[New in v0.24.1]** Fixed highlighting when both flat/nested form of field is present.
+- **[New in v0.24.1]** Fixed an edge case with phrase match on array.
+- **[New in v0.24.1]** Fixed an edge case in fuzzy search typo correction.
+- **[New in v0.24.1]** Allow null values for optional nested fields.
+- **[New in v0.24.1]** Enabling exhaustive search should automatically drop tokens.
+- **[New in v0.24.1]** Don't remove empty array of object elements for highlight.
+- **[New in v0.24.1]** Restrict the `id` from being a default sorting field.
 
 ### Deprecations / behavior changes
 

@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Vector Search
@@ -30,14 +30,21 @@ Here are two articles that go into more depth about embeddings:
 
 Let's now discuss how to do index and search embeddings in Typesense.
 
-## Adding a Vector Field
+## Creating a collection with a vector field
 
 We'll assume that you've already generated your embeddings using a machine learning model. 
 If not, [here's](https://github.com/typesense/showcase-ecommerce-store/blob/7637d2c4e967419ac8a874c28d3f3e20d79040fa/scripts/vector-generation/main.py) a quick example of how to use the Sentence-BERT model to generate embeddings.
 
-Once you have your document embeddings, you want to add a `float[]` field to your collection schema that holds these embeddings, and specify the number of dimensions (length of the float array) via the `num_dim` property.
+Once your document embeddings are ready, you want to create a collection that contains a `float[]` field
+with a `num_dim` property for indexing them. The `num_dim` property specifies the number of 
+dimensions (length of the float array) that your embeddings contain.
 
 Let's create a collection called `docs` with a vector field called `vec` that contains just 4 dimensions. 
+
+:::tip
+We create a vector with 4 dimensions to keep the code snippets readable. Depending on what model you use, real world 
+use will require creating vector fields with atleast 256 dimensions to produce good results.
+:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
   <template v-slot:JavaScript>
@@ -169,7 +176,7 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/collections" -X POST 
+curl -k "http://localhost:8108/collections" -X POST \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "docs",
@@ -390,6 +397,16 @@ Since vector search queries tend to be large because of the large dimension of t
 using the multi_search end-point that sends the search parameters as a POST request body.
 :::
 
+Every matching hit in the response will contain a `vector_distance` field that indicates how "close" the document's
+vector value is to the query vector. Typesense uses the cosine similarity, so this distance will be a value between 
+`0` and `2`.
+
+- If the document's vector perfectly matches the query vector, the distance will be `0`
+- If the document's vector is extremely different from the query vector, then the distance will be `2`.
+
+The hits are automatically sorted in ascending order of the `vector_distance`, i.e. best matching 
+documents appear first.
+
 **Sample Response**
 
 <Tabs :tabs="['JSON']">
@@ -411,7 +428,8 @@ using the multi_search end-point that sends the search parameters as a POST requ
         "full": {},
         "snippet": {}
       },
-      "highlights": []
+      "highlights": [],
+      "vector_distance": 0.19744956493377686
     }
   ],
   "out_of": 1,
