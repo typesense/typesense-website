@@ -136,6 +136,7 @@ We also have the following framework integrations:
 - [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
 - [ToolJet](https://tooljet.com/?ref=typesense)
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
+- [Craft CMS](https://plugins.craftcms.com/typesense)
 
 ## Utilities
 
