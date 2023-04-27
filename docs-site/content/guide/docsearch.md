@@ -263,7 +263,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
 <!-- Somwhere in your doc site's navigation -->
-<div id="searchbar">
+<div id="searchbar"></div>
 
 <!-- Before the closing head -->
 <link
