@@ -267,7 +267,6 @@ The net.http_post function provides a direct method for posting to Typesense. Ho
 ```sql
 SELECT net.http_post(
     url := '<TYPESENSE URL>/collections/products/documents/import?action=upsert'::TEXT,
-
     -- Formats the products table's rows into JSONB and also converts updated_at from type TIMESTAMPTZ to type FLOAT
     -- The body must be formatted as JSONB data
     body := (
@@ -287,7 +286,6 @@ SELECT net.http_post(
             'Content-Type', 'application/json',
             'X-Typesense-API-KEY', '<API KEY>'
     )::JSONB,
-
     timeout_milliseconds := 4000
 ) AS request_id;
 ```
@@ -421,118 +419,99 @@ SELECT cron.schedule(
 );
 ```
 
-The nested query in the above example can be modified and embedded into a PL/pgSQL function to query and return all unsynced updated/inserted rows.
+The nested query in the above example can be modified and embedded into a PL/pgSQL function that tracks updated/new rows, converts them into NDJSON, and then upserts them into Typesense.
 
 #### Query to Find Unsynced Rows
 
 ```sql
-CREATE OR REPLACE FUNCTION get_products_updates()
-RETURNS TABLE(
-    id UUID,
-    product_name TEXT,
-    updated_at FLOAT,
-    user_id UUID
-)
+CREATE OR REPLACE FUNCTION sync_products_updates()
+RETURNS VOID
 AS $$
-DECLARE
-    ts_pair TIMESTAMPTZ[];
-BEGIN
+    DECLARE
+        -- variables for tracking sync times
+        ts_pair TIMESTAMPTZ[];
+        previous_sync_time TIMESTAMPTZ;
+        current_sync_time TIMESTAMPTZ;
 
-    SELECT ARRAY_AGG(start_time)
-    FROM (
-        SELECT start_time
-        FROM cron.job_run_details
-        INNER JOIN cron.job ON cron.job.jobid = cron.job_run_details.jobid
-        WHERE cron.job.jobname = 'update-insert-Typesense-job'
-        ORDER BY start_time DESC
-        LIMIT 2
-    ) subquery
-    INTO ts_pair;
+        -- variables for converting rows to NDJSON
+        row_data RECORD;
+        ndjson TEXT := '';
 
-    ASSERT ts_pair[1] IS NOT NULL, 'No Cron Jobs were found. Check jobname in the above WHERE statement';
+        -- variables for tracking http requests
+        request_status INTEGER;
+        response_message TEXT;
+    BEGIN
+        -- Getting time range between last sync and current operation ----------------------------
 
-    IF ts_pair[2] IS NULL THEN
-        ts_pair[2] := '1970-01-01 00:00:00+00';
-    END IF;
+        -- Get the current and previous cron start times
+        SELECT 
+            array_agg(start_time) INTO ts_pair
+        FROM (
+            SELECT start_time
+            FROM cron.job_run_details
+            INNER JOIN cron.job ON cron.job.jobid = cron.job_run_details.jobid
+            WHERE 
+                cron.job.jobname = 'update-insert-Typesense-job' 
+                    AND 
+                -- ignore jobs that failed
+                cron.job_run_details.status <> 'failed'
+            ORDER BY start_time DESC
+            LIMIT 2
+        ) AS recent_start_times;
 
-    RETURN QUERY
+        -- If there is no previous sync time, assign start time to TIMESTAMPTZ equivalence of 0
+        previous_sync_time := COALESCE(ts_pair[2], '1970-01-01 00:00:00+00');
+
+        current_sync_time := ts_pair[1];
+        ASSERT current_sync_time IS NOT NULL, 'No Cron Jobs were found. Check jobname in the above WHERE statement';
+
+        -- Formatting unsynced rows as NDJSON ---------------------------------------------------
+
+        -- Formatting each unsynced row into NDJSON
+        FOR row_data IN (
+            SELECT
+            product_name,
+            id,
+            CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
+            user_id
+            FROM products
+            WHERE updated_at BETWEEN previous_sync_time AND current_sync_time
+        )
+        LOOP
+            ndjson := ndjson || row_to_json(row_data)::TEXT || E'\n';
+        END LOOP;
+
+        -- Sending upsert request to Typesense server ---------------------------------------------
+
+        -- Sending request to Typesense
         SELECT
-            products.id,
-            products.product_name,
-            CAST(EXTRACT(epoch FROM products.updated_at) AS FLOAT) AS updated_at,
-            products.user_id
-        FROM products
-        WHERE updated_at BETWEEN ts_pair[2] AND ts_pair[1];
-END;
+            status,
+            content
+            INTO request_status, response_message
+        FROM http((
+            'POST'::http_method,
+            -- ADD TYPESENSE URL
+            '<TYPESENSE URL>/collections/products/documents/import?action=upsert',
+            ARRAY[
+                -- ADD API KEY
+                http_header('X-Typesense-API-KEY', '<API KEY>')
+            ]::http_header[],
+            'application/text',
+            ndjson
+        )::http_request);
+
+        -- Check if the request failed
+        IF request_status <> 200 THEN
+            -- stores error message in Supabase Postgres Logs
+            RAISE LOG 'HTTP POST request failed. Message: %', response_message;
+            -- Raises Exception, which undoes the transaction
+            RAISE EXCEPTION 'UPSERT FAILED';
+        END IF;
+    END;
 $$ LANGUAGE plpgsql;
 ```
 
-However, because the rows are not yet formatted in NDJSON, they cannot be interpretted by Typesense.The following is a modification of the above example that outputs NDJSON data.
-
-#### Query to Retrieve Relevant Rows as NDJSON
-
-```sql
--- Create a plpgSQL function 'get_products_updates_ndjson' that returns a table with specific fields
-CREATE OR REPLACE FUNCTION get_products_updates_ndjson()
-RETURNS TEXT
-AS $$
-DECLARE
-    -- Declare an array variable 'ts_pair'
-    -- The first index ts_pair[1] will hold the current cron job's start_time
-    -- The second index ts_pair[2] will hold the previous cron job's start_time
-    ts_pair TIMESTAMPTZ[];
-    -- Saves the values of each record before they are converted into TEXT
-    row_data RECORD;
-    -- Stores NDJSON values that will eventually be returned
-    ndjson TEXT := '';
-BEGIN
-
-    -- Select the two most recent timestamps and aggregate them into an array
-    SELECT ARRAY_AGG(start_time)
-    INTO ts_pair
-    FROM (
-        SELECT
-            start_time
-        FROM cron.job_run_details
-        INNER JOIN cron.job ON cron.job.jobid = cron.job_run_details.jobid
-        -- Add your cron job name below
-        WHERE cron.job.jobname = 'update-insert-Typesense-job'
-        ORDER BY start_time DESC
-        LIMIT 2
-    ) subquery;
-
-    -- If the first value is NULL, then no CRON JOBS were found. This likely means that there was a typo in the above query
-    ASSERT ts_pair[1] IS NOT NULL, 'No Cron Jobs were found. Check jobname in the above WHERE statement';
-
-    -- If now second value is found, then it means that this is likely the first time the function was called.
-    -- In this case, the value will be set to the UNIX Time equivalent of zero, which will cause the following
-    -- query to include all products rows
-    IF ts_pair[2] IS NULL THEN
-        ts_pair[2] := '1970-01-01 00:00:00+00';
-    END IF;
-
-    -- Loop through each updated/inserted row and convert them into NDJSON
-    FOR row_data IN (
-        -- Select the desired fields from the 'products' table where the 'updated_at' value falls within the range
-        -- Specified by the 'beginning_range' (ts_pair[2]) and 'ending_range' (ts_pair[1])
-	    SELECT
-	      product_name,
-	      id,
-	      CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
-          user_id
-	    FROM products
-	    WHERE updated_at BETWEEN ts_pair[2] AND ts_pair[1]
-    )
-    LOOP
-        ndjson := ndjson || row_to_json(row_data)::TEXT || E'\n';
-    END LOOP;
-
-    RETURN ndjson;
-END;
-$$ LANGUAGE plpgSQL;
-```
-
-Embedding the above function _get_products_updates_ndjson_ into a cron job, Supabase can directly update Typesense.
+Embedding the above function *sync_product_updates* into a cron job, Supabase can directly update Typesense at regular intervals.
 
 #### Cron Job to Bulk Upsert into Typesense
 
@@ -542,20 +521,7 @@ SELECT cron.schedule(
     '* * * * *',
     $$
     -- SQL query
-        SELECT
-            status,
-            (unnest(headers)).*
-        FROM http((
-            'POST'::http_method,
-            -- ADD TYPESENSE URL
-            '<TYPESENSE URL>/collections/products/documents/import?action=upsert'::VARCHAR,
-            ARRAY[
-                -- ADD API KEY
-                http_header('X-Typesense-API-KEY', '<API KEY>')
-            ]::http_header[],
-            'application/text',
-            (SELECT get_products_updates_ndjson())
-        )::http_request);
+        SELECT sync_product_updates();
     $$
 );
 ```
@@ -566,9 +532,8 @@ To test if the above query worked, manually add a row to the products table usin
 
 ```bash
 curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
--H "X-TYPESENSE-API-KEY: <API KEY>" \
-| json_pp
-
+    -H "X-TYPESENSE-API-KEY: <API KEY>" \
+    | json_pp
 ```
 
 Some users may prefer using servers as an intermediary to communicate with Typesense. This is particularly useful when it is necessary to santize or reformat data. Supabase natively offers serverless edge functions in Deno (TypeScript).
