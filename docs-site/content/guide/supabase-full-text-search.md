@@ -621,7 +621,7 @@ serve(async _req => {
     try {
       // Run a query
       // ADD YOUR EDGE FUNCTION NAME
-      const result = await connection.queryObject`SELECT * FROM get_updates_for_edge('cpcccdxxdzdccddccxk')`
+      const result = await connection.queryObject`SELECT * FROM get_updates_for_edge('<EDGE FUNCTION NAME')`
       const newProducts = result.rows ?? []
       // Convert newProducts into NDJSON format
       const newProductsNDJSON = newProducts
