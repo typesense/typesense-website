@@ -247,7 +247,7 @@ The following example requests data from the [postman-echo API](https://learning
 SELECT net.http_get('https://postman-echo.com/get?foo1=bar1&foo2=bar2') AS request_id;
 ```
 
-When the query completes, you can use the returned _request_id_ to find the response in Supabase's \_net.\_http_response\* table. You can also view the response by using the following query
+When the query completes, you can use the returned _request_id_ to find the response in Supabase's *net._http_response* table. You can also view the response by using the following query
 
 #### Viewing HTTP/HTTPS Response Message
 
@@ -260,7 +260,7 @@ FROM
 
 If you go to the _Authentication_ tab in the Supabase side nav, you can create a new user. Using the new user profile, go to the Supabase _Table Editor_ and manually add new rows to the _products_ table.
 
-The net.http_post function provides a direct method for posting to Typesense. However, it has a significant limitation: it only supports JSON as the \_Content-Type\*, whereas Typesense requires NDJSON compatibility. Fortunately, JSON and NDJSON are functionally equivalent when dealing with a single row. As a result, the code below will work when it only has to send one row from PostgreSQL to Typesense.
+The net.http_post function provides a direct method for posting to Typesense. However, it has a significant limitation: it only supports JSON as the *Content-Type*, whereas Typesense requires NDJSON compatibility. Fortunately, JSON and NDJSON are functionally equivalent when dealing with a single row. As a result, the code below will work when it only has to send one row from PostgreSQL to Typesense.
 
 #### Naive Attempt to Connect to Typesense
 
@@ -294,10 +294,11 @@ If you were upserting multiple rows, you would have received the following error
 
 > Failed to run sql query: more than one row returned by a subquery used as an expression
 
-The strategy mentioned above is incompatible for bulk updates, but is essential for real-time syncing. Real-time syncs employ PostgreSQL triggers, which can potentially block transactions for users. Fortunately, _PG_NET_ functions are asynchronous, ensuring that transactions are not delayed.
+The strategy mentioned above is incompatible for bulk updates, but is essential for real-time syncing. Real-time syncs utilizing PostgreSQL triggers can potentially block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed.
 
-Conversely, the _HTTP_ plugin offers greater flexibility for bulk updates. Despite its synchronous nature, it is compatible with PG_CRON cron jobs, which run on separate threads from the database's primary operations. These threads do not interfere with those utilized by your app users, allowing the process to take longer without adversely impacting a user's experience.
-For bulk updates, rows must be reformatted into NDJSON. Within PostgreSQL, this can be achieved with a PL/pgSQLfunction.
+On the other hand, the *HTTP* extension supports NDJSON and operates synchronously, making it suitable for bulk updates. It can wait for a response within a transaction and revert any commits if an error occurs. This plugin is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, preventing any negative impact on user experience.
+
+To perform bulk updates, rows must be converted into NDJSON. This can be accomplished using a PL/pgSQL function within PostgreSQL.
 
 #### Formatting Table Rows into NDJSON
 
@@ -379,7 +380,7 @@ SELECT
         net.http_get(
             -- URL of Supabase Edge function
             url:='https://<reference id>.functions.Supabase.co/Typesense-example',
-            headers:='{"Content-Type": "application/json", "Authorization": "Bearer <TOKEN>
+            headers:='{"Content-Type": "application/json", "Authorization": "Bearer <TOKEN>"}'
         ) as request_id;
 	$$
   );
@@ -437,7 +438,7 @@ AS $$
         row_data RECORD;
         ndjson TEXT := '';
 
-        -- variables for tracking http requests
+        -- variables for referencing http response values
         request_status INTEGER;
         response_message TEXT;
     BEGIN
@@ -470,10 +471,10 @@ AS $$
         -- Formatting each unsynced row into NDJSON
         FOR row_data IN (
             SELECT
-            product_name,
-            id,
-            CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
-            user_id
+                product_name,
+                id,
+                CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
+                user_id
             FROM products
             WHERE updated_at BETWEEN previous_sync_time AND current_sync_time
         )
@@ -483,7 +484,7 @@ AS $$
 
         -- Sending upsert request to Typesense server ---------------------------------------------
 
-        -- Sending request to Typesense
+        -- Sending request
         SELECT
             status,
             content
@@ -538,7 +539,7 @@ curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
 
 Some users may prefer using servers as an intermediary to communicate with Typesense. This is particularly useful when it is necessary to santize or reformat data. Supabase natively offers serverless edge functions in Deno (TypeScript).
 
-In order to track when edge functions were last called, it is neccesary to create a tracking table.
+In order to track when edge functions were last called, a tracking table must be created.
 
 #### Edge Function Tracking Table
 
@@ -612,7 +613,6 @@ const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!
 
 // Create a database pool with three connections that are lazily established
 const pool = new postgres.Pool(databaseUrl, 3, true)
-let test = ''
 serve(async _req => {
   try {
     // Grab a connection from the pool
@@ -679,7 +679,7 @@ You will be prompted to enter your password and directed towards a link to gener
 npx supabase functions deploy <YOUR FUNCTION'S FOLDER NAME>
 ```
 
-You should receive a link that will give you resource information about your new function. To call it, you will also need your project's _ANON KEY_, which can be found in the _API Tab_ of your project's settings. You can call your function to sync Typesense with a cron job.
+You should receive a link that will give you insight about your new function. To call it, you will also need your project's _ANON KEY_, which can be found in the _API Tab_ of your project's settings. You can schedule your function to sync Typesense with a cron job.
 
 #### Cron Job to Update Typesense with Edge Functions
 
@@ -702,7 +702,7 @@ SELECT
 
 ### Realtime Updates/Inserts with Triggers
 
-There are some circumstances where realtime syncing may be important. This can only be achieved with triggers.
+There are some circumstances where realtime syncing may be important. This can only be achieved with triggers. The below example directly syncs between Supabase and Typesense, but you could also use the trigger to call an Edge function that does the same thing.
 
 #### Syncing Data with Triggers
 
@@ -801,7 +801,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 
 ```
 
-A PL/pgSQLfunction could be written to sync the deletions with Typesense before removing the copies from the deleted_rows table.
+A PL/pgSQLfunction can be written to sync the deletions with Typesense before removing the copies from the deleted_rows table.
 
 #### Bulk Sync Deleted Rows
 
@@ -935,7 +935,7 @@ AS $$
 $$;
 ```
 
-The function can be called every minute by a Cron Job.
+The function can be called every minute by a cron bob.
 
 #### Scheduling Bulk Deletes
 
@@ -953,7 +953,7 @@ SELECT
 
 ### Syncing in Realtime
 
-Depending on you organize your tables, you may come across a situation
+Depending on you organize your database, you may come across a situation
 where deleting one row causes a cascade of deletes in another table. To sync these changes, you can use triggers. In Typesense, bulk deletes can be performed by querying a shared field. In the below example, when a user is deleted, Typesense will delete all corresponding entries.
 
 #### Bulk Delete by a Shared Field
@@ -980,7 +980,6 @@ CREATE TRIGGER bulk_delete_products_trigger
     AFTER DELETE ON auth.users
     FOR EACH ROW
     EXECUTE FUNCTION bulk_delete_products();
-
 ```
 
 In Typesense, a single document can be deleted by making a request with the document's ID as a path parameter.
@@ -992,7 +991,7 @@ curl -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" -X DELETE \
     "http://localhost:8108/collections/products/documents/<id>"
 ```
 
-Syncing individual deletes in realtime can be managed with triggers.
+Syncing individual deletes in realtime can be managed with a trigger.
 
 #### Single Row Delete Using Triggers
 
