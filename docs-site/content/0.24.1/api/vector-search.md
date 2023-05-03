@@ -229,7 +229,7 @@ $client->collections['docs']->documents->create($document);
 document = {
   'title': 'Louvre Museuem',
   'points': 1,
-  'location': [0.04, 0.234, 0.113, 0.001]
+  'vec': [0.04, 0.234, 0.113, 0.001]
 }
 
 client.collections['docs'].documents.create(document)
@@ -282,7 +282,8 @@ curl "http://localhost:8108/collections/docs/documents" -X POST \
 
 We can now search for documents that contain a `vec` field value "closest" to a given query vector. 
 
-We use the `k` parameter to control the number of documents that are returned.
+To control the number of documents that are returned, you can either use the `per_page` pagination parameter or 
+the `k` parameter within the vector query.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
 <template v-slot:JavaScript>
@@ -391,6 +392,8 @@ curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENS
 
   </template>
 </Tabs>
+
+NOTE: If both `per_page` and `k` parameters are provided, the larger value is used.
 
 :::tip
 Since vector search queries tend to be large because of the large dimension of the query vector, we are
