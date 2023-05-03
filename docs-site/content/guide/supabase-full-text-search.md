@@ -676,7 +676,7 @@ You will be prompted to enter your password and directed towards a link to gener
 #### Deploy Edge Function To Supabase
 
 ```bash
-npx supabase functions deploy <YOUR FUNCTION'S FOLDER NAME>
+npx supabase functions deploy <YOUR FUNCTION\'S DIRECTORY NAME>
 ```
 
 You should receive a link that will give you insight about your new function. To call it, you will also need your project's _ANON KEY_, which can be found in the _API Tab_ of your project's settings. You can schedule your function to sync Typesense with a cron job.
