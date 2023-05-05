@@ -446,27 +446,7 @@ SELECT cron.unschedule('cron-job-name')
 
 The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense in bulk. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in Supabase.
 
-#### Query to Bulk Synce Rows
-
-```sql
-CREATE TABLE public.products (
-	id UUID NOT NULL DEFAULT uuid_generate_v4 (),
-	product_name TEXT NULL,
-	updated_at TIMESTAMPTZ NULL DEFAULT now(),
-	user_id UUID NULL, -- References an authenticated user's id in Supabase managed auth.users database
-	CONSTRAINT products_pkey PRIMARY KEY (id),
-	CONSTRAINT products_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id) ON DELETE CASCADE
-);
-```
-
-```sql
-CREATE TABLE public.products_sync_tracker (
-	product_id UUID NOT NULL,
-    is_synced BOOLEAN FALSE,
-	CONSTRAINT products_pkey PRIMARY KEY (id),
-	CONSTRAINT product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE SET NULL
-);
-```
+#### Query to Bulk Sync Rows
 
 ```sql
 CREATE OR REPLACE PROCEDURE sync_products_updates()
@@ -968,7 +948,8 @@ AS $$
             string_agg(id::text, ',')
             INTO query_params
         FROM products
-        WHERE user_id IS NULL;
+        WHERE user_id IS NULL
+        LIMIT 40;
 
         -- places the list of ids in url encoded brackets [ ]
         query_params :=  '%5B' || query_params '%5D'
