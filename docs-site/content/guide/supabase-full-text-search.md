@@ -61,7 +61,7 @@ The policies that will be used for the walkthrough are:
 #### Products Table RLS Policies
 
 ```sql
-CREATE POLICY "only an authenticated user can view their products from PostgreSQL"
+CREATE POLICY "only an authenticated user can view their products in PostgreSQL"
 ON public.products
 FOR SELECT
 TO authenticated
@@ -106,7 +106,7 @@ All of these extensions can be found and enabled in Supabase by clicking on the 
 
 The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. The HTTP and PG_CRON extensions will be used together to schedule and execute bulk syncing. 
 
-> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write functions in JavaScript and Java, respectively.
+> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write routines in JavaScript and Java, respectively.
 
 ### Tracking changes
 
@@ -114,15 +114,13 @@ There are tens of ways to track unsynced rows in PostgreSQL, each with their own
 
 One such method that will be demonstrated for tracking changes are log tables because they are relatively easy to implement.
 
-Create a table for tracking unsynced rows.
-
-#### Creating a Logging Table
+#### Creating a Logging Table to Track Unsynced Rows
 
 ```sql
 CREATE TABLE public.products_sync_tracker (
-    product_id UUID NOT NULL,
-    is_synced BOOLEAN FALSE,
-    CONSTRAINT product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE SET NULL
+    product_id UUID NOT NULL PRIMARY KEY,
+    is_synced BOOLEAN DEFAULT FALSE,
+    CONSTRAINT product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE CASCADE
 );
 ```
 
@@ -131,13 +129,13 @@ Triggers provide a PostgreSQL native way to populate the above table with the co
 #### Creating a Trigger to Monitor Product Inserts
 
 ```sql
-CREATE OR REPLACE FUNCTION update_products_trigger_func()
+CREATE OR REPLACE FUNCTION insert_products_trigger_func()
 RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO products_sync_tracker (product_id)
-    VALUES (OLD.id);
+    VALUES (NEW.id);
 
-    RETURN OLD;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -303,7 +301,8 @@ When the query completes, you can use the returned _request_id_ to find the resp
 
 ```sql
 SELECT
-    (response).body::JSON
+    *,
+    (response).body::JSON AS body
 FROM
     net._http_collect_response(<request_id>);
 ```
@@ -453,6 +452,7 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
     DECLARE
+        total_rows INTEGER;
         -- variables for converting rows to NDJSON
         ndjson TEXT := '';
 
@@ -460,30 +460,56 @@ AS $$
         request_status INTEGER;
         response_message TEXT;
     BEGIN
-        -- Format unsynced rows as NDJSON
-        SELECT string_agg(row_to_json(row_data)::text, E'\n')
-        INTO ndjson
-        FROM (
+        -- Create a temporary table with the rows to be updated
+        CREATE TEMP TABLE updated_rows ON COMMIT DROP AS
+          SELECT product_id 
+          FROM public.products_sync_tracker
+          WHERE is_synced = FALSE
+          LIMIT 40;
+        
+
+        SELECT 
+            COUNT(product_id) 
+            INTO total_rows
+        FROM updated_rows;
+
+        IF total_rows < 1 THEN 
+            RAISE EXCEPTION 'No rows need to be synced';
+        END IF;
+
+        -- Update the products in the temporary table as synced
+        -- This action will be undone if the query fails or if Typesense 
+        -- rejects the upsert
+        UPDATE public.products_sync_tracker
+        SET is_synced = TRUE
+        WHERE product_id IN (SELECT product_id FROM updated_rows);
+
+        -- Cast the soon-to-be synced rows into a Typesense interpretable format
+        WITH row_data AS (
             SELECT
                 p.product_name,
                 p.id,
                 CAST(EXTRACT(epoch FROM p.updated_at) AS FLOAT) AS updated_at,
                 p.user_id
             FROM products p
-            JOIN public.products_sync_tracker pst ON p.id = pst.product_id
-            WHERE pst.is_synced = FALSE
-            LIMIT 40
-        ) AS row_data;
+            JOIN updated_rows u ON p.id = u.product_id
+        )
+        -- Format rows into NDJSON
+        SELECT 
+            string_agg(row_to_json(row_data)::text, E'\n')
+        INTO ndjson
+        FROM row_data;
 
-        -- Send upsert request to Typesense server
         SELECT
             status,
             content
-        INTO request_status, response_message
+            INTO request_status, response_message
         FROM http((
             'POST'::http_method,
+            -- ADD TYPESENSE URL
             '<TYPESENSE URL>/collections/products/documents/import?action=upsert',
             ARRAY[
+                -- ADD API KEY
                 http_header('X-Typesense-API-KEY', '<API KEY>')
             ]::http_header[],
             'application/text',
@@ -492,40 +518,40 @@ AS $$
 
         -- Check if the request failed
         IF request_status <> 200 THEN
-            -- Undo sync
             -- stores error message in Supabase Postgres Logs
-            RAISE LOG 'HTTP POST request failed. Message: %', response_message;
+            RAISE LOG 'Typesense Sync request failed. Message: %', response_message;
             -- Raises Exception, which undoes the transaction
             RAISE EXCEPTION 'UPSERT FAILED';
         ELSE
-            -- The response will contain NDJSON of the results for each row
+            -- A successful response will contain NDJSON of the results for each row
             /* possible results:
                 {"success": true}
                 {"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
             */ 
-            -- This must be processed to determine which products synced
-            WITH extracted_ndjson AS (
-                SELECT unnest(string_to_array(ndjson, E'\n')) AS ndjson_line
+            -- This must be processed to determine which rows synced and which did not
+            WITH ndjson_from_response AS (
+                SELECT unnest(string_to_array(response_message, E'\n')) AS ndjson_line
             ),
             ndjson_to_json_data AS (
                 SELECT 
                     ndjson_line::JSON AS json_line
-                FROM extracted_ndjson
+                FROM ndjson_from_response
             ),
-            extracting_successful_rows AS (
+            failed_syncs AS (
                 SELECT 
                     json_line
                 FROM ndjson_to_json_data
-                WHERE (json_line->>'success')::BOOLEAN = TRUE
+                WHERE (json_line->>'success')::BOOLEAN = FALSE
             ),
-            synced_ids AS (
+            unsynced_ids AS (
                 SELECT 
-                    json_line->'document'->>'id' AS ids
-                FROM extracting_successful_rows
+                    ((json_line->>'document')::JSON->>'id')::UUID AS ids
+                FROM failed_syncs
             )
             UPDATE public.products_sync_tracker
-            SET is_synced = TRUE
-            WHERE product_id IN (SELECT ids FROM synced_ids);
+            SET is_synced = FALSE
+            WHERE product_id IN (SELECT ids FROM unsynced_ids);
+
         END IF;
     END;
 $$;
@@ -541,7 +567,7 @@ SELECT cron.schedule(
     '* * * * *',
     $$
     -- SQL query
-        CALL sync_product_updates();
+        SELECT sync_products_updates();
     $$
 );
 ```
@@ -596,7 +622,7 @@ BEGIN
     RETURN QUERY
         WITH unsynced_rows AS (
             -- find 40 unsynced rows and update them 
-            -- to state they are synced.
+            -- to state they are synced. 
             UPDATE public.products_sync_tracker
             SET is_synced = TRUE
             WHERE product_id IN (
@@ -628,82 +654,108 @@ To create your first function, create a folder with your function name, and add 
 #### Edge Function to Update Typesense
 
 ```typescript
-import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts';
+import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 
-serve(async (req: Request) => {
-  try {
-    // Create a Supabase client with the Auth context of the logged in user.
-    const supabaseClient = createClient(
-      // Supabase API URL - env var exported by default.
-      Deno.env.get('SUPABASE_URL') ?? '',
-      // Supabase API ANON KEY - env var exported by default.
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      // Create client with Auth context of the user that called the function.
-      // This way your row-level-security (RLS) policies are applied.
-      { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
-    )
-    // Now we can get the session or user object
-    const {
-      data: { user },
-    } = await supabaseClient.auth.getUser()
+// Get the connection string from the environment variable "SUPABASE_DB_URL"
+// const databaseUrl = Deno.env.get(
+// 	'postgresql://postgres:9Z7CJxyHLnawykZg@db.gtxbmtrglmwyrlpdyzik.supabase.co:5432/postgres'
+// )!;
+type TProductRows = {
+	id: string;
+	product_name: string;
+	updated_at: string;
+	user_id: string;
+}[];
 
-    // And we can run queries in the context of our authenticated user
-    const { data, error } = await supabaseClient.rpc('get_updates_for_edge')
-    if (error) throw error
-    
-    // Convert data into NDJSON format
-      const newProductsNDJSON = data
-        .map(product =>
-          JSON.stringify({
-            ...product,
-            updated_at: parseFloat(product.updated_at),
-          }),
-        )
-        .join('\n')
-      // ADD YOUR TYPESENSE URL
-      const response = await fetch('<TYPESENSE URL>/collections/products/documents/import?action=upsert', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-ndjson',
-          //ADD YOUR TYPESENSE API KEY
-          'X-TYPESENSE-API-KEY': '<API KEY>',
-        },
-        body: newProductsNDJSON,
-      })
-      const ndJsonResponse = await response.text()
-      // The response will contain NDJSON of the results, It must be converted back into JS
-      /* possible results
-        {"success": true}
-        {"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
-      */ 
-        const parsedResponse = ndJsonResponse
-        .split('\n')
-        .map(line => JSON.parse(line));
+// Get the connection string from the environment variable "SUPABASE_DB_URL"
+const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!;
 
-        //formatting response for the products_sync_tracker table
-        const failedUpserts = parsedResponse
-        .filter(doc => !doc.success)
-        .map(doc=>({
-            product_id: doc.document.id, 
-            is_synced: false
-        }))
+// Create a database pool with three connections that are lazily established
+const pool = new postgres.Pool(databaseUrl, 3, true);
 
-        //updating table about the failed requests
-        const { data, error } = await supabase
-        .from('products_sync_tracker')
-        .upsert(failedUpsertsId)
-    return new Response(JSON.stringify({ parsedResponse }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 200,
-    })
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 400,
-    })
-  }
-})
+serve(async (_req) => {
+	try {
+		// Grab a connection from the pool
+		const connection = await pool.connect();
+
+		try {
+			// Run a query
+			const result =
+				await connection.queryObject`SELECT * FROM get_updates_for_edge()`;
+			const newProducts = result.rows as TProductRows;
+			// Convert newProducts into NDJSON format
+			const newProductsNDJSON: string = newProducts
+				.map((product) =>
+					JSON.stringify({
+						...product,
+						updated_at: parseFloat(product.updated_at),
+					})
+				)
+				.join('\n');
+			// ADD YOUR TYPESENSE URL
+			const response = await fetch(
+				'<TYPESENSE URL>/collections/products/documents/import?action=upsert',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-ndjson',
+						//ADD YOUR TYPESENSE API KEY
+						'X-TYPESENSE-API-KEY': '<API KEY>',
+					},
+					body: newProductsNDJSON,
+				}
+			);
+			const ndJsonResponse = await response.text();
+			// The response will contain NDJSON of the results, It must be converted back into JS
+			/* possible results
+				{"success": true}
+				{"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
+			*/
+			let JSONStringArr = ndJsonResponse.split('\n');
+			if (JSONStringArr[0] === '') {
+				return new Response('no rows to sync', {
+					status: 200,
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+				});
+			}
+
+			const parsedJSON = JSONStringArr.map((res) => JSON.parse(res));
+
+			//formatting response for the products_sync_tracker table
+			const failedSyncIds = parsedJSON
+				.filter((doc) => !doc.success)
+				.map((doc) => JSON.parse(doc.document).id);
+
+			if (failedSyncIds.length) {
+				const result = await connection.queryArray(
+					`UPDATE products_sync_tracker
+					SET is_synced = FALSE
+					WHERE product_id = ANY($1::uuid[])`,
+					[failedSyncIds]
+				);
+			}
+
+			// Return the response with the correct content type header
+			return new Response(ndJsonResponse, {
+				status: 200,
+				headers: {
+					'Content-Type': 'application/x-ndjson; charset=utf-8',
+				},
+			});
+		} finally {
+			// Release the connection back into the pool
+			connection.release();
+		}
+	} catch (err) {
+		console.error(err);
+		return new Response(String(err?.message ?? err), {
+			status: 500,
+		});
+	}
+});
 ```
 
 With the function set-up, navigate to your function's parent directory in the terminal and execute the following command
