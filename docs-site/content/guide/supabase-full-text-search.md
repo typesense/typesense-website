@@ -106,9 +106,11 @@ All of these extensions can be found and enabled in Supabase by clicking on the 
 
 The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. The HTTP and PG_CRON extensions will be used together to schedule and execute bulk syncing. 
 
+| Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write procedures in JavaScript and Java, respectively.
+
 ### Tracking changes
 
-There are tens of ways to track unsynced rows in PostgreSQL, each with their own benefits and drawbacks. This guide will discuss varying strategies for both realtime and bulk syncing. However, it is up to you to decide which methods fit your database design and use case. 
+There are tens of ways to track unsynced rows in PostgreSQL, each with their own benefits and drawbacks. This guide will discuss various strategies for both realtime and bulk syncing. However, it is up to you to decide which methods fit your database design and use case. 
 
 One such method that will be demonstrated for tracking changes are log tables because they are relatively easy to implement.
 
@@ -118,21 +120,20 @@ Create a table for tracking unsynced rows.
 
 ```sql
 CREATE TABLE public.products_sync_tracker (
-	product_id UUID NOT NULL,
+    product_id UUID NOT NULL,
     is_synced BOOLEAN FALSE,
-	CONSTRAINT product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE SET NULL
+    CONSTRAINT product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE SET NULL
 );
 ```
 
-Using triggers, it is easy to record new rows and updates changes.
+Triggers provide a PostgreSQL native way to populate the above table with the correct data.
 
-#### Creating a Trigger to Monitor Inserts
+#### Creating a Trigger to Monitor Product Inserts
 
 ```sql
 CREATE OR REPLACE FUNCTION update_products_trigger_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Insert into products_sync_tracker 
     INSERT INTO products_sync_tracker (product_id)
     VALUES (OLD.id);
 
@@ -142,12 +143,12 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER insert_products_trigger
-AFTER INSERT ON public.products
-FOR EACH ROW
-EXECUTE FUNCTION insert_products_trigger_func();
+    AFTER INSERT ON public.products
+    FOR EACH ROW
+    EXECUTE FUNCTION insert_products_trigger_func();
 ```
 
-#### Creating a Trigger to Monitor Updates
+#### Creating a Trigger to Monitor Product Updates
 
 ```sql
 CREATE OR REPLACE FUNCTION update_products_trigger_func()
@@ -155,8 +156,7 @@ RETURNS TRIGGER AS $$
 BEGIN
     -- Update products_sync_tracker table
     UPDATE products_sync_tracker
-    SET 
-        is_synced = FALSE
+    SET is_synced = FALSE
     WHERE product_id = NEW.id;
 
     -- update products.updated_at column
@@ -168,9 +168,9 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER update_products_trigger
-BEFORE UPDATE ON public.products
-FOR EACH ROW
-EXECUTE FUNCTION update_products_trigger_func();
+    BEFORE UPDATE ON public.products
+    FOR EACH ROW
+    EXECUTE FUNCTION update_products_trigger_func();
 ```
 
 ## Step 2: Configuring Typesense
@@ -328,6 +328,7 @@ SELECT net.http_post(
                 product_name,
                 user_id
             FROM products
+            -- LIMIT 1
         ) rows
     )::JSONB,
     headers := json_build_object(
@@ -344,7 +345,7 @@ If you were upserting multiple rows, you would have received the following error
 
 *PG_NET* functions are incompatible for multi-row updates, but they are essential for real-time syncing. Real-time syncs utilize PostgreSQL triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed.
 
-On the other hand, the *HTTP* extension supports NDJSON, making it suitable for bulk updates. It is also synchronous, so it will wait for a *succeeded* or *failed* response and respond accordingly. This plugin is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, preventing any negative impact on user experience.
+On the other hand, the *HTTP* extension supports NDJSON, making it suitable for bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing any negative impacts on user experience.
 
 To perform bulk updates, rows must be converted into NDJSON. This can be accomplished using a PL/pgSQL function within PostgreSQL.
 
@@ -355,22 +356,18 @@ CREATE OR REPLACE FUNCTION get_products_ndjson()
 RETURNS TEXT
 AS $$
 DECLARE
-    row_data RECORD;
     ndjson TEXT := '';
 BEGIN
-    FOR row_data IN (
+    SELECT string_agg(row_to_json(row_data)::text, E'\n')
+    INTO ndjson
+    FROM (
         SELECT
-            product_name,
-            id,
-            CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
-            user_id
-        FROM products
-    )
-    LOOP
-        -- Concatenate JSON text values with newline character
-        ndjson := ndjson || row_to_json(row_data)::TEXT || E'\n';
-    END LOOP;
-
+            p.product_name,
+            p.id,
+            CAST(EXTRACT(epoch FROM p.updated_at) AS FLOAT) AS updated_at,
+            p.user_id
+        FROM products p
+    ) AS row_data;
     RETURN ndjson;
 END;
 $$ LANGUAGE plpgSQL;
@@ -382,7 +379,8 @@ Utilizing the above function, we can use the _HTTP_ extension to make bulk upser
 
 ```sql
 SELECT
-    status,
+    status AS response_status,
+    content AS response_body,
     (unnest(headers)).*
 -- The http function returns a table of response headers
 FROM http((
@@ -408,15 +406,15 @@ You can check if Typesense was updated with the following cURL request:
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: <API KEY>" \
-"<TYPESENSE URL>/collections/products/documents/search?q=*" \
-| json_pp
+    "<TYPESENSE URL>/collections/products/documents/search?q=*" \
+    | json_pp
 ```
 
 ## Step 4: Syncing Inserts/Updates
 
 ### Scheduling Bulk Updates/Inserts with Cron Jobs
 
-Using the _PG_CRON_ and _HTTP_ extensions, you can schedule cron jobs to bulk sync a database with Typesense. Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer native support for bulk syncing at shorter intervals. An imperfect workaround involves scheduling multiple cron jobs with staggered timings. If you must bulk sync at shorter intervals, you should use a more precise external cron or bridge server for better control.
+You can schedule cron jobs to bulk sync a database with Typesense. Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer native support for bulk syncing at shorter intervals. An imperfect workaround involves scheduling multiple cron jobs with staggered timings. If you must bulk sync at shorter intervals, you should use a more precise external cron or bridge server for better control.
 
 #### Example Cron Job: Calling Edge Function Every Minute
 
@@ -448,9 +446,6 @@ The following PL/pgSQL function converts unsynced rows into NDJSON and then upse
 
 #### Query to Bulk Synce Rows
 
-
-duck:
-
 ```sql
 CREATE TABLE public.products (
 	id UUID NOT NULL DEFAULT uuid_generate_v4 (),
@@ -472,70 +467,41 @@ CREATE TABLE public.products_sync_tracker (
 ```
 
 ```sql
-CREATE OR REPLACE FUNCTION sync_products_updates()
-RETURNS VOID
+CREATE OR REPLACE PROCEDURE sync_products_updates()
+LANGUAGE plpgsql
 AS $$
     DECLARE
         -- variables for converting rows to NDJSON
-        row_data RECORD;
         ndjson TEXT := '';
 
         -- variables for referencing http response values
         request_status INTEGER;
         response_message TEXT;
     BEGIN
-        
-        -- Create a temporary table to track updated rows
-        CREATE TEMPORARY TABLE temp_synced_products (
-            temp_product_id UUID NOT NULL,
-            temp_is_synced BOOLEAN NOT NULL
-        ) ON COMMIT DROP;
-
-        -- Update is_synced value to TRUE and copy updated rows into the temporary table
-        WITH updated_rows AS (
-            UPDATE public.products_sync_tracker
-            SET is_synced = TRUE
-            WHERE product_id IN (
-                SELECT product_id
-                FROM public.products_sync_tracker
-                WHERE is_synced = FALSE
-                LIMIT 40
-            )
-            RETURNING product_id, is_synced
-        )
-        INSERT INTO temp_synced_products (temp_product_id, temp_is_synced)
-        SELECT product_id, is_synced
-        FROM updated_rows;
-
-        -- Formatting unsynced rows as NDJSON ---------------------------------------------------
-
-        -- Formatting each unsynced row into NDJSON
-        FOR row_data IN (
+        -- Format unsynced rows as NDJSON
+        SELECT string_agg(row_to_json(row_data)::text, E'\n')
+        INTO ndjson
+        FROM (
             SELECT
-                product_name,
-                id,
-                CAST(EXTRACT(epoch FROM updated_at) AS FLOAT) AS updated_at,
-                user_id
-            FROM products
-            INNER JOIN temp_synced_products ON temp_synced_products.temp_product_id = products.id
-        )
-        LOOP
-            ndjson := ndjson || row_to_json(row_data)::TEXT || E'\n';
-        END LOOP;
+                p.product_name,
+                p.id,
+                CAST(EXTRACT(epoch FROM p.updated_at) AS FLOAT) AS updated_at,
+                p.user_id
+            FROM products p
+            JOIN public.products_sync_tracker pst ON p.id = pst.product_id
+            WHERE pst.is_synced = FALSE
+            LIMIT 40
+        ) AS row_data;
 
-        -- Sending upsert request to Typesense server ---------------------------------------------
-
-        -- Sending request
+        -- Send upsert request to Typesense server
         SELECT
             status,
             content
-            INTO request_status, response_message
+        INTO request_status, response_message
         FROM http((
             'POST'::http_method,
-            -- ADD TYPESENSE URL
             '<TYPESENSE URL>/collections/products/documents/import?action=upsert',
             ARRAY[
-                -- ADD API KEY
                 http_header('X-Typesense-API-KEY', '<API KEY>')
             ]::http_header[],
             'application/text',
@@ -544,21 +510,46 @@ AS $$
 
         -- Check if the request failed
         IF request_status <> 200 THEN
-            -- undo sync
-            UPDATE public.products_sync_tracker
-            SET is_synced = FALSE
-            FROM temp_synced_products
-            WHERE temp_synced_products.product_id = products_sync_tracker.product_id;
+            -- Undo sync
             -- stores error message in Supabase Postgres Logs
             RAISE LOG 'HTTP POST request failed. Message: %', response_message;
             -- Raises Exception, which undoes the transaction
             RAISE EXCEPTION 'UPSERT FAILED';
+        ELSE
+            -- The response will contain NDJSON of the results for each row
+            /* possible results:
+                {"success": true}
+                {"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
+            */ 
+            -- This must be processed to determine which products synced
+            WITH extracted_ndjson AS (
+                SELECT unnest(string_to_array(ndjson, E'\n')) AS ndjson_line
+            ),
+            ndjson_to_json_data AS (
+                SELECT 
+                    ndjson_line::JSON AS json_line
+                FROM extracted_ndjson
+            ),
+            extracting_successful_rows AS (
+                SELECT 
+                    json_line
+                FROM ndjson_to_json_data
+                WHERE (json_line->>'success')::BOOLEAN = TRUE
+            ),
+            synced_ids AS (
+                SELECT 
+                    json_line->'document'->>'id' AS ids
+                FROM extracting_successful_rows
+            )
+            UPDATE public.products_sync_tracker
+            SET is_synced = TRUE
+            WHERE product_id IN (SELECT ids FROM synced_ids);
         END IF;
     END;
-$$ LANGUAGE plpgsql;
+$$;
 ```
 
-Embedding the above function *sync_product_updates* into a cron job, Supabase can directly update Typesense at regular intervals.
+Embedding the above procedure *sync_product_updates* into a cron job, Supabase can directly update Typesense at regular intervals.
 
 #### Cron Job to Bulk Upsert into Typesense
 
@@ -568,7 +559,7 @@ SELECT cron.schedule(
     '* * * * *',
     $$
     -- SQL query
-        SELECT sync_product_updates();
+        CALL sync_product_updates();
     $$
 );
 ```
@@ -620,7 +611,6 @@ RETURNS TABLE(
     user_id UUID
 )
 AS $$
-
 BEGIN
     RETURN QUERY
         WITH unsynced_rows AS (
@@ -638,6 +628,7 @@ BEGIN
         SELECT
             products.id,
             products.product_name,
+            -- Casting can be done in the edge function, as well
             CAST(EXTRACT(epoch FROM products.updated_at) AS FLOAT) AS updated_at,
             products.user_id
         FROM products
@@ -706,12 +697,15 @@ serve(async (req: Request) => {
         .split('\n')
         .map(line => JSON.parse(line));
 
-        const failedUpsertsId = parsedResponse
+        //formatting response for the products_sync_tracker table
+        const failedUpserts = parsedResponse
         .filter(doc => !doc.success)
         .map(doc=>({
             product_id: doc.document.id, 
             is_synced: false
         }))
+
+        //updating table about the failed requests
         const { data, error } = await supabase
         .from('products_sync_tracker')
         .upsert(failedUpsertsId)
@@ -726,114 +720,6 @@ serve(async (req: Request) => {
     })
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
-// import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
-
-// // Get the connection string from the environment variable "SUPABASE_DB_URL"
-// const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!
-
-// // Create a database pool with three connections that are lazily established
-// const pool = new postgres.Pool(databaseUrl, 3, true)
-// serve(async _req => {
-//   try {
-//     // Grab a connection from the pool
-//     const connection = await pool.connect()
-
-//     try {
-//       // Run a query
-//       // ADD YOUR EDGE FUNCTION NAME
-//       const result = await connection.queryObject`SELECT * FROM get_updates_for_edge()`
-//       const newProducts = result.rows ?? []
-//       // Convert newProducts into NDJSON format
-//       const newProductsNDJSON = newProducts
-//         .map(product =>
-//           JSON.stringify({
-//             ...product,
-//             updated_at: parseFloat(product.updated_at),
-//           }),
-//         )
-//         .join('\n')
-//       // ADD YOUR TYPESENSE URL
-//       const response = await fetch('<TYPESENSE URL>/collections/products/documents/import?action=upsert', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/x-ndjson',
-//           //ADD YOUR TYPESENSE API KEY
-//           'X-TYPESENSE-API-KEY': '<API KEY>',
-//         },
-//         body: newProductsNDJSON,
-//       })
-//       const ndJsonResponse = await response.text()
-//       // The response will contain NDJSON of the results
-//       /*
-//         {"success": true}
-//         {"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
-//       */ 
-//         const parsedResponse = ndJsonResponse
-//         .split('\n')
-//         .map(line => JSON.parse(line));
-
-//         const failedUpsertsId = parsedResponse
-//         .filter(doc => !doc.success)
-//         .map(doc=>doc.document.id)
-        
-//         // update Supabase to reflect failures
-//         const result = await connection.queryObject`
-//             UPDATE public.products_sync_tracker
-//             SET is_synced = FALSE
-//             WHERE
-//         `
-
-//         const arrayOfFailedUpserts = jsonArray.filter(document=>document.)
-//       // Return the response with the correct content type header
-//       return new Response(body, {
-//         status: 200,
-//         headers: {
-//           'Content-Type': 'application/json; charset=utf-8',
-//         },
-//       })
-//     } finally {
-//       // Release the connection back into the pool
-//       connection.release()
-//     }
-//   } catch (err) {
-//     console.error(err)
-//     return new Response(String(err?.message ?? err), {
-//       status: 500,
-//     })
-//   }
-// })
 ```
 
 With the function set-up, navigate to your function's parent directory in the terminal and execute the following command
@@ -918,7 +804,7 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor these updates with cron jobs or triggers to make attempts to reupload the data. Using triggers, though, can be dangerous for this task. If the data is incompatible with Typesense, the request will always fail, resulting in an infinite loop of reattempts. 
+It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor these updates with cron jobs or triggers to make attempts to reattempt failed syncs. Using triggers for immediate retries, though, can be dangerous for this task. If the data is incompatible with Typesense, the request will always fail. If not handled properly, this can result in an infinite loop.
 
 ## Step 5: Syncing Deletes
 
@@ -1067,10 +953,9 @@ Create a function to sync nullified rows with Typesense and delete them:
 #### Syncing Nullified Rows Before Deleting Them
 
 ```sql
--- Create the function to delete the record from Typesense
-CREATE OR REPLACE FUNCTION bulk_delete_products()
-    RETURNS VOID
-    LANGUAGE plpgSQL
+-- Create the procedure to delete the record from Typesense
+CREATE OR REPLACE PROCEDURE bulk_delete_products()
+LANGUAGE plpgSQL
 AS $$
     DECLARE
         query_params TEXT;
@@ -1084,6 +969,8 @@ AS $$
         FROM products
         WHERE user_id IS NULL;
 
+        -- places the list of ids in url encoded brackets [ ]
+        query_params :=  '%5B' || query_params '%5D'
 
         -- Send delete request to Typesense server
         SELECT
@@ -1093,7 +980,7 @@ AS $$
         FROM http((
             'DELETE'::http_method,
             -- ADD TYPESENSE URL
-            '<TYPESENSE URL>/collections/products/documents?filter_by=' || query_params, 
+            '<TYPESENSE URL>/collections/products/documents?filter_by=id:' || query_params, 
             ARRAY[
                 -- ADD API KEY
                 http_header('X-Typesense-API-KEY', '<API KEY>')
@@ -1115,7 +1002,7 @@ AS $$
 $$;
 ```
 
-The function can be called every minute by a cron bob.
+The procedure can be called every minute by a cron bob.
 
 #### Scheduling Bulk Deletes
 
@@ -1126,7 +1013,7 @@ SELECT
     '* * * * *', -- Executes every minute(cron syntax)
 	$$
     -- SQL query
-        SELECT bulk_delete_products;
+        CALL bulk_delete_products();
 	$$
   );
 ```
@@ -1204,93 +1091,3 @@ In this tutorial, we explored different methods to synchronize data between Supa
 By implementing these techniques, you can create a robust, efficient, and responsive search system for your application, providing users with a seamless and accurate search experience.
 
 If we can make any improvements to this guide, click on the "Edit page" link below and send us a pull request.
-
-
-
-
-
-
-
-
-
-
-
-
-
-import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
-import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
-
-// Get the connection string from the environment variable "SUPABASE_DB_URL"
-const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!
-
-// Create a database pool with three connections that are lazily established
-const pool = new postgres.Pool(databaseUrl, 3, true)
-serve(async _req => {
-  try {
-    // Grab a connection from the pool
-    const connection = await pool.connect()
-
-    try {
-      // Run a query
-      // ADD YOUR EDGE FUNCTION NAME
-      const result = await connection.queryObject`SELECT * FROM get_updates_for_edge()`
-      const newProducts = result.rows ?? []
-      // Convert newProducts into NDJSON format
-      const newProductsNDJSON = newProducts
-        .map(product =>
-          JSON.stringify({
-            ...product,
-            updated_at: parseFloat(product.updated_at),
-          }),
-        )
-        .join('\n')
-      // ADD YOUR TYPESENSE URL
-      const response = await fetch('<TYPESENSE URL>/collections/products/documents/import?action=upsert', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-ndjson',
-          //ADD YOUR TYPESENSE API KEY
-          'X-TYPESENSE-API-KEY': '<API KEY>',
-        },
-        body: newProductsNDJSON,
-      })
-      const ndJsonResponse = await response.text()
-      // The response will contain NDJSON of the results
-      /*
-        {"success": true}
-        {"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
-      */ 
-        const parsedResponse = ndJsonResponse
-        .split('\n')
-        .map(line => JSON.parse(line));
-
-        const failedUpsertsId = parsedResponse
-        .filter(doc => !doc.success)
-        .map(doc=>doc.document.id)
-        
-        // update Supabase to reflect failures
-        const result = await connection.queryObject`
-            UPDATE public.products_sync_tracker
-            SET is_synced = FALSE
-            WHERE
-        `
-
-        const arrayOfFailedUpserts = jsonArray.filter(document=>document.)
-      // Return the response with the correct content type header
-      return new Response(body, {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-      })
-    } finally {
-      // Release the connection back into the pool
-      connection.release()
-    }
-  } catch (err) {
-    console.error(err)
-    return new Response(String(err?.message ?? err), {
-      status: 500,
-    })
-  }
-})
