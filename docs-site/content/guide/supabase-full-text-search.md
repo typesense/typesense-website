@@ -106,7 +106,7 @@ All of these extensions can be found and enabled in Supabase by clicking on the 
 
 The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. The HTTP and PG_CRON extensions will be used together to schedule and execute bulk syncing. 
 
-::: NOTE: Although most of this tutorial is coded in PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write routines in JavaScript and Java, respectively.
+> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write procedures in JavaScript and Java, respectively.
 
 ### Tracking changes
 
@@ -200,7 +200,7 @@ http://localhost:8108/health
 
 The Typesense instance is deployed with a default API key: _Hu52dwsas2AdxdE_. For better security, we'll generate new keys. First, execute the following Shell command to replace the default API key:
 
-::: NOTE: consider formatting cURL responses with json_pp, jq, or some other JSON prettier
+> NOTE: consider formatting cURL responses with json_pp, jq, or some other JSON prettier
 
 #### Creating a New Administrator API Key
 
@@ -861,7 +861,7 @@ In Typesense, bulk deletions are performed using DELETE requests that include th
 curl -g -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 "http://localhost:8108/collections/companies/documents?filter_by=id:[id1, id2, id3]"
 ```
-::: NOTE: it may be necessary to use the url-encoded characters for square brackets "[ ]", respectively %5B and %5D
+> NOTE: it may be necessary to use the url-encoded characters for square brackets "[ ]", respectively %5B and %5D
 
 A PL/pgSQLfunction can be written to sync the deletions with Typesense before removing the copies from the deleted_rows table.
 
