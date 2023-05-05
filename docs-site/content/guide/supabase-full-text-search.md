@@ -106,7 +106,7 @@ All of these extensions can be found and enabled in Supabase by clicking on the 
 
 The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. The HTTP and PG_CRON extensions will be used together to schedule and execute bulk syncing. 
 
-| Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write procedures in JavaScript and Java, respectively.
+> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write procedures in JavaScript and Java, respectively.
 
 ### Tracking changes
 
@@ -200,6 +200,8 @@ http://localhost:8108/health
 
 The Typesense instance is deployed with a default API key: _Hu52dwsas2AdxdE_. For better security, we'll generate new keys. First, execute the following Shell command to replace the default API key:
 
+> NOTE: consider formatting cURL responses with json_pp, jq, or some other JSON prettier
+
 #### Creating a New Administrator API Key
 
 ```bash
@@ -207,7 +209,7 @@ curl 'http://localhost:8108/keys' \
     -X POST \
     -H "X-Typesense-API-KEY: Hu52dwsas2AdxdE" \
     -H 'Content-Type: application/json' \
-    -d '{"description":"Admin key.","actions": ["*"], "collections": ["*"]}' | json_pp
+    -d '{"description":"Admin key.","actions": ["*"], "collections": ["*"]}' 
 ```
 
 Save the returned admin key value. It should be the only active key:
@@ -217,7 +219,7 @@ Save the returned admin key value. It should be the only active key:
 ```bash
 curl 'http://localhost:8108/keys' \
     -X GET \
-    -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" | json_pp
+    -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" 
 ```
 
 Now that there is only one master key remaining, you can use it to create a products's collection.
@@ -238,7 +240,7 @@ curl "http://localhost:8108/collections" \
          {"name": "updated_at", "type": "float" }
        ],
        "default_sorting_field": "updated_at"
-     }' | json_pp
+     }' 
 ```
 
 We will need to create two more keys: a "search only" key and "master" key for the products collection.
@@ -250,7 +252,7 @@ curl 'http://localhost:8108/keys' \
     -X POST \
     -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" \
     -H 'Content-Type: application/json' \
-    -d '{"description":"Search-only products key.","actions": ["documents:search"], "collections": ["products"]}' | json_pp
+    -d '{"description":"Search-only products key.","actions": ["documents:search"], "collections": ["products"]}' 
 ```
 
 #### Creating Products Admin API Key
@@ -260,7 +262,7 @@ curl 'http://localhost:8108/keys' \
     -X POST \
     -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" \
     -H 'Content-Type: application/json' \
-    -d '{"description":"Admin products key","actions": ["*"], "collections": ["products"]}' | json_pp
+    -d '{"description":"Admin products key","actions": ["*"], "collections": ["products"]}' 
 ```
 
 ### Tunneling to Connect to the Web
@@ -407,7 +409,7 @@ You can check if Typesense was updated with the following cURL request:
 ```bash
 curl -H "X-TYPESENSE-API-KEY: <API KEY>" \
     "<TYPESENSE URL>/collections/products/documents/search?q=*" \
-    | json_pp
+    
 ```
 
 ## Step 4: Syncing Inserts/Updates
@@ -592,8 +594,7 @@ To test if Typesense synced, manually add a row to the products table using Supa
 
 ```bash
 curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
-    -H "X-TYPESENSE-API-KEY: <API KEY>" \
-    | json_pp
+    -H "X-TYPESENSE-API-KEY: <API KEY>"
 ```
 
 Some users may prefer using servers as an intermediary to communicate with Typesense. This is particularly useful when it is necessary to santize or reformat data. Supabase natively offers serverless edge functions in Deno (TypeScript).
@@ -860,7 +861,7 @@ In Typesense, bulk deletions are performed using DELETE requests that include th
 curl -g -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
 "http://localhost:8108/collections/companies/documents?filter_by=id:[id1, id2, id3]"
 ```
-| It may be necessary to use the url-encoded characters for square brackets "[ ]", respectively %5B and %5D
+> NOTE: it may be necessary to use the url-encoded characters for square brackets "[ ]", respectively %5B and %5D
 
 A PL/pgSQLfunction can be written to sync the deletions with Typesense before removing the copies from the deleted_rows table.
 
