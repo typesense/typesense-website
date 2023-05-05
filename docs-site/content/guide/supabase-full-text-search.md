@@ -106,7 +106,7 @@ All of these extensions can be found and enabled in Supabase by clicking on the 
 
 The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. The HTTP and PG_CRON extensions will be used together to schedule and execute bulk syncing. 
 
-> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write procedures in JavaScript and Java, respectively.
+> NOTE: Although most of this tutorial is done using PG/plSQL, Supabase does provide support for the [PLV8](https://supabase.com/docs/guides/database/extensions/plv8) and [PLJAVA](https://tada.github.io/pljava/) extensions. They enable users to write functions in JavaScript and Java, respectively.
 
 ### Tracking changes
 
@@ -408,8 +408,7 @@ You can check if Typesense was updated with the following cURL request:
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: <API KEY>" \
-    "<TYPESENSE URL>/collections/products/documents/search?q=*" \
-    
+    "<TYPESENSE URL>/collections/products/documents/search?q=*"
 ```
 
 ## Step 4: Syncing Inserts/Updates
@@ -446,10 +445,11 @@ SELECT cron.unschedule('cron-job-name')
 
 The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense in bulk. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in Supabase.
 
-#### Query to Bulk Sync Rows
+#### Function to Bulk Sync Rows
 
 ```sql
-CREATE OR REPLACE PROCEDURE sync_products_updates()
+CREATE OR REPLACE FUNCTION sync_products_updates()
+RETURNS VOID
 LANGUAGE plpgsql
 AS $$
     DECLARE
@@ -531,7 +531,7 @@ AS $$
 $$;
 ```
 
-Embedding the above procedure *sync_product_updates* into a cron job, Supabase can directly update Typesense at regular intervals.
+Embedding the above function *sync_product_updates* into a cron job, Supabase can directly update Typesense at regular intervals.
 
 #### Cron Job to Bulk Upsert into Typesense
 
@@ -595,6 +595,8 @@ AS $$
 BEGIN
     RETURN QUERY
         WITH unsynced_rows AS (
+            -- find 40 unsynced rows and update them 
+            -- to state they are synced.
             UPDATE public.products_sync_tracker
             SET is_synced = TRUE
             WHERE product_id IN (
@@ -606,6 +608,7 @@ BEGIN
             )
             RETURNING product_id
         )
+        -- reformat the rows to be compatible with Typesense
         SELECT
             products.id,
             products.product_name,
@@ -785,7 +788,7 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor these updates with cron jobs or triggers to make attempts to reattempt failed syncs. Using triggers for immediate retries, though, can be dangerous for this task. If the data is incompatible with Typesense, the request will always fail. If not handled properly, this can result in an infinite loop.
+It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table after the transaction has already concluded. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to make attempts to reattempt failed syncs. Using triggers for immediate retries, though, can be dangerous for this task. If the data is incompatible with Typesense, the request will always fail. If not handled properly, this can result in an infinite loop. Managing this is be
 
 ## Step 5: Syncing Deletes
 
@@ -934,19 +937,22 @@ Create a function to sync nullified rows with Typesense and delete them:
 #### Syncing Nullified Rows Before Deleting Them
 
 ```sql
--- Create the procedure to delete the record from Typesense
-CREATE OR REPLACE PROCEDURE bulk_delete_products()
+-- Create the function to delete the record from Typesense
+CREATE OR REPLACE FUNCTION bulk_delete_products()
+RETURN VOID
 LANGUAGE plpgSQL
 AS $$
     DECLARE
+        deleted_id_arr UUID[];
         query_params TEXT;
         request_status INTEGER;
         response_message TEXT;
     BEGIN
         -- Select and format of ids from deleted_rows
         SELECT
-            string_agg(id::text, ',')
-            INTO query_params
+            string_agg(id::text, ','),
+            array_agg(id)
+            INTO query_params, deleted_id_arr
         FROM products
         WHERE user_id IS NULL
         LIMIT 40;
@@ -978,13 +984,13 @@ AS $$
             -- Raises Exception, which undoes the transaction
             RAISE EXCEPTION 'DELETE FAILED';
         ELSE
-            DELETE FROM products WHERE user_id IS NULL;
+            DELETE FROM products WHERE id = ANY(deleted_id_arr);
         END IF;
     END;
 $$;
 ```
 
-The procedure can be called every minute by a cron bob.
+The function can be called every minute by a cron job.
 
 #### Scheduling Bulk Deletes
 
