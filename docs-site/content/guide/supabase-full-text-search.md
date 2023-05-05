@@ -649,7 +649,9 @@ $$ LANGUAGE plpgsql;
 
 To deploy an edge function, you must have a Node Package Manager, such as NPM, Yarn, or PNPM. NPM can be installed by downloading Node.JS through the official [download page](https://nodejs.org/en/download)
 
-To create your first function, create a folder with your function name, and add an index.ts file inside. The code below is a modified version of the [Supabase edge functon demo](https://supabase.com/docs/guides/functions/auth), using the _get_products_updates_from_edge_ PL/pgSQL function from earlier.
+To create your first function, create a folder with your function name, and add an index.ts file inside. The code below is a modified version of the [Supabase PostgreSQL demo](https://supabase.com/docs/guides/functions/connect-to-postgres), using the _get_products_updates_from_edge_ PL/pgSQL function from earlier.
+
+> NOTE: All functions and their logs can be found in the *Edge Functions* section of your Supabase dashboard.
 
 #### Edge Function to Update Typesense
 
@@ -657,10 +659,7 @@ To create your first function, create a folder with your function name, and add 
 import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts';
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 
-// Get the connection string from the environment variable "SUPABASE_DB_URL"
-// const databaseUrl = Deno.env.get(
-// 	'postgresql://postgres:9Z7CJxyHLnawykZg@db.gtxbmtrglmwyrlpdyzik.supabase.co:5432/postgres'
-// )!;
+// define your types at top
 type TProductRows = {
 	id: string;
 	product_name: string;
@@ -668,7 +667,8 @@ type TProductRows = {
 	user_id: string;
 }[];
 
-// Get the connection string from the environment variable "SUPABASE_DB_URL"
+// Your Database's connection URL is made available by default in all edge functions
+// You can view it in the dashboard by going to the Project Settings's Database tab
 const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!;
 
 // Create a database pool with three connections that are lazily established
@@ -680,10 +680,11 @@ serve(async (_req) => {
 		const connection = await pool.connect();
 
 		try {
-			// Run a query
+			// Retrieve unsynced products from the database
 			const result =
 				await connection.queryObject`SELECT * FROM get_updates_for_edge()`;
 			const newProducts = result.rows as TProductRows;
+
 			// Convert newProducts into NDJSON format
 			const newProductsNDJSON: string = newProducts
 				.map((product) =>
@@ -693,8 +694,10 @@ serve(async (_req) => {
 					})
 				)
 				.join('\n');
-			// ADD YOUR TYPESENSE URL
+
+			// Sync the new products to Typesense
 			const response = await fetch(
+				// ADD YOUR TYPESENSE URL
 				'<TYPESENSE URL>/collections/products/documents/import?action=upsert',
 				{
 					method: 'POST',
@@ -706,14 +709,16 @@ serve(async (_req) => {
 					body: newProductsNDJSON,
 				}
 			);
-			const ndJsonResponse = await response.text();
-			// The response will contain NDJSON of the results, It must be converted back into JS
+
+			// The response will contain NDJSON of the results. In the case that some updates failed,
+			// we need to reflect this failure in the products_sync_tracker table
 			/* possible results
 				{"success": true}
 				{"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
 			*/
-			let JSONStringArr = ndJsonResponse.split('\n');
-			if (JSONStringArr[0] === '') {
+			const ndJsonResponse = await response.text();
+			// If there is no response, no rows needed to be synced so the function can return early
+			if (!ndJsonResponse) {
 				return new Response('no rows to sync', {
 					status: 200,
 					headers: {
@@ -721,14 +726,16 @@ serve(async (_req) => {
 					},
 				});
 			}
-
+			//converting response to array of JSON objects
+			let JSONStringArr = ndJsonResponse.split('\n');
 			const parsedJSON = JSONStringArr.map((res) => JSON.parse(res));
 
-			//formatting response for the products_sync_tracker table
+			// filtering out the failed syncs' ids
 			const failedSyncIds = parsedJSON
 				.filter((doc) => !doc.success)
 				.map((doc) => JSON.parse(doc.document).id);
 
+			// if there are any failures, update the products_sync_tracker table to reflect the failed syncs
 			if (failedSyncIds.length) {
 				const result = await connection.queryArray(
 					`UPDATE products_sync_tracker
@@ -840,16 +847,16 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table after the transaction has already concluded. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to make attempts to reattempt failed syncs. Using triggers for immediate retries, though, can be dangerous for this task. If the data is incompatible with Typesense, the request will always fail. If not handled properly, this can result in an infinite loop. Managing this is be
+> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. However, using triggers for immediate retries can be dangerous for this task. Without a clear breakout condition, they can enter an infinite loop. 
 
 ## Step 5: Syncing Deletes
 
 ### Scheduling Bulk Deletes with Cron Jobs
 
-To sync deletions between Supabase and Typesense, you can use one of two approaches:
+Bulk syncing deletions between Supabase and Typesense can be done with one of two approaches:
 
 1. Temporarily saving deleted rows' ids in an intermediary table until they can be removed from Typesense
-2. Soft deleting rows until they are removed from TypeSense
+2. Soft deleting rows from a table until they are removed from TypeSense
 
 #### Approach 1: Intermediary Tables
 
@@ -859,7 +866,7 @@ To achieve the first approach, you need to create a table to store the deleted r
 
 ```sql
 CREATE TABLE deleted_rows(
-    table_name TEXT,
+    table_name TEXT, --assumes table and Typesense collection share a name
     deleted_row_id UUID,
     CONSTRAINT deleted_rows_pkey PRIMARY KEY (deleted_row_id)
 );
@@ -934,7 +941,7 @@ AS $$
         FROM http((
             'DELETE'::http_method,
             -- ADD TYPESENSE URL
-            '<TYPESENSE URL>collections/products/documents?filter_by=' || query_params,
+            '<TYPESENSE URL>/collections/products/documents?filter_by=id:' || query_params,
             ARRAY[
                 -- ADD API KEY
                 http_header('X-Typesense-API-KEY', '<API KEY>')
@@ -979,7 +986,12 @@ In this approach, users must be restricted from directly deleting rows from the 
 #### Modifying RLS to Prevent Users from Deleting Rows
 
 ```sql
-ALTER POLICY "only an authenticated user is allowed to remove their products from the database" ON public.products TO NONE;
+ALTER POLICY "only an authenticated user is allowed to remove their products " 
+ON public.products 
+TO authenticated
+USING(
+  FALSE
+);
 ```
 
 Instead of directly deleting rows, users will have to modify a row in a way that essentially tags it as unuseable. In this case, setting the user_id column to NULL will make the row inaccessible to all app users.
@@ -1074,7 +1086,7 @@ AS $$
 BEGIN
     SELECT net.http_delete(
         -- ADD TYPESENSE URL
-        url := format('<TYPESENSE URL>/collections/products/documents?filter_by=user_id:=%s', OLD.id::TEXT),
+        url := '<TYPESENSE URL>/collections/products/documents?filter_by=user_id:=%s' || OLD.id::TEXT,
         -- ADD API KEY
         headers := '{"X-Typesense-API-KEY": "<API KEY>"}'
     )
