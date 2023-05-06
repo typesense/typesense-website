@@ -110,9 +110,9 @@ The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. Th
 
 ### Tracking changes
 
-There are tens of ways to track unsynced rows in PostgreSQL, each with their own benefits and drawbacks. This guide will discuss various strategies for both realtime and bulk syncing. However, it is up to you to decide which methods fit your database design and use case. 
+Numerous methods exist for tracking unsynced rows in PostgreSQL, each offering its own advantages and disadvantages. This guide will explore various strategies for both real-time and bulk syncing. Ultimately, it's essential to determine which methods are best suited for your database design and use case.
 
-One such method that will be demonstrated for tracking changes are log tables because they are relatively easy to implement.
+A straightforward and effective method for tracking changes, which will be demonstrated in this guide, is by creating a log table for unsynced rows.
 
 #### Creating a Logging Table to Track Unsynced Rows
 
@@ -344,9 +344,9 @@ If you were upserting multiple rows, you would have received the following error
 
 > Failed to run sql query: more than one row returned by a subquery used as an expression
 
-*PG_NET* functions are incompatible for multi-row updates, but they are essential for real-time syncing. Real-time syncs utilize PostgreSQL triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed.
+*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. They are also essential for 
 
-On the other hand, the *HTTP* extension supports NDJSON, making it suitable for bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing any negative impacts on user experience.
+On the other hand, the *HTTP* extension supports NDJSON, making it suitable for direct bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing impacts on user experience.
 
 To perform bulk updates, rows must be converted into NDJSON. This can be accomplished using a PL/pgSQL function within PostgreSQL.
 
@@ -374,7 +374,7 @@ END;
 $$ LANGUAGE plpgSQL;
 ```
 
-Utilizing the above function, we can use the _HTTP_ extension to make bulk upserts:
+Utilizing the above function, you can use the _HTTP_ extension to make bulk upserts:
 
 #### Bulk Approach to Sync with Typesense
 
@@ -482,7 +482,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-Before a cron job can communicate with Typesense, row data must be converted into NDJSON. The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense in bulk. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in PostgreSQL without the use of external servers. Though this is impressive, it does take up database resources. These functions should be set-up to act quickly, so it is important to keep the sync size relatively low. By default, requests made by the *HTTP* extension timeout after 5 seconds. However, this can be changed by modifying the global variable *http.timeout_msec*.
+The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense in bulk. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in PostgreSQL without the use of external servers. Though this is impressive, it does take up database resources. These functions should be set-up to finish quickly, so it is important to keep the sync size relatively low. By default, requests made by the *HTTP* extension timeout after 5 seconds. However, this can be changed by modifying the global variable *http.timeout_msec*.
 
 #### Modifying HTTP Timeout
 
@@ -607,7 +607,6 @@ AS $$
             UPDATE public.products_sync_tracker
             SET is_synced = FALSE
             WHERE product_id IN (SELECT ids FROM unsynced_ids);
-
         END IF;
     END;
 $$;
@@ -657,9 +656,9 @@ curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
     -H "X-TYPESENSE-API-KEY: <API KEY>"
 ```
 
-Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as managing relatively high volume syncs. It is also particularly useful when it is necessary to santize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
+Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as being able to accomodate relatively high volume syncs. It is also particularly useful when it is necessary to santize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
 
-However, instead of putting all the logic onto a server, it is best to have a PL/pgSQL function that can format unsynced rows and update the *products_sync_tracker* table in a single request on behalf of the edge function.
+However, instead of putting all the logic onto a server, it is best to have a PL/pgSQL function that can fetch unsynced rows and update the *products_sync_tracker* table in a single request on behalf of the edge function.
 
 #### PL/pgSQL Function to Find Unsynced Rows and Record Edge Function Request
 
@@ -1133,8 +1132,8 @@ BEGIN
     WHERE id IN (SELECT id FROM success_conditions);
 
     -- Starts with updating any bad reqeusts in the edge_function_tracker table to 'FAILED'
-    -- NOTE: the _http_response table, which holds the status for all PG_NET requests, is unlogged.
-    -- It will lose all its data in the case of a crash
+    -- NOTE: the _http_response table, which holds the status for all PG_NET requests, is "unlogged".
+    -- This means that it will lose all its data in the case of a crash
     -- As a failsafe, all functions that have not yet responded after 2 minutes will be assumed to have failed
     WITH failed_rows AS (
         SELECT 
@@ -1158,7 +1157,7 @@ BEGIN
         start_time,
         start_time_of_prev_func
     FROM edge_function_tracker
-    WHERE status = 'FAILED' and attempts < 4 -- if attempts are more than 3, assume the data is unsyncable for this row
+    WHERE status = 'FAILED' and attempts < 4 -- if attempts are more than 3, assume the data is unsyncable for this section
     LIMIT 1
     RETURNING to_jsonb(*) INTO payload;
 
@@ -1177,8 +1176,9 @@ BEGIN
 
         -- Record new request_id
         UPDATE edge_function_tracker
-        SET request_id = func_request_id,
-        attempts = attempts + 1
+        SET 
+            request_id = func_request_id,
+            attempts = attempts + 1
         WHERE id = (payload->>'id')::UUID
     END IF;
 END;
@@ -1246,7 +1246,7 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. However, using triggers for immediate retries can be dangerous for this task. Without a clear breakout condition, they can enter an infinite loop. 
+> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. Unfortunately, using triggers for immediate retries can be dangerous for this task, especially if the data is incompatible with Typesense. Without a clear breakout condition, they can enter an infinite loop. 
 
 ## Step 5: Syncing Deletes
 
@@ -1395,7 +1395,7 @@ USING(
 
 Instead of directly deleting rows, users will have to modify a row in a way that essentially tags it as unuseable. In this case, setting the user_id column to NULL will make the row inaccessible to all app users.
 
-Create a function to sync nullified rows with Typesense and delete them:
+A PG/plSQL function can be made with either the *PG_NET* or *HTTP* extension to sync nullified rows with Typesense and then delete them:
 
 #### Syncing Nullified Rows Before Deleting Them
 
