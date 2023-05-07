@@ -515,6 +515,15 @@ The following PL/pgSQL function converts unsynced rows into NDJSON and then upse
 http.timeout_msec = 3000; -- milliseconds
 ```
 
+The function can be broken down into 6-step process:
+
+1. Ensures no other syncing processes are running. Exits if there are.
+2. Retrieves unsynchronized rows by querying the products table.
+3. Convert the retrieved rows into the NDJSON (Newline Delimited JSON) format.
+4. Synchronize the formatted rows with Typesense.
+5. Examine Typesense's response to determine if any rows failed to synchronize.
+6. Update the products table to indicate the synchronization status of each row, marking any unsuccessful attempts.
+
 #### Function to Bulk Sync Rows
 
 ```sql
@@ -654,7 +663,7 @@ SELECT cron.schedule(
 
 To test if Typesense synced, manually add a row to the products table using Supabase's table editor. Check the _cron_ schema in the same table editor to observe when your cron job executed.
 
-#### Testing if cron job updated Typesense
+#### Searching Typesense for Synced Data
 
 ```bash
 curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
@@ -697,7 +706,7 @@ CREATE TRIGGER update_at_products_trigger
 
 It is also necessary to track edge function calls, so they can be monitored for failures. Create a *edge_function_tracker* table. 
 
-#### Edge Function Monitoring Table
+#### Creating Edge Deployment Monitoring Table
 ```sql
 CREATE TABLE edge_function_tracker(
     id UUID NOT NULL DEFAULT uuid_generate_v4 (),
@@ -712,7 +721,7 @@ CREATE TABLE edge_function_tracker(
 
 The PG_NET function that will deploy the edge function must be wrapped in a PG/plSQL function so that function information can be logged before deployment.
 
-#### Edge Function Tracker/Deployer
+#### Wrapper Function for Deploying/Tracking Edge Deployments
 
 ```sql
 CREATE OR REPLACE FUNCTION edge_deployment_wrapper()
@@ -790,12 +799,12 @@ To create your first function, create a folder with your function name, and add 
 
 > NOTE: All functions and their logs can be found in the *Edge Functions* section of your Supabase dashboard.
 
-The edge function that will be used can be broken down into 7-step process, designed to ensure efficient synchronization of data:
+The edge function that will be used can be broken down into 7-step process:
 
 1. Parse the request body to identify the specific rows that require synchronization.
 2. Retrieve unsynchronized rows by querying the products table.
 3. Convert the retrieved rows into the NDJSON (Newline Delimited JSON) format.
-4. Synchronize the formatted rows with the Typesense.
+4. Synchronize the formatted rows with Typesense.
 5. Examine Typesense's response to determine if any rows failed to synchronize.
 6. Update the products table to indicate the synchronization status of each row, marking any unsuccessful attempts.
 7. Record the overall success or failure of the edge function within the edge_function_tracker table for monitoring and analysis.
