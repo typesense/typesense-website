@@ -1001,9 +1001,9 @@ BEGIN
         FROM edge_function_tracker
         WHERE 
             func_status = 'SUCCEEDED' 
-            AND 
+                AND 
             prev_func_status = 'SUCCEEDED' 
-            AND 
+                AND 
             next_func_status = 'SUCCEEDED'
     )
     DELETE FROM edge_function_tracker
