@@ -284,7 +284,7 @@ If you were upserting multiple rows, you would have received the following error
 
 > Failed to run sql query: more than one row returned by a subquery used as an expression
 
-*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. They are also essential for deploying edge functions.
+*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. This feature also makes them the preferred choice for deploying edge functions. The extension is robust. In fact, under-the-hood, this extension powers Supabase's webhook feature. 
 
 On the other hand, the *HTTP* extension supports NDJSON, making it suitable for direct bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing impacts on user experience.
 
@@ -299,8 +299,9 @@ AS $$
 DECLARE
     ndjson TEXT := '';
 BEGIN
-    SELECT string_agg(row_to_json(row_data)::text, E'\n')
-    INTO ndjson
+    SELECT 
+        string_agg(row_to_json(row_data)::text, E'\n')
+        INTO ndjson
     FROM (
         SELECT
             p.product_name,
@@ -334,7 +335,7 @@ FROM http((
         http_header('X-Typesense-API-KEY', '<API KEY>')
     ]::http_header[],
     -- Content type
-    'application/text',
+    'application/x-ndjson',
     -- Payload
     (SELECT get_products_ndjson())
 )::http_request);
@@ -350,9 +351,9 @@ curl -H "X-TYPESENSE-API-KEY: <API KEY>" \
 ```
 ## Step 4: Understanding Scheduling in Supabase
 
-Using the PG_CRON extension, you can schedule cron jobs to coordinate bulk sync with Typesense, periodically retry failed syncs, and clean tables of stale data.
+Using the PG_CRON extension, you can schedule cron jobs to coordinate bulk syncs with Typesense, periodically retry failed requests, and clear stale data from logging tables.
 
-#### Example Cron Job: Calling Edge Function Every Minute
+#### Scheduling Cron Job: Calling Edge Function Every Minute
 
 ```sql
 SELECT
@@ -364,21 +365,19 @@ SELECT
         net.http_get(
             -- URL of Supabase Edge function
             url:='https://<reference id>.functions.Supabase.co/Typesense-example',
-            headers:='{"Content-Type": "application/json", "Authorization": "Bearer <TOKEN>"}'
+            headers:='{"Content-Type": "application/json", "Authorization": "Bearer <TOKEN>"}'::JSONB
         ) as request_id;
 	$$
   );
 ```
 
-It will also be useful to know how to unschedule active cron jobs.
-
-#### Example: Unscheduling an Active Cron Job
+#### Unscheduling an Active Cron Job
 
 ```sql
 SELECT cron.unschedule('cron-job-name')
 ```
 
-Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer native support for bulk syncing at shorter intervals. An imperfect workaround involves scheduling multiple cron jobs with staggered timings, but this should be used with caution as too many cron jobs can strain your PostgreSQL instance. If you must bulk sync at shorter intervals, you should use a more precise external cron server for better control.
+Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer in-house support for shorter intervals. An imperfect workaround involves scheduling multiple cron jobs with staggered timings, but this should be used with caution as too many cron jobs can strain your PostgreSQL instance. If you must bulk sync at shorter intervals, you should use a more precise external cron server for better control.
 
 #### Function that Schedules Multiple Cron Jobs
 
@@ -461,7 +460,7 @@ CREATE TABLE public.products_sync_tracker (
 );
 ```
 
-Triggers provide a PostgreSQL native way to populate the above table with the correct data.
+Triggers provide a populate the above table with unsynced data.
 
 #### Creating a Trigger to Monitor Product Inserts
 
@@ -494,9 +493,6 @@ BEGIN
     SET is_synced = FALSE
     WHERE product_id = NEW.id;
 
-    -- update products.updated_at column
-    -- NEW.updated_at = NOW();
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -511,7 +507,7 @@ CREATE TRIGGER update_products_trigger
 
 ### Scheduling Bulk Updates/Inserts with Cron Jobs
 
-The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense in bulk. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in PostgreSQL without the use of external servers. Though this is impressive, it does take up database resources. These functions should be set-up to finish quickly, so it is important to keep the payload size relatively low. By default, requests made by the *HTTP* extension timeout after 5 seconds. However, this can be changed by modifying the global variable *http.timeout_msec*.
+The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in PostgreSQL without the use of external servers. Though this is impressive, it does take up database resources. These functions should be set-up to finish quickly, so it is important to keep the payload size relatively low. By default, requests made by the *HTTP* extension timeout after 5 seconds. However, this can be changed by modifying the global variable *http.timeout_msec*.
 
 #### Modifying HTTP Timeout
 
@@ -669,7 +665,7 @@ curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
 
 Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as being able to accomodate relatively high volume syncs. It is also particularly useful when it is necessary to santize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
 
-If an edge function fails halfway through its execution, there must be a way to capture and resolve the failure. In the previous example, row syncs were tracked with a *products_sync_tracker* table based on row updates. However, an alternative structure can be introduced that offers advantages for edge functions. Using the *products* table *updated_at* column, unsynced rows can be tracked by timing instead, which can be better utilized to track rows in situations when edge functions fail. For this to work, it is necessary to remove the previous update trigger on the *products* table and replace it with a new on.
+If an edge function fails halfway through its execution, there must be a way to capture and resolve the failure. In the previous example, row syncs were tracked with a *products_sync_tracker* table based on row updates. However, an alternative structure can be introduced that offers advantages for edge functions. Using the *products* table *updated_at* column, unsynced rows can be tracked by timing instead and resent when edge functions fail. For this to work, it is necessary to remove the previous update trigger on the *products* table and replace it with a new one.
 
 #### Removing Previous Trigger
 
@@ -680,7 +676,7 @@ ON products;
 DROP FUNCTION IF EXISTS update_products_trigger_func;
 ```
 
-#### Adding Trigger to Monitor Update Times
+#### Adding Trigger to Update updated_at Column
 
 ```sql
 CREATE OR REPLACE FUNCTION update_products_time_func()
@@ -699,7 +695,7 @@ CREATE TRIGGER update_at_products_trigger
     EXECUTE FUNCTION update_products_time_func();
 ```
 
-It is also necessary to track edge function calls, so they can be monitored failures. Create a *edge_function_tracker* table. 
+It is also necessary to track edge function calls, so they can be monitored for failures. Create a *edge_function_tracker* table. 
 
 #### Edge Function Monitoring Table
 ```sql
@@ -714,7 +710,7 @@ CREATE TABLE edge_function_tracker(
 );
 ```
 
-The PG_NET function that will deploy the edge function must be wrapped in a PG/plSQL function that will record vital information for monitoring the deployment.
+The PG_NET function that will deploy the edge function must be wrapped in a PG/plSQL function so that function information can be logged before deployment.
 
 #### Edge Function Tracker/Deployer
 
@@ -976,7 +972,7 @@ Unfortunately, not all syncs will succeed. It's important to have some retry mec
 2. Updates 'PENDING' functions to 'FAILED' if certain conditions are met
 3. Re-attempts a failed sync request
 
-#### Edge Function Mainter
+#### Function to Manage Edge Redeployment and Maitenance
 
 ```sql
 CREATE OR REPLACE FUNCTION edge_function_maintainer()
@@ -1070,7 +1066,6 @@ SELECT
     'edge_function_maintainer',
     '* * * * *', -- Executes every minute (cron syntax)
 	$$
-    -- SQL query
         SELECT bulk_delete_products();
 	$$
   );
@@ -1122,7 +1117,7 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user transactions. Once the request is sent, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. Unfortunately, using triggers for immediate retries can be dangerous for this task, especially if the data is incompatible with Typesense. Without a clear breakout condition, they can enter an infinite loop. 
+> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user transactions. Once the request is sent, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs as outlined at the end of Step 5.2. Unfortunately, using triggers for immediate retries can be dangerous for this task, especially if the data is incompatible with Typesense. Without a clear breakout condition, they can enter an infinite loop. 
 
 ## Step 7: Bulk Syncing Deletes
 
@@ -1132,6 +1127,8 @@ Bulk syncing deletions between Supabase and Typesense can be done with one of tw
 
 1. Temporarily preserving deleted rows' ids in an intermediary table until they can be removed from Typesense
 2. Soft deleting rows from a table until they are removed from TypeSense
+
+> NOTE: Although the following examples will be done in PostgreSQL, edge functions can also be used, as outlined in Step 5.2
 
 #### Approach 1: Intermediary Tables
 
