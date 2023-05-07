@@ -382,7 +382,7 @@ Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/w
 #### Function that Schedules Multiple Cron Jobs
 
 ```sql
-CREATE OR REPLACE FUNCTION schedule_jobs (job_name TEXT, times_per_minute INTEGER DEFAULT 1)
+CREATE OR REPLACE FUNCTION schedule_jobs (job_name TEXT, times_per_minute DOUBLE PRECISION  DEFAULT 1.0)
 RETURNS VOID
 AS $$
 DECLARE
@@ -393,7 +393,7 @@ BEGIN
         RAISE EXCEPTION 'Max times cannot be greater than 6';
     END IF;
 
-    sleep_interval := 60 / times_per_minute;
+    sleep_interval := 60.0 / times_per_minute;
 
     FOR cnt IN 1..times_per_minute LOOP
         PERFORM cron.schedule(
@@ -719,7 +719,12 @@ CREATE TABLE edge_function_tracker(
 );
 ```
 
-The PG_NET function that will deploy the edge function must be wrapped in a PG/plSQL function so that function information can be logged before deployment.
+The PG_NET function that will deploy the edge function must be wrapped in a PG/plSQL function so that function information can be logged before deployment. It can be broken down into a 4-step process:
+
+1. Create a new entry in the *edge_function_tracker* table.
+2. Gather required information for identifying unsynced rows.
+3. Send an edge function request with a payload containing necessary details.
+4. Record metadata associated with the edge deployment.
 
 #### Wrapper Function for Deploying/Tracking Edge Deployments
 
@@ -738,8 +743,8 @@ BEGIN
     DEFAULT VALUES
     RETURNING to_jsonb(id, start_time) INTO payload;
 
-    -- Products that were updated after the previous deployment 
-    -- are unsyced. This fetches the previous deployment time
+    -- Products that were updated after the previous deployment are unsyced. 
+    -- Fetches prev function timestamp to help query unsynced rows for further processing.
     SELECT 
         start_time
         INTO prev_start_time
@@ -933,7 +938,7 @@ serve(async (_req) => {
                                 SET updated_at = NOW() 
                                 WHERE id = ANY($2::uuid[]);
                         COMMIT;
-					)`,
+					`,
 					[reqJSON.id, failedSyncIds]
 				);
 			}
@@ -1358,8 +1363,7 @@ SELECT
 
 ### Syncing Bulk Deletes
 
-Depending on how you organize your database, you may come across a situation
-where deleting one row causes a cascade of deletes in another table. To sync these changes, you can use triggers. In Typesense, bulk deletes can be performed by querying a shared field. In the below example, when a user is deleted, Typesense will delete all corresponding entries.
+Depending on how you organize your database, you may come across a situation where deleting one row causes a cascade of deletes in another table. To sync these changes, you can use triggers. In Typesense, bulk deletes can be performed by querying a shared field. In the below example, when a user is deleted, Typesense will delete all corresponding entries.
 
 #### Bulk Delete by a Shared Field
 
