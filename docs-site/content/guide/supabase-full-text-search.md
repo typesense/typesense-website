@@ -487,7 +487,7 @@ The following PL/pgSQL function converts unsynced rows into NDJSON and then upse
 #### Modifying HTTP Timeout
 
 ```sql
-http.timeout_msec = 3000 -- milliseconds
+http.timeout_msec = 3000; -- milliseconds
 ```
 
 #### Function to Bulk Sync Rows
@@ -1246,7 +1246,7 @@ FOR EACH ROW
 EXECUTE FUNCTION sync_products();
 ```
 
-> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user tranactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. Unfortunately, using triggers for immediate retries can be dangerous for this task, especially if the data is incompatible with Typesense. Without a clear breakout condition, they can enter an infinite loop. 
+> WARNING: It is important to restate that these requests are asynchronous, and they must be to avoid blocking user transactions. Once the response is received, a background worker will listen for a response and add it to the net._http_response table. It's possible to monitor updates/inserts in the *net._http_response table* with cron jobs or triggers to retry failed syncs. Unfortunately, using triggers for immediate retries can be dangerous for this task, especially if the data is incompatible with Typesense. Without a clear breakout condition, they can enter an infinite loop. 
 
 ## Step 5: Syncing Deletes
 
@@ -1474,7 +1474,7 @@ SELECT
 
 ### Syncing in Realtime
 
-Depending on you organize your database, you may come across a situation
+Depending on how you organize your database, you may come across a situation
 where deleting one row causes a cascade of deletes in another table. To sync these changes, you can use triggers. In Typesense, bulk deletes can be performed by querying a shared field. In the below example, when a user is deleted, Typesense will delete all corresponding entries.
 
 #### Bulk Delete by a Shared Field
@@ -1537,6 +1537,7 @@ CREATE TRIGGER delete_products_trigger
     EXECUTE FUNCTION delete_products();
 
 ```
+
 
 ## Conclusion
 
