@@ -344,7 +344,7 @@ If you were upserting multiple rows, you would have received the following error
 
 > Failed to run sql query: more than one row returned by a subquery used as an expression
 
-*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. They are also essential for 
+*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. They are also essential for deploying edge functions.
 
 On the other hand, the *HTTP* extension supports NDJSON, making it suitable for direct bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing impacts on user experience.
 
