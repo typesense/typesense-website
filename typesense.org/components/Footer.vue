@@ -223,6 +223,11 @@
                 >Slack Community</a
               >
             </li>
+            <li class="nav-item">
+              <a class="nav-link p-0" href="https://threads.typesense.org/kb"
+                >Community Threads</a
+              >
+            </li>
           </ul>
         </div>
       </div>
