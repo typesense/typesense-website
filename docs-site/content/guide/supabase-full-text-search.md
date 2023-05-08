@@ -254,6 +254,7 @@ If you go to the _Authentication_ tab in the Supabase side nav, you can create a
 
 ```sql
 SELECT net.http_post(
+    -- ADD TYPESENSE URL
     url := '<TYPESENSE URL>/collections/products/documents/import?action=upsert'::TEXT,
     -- Formats the products table's rows into JSONB and also converts updated_at from type TIMESTAMPTZ to type FLOAT
     -- The body must be formatted as JSONB data
@@ -274,7 +275,7 @@ SELECT net.http_post(
     )::JSONB,
     headers := json_build_object(
             'Content-Type', 'application/json',
-            'X-Typesense-API-KEY', '<API KEY>'
+            'X-Typesense-API-KEY', '<API KEY>' -- ADD API KEY
     )::JSONB,
     timeout_milliseconds := 4000
 ) AS request_id;
@@ -284,7 +285,7 @@ If you were upserting multiple rows, you would have received the following error
 
 > Failed to run sql query: more than one row returned by a subquery used as an expression
 
-*PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize  triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. This feature also makes them the preferred choice for deploying edge functions. The extension is robust. In fact, under-the-hood, this extension powers Supabase's webhook feature. 
+As said before, *PG_NET* functions are incompatible for multi-row updates, but they are powerful for real-time syncing. Direct PostgreSQL-to-Typesense real-time syncs utilize triggers, which can block transactions for users. However, PG_NET functions are asynchronous, ensuring transactions are not delayed. This feature also makes them the preferred choice for deploying edge functions. The extension is robust. In fact, under-the-hood, this extension powers Supabase's webhook feature. 
 
 On the other hand, the *HTTP* extension supports NDJSON, making it suitable for direct bulk updates. It is also synchronous, so it will wait for a *success* or *fail* response, which makes handling errors simpler. It is compatible with PG_CRON cron jobs, which run on separate threads and do not interfere with the main database operations, minimizing impacts on user experience.
 
@@ -362,11 +363,14 @@ SELECT
     '* * * * *', -- Executes every minute (cron syntax)
 	$$
     -- SQL query
-        net.http_get(
-            -- URL of Supabase Edge function
-            url:='https://<reference id>.functions.Supabase.co/Typesense-example',
-            headers:='{"Content-Type": "application/json", "Authorization": "Bearer <TOKEN>"}'::JSONB
-        ) as request_id;
+    SELECT net.http_get(
+        -- URL of Supabase Edge function
+        url:='https://<reference id>.functions.Supabase.co/Typesense-example',
+        headers:='{
+            "Content-Type": "application/json", 
+            "Authorization": "Bearer <TOKEN>"
+        }'::JSONB
+    ) as request_id;
 	$$
   );
 ```
@@ -377,48 +381,7 @@ SELECT
 SELECT cron.unschedule('cron-job-name')
 ```
 
-Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer in-house support for shorter intervals. An imperfect workaround involves scheduling multiple cron jobs with staggered timings, but this should be used with caution as too many cron jobs can strain your PostgreSQL instance. If you must bulk sync at shorter intervals, you should use a more precise external cron server for better control.
-
-#### Function that Schedules Multiple Cron Jobs
-
-```sql
-CREATE OR REPLACE FUNCTION schedule_jobs (job_name TEXT, times_per_minute DOUBLE PRECISION  DEFAULT 1.0)
-RETURNS VOID
-AS $$
-DECLARE
-    cnt INTEGER;
-    sleep_interval INTERVAL;
-BEGIN
-    IF times_per_minute > 6 THEN
-        RAISE EXCEPTION 'Max times cannot be greater than 6';
-    END IF;
-
-    sleep_interval := 60.0 / times_per_minute;
-
-    FOR cnt IN 1..times_per_minute LOOP
-        PERFORM cron.schedule(
-            (job_name || cnt)::TEXT,
-            '* * * * *', -- Executes every minute (cron syntax)
-            $$
-            -- SQL query
-                SELECT net.http_get(
-                    -- URL of Supabase Edge function
-                    url:='https://<reference id>.functions.Supabase.co/Typesense-example',
-                    headers:='{
-                        "Content-Type": "application/json", 
-                        "Authorization": "Bearer <TOKEN>"
-                    }'::JSONB
-                ) as request_id;
-            $$
-        );
-        
-        IF times_per_minute <> 1 AND cnt <> times_per_minute THEN
-            PERFORM pg_sleep(sleep_interval);
-        END IF;
-    END LOOP;
-END;
-$$ LANGUAGE plpgsql;
-```
+Cron jobs in PostgreSQL are timed using [cron-syntax](https://en.wikipedia.org/wiki/Cron). Each job can be run at most once per minute. Unfortunately, Supabase does not offer in-house support for shorter second long intervals. If that is problematic for your use case, you should use a more precise external cron or messaging server for better control.
 
 In Supabase, cron job details are recorded in the cron schema with two tables:
 
@@ -509,12 +472,6 @@ CREATE TRIGGER update_products_trigger
 
 The following PL/pgSQL function converts unsynced rows into NDJSON and then upserts them into Typesense. If the upsert fails, the tracking table *products_sync_tracker* will be reverted to reflect this failure. By incorporating the function into a cron job, syncing at intervals becomes possible natively in PostgreSQL without the use of external servers. Though this is impressive, it does take up database resources. These functions should be set-up to finish quickly, so it is important to keep the payload size relatively low. By default, requests made by the *HTTP* extension timeout after 5 seconds. However, this can be changed by modifying the global variable *http.timeout_msec*.
 
-#### Modifying HTTP Timeout
-
-```sql
-http.timeout_msec = 3000; -- milliseconds
-```
-
 The function can be broken down into 6-step process:
 
 1. Ensures no other syncing processes are running. Exits if there are.
@@ -561,12 +518,25 @@ AS $$
         -- Preemptively update 40 unsynced products as synced.
         -- Create a temporary table to hold the updated rows
         -- They will be synced with Typesense.
-        UPDATE public.products_sync_tracker
-        SET is_synced = TRUE
-        WHERE is_synced = FALSE
-        LIMIT 40
-        RETURNING product_id
-        INTO TEMPORARY TABLE updated_rows ON COMMIT DROP;
+        CREATE TEMPORARY TABLE updated_rows (
+            product_id UUID
+        ) ON COMMIT DROP; 
+
+        WITH soon_to_be_synced_rows AS (
+            UPDATE products_sync_tracker
+            SET is_synced = TRUE
+            WHERE product_id IN (
+                SELECT 
+                    product_id
+                FROM products_sync_tracker
+                WHERE is_synced = FALSE
+                LIMIT 40
+            )
+            RETURNING product_id
+        )
+        INSERT INTO updated_rows
+        SELECT * FROM soon_to_be_synced_rows;
+
 
         SELECT 
             COUNT(product_id) 
@@ -604,14 +574,14 @@ AS $$
                 -- ADD API KEY
                 http_header('X-Typesense-API-KEY', '<API KEY>')
             ]::http_header[],
-            'application/text',
+            'application/x-ndjson',
             ndjson --payload
         )::http_request);
 
         -- Check if the request failed
         IF request_status <> 200 THEN
             -- stores error message in Supabase Postgres Logs
-            RAISE LOG 'Typesense Sync request failed. Message: %', response_message;
+            RAISE LOG 'Typesense Sync request failed. Request status: %. Message: %', request_status, response_message;
             -- Raises Exception, which undoes the transaction
             RAISE EXCEPTION 'UPSERT FAILED';
         ELSE
@@ -674,7 +644,7 @@ curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
 
 Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as being able to accomodate relatively high volume syncs. It is also particularly useful when it is necessary to santize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
 
-If an edge function fails halfway through its execution, there must be a way to capture and resolve the failure. In the previous example, row syncs were tracked with a *products_sync_tracker* table based on row updates. However, an alternative structure can be introduced that offers advantages for edge functions. Using the *products* table *updated_at* column, unsynced rows can be tracked by timing instead and resent when edge functions fail. For this to work, it is necessary to remove the previous update trigger on the *products* table and replace it with a new one.
+If an edge function fails halfway through its execution, there must be a way to capture and resolve the failure. In the previous example, row syncs were tracked with a *products_sync_tracker* table based on row updates. However, an alternative structure can be introduced that offers advantages for edge functions. Using the *products* table *updated_at* column, unsynced rows can be tracked by timing instead and resent when edge functions fail. For this to work, it is helpful to remove the previous trigger on the *products* table and replace them with one that monitors the *updated_at* column.
 
 #### Removing Previous Trigger
 
@@ -683,6 +653,11 @@ DROP TRIGGER IF EXISTS update_products_trigger
 ON products;
 
 DROP FUNCTION IF EXISTS update_products_trigger_func;
+
+DROP TRIGGER IF EXISTS insert_products_trigger
+ON products;
+
+DROP FUNCTION IF EXISTS insert_products_trigger_func;
 ```
 
 #### Adding Trigger to Update updated_at Column
@@ -713,9 +688,9 @@ CREATE TABLE edge_function_tracker(
     start_time TIMESTAMPTZ DEFAULT NOW (),
     start_time_of_prev_func TIMESTAMPTZ,
     attempts INTEGER DEFAULT 1,
-    func_status TEXT NOT NULL DEFAULT 'PENDING' CHECK (status IN ('SUCCEEDED', 'FAILED', 'PENDING')),
+    func_status TEXT NOT NULL DEFAULT 'PENDING' CHECK (func_status IN ('SUCCEEDED', 'FAILED', 'PENDING')),
     request_id BIGINT NULL,
-    CONSTRAINT products_pkey PRIMARY KEY (id)
+    CONSTRAINT edge_function_tracker_pkey PRIMARY KEY (id)
 );
 ```
 
@@ -739,9 +714,15 @@ DECLARE
 BEGIN
     -- Creates a new entry in the edge_function_tracker table
     -- for the soon-to-be deployed edge function
-    INSERT INTO edge_function_tracker 
-    DEFAULT VALUES
-    RETURNING to_jsonb(id, start_time) INTO payload;
+    WITH func_default_vals AS (
+        INSERT INTO edge_function_tracker 
+        DEFAULT VALUES
+        RETURNING id, start_time
+    )
+    SELECT 
+        row_to_json(func_default_vals.*)::JSONB
+        INTO payload
+    FROM func_default_vals;
 
     -- Products that were updated after the previous deployment are unsyced. 
     -- Fetches prev function timestamp to help query unsynced rows for further processing.
@@ -760,14 +741,13 @@ BEGIN
 
     -- Reformat payload to include prev_start_time
     payload := payload || jsonb_build_object('start_time_of_prev_func', prev_start_time);
-
     -- Send request to edge function
     SELECT net.http_post(
         url := '<FUNCTION URL>',
         body := payload,
         headers := '{
             "Content-Type": "application/json", 
-            "Authorization": "Bearer YOUR_ANON_KEY"
+            "Authorization": "Bearer <SUPABASE ANON KEY>"
         }'::JSONB,
         timeout_milliseconds := 4000
     ) INTO func_request_id;
@@ -778,7 +758,7 @@ BEGIN
     SET 
         request_id = func_request_id,
         start_time_of_prev_func = (payload->>'start_time_of_prev_func')::TIMESTAMPTZ
-    WHERE id = payload->>'id'::UUID
+    WHERE id = (payload->>'id')::UUID;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -796,6 +776,35 @@ SELECT
         SELECT edge_deployment_wrapper();
 	$$
 );
+```
+
+It is usually better to create PG/plSQL functions that can perform many interactions in a single request than to have the edge function query the database multiple times to get a small amount of data. The following function will be called by the edge function to simplify and speed up sync rejection handling for successful requests.
+
+```sql
+CREATE OR REPLACE FUNCTION report_failed_syncs (func_id UUID, failed_rows_id UUID[])
+RETURNS VOID
+AS $$
+BEGIN
+    -- Update the "edge_function_tracker" table to reflect the 
+    -- function call's status
+
+    UPDATE edge_function_tracker
+    SET func_status = 'SUCCEEDED'
+    WHERE id = func_id;
+
+    -- This line disables the updated_at trigger for the transaction. 
+
+    SET LOCAL session_replication_role = 'replica';
+
+    -- Update failed product syncs to NOW(), so that they will included in the next
+    -- syncing function 
+
+    UPDATE products
+    SET updated_at = NOW() 
+    WHERE id = ANY(failed_rows_id);
+END;
+$$ LANGUAGE plpgsql;
+
 ```
 
 To deploy an edge function, you must have a Node Package Manager, such as NPM, Yarn, or PNPM. NPM can be installed by downloading Node.JS through the official [download page](https://nodejs.org/en/download)
@@ -829,37 +838,60 @@ type TProductRows = {
 }[];
 
 type TRequestJSON = {
-    id: string;
-    start_time: string;
-    start_time_of_prev_func: string;
-}
+	id: string;
+	start_time: string;
+	start_time_of_prev_func: string;
+};
 
 // Your Database's connection URL is made available by default in all edge functions
-// You can view it in the dashboard by going to the Project Settings's Database tab
+// If you have any issues, though, you can retrieve it in the dashboard by going to
+// the Project Settings's Database tab
+
 const databaseUrl = Deno.env.get('SUPABASE_DB_URL')!;
 
 // Create a database pool with three connections that are lazily established
 const pool = new postgres.Pool(databaseUrl, 3, true);
 
-serve(async (_req) => {
+serve(async (req) => {
 	try {
-
 		// Grab a connection from the pool
 		const connection = await pool.connect();
-
-        // 1. Parse Request Body:
-        const reqJSON = await req.json() as TRequestJSON;
-
+		// 1. Parse Request Body:
+		const reqJSON = (await req.json()) as TRequestJSON;
 		try {
 			// 2. Retrieve unsynced products from the database
-			const unsyncedRows = await connection.queryArray<TProductRows>(
-                `SELECT 
-                    *
-                FROM products
-                WHERE updated_at BETWEEN $1::TIMESTAMPTZ AND $2::TIMESTAMPTZ`, 
-                [reqJSON.start_time_of_prev_func, reqJSON.start_time] 
-            );
-
+			const unsyncedRows = (
+				await connection.queryObject({
+					args: [reqJSON.start_time_of_prev_func, reqJSON.start_time],
+					text: `SELECT 
+							products.id,
+							products.product_name,
+							CAST(EXTRACT(epoch FROM products.updated_at) AS FLOAT) AS updated_at,
+							products.user_id
+						FROM products
+						-- Only sync products that have been updated since the last sync
+						WHERE updated_at BETWEEN $1::TIMESTAMPTZ AND $2::TIMESTAMPTZ;
+						-- IF SOFT DELETING, FILTER THE SOFT DELETED ROWS FROM THE SYNC
+					`,
+				})
+			).rows as TProductRows;
+			// If there are no unsynced rows, the function can return early
+			if (!unsyncedRows.length) {
+				const res = await connection.queryObject({
+					args: [reqJSON.id],
+					text: `
+						UPDATE edge_function_tracker
+						SET func_status = 'SUCCEEDED'
+						WHERE id = $1::UUID;
+					`,
+				});
+				return new Response('no rows to sync', {
+					status: 200,
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+				});
+			}
 			// 3. Convert rows into NDJSON format
 			const unsyncedProductsNDJSON: string = unsyncedRows
 				.map((product) =>
@@ -869,7 +901,6 @@ serve(async (_req) => {
 					})
 				)
 				.join('\n');
-
 			// 4. Sync the new products with Typesense
 			const response = await fetch(
 				// ADD YOUR TYPESENSE URL
@@ -892,8 +923,26 @@ serve(async (_req) => {
 				{"success": false, "error": "Bad JSON.", "document": "[bad doc]"}
 			*/
 			const ndJsonResponse = await response.text();
-			// If there is no response, no rows needed to be synced so the function can return early
-			if (!ndJsonResponse) {
+
+			// converting response to array of objects
+			let JSONStringArr = ndJsonResponse.split('\n');
+			const parsedJSON = JSONStringArr.map((res) => JSON.parse(res));
+
+			// 5. filtering out the failed syncs' ids
+			const failedSyncIds = parsedJSON
+				.filter((doc) => !doc.success)
+				.map((doc) => JSON.parse(doc.document).id) as string[];
+
+			// If there are no failed syncs, the function can return early
+			if (!failedSyncIds.length) {
+				const res = await connection.queryObject({
+					args: [reqJSON.id],
+					text: `
+						UPDATE edge_function_tracker
+						SET func_status = 'SUCCEEDED'
+						WHERE id = $1::UUID;
+					`,
+				});
 				return new Response('no rows to sync', {
 					status: 200,
 					headers: {
@@ -902,54 +951,26 @@ serve(async (_req) => {
 				});
 			}
 
-
-            // converting response to array of objects
-			let JSONStringArr = ndJsonResponse.split('\n');
-			const parsedJSON = JSONStringArr.map((res) => JSON.parse(res));
-
-            // 5. filtering out the failed syncs' ids
-			const failedSyncIds = parsedJSON
-				.filter((doc) => !doc.success)
-				.map((doc) => JSON.parse(doc.document).id);
-
-            // 6/7. Updates the "updated_at" column in the products table to NOW().
-            // By doing so, the failed rows will be resynced by the next edge function 
-            // Declare the function call to be a success.
-			if (failedSyncIds.length) {
-				const result = await connection.queryArray(
-					`
-                        BEGIN;
-                            -- Update the "edge_function_tracker" table to reflect the 
-                            -- function call's status
-
-                                UPDATE edge_function_tracker
-                                SET func_status = 'SUCCEEDED'
-                                WHERE id = '$1'::UUID;
-
-                            -- This line disables the updated_at trigger for the transaction. 
-                            -- Without it, the trigger could potentially enter an infinite loop
-
-                                SET LOCAL session_replication_role = 'replica';
-
-                            -- Update failed product syncs to NOW(), so that they will included in the next
-                            -- syncing function 
-
-                                UPDATE products
-                                SET updated_at = NOW() 
-                                WHERE id = ANY($2::uuid[]);
-                        COMMIT;
-					`,
-					[reqJSON.id, failedSyncIds]
-				);
-			}
+			// 6/7. Updates the "updated_at" column in the products table to NOW().
+			// By doing so, the failed rows will be resynced by the next edge function
+			// Declare the function call to be a success.
+			const result = await connection.queryObject({
+				args: [reqJSON.id, failedSyncIds],
+				text: `
+					SELECT report_failed_syncs ($1::UUID,  $2::UUID[])
+				`,
+			});
 
 			// Return the response with the correct content type header
-			return new Response(`synced rows between ${reqJSON.start_time_of_prev_func} and ${reqJSON.start_time}`, {
-				status: 200,
-				headers: {
-					'Content-Type': 'application/x-ndjson; charset=utf-8',
-				},
-			});
+			return new Response(
+				`synced rows between ${reqJSON.start_time_of_prev_func} and ${reqJSON.start_time}`,
+				{
+					status: 200,
+					headers: {
+						'Content-Type': 'application/x-ndjson; charset=utf-8',
+					},
+				}
+			);
 		} finally {
 			// Release the connection back into the pool
 			connection.release();
@@ -986,7 +1007,7 @@ Unfortunately, not all syncs will succeed. It's important to have some retry mec
 2. Updates 'PENDING' functions to 'FAILED' if certain conditions are met
 3. Re-attempts a failed sync request
 
-#### Function to Manage Edge Redeployment and Maitenance
+#### PL/pgSQL Function to Manage Edge Redeployment and Maitenance
 
 ```sql
 CREATE OR REPLACE FUNCTION edge_function_maintainer()
@@ -998,12 +1019,17 @@ DECLARE
 BEGIN
     -- Any successful syncs that border two 'SUCCEEDED' rows are no longer necessary to maintain.
     -- To prevent the table from growing endlessly, these rows will be deleted
-    WITH delete_conditions AS (
+    WITH organized_edge_function_tracker AS (
         SELECT id,
             func_status,
             LAG(func_status) OVER (ORDER BY start_time) AS prev_func_status,
             LEAD(func_status) OVER (ORDER BY start_time) AS next_func_status
         FROM edge_function_tracker
+    ),
+    success_conditions AS (
+        SELECT
+            id
+        FROM organized_edge_function_tracker
         WHERE 
             func_status = 'SUCCEEDED' 
                 AND 
@@ -1023,38 +1049,44 @@ BEGIN
         SELECT 
             edge_function_tracker.id
         FROM edge_function_tracker
-        INNER JOIN net._http_response ON net._http_response.id = edge_function_tracker.pg_request_id
+        INNER JOIN net._http_response ON net._http_response.id = edge_function_tracker.request_id
         WHERE net._http_response.status_code NOT BETWEEN 200 AND 202
     )
     UPDATE edge_function_tracker
-    SET status = 'FAILED',
+    SET func_status = 'FAILED'
+    FROM failed_rows
     WHERE 
         failed_rows.id = edge_function_tracker.id
             OR
-        status = 'PENDING' AND (NOW() - start_time > '2 minutes'::interval)
+        (func_status = 'PENDING' AND (NOW() - start_time > '2 minutes'::interval))
     ;
+
 
     -- Fetch the data of a failed request, so that it can placed into a payload
     -- for a retry
-    SELECT 
-        id,
-        start_time,
-        start_time_of_prev_func
-    FROM edge_function_tracker
-    WHERE status = 'FAILED' and attempts < 4 -- if attempts are more than 3, assume the data is unsyncable for this section and stop trying
-    ORDER BY start_time
-    LIMIT 1
-    RETURNING to_jsonb(*) INTO payload;
+    WITH selected_row AS (
+        SELECT 
+            id,
+            start_time,
+            start_time_of_prev_func
+        FROM edge_function_tracker
+        WHERE func_status = 'FAILED' AND attempts < 3 -- if attempts are more than 3, assume the data is unsyncable for this section and stop trying
+        ORDER BY start_time
+        LIMIT 1
+    )
+    SELECT to_jsonb(selected_row.*) INTO payload
+    FROM selected_row;
+
 
     -- test to see if there are any viable requests to retry
-    IF (payload->>id)::UUID IS NOT NULL THEN
+    IF (payload->>'id')::UUID IS NOT NULL THEN
         -- Send retry request to edge function
         SELECT net.http_post(
-            url := '<FUNCTION URL>',
+            url := '<EDGE FUNCTION URL>',
             body := payload,
             headers := '{
                 "Content-Type": "application/json", 
-                "Authorization": "Bearer YOUR_ANON_KEY"
+                "Authorization": "Bearer <SUPABASE ANON KEY>"
             }'::JSONB,
             timeout_milliseconds := 4000
         ) INTO func_request_id;
@@ -1064,7 +1096,7 @@ BEGIN
         SET 
             request_id = func_request_id,
             attempts = attempts + 1
-        WHERE id = (payload->>'id')::UUID
+        WHERE id = (payload->>'id')::UUID;
     END IF;
 END;
 $$ LANGUAGE plpgSQL;
@@ -1080,7 +1112,7 @@ SELECT
     'edge_function_maintainer',
     '* * * * *', -- Executes every minute (cron syntax)
 	$$
-        SELECT bulk_delete_products();
+        SELECT edge_function_maintainer();
 	$$
   );
 ```
@@ -1142,7 +1174,9 @@ Bulk syncing deletions between Supabase and Typesense can be done with one of tw
 1. Temporarily preserving deleted rows' ids in an intermediary table until they can be removed from Typesense
 2. Soft deleting rows from a table until they are removed from TypeSense
 
-> NOTE: Although the following examples will be done in PostgreSQL, edge functions can also be used, as outlined in Step 5.2
+> NOTE: Because the deletion process does not require NDJSON, both the *HTTP* and *PG_NET* extension can work either for direct PostgreSQL-to-Typesense deletions or for triggering edge functions.
+
+This section predominantly uses the *HTTP* extension. If you plan on using *PG_NET*, though, it is necessary to delay actually deleting rows until the *net._http_response* table has a status of 200 for the request. Step 5.2 has examples about how to plan around asynchronous recovery. 
 
 #### Approach 1: Intermediary Tables
 
@@ -1218,7 +1252,7 @@ AS $$
         LIMIT 40;
 
         -- The params must be formatted within square brackets "[ ]", which are URL encoded as %5B and %5D, respectively.
-        query_params:= '%5B' || query_params || '%5D'
+        query_params:= '%5B' || query_params || '%5D';
 
         SELECT
             status,
@@ -1256,7 +1290,7 @@ The function can be called every minute by a Cron Job.
 ```sql
 SELECT
   cron.schedule(
-    'delete-from-typesese',
+    'bulk-delete-from-typesese',
     '* * * * *', -- Executes every minute (cron syntax)
 	$$
     -- SQL query
@@ -1282,15 +1316,15 @@ USING(
 
 Instead of directly deleting rows, users will have to modify a row in a way that essentially tags it as unuseable. In this case, setting the user_id column to NULL will make the row inaccessible to all app users.
 
-A PG/plSQL function can be made with either the *PG_NET* or *HTTP* extension to sync nullified rows with Typesense and then delete them:
+A PG/plSQL function can be made with either the *PG_NET* or *HTTP* extension to sync rows with nullified *user_id* columns with Typesense and then delete them:
 
 #### Syncing Nullified Rows Before Deleting Them
 
 ```sql
 -- Create the function to delete the record from Typesense
 CREATE OR REPLACE FUNCTION bulk_delete_products()
-RETURN VOID
-LANGUAGE plpgSQL
+RETURNS VOID
+LANGUAGE plpgsql
 AS $$
     DECLARE
         -- stores and formats deleted row ids
@@ -1311,7 +1345,7 @@ AS $$
         LIMIT 40;
 
         -- places the list of ids in url encoded brackets [ ], which are %5B and %5D
-        query_params :=  '%5B' || query_params || '%5D'
+        query_params :=  '%5B' || query_params || '%5D';
 
         -- Send delete request to Typesense server
         SELECT
@@ -1361,42 +1395,59 @@ SELECT
 
 ## Step 8: Syncing Deletes in Realtime
 
-### Syncing Bulk Deletes
+### Syncing Individual Deletes
 
-Depending on how you organize your database, you may come across a situation where deleting one row causes a cascade of deletes in another table. To sync these changes, you can use triggers. In Typesense, bulk deletes can be performed by querying a shared field. In the below example, when a user is deleted, Typesense will delete all corresponding entries.
+In Typesense, a single document can be deleted by making a request with the document's ID as a path parameter.
 
-#### Bulk Delete by a Shared Field
+#### cURL Request, Deleting document id
+
+```bash
+curl -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" -X DELETE \
+    "http://localhost:8108/collections/products/documents/<id>"
+```
+
+Depending on how you organize your database, you may come across a situation where deleting one row causes a cascade of deletes in another table. That can be managed by querying a shared field, like a reference key.
+
+#### cURL Request, Deleting many documents by shared field
+
+```bash
+curl -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" -X DELETE \
+    "http://localhost:8108/collections/products/documents?filter_by=<shared_field>:=<value>"
+```
+
+Syncing deletes in realtime can be managed with a trigger.
+
+#### Single Row Delete Using Triggers
 
 ```sql
 -- Create the function to delete the record from Typesense
-CREATE OR REPLACE FUNCTION bulk_delete_products()
+CREATE OR REPLACE FUNCTION delete_products()
     RETURNS TRIGGER
     LANGUAGE plpgSQL
 AS $$
 BEGIN
     SELECT net.http_delete(
-        -- ADD TYPESENSE URL
-        url := '<TYPESENSE URL>/collections/products/documents?filter_by=user_id:=%s' || OLD.id::TEXT,
-        -- ADD API KEY
-        headers := '{"X-Typesense-API-KEY": "<API KEY>"}'
+        url := format('<TYPESENSE URL>/collections/products/documents/%s', OLD.id),
+        headers := '{"X-Typesense-API-KEY": "<Typesense_API_KEY>"}'
     )
     RETURN OLD;
 END $$;
 
--- Create the trigger that calls the function when a user deletes their account, which would
--- Subsequently delete all of their entries to the products table
-CREATE TRIGGER bulk_delete_products_trigger
-    AFTER DELETE ON auth.users
+-- Create the trigger that calls the function when a record is deleted from the products table
+CREATE TRIGGER delete_products_trigger
+    AFTER DELETE ON public.products
     FOR EACH ROW
-    EXECUTE FUNCTION bulk_delete_products();
+    EXECUTE FUNCTION delete_products();
+
 ```
 
-Unfortunately, if the sync fails for some reason, there would be no more data to reference to make a re-attempt. This can be managed by making a table to temporarily store deleted query values until the sync is confirmed.
+Unfortunately, if the synchronization process fails for any reason, there will be no remaining data to reference for a subsequent attempt. To address this issue, you can either implement soft deletion of rows or create a temporary table to store deleted query values until the successful completion of the synchronization is confirmed. The latter option is described in detail below for deletes by query.
 
+#### Store Values Until Sync is Confirmed Table
 ```sql
 CREATE TABLE deleted_query_values (
-    query_field TEXT NOT NULL,
-    query_param UUID NOT NULL,
+    filter_by_field TEXT NOT NULL,
+    shared_value UUID NOT NULL, --assuming shared value is a UUID
     request_id BIGINT,
     created_at TIMESTAMPTZ NULL DEFAULT now()
 )
@@ -1415,14 +1466,14 @@ DECLARE
 BEGIN
     SELECT net.http_delete(
         -- ADD TYPESENSE URL
-        url := '<TYPESENSE URL>/collections/products/documents?filter_by=user_id:=%s' || OLD.id::TEXT,
+        url := '<TYPESENSE URL>/collections/products/documents?filter_by=<FILTER_BY_FIELD>:=%s' || OLD.<SHARED_VALUE>::TEXT,
         -- ADD API KEY
         headers := '{"X-Typesense-API-KEY": "<API KEY>"}'
     ) INTO func_request_id;
 
     -- populate table
-    INSERT INTO deleted_query_values (query_field, query_param, request_id)
-    VALUES ('user_id', OLD.id, func_request_id);
+    INSERT INTO deleted_query_values (filter_by_field, shared_value, request_id)
+    VALUES ('<FILTER_BY_FIELD>', OLD.<SHARED_VALUE>, func_request_id);
 
     RETURN OLD;
 END $$;
@@ -1451,8 +1502,8 @@ BEGIN
 
     -- get oldest delete query that failed
     SELECT 
-        query_param,
-        query_field
+        shared_value,
+        filter_by_field
         INTO id, field
     FROM deleted_query_values
     INNER JOIN net._http_response ON net._http_response.id = deleted_query_values.request_id
@@ -1476,61 +1527,6 @@ BEGIN
     WHERE query_param = id;
 END $$;
 ```
-
-The function can be placed into a cron job to gradually retry failed syncs.
-
-#### Scheduling Bulk Deletes
-
-```sql
-SELECT
-  cron.schedule(
-    'delete-from-typesese-retry',
-    '* * * * *', -- Executes every minute(cron syntax)
-	$$
-    -- SQL query
-        SELECT retry_bulk_deletes();
-	$$
-  );
-```
-
-### Syncing Individual Deletes
-
-In Typesense, a single document can be deleted by making a request with the document's ID as a path parameter.
-
-#### cURL Request, Deleting by id
-
-```bash
-curl -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" -X DELETE \
-    "http://localhost:8108/collections/products/documents/<id>"
-```
-
-Syncing individual deletes in realtime can be managed with a trigger.
-
-#### Single Row Delete Using Triggers
-
-```sql
--- Create the function to delete the record from Typesense
-CREATE OR REPLACE FUNCTION delete_products()
-    RETURNS TRIGGER
-    LANGUAGE plpgSQL
-AS $$
-BEGIN
-    SELECT net.http_delete(
-        url := format('<TYPESENSE URL>/collections/products/documents/%s', OLD.id),
-        headers := '{"X-Typesense-API-KEY": "<Typesense_API_KEY>"}'
-    )
-    RETURN OLD;
-END $$;
-
--- Create the trigger that calls the function when a record is deleted from the products table
-CREATE TRIGGER delete_products_trigger
-    AFTER DELETE ON public.products
-    FOR EACH ROW
-    EXECUTE FUNCTION delete_products();
-
-```
-
-Like with previous examples, failed requests can be monitored in the *net._http_response* table for further retries.
 
 ## Conclusion
 
