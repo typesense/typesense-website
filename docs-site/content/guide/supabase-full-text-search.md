@@ -1406,7 +1406,7 @@ curl -H "X-Typesense-API-KEY: ${Typesense_API_KEY}" -X DELETE \
     "http://localhost:8108/collections/products/documents/<id>"
 ```
 
-Depending on how you organize your database, you may come across a situation where deleting one row causes a cascade of deletes in another table. That can be managed by querying a shared field, like a reference key.
+Depending on how you organize your database, you may come across a situation where deleting one row causes a cascade of deletes in another table. That can be managed by querying a shared field, such as a reference key.
 
 #### cURL Request, Deleting many documents by shared field
 
@@ -1441,13 +1441,13 @@ CREATE TRIGGER delete_products_trigger
 
 ```
 
-Unfortunately, if the synchronization process fails for any reason, there will be no remaining data to reference for a subsequent attempt. To address this issue, you can either implement soft deletion of rows or create a temporary table to store deleted query values until the successful completion of the synchronization is confirmed. The latter option is described in detail below for deletes by query.
+Unfortunately, if the synchronization process fails for any reason, there will be no remaining data to reference for a subsequent attempt. To address this issue, you can either implement soft deletion of rows or create a temporary table to store deleted query values until the successful completion of the synchronization is confirmed. The latter option is described in detail below for deletes by shared-field.
 
 #### Store Values Until Sync is Confirmed Table
 ```sql
 CREATE TABLE deleted_query_values (
     filter_by_field TEXT NOT NULL,
-    shared_value UUID NOT NULL, --assuming shared value is a UUID
+    shared_value TEXT NOT NULL, 
     request_id BIGINT,
     created_at TIMESTAMPTZ NULL DEFAULT now()
 )
@@ -1457,7 +1457,7 @@ The trigger's function can be modified to preserve the deleted values.
 
 ```sql
 -- Create the function to delete the record from Typesense
-CREATE OR REPLACE FUNCTION bulk_delete_products()
+CREATE OR REPLACE FUNCTION delete_products_trigger()
     RETURNS TRIGGER
     LANGUAGE plpgSQL
 AS $$
@@ -1473,7 +1473,7 @@ BEGIN
 
     -- populate table
     INSERT INTO deleted_query_values (filter_by_field, shared_value, request_id)
-    VALUES ('<FILTER_BY_FIELD>', OLD.<SHARED_VALUE>, func_request_id);
+    VALUES ('<FILTER_BY_FIELD>', OLD.<SHARED_VALUE>::TEXT, func_request_id);
 
     RETURN OLD;
 END $$;
@@ -1487,7 +1487,7 @@ RETURNS VOID
 LANGUAGE plpgSQL
 AS $$
 DECLARE
-    id UUID;
+    value TEXT;
     field TEXT;
     func_request_id BIGINT;
 BEGIN
@@ -1504,7 +1504,7 @@ BEGIN
     SELECT 
         shared_value,
         filter_by_field
-        INTO id, field
+        INTO value, field
     FROM deleted_query_values
     INNER JOIN net._http_response ON net._http_response.id = deleted_query_values.request_id
     WHERE net._http_response.status_code NOT BETWEEN 200 AND 202
@@ -1514,7 +1514,7 @@ BEGIN
     -- reattempt deletion sync
     SELECT net.http_delete(
         -- ADD TYPESENSE URL
-        url := FORMAT('<TYPESENSE URL>/collections/products/documents?filter_by=%s:=%s', field, id::TEXT),
+        url := FORMAT('<TYPESENSE URL>/collections/products/documents?filter_by=%s:=%s', field, value),
         -- ADD API KEY
         headers := '{"X-Typesense-API-KEY": "<API KEY>"}'
     ) INTO func_request_id;
