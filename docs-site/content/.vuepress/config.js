@@ -164,6 +164,7 @@ let config = {
             ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
             ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
             ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+            ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
             ['/guide/docsearch', 'Search for Documentation Sites'],
           ],
         },
