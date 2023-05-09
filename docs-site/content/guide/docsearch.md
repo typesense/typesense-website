@@ -106,7 +106,7 @@ The easiest way to run the scraper is using Docker.
    :::
 1. Run the scraper:
     ```shellsession
-    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.4.1
+    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.6.0
     ```
 
 This will scrape your documentation site and index it into Typesense.
