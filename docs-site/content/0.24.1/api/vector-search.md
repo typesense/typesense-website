@@ -46,7 +46,7 @@ We create a vector with 4 dimensions to keep the code snippets readable. Dependi
 use will require creating vector fields with atleast 256 dimensions to produce good results.
 :::
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -158,6 +158,24 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final schema = Schema(
+  'docs',
+  {
+    Field('title', type: Type.string),
+    Field('points', type: Type.int32),
+    Field('vec', type: Type.float, isMultivalued: true, dimensions: 4),
+  },
+  defaultSortingField: Field('points', type: Type.int32),
+);
+
+await client.collections.create(schema);
+
+```
+
+  </template>
 <template v-slot:Java>
 
 ```java
@@ -194,7 +212,7 @@ curl -k "http://localhost:8108/collections" -X POST \
 
 Let's now index a document with a vector.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -250,6 +268,20 @@ client.collections['docs'].documents.create(document)
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'title': 'Louvre Museuem',
+  'points': 1,
+  'vec': [0.04, 0.234, 0.113, 0.001]
+};
+
+await client.collection('docs').documents.create(document);
+
+```
+
+  </template>
 
   <template v-slot:Java>
 
@@ -285,7 +317,7 @@ We can now search for documents that contain a `vec` field value "closest" to a 
 To control the number of documents that are returned, you can either use the `per_page` pagination parameter or 
 the `k` parameter within the vector query.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Java','Shell']">
 <template v-slot:JavaScript>
 
 ```js
@@ -359,6 +391,27 @@ search_requests = {
 # Search parameters that are common to all searches go here
 common_search_params =  {}
 client.multi_search.perform(search_requests, common_search_params)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final searchRequests = {
+  'searches': [
+    {
+      'collection': 'docs',
+      'q': '*',
+      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)',
+    }
+  ]
+};
+
+// Search parameters that are common to all searches go here
+final commonSearchParams =  {};
+
+await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams);
+
 ```
 
 </template>
