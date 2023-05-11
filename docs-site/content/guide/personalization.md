@@ -9,12 +9,11 @@ Personalization mechanisms come in two flavors:
 2. **User-group level personalization** - where results are ranked uniquely for each _group_ of users, depending on that group's aggregated characteristics (subscription plan they're on, user role, high LTV customers, etc) and/or past behaviors common to users in that group.
 
 Typesense currently does not have an out-of-the-box personalization feature. 
-However, User-Group level personalization can be implemented with Typesense with some effort.
-User-level personalization is unfortunately hard to do with Typesense at the moment.
+However, it can be implemented on top of Typesense's [popularity-based ranking](./ranking-and-relevance.md#ranking-based-on-relevance-and-popularity) feature or <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink> feature.   
 
-The rest of this article will discuss how to implement User-Group level personalization with Typesense.
+## A simple approach
 
-### User-Group Level Personalization
+Let's first see how we can implement **user-group level personalization** using a simple popularity-based ranking mechanism.
 
 Let's use an example of a hardware tools e-commerce store, where users can pay to join one of three paid subscription plans: 
 1. Hobbyist plan
@@ -68,6 +67,8 @@ We can add plan-specific popularity scores to each record based on heuristics, o
 ]
 ```
 
+You can calculate these popularity scores using any business logic you might have, or using an ML model. 
+
 Now let's say a user in the Hobbyist Plan logs in, in order to show them results personalized to their user group, we would add this `sort_by` parameter to the search query:
 
 ```
@@ -84,7 +85,7 @@ sort_by=_text_match(buckets: 10):desc,professional_plan_popularity_score:desc
 
 This would cause Typesense to [interweave text relevance with popularity score](./ranking-and-relevance.md#ranking-based-on-relevance-and-popularity) for that user's plan (Professional) and show the "120-piece Power Screwdriver Set" first.
 
-### Other Examples
+### Use-cases
 
 You could use this concept to show personalized results to different users based on:
 
@@ -93,3 +94,12 @@ You could use this concept to show personalized results to different users based
 - Age group (if you've collected this information already)
 - Gender (for eg, you could rank products relevant to women higher if the user has indicated that they are female).
 - Geographic location (for eg, you could rank products differently for your customers in the US vs Europe).
+
+## Advanced Personalization
+
+Typesense's <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink> feature allows you to bring <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#what-is-an-embedding`">embeddings</RouterLink> from an ML model, 
+index them in Typesense and then do a nearest-neighbor search. 
+
+Using this core feature, if you build / use an ML model that takes into account a user's profile attributes, their browsing activity on your site / app, their past purchases, etc along with attributes of your records that you're indexing in Typesense, you could then generate embeddings from this model and send them to Typesense.
+
+Then when a user logs in, you would generate a similar embedding once again from their profile data and search term, send it to Typesense via a `vector_query` to fetch all records that are "nearest" and render those as personalized results to this user.
