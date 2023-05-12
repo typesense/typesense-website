@@ -369,9 +369,12 @@ SearchResult searchResult = client.collections("places").documents().search(sear
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/places/documents/search?q=*&query_by=title&\
-filter_by=location:(48.853,2.344,5.1 km)&sort_by=location(48.853, 2.344):asc"
+curl -G -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  --data-urlencode 'q=*' \
+  --data-urlencode 'query_by=title' \
+  --data-urlencode 'filter_by=location:(48.853,2.344,5.1 km)' \
+  --data-urlencode 'sort_by=location(48.853, 2.344):asc' \
+'http://localhost:8108/collections/places/documents/search'
 ```
 
   </template>
