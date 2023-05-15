@@ -183,7 +183,10 @@ let config = {
             ['/guide/running-in-production', 'Running in Production'],
             ['/guide/backups', 'Backups'],
             ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
-            ['/guide/typesense-cloud/role-based-access-control-admin-dashboard', 'Role-Based Access Control for Admin Dashboard (Typesense Cloud)'],
+            [
+              '/guide/typesense-cloud/role-based-access-control-admin-dashboard',
+              'Role-Based Access Control for Admin Dashboard (Typesense Cloud)',
+            ],
             ['/guide/typesense-cloud/single-sign-on', 'Single Sign-On (Typesense Cloud)'],
           ],
         },
@@ -216,7 +219,10 @@ let config = {
             ['/guide/reference-implementations/songs-search', 'Songs Search'],
             ['/guide/reference-implementations/books-search', 'Books Search'],
             ['/guide/reference-implementations/good-reads-books-search-with-vue', 'Good Reads Books Search with Vue'],
-            ['/guide/reference-implementations/good-reads-books-search-without-npm', 'Good Reads Books Search without NPM'],
+            [
+              '/guide/reference-implementations/good-reads-books-search-without-npm',
+              'Good Reads Books Search without NPM',
+            ],
             ['/guide/reference-implementations/typeahead-spellchecker', 'Typeahead Spellchecker'],
             ['/guide/reference-implementations/xkcd-search', 'xkcd Search'],
             ['/guide/reference-implementations/federated-search', 'Federated Search'],
@@ -232,12 +238,11 @@ let config = {
         {
           title: 'API Resources',
           collapsable: false,
-          children: [
-            ['/cloud-management-api/v1/cluster-management', 'Cluster Management']
-          ],
+          children: [['/cloud-management-api/v1/cluster-management', 'Cluster Management']],
         },
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],
         ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
+        ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
       ],
 
       //For 0.24.1
