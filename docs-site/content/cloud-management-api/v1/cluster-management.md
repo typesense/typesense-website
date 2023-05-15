@@ -384,29 +384,32 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
 
 ```json
 {
-  "id": "az9p28gwxfdsye40d",
-  "name": "New Name",
-  "memory": "0.5_gb",
-  "vcpu": "2_vcpus_1_hr_burst_per_day",
-  "high_performance_disk": "no",
-  "typesense_server_version": "0.23.1",
-  "high_availability": "no",
-  "search_delivery_network": "off",
-  "load_balancing": "no",
-  "regions": ["oregon"],
-  "auto_upgrade_capacity": true,
-  "usage": {
-    "runtime_hours": 5643,
-    "used_bandwidth_kb": {
-      "last_7_days": {}
-    }
-  },
-  "provisioned_by": {
-    "user_name": "John Doe",
-    "user_type": "User"
-  },
-  "provisioned_at": 1663382520,
-  "status": "in_service"
+  "success": true,
+  "cluster": {
+    "id": "az9p28gwxfdsye40d",
+    "name": "New Name",
+    "memory": "0.5_gb",
+    "vcpu": "2_vcpus_1_hr_burst_per_day",
+    "high_performance_disk": "no",
+    "typesense_server_version": "0.23.1",
+    "high_availability": "no",
+    "search_delivery_network": "off",
+    "load_balancing": "no",
+    "regions": ["oregon"],
+    "auto_upgrade_capacity": true,
+    "usage": {
+      "runtime_hours": 5643,
+      "used_bandwidth_kb": {
+        "last_7_days": {}
+      }
+    },
+    "provisioned_by": {
+      "user_name": "John Doe",
+      "user_type": "User"
+    },
+    "provisioned_at": 1663382520,
+    "status": "in_service"
+  }
 }
 ```
 
