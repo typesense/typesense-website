@@ -31,6 +31,7 @@ We also have the following community-maintained client libraries:
 - [Swift](https://github.com/typesense/typesense-swift)
 - [Clojure](https://github.com/runeanielsen/typesense-clj)
 - [python orm client](https://github.com/RedSnail/typesense_orm)
+- [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>
@@ -137,6 +138,7 @@ We also have the following framework integrations:
 - [ToolJet](https://tooljet.com/?ref=typesense)
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
 - [Craft CMS](https://plugins.craftcms.com/typesense)
+- [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
 
 ## Utilities
 
