@@ -2,7 +2,7 @@
   <div>
     <HomeSectionHero />
 
-    <div class="text-center">
+    <div class="text-center mt-xl-4">
       <h2 class="text-center text-gradient-1">
         The Open Source Alternative to Algolia <br />
         The Easier To Use Alternative to Elasticsearch
