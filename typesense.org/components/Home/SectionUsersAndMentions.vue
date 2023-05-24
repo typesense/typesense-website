@@ -35,7 +35,7 @@
         <div class="col-sm">
           <div class="text-center">
             <h5 class="mb-3">As Seen At</h5>
-            <div class="d-flex justify-content-center align-items-baseline">
+            <div>
               <a
                 href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
                 target="_blank"
@@ -50,7 +50,7 @@
               <a
                 href="https://twitter.com/jasonbosco/status/1565073075040882688"
                 target="_blank"
-                class="ml-5"
+                class="ml-4"
               >
                 <img
                   :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
@@ -59,6 +59,20 @@
                   height="48"
                 />
               </a>
+              <div class="mt-sm-3 mt-4">
+                <a
+                  href="https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031"
+                  target="_blank"
+                  class="ml-4 pt-3"
+                >
+                  <img
+                    :src="require(`~/assets/images/thoughtworks-logo.svg`)"
+                    alt="Typesense on ThoughtWorks Technology Radar"
+                    width="210"
+                    height="61"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
