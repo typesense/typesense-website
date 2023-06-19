@@ -364,7 +364,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 />
 
 <!-- Before the closing body -->
-<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.4"></script>
 
 <script>
   docsearch({
