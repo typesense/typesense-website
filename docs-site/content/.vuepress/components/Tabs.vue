@@ -2,7 +2,13 @@
   <div class="code-tabs-container">
     <ClientOnly>
       <ul class="nav-container flex">
-        <li v-for="tab in augmentedTabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
+        <li
+          v-for="tab in augmentedTabs"
+          :key="tab"
+          class="nav"
+          :class="{ active: tab === activeTab }"
+          @click="setActiveTab(tab)"
+        >
           <span class="nav-title">{{ tab }}</span>
         </li>
       </ul>
@@ -26,6 +32,11 @@ Have a look at the "Shell" tab for guidance on HTTP headers, method and paramete
 </template>
 
 <script>
+import Prism from 'prismjs'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-shell-session'
+import 'prismjs/components/prism-yaml'
+
 export default {
   props: {
     tabs: {
@@ -42,12 +53,12 @@ export default {
   computed: {
     augmentedTabs() {
       // We don't want "Other" to show up for Sample Response for eg
-      if(this.tabs.includes('Ruby') && this.tabs.includes('Python') ) {
+      if (this.tabs.includes('Ruby') && this.tabs.includes('Python')) {
         return [...this.tabs, 'Other Languages']
       } else {
         return this.tabs
       }
-    } ,
+    },
     activeTab() {
       if (this.store) {
         const activeTab = this.augmentedTabs.find(tab => tab === this.store.state.defaultTab)
@@ -61,6 +72,11 @@ export default {
     import('../store').then(module => {
       this.store = module.default
     })
+
+    Prism.highlightAll()
+  },
+  updated() {
+    Prism.highlightAll()
   },
   methods: {
     setActiveTab(tab) {
