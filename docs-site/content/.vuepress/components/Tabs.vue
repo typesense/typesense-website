@@ -32,11 +32,6 @@ Have a look at the "Shell" tab for guidance on HTTP headers, method and paramete
 </template>
 
 <script>
-import Prism from 'prismjs'
-import 'prismjs/components/prism-bash'
-import 'prismjs/components/prism-shell-session'
-import 'prismjs/components/prism-yaml'
-
 export default {
   props: {
     tabs: {
@@ -68,15 +63,27 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     import('../store').then(module => {
       this.store = module.default
     })
+    // This block of code is to highlight code with variable interpolation
+    //  since Vuepress doesn't support this natively
+    window.Prism = window.Prism || {}
+    Prism.manual = true
+    import('prismjs').then(async module => {
+      Prism = module.default
 
-    Prism.highlightAll()
-  },
-  updated() {
-    Prism.highlightAll()
+      // Add all required languages here
+      await import('prismjs/components/prism-bash')
+      await import('prismjs/components/prism-yaml')
+
+      if (document.querySelector('.manual-highlight')) {
+        document.querySelectorAll('.manual-highlight').forEach(element => {
+          Prism.highlightAllUnder(element)
+        })
+      }
+    })
   },
   methods: {
     setActiveTab(tab) {
