@@ -131,6 +131,7 @@ const config = {
       'https://typesense.org/docs/sitemap.xml',
       'https://typesense.org/learn/sitemap.xml',
       'https://typesense.org/blog/sitemap.xml',
+      'https://threads.typesense.org/sitemap.xml',
     ],
   },
 }
