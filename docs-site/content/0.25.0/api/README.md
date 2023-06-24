@@ -20,7 +20,8 @@ This release contains new features and bug fixes.
 ### New Features
 
 - **Hybrid search:** Combine both keyword and vector search results in a single query using rank fusion.
-- **Query suggestions:** We support aggregation of popular search queries which can then be used as suggestions.
+- **Query analytics:** We support aggregation of popular search queries which can then be used as insights into 
+  query patterns, or to power query suggestions.
 - **Auto embedding of vector fields:** specify one or more string fields that should be embedded during indexing using
   state-of-the-art embedding models. We also integrate with OpenAI and Google APIs.
 - **Update documents via `filter_by`:** You can now update all documents that match a filter condition
@@ -31,7 +32,7 @@ This release contains new features and bug fixes.
 
 - Resolve field names using wildcard: fields can now be resolved in facet_by, query_by, include_fields, exclude_fields,
   highlight_fields and highlight_full_fields when a wildcard expression is used, e.g. `title_*` will match `title_en`.
-- Sorting hits of a group by query on the size of each group.
+- Sorting grouped hits based on the size of each group.
 - A count is returned for total number of records under each group even if the hits are truncating via `group_limit`.
 - New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an 
   unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent 
