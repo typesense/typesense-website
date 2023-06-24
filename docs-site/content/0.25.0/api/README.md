@@ -15,82 +15,51 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release fixes some important bugs identified in the recently released [`v0.24.0`](../../0.24.0/).
-
-The changelog below contains aggregates all the changes between `v0.23.1` and `v0.24.x`.
+This release contains new features and bug fixes.
 
 ### New Features
 
-- **Indexing of nested object fields**: feature must be enabled via the `enable_nested_fields` 
-  option during collection creation.
-- **Cross-field OR and complex filter expressions**: a filter query like 
-  `is_premium: true || (price:> 100 && category: shoes)` is now possible.
-- **Vector search**: support for both exact & HNSW-based approximate vector searching.
-- **Multi-lingual support**: Chinese, Japanese, Korean, Cyrillic and Thai are now supported via the use of field-level 
-  `locale` flag in the collection schema.
-- **Optional filtering**: `sort_by` clause can now accept an expression whose result is used for sorting, e.g. 
-  `sort_by=_eval(brand:nike):desc,_text_match:desc`.
-- **Preset search configurations**: manage your search query parameters by storing them within Typesense as a "preset", 
-  that you can refer to during query time. This helps in keeping the query parameters hidden away from public view.
+- **Hybrid search:** Combine both keyword and vector search results in a single query using rank fusion.
+- **Query suggestions:** We support aggregation of popular search queries which can then be used as suggestions.
+- **Auto embedding of vector fields:** specify one or more string fields that should be embedded during indexing using
+  state-of-the-art embedding models. We also integrate with OpenAI and Google APIs.
+- **Update documents via `filter_by`:** You can now update all documents that match a filter condition
+- **Range faceting:** numerical values can be dynamically faceted at query-time by bucketing them into ranges.
+- **NOT equals filtering for numerical fields:** The `!=` filtering operation can now be performed against numerical fields.
 
 ### Enhancements
 
-- New `text_match_type` parameter that allows you to customize how multi-field text relevancy score is computed.
-- Improve performance of large collection deletions.
-- Ability to clone a collection schema (without documents), overrides and synonyms.
-- New highlight structure that mimics the original document structure. Nested fields are highlighted only in this new
-  structure, which is returned in a key named `highlight` in the JSON response.
-- Allow override rules to be processed past the first match via the `stop_processing` flag (default is `true`).
-- Support locale and symbols in synonyms via the `locale` and `symbols_to_index` options during synonym creation.
-- Allow cloning of collection schema & linked assets (like synonyms, overrides) from a reference collection.
-- Support query replacement action in an override via the `replace_query` option.
-- Support an override to be active with a given time window via the `effective_from_ts` and `effective_to_ts` options.
-- Support `filter_by` rule in overrides.
-- New `--skip-writes` flag for starting Typesense in a mode that does not read writes from the Raft log. This is
-  useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.
-- New `--memory-used-max-percentage` and `--disk-used-max-percentage` flags for preventing writes when a specified 
-  memory/disk threshold is breached.
-- Allow the imported documents and their `id`s to be returned in the import response via 
-  the `return_doc` and `return_id` options.
-- API for compacting the on-disk database via the `POST /operations/db/compact` end-point.
+- Resolve field names using wildcard: fields can now be resolved in facet_by, query_by, include_fields, exclude_fields,
+  highlight_fields and highlight_full_fields when a wildcard expression is used, e.g. `title_*` will match `title_en`.
+- Sorting hits of a group by query on the size of each group.
+- A count is returned for total number of records under each group even if the hits are truncating via `group_limit`.
+- New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an 
+  unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent 
+  `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
+- Support use of `preset` parameter in embedded API key.
+- Support nested dynamic fields. 
+- Support pagination using `offset` parameter instead of the `page` parameter: this offers flexible pagination and is 
+  useful for GraphQL compatibility.
+- Migrated build system to Bazel.
 
 ### Bug Fixes
 
-- Fixed some edge cases with schema alteration.
-- Fixed a race condition in parallel collection creation that manifested on localhost, especially on Mac.
-- Fixed an edge case in highlighting involving non-ASCII unicode characters.
-- Fixed sort by string not accounting for accented characters.
-- Fixed an edge case in numerical facet field values not being fully removed on deletion.
-- Fixed HTTPS POST body buffering removing genuine trailing white space in the chunked payload in some cases.
-- Fixed float field validation to handle scientific notation.
-- Fixed a bug involving exact filter match on array.
-- Fixed a few edge cases that showed up in super-large documents that contained greater than 64,000 tokens.
-- Implemented automatic log rotation for RocksDB info logs. Previously, one had to restart the server for truncation or 
-  perform external truncation via `logrotate`.
-- **[New in v0.24.1]** Improved memory footprint of export API.
-- **[New in v0.24.1]** Fixed an edge case in deletion of deeply nested fields.
-- **[New in v0.24.1]** Fixed weighting of fields in phrase search.
-- **[New in v0.24.1]** Handle `NaN` values for geo filter query.
-- **[New in v0.24.1]** Fixed indexing of nested geopoint array values.
-- **[New in v0.24.1]** Added validation for vector dimensions during indexing.
-- **[New in v0.24.1]** Fixed highlighting when both flat/nested form of field is present.
-- **[New in v0.24.1]** Fixed an edge case with phrase match on array.
-- **[New in v0.24.1]** Fixed an edge case in fuzzy search typo correction.
-- **[New in v0.24.1]** Allow null values for optional nested fields.
-- **[New in v0.24.1]** Enabling exhaustive search should automatically drop tokens.
-- **[New in v0.24.1]** Don't remove empty array of object elements for highlight.
-- **[New in v0.24.1]** Restrict the `id` from being a default sorting field.
+- Fixed updates of nested object field values.
+- Fix geopoint indexing in nested fields.
+- Fixed some special characters not getting highlighted properly in prefix searches.
+- Fixed a bug in phrase matches on array.
+- Fixed a socket leak on followers of a cluster when import data fails validation.
+- Fixed high memory usage incurred in export/import of large datasets.
+- Fixed bad unicode characters in export.
+- Fixed errors that were caused by presence of bad Japanese unicode characters in import.
+- Fixed broken http/2 support on CURL v8.
+- Fixed non-curated members of a group appearing in curated override results.
+- Fixed override query rule being case-sensitive.
+- Fixed phrase search not considering field weights.
 
 ### Deprecations / behavior changes
 
-- The default value for `search_cutoff_ms` is now `30000`, i.e. 30 seconds. If you wish to allow searches to run 
-  longer than that, you can pass a higher value as a search parameter.
-- Disable text match score bucketing, if there are more buckets than the number of results found. Previously, results 
-  were being aggregated into a single score.
-- The older `highlights` key in the response is deprecated (but is still returned for now). Use the new `highlight` 
-  object in the response for highlighting information.
-- The `text_match` key in the response is deprecated (but is still returned for now) in favor of the 
-  new `text_match_info` object that returns fine grain matching information, including the score.
+There are no depreciation or behavior changes in this version.
 
 ## Upgrading
 
