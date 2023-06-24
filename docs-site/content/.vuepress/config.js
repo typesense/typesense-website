@@ -245,6 +245,32 @@ let config = {
         ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
       ],
 
+      //For 0.25.0
+      '/0.25.0/api/': [
+        ['/0.25.0/api/', 'Introduction'],
+        ['/0.25.0/api/server-configuration', 'Server Configuration'],
+        ['/0.25.0/api/api-clients', 'API Clients'],
+        ['/0.25.0/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/0.25.0/api/collections', 'Collections'],
+            ['/0.25.0/api/documents', 'Documents'],
+            ['/0.25.0/api/search', 'Search'],
+            ['/0.25.0/api/geosearch', 'GeoSearch'],
+            ['/0.25.0/api/vector-search', 'Vector Search'],
+            ['/0.25.0/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/0.25.0/api/api-keys', 'API Keys'],
+            ['/0.25.0/api/curation', 'Curation'],
+            ['/0.25.0/api/collection-alias', 'Collection Alias'],
+            ['/0.25.0/api/synonyms', 'Synonyms'],
+            ['/0.25.0/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/0.25.0/api/api-errors', 'API Errors'],
+      ],
+
       //For 0.24.1
       '/0.24.1/api/': [
         ['/0.24.1/api/', 'Introduction'],
