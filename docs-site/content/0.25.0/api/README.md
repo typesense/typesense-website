@@ -39,8 +39,8 @@ This release contains new features and bug fixes.
   `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
 - Support use of `preset` parameter in embedded API key.
 - Support nested dynamic fields. 
-- Support pagination using `offset` parameter instead of the `page` parameter: this offers flexible pagination and is 
-  useful for GraphQL compatibility.
+- Support pagination using `offset` and `limit` parameters instead of `page` and `per_page`: this offers flexibility 
+  and is also useful for GraphQL compatibility.
 - Migrated build system to Bazel.
 
 ### Bug Fixes

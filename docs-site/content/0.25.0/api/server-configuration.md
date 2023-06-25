@@ -40,6 +40,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--snapshot-interval-seconds`	|false	| Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.                                                   |
 |`--log-slow-requests-time-ms`	|false	| Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging. <br><br>You can also [dynamically enable](../api/cluster-operations.md#toggle-slow-request-log) slow requests logging via the `/config` API.                                                              |
 |`--skip-writes`	|false	| Starts Typesense in a mode that does not read writes from the Raft log. This is useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.                                                                                                                                               |
+|`--reset-peers-on-error`	|false	| Forcefully reset node's peers on an irrecoverable clustering error. This could cause intermittent data loss and is only attempted as a last-resort.                                                                                                                                                                                    |
 
 ## Using a Configuration File
 
