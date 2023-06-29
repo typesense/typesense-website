@@ -88,13 +88,13 @@ Should be a timestamp in the future.
 
 ### `new_memory`
 
-How much [RAM](/docs/guide/system-requirements) this cluster should have.
+How much [RAM](../../guide/system-requirements.md) this cluster should have.
 
 You can use any of the following values mentioned [here](./cluster-management.md#memory).
 
 ### `new_vcpu`
 
-How many [CPU](/docs/guide/system-requirements) cores this cluster should have.
+How many [CPU](../../guide/system-requirements.md) cores this cluster should have.
 
 Only certain CPU configuration are available with particular RAM configurations. The table [here](./cluster-management.md#vcpu) lists all available configurations.
 

@@ -85,7 +85,7 @@ You can use any of the following parameters inside the payload of the above API 
 
 ### `memory`
 
-How much [RAM](/docs/guide/system-requirements) this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
+How much [RAM](../../guide/system-requirements.md) this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
 
 You can use any of the following values:
 
@@ -110,7 +110,7 @@ You can use any of the following values:
 
 ### `vcpu`
 
-How many [CPU](/docs/guide/system-requirements) cores this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
+How many [CPU](../../guide/system-requirements.md) cores this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
 
 Only certain CPU configuration are available with particular RAM configurations. The table below lists all available configurations:
 
