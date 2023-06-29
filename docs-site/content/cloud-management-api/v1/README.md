@@ -16,6 +16,7 @@ The Cloud Cluster Management API lets you do the following operations on Typesen
 2. Terminate clusters
 3. Generate API Keys for clusters
 4. Update select attributes of the cluster (Name, Auto Upgrade Capacity)
+5. Schedule cluster configuration changes
 
 Once you provision a cluster via this API,
 you'll then use the hostname(s) returned by this API to connect to your cluster's [Typesense Server API](/api) directly to index your data and search on it.
