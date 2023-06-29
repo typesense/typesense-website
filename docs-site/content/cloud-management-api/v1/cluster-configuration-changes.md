@@ -1,6 +1,6 @@
 # Cluster Configuration Changes API
 
-Once you've provisioned a cluster using the [Cluster Management API](./cluster-management.md), 
+Once you've provisioned a cluster via the Typesense Cloud web console or using the [Cluster Management API](./cluster-management.md), 
 you can change its configuration using the API below.
 
 ## Workflow
