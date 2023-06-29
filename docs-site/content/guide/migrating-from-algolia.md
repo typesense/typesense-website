@@ -132,25 +132,6 @@ and your existing UI widgets will work with your Typesense cluster, without any 
 
 A few widgets need [small changes](https://github.com/typesense/typesense-instantsearch-adapter#widget-specific-instructions) to use them with Typesense.
 
-## Geo-Distributed Clusters
-
-Algolia calls their Geo-Distributed CDN-like search offering [Distributed Search Network](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/), and is only available for customers who pay annually, as a paid add-on.
-
-In Typesense Cloud, Geo-Distributed CDN-like search offering is called a Search Delivery Network, and is available to all users as a configuration you can choose when you create a new cluster.  
-
-## Pricing Model
-
-Algolia charges by the number of records and number of searches (or key strokes if you've implemented search-as-you-type), and you pay for the max of these two dimensions, along with overages if you go over your plan limit.
-So if you have high traffic and low number of records or low traffic and large number of records, you'll be paying for the larger number of the two.
-
-**Typesense is free and open source, and can be self-hosted for free.**
-
-Typesense also offers a hosted search service called [Typesense Cloud](https://cloud.typesense.org).
-Typesense Cloud pricing is based on the amount of [RAM & CPU](./system-requirements.md) you need to index your data and support your desired traffic concurrency respectively.
-It's a flat hourly fee depending on the configuration you choose, plus standard bandwidth charges, similar to AWS, GCP, etc.
-There are no per-record or per-search charges unlike Algolia. You can throw as much traffic or data at your cluster as it can handle. 
-We've seen this pricing model save up to 95% in search costs for users switching from Algolia to Typesense Cloud.
-
 ## Exporting Data from Algolia into Typesense
 
 Here's quick one-liner to export data from your Algolia index into a JSONL file.
@@ -176,11 +157,30 @@ export TYPESENSE_COLLECTION_NAME=YOUR_INDEX_NAME
 parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST -T {} "${TYPESENSE_PROTOCOL}://${TYPESENSE_HOST}/collections/${TYPESENSE_COLLECTION_NAME}/documents/import?action=create"'
 ```
 
-Increase `--5` in the command above to a larger number to reduce the size of each chunk being imported into Typesense. 
+Increase `-5` in the command above to a larger number to reduce the size of each chunk being imported into Typesense.
 
 If you see a "Bad Request" or "Connection Refused" error, you might need to adjust the escaping / quotes in the command above for your particular shell.
 
-If you see a 404, please make you have <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">created your Typesense Collection</RouterLink> before running the import command above.  
+If you see a 404, please make you have <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">created your Typesense Collection</RouterLink> before running the import command above.
+
+## Geo-Distributed Clusters
+
+Algolia calls their Geo-Distributed CDN-like search offering [Distributed Search Network](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/), and is only available for customers who pay annually, as a paid add-on.
+
+In Typesense Cloud, Geo-Distributed CDN-like search offering is called a Search Delivery Network, and is available to all users as a configuration you can choose when you create a new cluster.  
+
+## Pricing Model
+
+Algolia charges by the number of records and number of searches (or key strokes if you've implemented search-as-you-type), and you pay for the max of these two dimensions, along with overages if you go over your plan limit.
+So if you have high traffic and low number of records or low traffic and large number of records, you'll be paying for the larger number of the two.
+
+**Typesense is free and open source, and can be self-hosted for free.**
+
+Typesense also offers a hosted search service called [Typesense Cloud](https://cloud.typesense.org).
+Typesense Cloud pricing is based on the amount of [RAM & CPU](./system-requirements.md) you need to index your data and support your desired traffic concurrency respectively.
+It's a flat hourly fee depending on the configuration you choose, plus standard bandwidth charges, similar to AWS, GCP, etc.
+There are no per-record or per-search charges unlike Algolia. You can throw as much traffic or data at your cluster as it can handle. 
+We've seen this pricing model save up to 95% in search costs for users switching from Algolia to Typesense Cloud.
 
 ## Algolia Migration Support
 
