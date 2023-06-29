@@ -78,6 +78,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [high_availability](#high-availability)
 - [search_delivery_network](#search-delivery-network)
 - [high_performance_disk](#high-performance-disk)
+- [typesense_server_version](#typesense-server-version)
 - [name](#name)
 - [auto_upgrade_capacity](#auto-upgrade-capacity)
 
@@ -106,7 +107,6 @@ You can use any of the following values:
 | 512_gb   |
 | 768_gb   |
 | 1024_gb  |
-
 
 ### `vcpu`
 
@@ -171,7 +171,6 @@ The table below lists all available regions:
 | melbourne    |
 | sydney       |
 
-
 ### `high_availability`
 
 When set to `yes`, at least 3 nodes are provisioned in 3 different data centers to form a highly available (HA) cluster and your data is automatically replicated between all nodes.
@@ -194,7 +193,6 @@ The table below lists all available options:
 
 **IMPORTANT:** Make sure you set `high_availability` to `yes` when you turn on Search Delivery Network.
 
-
 ### `high_performance_disk`
 
 When set to `yes`, the provisioned hard disk will be co-located on the same physical server that runs the node.
@@ -205,6 +203,12 @@ Default: `no`
 
 - The cluster has High Availability turned on
 - The cluster does not have a burst CPU type.
+
+### `typesense_server_version`
+
+The Typesense Server version to use for this cluster.
+
+Default: Latest GA release version.
 
 ### `name`
 

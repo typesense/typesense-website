@@ -238,7 +238,10 @@ let config = {
         {
           title: 'API Resources',
           collapsable: false,
-          children: [['/cloud-management-api/v1/cluster-management', 'Cluster Management']],
+          children: [
+            ['/cloud-management-api/v1/cluster-management', 'Cluster Management'],
+            ['/cloud-management-api/v1/cluster-configuration-changes', 'Cluster Configuration Changes'],
+          ],
         },
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],
         ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
