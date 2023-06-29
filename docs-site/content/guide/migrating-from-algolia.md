@@ -151,6 +151,37 @@ It's a flat hourly fee depending on the configuration you choose, plus standard 
 There are no per-record or per-search charges unlike Algolia. You can throw as much traffic or data at your cluster as it can handle. 
 We've seen this pricing model save up to 95% in search costs for users switching from Algolia to Typesense Cloud.
 
+## Exporting Data from Algolia into Typesense
+
+Here's quick one-liner to export data from your Algolia index into a JSONL file.
+
+Install the [Algolia CLI](https://www.algolia.com/doc/tools/cli/get-started/overview/) and then run:
+
+```shell
+algolia objects browse YOUR_INDEX_NAME > documents.jsonl
+```
+
+You can then <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#import-a-jsonl-file`">import</RouterLink> this JSONL file into an existing
+<RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">Typesense Collection</RouterLink>
+using this snippet:
+
+```shell
+export TYPESENSE_API_KEY=xyz
+export TYPESENSE_HOST=xxx.a1.typesense.net
+export TYPESENSE_PROTOCOL=https
+export TYPESENSE_COLLECTION_NAME=YOUR_INDEX_NAME
+
+#  We're parallelize-ing the import using the `parallel` command (make sure you install it first):
+
+parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST -T {} "${TYPESENSE_PROTOCOL}://${TYPESENSE_HOST}/collections/${TYPESENSE_COLLECTION_NAME}/documents/import?action=create"'
+```
+
+Increase `--5` in the command above to a larger number to reduce the size of each chunk being imported into Typesense. 
+
+If you see a "Bad Request" or "Connection Refused" error, you might need to adjust the escaping / quotes in the command above for your particular shell.
+
+If you see a 404, please make you have <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">created your Typesense Collection</RouterLink> before running the import command above.  
+
 ## Algolia Migration Support
 
 If you plan to migrate to Typesense Cloud from Algolia, we offer FREE [migration consulting support](https://cloud.typesense.org/pricing#switching-from-algolia) with different levels of service based on your Algolia usage.
