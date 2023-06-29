@@ -132,15 +132,20 @@ and your existing UI widgets will work with your Typesense cluster, without any 
 
 A few widgets need [small changes](https://github.com/typesense/typesense-instantsearch-adapter#widget-specific-instructions) to use them with Typesense.
 
-## Exporting Data from Algolia into Typesense
+## Migrating Data from Algolia into Typesense
 
-Here's quick one-liner to export data from your Algolia index into a JSONL file.
+You'd typically want to update your application's backend that currently sends JSON data into Algolia, to send the same JSON data to Typesense.
+This way you're sending data directly from your primary data store into Typesense.
+
+But if you want a quick way to do a one-time export of your data in Algolia into Typesense, to explore Typesense or to do a backfill, here's how:
 
 Install the [Algolia CLI](https://www.algolia.com/doc/tools/cli/get-started/overview/) and then run:
 
 ```shell
 algolia objects browse YOUR_INDEX_NAME > documents.jsonl
 ```
+
+This will export your Algolia records into a JSONL file. 
 
 You can then <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#import-a-jsonl-file`">import</RouterLink> this JSONL file into an existing
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">Typesense Collection</RouterLink>
