@@ -146,16 +146,18 @@ docker run -p 8108:8108 -v$(pwd)/typesense-data:/data typesense/typesense:{{ $si
 <Tabs :tabs="['yml']">
   <template v-slot:yml>
     <div class="manual-highlight">
-      <pre class="language-yaml"><code>version: '3.4'
-      services:
-        typesense:
-          image: typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}
-          restart: on-failure
-          ports:
-            - "8108:8108"
-          volumes:
-            - ./typesense-data:/data
-          command: '--data-dir /data --api-key=xyz --enable-cors'</code></pre>
+      <pre class="language-yaml">
+<code>version: '3.4'
+services:
+  typesense:
+    image: typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=xyz --enable-cors'</code>
+      </pre>
     </div>
   </template>
 </Tabs>
