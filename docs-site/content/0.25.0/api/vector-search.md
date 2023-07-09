@@ -310,6 +310,1260 @@ curl "http://localhost:8108/collections/docs/documents" -X POST \
   </template>
 </Tabs>
 
+## Auto embedding generation
+We aim to enhance your experience with our vector search and streamline the process of creating vector embeddings for your texts before indexing them in our search engine. To achieve this, we have introduced support for adding vector fields that can automatically vectorize the specified set of fields using text embedding models. When you query on this vector field, your text will also be vectorized using the same model used for the field, enabling vector search.
+
+### Creating text embedding field
+To create a field that automatically embeds other string or string array fields, you need to set the embed property of the field. The embed property should contain the from property (an array of other fields that you want to embed) and the model_config property (which contains information about the model you want to use). Here's an example:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "categories",
+      "type": "string[]"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/e5-small"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "categories",
+      "type" => "string[]"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "product_name",
+          "categories"
+        ],
+        "model_config" => [
+          "model_name" => "ts/e5-small"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "categories",
+      "type" : "string[]"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "product_name",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/e5-small"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "categories",
+      "type": "string[]"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/e5-small"
+        }
+      }
+    }'
+
+```
+   </template>
+</Tabs>  
+     
+In this example `embedding` vector field will be generated automatically while indexing a document, with generating embeddings from a string summation of `product_name` and `categories` fields.
+
+## Models
+We support several ways to provide usage for text embedding models.
+### Public Models
+These models are officially supported by Typesense and stored in the Typesense Hugging Face repository. You can specify them by adding the ```ts``` namespace before the model name. Typesense will automatically download these models and make them available for use when you index documents after creating the collection. The models are inferred using ONNX Runtime.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "brand",
+      "type": "string"
+    },
+    {
+      "name": "categories",
+      "type": "string[]"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "brand",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/all-MiniLM-L12-v2"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "brand",
+      "type" => "string"
+    ],
+    [
+      "name" => "categories",
+      "type" => "string[]"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "brand",
+          "categories"
+        ],
+        "model_config" => [
+          "model_name" => "ts/all-MiniLM-L12-v2"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "brand",
+      "type" : "string"
+    },
+    {
+      "name" : "categories",
+      "type" : "string[]"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "brand",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/all-MiniLM-L12-v2"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "brand",
+      "type": "string"
+    },
+    {
+      "name": "categories",
+      "type": "string[]"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "brand",
+          "categories"
+        ],
+        "model_config": {
+          "model_name": "ts/all-MiniLM-L12-v2"
+        }
+      }
+    }'
+
+```
+   </template>
+</Tabs>  
+
+As an example, when you create a collection with the schema above, the `all-MiniLM-L12-v2` model will be downloaded and your documents will be automatically embedded by this model and will be stored in the `embedding` field.
+Please check our [Hugging Face repo](https://huggingface.co/typesense/models/tree/main") to see all officially supported models.
+### Using Remote APIs
+We also support using different API providers to generate embeddings. We make API calls to relavant endpoints to generate embeddings from given fields while indexing and querying.
+
+#### OpenAI API
+Use OpenAI API to generate embeddings.
+
+##### Model Config
+- Model name under `openai` namespace
+- OpenAI API key
+
+You can check supported OpenAI models to generate embeddings from [this link](https://platform.openai.com/docs/guides/embeddings/embedding-models).
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "openai/text-embedding-ada-002",
+          "api_key": "your_openai_api_key"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => [
+          "model_name" => "openai/text-embedding-ada-002",
+          "api_key" => "your_openai_api_key"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "openai/text-embedding-ada-002",
+          "api_key": "your_openai_api_key"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "openai/text-embedding-ada-002",
+          "api_key": "your_openai_api_key"
+        }
+      }
+    }'
+
+```
+   </template>
+
+</Tabs>  
+
+
+
+For this example, we will call the OpenAI API to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
+You have to provide a valid OpenAI API key in `model_config` to use this feature.
+Keep in mind that we will have to call the OpenAI API for every query in this way, which can result in a high amount of bills.
+#### Using Google API (PaLM API)
+This API provided by Google to generate embeddings, however it is important to note that currently this API meant to be used by hobbyists rather than professional use.
+
+##### Model Config 
+- Model name under `google` namespace
+- Google API key
+
+**Note:** Only supported model is `embedding-gecko-001` for now.
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "google/embedding-gecko-001",
+          "api_key": "your_google_api_key"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => [
+          "model_name" => "google/embedding-gecko-001",
+          "api_key" => "your_google_api_key"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "google/embedding-gecko-001",
+          "api_key": "your_google_api_key"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "google/embedding-gecko-001",
+          "api_key": "your_google_api_key"
+        }
+      }
+    }'
+
+```
+   </template>
+
+</Tabs>
+
+#### Using GCP API (Vertex AI API)
+This API also provided by Google, it is currently under Vertex AI in GCP.
+
+##### Model Config
+- Model name under `gcp` namespace
+- GCP access token (must be valid while creating the field)
+- GCP refresh token
+- GCP application client ID
+- GCP application client secret
+- GCP project ID
+  
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "gcp/embedding-gecko-001",
+          "access_token": "your_gcp_access_token",
+          "refresh_token": "your_gcp_refresh_token",
+          "client_id": "your_gcp_app_client_id", 
+          "client_secret": "your_gcp_client_secret",
+          "project_id": "your_gcp_project_id"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => [
+          "model_name" => "gcp/embedding-gecko-001",
+          "access_token" => "your_gcp_access_token",
+          "refresh_token" => "your_gcp_refresh_token",
+          "client_id" => "your_gcp_app_client_id", 
+          "client_secret" => "your_gcp_client_secret",
+          "project_id" => "your_gcp_project_id"
+        ]
+      }
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "gcp/embedding-gecko-001",
+          "access_token": "your_gcp_access_token",
+          "refresh_token": "your_gcp_refresh_token",
+          "client_id": "your_gcp_app_client_id", 
+          "client_secret": "your_gcp_client_secret",
+          "project_id": "your_gcp_project_id"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "gcp/embedding-gecko-001",
+          "access_token": "your_gcp_access_token",
+          "refresh_token": "your_gcp_refresh_token",
+          "client_id": "your_gcp_app_client_id", 
+          "client_secret": "your_gcp_client_secret",
+          "project_id": "your_gcp_project_id"
+        }
+      }
+    }'
+
+```
+   </template>
+
+</Tabs>
+
+#### Optional parameters to use with remote APIs
+We also have several optional parameters to use with embedding fields that use remote embedding services to generate. Those parameters mostly for fine-tuning API calls to be made.
+##### Optional remote API parameters
+You can use `remote_embedding_timeout_ms` and `remote_embedding_num_try` to control how long we will wait until timeout for the API call to be made to the service and how many times we will try.Those parameters will be used while searching.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding',
+  'prefix'                     : false,
+  'remote_embedding_timeout_ms': 5000,
+  'remote_embedding_num_try'   : 3
+}
+
+client.collections('products').documents().search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+  
+```php
+$search_parameters = [
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding',
+  'prefix'                     => false,
+  'remote_embedding_timeout_ms'=> 5000,
+  'remote_embedding_num_try'   => 3
+];
+
+$client->collections['products']->documents->search($search_parameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+  
+  ```py
+search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding',
+  'prefix'                     : false,
+  'remote_embedding_timeout_ms': 5000,
+  'remote_embedding_num_try'   : 3
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Shell>
+    
+  ```bash
+curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding&prefix=false&remote_embedding_timeout_ms=5000&remote_embedding_num_try=3' \
+--header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+```
+
+  </template>
+
+</Tabs>
+
+You can use `remote_embedding_batch_size` to set max size of each batch will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of request to be made.
+
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let import_parameters = {
+  'remote_embedding_batch_size': 200
+}
+
+client.collections('products').documents().import(documents, import_parameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$import_parameters = [
+  'remote_embedding_batch_size' => 200
+];
+
+$client->collections['products']->documents->import($documents, $import_parameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+  
+  ```py
+import_parameters = {
+  'remote_embedding_batch_size': 200
+}
+
+client.collections['products'].documents.import(documents, import_parameters)
+```
+
+  </template>
+
+<template v-slot:Shell>
+
+```bash
+curl --location --request POST 'http://localhost:8108/collections/products/documents/import?remote_embedding_batch_size=200' \
+--header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+```
+
+  </template>
+
+</Tabs>
+
+### Using your own models
+You can also use your own models. But those models must be in ONNX file format since we use ONNX runtime for inferencing.
+You must create a directory under `<data_dir>/models` and store your ONNX model file, vocab file, and a JSON for model config there.
+***Note:*** For convention, your model file MUST be named as `model.onnx` and the config file MUST be named as `config.json`.
+#### Model config file
+This file will contain information about the type of model you want to use. The JSON file must contain `model_type` (type of the model; we support `bert` and `xlm_roberta` at the moment) and `vocab_file_name` keys.
+#### Example for custom model
+```
+<data_dir>/models/test_model/model.onnx
+<data_dir>/models/test_model/vocab.txt
+<data_dir>/models/test_model/config.json
+```
+Contents of `config.json`:
+```
+{
+    "model_type": "bert",
+    "vocab_file_name": "vocab.txt"
+}
+
+```
+Create an embedding field using the directory name as `model_name` in `model_config`.
+   
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "test_model"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => ["product_name"],
+        "model_config" => [
+          "model_name" => "test_model"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "test_model"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "test_model"
+        }
+      }
+    }'
+
+```
+   </template>
+
+</Tabs>
+
+
+### Optional Model Parameters
+These are optional model parameters, which may be required to use with your custom models.
+#### Indexing prefix and query prefix
+Some models may require a prefix to know if texts are queries or they are actual texts to query on (you can check `intfloat/e5-small`, for example).
+If you set this property in `model_config`, the given indexing prefix will be added to the text that will be used to create embeddings when you index a document and `query_prefix` to the actual query before creating embeddings of it.Example:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "e5-base",
+          "indexing_prefix": "passage:",
+          "query_prefix": "query:"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => ["product_name"],
+        "model_config" => [
+          "model_name" => "e5-base",
+          "indexing_prefix" => "passage:",
+          "query_prefix" => "query:"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "e5-base",
+          "indexing_prefix": "passage:",
+          "query_prefix": "query:"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:shell>
+     
+```bash
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -d '{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "e5-base",
+          "indexing_prefix": "passage:",
+          "query_prefix": "query:"
+        }
+      }
+    }'
+
+```
+   </template>
+
+</Tabs>
+
+For this example, when you index a document:
+```
+{
+   "product_name": "ABCD"
+}
+
+```
+The text used to generate embeddings for the `embedding` field will be `passage: ABCD` instead of `ABCD`. And when you query, if your query is `EFGH`, it will be embedded as `query: EFGH` instead of `EFGH`.
+#### Semantic Search
+You can directly set `query_by` to the auto-embedding field to make a semantic search on this field with auto-embed your `q` query.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding',
+}
+
+client.collections('products').documents().search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+```php
+$search_parameters = [
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding',
+];
+
+$client->collections['products']->documents->search($search_parameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+  
+  ```py
+search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding',
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Shell>
+    
+  ```bash
+curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding' \
+
+--header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+```
+
+  </template>
+
+</Tabs>
+
+This will automatically embed the `chair` query with the same model used for the `embedding` field and will perform a nearest neighbor vector search.
+
+#### Hybrid Search
+You can also use `query_by` to make a hybrid search on multiple fields. You can use `query_by` to make a semantic search on the auto-embedding field and use `query_by` with other fields to make a regular keyword search on them. Result will be a combination of both searches using rank of each document in each search, reason behind that is semantic search and keyword search uses different units for scoring and we can't compare them directly. We use given weights to combine scores of each search.
+```
+K = rank of document in keyword searc
+S = rank of document in semantic search
+
+rank_fusion_score = 0.7 * K + 0.3 * S
+```
+
+<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding,product_name',
+}
+
+client.collections('products').documents().search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+  
+  ```php
+$search_parameters = [
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding,product_name',
+];
+
+$client->collections['products']->documents->search($search_parameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+  
+  ```py
+search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding,product_name',
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Shell>
+    
+  ```bash
+curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding,product_name' \
+
+--header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+```
+
+  </template>
+
+</Tabs>
+
+
+
 ## Nearest neighbor vector search
 
 We can now search for documents that contain a `vec` field value "closest" to a given query vector. 
