@@ -106,7 +106,7 @@ The easiest way to run the scraper is using Docker.
    :::
 1. Run the scraper:
     ```shellsession
-    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.6.0
+    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.7.0
     ```
 
 This will scrape your documentation site and index it into Typesense.
@@ -118,6 +118,98 @@ If needed, you can send the output to both stdout and a file at the same time by
 
 You can also run the scraper as a daemon by substituting the `-it` flags with `-d` ([detached mode](https://docs.docker.com/engine/reference/run/#detached--d)).
 :::
+
+### Tips for common challenges or more complex use-cases
+
+Below are some tips for common challenges when running the scraper inside a Docker container:
+
+#### Passing a config file location, rather than a config string
+
+The example above uses the `jq` tool to parse the config file into a JSON string prior to passing it as the `CONFIG` environment variable.
+
+If you don't have `jq` available, it's good to know that you can also pass the location of the config file to the `CONFIG` variable, and then the file will be read from this location.
+
+Just make sure that the config is available inside the container. In other words, you'll need to voume mount it, like in the example below:
+
+```
+docker run -it \
+  -v "/path/to/config/dir/on/your/machine:/tmp/search" \
+  -e "CONFIG=/tmp/search/typesense.json" \
+  typesense/docsearch-scraper
+```
+
+#### Trusting certificates from internal CAs
+
+If you're trying to scrape a website that is secured with a certificate from an
+internal CA -- common for corporate intranets for example -- you will need to
+somehow make the container trust this CA. To do so, you can mount a file
+with trusted CAs and then pass it as a command line option.
+
+In the example below, a file in the current folder names `ca-chain.crt` will be added to the trusted CA list:
+
+```
+docker run -it \
+  --mount type=bind,source="$(pwd)/ca-chain.crt",target=/etc/ssl/certs/ca-certificates.crt \
+  --env "REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt" \
+  --env-file=/path/to/your/.env  \
+  -e "CONFIG=$(cat config.json | jq -r tostring)" \
+  typesense/docsearch-scraper
+```
+
+#### Set environment variables on the command line, rather than using a .env file
+
+I you don't want to use a `.env` file or cannot use one in your setup, you can also pass all variables on the command line:
+
+```
+docker run -it \
+  -e "TYPESENSE_API_KEY=xyz" \
+  -e "TYPESENSE_HOST=xxx.a1.typesense.net" \
+  -e "TYPESENSE_PORT=443" \
+  -e "TYPESENSE_PROTOCOL=https" \
+  -e "CONFIG=$(cat config.json | jq -r tostring)" \
+  typesense/docsearch-scraper
+```
+
+#### Resolving hosts
+
+If your scraper depends on host resolution that is not available inside the container, you can add a host entry on the command line:
+
+```
+docker run -it \
+  --add-host intranet.company.com:10.1.2.3 \
+  --env-file=/path/to/your/.env  \
+  -e "CONFIG=$(cat config.json | jq -r tostring)" \
+  typesense/docsearch-scraper
+```
+
+#### Authentication
+
+If you're looking to scrape content that requires authentication, there's a
+number of options that are supported out of the box:
+
+
+##### Cloudflare Zero Trust (CF)
+
+To use this authentication, set these environment variables:
+
+- `CF_ACCESS_CLIENT_ID`
+- `CF_ACCESS_CLIENT_SECRET`
+
+##### Google Identity-Aware Proxy (IAP)
+
+To use this authentication, set these environment variables:
+
+- `IAP_AUTH_CLIENT_ID`
+- `IAP_AUTH_SERVICE_ACCOUNT_JSON`
+
+##### Keycloak (KC)
+
+To use this authentication, set these environment variables:
+
+- `KC_URL`
+- `KC_REALM`
+- `KC_CLIENT_ID`
+- `KC_CLIENT_SECRET`
 
 ### Integrate With CI / Deploy It to a Server
 
@@ -272,7 +364,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 />
 
 <!-- Before the closing body -->
-<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/typesense-docsearch.js@3.4"></script>
 
 <script>
   docsearch({

@@ -2,7 +2,13 @@
   <div class="code-tabs-container">
     <ClientOnly>
       <ul class="nav-container flex">
-        <li v-for="tab in augmentedTabs" :key="tab" class="nav" :class="{ active: tab === activeTab }" @click="setActiveTab(tab)">
+        <li
+          v-for="tab in augmentedTabs"
+          :key="tab"
+          class="nav"
+          :class="{ active: tab === activeTab }"
+          @click="setActiveTab(tab)"
+        >
           <span class="nav-title">{{ tab }}</span>
         </li>
       </ul>
@@ -42,12 +48,12 @@ export default {
   computed: {
     augmentedTabs() {
       // We don't want "Other" to show up for Sample Response for eg
-      if(this.tabs.includes('Ruby') && this.tabs.includes('Python') ) {
+      if (this.tabs.includes('Ruby') && this.tabs.includes('Python')) {
         return [...this.tabs, 'Other Languages']
       } else {
         return this.tabs
       }
-    } ,
+    },
     activeTab() {
       if (this.store) {
         const activeTab = this.augmentedTabs.find(tab => tab === this.store.state.defaultTab)
@@ -57,9 +63,26 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     import('../store').then(module => {
       this.store = module.default
+    })
+    // This block of code is to highlight code with variable interpolation
+    //  since Vuepress doesn't support this natively
+    window.Prism = window.Prism || {}
+    Prism.manual = true
+    import('prismjs').then(async module => {
+      Prism = module.default
+
+      // Add all required languages here
+      await import('prismjs/components/prism-bash')
+      await import('prismjs/components/prism-yaml')
+
+      if (document.querySelector('.manual-highlight')) {
+        document.querySelectorAll('.manual-highlight').forEach(element => {
+          Prism.highlightAllUnder(element)
+        })
+      }
     })
   },
   methods: {
