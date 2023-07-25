@@ -32,6 +32,7 @@ We also have the following community-maintained client libraries:
 - [Clojure](https://github.com/runeanielsen/typesense-clj)
 - [python orm client](https://github.com/RedSnail/typesense_orm)
 - [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
+- [Elixir](https://github.com/jaeyson/ex_typesense)
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>

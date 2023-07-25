@@ -132,6 +132,50 @@ and your existing UI widgets will work with your Typesense cluster, without any 
 
 A few widgets need [small changes](https://github.com/typesense/typesense-instantsearch-adapter#widget-specific-instructions) to use them with Typesense.
 
+## Migrating Data from Algolia into Typesense
+
+You'd typically want to update your application's backend that currently sends JSON data into Algolia, to send the same JSON data to Typesense.
+This way you're sending data directly from your primary data store into Typesense.
+
+But if you want a quick way to do a one-time export of your data in Algolia into Typesense, to explore Typesense or to do a backfill, here's how:
+
+Install the [Algolia CLI](https://www.algolia.com/doc/tools/cli/get-started/overview/) and then run:
+
+```shell
+algolia objects browse YOUR_INDEX_NAME > documents-raw.jsonl
+```
+
+This will export your Algolia records into a JSONL file. 
+
+Algolia uses a field called `objectId` to uniquely identify records and Typesense uses a field called `id` for the same purpose. 
+
+So let's use [`jq`](https://jqlang.github.io/jq/) to copy the value of the `objectId` field to a new field called `id` in the JSONL file we downloaded above:
+
+```shell
+jq -c '. + {"id": .objectId}' documents-raw.jsonl > documents.jsonl
+```
+
+You can then <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#import-a-jsonl-file`">import</RouterLink> this JSONL file into an existing
+<RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">Typesense Collection</RouterLink>
+using this snippet:
+
+```shell
+export TYPESENSE_API_KEY=xyz
+export TYPESENSE_HOST=xxx.a1.typesense.net
+export TYPESENSE_PROTOCOL=https
+export TYPESENSE_COLLECTION_NAME=YOUR_INDEX_NAME
+
+#  We're parallelize-ing the import using the `parallel` command (make sure you install it first):
+
+parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST -T {} "${TYPESENSE_PROTOCOL}://${TYPESENSE_HOST}/collections/${TYPESENSE_COLLECTION_NAME}/documents/import?action=upsert"'
+```
+
+:::tip Tips
+- Increase `-5` in the command above to a larger number to reduce the size of each chunk being imported into Typesense.
+- If you see a "Bad Request" or "Connection Refused" error, you might need to adjust the escaping / quotes in the command above for your particular shell.
+- If you see a 404, please make you have <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">created your Typesense Collection</RouterLink> before running the import command above.
+:::
+
 ## Geo-Distributed Clusters
 
 Algolia calls their Geo-Distributed CDN-like search offering [Distributed Search Network](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/), and is only available for customers who pay annually, as a paid add-on.

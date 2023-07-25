@@ -187,6 +187,15 @@
                 class="ml-5 mt-4 mt-sm-0"
               />
             </a>
+            <a href="https://github.com/acseo/TypesenseBundle" target="_blank">
+              <img
+                src="~/assets/images/symfony-logo.svg"
+                alt="Symfony"
+                width="46"
+                height="46"
+                class="ml-5 mt-4 mt-sm-0"
+              />
+            </a>
           </div>
           <div class="mt-1">&nbsp;</div>
           <div class="text-center mt-1">
@@ -276,6 +285,15 @@
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
+            <a href="https://plugins.craftcms.com/typesense" target="_blank">
+              <img
+                src="~/assets/images/craft-cms-logo.svg"
+                alt="Craft CMS"
+                width="155"
+                height="39"
+                class="ml-2 ml-sm-5 mt-4"
+              />
+            </a>
             <a href="https://pypi.org/project/zopyx.typesense/" target="_blank">
               <img
                 src="~/assets/images/plone-logo.svg"
@@ -291,6 +309,18 @@
                 alt="Tooljet Extension"
                 height="32"
                 width="133"
+                class="ml-2 ml-sm-5 mt-4"
+              />
+            </a>
+            <a
+              href="https://python.langchain.com/en/latest/modules/indexes/vectorstores/examples/typesense.html?ref=typesense"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/langchain-logo.svg"
+                alt="LangChain"
+                height="31"
+                width="197"
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
