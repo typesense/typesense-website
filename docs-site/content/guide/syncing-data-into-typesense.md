@@ -35,6 +35,15 @@ If you use an ORM, you can hook into callbacks provided by your ORM framework:
 1. In your ORM's `on_save` callback (might be called something else in your particular ORM), write the changes that need to be synced into Typesense into a temporary queue
 2. Every say 5s, have a scheduled job that reads all the changes from this queue and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">bulk imports</RouterLink> them into Typesense.
 
+### Query Parsing
+
+If you use queries to interact with your database, you likely have a central function through which all of your queries are passed to your database. By using a query parser, you are able to determine, which action is taken as well as which table and fields are affected.
+
+1. Parse the query using a well-tested and established library for your specific language.
+2. Determine the action being taken. Mostly INSERT, UPDATE or DELETE statements.
+3. If needed, determine the fields affected.
+4. Dispatch an event with the gathered information. A listener can then subscribe to relevant events and replicate those changes to Typesense.
+
 ### Using Airbyte
 
 [Airbyte](https://airbyte.com/why-airbyte) is an open source platform that lets you sync data between different sources and destinations, with just a few clicks.
@@ -46,10 +55,10 @@ Read more about how to deploy Airbyte, and set it up [here](https://airbytehq.gi
 ## Sync real-time changes
 
 In addition to the above, if you have a use case where you want to update some records in realtime, may be because you want a user's edit to a record to be immediately reflected in the search results (and not after say 10s or whatever your sync interval is in the above process),
-you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-a-single-document`">Single Document Indexing API</RouterLink>.
+you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-a-single-document`">Single Document Indexing API</RouterLink> each time a record change event happens. You may want to buffer these events in a queue for situations where real-time synchronization can not be achieved due to i.e. server load.
 
 Note however that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
-So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as less as say 2s.
+So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as less as say 2s. When using the afformentioned buffering strategy, your consumer may simply wait for a maximum of 2s in that case to gather events before importing.
 
 ## Full re-indexing
 
@@ -91,3 +100,8 @@ In the import API call, you'll notice a <RouterLink :to="`/${$site.themeConfig.t
 This controls server-side batching (how many documents from the import API call are processed, before the search queue is serviced), and you almost never want to change this value from the default.
 
 Instead, you want to do client-side batching, by controlling the number of documents in a single import API call and potentially do multiple API calls in parallel.
+
+### Routines for restoring state
+When you sync data between your database and Typesense, your database is likely your single source of truth, which is why you want to replicate its state in the first place. For any number of reasons, on accident or because of other failures, the two states can become asynchronous. In such a scenario, it is very important that you have prepared a routine to recover the current state beforehand. Like loading a backup, you should be able to fully load all data again from the database. If you usually index each document individually, you should use bulk imports for this usecase as it is much more performant. Be prepared, implement and test such a routine before you need it urgently.
+
+Typesense is well equipped to handle your data persistently without any loss. There is also a HA option available for critical deployments. Furthermore, state discrepancies should not happen randomly in your implementation. In that case, you would have to hunt down the bug causing this as well. You should still have such a routine in place for quick recoveries or to aid you with data migrations.
