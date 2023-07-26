@@ -615,24 +615,75 @@ the results by a `popularity` score.
 
 Let's create a preset with name `listing_view`.
 
+<Tabs :tabs="['Dart','Shell']">
+  <template v-slot:Dart>
+
+```dart
+  await client.presets.upsert('listing_view', {
+    'value': {
+      'searches': [
+        {'collection': 'products', 'q': '*','sort_by': 'popularity'}
+      ]
+    }
+  });
+```
+
+  </template>
+  <template v-slot:Shell>
+
 ```shell
 curl "http://localhost:8108/presets/listing_view" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 -d '{"value": {"searches":[{"collection":"products","q":"*", "sort_by": "popularity"}]}}'
 ```
+  </template>
+</Tabs>
 
 You can refer to this preset configuration during a search operation.
+
+<Tabs :tabs="['Dart','Shell']">
+  <template v-slot:Dart>
+
+```dart
+await client.multiSearch.perform({}, queryParams: {
+  'preset': 'listing_view'
+});
+```
+
+  </template>
+  <template v-slot:Shell>
 
 ```shell
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
 'http://localhost:8108/multi_search?preset=listing_view'
 ```
+  </template>
+</Tabs>
+
 
 You can use the preset configuration for a `GET .../search` end-point as well. 
 
 The only requirement is that for 
 `GET .../search`, the stored preset value should be a simple dictionary of search configurations, like this.
+
+<Tabs :tabs="['Dart','Shell']">
+  <template v-slot:Dart>
+
+```dart
+  await client.presets.upsert('listing_view', {
+    'value': {
+      {
+        'collection': 'products',
+        'q': '*',
+        'sort_by': 'popularity',
+      }
+    }
+  });
+```
+
+  </template>
+  <template v-slot:Shell>
 
 ```shell
 curl "http://localhost:8108/presets/listing_view" -X PUT \
@@ -640,6 +691,8 @@ curl "http://localhost:8108/presets/listing_view" -X PUT \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
 {"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
 ```
+  </template>
+</Tabs>
 
 :::tip
 Explicit query parameters passed to the search end-point will override parameters stored in preset value.
