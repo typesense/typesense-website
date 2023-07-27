@@ -423,7 +423,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -573,7 +573,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -718,7 +718,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -764,6 +764,7 @@ This API provided by Google to generate embeddings, however it is important to n
 - Google API key
 
 **Note:** Only supported model is `embedding-gecko-001` for now.
+
 <Tabs :tabs="['JavaScript','PHP','Python','Shell']">
 
   <template v-slot:JavaScript>
@@ -859,7 +860,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -1010,7 +1011,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -1273,7 +1274,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
@@ -1402,7 +1403,7 @@ client.collections.create(schema)
 
   </template>
 
-  <template v-slot:shell>
+  <template v-slot:Shell>
      
 ```bash
 curl -X POST \
