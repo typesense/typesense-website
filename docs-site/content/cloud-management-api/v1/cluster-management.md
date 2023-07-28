@@ -194,6 +194,8 @@ This option is only available with the following RAM / CPU configurations:
 | 256_gb | 64_vcpus |
 | 384_gb | 96_vcpus |
 
+Default: `no`
+
 ### `high_availability`
 
 When set to `yes`, at least 3 nodes are provisioned in 3 different data centers to form a highly available (HA) cluster and your data is automatically replicated between all nodes.
