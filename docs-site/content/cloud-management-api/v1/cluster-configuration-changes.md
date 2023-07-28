@@ -48,12 +48,14 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
     "completed_at": null,
     "old_memory": "0.5_gb",
     "old_vcpu": "2_vcpus_1_hr_burst_per_day",
+    "old_gpu": null,
     "old_high_performance_disk": null,
     "old_typesense_server_version": "0.23.1",
     "old_high_availability": "no",
     "old_load_balancing": "no",
     "new_memory": "1_gb",
     "new_vcpu": "2_vcpus_2_hr_burst_per_day",
+    "new_gpu": null,
     "new_high_performance_disk": null,
     "new_typesense_server_version": "0.24.1",
     "new_high_availability": "yes",
@@ -76,6 +78,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [perform_change_at](#perform-change-at) <Badge type="warning" text="Required" vertical="top"/>
 - [new_memory](#new-memory)
 - [new_vcpu](#new-vcpu)
+- [new_gpu](#new-gpu)
 - [new_high_availability](#new-high-availability)
 - [new_high_performance_disk](#new-high-performance-disk)
 - [new_typesense_server_version](#new-typesense-server-version)
@@ -97,6 +100,12 @@ You can use any of the following values mentioned [here](./cluster-management.md
 How many [CPU](../../guide/system-requirements.md) cores this cluster should have.
 
 Only certain CPU configuration are available with particular RAM configurations. The table [here](./cluster-management.md#vcpu) lists all available configurations.
+
+### `new_gpu`
+
+When set to `yes`, it enables the use of a GPU to accelerate embedding generation when using built-in ML models both during indexing and searching.
+
+Only certain RAM / CPU configurations are available with GPU acceleration. The table [here](./cluster-management.md#gpu) lists all available configurations.
 
 ### `new_high_availability`
 
@@ -133,7 +142,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
 
 **Response:**
 
-```shell
+```json
 {
   "id": "ecf1d570-7f49-47ef-b648-41ccf7eaf5d2",
   "status": "pending",
@@ -143,12 +152,14 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
   "completed_at": null,
   "old_memory": "0.5_gb",
   "old_vcpu": "2_vcpus_1_hr_burst_per_day",
+  "old_gpu": null,
   "old_high_performance_disk": null,
   "old_typesense_server_version": "0.23.1",
   "old_high_availability": "no",
   "old_load_balancing": "no",
   "new_memory": "1_gb",
   "new_vcpu": "2_vcpus_2_hr_burst_per_day",
+  "new_gpu": null,
   "new_high_performance_disk": null,
   "new_typesense_server_version": "0.24.1",
   "new_high_availability": "yes",
@@ -183,7 +194,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
 
 **Response:**
 
-```shell
+```json
 {
   "page": 1,
   "per_page": 1,
@@ -197,12 +208,14 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
     "completed_at": null,
     "old_memory": "0.5_gb",
     "old_vcpu": "2_vcpus_1_hr_burst_per_day",
+    "old_gpu": null,
     "old_high_performance_disk": null,
     "old_typesense_server_version": "0.23.1",
     "old_high_availability": "no",
     "old_load_balancing": "no",
     "new_memory": "1_gb",
     "new_vcpu": "2_vcpus_2_hr_burst_per_day",
+    "new_gpu": null,
     "new_high_performance_disk": null,
     "new_typesense_server_version": "0.24.1",
     "new_high_availability": "yes",

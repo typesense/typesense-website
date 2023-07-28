@@ -43,6 +43,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
     "name": null,
     "memory": "0.5_gb",
     "vcpu": "2_vcpus_1_hr_burst_per_day",
+    "gpu": "no",
     "high_performance_disk": "no",
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
@@ -75,6 +76,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [memory](#memory) <Badge type="warning" text="Required" vertical="top"/>
 - [vcpu](#vcpu) <Badge type="warning" text="Required" vertical="top"/>
 - [regions](#regions) <Badge type="warning" text="Required" vertical="top"/>
+- [gpu](#gpu)
 - [high_availability](#high-availability)
 - [search_delivery_network](#search-delivery-network)
 - [high_performance_disk](#high-performance-disk)
@@ -170,6 +172,27 @@ The table below lists all available regions:
 | tokyo        |
 | melbourne    |
 | sydney       |
+
+### `gpu`
+
+When set to `yes`, it enables the use of a GPU to accelerate embedding generation when using built-in ML models both during indexing and searching.
+
+This option is only available with the following RAM / CPU configurations:
+
+| `ram`  | `vcpu`   |
+|--------|----------|
+| 8_gb   | 4_vcpus  |
+| 16_gb  | 4_vcpus  |
+| 16_gb  | 8_vcpus  |
+| 32_gb  | 8_vcpus  |
+| 32_gb  | 16_vcpus |
+| 64_gb  | 16_vcpus |
+| 64_gb  | 32_vcpus |
+| 128_gb | 32_vcpus |
+| 128_gb | 64_vcpus |
+| 192_gb | 48_vcpus |
+| 256_gb | 64_vcpus |
+| 384_gb | 96_vcpus |
 
 ### `high_availability`
 
@@ -267,6 +290,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
   "name": null,
   "memory": "0.5_gb",
   "vcpu": "2_vcpus_1_hr_burst_per_day",
+  "gpu": "no",
   "high_performance_disk": "no",
   "typesense_server_version": "0.23.1",
   "high_availability": "yes",
@@ -324,6 +348,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
       "name": null,
       "memory": "0.5_gb",
       "vcpu": "2_vcpus_1_hr_burst_per_day",
+      "gpu": "no",
       "high_performance_disk": "no",
       "typesense_server_version": "0.23.1",
       "high_availability": "no",
@@ -394,6 +419,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "name": "New Name",
     "memory": "0.5_gb",
     "vcpu": "2_vcpus_1_hr_burst_per_day",
+    "gpu": "no",
     "high_performance_disk": "no",
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
