@@ -18,7 +18,7 @@ Instead, you want to use this key to create another admin API Key using the <Rou
 This way, you can [rotate/revoke](#key-rotation) your admin key(s) as needed.
 
 :::tip
-In Typesense Cloud, we manage the boostrap API key for you transparently. 
+In Typesense Cloud, we manage the bootstrap API key for you transparently. 
 
 When you click on the "Generate API Keys" button in the Cluster Dashboard, we use the bootstrap API Key to generate one admin API key and a search-only API Key using the `/keys` endpoint and provide that to you. 
 :::
