@@ -43,8 +43,8 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 ### Key Features in Algolia, not in Typesense
 
 - Server-side stop-words (can be implemented [client-side](https://github.com/typesense/showcase-books-search/blob/b0b15dc88179566f85db21d2455c2d6c68668d5a/src/app.js#L186-L194))
-- Server-side analytics (can be implemented [client-side](./search-analytics.md)).
-- Server-side AB-Testing (can be implemented [client-side](./ab-testing.md) using an AB-Testing framework and using different collections based on the bucket identifier for a user).
+- Server-side analytics (can be implemented [client-side](./search-analytics.md))
+- Server-side AB-Testing (can be implemented [client-side](./ab-testing.md) using an AB-Testing framework and using different collections based on the bucket identifier for a user)
 - Out-of-the-box AI/ML Features
   - Dynamic Synonym Suggestion
   - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
@@ -54,13 +54,13 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 
 ### Key Features in Typesense, not in Algolia
 
-- Multiple (hard) sort orders on a single index (In Algolia you need to create duplicate indices for every hard sort order, eg: sort by price asc, sort by price desc, etc each need a duplicate index in Algolia).
-- Validations for field data types when documents are indexed (similar to typed languages) to prevent inconsistent data from getting into the index. (This can be turned off if you need Algolia-like behavior).
+- Multiple (hard) sort orders on a single index (In Algolia you need to create duplicate indices for every hard sort order, eg: sort by price asc, sort by price desc, etc each need a duplicate index in Algolia)
+- Validations for field data types when documents are indexed (similar to typed languages) to prevent inconsistent data from getting into the index. (This can be turned off if you need Algolia-like behavior)
 - Ability to specify numerical weights for particular fields during search, to give them more priority
-- Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>.
+- Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>
 - Ability to create <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">aliases</RouterLink> for collections, like symlinks
-- In general many parameters that are configurable at the index level in Algolia are dynamically configurable at search time in Typesense, which gives you more flexibility. 
-- No limits on record size, maximum index size, number of synonyms, number of rules or number of indices. 
+- In general many parameters that are configurable at the index level in Algolia are dynamically configurable at search time in Typesense, which gives you more flexibility
+- No limits on record size, maximum index size, number of synonyms, number of rules or number of indices
 - Ability to self-host
 - Can be run in a Continuous Integration environment since it is self-hostable
 - Fully Open Source
