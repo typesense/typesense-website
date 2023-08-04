@@ -1859,8 +1859,11 @@ curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENS
 
 ## UI Examples
 
-- Here's a demo that shows you how to implement a "Find Similar" feature using Vector Search in an ecommerce store: [https://ecommerce-store.typesense.org/](https://ecommerce-store.typesense.org/).
+- [Here's](https://hn-comments-search.typesense.org) a demo that shows you how to implement Hybrid Search (Semantic Search + Keyword Search + Filtering + Faceting) using Typesense's built-in embedding generation mechanism.
+
+- [Here's](https://ecommerce-store.typesense.org/) a demo that shows you how to implement a "Find Similar" feature using Vector Search in an ecommerce store.
   
   Click on "Find Similar" below each product tile for notes on how to implement this.
 
-- Here's a demo that shows you how to implement Semantic Search, using an embeddings API and Vector Search: [https://github.com/typesense/typesense-instantsearch-semantic-search-demo](https://github.com/typesense/typesense-instantsearch-semantic-search-demo) 
+- [Here's](https://github.com/typesense/typesense-instantsearch-semantic-search-demo) a demo that shows you how to implement Semantic Search, using an external embeddings API and Vector Search.
+
