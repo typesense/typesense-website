@@ -354,7 +354,7 @@ To create a field that automatically embeds other string or string array fields,
 
 Here's an example:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -460,6 +460,59 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
+    
+```rb
+
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "categories",
+      "type" => "string[]"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "product_name",
+          "categories"
+        ],
+        "model_config" => {
+          "model_name" => "ts/e5-small"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("ts/e5-small"))
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
 
   <template v-slot:Shell>
      
@@ -505,7 +558,7 @@ These models are officially supported by Typesense and stored in the Typesense H
 
 You can specify them by adding the ```ts``` namespace before the model name. Typesense will automatically download these models and make them available for use when you index documents after creating the collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -611,7 +664,57 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "brand",
+      "type" => "string"
+    },
+    {
+      "name" => "categories",
+      "type" => "string[]"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "brand",
+          "categories"
+        ],
+        "model_config" => {
+          "model_name" => "ts/all-MiniLM-L12-v2"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("ts/all-MiniLM-L12-v2"))
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -663,7 +766,7 @@ You can also use have Typesense send specific fields in your JSON data to OpenAI
 
 You can use any of OpenAI models listed [here](https://platform.openai.com/docs/guides/embeddings/embedding-models).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby, 'Java', 'Shell']">
 
   <template v-slot:JavaScript>
 
@@ -757,7 +860,54 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => {
+          "model_name" => "openai/text-embedding-ada-002",
+          "api_key" => "your_openai_api_key"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_openai_api_key")
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -799,7 +949,7 @@ You have to provide a valid OpenAI API key in `model_config` to use this feature
 
 This API provided by [Google MakerSuite](https://developers.generativeai.google/products/makersuite) to generate embeddings.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -893,7 +1043,55 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => {
+          "model_name" => "google/embedding-gecko-001",
+          "api_key" => "your_google_api_key"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("google/embedding-gecko-001").apiKey("your_google_api_key")
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -943,7 +1141,7 @@ You would need the following authentication information to use this method:
 
 Please refer to the Vertex AI docs for more information on how to fetch these values.
   
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1049,7 +1247,62 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => {
+          "model_name" => "gcp/embedding-gecko-001",
+          "access_token" => "your_gcp_access_token",
+          "refresh_token" => "your_gcp_refresh_token",
+          "client_id" => "your_gcp_app_client_id",
+          "client_secret" => "your_gcp_client_secret",
+          "project_id" => "your_gcp_project_id"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("gcp/embedding-gecko-001")
+                      .accessToken("your_gcp_access_token")
+                      .refreshToken("your_gcp_refresh_token")
+                      .clientId("your_gcp_app_client_id")
+                      .clientSecret("your_gcp_client_secret").projectId("your_gcp_project_id")))
+                ));
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -1093,12 +1346,12 @@ You can use any of the following parameters to fine-tune how API calls are made 
 
 #### During Search
 
-| Parameter                     | Description                                                                                               |
-|-------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout, during a search |
-| `remote_embedding_num_tries`  | The number of times to retry an API call to a remote embedding service on failure, during a search        |
+| Parameter                     | Description                                                                                               |  Default  |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------|-----------|
+| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout, during a search |    30s    |
+| `remote_embedding_num_tries`  | The number of times to retry an API call to a remote embedding service on failure, during a search        |     2     |
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1147,8 +1400,37 @@ client.collections['products'].documents.search(search_parameters)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
-<template v-slot:Shell>
+```rb
+search_parameters = {
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding',
+  'prefix'                     => false,
+  'remote_embedding_timeout_ms'=> 5000,
+  'remote_embedding_num_try'   => 3
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchParameters searchParameters = new SearchParameters();
+
+searchParameters.q("chair")
+                .queryBy("embedding")
+                .prefix(false)
+                .remoteEmbeddingTimeoutMs(5000)
+                .remoteEmbeddingNumTries(3);
+
+SearchResult searchResult = client.collections("products").documents().search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Shell>
     
   ```bash
 curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding&prefix=false&remote_embedding_timeout_ms=5000&remote_embedding_num_try=3' \
@@ -1162,11 +1444,11 @@ curl --location 'http://localhost:8108/collections/products/documents/search?q=c
 
 #### During Indexing
 
-| Parameter                     | Description                                                                                                                                                                           |
-|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. |
+| Parameter                     | Description                                                                                                                                                                           | Default |
+|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. |200|  
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1204,6 +1486,27 @@ client.collections['products'].documents.import(documents, import_parameters)
 
   </template>
 
+<template v-slot:Ruby>
+  
+  ```rb
+import_parameters = {
+  'remote_embedding_batch_size' => 200
+}
+
+client.collections['products'].documents.import(documents, import_parameters)
+```
+
+</template>
+<template v-slot:Java>
+
+```java
+ImportDocumentParameters importDocumentParameters = new ImportDocumentParameters();
+importDocumentParameters.remoteEmbeddingBatchSize(200);
+
+client.collections("products").documents().import(documents, importDocumentParameters);
+```
+
+</template>
 <template v-slot:Shell>
 
 ```bash
@@ -1247,7 +1550,7 @@ The JSON file must contain `model_type` (type of the model; we support `bert` an
 
 Create an embedding field using the directory name as `model_name` in `model_config`.
    
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1332,7 +1635,51 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => ["product_name"],
+        "model_config" => [
+          "model_name" => "test_model"
+        ]
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+
+```
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("test_model")
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -1373,7 +1720,7 @@ Some models may require a prefix to know if texts are queries or they are actual
 
 If you set this property in `model_config`, the given indexing prefix will be added to the text that will be used to create embeddings when you index a document and `query_prefix` to the actual query before creating embeddings of it.Example:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1464,7 +1811,54 @@ client.collections.create(schema)
 ```
 
   </template>
+  <template v-slot:Ruby>
 
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => ["product_name"],
+        "model_config" => [
+          "model_name" => "e5-base",
+          "indexing_prefix" => "passage:",
+          "query_prefix" => "query:"
+        ]
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("e5-base").indexingPrefix("passage:").queryPrefix("query:")
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+
+```
+
+  </template>
   <template v-slot:Shell>
      
 ```bash
@@ -1719,7 +2113,7 @@ When using [auto-embedding](#option-b-auto-embedding-generation-within-typesense
 
 Typesense will use the same embedding model that was used to generate the auto-embedding field to generate vectors for the `q` parameter and then do a nearest neighbor search internally.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1760,6 +2154,32 @@ client.collections['products'].documents.search(search_parameters)
 
   </template>
 
+<template v-slot:Ruby>
+
+  ```rb
+search_parameters = {
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding',
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Java>
+  
+  ```java 
+
+SearchParameters searchParameters = new SearchParameters();
+
+searchParameters.q("chair")
+                .queryBy("embedding");
+
+SearchResult searchResult = client.collections("products").documents().search(searchParameters);
+```
+
+  </template>
 <template v-slot:Shell>
 
   ```bash
@@ -1787,7 +2207,7 @@ S = rank of document in semantic search
 rank_fusion_score = 0.7 * K + 0.3 * S
 ```
 
-<Tabs :tabs="['JavaScript','PHP','Python','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1826,6 +2246,31 @@ search_parameters = {
 client.collections['products'].documents.search(search_parameters)
 ```
 
+  </template>
+
+<template v-slot:Ruby>
+
+  ```rb
+search_parameters = {
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding,product_name',
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Java>
+  
+  ```java
+SearchParameters searchParameters = new SearchParameters();
+
+searchParameters.q("chair")
+                .queryBy("embedding,product_name");
+
+SearchResult searchResult = client.collections("products").documents().search(searchParameters);
+```
   </template>
 
 <template v-slot:Shell>
