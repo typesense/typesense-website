@@ -95,6 +95,16 @@ If you see an HTTP 503, you want to do one or more of the following:
 6. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameters</RouterLink>.
     This is usually not needed once the above steps are taken. On Typesense Cloud, we can increase these values for you from our side if you email support at typesense dot org.
 
+### Handling Rejecting write: running out of resource type errors
+
+You might see "running out of resource type" errors either when running out of RAM (OUT_OF_MEMORY) or running of disk space (OUT_OF_DISK). 
+
+The [amount of RAM](./system-requirements.md#choosing-ram) used by Typesense is directly proportional to the amount of data indexed in the Typesense node.
+So if you see `OUT_OF_MEMORY` errors, you want to add more RAM to fit your dataset in memory. 
+
+When you see `OUT_OF_DISK` you want to add more disk capacity and restart Typesense. 
+On Typesense Cloud, we provision 5X disk space (or a minimum of 8GB) if X is the amount of RAM. So to add more disk space, you want to upgrade to the next RAM tier.
+
 ### Client-side batch size vs server-side batching
 
 In the import API call, you'll notice a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#configure-batch-size`">parameter called `batch_size`</RouterLink>.
