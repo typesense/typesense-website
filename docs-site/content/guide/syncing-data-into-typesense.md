@@ -77,13 +77,23 @@ Typesense write API calls are synchronous, so you do not want the client to term
 
 ### Handling HTTP 503s
 
-When the volume of writes is high, Typesense will sometimes return an HTTP 503, Not Ready or Lagging.
+When the volume of writes sent to Typesense is high, Typesense will sometimes return an HTTP 503, Not Ready or Lagging.
 
 This is a backpressure mechanism built into Typesense, to ensure that heavy writes don't saturate CPU and end up affecting reads. 
 
-If you see an HTTP 503, you want to apply an exponential backoff mechanism, to retry the write API request at a later point in time.
+If you see an HTTP 503, you want to do one or more of the following:
 
-You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameters</RouterLink>.
+1. Add more CPU cores so writes can be parallelized. We'd recommend a minimum of 4 CPU cores for high volume writes.  
+2. Make sure you've increased the client-side timeout (when instantiating the client library) to as high as say 60 minutes, so that the client never aborts writes that are in progress. 
+    Many a time a short client-side timeout ends up causing frequent retry writes of the same data, leading to a thundering herd issue.
+3. Increase the retry time interval in the client library to a larger number or set it to a random value between 10 and 60 seconds (especially in a serverless environment) to introduce some jitter in how quickly retries are attempted.
+    This gives the Typesense process more time to catch up on previous writes.
+4. If you have fields that you're only using for display purposes and not for searching / filtering / faceting / sorting / grouping, you want to leave them out of the schema to avoid having to index them. 
+    You can still send these fields in the document when sending it to Typesense - they'll just be stored on disk and returned when the document is a hit, instead of being indexed in memory.
+    This will help avoid using unnecessary CPU cycles for indexing.
+5. Sometimes disk I/O might be a bottleneck, especially if each individual document is large. In these cases, you want to turn on High Performance Disk in Typesense Cloud or use nVME SSD disks to improve performance.
+6. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameters</RouterLink>.
+    This is usually not needed once the above steps are taken. On Typesense Cloud, we can increase these values for you from our side if you email support at typesense dot org.
 
 ### Client-side batch size vs server-side batching
 
