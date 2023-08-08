@@ -10,11 +10,21 @@ To get the expected performance characteristics out of Typesense, it is critical
 The Typesense process itself is quite light-weight and only takes up about `20MB` of RAM when there's no data indexed. 
 The amount of RAM required is completely dependent on the size of the data you index.
 
+#### For Keyword Search
+
 In general, if the size of your dataset is `X MB`, you'd typically need `2X-3X MB` RAM to index the data in Typesense.
 
 For example: If your dataset size is `1GB`, you'd need between `2GB - 3GB` RAM to hold the whole index in memory.
 
 RAM usage will be on the lower end if your dataset has many documents with overlapping words (or tokens), and on the higher end if documents contain words (or tokens) unique to them.
+
+#### For Vector / Semantic / Hybrid Search
+
+When indexing documents for <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>, each vector requires 7 bytes of memory. 
+
+So if your embedding model returns N-dimension vectors, and you have X number of records, memory consumption would be `7 bytes * N dimensions * X records` bytes. 
+
+For eg: if you're using the S-BERT model which has 384 dimensions and you have 100K records, memory consumption would be `7 bytes * 384 dimensions * 100,000 records = 268.8 MB`. 
 
 ## Choosing CPU Capacity
 
@@ -39,6 +49,22 @@ In Typesense Cloud, you have the option to use nodes with "Burst" vCPU capacity.
 If you have relatively low baseline traffic for most of the day with the occasional moderate spike during indexing, you can pick one of our "Burst" vCPU options to save costs. 
 Note that this option is not a good fit if you have a high baseline of traffic or high indexing volume. 
 You will start seeing slowdowns in response times if you direct a consistently large amount of traffic at nodes in this offering.
+:::
+
+## Using a GPU (optional)
+
+When using <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-built-in-models`">built-in embedding models</RouterLink> for Semantic Search / Hybrid Search,
+you can speed up the embedding generation process by making use of a GPU.
+
+Built-in models can still be run using just CPU, but since they are computationally intensive to run there is a marked improvement in performance when running Typesense on a GPU.
+
+GPU is not necessary when using remote embedding models like OpenAI, PaLM API or Vertex AI API, since the embedding generation happens on those remote services' servers and not inside of Typesense.
+
+Typesense currently only support Nvidia GPUs.
+
+:::tip
+In Typesense Cloud, you'll find the option to turn on "GPU Acceleration" for [select RAM / CPU configurations](https://typesense.helpscoutdocs.com/article/174-gpu-acceleration) 
+when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
 :::
 
 ## Choosing Disk
