@@ -264,7 +264,7 @@ let config = {
             ['/0.25.0/api/geosearch', 'GeoSearch'],
             ['/0.25.0/api/vector-search', 'Vector Search'],
             ['/0.25.0/api/federated-multi-search', 'Federated / Multi Search'],
-            ['/0.25.0/api/query-analytics', 'Query Analytics'],
+            ['/0.25.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
             ['/0.25.0/api/api-keys', 'API Keys'],
             ['/0.25.0/api/curation', 'Curation'],
             ['/0.25.0/api/collection-alias', 'Collection Alias'],
