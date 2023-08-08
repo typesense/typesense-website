@@ -460,6 +460,7 @@ client.collections.create(schema)
 ```
 
   </template>
+
   <template v-slot:Ruby>
     
 ```rb
@@ -493,6 +494,7 @@ schema = {
 
 client.collections.create(schema)
 ```
+  </template>
 
   <template v-slot:Java>
 
@@ -630,6 +632,7 @@ $client->collections->create($schema);
 ```
   
   </template>
+
   <template v-slot:Python>
 
 ```py
@@ -664,6 +667,7 @@ client.collections.create(schema)
 ```
 
   </template>
+
   <template v-slot:Ruby>
 
 ```rb
@@ -697,6 +701,7 @@ schema = {
 client.collections.create(schema)
 ```
   </template>
+
   <template v-slot:Java>
 
 ```java
@@ -715,6 +720,7 @@ collectionschema.name("products")
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
   </template>
+
   <template v-slot:Shell>
      
 ```bash
@@ -754,11 +760,53 @@ curl -X POST \
 When you create a collection with the schema above, the `all-MiniLM-L12-v2` model will be downloaded and your documents will be automatically embedded by this model and will be stored in the `embedding` field.
 
 See our [Hugging Face repo](https://huggingface.co/typesense/models/tree/main) for all officially supported models.
-
-:::tip
 If you need support for additional publicly-available models, feel free to convert the model to ONNX format and send a PR to our [Hugging Face models repo](https://huggingface.co/typesense/models/tree/main).
-:::
 
+### Using a GPU (optional)
+
+Embedding models are computationally intensive to run. 
+So when using one of the [built-in models](#using-built-in-models), you might want to consider running Typesense on a server with a GPU to improve the performance of embedding generation, especially for large datasets.
+
+#### On Typesense Cloud:
+
+For [select RAM / CPU configurations](https://typesense.helpscoutdocs.com/article/174-gpu-acceleration), you'll find the option to turn on "GPU Acceleration" when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
+
+#### When Self Hosting:
+
+You would have to install the following additional dependencies, after which Typesense will automatically make use of any available Nvidia GPUs:
+
+1. Install CUDA following the instructions on Nvidia's site [here](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html).
+
+    You want to specifically install the following versions of these packages: `cuda=11.8.0-1`, `libcudnn8=8.9.2.26-1+cuda11.8` and `libcudnn8-dev=8.9.2.26-1+cuda11.8` and their dependencies.
+
+2. Install cuDNN following the instructions [here](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html).
+
+    You want to specifically install the `libcudnn8` and `libcudnn8-dev` packages.
+
+3. Add the following to `/etc/profile.d/cuda-path.sh`:
+
+    ```bash
+    export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+    export CUDA_HOME=/usr/local/cuda
+    ```
+
+4. Install the Typesense GPU dependencies package:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code># x64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+<br>
+# arm64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+      </code></pre>
+    </div>
+  </template>
+</Tabs>
 
 ### Using OpenAI API
 
@@ -766,7 +814,7 @@ You can also use have Typesense send specific fields in your JSON data to OpenAI
 
 You can use any of OpenAI models listed [here](https://platform.openai.com/docs/guides/embeddings/embedding-models).
 
-<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby, 'Java', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -830,6 +878,7 @@ $client->collections->create($schema);
 ```
   
   </template>
+
   <template v-slot:Python>
 
 ```py
@@ -860,6 +909,7 @@ client.collections.create(schema)
 ```
 
   </template>
+
   <template v-slot:Ruby>
 
 ```rb
@@ -889,7 +939,9 @@ schema = {
 client.collections.create(schema)
 
 ```
+
   </template>
+
   <template v-slot:Java>
 
 ```java
@@ -908,6 +960,7 @@ collectionschema.name("products")
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
   </template>
+
   <template v-slot:Shell>
      
 ```bash
@@ -938,7 +991,6 @@ curl -X POST \
 
 ```
    </template>
-
 </Tabs>
 
 When you create the collection above, we will call the OpenAI API to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
