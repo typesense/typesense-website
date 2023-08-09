@@ -6,7 +6,7 @@ module.exports = (options, context) => ({
   extendPageData($page) {
     const typesenseLatestVersion = context.siteConfig.themeConfig.typesenseLatestVersion
 
-    let  additionalMetaTags = []
+    let additionalMetaTags = []
 
     // Set typesenseVersion by reading the version from the path
     $page.typesenseVersion = $page.path.split('/')[1]
@@ -17,9 +17,12 @@ module.exports = (options, context) => ({
       !context.siteConfig.themeConfig.typesenseVersions.includes($page.typesenseVersion)
     ) {
       $page.typesenseVersion = null
-      additionalMetaTags.push(
-        { name: 'docsearch:version', content: 'unversioned' },
-      )
+      additionalMetaTags.push({ name: 'docsearch:version', content: 'unversioned' })
+    }
+
+    // Set canonical links pointing to the latest version, for versioned pages
+    if ($page.typesenseVersion) {
+      $page.frontmatter.canonicalUrl = $page.path.replace($page.typesenseVersion, typesenseLatestVersion)
     }
 
     // Set dynamic nav links
