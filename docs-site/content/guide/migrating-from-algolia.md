@@ -75,6 +75,7 @@ Here is a list of common features and concepts along with what each one is calle
 | Every JSON object you index is called a record | Every JSON object you index is called a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html`">`Document`</RouterLink>               |
 | A collection of records is called an `Index`   | A collection of records / documents is a called a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">`Collection`</RouterLink> |
 | Distributed Search Network                     | Search Delivery Network (in Typesense Cloud)                                                                                                                      |
+| NeuralSearch                                   | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#hybrid-search`">Hybrid Search</RouterLink>, which is essentially Semantic Search + Keyword Vector Search with automatic embedding generation.
 
 ### Features
 
