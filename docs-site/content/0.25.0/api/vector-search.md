@@ -2337,6 +2337,25 @@ curl --location 'http://localhost:8108/collections/products/documents/search?q=c
 
 </Tabs>
 
+You can also do a hybrid search when using your own embedding field, by combining the `q` parameter with the `vector_query` parameter.
+
+Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
+
+
+### Hybrid Sorting
+
+When doing a hybrid search (especially with a `q` parameter and an explicit `vector_query` parameter), you can sort by a combination of vector distance, keyword text match score and also other numeric parameters using the special sort keywords of `_vector_distance` and `_text_match` in `sort_by`. 
+
+Here's an example:
+
+```json
+{
+  ...
+  "sort_by": "_text_match:desc,_vector_distance:asc,popularity_score:desc"
+  ...
+}
+```
+
 ## Brute-force searching
 
 By default, Typesense uses the built-in HNSW index to do approximate nearest neighbor vector searches. This scales 
