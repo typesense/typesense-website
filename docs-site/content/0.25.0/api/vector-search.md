@@ -2253,7 +2253,7 @@ When using [auto-embedding](#option-b-auto-embedding-generation-within-typesense
 Typesense will do a keyword search on all the regular fields, and a semantic search on the auto-embedding field and combine the results into a ranked set of results using Rank Fusion: 
 
 ```
-K = rank of document in keyword searc
+K = rank of document in keyword search
 S = rank of document in semantic search
 
 rank_fusion_score = 0.7 * K + 0.3 * S
