@@ -19,7 +19,7 @@ This release contains important new features and bug fixes.
 
 ### New Features
 
-- **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist. 
+- **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist in your dataset. 
   - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#semantic-search)
 - **Hybrid search:** Combine both keyword and semantic / vector search results in a single query using rank fusion
   - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#hybrid-search)
