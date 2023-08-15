@@ -2341,6 +2341,19 @@ You can also do a hybrid search when using your own embedding field, by combinin
 
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
 
+### Hybrid Sorting
+
+When doing a hybrid search (especially with a `q` parameter and an explicit `vector_query` parameter), you can sort by a combination of vector distance and also other numeric parameters using the special sort keyword `_vector_distance`  in `sort_by`.
+
+Here's an example:
+
+```json
+{
+  ...
+  "sort_by": "popularity_score:desc,_vector_distance:asc"
+  ...
+}
+```
 
 ## Brute-force searching
 
