@@ -55,6 +55,12 @@
             <template #title> Federated Search Experiences </template>
           </HomeShowcaseBlock>
           <HomeShowcaseBlock
+            emoji="⚡ 🔍️ ⛓"
+            link="https://hn-comments-search.typesense.org/"
+          >
+            <template #title> Semantic Search Experiences </template>
+          </HomeShowcaseBlock>
+          <HomeShowcaseBlock
             link="https://github.com/typesense/typesense/blob/master/SHOWCASE.md"
           >
             <template #title>

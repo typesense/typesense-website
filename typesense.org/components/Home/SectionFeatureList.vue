@@ -27,11 +27,11 @@ export default {
         {
           name: 'Tunable Ranking',
           description:
-            'Tailor your results to perfection via flexible and fast query-time sorting.',
+            'Tailor your results to perfection via flexible and fast query-time ranking.',
           icon: require('~/assets/images/tunable_ranking_icon.svg'),
         },
         {
-          name: 'Result Pinning',
+          name: 'Merchandising',
           description:
             'Pin specific records in a particular position to feature or merchandize them.',
           icon: require('~/assets/images/result_pinning_icon.svg'),
@@ -79,9 +79,9 @@ export default {
           icon: require('~/assets/images/federated_search_icon.svg'),
         },
         {
-          name: 'Vector Search',
+          name: 'Vector & Semantic Search',
           description:
-            'Index embeddings from your machine learning models in Typesense and do a nearest-neighbor search.',
+            'Automatically generate embeddings using built-in ML models or OpenAI / PaLM API and do semantic search or nearest-neighbor search.',
           icon: require('~/assets/images/vector_search_icon.svg'),
         },
         {
