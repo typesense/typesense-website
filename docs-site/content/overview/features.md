@@ -8,6 +8,7 @@
 - **Faceting & Filtering:** Drill down and refine results.
 - **Grouping & Distinct:** Group similar results together to show more variety.
 - **Federated Search:** Search across multiple collections (indices) in a single HTTP request.
+- **Geo Search:** Search and sort by results around a latitude/longitude or within a bounding box.
 - **Vector Search:** Index embeddings from your machine learning models in Typesense and do a nearest-neighbor search. Can be used to build similarity search, semantic search, visual search, recommendations, etc.
 - **Semantic / Hybrid Search:** Automatically generate embeddings from within Typesense using built-in models like S-BERT, E-5, etc or use OpenAI, PaLM API, etc, for both queries and indexed data. This allows you to send JSON data into Typesense and build an out-of-the-box semantic search + keyword search experience.
 - **Scoped API Keys:** Generate API keys that only allow access to certain records, for multi-tenant applications.
