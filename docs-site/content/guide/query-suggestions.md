@@ -78,7 +78,9 @@ So this would primarily be a UI treatment.
 ### 2. Query Suggestions from Search History
 
 If your site has sufficient search traffic, you could collect the search terms that users type into your search box from your frontend, 
-aggregate them in your backend, add them to a new `popular_queries` collection in Typesense, along with a popularity score for every search term.
+aggregate them, add them to a new `popular_queries` collection in Typesense, along with a popularity score for every search term.
 
 When users type a search term, you can send the query to both your `popular_queries` collection in addition to your primary collection that has your dataset indexed, using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#federated-multi-search`">`multi_search`</RouterLink> query.
 This way you can show suggestions to users based on search terms that other users have typed in the past and if they don't exist, show results from your full dataset, side-by-side giving users more ways to explore your data.
+
+As of v0.25.0, Typesense can collect and aggregate search terms natively. Read more about <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html`">Search Analytics and Query Suggestions</RouterLink>. 

@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Documents
@@ -13,7 +13,8 @@ Every record you index in Typesense is called a `Document`.
 A document to be indexed in a given collection must conform to the [schema of the collection](./collections.md#create-a-collection).
 
 If the document contains an `id` field of type `string`, Typesense will use that field as the identifier for the document. 
-Otherwise, Typesense will assign an auto-generated identifier to the document. 
+Otherwise, Typesense will assign an auto-generated identifier to the document. Since it's a special field, the `id` field
+is not required to be defined as part of the collection schema.
 
 :::warning NOTE
 The `id` should not include spaces or any other characters that require [encoding in urls](https://www.w3schools.com/tags/ref_urlencode.asp).
@@ -25,6 +26,8 @@ If you need to index a document in response to some user action in your applicat
 
 If you need to index multiple documents at a time, we highly recommend using the [import documents](#index-multiple-documents) endpoint, which is optimized for bulk imports.
 For eg: If you have 100 documents, indexing them using the import endpoint at once will be much more performant than indexing documents one a time. 
+
+Let's see how we can add a new document to a collection.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
@@ -154,7 +157,7 @@ curl "http://localhost:8108/collections/companies/documents" -X POST \
 
 #### Upsert a single document
 
-The endpoint will replace a document with the same `id` if it already exists, or create a new document if one doesn't already exist with the same `id`.
+We can also replace a document with the same `id` if it already exists, or create a new document if one doesn't already exist with the same `id`.
 
 If you need to upsert multiple documents at a time, we highly recommend using the [import documents](#index-multiple-documents) endpoint with `action=upsert`, which is optimized for bulk upserts.
 For eg: If you have 100 documents, upserting them using the import endpoint at once will be much more performant than upserting documents one a time.
@@ -318,9 +321,34 @@ If you are using one of our client libraries, you can also pass in an array of d
 
 You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL](#import-a-json-file) before importing to Typesense. 
 
-:::tip
-Here are some [tips when importing data into Typesense](../../guide/syncing-data-into-typesense.md#tips-when-importing-data).
-:::
+#### Action modes (create, upsert, update & emplace)
+
+Besides batch-creating documents, you can also use the `action` query parameter to update documents using 
+their `id` field.
+
+<table>
+    <tr>
+        <td>create (default)</td>
+        <td>Creates a new document. Fails if a document with the same id already exists</td>
+    </tr>
+    <tr>
+        <td>upsert</td>
+        <td>Creates a new document or updates an existing document if a document with the same <code>id</code> already exists. 
+           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
+    </tr>
+    <tr>
+        <td>update	</td>
+        <td>Updates an existing document. Fails if a document with the given <code>id</code> does not exist. You can send 
+            a partial document containing only the fields that are to be updated.</td>
+    </tr>
+    <tr>
+        <td>emplace	</td>
+        <td>Creates a new document or updates an existing document if a document with the same <code>id</code> already exists.
+            You can send either the whole document or a partial document for update.</td>
+    </tr>
+</table>
+
+Let's see how we can now use the `create` mode to import some documents.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
@@ -478,32 +506,6 @@ curl "http://localhost:8108/collections/companies/documents/import?action=create
   </template>
 </Tabs>
 
-#### Action modes (Batch create, upsert, update & emplace)
-
-Besides batch-creating documents, you can also use the `?action` query parameter to batch-upsert and batch-update documents.
-
-<table>
-    <tr>
-        <td>create (default)</td>
-        <td>Creates a new document. Fails if a document with the same id already exists</td>
-    </tr>
-    <tr>
-        <td>upsert</td>
-        <td>Creates a new document or updates an existing document if a document with the same id already exists. 
-           Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
-    </tr>
-    <tr>
-        <td>update	</td>
-        <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
-            a partial document containing only the fields that are to be updated.</td>
-    </tr>
-    <tr>
-        <td>emplace	</td>
-        <td>Creates a new document or updates an existing document if a document with the same id already exists.
-            You can send either the whole document or a partial document for update.</td>
-    </tr>
-</table>
-
 **Definition**
 
 `POST ${TYPESENSE_HOST}/collections/:collection/documents/import`
@@ -543,6 +545,10 @@ We do this because there might be some documents which succeeded on import and o
 To keep it consistent, we just return HTTP 200 in all cases.
 
 So always be sure to check the API response for any `{success: false, ...}` records to see if there are any documents that failed import.
+:::
+
+:::tip
+Here are some [tips when importing data into Typesense](../../guide/syncing-data-into-typesense.md#tips-when-importing-data).
 :::
 
 #### Returning the `id` of the imported documents
@@ -1034,9 +1040,15 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
 
-## Update a document
+## Update documents
 
-Update an individual document from a collection by using its id. The update can be partial, as shown below:
+Typesense allows you to update a single document, multiple documents, or documents that match a particular 
+`filter_by` query.
+
+### Update a single document
+
+We can update a single document from a collection by using its `id`. The update can be partial, 
+as shown below:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
@@ -1159,9 +1171,114 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 
 `PATCH ${TYPESENSE_HOST}/collections/:collection/documents/:id`
 
-:::tip
-To update multiple documents, use the import endpoint with [`action=update`](#action-modes-batch-create-upsert-update-emplace) or [`action=upsert`](#action-modes-batch-create-upsert-update-emplace). 
-:::
+### Update multiple documents
+
+To update multiple documents, use the import endpoint with [`action=update`](#action-modes-batch-create-upsert-update-emplace),
+[`action=upsert`](#action-modes-batch-create-upsert-update-emplace) or [`action=emplace`](#action-modes-batch-create-upsert-update-emplace). 
+
+### Update by query
+
+To update all documents that match a given `filter_by` query:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let document = {
+  'tag': 'large'
+}
+
+client.collections('comapnies').documents().update(document, {"filter_by": "num_employees:>1000"})
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$document = [
+  'tag'  => 'large'
+];
+
+$client->collections['companies']->documents->update($document, ['filter_by' => 'num_employees:>1000']);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+document = {
+  'tag': 'large'
+}
+
+client.collections['companies'].documents.update(document, {'filter_by': 'num_employees:>1000'})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+document = {
+  'tag'  => 'large'
+}
+
+client.collections['companies'].documents.update(document, filter_by: 'num_employees:>1000')
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final document = {
+  'tag': 'large'
+};
+
+await client.collection('companies').document.update(document, {filter_by: 'num_employees:>1000'});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String, Object> document = new HashMap<>();
+document.put("tag","large"); 
+UpdateDocumentsParameters updateDocumentsParameters = new UpdateDocumentsParameters();
+updateDocumentsParameters.filterBy("num_employees:>1000");
+
+HashMap<String, Object> updatedDocument = client.collections("companies").documents().update(document, updateDocumentsParameters) 
+```
+
+</template>
+
+<template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/companies/documents?filter_by=num_employees:>1000" -X PATCH \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{ "tag": "large" }'
+```
+
+  </template>
+</Tabs>
+
+**Sample Response**
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "tag": "large"
+}
+```
+
+  </template>
+</Tabs>
+
+**Definition**
+
+`PATCH ${TYPESENSE_HOST}/collections/:collection/documents`
 
 ## Delete documents
 

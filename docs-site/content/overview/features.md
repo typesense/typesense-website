@@ -9,6 +9,7 @@
 - **Grouping & Distinct:** Group similar results together to show more variety.
 - **Federated Search:** Search across multiple collections (indices) in a single HTTP request.
 - **Vector Search:** Index embeddings from your machine learning models in Typesense and do a nearest-neighbor search. Can be used to build similarity search, semantic search, visual search, recommendations, etc.
+- **Semantic / Hybrid Search:** Automatically generate embeddings from within Typesense using built-in models like S-BERT, E-5, etc or use OpenAI, PaLM API, etc, for both queries and indexed data. This allows you to send JSON data into Typesense and build an out-of-the-box semantic search + keyword search experience.
 - **Scoped API Keys:** Generate API keys that only allow access to certain records, for multi-tenant applications.
 - **Synonyms:** Define words as equivalents of each other, so searching for a word will also return results for the synonyms defined.
 - **Curation & Merchandizing:** Boost particular records to a fixed position in the search results, to feature them.

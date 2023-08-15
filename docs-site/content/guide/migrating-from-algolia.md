@@ -43,14 +43,12 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 ### Key Features in Algolia, not in Typesense
 
 - Server-side stop-words (can be implemented [client-side](https://github.com/typesense/showcase-books-search/blob/b0b15dc88179566f85db21d2455c2d6c68668d5a/src/app.js#L186-L194))
-- Server-side analytics (can be implemented [client-side](./search-analytics.md))
 - Server-side AB-Testing (can be implemented [client-side](./ab-testing.md) using an AB-Testing framework and using different collections based on the bucket identifier for a user)
 - Out-of-the-box AI/ML Features
   - Dynamic Synonym Suggestion
   - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
   - AI Re-Ranking
   - Recommendations (can be implemented in Typesense using ML models and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>)
-- Out-of-the-box query suggestions (can be implemented using one [these approaches](./query-suggestions.html) in Typesense)
 
 ### Key Features in Typesense, not in Algolia
 
@@ -58,6 +56,7 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 - Validations for field data types when documents are indexed (similar to typed languages) to prevent inconsistent data from getting into the index. (This can be turned off if you need Algolia-like behavior)
 - Ability to specify numerical weights for particular fields during search, to give them more priority
 - Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>
+- Ability to use embedding models like OpenAI, PaLM API or built-in models like S-BERT, E-5, etc in order to implement hybrid (semantic + keyword) search and integrate with Large Language Models (LLMs). 
 - Ability to create <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">aliases</RouterLink> for collections, like symlinks
 - In general many parameters that are configurable at the index level in Algolia are dynamically configurable at search time in Typesense, which gives you more flexibility
 - No limits on record size, maximum index size, number of synonyms, number of rules or number of indices
@@ -76,6 +75,7 @@ Here is a list of common features and concepts along with what each one is calle
 | Every JSON object you index is called a record | Every JSON object you index is called a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html`">`Document`</RouterLink>               |
 | A collection of records is called an `Index`   | A collection of records / documents is a called a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">`Collection`</RouterLink> |
 | Distributed Search Network                     | Search Delivery Network (in Typesense Cloud)                                                                                                                      |
+| NeuralSearch                                   | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#hybrid-search`">Hybrid Search</RouterLink>, which is essentially Semantic Search + Keyword Vector Search with automatic embedding generation.
 
 ### Features
 
@@ -85,7 +85,7 @@ Here is a list of common features and concepts along with what each one is calle
 | Secured or Virtual API Keys                                                                                         | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">Scoped API Keys</RouterLink>                                                                                                                                                                                                                               |
 | Importing records (without validations and schema)                                                                  | Create a collection with <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#with-auto-schema-detection`">auto-schema detection</RouterLink> and import documents with <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#dealing-with-dirty-data`">`coerce_or_reject`</RouterLink>                       |
 | Query rules                                                                                                         | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html`">Overrides</RouterLink> aka Curation (Typesense Cloud also has a drag-drop management interface for Overrides).                                                                                                                                                                        |
-| [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) | [Query Suggestions can be implemented](./query-suggestions.md) by sending queries to the primary index.                                                                                                                                                                                                                                                                  |
+| [Query Suggestions](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/js/) | Also called [Query Suggestions](./query-suggestions.md) in Typesense. Can be created with <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html`">Analytics Rules</RouterLink>.                                                                                                                                            |
 | Merchandising                                                                                                       | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html#including-or-excluding-documents`">Promoting or Excluding results</RouterLink> via Overrides, or at search time via the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">`pinned_hits` or `hidden_hits`</RouterLink> search parameter |
 | Dynamic Filtering                                                                                                   | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html#dynamic-filtering`">Dynamic Filtering via Overrides</RouterLink>                                                                                                                                                                                                                        |
 | Virtual Index Replicas for sorting                                                                                  | In Typesense, a single collection can handle multiple sort orders using <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">`sort_by`</RouterLink>, so virtual index replicas are not needed                                                                                                                              |

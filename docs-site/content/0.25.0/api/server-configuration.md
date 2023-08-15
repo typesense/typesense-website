@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Server Configuration
@@ -28,6 +28,8 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--ssl-certificate`	|false	| Path to the SSL certificate file. You must also define `ssl-certificate-key` to enable HTTPS.                                                                                                                                                                                                                                          |
 |`--ssl-certificate-key`	|false	| Path to the SSL certificate key file. You must also define `ssl-certificate` to enable HTTPS.                                                                                                                                                                                                                                          |
 |`--ssl-refresh-interval-seconds`	|false	| Frequency of automatic reloading of SSL certs from disk. Default: `8 * 60 * 60`.                                                                                                                                                                                                                                                       |
+|`--enable-search-analytics`	|false	| Allow search queries to be aggregated for query analytics. Default: `false`                                                                                                                                                                                                                                                            |
+|`--analytics-flush-interval`	|false	| Interval (in seconds) that determines how often the search query aggregations are persisted to storage. Default: `3600` (every hour)                                                                                                                                                                                                   |
 |`--enable-cors`	|false	| Allow JavaScript client to access Typesense directly from the browser.                                                                                                                                                                                                                                                                 |
 |`--cors-domains`	|false	| Comma separated list of domains which are allowed for CORS. E.g. `https://example.com,https://example2.com` (no trailing slashes!)                                                                                                                                                                                                     |
 |`--thread-pool-size`	|false	| Number of threads used for handling concurrent requests. Default: `NUM_CORES * 8`.                                                                                                                                                                                                                                                     |
@@ -40,6 +42,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 |`--snapshot-interval-seconds`	|false	| Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery.                                                   |
 |`--log-slow-requests-time-ms`	|false	| Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging. <br><br>You can also [dynamically enable](../api/cluster-operations.md#toggle-slow-request-log) slow requests logging via the `/config` API.                                                              |
 |`--skip-writes`	|false	| Starts Typesense in a mode that does not read writes from the Raft log. This is useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.                                                                                                                                               |
+|`--reset-peers-on-error`	|false	| Forcefully reset node's peers on an irrecoverable clustering error. This could cause intermittent data loss and is only attempted as a last-resort.                                                                                                                                                                                    |
 
 ## Using a Configuration File
 

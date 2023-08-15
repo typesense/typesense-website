@@ -1,6 +1,6 @@
 # Live Demos
 
-Here are some live demos, that show Typesense used for different use cases. 
+Here are some live demos, that show Typesense used for different use cases.
 
 | Name                                                                                                                     | Dataset Size                        | Description                                                                                                                                                               |
 |--------------------------------------------------------------------------------------------------------------------------|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -15,3 +15,4 @@ Here are some live demos, that show Typesense used for different use cases.
 | [2020 US Presidential Candidates' Speeches Search](https://biden-trump-speeches-search.typesense.org/)                   | 15K utterances                      | Instant Search speeches of US Presidential Candidates side-by-side.                                                                                                       |
 | [Federated Search](https://federated-search.typesense.org/)                                                              | 10K usernames and 10K company names | A site that showcases Typesense's Federated Search feature.                                                                                                               |
 | [AirBnB Geo Search](https://airbnb-geosearch.typesense.org/)                                                             | 1.2M AirBnB listings                | A site that showcases Typesense's Geo Search feature.                                                                                                                     |
+| [Semantic Search + Hybrid Search](https://hn-comments-search.typesense.org/)                                             | 300K Comments from HackerNews       | A site that showcases Typesense's semantic search and hybrid search features, along with the auto-embedding generation feature.                                           |
