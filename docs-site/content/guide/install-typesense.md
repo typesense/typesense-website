@@ -18,6 +18,49 @@ You'll find DEB, RPM and pre-built binaries for Linux and macOS on our [download
 
 We also publish official Docker images for Typesense on [Docker hub](https://hub.docker.com/r/typesense/typesense/).
 
+### Docker
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
+<br>    
+mkdir $(pwd)/typesense-data
+<br>
+docker run -p 8108:8108 \
+            -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+            --data-dir /data \
+            --api-key=$TYPESENSE_API_KEY \
+            --enable-cors</code></pre>
+    </div>
+  </template>
+</Tabs>
+
+### Docker Compose
+
+<Tabs :tabs="['yml']">
+  <template v-slot:yml>
+    <div class="manual-highlight">
+      <pre class="language-yaml"><code>version: '3.4'
+services:
+  typesense:
+    image: typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=xyz --enable-cors'</code></pre>
+    </div>
+  </template>
+</Tabs>
+
+```shell
+mkdir $(pwd)/typesense-data
+
+docker-compose up
+```
+
 ### Mac via Homebrew
 
 <Tabs :tabs="['Shell']">
@@ -41,6 +84,12 @@ For macOS running on Apple Silicon CPUs:
 - Logs are under `/opt/homebrew/var/log/typesense/`
 - Data dir is under `/opt/homebrew/var/lib/typesense/`
 
+:::warning Compatibility with macOS & Apple M1/M2
+We only recommend using this option for macOS Ventura (13.x) or above, running on an Intel CPU.
+
+For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, we recommend using the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above for compatibility and performance reasons.   
+:::
+
 ### Mac Binary
 
 <Tabs :tabs="['Shell']">
@@ -56,6 +105,12 @@ mkdir $(pwd)/typesense-data
     </div>
   </template>
 </Tabs>
+
+:::warning Compatibility with macOS & Apple M1/M2 
+We only recommend using this option for macOS Ventura (13.x) or above, running on an Intel CPU.
+
+For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, we recommend using the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above for compatibility and performance reasons.   
+:::
 
 ### DEB package on Ubuntu/Debian
 
@@ -80,7 +135,6 @@ sudo systemctl status typesense-server.service</code></pre>
   - The admin API key is auto-generated and can be found inside the config file.
 - Logs are under `/var/log/typesense/`
 - Data dir is under `/var/lib/typesense/`
-
 
 ### RPM package on CentOS/RHEL
 <Tabs :tabs="['Shell']">
@@ -125,44 +179,6 @@ mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in product
     </div>
   </template>
 </Tabs>
-
-### Docker
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
-<br>    
-mkdir $(pwd)/typesense-data
-<br>
-docker run -p 8108:8108 -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
-  --data-dir /data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
-    </div>
-  </template>
-</Tabs>
-
-### Docker Compose
-
-<Tabs :tabs="['yml']">
-  <template v-slot:yml>
-    <div class="manual-highlight">
-      <pre class="language-yaml"><code>version: '3.4'
-      services:
-        typesense:
-          image: typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}
-          restart: on-failure
-          ports:
-            - "8108:8108"
-          volumes:
-            - ./typesense-data:/data
-          command: '--data-dir /data --api-key=xyz --enable-cors'</code></pre>
-    </div>
-  </template>
-</Tabs>
-
-```shell
-docker-compose up
-```
 
 ### Windows [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
 
