@@ -15,33 +15,34 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains new features and bug fixes.
+This release contains important new features and bug fixes.
 
 ### New Features
 
-- **Hybrid search:** Combine both keyword and vector search results in a single query using rank fusion.
+- **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist.
+- **Hybrid search:** Combine both keyword and semantic / vector search results in a single query using rank fusion.
+- **Automatic embedding generation:** specify one or more string fields that should be used for generating embeddings during indexing & during search using
+    state-of-the-art embedding models, optionally using a GPU. 
+- **Integration with OpenAI API, PaLM API and Vertex AI API:** Have Typesense automatically make API calls to remote embedding services like OpenAI / Google, to generate vectors for the JSON data you index in Typesense.
 - **Query analytics:** We support aggregation of popular search queries which can then be used as insights into 
   query patterns, or to power query suggestions.
-- **Auto embedding of vector fields:** specify one or more string fields that should be embedded during indexing using
-  state-of-the-art embedding models. We also integrate with OpenAI and Google APIs.
 - **Update documents via `filter_by`:** You can now update all documents that match a filter condition
 - **Range faceting:** numerical values can be dynamically faceted at query-time by bucketing them into ranges.
-- **NOT equals filtering for numerical fields:** The `!=` filtering operation can now be performed against numerical fields.
+- **Pagination using `offset` and `limit`**: This is in addition to the existing `page` and `per_page` mechanism. This new pagination method offers more flexibility and is also useful for GraphQL compatibility.
 
 ### Enhancements
 
-- Resolve field names using wildcard: fields can now be resolved in facet_by, query_by, include_fields, exclude_fields,
-  highlight_fields and highlight_full_fields when a wildcard expression is used, e.g. `title_*` will match `title_en`.
-- Sorting grouped hits based on the size of each group.
+- Resolve field names using wildcard: fields can now be resolved in `facet_by`, `query_by`, `include_fields`, `exclude_fields`,
+  `highlight_fields` and `highlight_full_fields` when a wildcard expression is used, e.g. `title_*` will match `title_en`.
+- Ability to sort grouped hits based on the size of each group, using `sort_by: _group_count:desc`.
 - A count is returned for total number of records under each group even if the hits are truncating via `group_limit`.
-- New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an 
-  unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent 
-  `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
+- The `!=` filtering operation can now be performed against numerical fields. Previously only string fields were supported for this operator.
 - Support use of `preset` parameter in embedded API key.
 - Support nested dynamic fields. 
-- Support pagination using `offset` and `limit` parameters instead of `page` and `per_page`: this offers flexibility 
-  and is also useful for GraphQL compatibility.
 - Migrated build system to Bazel.
+- New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an
+  unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent
+  `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
 
 ### Bug Fixes
 
@@ -106,8 +107,8 @@ field in the `/debug` end-point response.
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
-4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node alone for now.
-5. Once all the followers have been upgraded to v{{ $page.typesenseVersion }}, stop Typesense on the leader.
+4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node uninterrupted for now.
+5. Once all followers have been upgraded to v{{ $page.typesenseVersion }}, stop Typesense on the leader.
 6. The other nodes will elect a new leader and keep working. 
 7. Replace the binary on the old leader and start the Typesense server back again. 
 8. This node will re-join the cluster as a follower, and we are done.
