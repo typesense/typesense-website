@@ -140,6 +140,7 @@ We also have the following framework integrations:
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
 - [Craft CMS](https://plugins.craftcms.com/typesense)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
+- [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
 
 ## Utilities
 
