@@ -61,6 +61,13 @@ mkdir $(pwd)/typesense-data
 docker-compose up
 ```
 
+### Kubernetes
+
+There are a couple of **community supported** contributions for deploying on Kubernetes:
+
+- https://github.com/sai3010/Typesense-Kubernetes-Operator
+- https://github.com/typesense/typesense-kubernetes
+
 ### Mac via Homebrew
 
 <Tabs :tabs="['Shell']">
