@@ -8,6 +8,26 @@ priority: 0.7
 
 Typesense can aggregate search queries for both analytics purposes and for query suggestions.
 
+## Enable the feature
+
+### When Self-Hosting
+
+The Search analytics feature needs to be explicitly enabled via the `--enable-search-analytics` flag for query suggestions and other analytics features to work.
+
+```bash
+./typesense-server --data-dir=/tmp/data --api-key=abcd --enable-search-analytics=true --analytics-flush-interval=60
+```
+
+Search queries are first aggregated in-memory in every Typesense node independently and then persisted in a configured search suggestions collection (see below) periodically. 
+
+The `--analytics-flush-interval` flag determines how often the search query aggregations are persisted to the suggestion collection. 
+
+Set this to a smaller value (minimum value is `60` seconds) to get more frequent updates to the suggestion collection. Default value is: `3600` seconds (every hour).
+
+### On Typesense Cloud
+
+We automatically set `--enable-search-analytics=true` and `--analytics-flush-interval=300` (every 5 minutes) in Typesense Cloud (more context in the section above).
+
 ## Create a collection for aggregation
 
 Let's first create a new collection to which search queries will be aggregated and logged to.
