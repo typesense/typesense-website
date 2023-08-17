@@ -340,6 +340,79 @@ You can still store the raw HTML field in the document as an un-indexed field (b
 
 [Here's](https://github.com/typesense/typesense/issues/265#issuecomment-832051823) more context around this.
 
+## Searching for `null` or empty values
+
+Typesense does not have a way to filter documents that have `null` or empty values for an attribute, natively.
+
+But you can still achieve this, using the following approach. 
+
+Let's say you have an optional field called `tags` in your document that can be `null`:
+
+```json
+{
+  "tags": null
+}
+```
+
+If you want to fetch all documents that have a `tags` set to `null`, you want to first create an additional field at indexing time in each document called `is_tags_null: true | false`:
+
+```json
+[
+  {
+    "tags": null,
+    "is_tags_null": true
+  },
+  {
+    "tags": ["tag1", "tag3"],
+    "is_tags_null": false
+  }
+]
+```
+
+Once you've set this field in all your documents at indexing time, you can then query for these documents using:
+
+```json
+{
+  "filter_by": "is_tags_null:true"
+}
+```
+
+## URLs or File Paths
+
+Let's say you have documents with a set of URLs or file paths that you want to search on like this:
+
+```json lines
+{"url": "https://url1.com/path1"}
+{"url": "https://url2.com/path2"}
+{"url": "https://url3.com/path3"}
+```
+
+And you want Typesense to return results when users search for `url1` or `path1`, etc. 
+
+#### Default Behavior
+
+By default, Typesense will remove all special characters and index the first document as `httpsurl1compath1`.
+Also, Typesense does a prefix search (match should be at the beginning of the word) so `url1` or `path1` will not return any results, since they occur in the middle of the indexed string. 
+
+#### Fine-tuning
+
+To solve for this and still fetch results for `url1` or `path1`, you want to add `:`, `.` and `/` to the `token_separators` setting in the collection schema:
+
+```json{7}
+{
+  "name": "pages",
+  "fields": [
+    {"name":  "title", "type":  "string"},
+    {"name":  "url", "type":  "string"}
+  ],
+  "token_separators": [":", "/", "."]
+}
+```
+
+This will now cause the URL to be indexed as separate words: `https`, `url1`, `com`, `path1`. 
+
+Now when you search for `url1` or `path`, it will match those individual words and return the document. 
+
 ## Other Types of Data
 
 If you have other specific types of data that you'd like help with indexing in Typesense, 
