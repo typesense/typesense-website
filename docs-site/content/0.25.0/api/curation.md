@@ -9,6 +9,10 @@ While Typesense makes it really easy and intuitive to deliver great search resul
 
 Using overrides, you can include or exclude specific documents for a given query.
 
+:::tip Precedence
+When using [Synonyms](./synonyms.md) and Overrides together, Overrides are handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
+:::
+
 ## Create or update an override
 
 ### Including or excluding documents

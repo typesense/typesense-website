@@ -13,6 +13,10 @@ Typesense supports two types of synonyms:
 
 2. **Multi-way synonyms**: Defining the words `blazer`, `coat` and `jacket` as multi-way synonyms will cause searches for any one of those words (eg: `coat`) to return documents containing at least one of the words in the synonym set (eg: records with `blazer` or `coat` or `jacket` are returned).
 
+:::tip Precedence
+When using Synonyms and [Overrides](./curation.md) together, Overrides are handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
+:::
+
 ## Create or update a synonym
 
 ### Multi-way synonym
