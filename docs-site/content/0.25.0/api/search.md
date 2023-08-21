@@ -234,7 +234,7 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 
 | Parameter             | Required | Description                                                                                                                                                                                                                                                                                                                                                               |
 |:----------------------|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| facet_by              | no       | A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.                                                                                                                                                                                                                                                                   |
+| facet_by              | no       | A list of fields that will be used for faceting your results on. Separate multiple fields with a comma.<br><br> To facet on numerical ranges, you can specify labels for the ranges, e.g. `"facet_by": "rating(Average:[0, 3], Good:[3, 4], Great:[4, 5])"` ([read more](#facet-ranges))                                                                                  |
 | max_facet_values      | no       | Maximum number of facet values to be returned. <br><br>Default: `10`                                                                                                                                                                                                                                                                                                      |
 | facet_query           | no       | Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix "shoe".<br><br>Use the `facet_query_num_typos` parameter to control the _fuzziness_ of this facet value filter. |
 | facet_query_num_typos | no       | Controls the _fuzziness_ of the facet query filter. Default: `2`.                                                                                                                                                                                                                                                                                                         |
@@ -318,6 +318,25 @@ Note that you need to enable faceting for fields in the [Collection Schema](./co
   ]
 }
 ```
+
+### Facet ranges
+
+For numerical fields, you can provide a list of ranges and corresponding labels on which the documents should be 
+faced upon.
+
+For example, if your documents contain a `rating` field, and you want to facet the ratings as
+`average`, `good` and `great`, you can do so like this:
+
+```json{2}
+{
+  "facet_by": "rating(Average:[0, 3], Good:[3, 4], Great:[4, 5])"
+}
+```
+
+This will bucket the `rating` values into the ranges requested and count the documents in each of the ranges to 
+produce the facet counts. 
+
+NOTE: range start values are inclusive, but the range end values are exclusive in nature.
 
 ## Sort Results
 
