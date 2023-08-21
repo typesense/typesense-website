@@ -92,9 +92,9 @@ For macOS running on Apple Silicon CPUs:
 - Data dir is under `/opt/homebrew/var/lib/typesense/`
 
 :::warning Compatibility with macOS & Apple M1/M2
-We only recommend using this option for macOS Ventura (13.x) or above, running on an Intel CPU.
+The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, we recommend using the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above for compatibility and performance reasons.   
+For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 ### Mac Binary
@@ -113,10 +113,10 @@ mkdir $(pwd)/typesense-data
   </template>
 </Tabs>
 
-:::warning Compatibility with macOS & Apple M1/M2 
-We only recommend using this option for macOS Ventura (13.x) or above, running on an Intel CPU.
+:::warning Compatibility with macOS & Apple M1/M2
+The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, we recommend using the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above for compatibility and performance reasons.   
+For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 ### DEB package on Ubuntu/Debian
@@ -143,6 +143,10 @@ sudo systemctl status typesense-server.service</code></pre>
 - Logs are under `/var/log/typesense/`
 - Data dir is under `/var/lib/typesense/`
 
+:::warning Compatibility
+v0.25.0 of Typesense Server requires Ubuntu 20 or later.
+:::
+
 ### RPM package on CentOS/RHEL
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
@@ -166,6 +170,10 @@ sudo systemctl status typesense-server.service</code></pre>
 - Logs are under `/var/log/typesense/`
 - Data dir is under `/var/lib/typesense/`
 
+:::warning Compatibility
+v0.25.0 of Typesense Server requires recent versions of the Linux kernel.
+:::
+
 ### Linux Binary
 
 <Tabs :tabs="['Shell']">
@@ -186,6 +194,10 @@ mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in product
     </div>
   </template>
 </Tabs>
+
+:::warning Compatibility
+v0.25.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
+:::
 
 ### Windows [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
 
