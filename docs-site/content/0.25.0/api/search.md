@@ -577,6 +577,7 @@ client.collections['companies'].documents.search(search_parameters)
   "search_time_ms": 1,
   "grouped_hits": [
     {
+      "found": 3,
       "group_key": ["USA"],
       "hits": [
         {
@@ -603,6 +604,14 @@ client.collections['companies'].documents.search(search_parameters)
 
   </template>
 </Tabs>
+
+You can also sort the results by the sizes of the groups by using `_group_count` in the `sort_by` clause.
+
+```json{2}
+{
+  "sort_by": "_group_count:desc" 
+}
+```
 
 **Definition**
 
