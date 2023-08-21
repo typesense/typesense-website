@@ -148,7 +148,7 @@ typesense.analytics.rules.upsert(rule_name, rule_configuration)
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/analytics/rules" 
+curl -k "http://localhost:8108/analytics/rules" \
       -X POST \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
