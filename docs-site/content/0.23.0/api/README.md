@@ -114,6 +114,14 @@ field in the `/debug` end-point response.
 7. Replace the binary on the old leader and start the Typesense server back again. 
 8. This node will re-join the cluster as a follower, and we are done.
 
+## Downgrading
+
+Once you upgrade to `v0.24` of Typesense Server the internal structure of the data directory becomes incompatible with older versions of Typesense.
+
+However, if you need to downgrade to `v0.23`, we've released a special version `v0.23.2` that backports these data structure changes back to `0.23` while keeping other `0.23.1` features as is.
+
+So `v0.24` can only be downgraded to `v0.23.2`.
+
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
 :::
