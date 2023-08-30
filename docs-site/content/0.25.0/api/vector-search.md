@@ -2341,6 +2341,80 @@ You can also do a hybrid search when using your own embedding field, by combinin
 
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
 
+### Distance Threshold
+
+You can also set a maximum vector distance threshold for results of semantic search and hybrid search. You should set `distance_threshold` in `vector_query` parameter for this.
+
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding,product_name',
+  'vector_query'               : 'embedding:([], distance_threshold:0.30)'
+}
+
+client.collections('products').documents().search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:PHP>
+
+  ```php
+$search_parameters = [
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding,product_name',
+  'vector_query'               => 'embedding:([], distance_threshold:0.30)'
+];
+
+$client->collections['products']->documents->search($search_parameters);
+```
+
+  </template>
+
+<template v-slot:Python>
+
+  ```py
+search_parameters = {
+  'q'                          : 'chair',
+  'query_by'                   : 'embedding,product_name',
+  'vector_query'               : 'embedding:([], distance_threshold:0.30)'
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+  ```rb
+search_parameters = {
+  'q'                          => 'chair',
+  'query_by'                   => 'embedding,product_name',
+  'vector_query'               => 'embedding:([], distance_threshold:0.30)'
+}
+
+client.collections['products'].documents.search(search_parameters)
+```
+
+  </template>
+
+<template v-slot:Shell>
+
+```bash
+curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding,product_name&vector_query=embedding:([], distance_threshold:0.30)' \
+
+--header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+```
+
+  </template>
+
+</Tabs>
+
 ### Hybrid Sorting
 
 When doing a hybrid search (especially with a `q` parameter and an explicit `vector_query` parameter), you can sort by a combination of vector distance and also other numeric parameters using the special sort keyword `_vector_distance`  in `sort_by`.
