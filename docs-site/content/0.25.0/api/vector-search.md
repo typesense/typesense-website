@@ -522,31 +522,33 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "categories",
-      "type": "string[]"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": [
-          "product_name",
-          "categories"
-        ],
-        "model_config": {
-          "model_name": "ts/e5-small"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "categories",
+            "type": "string[]"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name",
+                "categories"
+              ],
+              "model_config": {
+                "model_name": "ts/e5-small"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -727,31 +729,33 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "brand",
-      "type": "string"
-    },
-    {
-      "name": "categories",
-      "type": "string[]"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": [
-          "brand",
-          "categories"
-        ],
-        "model_config": {
-          "model_name": "ts/all-MiniLM-L12-v2"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "brand",
+            "type": "string"
+          },
+          {
+            "name": "categories",
+            "type": "string[]"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "brand",
+                "categories"
+              ],
+              "model_config": {
+                "model_name": "ts/all-MiniLM-L12-v2"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -967,27 +971,29 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": [
-          "product_name"
-        ],
-        "model_config": {
-          "model_name": "openai/text-embedding-ada-002",
-          "api_key": "your_openai_api_key"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "openai/text-embedding-ada-002",
+                "api_key": "your_openai_api_key"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -1150,27 +1156,29 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": [
-          "product_name"
-        ],
-        "model_config": {
-          "model_name": "google/embedding-gecko-001",
-          "api_key": "your_google_api_key"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "google/embedding-gecko-001",
+                "api_key": "your_google_api_key"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -1361,31 +1369,33 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": [
-          "product_name"
-        ],
-        "model_config": {
-          "model_name": "gcp/embedding-gecko-001",
-          "access_token": "your_gcp_access_token",
-          "refresh_token": "your_gcp_refresh_token",
-          "client_id": "your_gcp_app_client_id", 
-          "client_secret": "your_gcp_client_secret",
-          "project_id": "your_gcp_project_id"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "gcp/embedding-gecko-001",
+                "access_token": "your_gcp_access_token",
+                "refresh_token": "your_gcp_refresh_token",
+                "client_id": "your_gcp_app_client_id", 
+                "client_secret": "your_gcp_client_secret",
+                "project_id": "your_gcp_project_id"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -1486,7 +1496,7 @@ SearchResult searchResult = client.collections("products").documents().search(se
     
   ```bash
 curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding&prefix=false&remote_embedding_timeout_ms=5000&remote_embedding_num_try=3' \
---header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+--header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
@@ -1563,7 +1573,7 @@ client.collections("products").documents().import(documents, importDocumentParam
 
 ```bash
 curl --location --request POST 'http://localhost:8108/collections/products/documents/import?remote_embedding_batch_size=200' \
---header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+--header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
@@ -1738,24 +1748,26 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": ["product_name"],
-        "model_config": {
-          "model_name": "test_model"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": ["product_name"],
+              "model_config": {
+                "model_name": "test_model"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -1917,26 +1929,28 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 curl -X POST \
   'http://localhost:8108/collections' \
   -H 'Content-Type: application/json' \
-  -H 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-  "name": "products",
-  "fields": [
-    {
-      "name": "product_name",
-      "type": "string"
-    },
-    {
-      "name": "embedding",
-      "type": "float[]",
-      "embed": {
-        "from": ["product_name"],
-        "model_config": {
-          "model_name": "e5-base",
-          "indexing_prefix": "passage:",
-          "query_prefix": "query:"
-        }
-      }
-    }'
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": ["product_name"],
+              "model_config": {
+                "model_name": "e5-base",
+                "indexing_prefix": "passage:",
+                "query_prefix": "query:"
+              }
+            }
+          }
+        ]
+      }'
 
 ```
    </template>
@@ -2237,7 +2251,7 @@ SearchResult searchResult = client.collections("products").documents().search(se
   ```bash
 curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding' \
 
---header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+--header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
@@ -2328,9 +2342,19 @@ SearchResult searchResult = client.collections("products").documents().search(se
 <template v-slot:Shell>
 
 ```bash
-curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding,product_name' \
-
---header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+      "searches": [
+        {
+          "collection": "products",
+          "query_by": "embedding,product_name",
+          "q": "chair",
+          "exclude_fields": "embedding"
+        }
+      ]
+    }'
 ```
 
   </template>
@@ -2408,7 +2432,7 @@ client.collections['products'].documents.search(search_parameters)
 ```bash
 curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding,product_name&vector_query=embedding:([], distance_threshold:0.30)' \
 
---header 'X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}'
+--header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
