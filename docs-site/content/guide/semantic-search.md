@@ -141,9 +141,9 @@ curl 'http://localhost:8108/multi_search' \
     -d '{
       "searches": [
         {
-          "collection": "products",
           "query_by": "product_name,embedding",
           "q": "desktop copier",
+          "collection": "products",
           "prefix": "false",
           "exclude_fields": "embedding",
           "per_page": 2
