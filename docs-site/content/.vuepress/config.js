@@ -195,6 +195,7 @@ let config = {
           collapsable: false, // optional, defaults to true
           children: [
             ['/guide/search-analytics', 'Search Analytics'],
+            ['/guide/semantic-search', 'Semantic Search'],
             ['/guide/recommendations', 'Recommendations'],
             ['/guide/personalization', 'Personalization'],
             ['/guide/ab-testing', 'A/B Testing'],
