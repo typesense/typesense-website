@@ -1,8 +1,8 @@
 # Recommendations
 
-Typesense can generate recommendations based on the actions they take in a given session, using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink> feature.
+Typesense can generate recommendations based on the actions users take in a given session, using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink> feature.
 
-This involves building a Machine Learning model to generate <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#what-is-an-embedding`">embeddings</RouterLink>, storing them in Typesense, and then doing a nearest-neighbor search.
+This involves building a Machine Learning model to generate <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#what-is-an-embedding`">embeddings</RouterLink>, storing them in Typesense, and then doing a nearest-neighbor search in Typesense.
 
 In this article's we'll talk about how to use the [Starspace](https://ai.meta.com/tools/starspace/) ML model to generate embeddings. 
 
