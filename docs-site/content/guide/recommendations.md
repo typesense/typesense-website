@@ -30,9 +30,9 @@ ice_cream milk pancake_mix muffins
   </template>
 </Tabs>
 
-In the example above, the first line indicates that a certain user interacted with the products `apple`, `orange`, `banana`, `broccoli` and `mango` in a single session.
+In the example above, the first line indicates that a certain user interacted with (viewed, bought, added to cart, etc) the products `apple`, `orange`, `banana`, `broccoli` and `mango` in a single session.
 
-Another user or may be even the same user as above interacted with the products `cereals`, `soda`, `bread`, `nuts` and `cookies` in the same session.
+Another user (or may be even the same user as above) interacted with the products `cereals`, `soda`, `bread`, `nuts` and `cookies` in another session.
 
 :::tip
 We're using the `product_name` in this example to make this article easier to read.
@@ -101,6 +101,8 @@ Then run the following command to train your model:
 ```
 
 Once this command runs, it will generate two files - a binary file called `productsModel` and a TSV file with model weights called `productsModel.tsv`.
+
+You want to run this training step periodically as you collect new session data as users use your site / app. 
 
 ## Step 4: Generate embeddings
 
