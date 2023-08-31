@@ -226,17 +226,19 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/collections" -X POST \
+curl "http://localhost:8108/collections" \
+      -X POST \
       -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-        "name": "docs",
-        "fields": [
-          {"name": "title", "type": "string" },
-          {"name": "points", "type": "int32" }, 
-          {"name": "vec", "type": "float[]", "num_dim": 4}
-        ],
-        "default_sorting_field": "points"
-      }'
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "name": "docs",
+            "fields": [
+              {"name": "title", "type": "string" },
+              {"name": "points", "type": "int32" }, 
+              {"name": "vec", "type": "float[]", "num_dim": 4}
+            ],
+            "default_sorting_field": "points"
+          }'
 ```
 
   </template>
@@ -519,8 +521,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -726,8 +728,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -968,8 +970,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -1153,8 +1155,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -1366,8 +1368,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -1495,8 +1497,21 @@ SearchResult searchResult = client.collections("products").documents().search(se
   <template v-slot:Shell>
     
   ```bash
-curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding&prefix=false&remote_embedding_timeout_ms=5000&remote_embedding_num_try=3' \
---header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/multi_search' \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "searches": [
+              {
+                "collection": "products",
+                "q": "chair",
+                "query_by": "embedding",
+                "prefix": false,
+                "remote_embedding_timeout_ms": 5000,
+                "remote_embedding_num_try": 3
+              }
+            ]
+          }'
 ```
 
   </template>
@@ -1572,8 +1587,11 @@ client.collections("products").documents().import(documents, importDocumentParam
 <template v-slot:Shell>
 
 ```bash
-curl --location --request POST 'http://localhost:8108/collections/products/documents/import?remote_embedding_batch_size=200' \
---header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/collections/products/documents/import?remote_embedding_batch_size=200' \
+  -X POST \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{"product_name": "chair"}
+      {"product_name": "table"}'
 ```
 
   </template>
@@ -1745,8 +1763,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -1926,8 +1944,8 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
   <template v-slot:Shell>
      
 ```bash
-curl -X POST \
-  'http://localhost:8108/collections' \
+curl 'http://localhost:8108/collections' \
+  -X POST \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
@@ -2094,8 +2112,18 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 <template v-slot:Shell>
 
 ```bash
-curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "vector_query": "vec:([0.96826,0.94,0.39557,0.306488])" }]}'
+curl 'http://localhost:8108/multi_search' \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "searches": [
+              {
+                "collection": "docs",
+                "q": "*",
+                "vector_query": "vec:([0.96826,0.94,0.39557,0.306488])"
+              }
+            ]
+          }'
 ```
 
   </template>
@@ -2162,8 +2190,18 @@ The hits are automatically sorted in ascending order of the `vector_distance`, i
 If you have a particular document `id` and want to find documents that are "similar" to this document, you can do a vector query that references this `id` directly.
 
 ```shell
-curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "vector_query": "vec:([], id: foobar)" }]}'
+curl 'http://localhost:8108/multi_search' \
+  -X POST \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "searches": [
+          {
+            "collection": "docs",
+            "q": "*",
+            "vector_query": "vec:([], id: foobar)"
+          }
+        ]
+      }'
 ```
 
 By specifying an empty query vector `[]` and passing an `id` parameter, this query 
@@ -2249,9 +2287,18 @@ SearchResult searchResult = client.collections("products").documents().search(se
 <template v-slot:Shell>
 
   ```bash
-curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding' \
-
---header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/multi_search' \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "searches": [
+              {
+                "collection": "products",
+                "q": "chair",
+                "query_by": "embedding"
+              }
+            ]
+          }'      
 ```
 
   </template>
@@ -2346,15 +2393,15 @@ curl 'http://localhost:8108/multi_search' \
     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
     -X POST \
     -d '{
-      "searches": [
-        {
-          "collection": "products",
-          "query_by": "embedding,product_name",
-          "q": "chair",
-          "exclude_fields": "embedding"
-        }
-      ]
-    }'
+          "searches": [
+            {
+              "collection": "products",
+              "query_by": "embedding,product_name",
+              "q": "chair",
+              "exclude_fields": "embedding"
+            }
+          ]
+        }'
 ```
 
   </template>
@@ -2430,9 +2477,19 @@ client.collections['products'].documents.search(search_parameters)
 <template v-slot:Shell>
 
 ```bash
-curl --location 'http://localhost:8108/collections/products/documents/search?q=chair&query_by=embedding,product_name&vector_query=embedding:([], distance_threshold:0.30)' \
-
---header "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+curl 'http://localhost:8108/multi_search' \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "searches": [
+              {
+                "collection": "products",
+                "q": "chair",
+                "query_by": "embedding,product_name",
+                "vector_query": "embedding:([], distance_threshold:0.30)"
+              }
+            ]
+          }'
 ```
 
   </template>
@@ -2466,8 +2523,19 @@ Here's an example where we are filtering on the `category` field and asking the 
 flat searching if the number of results produced by the filtering operation is less than 20 results.
 
 ```shell
-curl 'http://localhost:8108/multi_search?collection=docs' -X POST -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
---data-raw '{"searches":[{"q":"*", "filter_by": "category:shoes", "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" }]}'
+curl 'http://localhost:8108/multi_search' \
+      -X POST \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+            "searches": [
+              {
+                "collection": "docs",
+                "q": "*",
+                "filter_by": "category:shoes",
+                "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)"
+              }
+            ]
+          }'
 ```
 
 ## UI Examples
