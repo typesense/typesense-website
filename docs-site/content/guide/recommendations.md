@@ -215,7 +215,7 @@ curl "${TYPESENSE_URL}/multi_search" \
         }' | jq '.results[0].hits[] | .document.id'
 ```
 
-This will return the following recommendations, which we can show to users in our UI:
+This will return the following recommendations, which we can show this user in our UI, after filtering out items they've already seen in this session:
 
 ```
 "broccoli"
