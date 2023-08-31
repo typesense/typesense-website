@@ -2120,7 +2120,7 @@ curl 'http://localhost:8108/multi_search' \
               {
                 "collection": "docs",
                 "q": "*",
-                "vector_query": "vec:([0.96826,0.94,0.39557,0.306488])"
+                "vector_query": "vec:([0.96826,0.94,0.39557,0.306488], k:100)"
               }
             ]
           }'
