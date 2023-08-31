@@ -232,5 +232,11 @@ This will return the following recommendations, which we can show to users in ou
 
 :::tip
 We're using the product's name in this example to make this article easier to read.
-In a production setting, you'd want to use the product's ID or SKU in the training dataset and to generate embeddings.
+In a production setting, you'd want to use the product's ID or SKU in the training dataset and to generate embeddings like this:
+
+```
+sku_1 sku_4 sku_5
+sku_5 sku_8 sku_1 sku_2 sku_10
+sku_5 sku_1 sku_4 sku_21 sku_22
+```
 :::

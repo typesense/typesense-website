@@ -12,13 +12,13 @@ Typesense has the ability to index [embeddings](#what-is-an-embedding) generated
 
 ## Use-cases
 
-Here are some example use-cases you build, using vector search as the foundation:
+Here are some example use-cases you can build, using vector search as the foundation:
 
-1. Semantic search
-2. Recommendations
-3. Hybrid search (Keyword Search + Semantic Search + Filtering)
+1. [Semantic search](#semantic-search)
+2. [Recommendations](../../guide/recommendations.md)
+3. [Hybrid search](#hybrid-search) (Keyword Search + Semantic Search + Filtering)
 4. Visual image search
-5. Integrate with LLMs, to get them to respond to queries using your own dataset (RAG)
+5. [Integrate with LLMs](https://python.langchain.com/docs/integrations/vectorstores/typesense), to get them to respond to queries using your own dataset (RAG)
 
 You can also combine any of the above with features like filtering, faceting, sorting, grouping, etc to build a user-friendly search experience. 
 

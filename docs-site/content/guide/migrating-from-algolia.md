@@ -48,7 +48,7 @@ We plan to close the gap based on feedback we get from Algolia users switching o
   - Dynamic Synonym Suggestion
   - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
   - AI Re-Ranking
-  - Recommendations (can be implemented in Typesense using ML models and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>)
+  - Recommendations ([Here's](recommendations.md) a guide on how to implement recommendations in Typesense using ML models and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>).
 
 ### Key Features in Typesense, not in Algolia
 
