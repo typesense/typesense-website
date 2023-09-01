@@ -14,6 +14,10 @@ In this article, we'll take a simple products dataset to show you how to impleme
 
 This is very similar to creating a regular collection, except for the addition of an <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#option-b-auto-embedding-generation-within-typesense`">auto-embedding field</RouterLink> highlighted below.
 
+<Tabs :tabs="['S-BERT', 'E-5', 'MPNET', 'OpenAI', 'PaLM', 'VertexAI']">
+
+<template v-slot:S-BERT>
+
 ```shell{15-22}
 curl -X POST \
   'http://localhost:8108/collections' \
@@ -41,6 +45,177 @@ curl -X POST \
         ]
       }'
 ```
+
+</template>
+
+<template v-slot:E-5>
+
+```shell{15-22}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "ts/e5-small-v2"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+<template v-slot:MPNET>
+
+```shell{15-22}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "ts/paraphrase-multilingual-mpnet-base-v2"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+<template v-slot:OpenAI>
+
+```shell{15-23}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "openai/text-embedding-ada-002",
+                "api_key": "your_openai_api_key"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+<template v-slot:PaLM>
+
+```shell{15-23}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "google/embedding-gecko-001",
+                "api_key": "your_google_api_key"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+<template v-slot:VertexAI>
+
+```shell{15-27}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "gcp/embedding-gecko-001",
+                "access_token": "your_gcp_access_token",
+                "refresh_token": "your_gcp_refresh_token",
+                "client_id": "your_gcp_app_client_id", 
+                "client_secret": "your_gcp_client_secret",
+                "project_id": "your_gcp_project_id"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+</Tabs>
 
 We're using the built-in ML model `ts/all-MiniLM-L12-v2` (aka S-BERT) in this example to automatically generate embeddings from the `product_name` field in the documents we'll be adding to this collection.
 
