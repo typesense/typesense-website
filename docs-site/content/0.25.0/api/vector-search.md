@@ -14,7 +14,7 @@ Typesense has the ability to index [embeddings](#what-is-an-embedding) generated
 
 Here are some example use-cases you can build, using vector search as the foundation:
 
-1. [Semantic search](#semantic-search)
+1. [Semantic search](../../guide/semantic-search.md)
 2. [Recommendations](../../guide/recommendations.md)
 3. [Hybrid search](#hybrid-search) (Keyword Search + Semantic Search + Filtering)
 4. Visual image search
@@ -1398,7 +1398,6 @@ curl 'http://localhost:8108/collections' \
           }
         ]
       }'
-
 ```
    </template>
 

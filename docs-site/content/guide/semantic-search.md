@@ -14,7 +14,7 @@ In this article, we'll take a simple products dataset to show you how to impleme
 
 This is very similar to creating a regular collection, except for the addition of an <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#option-b-auto-embedding-generation-within-typesense`">auto-embedding field</RouterLink> highlighted below.
 
-<Tabs :tabs="['S-BERT', 'E-5', 'MPNET', 'OpenAI', 'PaLM', 'VertexAI']">
+<Tabs :tabs="['S-BERT', 'E-5', 'GTE', 'MPNET', 'OpenAI', 'PaLM', 'VertexAI']">
 
 <template v-slot:S-BERT>
 
@@ -71,6 +71,38 @@ curl -X POST \
               ],
               "model_config": {
                 "model_name": "ts/e5-small-v2"
+              }
+            }
+          }
+        ]
+      }'
+```
+
+</template>
+
+<template v-slot:GTE>
+
+```shell{15-22}
+curl -X POST \
+  'http://localhost:8108/collections' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "ts/gte-small"
               }
             }
           }
@@ -223,6 +255,8 @@ You can also use
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-openai-api`">OpenAI</RouterLink>, 
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-google-palm-api`">PaLM API</RouterLink> or
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-gcp-vertex-ai-api`">Vertex AI API</RouterLink> to have Typesense automatically make API calls out to these services for generating embeddings that will power the semantic search.
+
+You can also use any of the built-in ML models in our [HuggingFace repo](https://huggingface.co/typesense/models/tree/main) repo by specifying it as `ts/<model-name>`.
 
 ## Step 2: Index your JSON data
 
