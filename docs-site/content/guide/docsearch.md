@@ -105,8 +105,8 @@ The easiest way to run the scraper is using Docker.
    If you are running Typesense on `localhost` and you're using Docker to run the scraper,  using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
    :::
 1. Run the scraper:
-    ```shellsession
-    $ docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.7.0
+    ```bash
+    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.8.0
     ```
 
 This will scrape your documentation site and index it into Typesense.
@@ -131,11 +131,11 @@ If you don't have `jq` available, it's good to know that you can also pass the l
 
 Just make sure that the config is available inside the container. In other words, you'll need to voume mount it, like in the example below:
 
-```
+```bash
 docker run -it \
   -v "/path/to/config/dir/on/your/machine:/tmp/search" \
   -e "CONFIG=/tmp/search/typesense.json" \
-  typesense/docsearch-scraper
+  typesense/docsearch-scraper:0.8.0
 ```
 
 #### Trusting certificates from internal CAs
@@ -147,39 +147,39 @@ with trusted CAs and then pass it as a command line option.
 
 In the example below, a file in the current folder names `ca-chain.crt` will be added to the trusted CA list:
 
-```
+```bash
 docker run -it \
   --mount type=bind,source="$(pwd)/ca-chain.crt",target=/etc/ssl/certs/ca-certificates.crt \
   --env "REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt" \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper
+  typesense/docsearch-scraper:0.8.0
 ```
 
 #### Set environment variables on the command line, rather than using a .env file
 
 I you don't want to use a `.env` file or cannot use one in your setup, you can also pass all variables on the command line:
 
-```
+```bash
 docker run -it \
   -e "TYPESENSE_API_KEY=xyz" \
   -e "TYPESENSE_HOST=xxx.a1.typesense.net" \
   -e "TYPESENSE_PORT=443" \
   -e "TYPESENSE_PROTOCOL=https" \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper
+  typesense/docsearch-scraper:0.8.0
 ```
 
 #### Resolving hosts
 
 If your scraper depends on host resolution that is not available inside the container, you can add a host entry on the command line:
 
-```
+```bash
 docker run -it \
   --add-host intranet.company.com:10.1.2.3 \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper
+  typesense/docsearch-scraper:0.8.0
 ```
 
 #### Authentication
