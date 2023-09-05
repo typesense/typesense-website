@@ -143,8 +143,8 @@ export default {
     const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
       server: typesenseServerConfig($config),
       additionalSearchParameters: {
-        queryBy: 'title',
-        prioritizeExactMatch: false,
+        query_by: 'title',
+        prioritize_exact_match: false,
       },
     })
 
