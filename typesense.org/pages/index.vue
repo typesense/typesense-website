@@ -26,8 +26,11 @@
               Capabilities & Machine Learning.
             </p>
 
-            <div class="row mt-3 d-flex justify-content-center">
-              <div class="col-sm-4 text-left">
+            <div
+              class="row mt-3 d-flex justify-content-center"
+              style="margin: auto"
+            >
+              <div class="col-auto text-left">
                 <ul>
                   <li>Search-as-you-type</li>
                   <li>Autocomplete</li>
@@ -35,7 +38,7 @@
                   <li>Geo-Search</li>
                 </ul>
               </div>
-              <div class="col-sm-4 text-left">
+              <div class="col-auto text-left">
                 <ul>
                   <li>Semantic Search</li>
                   <li>Similarity Search</li>
@@ -46,7 +49,7 @@
             </div>
 
             <div class="row d-flex justify-content-center mx-2 mx-sm-0">
-              <div class="col-sm-10 text-left text-sm-center">
+              <div class="col-auto">
                 Read more about
                 <a
                   href="https://typesense.org/docs/overview/use-cases.html"

@@ -84,7 +84,7 @@
                       alt="Typesense on Nasdaq Billboard"
                       width="400"
                       class="img-fluid"
-                      style="filter: drop-shadow(5px 5px 3px rgba(75,75,75,0.46));border-radius: 5px;"
+                      style="filter: drop-shadow(7px 7px 8px rgba(0,0,0,0.36)); border-radius: 5px;"
                       loading="lazy"
                     />
                   </a>
