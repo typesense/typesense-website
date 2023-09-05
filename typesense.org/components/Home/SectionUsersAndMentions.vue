@@ -1,6 +1,6 @@
 <template>
   <div class="py-5 container">
-    <h2 class="text-center text-gradient-2">Trusted by teams of all sizes</h2>
+    <h2 class="text-center text-gradient-2">Trusted by Teams of all Sizes</h2>
     <div class="text-center">You'll be in good company</div>
 
     <div class="row mt-3">
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="mb-4">&nbsp;</div>
+    <div class="mb-5">&nbsp;</div>
 
     <HomeBadges />
 
@@ -34,7 +34,7 @@
       <div class="row">
         <div class="col-sm">
           <div class="text-center">
-            <h5 class="mb-3">As Seen At</h5>
+            <h5 class="mb-5">As Seen At</h5>
             <div>
               <a
                 href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
@@ -45,33 +45,50 @@
                   alt="Typesense at Google/IO"
                   width="200"
                   height="83"
+                  style="object-position: 0px -10px"
                 />
               </a>
               <a
-                href="https://twitter.com/jasonbosco/status/1565073075040882688"
+                href="https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031"
                 target="_blank"
-                class="ml-4"
+                class="ml-4 pt-3"
               >
                 <img
-                  :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
-                  alt="Typesense on Nasdaq Billboard"
-                  width="170"
-                  height="48"
+                  :src="require(`~/assets/images/thoughtworks-logo.svg`)"
+                  alt="Typesense on ThoughtWorks Technology Radar"
+                  width="210"
+                  height="61"
                 />
               </a>
               <div class="mt-sm-3 mt-4">
                 <a
-                  href="https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031"
+                  href="https://twitter.com/jasonbosco/status/1565073075040882688"
                   target="_blank"
-                  class="ml-4 pt-3"
+                  class="ml-4"
                 >
                   <img
-                    :src="require(`~/assets/images/thoughtworks-logo.svg`)"
-                    alt="Typesense on ThoughtWorks Technology Radar"
-                    width="210"
-                    height="61"
+                    :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
+                    alt="Typesense on Nasdaq Billboard"
+                    width="170"
+                    height="48"
                   />
                 </a>
+                <div class="mt-4 mt-sm-5">
+                  <a
+                    href="https://twitter.com/jasonbosco/status/1565073075040882688"
+                    target="_blank"
+                  >
+                    <!-- prettier-ignore -->
+                    <img
+                      :src="require(`~/assets/images/typesense-on-nasdaq.jpeg`)"
+                      alt="Typesense on Nasdaq Billboard"
+                      width="400"
+                      class="img-fluid"
+                      style="filter: drop-shadow(5px 5px 3px rgba(75,75,75,0.46));border-radius: 5px;"
+                      loading="lazy"
+                    />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

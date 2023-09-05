@@ -4,7 +4,7 @@
 
     <div class="text-center mt-xl-4">
       <h2 class="text-center text-gradient-1">
-        The Open Source Alternative to Algolia <br />
+        The Open Source Alternative to Algolia + Pinecone <br />
         The Easier To Use Alternative to Elasticsearch
       </h2>
       <div style="line-height: 2">
@@ -22,21 +22,39 @@
             <p class="mt-5">
               Typesense is a modern, privacy-friendly, open source search engine
               built from the ground up using cutting-edge search algorithms,
-              that take advantage of the latest advances in hardware
-              capabilities.
+              that take advantage of the latest advances in <br />Hardware
+              Capabilities & Machine Learning.
             </p>
 
-            <p class="mt-5">
-              Typesense can be used to build blazing-fast search experiences,
-              faceted navigation experiences, geo-search, vector search,
-              semantic search, similarity search and much more.<br />
-              Read more about
-              <a
-                href="https://typesense.org/docs/overview/use-cases.html"
-                target="_blank"
-                >Typesense's use-cases here</a
-              >.
-            </p>
+            <div class="row mt-3 d-flex justify-content-center">
+              <div class="col-sm-4 text-left">
+                <ul>
+                  <li>Search-as-you-type</li>
+                  <li>Autocomplete</li>
+                  <li>Faceted Navigation</li>
+                  <li>Geo-Search</li>
+                </ul>
+              </div>
+              <div class="col-sm-4 text-left">
+                <ul>
+                  <li>Semantic Search</li>
+                  <li>Similarity Search</li>
+                  <li>Recommendations</li>
+                  <li>LLM Augmentation</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center mx-2 mx-sm-0">
+              <div class="col-sm-10 text-left text-sm-center">
+                Read more about
+                <a
+                  href="https://typesense.org/docs/overview/use-cases.html"
+                  target="_blank"
+                  >Typesense's use-cases here.</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>

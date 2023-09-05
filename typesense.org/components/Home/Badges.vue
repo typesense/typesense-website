@@ -47,6 +47,13 @@
         </a>
       </div>
     </div>
+    <div class="mt-5">
+      <p class="text-center text-gradient-1 h4">
+        Serving
+        <span class="marker-highlight">1.5 Billion+ Searches</span> per month on
+        Typesense Cloud
+      </p>
+    </div>
   </div>
 </template>
 

@@ -1,28 +1,5 @@
 <template>
   <div>
-    <div
-      class="py-2 text-center bg-frosted-glass"
-      :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
-    >
-      Check out Typesense's recent mention
-      <br class="d-block d-sm-none" />
-      during the
-      <a
-        href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
-        target="_blank"
-        class="text-primary"
-        >Google I/O Developer Keynote</a
-      >
-      <br />
-      and <span class="d-none d-sm-inline">appearance</span> on the iconic
-      <a
-        href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
-        target="_blank"
-        class="text-primary"
-        >Nasdaq billboard</a
-      >
-      in Times Square!
-    </div>
     <nav
       class="navbar navbar-expand-lg py-4"
       :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
