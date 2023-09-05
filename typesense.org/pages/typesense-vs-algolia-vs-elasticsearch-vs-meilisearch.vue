@@ -97,7 +97,7 @@
                     Instant Search-as-you-type Experiences for use cases that
                     don't require a highly-available fault-tolerant setup.
                     <a
-                      href="https://docs.meilisearch.com/learn/advanced/storage.html#:~:text=it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk,%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/learn/advanced/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
                       target="_blank"
                       >Recommends</a
                     >
@@ -116,7 +116,7 @@
             </table>
           </div>
 
-          <h3 class="mt-5 mb-3">Deployment Options</h3>
+          <h3 class="mt-5 mb-3">Deployment</h3>
           <div class="table-responsive">
             <table class="table table-condensed feature-list">
               <thead class="thead-dark">
@@ -152,9 +152,16 @@
                   <td>✅<br /><br />Active-passive replication</td>
                   <td class="text-danger">
                     ❌<br /><br />Only supports a single-node setup, which
-                    creates a potential single point of failure and so is not
-                    fault tolerant / production-ready.
+                    creates a single point of failure and so is not fault
+                    tolerant / production-ready.
                   </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">GPU Acceleration Support</td>
+                  <td>✅<br /><br />Can natively use a GPU when available.</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -216,7 +223,9 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Upgrade Path</td>
-                  <td>Replace binary, restart process.</td>
+                  <td>
+                    Replace binary, restart process. No re-indexing required.
+                  </td>
                   <td>Managed SaaS service, doesn't require upgrades.</td>
                   <td>
                     Replace binary, restart process. Re-indexing required if
@@ -285,7 +294,7 @@
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>❌</td>
+                  <td>✅️</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Grouping / Distinct</td>
@@ -400,7 +409,7 @@
                   <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>🔶 Limited to one geo point</td>
+                  <td>🔶 <br /><br />Limited to one geo point</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -434,8 +443,8 @@
                     <a
                       href="https://typesense.org/docs/guide/search-analytics.html"
                       target="_blank"
-                      >Client-side</a
-                    >, through InstantSearch.js
+                      >Client-side and Server-side</a
+                    >
                   </td>
                   <td>Client-side and Server-side</td>
                   <td>❌</td>
@@ -505,10 +514,36 @@
                   <td>❌</td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">Semantic Search</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">Similarity Search</td>
                   <td>✅<br /><br />Can be implemented using Vector Search</td>
                   <td>❌</td>
                   <td>✅️<br /><br />Can be implemented using Vector Search</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Recommendations</td>
+                  <td>
+                    🔶️<br /><br />Not out-of-the-box, but can be
+                    <a
+                      href="https://typesense.org/docs/guide/recommendations.html"
+                      target="_blank"
+                    >
+                      implemented</a
+                    >
+                    using Vector Search
+                  </td>
+                  <td>✅</td>
+                  <td>
+                    🔶️<br /><br />Not out-of-the-box, but can be implemented
+                    using Vector Search
+                  </td>
                   <td>❌</td>
                 </tr>
                 <tr>
@@ -570,15 +605,7 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
-                  <td>
-                    🔶️<br /><br />
-                    <a
-                      href="https://typesense.org/docs/guide/query-suggestions.html"
-                      target="_blank"
-                      >Can be implemented</a
-                    >
-                    by sending requests to the primary collection.
-                  </td>
+                  <td>✅️</td>
                   <td>✅️</td>
                   <td>❌</td>
                   <td>❌</td>
@@ -593,7 +620,7 @@
                 <tr>
                   <td class="font-weight-bold">Site Crawler</td>
                   <td>
-                    🔶️<br /><br />
+                    ✅<br /><br />
                     <a
                       href="https://typesense.org/docs/guide/docsearch.html"
                       target="_blank"
@@ -607,7 +634,7 @@
                     General site crawler is part of Premium Tier.
                   </td>
                   <td>❌</td>
-                  <td>DocSearch crawler for docs sites.</td>
+                  <td>✅<br /><br />DocSearch crawler for docs sites.</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
