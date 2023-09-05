@@ -400,7 +400,7 @@
                   <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
-                  <td>✅</td>
+                  <td>🔶 Limited to one geo point</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
