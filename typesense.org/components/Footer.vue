@@ -23,6 +23,9 @@
               >
             </address>
           </div>
+          <div class="mt-4 font-weight-light">
+            Typesense ® is a registered trademark of Typesense, Inc.
+          </div>
         </div>
 
         <div class="col-sm-2 mt-4 mt-md-0">
