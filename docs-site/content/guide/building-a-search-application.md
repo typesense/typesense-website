@@ -457,6 +457,14 @@ In addition to returning the matching documents, Typesense also highlights where
 
 Want to actually see newest `harry potter` books returned first? No problem, we can change the `sort_by` clause to `publication_year:desc`:
 
+### Semantic Search
+
+Typesense also supports the ability to return semantic matches, in addition to keyword matches.
+
+For eg, if your dataset contains the word "Harry Potter" and the user searches for "famous boy wizard", semantic search will return the record with "Harry Potter" since it is conceptually related to the search term.
+
+Read more about Semantic Search in the dedicated guide article [here](./semantic-search.md).
+
 ## Filtering results
 Now, let's tweak our query to only fetch books that are published before the year 1998. To do that, we just have to add a `filter_by` clause to our query:
 
@@ -584,7 +592,6 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
   </template>
 </Tabs>
-
 
 ## Faceting
 Let's facet the search results by the authors field to see how that works. Let's also use this example to see how Typesense handles typographic errors. Let's search for `experyment` (notice the typo!).
