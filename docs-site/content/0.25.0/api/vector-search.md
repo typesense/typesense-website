@@ -816,7 +816,7 @@ sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersio
 
 ### Using OpenAI API
 
-You can also use have Typesense send specific fields in your JSON data to OpenAI's API to generate text embeddings. 
+You can also have Typesense send specific fields in your JSON data to OpenAI's API to generate text embeddings. 
 
 You can use any of OpenAI models listed [here](https://platform.openai.com/docs/guides/embeddings/embedding-models).
 
