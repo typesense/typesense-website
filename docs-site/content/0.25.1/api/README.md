@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Typesense API Reference for v{{ $page.typesenseVersion }}
@@ -15,28 +15,31 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains important new features and bug fixes.
+This release fixes some important bugs identified in the recently released [`v0.25.0`](../../0.25.0/).
+
+The changelog below contains aggregates all the changes between `v0.24.1` and `v0.25.x`.
+
 
 ### New Features
 
 - **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist in your dataset. 
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#semantic-search)
+  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#semantic-search)
 - **Hybrid search:** Combine both keyword and semantic / vector search results in a single query using rank fusion
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#hybrid-search)
+  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#hybrid-search)
 - **Automatic embedding generation:** specify one or more string fields that should be used for generating embeddings during indexing & during search using
-    state-of-the-art embedding models, optionally [using a GPU](https://typesense.org/docs/0.25.0/api/vector-search.html#using-a-gpu-optional). 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L32-L45) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#using-built-in-models)
+    state-of-the-art embedding models, optionally [using a GPU](https://typesense.org/docs/0.25.1/api/vector-search.html#using-a-gpu-optional). 
+  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L32-L45) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#using-built-in-models)
 - **Integration with OpenAI API, PaLM API and Vertex AI API:** Have Typesense automatically make API calls to remote embedding services like OpenAI / Google, to generate vectors for the JSON data you index in Typesense. 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L49-L67) | [Docs](https://typesense.org/docs/0.25.0/api/vector-search.html#using-openai-api)
-- **Query Analytics:** Typesense now supports aggregation of popular search queries which can then be used as insights into query patterns. [Docs](https://typesense.org/docs/0.25.0/api/analytics-query-suggestions.html)
+  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L49-L67) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#using-openai-api)
+- **Query Analytics:** Typesense now supports aggregation of popular search queries which can then be used as insights into query patterns. [Docs](https://typesense.org/docs/0.25.1/api/analytics-query-suggestions.html)
 - **Query Suggestions:** You can use historical search terms collected by the Query Analytics feature, to power Query Suggestions.
-  - [Docs](https://typesense.org/docs/0.25.0/api/analytics-query-suggestions.html#query-suggestions)
+  - [Docs](https://typesense.org/docs/0.25.1/api/analytics-query-suggestions.html#query-suggestions)
 - **Update Documents by Query:** You can now update all documents that match a `filter_by` condition
-  - [Docs](https://typesense.org/docs/0.25.0/api/documents.html#update-by-query)
+  - [Docs](https://typesense.org/docs/0.25.1/api/documents.html#update-by-query)
 - **Range faceting:** numerical values can be dynamically faceted at query-time by bucketing them into ranges.
-  - [Docs](https://typesense.org/docs/0.25.0/api/search.html#faceting-parameters)
+  - [Docs](https://typesense.org/docs/0.25.1/api/search.html#faceting-parameters)
 - **Pagination using `offset` and `limit`**: This is in addition to the existing `page` and `per_page` mechanism. This new pagination method offers more flexibility and is also useful for GraphQL compatibility.
-  - [Docs](https://typesense.org/docs/0.25.0/api/search.html#pagination-parameters)
+  - [Docs](https://typesense.org/docs/0.25.1/api/search.html#pagination-parameters)
 
 ### Enhancements
 
@@ -66,6 +69,16 @@ This release contains important new features and bug fixes.
 - Fixed non-curated members of a group appearing in curated override results.
 - Fixed override query rule being case-sensitive.
 - Fixed phrase search not considering field weights.
+- **[New in v0.25.1]** Handle mismatched vector dimensions during indexing
+- **[New in v0.25.1]** Allow remote embedders to use multiple per-collection credentials
+- **[New in v0.25.1]** Fixed altering of schema involving embedding fields
+- **[New in v0.25.1]** Fixed charset in content-type header of export API response
+- **[New in v0.25.1]** Fixed an issue in analytics query aggregation that caused crash on empty collections
+- **[New in v0.25.1]** Fixed group by on vector search
+- **[New in v0.25.1]** Improved error handling of remote embedding APIs
+- **[New in v0.25.1]** Fixed tokenizer of embedding models that use XLM-RoBERTa
+- **[New in v0.25.1]** Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
+- **[New in v0.25.1]** Fixed text match score calculation to consider the presence of dropped tokens when ranking.
 
 ### Deprecations / behavior changes
 
