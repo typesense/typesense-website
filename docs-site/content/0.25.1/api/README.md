@@ -77,7 +77,8 @@ The changelog below contains aggregates all the changes between `v0.24.1` and `v
 - **[New in v0.25.1]** Fixed group by on vector search
 - **[New in v0.25.1]** Improved error handling of remote embedding APIs
 - **[New in v0.25.1]** Fixed tokenizer of embedding models that use XLM-RoBERTa
-- **[New in v0.25.1]** Fixed upsert of unchanged docs containing embedding fields.
+- **[New in v0.25.1]** Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
+- **[New in v0.25.1]** Fixed text match score calculation to consider the presence of dropped tokens when ranking.
 
 ### Deprecations / behavior changes
 
