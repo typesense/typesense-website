@@ -1,6 +1,7 @@
 module.exports = {
-  typesenseLatestVersion: '0.25.0',
+  typesenseLatestVersion: '0.25.1',
   typesenseVersions: [
+    "0.25.1",
     "0.25.0",
     "0.24.1",
     "0.24.0",
