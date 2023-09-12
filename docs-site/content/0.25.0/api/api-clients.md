@@ -148,3 +148,4 @@ We also have the following utilities:
 
 - [Generate Sitemaps from Typesense data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)
+- [Typesense-Dashboard (GUI web/desktop app)](https://github.com/bfritscher/typesense-dashboard)
