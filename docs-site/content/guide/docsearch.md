@@ -129,7 +129,7 @@ The example above uses the `jq` tool to parse the config file into a JSON string
 
 If you don't have `jq` available, it's good to know that you can also pass the location of the config file to the `CONFIG` variable, and then the file will be read from this location.
 
-Just make sure that the config is available inside the container. In other words, you'll need to voume mount it, like in the example below:
+Just make sure that the config is available inside the container. In other words, you'll need to volume mount it, like in the example below:
 
 ```bash
 docker run -it \
@@ -141,7 +141,7 @@ docker run -it \
 #### Trusting certificates from internal CAs
 
 If you're trying to scrape a website that is secured with a certificate from an
-internal CA -- common for corporate intranets for example -- you will need to
+internal CA — common for corporate intranets for example — you will need to
 somehow make the container trust this CA. To do so, you can mount a file
 with trusted CAs and then pass it as a command line option.
 
