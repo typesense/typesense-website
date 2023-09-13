@@ -260,6 +260,7 @@ So you would have to convert dates and times to Unix Timestamps as described <Ro
 ### From Typesense v0.24.0
 
 Typesense v0.24.0 supports nested objects and arrays of objects natively.
+
 To enable nested fields, you'll need to use the `enable_nested_fields` property when creating the collection, along with the `object` or `object[]` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-types`">data type</RouterLink>:
 
 ```json{3}

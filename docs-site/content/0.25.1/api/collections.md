@@ -425,10 +425,10 @@ Typesense allows you to index the following types of fields:
 | `float[]`                    | Array of floating point / decimal numbers                                                                                                                                      |
 | `bool`                       | `true` or `false`                                                                                                                                                              |
 | `bool[]`                     | Array of booleans                                                                                                                                                              |
-| [`geopoint`](geosearch.md)   | Latitude and longitude specified as `[lat, lng]`                                                                                                                               |
-| [`geopoint[]`](geosearch.md) | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`                                                                                                   |
-| `object`                     | Nested objects                                                                                                                                                                 |
-| `object[]`                   | Arrays of nested objects                                                                                                                                                       |
+| `geopoint`                   | Latitude and longitude specified as `[lat, lng]`. Read more [here](geosearch.md).                                                                                              |
+| `geopoint[]`geosearch.md     | Arrays of Latitude and longitude specified as `[[lat1, lng1], [lat2, lng2]]`. Read more [here](geosearch.md).                                                                  |
+| `object`                     | Nested objects. Read more [here](#indexing-nested-fields).                                                                                                                     |
+| `object[]`                   | Arrays of nested objects. Read more [here](#indexing-nested-fields).                                                                                                           |
 | `string*`                    | Special type that automatically converts values to a `string` or `string[]`.                                                                                                   |
 | `auto`                       | Special type that automatically attempts to infer the data type based on the documents added to the collection. See [automatic schema detection](#with-auto-schema-detection). |
 
@@ -463,22 +463,9 @@ Here's how to index other common types of data, using the basic primitives in th
 
 Typesense supports indexing nested objects (and array of objects) from `v0.24`.
 
-You must first enable nested fields at a collection level via the `enable_nested_fields` schema property:
+You must first enable nested fields at a collection level via the `enable_nested_fields` schema property, and the `object` or `object[]` data type:
 
-```shell{4}
-curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-        "name": "docs", 
-        "enable_nested_fields": true,
-        "fields": [
-          {"name": ".*", "type": "auto"}
-        ]
-      }'
-```
-
-The schema can also explicitly index specific object fields or object arrays, e.g.:
-
-```shell{6-7}
+```shell{4,6-7}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "docs", 
@@ -490,8 +477,75 @@ curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: applicatio
       }'
 ```
 
-When you now search on an object field name, all sub-fields will be automatically searched. Use a dot notation to 
-refer to specific sub-fields, e.g. `person.last_name` or `person.school.name`.
+When you now search on an object field name, all sub-fields will be automatically searched. Use a dot notation to refer to specific sub-fields, e.g. `person.last_name` or `person.school.name`.
+
+You can also index specific sub-fields within a nested object. For eg, if your document looks like this:
+
+```json{7}
+{
+  "id": 1,
+  "name": "Jack",
+  "address": {
+    "line_1": "111 1st Street",
+    "city": "Alpha",
+    "zip": "98765"
+  }
+}
+```
+
+And say you only want to index the `zip` field inside the `address` nested object, without indexing other fields like `line_1`, you can specify this in the schema like this:
+
+```shell{7}
+curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "docs", 
+        "enable_nested_fields": true,
+        "fields": [
+          {"name": "name", "type": "string"},
+          {"name": "address.zip", "type": "string"}
+        ]
+      }'
+```
+
+To index specific fields inside an array of objects, you want to specify an **array data type**. For eg, if your document looks like this:
+
+```json{8,13}
+{
+  "id": 1,
+  "name": "Jack",
+  "addresses": [
+    {
+      "line_1": "111 1st Street",
+      "city": "Alpha",
+      "zip": "98765"
+    },
+    {
+      "line_1": "222 2nd Street",
+      "city": "Zeta",
+      "zip": "45678"
+    }
+  ]
+}
+```
+
+And say you only want to index the `zip` field inside each address object in the `addresses` array of objects, without indexing other fields, you can specify this in the schema like this:
+
+
+```shell{7}
+curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+        "name": "docs", 
+        "enable_nested_fields": true,
+        "fields": [
+          {"name": "name", "type": "string"},
+          {"name": "addresses.zip", "type": "string[]"}
+        ]
+      }'
+```
+
+:::warning Note
+If there are overlapping definitions for nested fields at different levels of the nested hierarchy, the broader definition will take precedence over the definition for a sub-field.
+:::
 
 **Indexing nested objects via flattening**
 
