@@ -15,7 +15,7 @@ const config = {
         hid: 'description',
         name: 'description',
         content:
-          'Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and each of use.',
+          'Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.',
       },
       {
         hid: 'keywords',
