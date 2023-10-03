@@ -133,7 +133,7 @@ curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVe
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 <br>
 # Start Typesense
-sudo systemctl status typesense-server.service</code></pre>
+sudo systemctl start typesense-server.service</code></pre>
     </div>
   </template>
 </Tabs>
@@ -160,7 +160,7 @@ curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVe
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
 <br>
 # Start Typesense
-sudo systemctl status typesense-server.service</code></pre>
+sudo systemctl start typesense-server.service</code></pre>
     </div>
   </template>
 </Tabs>
