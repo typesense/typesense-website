@@ -1188,7 +1188,7 @@ let document = {
   'tag': 'large'
 }
 
-client.collections('comapnies').documents().update(document, {"filter_by": "num_employees:>1000"})
+client.collections('companies').documents().update(document, {"filter_by": "num_employees:>1000"})
 ```
 
   </template>
