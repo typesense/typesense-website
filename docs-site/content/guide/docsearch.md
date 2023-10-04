@@ -477,3 +477,8 @@ Notice that you still need to use `.algolia-autocomplete` class names since we u
 :::tip Debugging CSS
 In order to inspect and debug your CSS without having the searchbar close when you click on the devtool panels, you can initialize the docsearch library with the ``debug: true`` option!
 :::
+
+
+### Option E: Sphinx Documentation Generator
+
+[Here's](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/) a guide written by a Typesense user on how to integrate [Sphinx](https://www.sphinx-doc.org/en/master/) with Typesense DocSearch.
