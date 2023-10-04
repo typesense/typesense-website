@@ -188,6 +188,13 @@ If you're looking to scrape content that requires authentication, there's a
 number of options that are supported out of the box:
 
 
+##### Basic HTTP authentication
+
+To use this authentication, set these environment variables:
+
+- `DOCSEARCH_BASICAUTH_USERNAME`
+- `DOCSEARCH_BASICAUTH_PASSWORD`
+
 ##### Cloudflare Zero Trust (CF)
 
 To use this authentication, set these environment variables:
