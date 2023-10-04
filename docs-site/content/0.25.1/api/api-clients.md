@@ -129,6 +129,7 @@ We also have the following framework integrations:
 
 - [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
 - [Firebase](https://github.com/typesense/firestore-typesense-search)
+- [AWS Amplify](https://github.com/olliethedev/amplify-graphql-typesense-transformer)
 - [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense)
 - [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense)
