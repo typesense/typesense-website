@@ -1,5 +1,7 @@
 # Building Search UIs
 
+## Using InstantSearch.js
+
 The good folks over at Algolia have built and open-sourced [Instantsearch.js](https://github.com/algolia/instantsearch.js) (and its [React](https://github.com/algolia/react-instantsearch), [Vue](https://github.com/algolia/vue-instantsearch) and [Angular](https://github.com/algolia/angular-instantsearch) cousins) which is a collection of out-of-the-box UI components that you can use to build interactive search experiences quickly.
 
 At Typesense, we've built [an adapter](https://github.com/typesense/typesense-instantsearch-adapter) that lets you use the same Instantsearch widgets as is, but send the queries to Typesense instead.
@@ -10,11 +12,11 @@ If you prefer a video walk-through, here are two videos where a member of our co
 - [Building a Search App in React.js using Typesense, Next.js & Tailwind CSS](https://www.youtube.com/watch?v=cIU19iA8I7U)
 - [Exploring Typesense, a lightning-fast, open source search engine](https://www.youtube.com/watch?v=kwtHOkf7Jdg)
 
-## Using a package manager
+### With a package manager
 
 If you are already using a package manager like npm or yarn, here's how to add Instantsearch to your app:
 
-### Walk-through
+#### Walk-through
 
 Let's start with a starter template:
 
@@ -170,13 +172,21 @@ search.start();
 Now run `npm start` to start the dev server and view the app. You should now have a fully-functioning instant search interface with a search box, results that update as you type and pagination.
 
 
-### Demo App
+#### Demo App
 Here's a repo with a working version of the app, following the instructions above: [https://github.com/typesense/typesense-instantsearch-demo](https://github.com/typesense/typesense-instantsearch-demo). The repo also contains quick commands to start a local Typesense server (`npm run typesenseServer`) and index the books collection used in this example (`npm run populateTypesenseIndex`).
 
 InstantSearch.js also has [React](https://github.com/algolia/react-instantsearch), [Vue](https://github.com/algolia/vue-instantsearch), [Angular](https://github.com/algolia/angular-instantsearch) cousins. The Typesense InstantSearch adapter is also compatible with them. Similar to the above, you only need to swap the searchClient to the one provided by Typesense adapter. The rest of the instructions found in each of these repos work without additional changes.
 
-## Without using a package manager
+### Without using a package manager
 
 If you don't want to use npm / yarn, you can still use Instantsearch.js and typesense-instantsearch-adapter directly from plain HTML files and Javascript using `script` tags.
 
 Here's a demo app that shows you how to do this [https://github.com/typesense/typesense-instantsearch-demo-no-npm-yarn](https://github.com/typesense/typesense-instantsearch-demo-no-npm-yarn).
+
+## Other UI Libraries
+
+Here are other Search UI libraries for Typesense:
+
+- [Typesense-MiniBar](https://github.com/jquery/typesense-minibar)
+- [Autocomplete.js](/guide/reference-implementations/typesense-autocomplete-js.md)
+- [DocSearch](/guide/docsearch.html)

@@ -127,21 +127,36 @@ The Postman Collection above gives you template requests that you can import int
 
 We also have the following framework integrations:
 
-- [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
 - [Firebase](https://github.com/typesense/firestore-typesense-search)
 - [AWS Amplify](https://github.com/olliethedev/amplify-graphql-typesense-transformer)
-- [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
-- [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense)
-- [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense)
+- [Laravel](https://github.com/typesense/laravel-scout-typesense-engine)
 - [Symfony](https://github.com/acseo/TypesenseBundle)
-- [InstantSearch](https://github.com/typesense/typesense-instantsearch-adapter)
-- [DocSearch](https://typesense.org/docs/guide/docsearch.html)
-- [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
-- [ToolJet](https://tooljet.com/?ref=typesense)
-- [Plone CMS](https://pypi.org/project/zopyx.typesense/)
-- [Craft CMS](https://plugins.craftcms.com/typesense)
+- [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
+
+## UI Components
+
+- [InstantSearch](https://github.com/typesense/typesense-instantsearch-adapter)
+- [Typesense-MiniBar](https://github.com/jquery/typesense-minibar)
+- [Autocomplete.js](/guide/reference-implementations/typesense-autocomplete-js.md)
+
+## Documentation Search
+
+- [DocSearch](/guide/docsearch.html)
+- [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
+- [Sphinx](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/)
+
+## Platforms
+
+- [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
+- [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense) by Codemanas
+- [BigCommerce](https://www.bigcommerce.com/apps/hyper-search-by-space-48/) by Space48
+- [Magento](https://github.com/MonogoPolska/magento-typesense-suite) by Monogo
+- [Magento](https://github.com/develodesign/magento2-module-typesense) by Develo
+- [Craft CMS](https://plugins.craftcms.com/typesense) by Percipio
+- [Plone CMS](https://pypi.org/project/zopyx.typesense/)
+- [ToolJet](https://tooljet.com/?ref=typesense)
 
 ## Utilities
 
@@ -149,3 +164,4 @@ We also have the following utilities:
 
 - [Generate Sitemaps from Typesense data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)
+- [Airbyte ETL](https://docs.airbyte.com/integrations/destinations/typesense)

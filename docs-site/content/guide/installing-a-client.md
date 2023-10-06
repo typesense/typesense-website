@@ -17,11 +17,14 @@ We also have the following community-maintained client libraries:
 - [Perl](https://github.com/Ovid/Search-Typesense)
 - [Swift](https://github.com/typesense/typesense-swift)
 - [Clojure](https://github.com/runeanielsen/typesense-clj)
+- [python orm client](https://github.com/RedSnail/typesense_orm)
+- [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
+- [Elixir](https://github.com/jaeyson/ex_typesense)
 
-We also have several framework integrations listed [here](https://typesense.org/docs/latest/api/api-clients.html#framework-integrations).
+We also have several framework integrations listed <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-clients.html#framework-integrations`">here</RouterLink>.
 
 :::tip
-If you don't see an official client in your language, you can still use any HTTP library / package in your language to make API calls to Typesense's REStful API.
+If you don't see an official client in your language, you can still use any HTTP library in your language to make API calls to Typesense's RESTful API directly.
 :::
 
 <br>
