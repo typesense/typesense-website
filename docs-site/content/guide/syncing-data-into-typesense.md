@@ -41,7 +41,7 @@ If you use an ORM, you can hook into callbacks provided by your ORM framework:
 
 They support [several sources](https://airbyte.com/connectors?connector-type=Sources) like MySQL, Postgres, MSSQL, Redshift, Kafka and even Google Sheets and also [support Typesense](https://docs.airbyte.com/integrations/destinations/typesense/) as a destination.
 
-Read more about how to deploy Airbyte, and set it up [here](https://airbytehq.github.io/category/airbyte-open-source-quickstart).
+Read more about how to deploy Airbyte, and set it up [here](https://docs.airbyte.com/quickstart/deploy-airbyte).
 
 ## Sync real-time changes
 
