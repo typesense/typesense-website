@@ -10,15 +10,53 @@ To get the expected performance characteristics out of Typesense, it is critical
 The Typesense process itself is quite light-weight and only takes up about `20MB` of RAM when there's no data indexed. 
 The amount of RAM required is completely dependent on the size of the data you index.
 
-#### For Keyword Search
+### For Keyword Search
 
-In general, if the size of your dataset is `X MB`, you'd typically need `2X-3X MB` RAM to index the data in Typesense.
+If the size of your dataset (only including fields you want to search on) is `X MB`, you'd typically need `2X-3X MB` RAM to index the data in Typesense.
 
-For example: If your dataset size is `1GB`, you'd need between `2GB - 3GB` RAM to hold the whole index in memory.
+For example: If your dataset size is `5GB`, and you want to search on a subset of the fields and the size of that subset of fields is `1GB`, then you'd need between `2GB - 3GB` RAM to hold the search indices in memory.
 
-RAM usage will be on the lower end if your dataset has many documents with overlapping words (or tokens), and on the higher end if documents contain words (or tokens) unique to them.
+You can still store unindexed fields in Typesense (for eg: fields you'd only want for display purposes) - these unindexed fields will be stored on disk and not count towards RAM usage. 
 
-#### For Vector / Semantic / Hybrid Search
+RAM usage will be on the lower end if your dataset has many documents with overlapping words (or tokens), and on the higher end if several documents contain words (or tokens) unique to them.
+
+:::tip Calculating record size
+
+Let's say you have a JSON document like this:
+
+```json
+{
+  "album_name": "John Denver Rare and Unreleased",
+  "country": "US",
+  "genres": ["country"],
+  "id": "31401733",
+  "primary_artist_name": "John Denver",
+  "release_date": 1104537600,
+  "release_decade": "2010s",
+  "release_group_types": [
+    "Album"
+  ],
+  "title": "Annie's Song",
+  "track_id": "58ac90d0-d6fe-4395-9e65-f714ae4c23c0",
+  "urls": []
+}
+```
+And you only want to search on `album_name` and `primary_artist_name` and you want to filter on `genres` and `release_date`.
+To calculate RAM usage, you want to take just the _values_ of those fields as the size of one record.
+
+So even though your documents have other fields like `track_id`, `urls`, `release_decade`, etc since you're not searching on them and potentially only using them for display purposes, they don't count towards RAM usage.
+
+Let's say on average an album name can have 100 characters (that's 100 bytes), primary artist name can be 50 characters (that's 50 bytes), genres can be 50 characters (that's 50 bytes) and release date is an integer (that's 4 bytes).
+
+So our average record size is `100 + 50 + 50 + 4 = 204 Bytes = 0.204 KB`.
+
+The length of field _names_ does not affect RAM usage, since field names are not repeated in the index.
+
+If we have say 1M records, our total dataset size is `0.204KB * 1M records = 204MB`.
+So our RAM consumption would be `204MB * 2 = 408MB` on the low end and `204MB * 3 = 612MB` on the high end.
+:::
+
+### For Vector / Semantic / Hybrid Search
 
 When indexing documents for <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>, each vector requires 7 bytes of memory. 
 
