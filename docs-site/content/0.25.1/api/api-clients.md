@@ -134,6 +134,7 @@ We also have the following framework integrations:
 - [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
+- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/TypesenseDemo.ipynb)
 
 ## UI Components
 
@@ -147,21 +148,42 @@ We also have the following framework integrations:
 - [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
 - [Sphinx](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/)
 
-## Platforms
+## AI / ML Platforms
 
-- [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
-- [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense) by Codemanas
+- OpenAI
+  - [Cookbook](https://cookbook.openai.com/examples/vector_databases/typesense/using_typesense_for_embeddings_search)
+  - [Built-in Integration](./vector-search.md#using-openai-api)
+- Google ML
+  - [PaLM API](./vector-search.md#using-google-palm-api)
+  - [Vertex AI](./vector-search.md#using-gcp-vertex-ai-api)
+- [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
+- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/TypesenseDemo.ipynb)
+
+## Ecommerce
+
 - [BigCommerce](https://www.bigcommerce.com/apps/hyper-search-by-space-48/) by Space48
 - [Magento](https://github.com/MonogoPolska/magento-typesense-suite) by Monogo
 - [Magento](https://github.com/develodesign/magento2-module-typesense) by Develo
+- [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense) by Codemanas
+
+## CMS
+
+- [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
 - [Craft CMS](https://plugins.craftcms.com/typesense) by Percipio
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
-- [ToolJet](https://tooljet.com/?ref=typesense)
+- [Drupal](https://www.drupal.org/project/search_api_typesense)
 
 ## Utilities
 
-We also have the following utilities:
-
-- [Generate Sitemaps from Typesense data](https://github.com/adviise/typesense-sitemap)
-- [typesense-cli](https://github.com/AlexBV117/typesense-cli)
+- [ToolJet](https://tooljet.com/?ref=typesense)
 - [Airbyte ETL](https://docs.airbyte.com/integrations/destinations/typesense)
+- [Sitemap Generator from Typesense Data](https://github.com/adviise/typesense-sitemap)
+- [typesense-cli](https://github.com/AlexBV117/typesense-cli)
+
+:::tip
+Planning to build an integration with Typesense? 
+
+We're happy to give you guidance on best-practices, and feature your work on this page.
+
+Please reach out to us via email: contact at typesense d0T org
+:::
