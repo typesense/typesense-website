@@ -1,64 +1,61 @@
 <template>
   <div class="container">
-    <div class="row d-flex justify-content-center">
-      <div class="col-sm col-lg-2 d-flex justify-content-center">
-        <a href="https://github.com/typesense/typesense" target="_blank"
-          ><img
-            src="https://img.shields.io/github/stars/typesense/typesense?label=stars&style=for-the-badge&logo=github&color=020102"
-            alt="typesense/typesense on GitHub"
-            width="130"
-            height="28"
-        /></a>
+    <div class="grid-container">
+      <div class="grid-item">
+        <HomeMetric
+          :metric-name="`GitHub\nStars`"
+          :metric-value="`${githubStars}`"
+        ></HomeMetric>
       </div>
-      <div
-        class="col-sm col-lg-2 d-flex justify-content-center mt-3 mt-sm-0 ml-0 ml-sm-4"
-      >
-        <a href="https://hub.docker.com/r/typesense/typesense" target="_blank"
-          ><img
-            src="https://img.shields.io/docker/pulls/typesense/typesense?label=pulls&style=for-the-badge&logo=docker&color=0db7ed&labelColor=020102"
-            alt="typesense/typesense on Docker Hub"
-            width="130"
-            height="28"
-        /></a>
+      <div class="grid-item">
+        <HomeMetric
+          :metric-name="`Docker\nPulls`"
+          :metric-value="`${dockerPulls}`"
+        ></HomeMetric>
       </div>
-      <div
-        class="col-sm col-lg-2 d-flex justify-content-center mt-3 mt-sm-0 ml-0 ml-sm-4"
-      >
-        <a
-          href="https://www.producthunt.com/posts/typesense?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-typesense"
-          target="_blank"
-          ><img
-            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=123903&theme=dark"
-            alt="Typesense - Typo tolerant, delightfully simple, open source search 🔍 | Product Hunt"
-            width="130"
-            height="28"
-        /></a>
+      <div class="grid-item">
+        <HomeMetric
+          :metric-name="`Typesense Cloud\nSearches per Month`"
+          :metric-value="`${cloudSearchesPerMonth}`"
+        ></HomeMetric>
       </div>
-      <div
-        class="col-sm col-lg-2 d-flex justify-content-center mt-3 mt-sm-0 ml-0 ml-sm-4"
-      >
-        <a href="https://news.ycombinator.com/item?id=22181437" target="_blank">
-          <img
-            alt="Featured on Hacker News"
-            src="https://hackerbadge.now.sh/api?id=22181437&type=dark"
-            width="130"
-            height="28"
-          />
-        </a>
-      </div>
-    </div>
-    <div class="mt-5">
-      <p class="text-center text-gradient-1 h4">
-        Serving
-        <span class="marker-highlight">1.5 Billion+ Searches</span> per month on
-        Typesense Cloud
-      </p>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      githubStars: '15K',
+      dockerPulls: '8.5M',
+      cloudSearchesPerMonth: '1.5B',
+    }
+  },
+}
+</script>
+
 <style scoped>
 a {
   border-bottom: unset;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Space between grid items */
+  align-items: center; /* Vertical alignment */
+  justify-items: center; /* Horizontal alignment */
+
+  .grid-item {
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    justify-items: start; /* Horizontal alignment */
+  }
 }
 </style>

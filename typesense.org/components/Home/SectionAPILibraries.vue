@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gradient-2 text-white py-5">
     <div class="container py-5">
-      <h2 class="text-center">
+      <h2 class="text-center text-shadow-primary-1">
         API Libraries & Plugins in your Favorite Languages
       </h2>
       <div class="text-center">
@@ -347,9 +347,7 @@
               <a
                 href="https://github.com/typesense/typesense-instantsearch-adapter"
                 class="text-white"
-                ><span class="text-underline-primary"
-                  >Typesense UI Adapter</span
-                ></a
+                >Typesense UI Adapter</a
               >
               = Awesomeness
             </div>

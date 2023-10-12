@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-center text-gradient-1">
+    <h2 class="text-center text-gradient-1 text-shadow-primary-2">
       Batteries-Included Developer Experience
     </h2>
     <div class="text-center">Zero to Instant-Search, in 30 seconds 🚀</div>

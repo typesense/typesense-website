@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gradient-3 text-white py-5">
     <div class="container">
-      <h2 class="text-center">Backed by responsive support</h2>
+      <h2 class="text-center text-shadow-primary-1">
+        Backed by responsive support
+      </h2>
       <div class="text-center">
         Let us help you build a scalable and robust search experience
       </div>
@@ -82,3 +84,5 @@
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped></style>

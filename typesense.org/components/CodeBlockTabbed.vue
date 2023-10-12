@@ -99,7 +99,7 @@ export default {
 
     .url-link {
       color: $primary-dark-4;
-      border-bottom: none;
+      text-decoration: none;
     }
   }
 

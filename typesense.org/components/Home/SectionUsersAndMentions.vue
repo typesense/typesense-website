@@ -1,94 +1,103 @@
 <template>
-  <div class="py-5 container">
-    <h2 class="text-center text-gradient-2">Trusted by Teams of all Sizes</h2>
-    <div class="text-center">You'll be in good company</div>
+  <div class="py-5">
+    <div class="container">
+      <h2 class="text-center text-gradient-2 text-shadow-primary-2">
+        Trusted by Teams of all Sizes
+      </h2>
+      <div class="text-center">You'll be in good company</div>
 
-    <div class="row mt-3">
-      <div class="col-sm">
-        <div class="text-center logos-container overflow-auto mt-4">
-          <a
-            v-for="userLogo in userLogos"
-            :key="userLogo.href"
-            :href="userLogo.href"
-            target="_blank"
-          >
-            <img
-              :src="require(`~/assets/images/${userLogo.imgPath}`)"
-              :alt="userLogo.alt"
-              :width="userLogo.width"
-              :height="userLogo.height"
-              class="mt-4 mt-sm-0"
-            />
-          </a>
+      <div class="row mt-3">
+        <div class="col-sm">
+          <div class="text-center logos-container overflow-auto mt-4">
+            <a
+              v-for="userLogo in userLogos"
+              :key="userLogo.href"
+              :href="userLogo.href"
+              target="_blank"
+            >
+              <img
+                :src="require(`~/assets/images/${userLogo.imgPath}`)"
+                :alt="userLogo.alt"
+                :width="userLogo.width"
+                :height="userLogo.height"
+                class="mt-4 mt-sm-0"
+              />
+            </a>
+          </div>
         </div>
       </div>
+
+      <div class="mb-3">&nbsp;</div>
     </div>
-
-    <div class="mb-5">&nbsp;</div>
-
-    <HomeBadges />
-
-    <div class="mb-3">&nbsp;</div>
-
-    <div class="bg-light-2 p-5 mt-5">
+    <div class="p-5 mt-4">
       <div class="row">
         <div class="col-sm">
           <div class="text-center">
-            <h5 class="mb-5">As Seen At</h5>
-            <div>
-              <a
-                href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
-                target="_blank"
-              >
-                <img
-                  :src="require(`~/assets/images/Google-IO-Logo.svg`)"
-                  alt="Typesense at Google/IO"
-                  width="200"
-                  height="83"
-                  style="object-position: 0px -10px"
-                />
-              </a>
-              <a
-                href="https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031"
-                target="_blank"
-                class="ml-4 pt-3"
-              >
-                <img
-                  :src="require(`~/assets/images/thoughtworks-logo.svg`)"
-                  alt="Typesense on ThoughtWorks Technology Radar"
-                  width="210"
-                  height="61"
-                />
-              </a>
-              <div class="mt-sm-3 mt-4">
-                <a
-                  href="https://twitter.com/jasonbosco/status/1565073075040882688"
-                  target="_blank"
-                  class="ml-4"
-                >
-                  <img
-                    :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
-                    alt="Typesense on Nasdaq Billboard"
-                    width="170"
-                    height="48"
-                  />
-                </a>
-                <div class="mt-4 mt-sm-5">
+            <h4 class="mb-5 text-gradient-1 text-shadow-primary-2">
+              As Seen At
+            </h4>
+            <div class="row">
+              <div class="col-sm-5 d-flex flex-column align-items-sm-end pl-4">
+                <div class="mb-5">
                   <a
-                    href="https://twitter.com/jasonbosco/status/1565073075040882688"
+                    href="https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s"
                     target="_blank"
                   >
-                    <!-- prettier-ignore -->
                     <img
-                      :src="require(`~/assets/images/typesense-on-nasdaq.jpeg`)"
-                      alt="Typesense on Nasdaq Billboard"
-                      width="400"
-                      class="img-fluid"
-                      style="filter: drop-shadow(7px 7px 8px rgba(0,0,0,0.36)); border-radius: 5px;"
-                      loading="lazy"
+                      :src="require(`~/assets/images/Google-IO-Logo.svg`)"
+                      alt="Typesense at Google/IO"
+                      width="200"
+                      height="83"
+                      style="object-position: 0px -10px"
                     />
                   </a>
                 </div>
+                <div class="mb-5">
+                  <a
+                    href="https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031"
+                    target="_blank"
+                    class="ml-4 pt-3"
+                  >
+                    <img
+                      :src="require(`~/assets/images/thoughtworks-logo.svg`)"
+                      alt="Typesense on ThoughtWorks Technology Radar"
+                      width="210"
+                      height="61"
+                    />
+                  </a>
+                </div>
+                <div class="mb-3">
+                  <a
+                    href="https://twitter.com/jasonbosco/status/1565073075040882688"
+                    target="_blank"
+                    class="ml-4"
+                  >
+                    <img
+                      :src="require(`~/assets/images/NASDAQ_Logo.svg`)"
+                      alt="Typesense on Nasdaq Billboard"
+                      width="170"
+                      height="48"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div
+                class="col-sm-7 d-flex flex-column align-items-start mt-5 mt-sm-0"
+              >
+                <a
+                  href="https://twitter.com/jasonbosco/status/1565073075040882688"
+                  target="_blank"
+                >
+                  <!-- prettier-ignore -->
+                  <img
+                      :src="require(`~/assets/images/typesense-on-nasdaq.jpeg`)"
+                      alt="Typesense on Nasdaq Billboard"
+                      width="400"
+                      class="img-fluid ml-sm-5"
+                      style="filter: drop-shadow(0px 0px 40px #ffdd1750); border-radius: 20px;"
+                      loading="lazy"
+                    />
+                </a>
               </div>
             </div>
           </div>

@@ -48,4 +48,8 @@ export default {
   height: 100px;
   border-bottom: none;
 }
+
+a {
+  text-decoration: none;
+}
 </style>

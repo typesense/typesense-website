@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&display=swap');
 
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
@@ -13,6 +14,10 @@ body {
 
 .text-serif-2 {
   font-family: 'Catamaran', sans-serif;
+}
+
+.text-display-font {
+  font-family: 'Gabarito', sans-serif;
 }
 
 .border-short {
@@ -77,11 +82,6 @@ body {
   }
 }
 
-.text-underline-primary {
-  padding-bottom: 0;
-  border-bottom: $primary 1px solid;
-}
-
 .text-gradient-1 {
   background: linear-gradient(90deg, $secondary 40%, darken($secondary, 30%) 100%);
   -webkit-background-clip: text;
@@ -94,6 +94,10 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.text-gray-200 {
+  color: $gray-200;
+}
+
 .text-dark-brown {
   color: $dark-brown;
 }
@@ -104,14 +108,41 @@ strong {
 
 a {
   color: $body-color;
-  border-bottom: $primary 2px solid;
+
+  text-decoration: underline;
+  text-decoration-color: $primary;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 
   &:hover {
-    bottom-bottom-color: darken($primary, 5%);
-    text-decoration: none;
+    text-decoration-color: darken($primary, 5%);
   }
 }
 
 mark {
-  background-color: rgba(252, 247, 244, 0.6);
+  background-color: rgb(255 243 101 / 25%);
+  color: white;
+}
+
+.text-shadow-primary-1 {
+  text-shadow: 0px 0px 30px #c10045;
+}
+
+.text-shadow-primary-2 {
+  text-shadow: 0px 0px 10px #c1004533;
+}
+
+.btn.btn-primary {
+  box-shadow: 0px 0px 10px 0px #ffdd1785;
+}
+
+.nav-link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-decoration-color: darken($primary, 5%);
+  }
 }

@@ -7,23 +7,16 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-7 text-white">
-            <div class="h4 mb-2">⚡ 🔍</div>
-            <h1 class="display-4">
-              Lightning-fast,<br />
-              Open Source Search.<br />
-              No PhD required.
+            <div class="h4 mb-2">
+              <img src="~assets/images/high-voltage.svg" height="22" />
+              <img src="~assets/images/search.svg" height="22" />
+            </div>
+            <h1 class="display-3 text-shadow-primary-1">
+              Lightning-fast<br />
+              Open Source <br />
+              Search<br />
             </h1>
-            <p class="mt-4 mt-sm-0 mb-0">
-              Craft delightful <strong>search-as-you-type</strong> experiences
-              with Typesense.
-            </p>
-            <p class="mt-3 mt-sm-1">
-              Meticulously engineered <br class="d-inline d-sm-none" />
-              for
-              <span class="text-underline-primary"
-                >performance & ease of use</span
-              >.
-            </p>
+            <h3 class="font-weight-lighter">No PhD required.</h3>
             <div class="mt-5">
               <HomeCTAs />
               <a href="https://github.com/typesense/typesense">
@@ -37,7 +30,7 @@
             </div>
           </div>
           <div class="col-sm-5">
-            <div class="mt-4 mt-sm-1">&nbsp;</div>
+            <div class="mt-4 mt-sm-3">&nbsp;</div>
             <HomeSearchDemo class="mt-2" />
           </div>
         </div>
@@ -46,6 +39,7 @@
   </div>
 </template>
 
+<script setup></script>
 <style scoped>
 .jumbotron {
   background-color: unset;

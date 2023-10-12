@@ -38,25 +38,28 @@
           :class="{ show }"
         >
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item justify-content-center align-self-center mr-5">
-              <a href="https://github.com/typesense/typesense">
-                <img
-                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"
-                  alt="GitHub Stars"
-                  class="d-none d-sm-block"
-                  height="20"
-                />
-              </a>
-            </li>
+            <!--            <li class="nav-item justify-content-center align-self-center mr-5">-->
+            <!--              <a href="https://github.com/typesense/typesense">-->
+            <!--                <img-->
+            <!--                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"-->
+            <!--                  alt="GitHub Stars"-->
+            <!--                  class="d-none d-sm-block"-->
+            <!--                  height="20"-->
+            <!--                />-->
+            <!--              </a>-->
+            <!--            </li>-->
             <li
-              v-for="item in navLinks"
+              v-for="(item, index) in navLinks"
               :key="item.link || item.externalLink"
               class="nav-item"
             >
               <a
                 v-if="item.externalLink"
                 :href="item.externalLink"
-                :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+                :class="[
+                  colorScheme === 'light' ? 'text-light' : 'text-dark',
+                  index === navLinks.length - 1 ? 'mr-0' : '',
+                ]"
                 class="nav-link"
                 :target="item.target ? item.target : '_self'"
               >
@@ -65,7 +68,10 @@
               <NuxtLink
                 v-if="item.link"
                 :to="item.link"
-                :class="colorScheme === 'light' ? 'text-light' : 'text-dark'"
+                :class="[
+                  colorScheme === 'light' ? 'text-light' : 'text-dark',
+                  index === navLinks.length - 1 ? 'mr-0' : '',
+                ]"
                 class="nav-link"
               >
                 {{ item.text }}
@@ -150,8 +156,8 @@ GithubButton {
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-right: 0;
   padding-left: 0;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 0.9rem;
+  margin-right: 0.9rem;
 }
 
 a {

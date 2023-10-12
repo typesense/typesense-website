@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h2 id="showcase" class="text-gradient-1">Showcase</h2>
+    <h2 id="showcase" class="text-gradient-1 text-shadow-primary-2">
+      Showcase
+    </h2>
     <div>
       Built with Typesense, InstantSearch UI components & hosted on Typesense
       Cloud.

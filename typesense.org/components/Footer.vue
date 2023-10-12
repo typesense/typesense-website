@@ -24,7 +24,7 @@
             </address>
           </div>
           <div class="mt-4 font-weight-light">
-            Typesense ® is a registered trademark of Typesense, Inc.
+            Typesense® is a registered trademark of Typesense, Inc.
           </div>
         </div>
 
@@ -240,6 +240,13 @@
 
 <style scoped lang="scss">
 a {
-  border-bottom: unset;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-decoration-color: darken($primary, 5%);
+  }
 }
 </style>
