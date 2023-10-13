@@ -2407,9 +2407,17 @@ curl 'http://localhost:8108/multi_search' \
 
 </Tabs>
 
+During hybrid search, the `_text_match` clause in `sort_by` will refer to the combined fusion score. 
+
 You can also do a hybrid search when using your own embedding field, by combining the `q` parameter with the `vector_query` parameter.
 
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
+
+:::tip
+When querying on both an embedding field and regular search fields, some parameters like `query_by_weights` 
+won't have an impact on an embedding field mentioned in `query_by`. However, since length of `query_by_weights` 
+must match the length of `query_by`, you can use a dummy value like `0`.
+:::
 
 ### Distance Threshold
 
