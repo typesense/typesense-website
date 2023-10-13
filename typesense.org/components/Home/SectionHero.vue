@@ -19,14 +19,7 @@
             <h3 class="font-weight-lighter">No PhD required.</h3>
             <div class="mt-5">
               <HomeCTAs />
-              <a href="https://github.com/typesense/typesense">
-                <img
-                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"
-                  alt="GitHub Stars"
-                  class="mt-4 d-block d-sm-none"
-                  height="20"
-                />
-              </a>
+              <GitHubStars class="mt-4 d-inline-block d-sm-none" />
             </div>
           </div>
           <div class="col-sm-5">
@@ -39,7 +32,6 @@
   </div>
 </template>
 
-<script setup></script>
 <style scoped>
 .jumbotron {
   background-color: unset;

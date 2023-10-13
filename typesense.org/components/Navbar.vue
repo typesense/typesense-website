@@ -38,16 +38,11 @@
           :class="{ show }"
         >
           <ul class="navbar-nav ml-auto">
-            <!--            <li class="nav-item justify-content-center align-self-center mr-5">-->
-            <!--              <a href="https://github.com/typesense/typesense">-->
-            <!--                <img-->
-            <!--                  src="https://img.shields.io/github/stars/typesense/typesense?style=social"-->
-            <!--                  alt="GitHub Stars"-->
-            <!--                  class="d-none d-sm-block"-->
-            <!--                  height="20"-->
-            <!--                />-->
-            <!--              </a>-->
-            <!--            </li>-->
+            <li
+              class="nav-item d-none d-sm-flex justify-content-center align-self-center mr-4"
+            >
+              <GitHubStars />
+            </li>
             <li
               v-for="(item, index) in navLinks"
               :key="item.link || item.externalLink"
