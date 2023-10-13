@@ -164,26 +164,38 @@ a {
   &.text-light {
     &.nuxt-link-exact-active {
       padding-bottom: 0;
-      border-bottom: $primary 1px solid;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
 
     &:hover {
       color: unset !important;
       padding-bottom: 0;
-      border-bottom: $primary 1px solid;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
   }
 
   &.text-dark {
     &.nuxt-link-exact-active {
       padding-bottom: 0;
-      border-bottom: $primary 2px solid;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
 
     &:hover {
       color: unset !important;
       padding-bottom: 0;
-      border-bottom: $primary 2px solid;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
   }
 }
