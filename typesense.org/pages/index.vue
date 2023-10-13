@@ -46,8 +46,8 @@
                 </div>
                 <div class="col-sm-6">
                   <ul class="use-cases-list lead p-0 m-0">
+                    <li>Vector Search</li>
                     <li>Semantic Search</li>
-                    <li>Similarity Search</li>
                     <li>Recommendations</li>
                     <li>LLM Augmentation</li>
                     <li>Geo-Distributed Cache</li>
