@@ -5,18 +5,21 @@
         <HomeMetric
           :metric-name="`GitHub\nStars`"
           :metric-value="`${githubStars}`"
+          metric-link="https://github.com/typesense/typesense"
         ></HomeMetric>
       </div>
       <div class="grid-item">
         <HomeMetric
           :metric-name="`Docker\nPulls`"
           :metric-value="`${dockerPulls}`"
+          metric-link="https://hub.docker.com/r/typesense/typesense"
         ></HomeMetric>
       </div>
       <div class="grid-item">
         <HomeMetric
           :metric-name="`Typesense Cloud\nSearches per Month`"
           :metric-value="`${cloudSearchesPerMonth}`"
+          metric-link="https://cloud.typesense.org"
         ></HomeMetric>
       </div>
     </div>

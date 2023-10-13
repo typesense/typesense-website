@@ -1,9 +1,15 @@
 <template>
   <div class="metric d-flex justify-items-center align-items-center">
     <div class="text-display-font metric-value">
-      {{ metricValue }}
+      <a :href="metricLink" target="_blank" class="metric-link">{{
+        metricValue
+      }}</a>
     </div>
-    <div class="metric-name">{{ metricName }}</div>
+    <div class="metric-name">
+      <a :href="metricLink" target="_blank" class="metric-link">{{
+        metricName
+      }}</a>
+    </div>
   </div>
 </template>
 
@@ -17,6 +23,10 @@ export default {
     metricValue: {
       type: String,
       default: '10.1K',
+    },
+    metricLink: {
+      type: String,
+      default: null,
     },
   },
 }
@@ -34,5 +44,13 @@ export default {
   padding: 0 15px;
   font-size: 3rem;
   text-shadow: 0px 0px 30px rgba(253, 220, 25, 0.52);
+}
+.metric-link {
+  text-decoration: none;
+  transition: text-shadow 0.1s ease, color 0.1s ease;
+  &:hover {
+    text-decoration: none;
+    text-shadow: 0px 0px 20px #ffdd1785;
+  }
 }
 </style>
