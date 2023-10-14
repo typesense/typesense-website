@@ -8,8 +8,18 @@
         <div class="row">
           <div class="col-sm-7 text-white">
             <div class="h4 mb-2">
-              <img src="~assets/images/high-voltage.svg" height="22" />
-              <img src="~assets/images/search.svg" height="22" />
+              <img
+                src="~assets/images/high-voltage.svg"
+                height="22"
+                width="22"
+                alt="lightning-icon"
+              />
+              <img
+                src="~assets/images/search.svg"
+                height="22"
+                width="22"
+                alt="search-icon"
+              />
             </div>
             <h1 class="display-3 text-shadow-primary-1">
               Lightning-fast<br />

@@ -1,7 +1,11 @@
 <template>
   <div class="bg-gradient-2 text-white py-5">
     <div class="container py-5">
-      <h2 class="text-center text-shadow-primary-1">
+      <h2
+        class="text-center text-shadow-primary-1"
+        data-aos="fade-in"
+        data-aos-duration="250"
+      >
         API Libraries & Plugins in your Favorite Languages
       </h2>
       <div class="text-center">

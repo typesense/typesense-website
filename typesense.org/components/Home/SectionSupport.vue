@@ -1,7 +1,11 @@
 <template>
   <div class="bg-gradient-3 text-white py-5">
     <div class="container">
-      <h2 class="text-center text-shadow-primary-1">
+      <h2
+        class="text-center text-shadow-primary-1"
+        data-aos="zoom-out"
+        data-aos-duration="350"
+      >
         Backed by responsive support
       </h2>
       <div class="text-center">

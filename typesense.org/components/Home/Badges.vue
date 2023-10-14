@@ -6,6 +6,8 @@
           :metric-name="`GitHub\nStars`"
           :metric-value="`${githubStars}`"
           metric-link="https://github.com/typesense/typesense"
+          :data-aos="animationEffect"
+          :data-aos-duration="animationDuration"
         ></HomeMetric>
       </div>
       <div class="grid-item">
@@ -13,6 +15,8 @@
           :metric-name="`Docker\nPulls`"
           :metric-value="`${dockerPulls}`"
           metric-link="https://hub.docker.com/r/typesense/typesense"
+          :data-aos="animationEffect"
+          :data-aos-duration="animationDuration"
         ></HomeMetric>
       </div>
       <div class="grid-item">
@@ -20,6 +24,8 @@
           :metric-name="`Typesense Cloud\nSearches per Month`"
           :metric-value="`${cloudSearchesPerMonth}`"
           metric-link="https://cloud.typesense.org"
+          :data-aos="animationEffect"
+          :data-aos-duration="animationDuration"
         ></HomeMetric>
       </div>
     </div>
@@ -33,6 +39,8 @@ export default {
       githubStars: '15K',
       dockerPulls: '8.5M',
       cloudSearchesPerMonth: '1.5B',
+      animationDuration: 350,
+      animationEffect: 'zoom-out',
     }
   },
 }

@@ -13,57 +13,68 @@
             src="~assets/images/try_it_out.svg"
             height="70"
             width="95"
+            alt="Try it out"
           />
         </div>
         <div class="col-sm-11">
-          <AisSearchBox
-            placeholder="Search for a recipe..."
-            :autofocus="true"
-            :class-names="{
-              'ais-SearchBox-input':
-                'form-control form-control-lg search-demo-search-input',
-              'ais-SearchBox-submit': 'd-none',
-              'ais-SearchBox-reset': 'd-none',
-            }"
-          />
+          <Transition name="fade">
+            <AisSearchBox
+              placeholder="Search for a recipe..."
+              :autofocus="true"
+              :class-names="{
+                'ais-SearchBox-input':
+                  'form-control form-control-lg search-demo-search-input',
+                'ais-SearchBox-submit': 'd-none',
+                'ais-SearchBox-reset': 'd-none',
+              }"
+            />
+          </Transition>
         </div>
       </div>
-      <AisStats class="text-right mt-1 mb-4">
-        <span
-          slot-scope="{ nbHits, processingTimeMS }"
-          class="small text-gray-200"
-        >
-          ✨ Found {{ nbHits.toLocaleString() }} recipes out of
-          {{ starQueryResults['out_of'].toLocaleString() }} in
-          {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }} ms
-        </span>
-      </AisStats>
+
+      <Transition name="fade">
+        <AisStats class="text-right mt-1 mb-4">
+          <span
+            slot-scope="{ nbHits, processingTimeMS }"
+            class="small text-gray-200"
+          >
+            ✨ Found {{ nbHits.toLocaleString() }} recipes out of
+            {{ starQueryResults['out_of'].toLocaleString() }} in
+            {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }} ms
+          </span>
+        </AisStats>
+      </Transition>
       <div class="row justify-content-end mt-3">
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
-          <AisHits
-            :transform-items="transformSearchHits"
-            :class-names="{
-              'ais-Hits-list': 'p-0',
-              'ais-Hits-item': 'small pb-4 d-block',
-            }"
-          >
-            <div slot="item" slot-scope="{ item }">
-              <a :href="item.link" target="_blank" class="nav-link p-0">
-                <div class="d-flex justify-content-between">
-                  <div
-                    class="text-truncate d-inline-block text-gray-200"
-                    style="max-width: 250px"
-                  >
-                    <ais-highlight attribute="title" :hit="item" />
+          <Transition name="fade">
+            <AisHits
+              :transform-items="transformSearchHits"
+              :class-names="{
+                'ais-Hits-list': 'p-0',
+                'ais-Hits-item': 'small pb-4 d-block',
+              }"
+            >
+              <div slot="item" slot-scope="{ item }">
+                <a :href="item.link" target="_blank" class="nav-link p-0">
+                  <div class="d-flex justify-content-between">
+                    <div
+                      class="text-truncate d-inline-block text-gray-200"
+                      style="max-width: 250px"
+                    >
+                      <ais-highlight attribute="title" :hit="item" />
+                    </div>
+                    <div class="d-inline-block">
+                      <img
+                        src="~/assets/images/open_link_icon.svg"
+                        height="12"
+                      />
+                    </div>
                   </div>
-                  <div class="d-inline-block">
-                    <img src="~/assets/images/open_link_icon.svg" height="12" />
-                  </div>
-                </div>
-              </a>
-            </div>
-          </AisHits>
+                </a>
+              </div>
+            </AisHits>
+          </Transition>
         </div>
       </div>
     </AisInstantSearch>

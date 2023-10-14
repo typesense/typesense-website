@@ -5,7 +5,7 @@
     </h2>
     <div class="text-center">Zero to Instant-Search, in 30 seconds 🚀</div>
 
-    <HomeDeveloperExperienceStep class="mt-5">
+    <HomeDeveloperExperienceStep class="mt-5" data-aos="fade-up">
       <template #code>
         <CodeBlockTabbed state-id="install-typesense">
           <pre data-language="bash" data-display-language="Docker">
@@ -55,7 +55,7 @@ brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}</pre
       </template>
     </HomeDeveloperExperienceStep>
 
-    <HomeDeveloperExperienceStep class="mt-5">
+    <HomeDeveloperExperienceStep class="mt-5" data-aos="fade-up">
       <template #code>
         <CodeBlockTabbed>
           <pre data-language="bash" data-display-language="Shell">
@@ -202,7 +202,7 @@ client.collections['books'].documents.import(documents)</pre
       </template>
     </HomeDeveloperExperienceStep>
 
-    <HomeDeveloperExperienceStep class="mt-5">
+    <HomeDeveloperExperienceStep class="mt-5" data-aos="fade-up">
       <template #code>
         <CodeBlockTabbed>
           <pre data-language="bash" data-display-language="Shell">

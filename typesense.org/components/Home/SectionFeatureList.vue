@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-xxl-5">
+  <div class="container mt-xxl-5" data-aos="fade-up">
     <h2 class="text-center text-gradient-2 text-shadow-primary-2">
       Features you love, minus the complexity
     </h2>
