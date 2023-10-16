@@ -353,6 +353,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | Action               | Description                                       |
 |:---------------------|:--------------------------------------------------|
 | `metrics.json:list`  | Allows access to the metrics endpoint.            |
+| `stats.json:list`    | Allows access to the stats endpoint.              |
 | `debug:list`         | Allows access to the `/debug` endpoint.           |
 | `*`                  | Allows all operations.                            |
 
