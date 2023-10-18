@@ -358,7 +358,7 @@ export TYPESENSE_HOST='https://typesense.example.net'
 
 ### When using Typesense Cloud or a Load Balancer
 
-If you use Typesense Cloud, or if you choose to set up a server-side load-balancer for convenience, you can specify the single load-balanced endpoint, instead of specifying each of the individual ones in the client libraries.
+If you use Typesense Cloud (with load-balancing enabled on your cluster, which is enabled by default for all clusters provisioned after June 16, 2022), or if you choose to set up a server-side load-balancer for convenience, you can specify the single load-balanced endpoint, instead of specifying each of the individual ones in the client libraries.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
