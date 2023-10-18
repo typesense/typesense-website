@@ -140,23 +140,46 @@ This way you're sending data directly from your primary data store into Typesens
 
 But if you want a quick way to do a one-time export of your data in Algolia into Typesense, to explore Typesense or to do a backfill, here's how:
 
+### Step 1: Export the data from Algolia
+
 Install the [Algolia CLI](https://www.algolia.com/doc/tools/cli/get-started/overview/) and then run:
 
 ```shell
 algolia objects browse YOUR_INDEX_NAME > documents-raw.jsonl
 ```
 
-This will export your Algolia records into a JSONL file. 
+This will export your Algolia records into a JSONL file.
 
+### Step 2: Transform the data
+
+#### ID fields
 Algolia uses a field called `objectId` to uniquely identify records and Typesense uses a field called `id` for the same purpose. 
 
 So let's use [`jq`](https://jqlang.github.io/jq/) to copy the value of the `objectId` field to a new field called `id` in the JSONL file we downloaded above:
 
 ```shell
-jq -c '. + {"id": .objectId}' documents-raw.jsonl > documents.jsonl
+jq -c '(to_entries[] | select(.key | ascii_downcase == "objectid")).key as $key | .["id"] = .[$key]' documents-raw.jsonl > documents-with-ids.jsonl
 ```
 
-You can then <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#import-a-jsonl-file`">import</RouterLink> this JSONL file into an existing
+#### Timestamps (optional)
+
+To be able to sort by date/timestamps, you would need to convert any date/timestamps in iso8601 to a Unix timestamp (epoch time). 
+
+Here's a one-liner to do this:
+
+```shell
+jq -c 'if .your_iso_timestamp_field then .your_iso_timestamp_field |= (sub("\\.[0-9]+"; "") | strptime("%Y-%m-%dT%H:%M:%SZ") | mktime) else . end' documents-with-ids.jsonl > documents.jsonl
+```
+
+### Step 3: Create a collection
+
+Create a collection in Typesense following the instructions <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">here</RouterLink>.
+
+You want to set `facet: true` for any fields you've configured as a facetable field in Algolia.
+
+### Step 4: Import your documents
+
+You can now <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#import-a-jsonl-file`">import</RouterLink> the transformed JSONL file from above into your
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">Typesense Collection</RouterLink>
 using this snippet:
 
