@@ -70,42 +70,35 @@ let config = {
     typesenseDocsearch: {
       typesenseServerConfig: {
         nearestNode: {
-          host: 'x3s805zrawjuod9fp.a1.typesense.net',
+          host: 'qtg5aekc2iosjh93p.a1.typesense.net',
           port: 443,
           protocol: 'https',
         },
         nodes: [
           {
-            host: 'x3s805zrawjuod9fp-1.a1.typesense.net',
+            host: 'qtg5aekc2iosjh93p-1.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
           {
-            host: 'x3s805zrawjuod9fp-2.a1.typesense.net',
+            host: 'qtg5aekc2iosjh93p-2.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
           {
-            host: 'x3s805zrawjuod9fp-3.a1.typesense.net',
-            port: 443,
-            protocol: 'https',
-          },
-          {
-            host: 'x3s805zrawjuod9fp-4.a1.typesense.net',
-            port: 443,
-            protocol: 'https',
-          },
-          {
-            host: 'x3s805zrawjuod9fp-5.a1.typesense.net',
+            host: 'qtg5aekc2iosjh93p-3.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
         ],
-        apiKey: 'c1DmVFTQGnnP5XtW8FV7btCDeTYhBLz6',
+        apiKey: '8hLCPSQTYcBuK29zY5q6Xhin7ONxHy99',
       },
       typesenseCollectionName: 'typesense_docs',
       typesenseSearchParams: {
         per_page: 6,
+        query_by:
+          'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
+        vector_query: 'embedding:([], k: 5, distance_threshold: 0.3, alpha: 0.2)',
       },
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js

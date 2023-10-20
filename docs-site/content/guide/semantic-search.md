@@ -449,3 +449,13 @@ Notice how searching for `Desktop copier` returns `Desktop` as a result which is
 You'll find the source code linked in the description.
 
 Read the full API reference documentation about <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search here</RouterLink>.  
+
+:::warning Note: CPU Usage
+Built-in Machine Learning models are computationally intensive.
+
+So depending on the size of your dataset, when you enable semantic search and use a built-in ML model, even a few thousand records could take 10s of minutes to generate embeddings and index.
+
+If you want to speed this process up, you want to enable <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-a-gpu-optional`">GPU Acceleration</RouterLink> in Typesense.
+
+When you use a remote embedding service like OpenAI within Typesense, then you do not need a GPU, since the model runs on OpenAI's servers.
+:::

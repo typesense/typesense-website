@@ -106,7 +106,7 @@ The easiest way to run the scraper is using Docker.
    :::
 1. Run the scraper:
     ```bash
-    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.8.0
+    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.9.1
     ```
 
 This will scrape your documentation site and index it into Typesense.
@@ -135,7 +135,7 @@ Just make sure that the config is available inside the container. In other words
 docker run -it \
   -v "/path/to/config/dir/on/your/machine:/tmp/search" \
   -e "CONFIG=/tmp/search/typesense.json" \
-  typesense/docsearch-scraper:0.8.0
+  typesense/docsearch-scraper:0.9.1
 ```
 
 #### Trusting certificates from internal CAs
@@ -153,7 +153,7 @@ docker run -it \
   --env "REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt" \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.8.0
+  typesense/docsearch-scraper:0.9.1
 ```
 
 #### Set environment variables on the command line, rather than using a .env file
@@ -167,7 +167,7 @@ docker run -it \
   -e "TYPESENSE_PORT=443" \
   -e "TYPESENSE_PROTOCOL=https" \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.8.0
+  typesense/docsearch-scraper:0.9.1
 ```
 
 #### Resolving hosts
@@ -179,7 +179,7 @@ docker run -it \
   --add-host intranet.company.com:10.1.2.3 \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.8.0
+  typesense/docsearch-scraper:0.9.1
 ```
 
 #### Authentication
@@ -482,3 +482,101 @@ In order to inspect and debug your CSS without having the searchbar close when y
 ### Option E: Sphinx Documentation Generator
 
 [Here's](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/) a guide written by a Typesense user on how to integrate [Sphinx](https://www.sphinx-doc.org/en/master/) with Typesense DocSearch.
+
+## Semantic Search <Badge type="tip" text="New" vertical="middle" />
+
+Typesense supports built-in [Semantic Search](./semantic-search.md) as `v0.25.1` of Typesense Server and `v0.9.0` of the typesense-docsearch-scraper.
+
+Semantic search uses Machine Learning models to provide users with conceptually related results, even if the exact keyword they are searching for doesn't exist in your documentation site.
+
+For eg, if a user searches for "hard disk" and you documentation contains "hard drive", semantic search will still be able to pull these results up.
+
+**Step 1:** To enable Semantic Search, first update your [scraper config file](#create-a-docsearch-scraper-config-file) to include following highlighted section:
+
+```json{5-45}
+{
+  "index_name": "your_docs",
+  "start_urls": ["..."],
+  "selectors": {},
+  "custom_settings": {
+    "field_definitions": [
+      {"name": "anchor", "type": "string", "optional": true},
+      {"name": "content", "type": "string", "optional": true},
+      {"name": "url", "type": "string", "facet": true},
+      {"name": "url_without_anchor", "type": "string", "facet": true, "optional": true},
+      {"name": "version", "type": "string[]", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl0", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl1", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl2", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl3", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl4", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl5", "type": "string", "facet": true, "optional": true},
+      {"name": "hierarchy.lvl6", "type": "string", "facet": true, "optional": true},
+      {"name": "type", "type": "string", "facet": true, "optional": true},
+      {"name": ".*_tag", "type": "string", "facet": true, "optional": true},
+      {"name": "language", "type": "string", "facet": true, "optional": true},
+      {"name": "tags", "type": "string[]", "facet": true, "optional": true},
+      {"name": "item_priority", "type": "int64"},
+      {
+        "name": "embedding",
+        "type": "float[]",
+        "embed": {
+          "from": [
+            "content",
+            "hierarchy.lvl0",
+            "hierarchy.lvl1",
+            "hierarchy.lvl2",
+            "hierarchy.lvl3",
+            "hierarchy.lvl4",
+            "hierarchy.lvl5",
+            "hierarchy.lvl6",
+            "tags"
+          ],
+          "model_config": {
+            "model_name": "ts/all-MiniLM-L12-v2"
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+This instructs Typesense to automatically generate an
+<RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#what-is-an-embedding`">`embedding`</RouterLink> field
+using the contents of the `content`, `hierarchy.*` and `tags` fields. 
+
+If you have custom tags, you can edit the schema above to include those custom fields in `embed.from`.
+
+**Step 2:** Now, update your DocSearch initialization code in your frontend to set the following custom `query_by` field, to include the `embedding` field:
+
+```js
+docsearch({
+    //... Other parameters as described above 
+    typesenseSearchParameters: { // In some docsearch plugins (see above), this might be called `typesenseSearchParams` 
+      // ... 
+      query_by:
+        'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
+      vector_query: 'embedding:([], k: 5, distance_threshold: 0.3, alpha: 0.2)' // Optional vector search fine-tuning
+    },
+  });
+```
+
+And that's it!
+
+You now have semantic search enabled DocSearch. 
+
+
+:::tip Tip: ML Model options
+The example above uses one of the built-in ML models in Typesense, but you can use OpenAI, PaLM API or any other built-in ML model as described <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#option-b-auto-embedding-generation-within-typesense`">here</RouterLink>.
+:::
+
+:::warning Note: CPU Usage
+Built-in Machine Learning models are computationally intensive.
+
+So depending on the size of your documentation site, when you enable semantic search and use a built-in ML model, even a few thousand records could take 10s of minutes to generate embeddings and index.
+
+If you want to speed this process up, you want to enable <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#using-a-gpu-optional`">GPU Acceleration</RouterLink> in Typesense.
+
+When you use a remote embedding service like OpenAI within Typesense, then you do not need a GPU, since the model runs on OpenAI's servers.
+:::

@@ -28,5 +28,46 @@ const config = {
   },
   scrape_start_urls: false,
   strip_chars: ' .,;:#',
+  custom_settings: {
+    field_definitions: [
+      { name: 'anchor', type: 'string', optional: true },
+      { name: 'content', type: 'string', optional: true },
+      { name: 'url', type: 'string', facet: true },
+      { name: 'url_without_anchor', type: 'string', facet: true, optional: true },
+      { name: 'version', type: 'string[]', facet: true, optional: true },
+      { name: 'hierarchy.lvl0', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl1', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl2', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl3', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl4', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl5', type: 'string', facet: true, optional: true },
+      { name: 'hierarchy.lvl6', type: 'string', facet: true, optional: true },
+      { name: 'type', type: 'string', facet: true, optional: true },
+      { name: '.*_tag', type: 'string', facet: true, optional: true },
+      { name: 'language', type: 'string', facet: true, optional: true },
+      { name: 'tags', type: 'string[]', facet: true, optional: true },
+      { name: 'item_priority', type: 'int64' },
+      {
+        name: 'embedding',
+        type: 'float[]',
+        embed: {
+          from: [
+            'content',
+            'hierarchy.lvl0',
+            'hierarchy.lvl1',
+            'hierarchy.lvl2',
+            'hierarchy.lvl3',
+            'hierarchy.lvl4',
+            'hierarchy.lvl5',
+            'hierarchy.lvl6',
+            'tags',
+          ],
+          model_config: {
+            model_name: 'ts/all-MiniLM-L12-v2',
+          },
+        },
+      },
+    ],
+  },
 }
 console.log(JSON.stringify(config))
