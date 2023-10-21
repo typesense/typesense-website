@@ -485,7 +485,7 @@ In order to inspect and debug your CSS without having the searchbar close when y
 
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
 
-Typesense supports built-in [Semantic Search](./semantic-search.md) as `v0.25.1` of Typesense Server and `v0.9.0` of the typesense-docsearch-scraper.
+Typesense supports built-in [Semantic Search](./semantic-search.md) as `v0.25.1` of Typesense Server and `v0.9.1` of the typesense-docsearch-scraper.
 
 Semantic search uses Machine Learning models to provide users with conceptually related results, even if the exact keyword they are searching for doesn't exist in your documentation site.
 
