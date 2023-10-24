@@ -417,4 +417,4 @@ Now when you search for `url1` or `path`, it will match those individual words a
 ## Other Types of Data
 
 If you have other specific types of data that you'd like help with indexing in Typesense, 
-please open a [GitHub issue](https://github.com/typesense/typesense/issues) or ask in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-mx4nbsbn-AuOL89O7iBtvkz136egSJg). 
+please open a [GitHub issue](https://github.com/typesense/typesense/issues) or ask in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-25mb3r14m-60o24PIIkDt~a6x7mk1XDQ). 
