@@ -10,7 +10,7 @@ Here's a typical sequence of API Calls you'd perform when using this API:
 
 1. [Create a new cluster](#create-new-cluster) (which is an asynchronous process that will take 4 - 5 minutes).
 2. Poll the [single cluster info endpoint](#get-single-cluster) to get the status of the cluster.
-3. Once the cluster has `status: in_status`, save the `hostnames` field returned by the cluster info endpoint.
+3. Once the cluster has `status: in_service`, save the `hostnames` field returned by the cluster info endpoint.
 4. [Generate Typesense API keys](#generate-api-key) for the cluster and store these keys in a secrets store on your side.
 5. Now, you can make [Typesense API calls](/api) directly to your new cluster using the hostnames in Step 3 and API Keys in Step 4.
 6. Once you're done with the cluster, you can terminate it using the [lifecycle](#terminate-cluster) endpoint.
@@ -83,7 +83,6 @@ You can use any of the following parameters inside the payload of the above API 
 - [typesense_server_version](#typesense-server-version)
 - [name](#name)
 - [auto_upgrade_capacity](#auto-upgrade-capacity)
-
 
 ### `memory`
 
@@ -247,6 +246,26 @@ When set to `true`, your cluster will be automatically upgraded when best-practi
 
 Default: `false`
 
+### Response Parameters
+
+Most response parameters are similar to the request parameters above. 
+
+We've documented response-specific parameters below:
+
+### `status`
+
+The state of the cluster. 
+
+It can have the following values:
+
+| `status`         | Description                                 |
+|------------------|---------------------------------------------|
+| `provisioning`   | The cluster's nodes are being provisioned   |
+| `initializing`   | Typesense cluster is being setup            |
+| `in_service`     | Cluster is ready for use                    |
+| `deprovisioning` | Cluster is being deprovisioned              |
+| `suspended`      | Cluster was suspended due to billing issues |
+| `terminated`     | Cluster was terminated                      |
 
 ## Generate API key
 
