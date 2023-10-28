@@ -109,6 +109,15 @@ The easiest way to run the scraper is using Docker.
     docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.9.1
     ```
 
+  :::tip
+  If you are running Typesense on `localhost` and you're using Docker to run the scraper, you will need to change some things in your `config.json` file.
+
+  On `start_urls` and `sitemap_urls`, you will need to target the `host.docker.internal` URL, to ensure that will find the right site in your host machine, instead
+  of trying to find it inside the container.
+
+  You will need to run your site at port `:80`, because the scraper can present a not expected behavior if has hosted in another port.
+  :::
+
 This will scrape your documentation site and index it into Typesense.
 
 ::: tip
