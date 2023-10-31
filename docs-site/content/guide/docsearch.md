@@ -27,6 +27,15 @@ Follow one of the templates below to create your own `config.json` file, pointin
 
 Here's the official [DocSearch Scraper documentation](https://docsearch.algolia.com/docs/legacy/config-file) that describes all the available config options.
 
+:::tip
+If you are running Typesense on `localhost` and you're using Docker to run the scraper, you will need to change some things in your `config.json` file.
+
+On `start_urls` and `sitemap_urls`, you will need to target the `host.docker.internal` URL, to ensure that will find the right site in your host machine, instead
+of trying to find it inside the container.
+
+You will need to run your site at port `:80`, because the scraper can present a not expected behavior if has hosted in another port.
+:::
+
 #### Make necessary changes to the DocSearch Scraper config file
 
 After starting with one of the templates, you will want to change a few fields in the configuration:
