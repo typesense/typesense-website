@@ -49,7 +49,7 @@ In addition to the above, if you have a use case where you want to update some r
 you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-a-single-document`">Single Document Indexing API</RouterLink>.
 
 Note however that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
-So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as less as say 2s.
+So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
 ## Full re-indexing
 
