@@ -42,7 +42,7 @@ This release contains important new features and bug fixes.
 
 - Resolve field names using wildcard: fields can now be resolved in `facet_by`, `query_by`, `include_fields`, `exclude_fields`,
   `highlight_fields` and `highlight_full_fields` when a wildcard expression is used, e.g. `title_*` will match `title_en`.
-- Ability to sort grouped hits based on the size of each group, using `sort_by: _group_count:desc`.
+- Ability to sort grouped hits based on the size of each group, using `sort_by: _group_found:desc`.
 - A count is returned for total number of records under each group even if the hits are truncating via `group_limit`.
 - The `!=` filtering operation can now be performed against numerical fields. Previously only string fields were supported for this operator.
 - Support use of `preset` parameter in embedded API key.

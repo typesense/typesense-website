@@ -605,11 +605,11 @@ client.collections['companies'].documents.search(search_parameters)
   </template>
 </Tabs>
 
-You can also sort the results by the sizes of the groups by using `_group_count` in the `sort_by` clause.
+You can also sort the results by the sizes of the groups by using `_group_found` in the `sort_by` clause.
 
 ```json{2}
 {
-  "sort_by": "_group_count:desc" 
+  "sort_by": "_group_found:desc" 
 }
 ```
 
