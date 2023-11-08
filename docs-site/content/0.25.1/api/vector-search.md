@@ -1998,7 +1998,7 @@ let searchRequests = {
     {
       'collection': 'docs',
       'q': '*',
-      'vector_query' : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+      'vector_query' : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' // <=== Be sure to replace `vec` with the name of the field that stores your embeddings. 
     }
   ]
 }
@@ -2016,7 +2016,7 @@ $searchRequests = [
     [
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
     ]
   ]
 ];
@@ -2036,7 +2036,7 @@ search_requests = {
     {
       'collection': 'docs',
       'q' : '*',
-      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
     }
   ]
 }
@@ -2055,7 +2055,7 @@ search_requests = {
     {
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)'
+      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
     }
   ]
 }
@@ -2074,7 +2074,7 @@ final searchRequests = {
     {
       'collection': 'docs',
       'q': '*',
-      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)',
+      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)', //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
     }
   ]
 };
@@ -2093,7 +2093,7 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
 HashMap<String,String > search1 = new HashMap<>();
 search1.put("collection","docs");
 search1.put("q","*");
-search1.put("vector_query", "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)");
+search1.put("vector_query", "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
 
 List<HashMap<String, String>> searches = new ArrayList<>();
 searches.add(search1);
@@ -2123,6 +2123,8 @@ curl 'http://localhost:8108/multi_search' \
               }
             ]
           }'
+
+# Be sure to replace `vec` with the name of the field that stores your embeddings.
 ```
 
   </template>
@@ -2201,6 +2203,8 @@ curl 'http://localhost:8108/multi_search' \
           }
         ]
       }'
+      
+# Be sure to replace `vec` with the name of the field that stores your embeddings.
 ```
 
 By specifying an empty query vector `[]` and passing an `id` parameter, this query 
@@ -2539,10 +2543,12 @@ curl 'http://localhost:8108/multi_search' \
                 "collection": "docs",
                 "q": "*",
                 "filter_by": "category:shoes",
-                "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)"
+                "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" 
               }
             ]
           }'
+          
+# Be sure to replace `vec` with the name of the field that stores your embeddings.
 ```
 
 ## UI Examples
