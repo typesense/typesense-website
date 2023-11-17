@@ -113,8 +113,8 @@ Then at search time, after determining the final set of documents to return in t
 You'd need enough disk space, at least the size of your raw dataset, to run Typesense. SSDs are significantly faster than Magnetic Disks and are recommended.
 
 ::: tip
-In Typesense Cloud, we automatically manage disk space for you. 
-When you enable the "High Performance Disk" option (available only for Highly-Available Non-Burst configurations), 
+In Typesense Cloud, we provision 5X disk space, where X is the amount of memory you've chosen for your cluster. 
+When you enable the "High Performance Disk" option (available only for Highly-Available Non-Burst-CPU configurations), 
 we use NVMEe SSD disks that give you the fastest data transfer rates.
 :::
 
