@@ -158,7 +158,9 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">GPU Acceleration Support</td>
-                  <td>✅<br /><br />Can natively use a GPU when available.</td>
+                  <td>
+                    ✅<br /><br />Can optionally use a GPU when available.
+                  </td>
                   <td>❌</td>
                   <td>❌</td>
                   <td>❌</td>
@@ -516,7 +518,7 @@
                 <tr>
                   <td class="font-weight-bold">Semantic Search</td>
                   <td>✅</td>
-                  <td>❌</td>
+                  <td>✅ <br /><br />Called NeuralSearch</td>
                   <td>❌</td>
                   <td>❌</td>
                 </tr>
