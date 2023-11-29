@@ -91,6 +91,19 @@ docker pull typesense/typesense:{{ typesenseLatestVersion }}
           </CodeBlockTabbed>
         </div>
       </div>
+
+      <div class="row mt-5">
+        <div class="col-sm">
+          <h2 class="text-primary">Typesense Cloud</h2>
+          <CodeBlockTabbed state-id="typesenseCloud">
+            <pre data-language="bash" data-display-language=" ">
+1. Login or Signup at https://cloud.typesense.org
+2. Click on "New Cluster" and choose a version
+3. Click on Launch
+            </pre>
+          </CodeBlockTabbed>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,104 +1,109 @@
 <template>
   <div class="bg-dark text-white py-5">
     <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <h2 class="text-center">Choose from one of our support tiers</h2>
-          <div class="text-center">
-            Or
-            <a
-              class="text-white"
-              href="#"
-              onclick="Beacon('navigate', '/ask/'); Beacon('open'); return false;"
-              >reach out</a
-            >
-            to us for custom needs
-          </div>
-        </div>
-      </div>
       <div class="row mt-5">
         <div class="col-sm">
           <div class="table-responsive">
             <table class="table table-borderless text-white">
               <thead>
                 <tr class="text-center h5">
-                  <th scope="col"></th>
-                  <th scope="col"><span>Free</span></th>
-                  <th scope="col"><span>Developer</span></th>
-                  <th scope="col"><span>Business</span></th>
-                  <th scope="col"><span>Enterprise</span></th>
+                  <th scope="col" style="width: 10%"></th>
+                  <th scope="col"><span>Typesense Cloud</span></th>
+                  <th scope="col">
+                    <span>Typesense Self-Hosted</span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="text-center">
                   <td class="text-right">Support Channels</td>
                   <td>
+                    Email<br />
+                    Phone / Video Calls<br />
+                    Private Slack Connect<br />
                     GitHub Issues<br />
-                    Slack Community<br />
+                    Public Slack Community<br />
+                    Weekly Office Hours<br />
+                  </td>
+                  <td>
+                    GitHub Issues<br />
+                    Public Slack Community<br />
                     Weekly Office Hours
-                  </td>
-                  <td>
-                    All channels in Free plan<br />
-                    + Email
-                  </td>
-                  <td>
-                    All channels in Developer plan<br />
-                    + Phone Calls
-                  </td>
-                  <td>
-                    All channels in Business plan<br />
-                    + Video Calls<br />
-                    + Private Slack
                   </td>
                 </tr>
                 <tr class="text-center">
-                  <td class="text-right">Response SLA</td>
-                  <td>Best effort</td>
-                  <td>72 hours</td>
-                  <td>48 hours</td>
-                  <td>24 hours</td>
+                  <td class="text-right">Production Support SLA</td>
+                  <td>
+                    Starts from 30 mins<br /><span class="text-muted"
+                      >24 x 7 x 365</span
+                    >
+                  </td>
+                  <td>N/A</td>
+                </tr>
+                <tr class="text-center">
+                  <td class="text-right">Prioritized Response SLA</td>
+                  <td>Starts from 24 hours</td>
+                  <td>N/A</td>
+                </tr>
+                <tr class="text-center">
+                  <td class="text-right">1:1 Consultative Support</td>
+                  <td>Available</td>
+                  <td>N/A</td>
                 </tr>
                 <tr class="text-center">
                   <td class="text-right">Prioritized Feature Requests</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
                   <td>Available</td>
+                  <td>Based on community demand</td>
                 </tr>
                 <tr class="text-center">
-                  <td class="text-right">
-                    Hands-on Implementation & Training <br />
-                    <p class="small mt-3 mb-0 text-light">
-                      Our team will take care of integrating Typesense into your
-                      tech stack and build you a fully-functioning instant
-                      search experience.
-                    </p>
+                  <td class="text-right">Infrastructure Management</td>
+                  <td>Included</td>
+                  <td>N/A</td>
+                </tr>
+                <tr class="text-center">
+                  <td class="text-right">Feature Availability <br /></td>
+                  <td>
+                    Full API Access <br />
+                    Visual Dashboard<br />
+                    Search Delivery Network<br />
+                    Shared Team Access<br />
+                    Role-Based Access Control<br />
+                    Single Sign-on<br />
+                    Auto-Scaling<br />
+                    SOC 2 (Type 2) Compliance
                   </td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>Available at an additional cost, based on scope</td>
+                  <td>Full API Access</td>
                 </tr>
                 <tr class="text-center">
                   <td class="text-right">Cost</td>
+                  <td>
+                    Support Plans starting at $0/month <br />
+                    + Cluster Costs starting $22/month
+                  </td>
                   <td>Free</td>
-                  <td>$2,000/yr</td>
-                  <td>$5,000/yr</td>
-                  <td>$15,000/yr</td>
                 </tr>
                 <tr class="text-center">
-                  <td class="text-right">Covered Clusters</td>
-                  <td>N/A</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr class="text-center">
-                  <td class="text-right">Additional clusters</td>
-                  <td>N/A</td>
-                  <td>+5% of cluster costs</td>
-                  <td>+10% of cluster costs</td>
-                  <td>+15% of cluster costs</td>
+                  <td></td>
+                  <td>
+                    <a
+                      href="https://cloud.typesense.org/support-plans"
+                      target="_blank"
+                      class="btn btn-outline-primary text-decoration-none"
+                      role="button"
+                    >
+                      <strong>Cloud Support Plans ></strong>
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href="https://join.slack.com/t/typesense-community/shared_invite/zt-25mb3r14m-60o24PIIkDt~a6x7mk1XDQ"
+                      target="_blank"
+                      class="btn btn-outline-primary text-decoration-none"
+                      role="button"
+                    >
+                      <strong>Public Slack Community ></strong>
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -144,3 +149,4 @@
   }
 }
 </style>
+<script setup></script>

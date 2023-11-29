@@ -3,6 +3,9 @@
     <div class="pt-3">&nbsp;</div>
     <div class="row text-center py-5">
       <div class="col-sm">
+        <div class="mb-3">
+          <small>Questions?</small>
+        </div>
         <div>
           <a
             onclick="Beacon('navigate', '/ask/'); Beacon('open'); return false;"
@@ -13,10 +16,8 @@
             <strong>Contact Us</strong>
           </a>
         </div>
-        <div class="mt-1">
-          <small>To signup for paid support</small>
-        </div>
       </div>
     </div>
   </div>
 </template>
+<script setup></script>

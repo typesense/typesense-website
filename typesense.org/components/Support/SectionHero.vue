@@ -13,7 +13,7 @@
           </div>
           <div class="mt-1">
             We also offer paid prioritized support with guaranteed SLAs,
-            consulting and training.
+            consulting and training for Typesense Cloud.
           </div>
         </div>
       </div>
