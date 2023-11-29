@@ -21,7 +21,7 @@ export default {
   name: 'GitHubStars',
   data() {
     return {
-      githubStars: '15k',
+      githubStars: '16k',
     }
   },
 }

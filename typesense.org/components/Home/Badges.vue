@@ -36,7 +36,7 @@
 export default {
   data() {
     return {
-      githubStars: '15K',
+      githubStars: '16K',
       dockerPulls: '9M',
       cloudSearchesPerMonth: '1.7B',
       animationDuration: 350,
