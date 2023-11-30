@@ -63,7 +63,7 @@ The changelog below contains aggregates all the changes between `v0.24.2` and `v
 - **[New in v0.25.2]** Support sorting of documents based on the result of a vector query.
 - **[New in v0.25.2]** Prevent Typesense from loading an embedding model that exceeds available memory.
 - **[New in v0.25.2]** Improvements to range faceting: float value support, min/max ranges by leaving range param blank,
-  support for space separated range label.
+  support spaces in range label.
 - **[New in v0.25.2]** Support `remote_embedding_timeout_ms` and `remote_embedding_num_tries` for indexing.
 - **[New in v0.25.2]** Better isolation of operations across collections.
 - **[New in v0.25.2]** Parameterize compaction of store during collection drop via the `compact_store` parameter.

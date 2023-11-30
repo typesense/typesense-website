@@ -1522,7 +1522,9 @@ curl 'http://localhost:8108/multi_search' \
 
 | Parameter                     | Description                                                                                                                                                                           | Default |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. |200|  
+| `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. | 200     |  
+| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout during indeixng.                                                                             | 60000     |  
+| `remote_embedding_num_tries` | The number of times to retry an API call to a remote embedding service on failure during indexing.                                                                                    | 2       |  
 
 <Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
@@ -2416,6 +2418,28 @@ During hybrid search, the `_text_match` clause in `sort_by` will refer to the co
 You can also do a hybrid search when using your own embedding field, by combining the `q` parameter with the `vector_query` parameter.
 
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
+
+By default, Typesense assigns a weight of `0.3` for vector search rank and a weight of `0.7` for keyword search rank. 
+You can adjust the weight assigned to vector search ranking via the `alpha` option of the `vector_query` parameter.
+
+For example, to set a weight of `0.8` to vector search ranking, set `alpha` to `0.8`:
+
+```bash
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+          "searches": [
+            {
+              "collection": "products",
+              "query_by": "embedding,product_name",
+              "q": "chair",
+              "vector_query": "embedding:([], alpha: 0.8)",        
+              "exclude_fields": "embedding"
+            }
+          ]
+        }'
+```
 
 :::tip
 When querying on both an embedding field and regular search fields, some parameters like `query_by_weights` 

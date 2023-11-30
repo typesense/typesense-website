@@ -871,6 +871,12 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
+When a collection is dropped, we perform a disk compaction operation which reclaims the disk space used by the
+deleted collection. However, if you are managing a large number of collections and need to drop collections
+frequently, you can disable this compaction to improve the performance of the drop operation
+via the `compact_store` GET parameter. You can still do a full database compaction
+via the [API](../api/cluster-operations.md#compacting-the-on-disk-database).
+
 **Definition**
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
 
