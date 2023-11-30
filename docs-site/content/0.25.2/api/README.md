@@ -15,9 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release fixes some important bugs identified in the recently released [`v0.25.0`](../../0.25.0/).
+This release fixes some important bugs identified in [`v0.25.1`](../../0.25.1/).
 
-The changelog below contains aggregates all the changes between `v0.24.1` and `v0.25.x`.
+The changelog below contains aggregates all the changes between `v0.24.2` and `v0.25.x`.
 
 
 ### New Features
@@ -54,6 +54,19 @@ The changelog below contains aggregates all the changes between `v0.24.1` and `v
 - New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an
   unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent
   `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
+- **[New in v0.25.2]** New search parameter flag `prioritize_num_matching_fields` that allows you to configure whether
+  the text match score should consider number of matching fields as a ranking criteria. This defaults to `true`.
+- **[New in v0.25.2]** Unload embedding model and free memory when no collections use a given model.
+- **[New in v0.25.2]** Allow the hybrid search / keyword search weight (`alpha`) to be configurable in `vector_query`.
+- **[New in v0.25.2]** Allow the direction of drop tokens to be configurable via `drop_tokens_mode` search parameter.
+- **[New in v0.25.2]** Handle zero width non-joiner character for Persian.
+- **[New in v0.25.2]** Support sorting of documents based on the result of a vector query.
+- **[New in v0.25.2]** Prevent Typesense from loading an embedding model that exceeds available memory.
+- **[New in v0.25.2]** Improvements to range faceting: float value support, min/max ranges by leaving range param blank,
+  support for space separated range label.
+- **[New in v0.25.2]** Support `remote_embedding_timeout_ms` and `remote_embedding_num_tries` for indexing.
+- **[New in v0.25.2]** Better isolation of operations across collections.
+- **[New in v0.25.2]** Parameterize compaction of store during collection drop via the `compact_store` parameter.
 
 ### Bug Fixes
 
@@ -79,6 +92,15 @@ The changelog below contains aggregates all the changes between `v0.24.1` and `v
 - **[New in v0.25.1]** Fixed tokenizer of embedding models that use XLM-RoBERTa
 - **[New in v0.25.1]** Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
 - **[New in v0.25.1]** Fixed text match score calculation to consider the presence of dropped tokens when ranking.
+- **[New in v0.25.2]** Improve precision of HNSW index under frequent deletion and updates of vectors.
+- **[New in v0.25.2]** Fixed a regression in analytics aggregation for aggregation intervals configured to > 60 seconds.
+- **[New in v0.25.2]** Fixed a bug that prevented two embedding field names from sharing the same prefix.
+- **[New in v0.25.2]** Fixed reindexing of old documents with embeddings on collection schema update.
+- **[New in v0.25.2]** Fixed group by search that used facet range query.
+- **[New in v0.25.2]** Fixed edge cases in indexing and querying of optional nested fields.
+- **[New in v0.25.2]** Fixed hanging when PaLM API is down.
+- **[New in v0.25.2]** Fixed an edge case in deletion of values from infix search index.
+- **[New in v0.25.2]** Fixed hybrid search not considering `hidden_hits` search parameter.
 
 ### Deprecations / behavior changes
 
