@@ -345,7 +345,7 @@ if the first field has the same values, then the second field is used. If the 1s
 
 The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.
 
-🔗 You'll find detailed documentation for `sort_by` in the [Ranking Parameters](#ranking-parameters) table above.
+🔗 You'll find detailed documentation for `sort_by` in the [Ranking Parameters](#ranking-and-sorting-parameters) table above.
 
 ### Sorting on numeric values
 
