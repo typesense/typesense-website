@@ -2545,6 +2545,21 @@ Here's an example:
 }
 ```
 
+## Rank keyword search via vector search
+
+Instead of combining the scores from both keyword and vector search, you can also use vector search distances as a
+sorting clause for reordering keyword search hits.
+
+In the example below, we are using the vector distance as a secondary sorting condition to text match score.
+
+```json
+{
+  "q": "shoes",
+  "query_by": "title,brand",
+  "sort_by": "_text_match:desc,_vector_query(embedding:([0.43, 0.13, 0.21])):asc"
+}
+```
+
 ## Brute-force searching
 
 By default, Typesense uses the built-in HNSW index to do approximate nearest neighbor vector searches. This scales 
