@@ -5,8 +5,8 @@ using their existing SSO credentials.
 
 :::tip Our SAML-integration is platform agnostic
 
-We've tested our SAML integration with popular SSO vendors like [Okta](https://www.okta.com/) and [Azure Active Directory](https://azure.microsoft.com/en-us/solutions/active-directory-sso/),
-but you can integrate any SSO vendor that offers SAML-based SSO with Typesense Cloud.
+We've tested our SAML integration with popular SSO vendors like Okta, Azure Active Directory, Microsoft Entra ID, Google SSO and Rippling SSO,
+but you can integrate **any SSO vendor** that offers SAML-based SSO with Typesense Cloud.
 
 :::
 
@@ -39,7 +39,7 @@ We now need to set up your SSO platform to continue the setup.
    - SP Single Sign-On URL (also called Reply URL or Assertion Consumer Service URL in some SSO platforms)
    - SP Entity ID (also called Audience URI in some SSO platforms)
 
-3. Use the image [here](/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
+3. Use the image [here](/docs/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
 
 4. Once you've created the app, your SSO platform should give you the following information:
 
@@ -64,9 +64,18 @@ We'll now finalize the setup in your SSO platform.
 1. Copy-paste the "Service Provider Entity ID" that you see in Typesense Cloud, into the SP Entity ID field in your SSO platform (also called Audience URI in some SSO platforms).
 2. Copy-paste the "Assertion Consumer Service URL" that you see in Typesense Cloud, into the SP Single Sign-On URL (also called Reply URL in some SSO platforms).
 3. Configure your SSO app to send the following attributes, along with the corresponding data types (following their documentation):
-   - `email` (format: unspecified)
-   - `first_name` (format: unspecified)
-   - `last_name` (format: unspecified)
+   - `email` (format: unspecified, namespace: blank)
+   - `first_name` (format: unspecified, namespace: blank)
+   - `last_name` (format: unspecified, namespace: blank)
+
+::: tip For Rippling SSO
+
+Please set:
+
+- "Disable automatic standardization of attributes" to "Yes".
+- "Use SAML standard namespaces for xml metadata/attributes" to "Yes".
+
+:::
 
 And that's it for one-time setup.
 
