@@ -1084,7 +1084,7 @@ curl "http://localhost:8108/collections/companies" \
        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
        -d '{
          "fields": [
-           {"name": "company_category", "drop": true }
+           {"name": "company_category", "drop": true },
            {"name": "company_category", "type": "string", "facet": true }   
          ]
        }'
