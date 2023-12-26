@@ -70,7 +70,7 @@ Once your document embeddings are ready, you want to create a collection that co
 with a `num_dim` property for indexing them. The `num_dim` property specifies the number of 
 dimensions (length of the float array) that your embeddings contain.
 
-Let's create a collection called `docs` with a vector field called `vec` that contains just 4 dimensions. 
+Let's create a collection called `docs` with a vector field called `embedding` that contains just 4 dimensions. 
 
 :::tip
 We're creating a vector with 4 dimensions in the examples to keep the code snippets readable. 
@@ -94,7 +94,7 @@ let schema = {
       'type': 'int32'
     },
     {
-      'name': 'vec',
+      'name': 'embedding',
       'type': 'float[]',
       'num_dim': 4
     }
@@ -122,7 +122,7 @@ $schema = [
       'type'  => 'int32'
     ],
     [
-      'name'  => 'vec',
+      'name'  => 'embedding',
       'type'  => 'float[]',
       'num_dim'  => 4
     ]
@@ -150,7 +150,7 @@ schema = {
       'type'  :  'int32'
     },
     {
-      'name'     :  'vec',
+      'name'     :  'embedding',
       'type'     :  'float[]',
       'num_dim'  :  4
     }
@@ -178,7 +178,7 @@ schema = {
       'type'  => 'int32'
     },
     {
-      'name'     => 'vec',
+      'name'     => 'embedding',
       'type'     => 'float[]',
       'num_dim'  => 4
     }
@@ -198,7 +198,7 @@ final schema = Schema(
   {
     Field('title', type: Type.string),
     Field('points', type: Type.int32),
-    Field('vec', type: Type.float, isMultivalued: true, dimensions: 4),
+    Field('embedding', type: Type.float, isMultivalued: true, dimensions: 4),
   },
   defaultSortingField: Field('points', type: Type.int32),
 );
@@ -216,7 +216,7 @@ CollectionSchema collectionSchema = new CollectionSchema();
 collectionschema.name("docs")
                 .addFieldsItem(new Field().name("title").type("string"))
                 .addFieldsItem(new Field().name("points").type("int32"))
-                .addFieldsItem(new Field().name("vec").type("float[]").num_dim(4))
+                .addFieldsItem(new Field().name("embedding").type("float[]").num_dim(4))
                 .defaultSortingField("points");
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -235,7 +235,7 @@ curl "http://localhost:8108/collections" \
             "fields": [
               {"name": "title", "type": "string" },
               {"name": "points", "type": "int32" }, 
-              {"name": "vec", "type": "float[]", "num_dim": 4}
+              {"name": "embedding", "type": "float[]", "num_dim": 4}
             ],
             "default_sorting_field": "points"
           }'
@@ -253,7 +253,7 @@ Let's now index a document with a vector.
 let document = {
   'title': 'Louvre Museuem',
   'points': 1,
-  'vec': [0.04, 0.234, 0.113, 0.001]
+  'embedding': [0.04, 0.234, 0.113, 0.001]
 }
 
 client.collections('docs').documents().create(document)
@@ -267,7 +267,7 @@ client.collections('docs').documents().create(document)
 $document = [
   'title'   => 'Louvre Museuem',
   'points'  => 1,
-  'vec' => array(0.04, 0.234, 0.113, 0.001)
+  'embedding' => array(0.04, 0.234, 0.113, 0.001)
 ];
 
 $client->collections['docs']->documents->create($document);
@@ -281,7 +281,7 @@ $client->collections['docs']->documents->create($document);
 document = {
   'title': 'Louvre Museuem',
   'points': 1,
-  'vec': [0.04, 0.234, 0.113, 0.001]
+  'embedding': [0.04, 0.234, 0.113, 0.001]
 }
 
 client.collections['docs'].documents.create(document)
@@ -295,7 +295,7 @@ client.collections['docs'].documents.create(document)
 document = {
   'title'    =>   'Louvre Museuem',
   'points'   =>   1,
-  'vec' =>  [0.04, 0.234, 0.113, 0.001]
+  'embedding' =>  [0.04, 0.234, 0.113, 0.001]
 }
 
 client.collections['docs'].documents.create(document)
@@ -308,7 +308,7 @@ client.collections['docs'].documents.create(document)
 final document = {
   'title': 'Louvre Museuem',
   'points': 1,
-  'vec': [0.04, 0.234, 0.113, 0.001]
+  'embedding': [0.04, 0.234, 0.113, 0.001]
 };
 
 await client.collection('docs').documents.create(document);
@@ -321,11 +321,11 @@ await client.collection('docs').documents.create(document);
 
 ```java
 HaashMap<String, Object> document = new HashMap<>();
-float[] vec =  {0.04, 0.234, 0.113, 0.001}
+float[] embedding =  {0.04, 0.234, 0.113, 0.001}
 
 document.add("title", "Louvre Museuem");
 document.add("points", 1);
-document.add("vec", vec);
+document.add("embedding", embedding);
 
 client.collection("docs").documents.create(document);
 ```
@@ -338,7 +338,7 @@ client.collection("docs").documents.create(document);
 curl "http://localhost:8108/collections/docs/documents" -X POST \
         -H "Content-Type: application/json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-        -d '{"points":1,"title":"Louvre Museuem", "vec": [0.04, 0.234, 0.113, 0.001]}'
+        -d '{"points":1,"title":"Louvre Museuem", "embedding": [0.04, 0.234, 0.113, 0.001]}'
 ```
 
   </template>
@@ -2000,7 +2000,7 @@ let searchRequests = {
     {
       'collection': 'docs',
       'q': '*',
-      'vector_query' : 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' // <=== Be sure to replace `vec` with the name of the field that stores your embeddings. 
+      'vector_query' : 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' // <=== Be sure to replace `embedding` with the name of the field that stores your embeddings. 
     }
   ]
 }
@@ -2018,7 +2018,7 @@ $searchRequests = [
     [
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
+      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
     ]
   ]
 ];
@@ -2038,7 +2038,7 @@ search_requests = {
     {
       'collection': 'docs',
       'q' : '*',
-      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
+      'vector_query': 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
     }
   ]
 }
@@ -2057,7 +2057,7 @@ search_requests = {
     {
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
+      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
     }
   ]
 }
@@ -2076,7 +2076,7 @@ final searchRequests = {
     {
       'collection': 'docs',
       'q': '*',
-      'vector_query': 'vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)', //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
+      'vector_query': 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
     }
   ]
 };
@@ -2095,7 +2095,7 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
 HashMap<String,String > search1 = new HashMap<>();
 search1.put("collection","docs");
 search1.put("q","*");
-search1.put("vector_query", "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `vec` with the name of the field that stores your embeddings.
+search1.put("vector_query", "embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
 
 List<HashMap<String, String>> searches = new ArrayList<>();
 searches.add(search1);
@@ -2121,12 +2121,12 @@ curl 'http://localhost:8108/multi_search' \
               {
                 "collection": "docs",
                 "q": "*",
-                "vector_query": "vec:([0.96826,0.94,0.39557,0.306488], k:100)"
+                "vector_query": "embedding:([0.96826,0.94,0.39557,0.306488], k:100)"
               }
             ]
           }'
 
-# Be sure to replace `vec` with the name of the field that stores your embeddings.
+# Be sure to replace `embedding` with the name of the field that stores your embeddings.
 ```
 
   </template>
@@ -2161,7 +2161,7 @@ The hits are automatically sorted in ascending order of the `vector_distance`, i
     {
       "document": {
         "id": "0",
-        "vec": [
+        "embedding": [
           0.04, 0.234, 0.113, 0.001
         ]
       },
@@ -2201,16 +2201,16 @@ curl 'http://localhost:8108/multi_search' \
           {
             "collection": "docs",
             "q": "*",
-            "vector_query": "vec:([], id: foobar)"
+            "vector_query": "embedding:([], id: foobar)"
           }
         ]
       }'
       
-# Be sure to replace `vec` with the name of the field that stores your embeddings.
+# Be sure to replace `embedding` with the name of the field that stores your embeddings.
 ```
 
 By specifying an empty query vector `[]` and passing an `id` parameter, this query 
-would return all documents whose `vec` value is closest to the `foobar` document's `vec` value.
+would return all documents whose `embedding` value is closest to the `foobar` document's `embedding` value.
 
 :::tip
 The `foobar` document itself will not be returned in the results.
@@ -2582,12 +2582,12 @@ curl 'http://localhost:8108/multi_search' \
                 "collection": "docs",
                 "q": "*",
                 "filter_by": "category:shoes",
-                "vector_query": "vec:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" 
+                "vector_query": "embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100, flat_search_cutoff: 20)" 
               }
             ]
           }'
           
-# Be sure to replace `vec` with the name of the field that stores your embeddings.
+# Be sure to replace `embedding` with the name of the field that stores your embeddings.
 ```
 
 ## UI Examples
