@@ -2325,6 +2325,8 @@ S = rank of document in semantic search
 rank_fusion_score = 0.7 * K + 0.3 * S
 ```
 
+The `0.7` and `0.3` values can be changed using the [`alpha` parameter](#weightage-for-semantic-vs-keyword-matches).
+
 <Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
 
   <template v-slot:JavaScript>
@@ -2419,6 +2421,8 @@ You can also do a hybrid search when using your own embedding field, by combinin
 
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
 
+### Weightage for Semantic vs Keyword matches
+
 By default, Typesense assigns a weight of `0.3` for vector search rank and a weight of `0.7` for keyword search rank. 
 You can adjust the weight assigned to vector search ranking via the `alpha` option of the `vector_query` parameter.
 
@@ -2444,7 +2448,7 @@ curl 'http://localhost:8108/multi_search' \
 :::tip
 When querying on both an embedding field and regular search fields, some parameters like `query_by_weights` 
 won't have an impact on an embedding field mentioned in `query_by`. However, since length of `query_by_weights` 
-must match the length of `query_by`, you can use a dummy value like `0`.
+must match the length of `query_by`, you can use a placeholder value like `0`.
 :::
 
 ### Distance Threshold

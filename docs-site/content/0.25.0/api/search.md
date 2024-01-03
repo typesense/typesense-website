@@ -322,7 +322,7 @@ Note that you need to enable faceting for fields in the [Collection Schema](./co
 ### Facet ranges
 
 For numerical fields, you can provide a list of ranges and corresponding labels on which the documents should be 
-faced upon.
+faceted upon.
 
 For example, if your documents contain a `rating` field, and you want to facet the ratings as
 `average`, `good` and `great`, you can do so like this:
