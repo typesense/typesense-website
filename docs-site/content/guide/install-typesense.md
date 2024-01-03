@@ -70,6 +70,12 @@ There are a couple of **community supported** contributions for deploying on Kub
 
 ### Mac via Homebrew
 
+:::warning Compatibility with macOS & Apple M1/M2
+The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
+
+For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
+:::
+
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
     <div class="manual-highlight">
@@ -91,13 +97,13 @@ For macOS running on Apple Silicon CPUs:
 - Logs are under `/opt/homebrew/var/log/typesense/`
 - Data dir is under `/opt/homebrew/var/lib/typesense/`
 
+### Mac Binary
+
 :::warning Compatibility with macOS & Apple M1/M2
 The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
 
 For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
-
-### Mac Binary
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
@@ -112,12 +118,6 @@ mkdir $(pwd)/typesense-data
     </div>
   </template>
 </Tabs>
-
-:::warning Compatibility with macOS & Apple M1/M2
-The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
-
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
-:::
 
 ### DEB package on Ubuntu/Debian
 
