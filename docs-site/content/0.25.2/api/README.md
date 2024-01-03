@@ -84,16 +84,16 @@ The changelog below contains aggregates all the changes between `v0.24.2` and `v
 - Fixed non-curated members of a group appearing in curated override results.
 - Fixed override query rule being case-sensitive.
 - Fixed phrase search not considering field weights.
-- **[New in v0.25.1]** Handle mismatched vector dimensions during indexing
-- **[New in v0.25.1]** Allow remote embedders to use multiple per-collection credentials
-- **[New in v0.25.1]** Fixed altering of schema involving embedding fields
-- **[New in v0.25.1]** Fixed charset in content-type header of export API response
-- **[New in v0.25.1]** Fixed an issue in analytics query aggregation that caused crash on empty collections
-- **[New in v0.25.1]** Fixed group by on vector search
-- **[New in v0.25.1]** Improved error handling of remote embedding APIs
-- **[New in v0.25.1]** Fixed tokenizer of embedding models that use XLM-RoBERTa
-- **[New in v0.25.1]** Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
-- **[New in v0.25.1]** Fixed text match score calculation to consider the presence of dropped tokens when ranking.
+- [New in v0.25.1] Handle mismatched vector dimensions during indexing
+- [New in v0.25.1] Allow remote embedders to use multiple per-collection credentials
+- [New in v0.25.1] Fixed altering of schema involving embedding fields
+- [New in v0.25.1] Fixed charset in content-type header of export API response
+- [New in v0.25.1] Fixed an issue in analytics query aggregation that caused crash on empty collections
+- [New in v0.25.1] Fixed group by on vector search
+- [New in v0.25.1] Improved error handling of remote embedding APIs
+- [New in v0.25.1] Fixed tokenizer of embedding models that use XLM-RoBERTa
+- [New in v0.25.1] Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
+- [New in v0.25.1] Fixed text match score calculation to consider the presence of dropped tokens when ranking.
 - **[New in v0.25.2]** Improve precision of HNSW index under frequent deletion and updates of vectors.
 - **[New in v0.25.2]** Fixed a regression in analytics aggregation for aggregation intervals configured to > 60 seconds.
 - **[New in v0.25.2]** Fixed a bug that prevented two embedding field names from sharing the same prefix.
