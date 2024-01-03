@@ -177,6 +177,7 @@ We also have the following framework integrations:
 
 - [ToolJet](https://tooljet.com/?ref=typesense)
 - [Airbyte ETL](https://docs.airbyte.com/integrations/destinations/typesense)
+- [Enterspeed ETL](https://docs.enterspeed.com/integrations/typesense) - helps move data from e-commerce and content platforms into Typesense for search
 - [Sitemap Generator from Typesense Data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)
 
