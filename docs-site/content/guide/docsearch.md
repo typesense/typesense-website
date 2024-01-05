@@ -362,7 +362,7 @@ Then add a key called `typesenseDocsearch` to your `.vuepress/config.js` file wi
 ```
 
 :::tip Reference
-Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/eb0a1915de76d0b0d4c0b4b0d06ce10f6989388c/docs-site/docsearch.config.js) we use for Typesense's own Vuepress-powered documentation site.
+Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) we use for Typesense's own Vuepress-powered documentation site.
 :::
 
 ### Option C: Custom Docs Framework with DocSearch.js v3 (modal layout)
