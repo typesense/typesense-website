@@ -289,6 +289,18 @@
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
+            <a
+              href="https://typesense.org/docs/latest/api/api-clients.html#ecommerce"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/magento-logo.svg"
+                alt="Magento"
+                width="176"
+                height="44"
+                class="ml-2 ml-sm-5 mt-4"
+              />
+            </a>
             <a href="https://plugins.craftcms.com/typesense" target="_blank">
               <img
                 src="~/assets/images/craft-cms-logo.svg"

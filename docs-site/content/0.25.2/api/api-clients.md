@@ -162,8 +162,8 @@ We also have the following framework integrations:
 ## Ecommerce
 
 - [BigCommerce](https://www.bigcommerce.com/apps/hyper-search-by-space-48/) by Space48
-- [Magento](https://github.com/MonogoPolska/magento-typesense-suite) by Monogo
 - [Magento](https://ceymox.com/typesense-search-for-magento/) by Ceymox
+- [Magento](https://github.com/MonogoPolska/magento-typesense-suite) by Monogo
 - [Magento](https://github.com/develodesign/magento2-module-typesense) by Develo
 - [WooCommerce](https://www.codemanas.com/downloads/typesense-search-for-woocommerce/?ref=typesense) by Codemanas
 - [Enterspeed ETL](https://docs.enterspeed.com/integrations/typesense) - helps move data from e-commerce and content platforms into Typesense for search
