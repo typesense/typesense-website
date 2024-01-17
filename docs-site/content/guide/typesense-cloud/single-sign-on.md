@@ -3,7 +3,7 @@
 In Typesense Cloud, you can integrate any SAML-based Single Sign-On platform(s) to give designated users in your organization access to your [team account](./team-accounts.md), 
 using their existing SSO credentials.
 
-:::tip Our SAML-integration is platform agnostic
+:::tip Our SAML-integration is platform-agnostic
 
 We've tested our SAML integration with popular SSO vendors like Okta, Azure Active Directory, Microsoft Entra ID, Google SSO and Rippling SSO,
 but you can integrate **any SSO vendor** that offers SAML-based SSO with Typesense Cloud.
@@ -27,6 +27,15 @@ Here's how to set up SSO for a team in Typesense Cloud:
    So once you create your team, click on "account" in the top navbar, scroll down to the "Billing" section and add a Payment Method to your team account.
 
 We now need to set up your SSO platform to continue the setup.
+
+:::warning GitHub-based authentication
+
+If you already use GitHub authentication, and have created a Typesense Cloud team via a GitHub org, you will not be able to set up SSO on this team. 
+
+You would have to sign up for a new account with email/password-based authentication, then create a new team under that login and set up SSO for that team.
+We can then move the clusters from your existing team account to your new team account if you reach out to support, once adding a payment method to your account.
+
+:::
 
 ### Step 2: Configure your SSO platform
 
