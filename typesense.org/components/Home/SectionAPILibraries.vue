@@ -180,7 +180,7 @@
               />
             </a>
             <a
-              href="https://github.com/typesense/laravel-scout-typesense-driver"
+              href="https://laravel.com/docs/10.x/scout#typesense"
               target="_blank"
             >
               <img

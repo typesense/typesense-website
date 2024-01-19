@@ -136,7 +136,7 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
-                href="https://github.com/typesense/laravel-scout-typesense-driver"
+                href="https://laravel.com/docs/10.x/scout#typesense"
                 >Laravel Scout Driver
               </a>
             </li>
