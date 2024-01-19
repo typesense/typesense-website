@@ -224,6 +224,7 @@ let config = {
             ['/guide/reference-implementations/geo-search', 'Geo Search'],
             ['/guide/reference-implementations/typesense-autocomplete-js', 'Autocomplete.js with Typesense'],
             ['/guide/reference-implementations/hn-comments-semantic-hybrid-search', 'Semantic + Hybrid Search'],
+            ['/guide/reference-implementations/laravel-scout-integration', 'Laravel Scout Integration'],
           ],
         },
       ],
