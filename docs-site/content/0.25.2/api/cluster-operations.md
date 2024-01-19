@@ -317,6 +317,13 @@ curl "http://localhost:8108/metrics.json" \
 #### Definition
 `GET ${TYPESENSE_HOST}/metrics.json`
 
+:::tip Prometheus Integration
+
+If you use Prometheus, here's a community-maintained project that lets you periodically poll this endpoint and export the data into Prometheus:
+
+[https://github.com/imatefx/typesense-prometheus-exporter](https://github.com/imatefx/typesense-prometheus-exporter)
+
+:::
 
 ## API Stats
 
@@ -372,6 +379,13 @@ curl "http://localhost:8108/stats.json" \
 #### Definition
 `GET ${TYPESENSE_HOST}/stats.json`
 
+:::tip Prometheus Integration
+
+If you use Prometheus, here's a community-maintained project that lets you periodically poll this endpoint and export the data into Prometheus:
+
+[https://github.com/imatefx/typesense-prometheus-exporter](https://github.com/imatefx/typesense-prometheus-exporter)
+
+:::
 
 ## Health
 

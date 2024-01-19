@@ -182,6 +182,7 @@ We also have the following framework integrations:
 - [Enterspeed ETL](https://docs.enterspeed.com/integrations/typesense)
 - [Sitemap Generator from Typesense Data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)
+- [Prometheus Exporter](https://github.com/imatefx/typesense-prometheus-exporter)
 
 :::tip
 Planning to build an integration with Typesense? 
