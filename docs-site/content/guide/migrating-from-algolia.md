@@ -200,6 +200,18 @@ parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "
 - If you see a 404, please make you have <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#create-a-collection`">created your Typesense Collection</RouterLink> before running the import command above.
 :::
 
+### Step 5: Import query rules
+
+If you use Algolia's Query Rules feature to curate your search results based on conditions, you can import those rules using this utility we've put together:
+
+```bash
+npx algolia-query-rules-to-typesense@latest <path/to/algolia_rules_export.json> <path/to/typesense_overrides_output.json>
+```
+
+To get the Algolia rules export file, go to the "Rules" section of your Algolia index, and you'll find a download icon to export the rules as JSON.
+
+You can then import these converted JSON rules (`typesense_overrides_output.json`) into Typesense using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html`">Typesense Overrides API</RouterLink>.
+
 ## Geo-Distributed Clusters
 
 Algolia calls their Geo-Distributed CDN-like search offering [Distributed Search Network](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/), and is only available for customers who pay annually, as a paid add-on.
