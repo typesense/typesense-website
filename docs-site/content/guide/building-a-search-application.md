@@ -269,6 +269,15 @@ For each field, we define its `name, type` and whether it's a `facet` field. A f
 
 We also define a `default_sorting_field` that determines how the results must be sorted when no `sort_by` clause is provided. In this case, books that have more ratings will be ranked higher.
 
+:::tip Indexed fields vs un-indexed fields
+You only need to include fields that you want to search / filter / facet / sort / group_by in the collection schema. We call these indexed fields. Indexed fields are stored in RAM with a backup on disk.  
+
+You can still send additional fields that you might use for display purposes (for eg: image URLs) when importing the documents into Typesense. 
+Any fields not mentioned in the schema, but present in an imported document, will only be stored on disk and returned when the document is a hit. 
+We call these un-indexed fields and this helps conserve memory usage and avoid wasted CPU cycles in trying to otherwise build unused indices for these fields in memory.
+:::
+
+
 ## Adding books to the collection
 
 We're now ready to index some books into the collection we just created.
