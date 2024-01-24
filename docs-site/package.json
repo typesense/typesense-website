@@ -39,6 +39,5 @@
     "vue-prism-component": "^2.0.0",
     "vuepress": "1.9.7",
     "vuex": "^3.6.2"
-  },
-  "packageManager": "yarn@3.2.0"
+  }
 }
