@@ -172,6 +172,7 @@ We also have the following framework integrations:
 
 - [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
 - [Craft CMS](https://plugins.craftcms.com/typesense) by Percipio
+- [Prepr Headless CMS](https://docs.prepr.io/integrations/typesense#introduction)
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
 - [Drupal](https://www.drupal.org/project/search_api_typesense)
 
