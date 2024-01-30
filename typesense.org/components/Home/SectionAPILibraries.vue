@@ -310,6 +310,18 @@
                 class="ml-2 ml-sm-5 mt-4"
               />
             </a>
+            <a
+              href="https://docs.prepr.io/integrations/typesense"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/prepr-logo.svg"
+                alt="Prepr CMS"
+                width="125"
+                height="53"
+                class="ml-2 ml-sm-5 mt-4"
+              />
+            </a>
             <a href="https://pypi.org/project/zopyx.typesense/" target="_blank">
               <img
                 src="~/assets/images/plone-logo.svg"
