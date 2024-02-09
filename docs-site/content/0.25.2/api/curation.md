@@ -340,6 +340,10 @@ For example, if someone searches for `sony ericsson phone`, the query will be re
 `sony ericsson` brand filter will be directly applied. If you don't wish to remove matching tokens from the query, 
 set `remove_matched_tokens` to `false`. By default, this parameter is set to `true`.
 
+:::tip Note
+Fields used in the query for dynamic filtering should have `facet: true` in their field definition in the schema. 
+:::
+
 ### Curation and filtering
 
 `includes` is used to fix documents at certain positions in the results, but it's possible for these documents to
