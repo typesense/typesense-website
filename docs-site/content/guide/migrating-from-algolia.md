@@ -42,13 +42,12 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 
 ### Key Features in Algolia, not in Typesense
 
-- Server-side stop-words (can be implemented [client-side](https://github.com/typesense/showcase-books-search/blob/b0b15dc88179566f85db21d2455c2d6c68668d5a/src/app.js#L186-L194))
 - Server-side AB-Testing (can be implemented [client-side](./ab-testing.md) using an AB-Testing framework and using different collections based on the bucket identifier for a user)
 - Out-of-the-box AI/ML Features
   - Dynamic Synonym Suggestion
-  - User-level personalization ([User-group level personalization](./personalization.md) can be implemented with Typesense)
-  - AI Re-Ranking
-  - Recommendations ([Here's](recommendations.md) a guide on how to implement recommendations in Typesense using ML models and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>).
+  - Out-of-the-box event tracking
+  - Out-of-the-box user-level personalization (can be implemented by bringing the output of machine learning models into Typesense. Read more [here](./personalization.md#user-level-personalization))
+  - Out-of-the-box recommendations ([Here's](./recommendations.md) a guide on how to implement recommendations in Typesense using ML models and <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink>).
 
 ### Key Features in Typesense, not in Algolia
 
@@ -176,6 +175,12 @@ jq -c 'if .your_iso_timestamp_field then .your_iso_timestamp_field |= (sub("\\.[
 Create a collection in Typesense following the instructions <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">here</RouterLink>.
 
 You want to set `facet: true` for any fields you've configured as a facetable field in Algolia.
+
+[Here's](https://github.com/typesense/typesense-collection-schema-generator/blob/master/README.md) a little utility to help you generate a first-draft Typesense Collection schema from a sample JSON object from your dataset: 
+
+```bash
+npx typesense-collection-schema-generator@latest <path_to_input_json_document_file> <path_to_output_typesense_collection_schema_json_file>
+```
 
 ### Step 4: Import your documents
 
