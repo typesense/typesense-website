@@ -54,6 +54,7 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 - Multiple (hard) sort orders on a single index (In Algolia you need to create duplicate indices for every hard sort order, eg: sort by price asc, sort by price desc, etc each need a duplicate index in Algolia)
 - Validations for field data types when documents are indexed (similar to typed languages) to prevent inconsistent data from getting into the index. (This can be turned off if you need Algolia-like behavior)
 - Ability to specify numerical weights for particular fields during search, to give them more priority
+- Ability to store and query multiple geo (latitude / longitude) fields in the same record, and combine them using logical operators when filtering in a single query.
 - Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>
 - Ability to use embedding models like OpenAI, PaLM API or built-in models like S-BERT, E-5, etc in order to implement hybrid (semantic + keyword) search and integrate with Large Language Models (LLMs). 
 - Ability to create <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">aliases</RouterLink> for collections, like symlinks
