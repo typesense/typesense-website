@@ -222,6 +222,7 @@ let config = {
             ['/guide/reference-implementations/xkcd-search', 'xkcd Search'],
             ['/guide/reference-implementations/federated-search', 'Federated Search'],
             ['/guide/reference-implementations/geo-search', 'Geo Search'],
+            ['/guide/reference-implementations/airports-geo-search', 'Airports Geo Search'],
             ['/guide/reference-implementations/typesense-autocomplete-js', 'Autocomplete.js with Typesense'],
             ['/guide/reference-implementations/hn-comments-semantic-hybrid-search', 'Semantic + Hybrid Search'],
             ['/guide/reference-implementations/laravel-scout-integration', 'Laravel Scout Integration'],
