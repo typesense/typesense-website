@@ -394,13 +394,13 @@
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
                   <td>
-                    ❌<br /><br />
-                    Can be implemented
+                    ✅<br /><br />
                     <a
-                      href="https://github.com/typesense/showcase-books-search/blob/b0b15dc88179566f85db21d2455c2d6c68668d5a/src/app.js#L186-L194"
+                      href="https://github.com/typesense/typesense/issues/248#issuecomment-1876036874"
                       target="_blank"
-                      >client-side</a
-                    >.
+                      >Available</a
+                    >
+                    as of v0.26.0.rc55.
                   </td>
                   <td>✅️</td>
                   <td>✅️</td>
@@ -409,7 +409,7 @@
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
                   <td>✅</td>
-                  <td>✅️</td>
+                  <td>🔶 <br /><br />Limited to one geo point</td>
                   <td>✅️</td>
                   <td>🔶 <br /><br />Limited to one geo point</td>
                 </tr>
@@ -553,13 +553,14 @@
                     User-level Search Personalization
                   </td>
                   <td>
-                    ❌<br /><br />
+                    🔶️<br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/personalization.html"
                       target="_blank"
-                      >User-group level personalization</a
                     >
-                    can be implemented with your own models.
+                      implemented</a
+                    >
+                    using Vector Search.
                   </td>
                   <td>
                     ✅<br /><br />
@@ -784,6 +785,22 @@
                     GitHub issues<br />
                     Email<br />
                     Public Discord Community
+                  </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Support Hours</td>
+                  <td>24 x 7 x 365 <br />for Paid Prioritized Support</td>
+                  <td>
+                    Mon - Fri; Business Hours<br />
+                    9am - 5pm in user timezone<br />for Paid Prioritized Support
+                  </td>
+                  <td>
+                    24 x 7 x 365 <br />for Platinum and Enterprise Prioritized
+                    Support
+                  </td>
+                  <td>
+                    8am - 10pm (Paris Time), <br />Mon - Thu<br />
+                    for Enterprise customers
                   </td>
                 </tr>
                 <tr>
