@@ -120,6 +120,13 @@ export default {
           alt: 'Codecademy',
         },
         {
+          href: 'https://www.logitech.com',
+          imgPath: 'user_logos/logitech_logo.svg',
+          width: 103,
+          height: 31,
+          alt: 'Logitech',
+        },
+        {
           href: 'https://changelog.com',
           imgPath: 'user_logos/changelog.svg',
           width: 146,
@@ -175,13 +182,6 @@ export default {
           width: 120,
           height: 26,
           alt: 'Instatus',
-        },
-        {
-          href: 'https://rerobe.se',
-          imgPath: 'user_logos/rerobe.svg',
-          width: 90,
-          height: 22,
-          alt: 'Rerobe',
         },
       ],
     }
