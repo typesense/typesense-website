@@ -69,6 +69,7 @@ The changelog below contains aggregates all the changes between `v0.24.2` and `v
 - **[New in v0.25.2]** Parameterize compaction of store during collection drop via the `compact_store` parameter.
 - **[New in v0.25.2]** Server argument for configuring the periodic DB compaction interval 
    via `db-compaction-interval`. Default: `604800` (seconds).
+- **[New in v0.25.2]** When using `group_by`, you can now control if documents with a `null` value in the grouped field should be placed in one group together, or should not be grouped using the `group_missing_values` parameter.
 
 ### Bug Fixes
 
