@@ -10,7 +10,7 @@ The rest of this article will discuss how to create API Keys and restrict the AP
 
 ## Bootstrap API Key
 
-When you start a Typesense cluster, you provide a bootstrap key using the `api-key` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameter</RouterLink>.
+When you start a Typesense cluster, you provide a bootstrap key using the `api-key` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">server configuration parameter</RouterLink>.
 
 This key has admin permissions on all endpoints and data and should not be used during normal course of operations. 
 Instead, you want to use this key to create another admin API Key using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">`/keys` API endpoint</RouterLink>, and then use that key for day-to-day operations.
