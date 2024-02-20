@@ -92,7 +92,7 @@ If you see an HTTP 503, you want to do one or more of the following:
     You can still send these fields in the document when sending it to Typesense - they'll just be stored on disk and returned when the document is a hit, instead of being indexed in memory.
     This will help avoid using unnecessary CPU cycles for indexing.
 5. Sometimes disk I/O might be a bottleneck, especially if each individual document is large. In these cases, you want to turn on High Performance Disk in Typesense Cloud or use nVME SSD disks to improve performance.
-6. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameters</RouterLink>.
+6. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">server configuration parameters</RouterLink>.
     This is usually not needed once the above steps are taken. On Typesense Cloud, we can increase these values for you from our side if you email support at typesense dot org.
 
 ### Handling Rejecting write: running out of resource type errors
