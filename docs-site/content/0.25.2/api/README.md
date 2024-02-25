@@ -23,23 +23,23 @@ The changelog below contains aggregates all the changes between `v0.24.2` and `v
 ### New Features
 
 - **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist in your dataset. 
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#semantic-search)
+  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#semantic-search)
 - **Hybrid search:** Combine both keyword and semantic / vector search results in a single query using rank fusion
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#hybrid-search)
+  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#hybrid-search)
 - **Automatic embedding generation:** specify one or more string fields that should be used for generating embeddings during indexing & during search using
-    state-of-the-art embedding models, optionally [using a GPU](https://typesense.org/docs/0.25.1/api/vector-search.html#using-a-gpu-optional). 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L32-L45) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#using-built-in-models)
+    state-of-the-art embedding models, optionally [using a GPU](https://typesense.org/docs/0.25.2/api/vector-search.html#using-a-gpu-optional). 
+  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L32-L45) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#using-built-in-models)
 - **Integration with OpenAI API, PaLM API and Vertex AI API:** Have Typesense automatically make API calls to remote embedding services like OpenAI / Google, to generate vectors for the JSON data you index in Typesense. 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L49-L67) | [Docs](https://typesense.org/docs/0.25.1/api/vector-search.html#using-openai-api)
-- **Query Analytics:** Typesense now supports aggregation of popular search queries which can then be used as insights into query patterns. [Docs](https://typesense.org/docs/0.25.1/api/analytics-query-suggestions.html)
+  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L49-L67) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#using-openai-api)
+- **Query Analytics:** Typesense now supports aggregation of popular search queries which can then be used as insights into query patterns. [Docs](https://typesense.org/docs/0.25.2/api/analytics-query-suggestions.html)
 - **Query Suggestions:** You can use historical search terms collected by the Query Analytics feature, to power Query Suggestions.
-  - [Docs](https://typesense.org/docs/0.25.1/api/analytics-query-suggestions.html#query-suggestions)
+  - [Docs](https://typesense.org/docs/0.25.2/api/analytics-query-suggestions.html#query-suggestions)
 - **Update Documents by Query:** You can now update all documents that match a `filter_by` condition
-  - [Docs](https://typesense.org/docs/0.25.1/api/documents.html#update-by-query)
+  - [Docs](https://typesense.org/docs/0.25.2/api/documents.html#update-by-query)
 - **Range faceting:** numerical values can be dynamically faceted at query-time by bucketing them into ranges.
-  - [Docs](https://typesense.org/docs/0.25.1/api/search.html#faceting-parameters)
+  - [Docs](https://typesense.org/docs/0.25.2/api/search.html#faceting-parameters)
 - **Pagination using `offset` and `limit`**: This is in addition to the existing `page` and `per_page` mechanism. This new pagination method offers more flexibility and is also useful for GraphQL compatibility.
-  - [Docs](https://typesense.org/docs/0.25.1/api/search.html#pagination-parameters)
+  - [Docs](https://typesense.org/docs/0.25.2/api/search.html#pagination-parameters)
 
 ### Enhancements
 
