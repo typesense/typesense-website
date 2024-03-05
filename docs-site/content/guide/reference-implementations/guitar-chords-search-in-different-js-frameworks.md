@@ -30,3 +30,42 @@ Sites that showcase how to use Typesense in different Javascript frameworks, usi
 
 - [Here's](https://github.com/typesense/showcase-guitar-chords-search-vanilla-js/blob/991b8eda250560b32bd0940c3fa43a19d0b3297b/main.js#L7-L38) how to set up `instantsearch.js` in Vite.
 - [Here's](https://github.com/typesense/showcase-guitar-chords-search-vanilla-js/blob/991b8eda250560b32bd0940c3fa43a19d0b3297b/main.js#L47-L63) how to use custom hits template.
+
+### Astro
+
+[Live Demo](https://guitar-chords-search-astro.typesense.org/) | [Source Code](https://github.com/typesense/showcase-guitar-chords-search-astro)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-astro/blob/a2a3011717090c989e252f7128953a4294e61682/src/pages/index.astro#L8-L78) how to use `instantsearch.js` in Astro. Make sure to wrap it in a `<script>` tag.
+
+### SolidJS
+
+[Live Demo](https://guitar-chords-search-solid-js.typesense.org/) | [Source Code](https://github.com/typesense/showcase-guitar-chords-search-solid-js)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-solid-js/blob/9e901d9b3cd4f7edfcfa69320e196e71c43a0c41/src/hooks/createInstantsearch.tsx#L20-L72) how to use `instantsearch.js` in SolidJS. Make sure to wrap it in an `onMount` or `createEffect` function.
+
+### Remix
+
+[Live Demo](https://guitar-chords-search-remix.typesense.org/) | [Source Code](https://github.com/typesense/showcase-guitar-chords-search-remix)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-remix/blob/b90acf92838be55bd07564580cac1c099fd00a36/app/utils/typesense.ts#L5-L20) how to configure [Typesense Instantsearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) with [Browser Environment Variables](https://github.com/typesense/showcase-guitar-chords-search-remix/blob/b90acf92838be55bd07564580cac1c099fd00a36/app/root.tsx#L29-L58).
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-remix/blob/b90acf92838be55bd07564580cac1c099fd00a36/app/components/GuitarChordsSearch/GuitarChordsSearch.tsx#L17-L38) how to use `react-instantsearch` in Remix (no SSR).
+
+### SvelteKit
+
+[Live Demo](https://guitar-chords-search-svelte-kit.typesense.org/) | [Source Code](https://github.com/typesense/showcase-guitar-chords-search-svelte-kit)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-svelte-kit/blob/94aa8ef61849cdc77e2baac9ee5d840093b2859b/src/routes/%2Bpage.svelte#L8-L69) how to use `instantsearch.js` in SvelteKit. Make sure to wrap it in an `onMount` function.
+
+### Qwik
+
+[Live Demo](https://guitar-chords-search-qwik.typesense.org/) | [Source Code](https://github.com/typesense/showcase-guitar-chords-search-qwik)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-qwik/blob/6df8bff3e19a113a621dbfeb6c5ca56988438ac7/src/hooks/useInstantSearch.ts#L12-L73) how to use `instantsearch.js` in Qwik. Make sure to wrap it in `useVisibleTask$`.
+
+### React Native
+
+[Source Code](https://github.com/typesense/showcase-guitar-chords-search-react-native)
+
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-react-native/blob/2900e804e406253597e101b7d9e92ecafc3f414d/src/components/InfiniteHits.tsx#L6-L33) how to display infinite hits.
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-react-native/blob/2eb394c5df440d63c92d0030e31778687dbf104b/src/components/Filters/RefinementList.tsx#L20-L78) how to create a `RefinementList` component with `showmore` and `searchable` attributes.
+- [Here's](https://github.com/typesense/showcase-guitar-chords-search-react-native/blob/2eb394c5df440d63c92d0030e31778687dbf104b/src/components/Filters/Filters.tsx#L20-L61) how to create a filter with refinement lists in a modal.
