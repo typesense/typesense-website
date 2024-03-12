@@ -134,6 +134,12 @@ export default {
           alt: 'Changelog',
         },
         {
+          href: 'https://elevenlabs.io',
+          imgPath: 'user_logos/eleven-labs.svg',
+          width: 150,
+          alt: 'ElevenLabs',
+        },
+        {
           href: 'https://eats.oddle.me',
           imgPath: 'user_logos/oddle_eats.svg',
           width: 120,
@@ -175,13 +181,6 @@ export default {
           width: 125,
           height: 31,
           alt: 'Trading Strategy',
-        },
-        {
-          href: 'https://instatus.com',
-          imgPath: 'user_logos/instatus.svg',
-          width: 120,
-          height: 26,
-          alt: 'Instatus',
         },
       ],
     }
