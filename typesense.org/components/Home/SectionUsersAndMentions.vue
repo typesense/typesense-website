@@ -137,6 +137,7 @@ export default {
           href: 'https://elevenlabs.io',
           imgPath: 'user_logos/eleven-labs.svg',
           width: 150,
+          height: 20,
           alt: 'ElevenLabs',
         },
         {
