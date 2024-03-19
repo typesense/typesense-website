@@ -15,97 +15,69 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release fixes some important bugs identified in [`v0.25.1`](../../0.25.1/).
-
-The changelog below contains aggregates all the changes between `v0.24.2` and `v0.25.x`.
-
+This release contains important new features, performance improvements and bug fixes.
 
 ### New Features
 
-- **Semantic Search:** Search for conceptually related terms in your dataset, even if the exact keyword does not exist in your dataset. 
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#semantic-search)
-- **Hybrid search:** Combine both keyword and semantic / vector search results in a single query using rank fusion
-  - [Demo](https://hn-comments-search.typesense.org) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#hybrid-search)
-- **Automatic embedding generation:** specify one or more string fields that should be used for generating embeddings during indexing & during search using
-    state-of-the-art embedding models, optionally [using a GPU](https://typesense.org/docs/0.25.2/api/vector-search.html#using-a-gpu-optional). 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L32-L45) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#using-built-in-models)
-- **Integration with OpenAI API, PaLM API and Vertex AI API:** Have Typesense automatically make API calls to remote embedding services like OpenAI / Google, to generate vectors for the JSON data you index in Typesense. 
-  - [Example](https://github.com/typesense/showcase-hn-comments-semantic-search/blob/0a10f2ef34e01e79049e7ba42ae8660e80cf524f/scripts/indexDataInTypesense.js#L49-L67) | [Docs](https://typesense.org/docs/0.25.2/api/vector-search.html#using-openai-api)
-- **Query Analytics:** Typesense now supports aggregation of popular search queries which can then be used as insights into query patterns. [Docs](https://typesense.org/docs/0.25.2/api/analytics-query-suggestions.html)
-- **Query Suggestions:** You can use historical search terms collected by the Query Analytics feature, to power Query Suggestions.
-  - [Docs](https://typesense.org/docs/0.25.2/api/analytics-query-suggestions.html#query-suggestions)
-- **Update Documents by Query:** You can now update all documents that match a `filter_by` condition
-  - [Docs](https://typesense.org/docs/0.25.2/api/documents.html#update-by-query)
-- **Range faceting:** numerical values can be dynamically faceted at query-time by bucketing them into ranges.
-  - [Docs](https://typesense.org/docs/0.25.2/api/search.html#faceting-parameters)
-- **Pagination using `offset` and `limit`**: This is in addition to the existing `page` and `per_page` mechanism. This new pagination method offers more flexibility and is also useful for GraphQL compatibility.
-  - [Docs](https://typesense.org/docs/0.25.2/api/search.html#pagination-parameters)
+- **Joins:** Connect one or more collections via common reference fields and join them during query time. This 
+  allows you to model SQL-like relationships elegantly.
+- **Analytics:** Ability to track popular records, queries that don't produce hits and logging events to file.
+- **Voice search:** Capture and send query via voice data -- we will transcribe (via Whispher model) and provide search results. 
+- **Built-in conversational RAG:** You can now seamlessly run a vector search and then pass the result to an LLM 
+  for summarizing the result as an answer.
+- **Stemming:** Snowball stemmer can be enabled for fields so that the field values are stemmed before indexing.
+- **Prefix filtering:** During filtering, you can now query on records that begin with a given prefix string. For example, 
+  `company_name: Acm*` will return names that begin with `acm`.
+- **Stop words:**  Specify a list of common words (e.g. `the`, `was`, etc.) that should be excluded from the 
+  indexing and search process to improve search relevance and performance.
+- **Personalized vector search via historical queries:** The `vector_query` parameter supports a `qs` parameter that accepts a 
+  comma list of historical search queries. We compute the average embedding of these queries and use that as the vector for search.
+- **NOT contains**: You can exclude results that contains a specific string. For example, `"filter_by": "artist:! Jackson"`
+  will exclude all documents whose `artist` field value contains the word `jackson`.
+- **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"` 
+  will exclude documents that have an `id` value of `id1` or `id2`.
+- **Adding custom metadata to collection schema:** While creating a collection you can send a `metadata` object field, 
+  which is persisted along with collection schema. This is useful for record keeping.
 
 ### Enhancements
 
-- Resolve field names using wildcard: fields can now be resolved in `facet_by`, `query_by`, `include_fields`, `exclude_fields`,
-  `highlight_fields` and `highlight_full_fields` when a wildcard expression is used, e.g. `title_*` will match `title_en`.
-- Ability to sort grouped hits based on the size of each group, using `sort_by: _group_found:desc`.
-- A count is returned for total number of records under each group even if the hits are truncating via `group_limit`.
-- The `!=` filtering operation can now be performed against numerical fields. Previously only string fields were supported for this operator.
-- Support use of `preset` parameter in embedded API key.
-- Support nested dynamic fields. 
-- Migrated build system to Bazel.
-- New server configuration option (`--reset-peers-on-error`) that makes the cluster forcefully refresh its peers when an
-  unrecoverable clustering error happens due to sudden change of peer IPs. There's also an equivalent
-  `/operations/reset_peers` API. Be careful while using this option, as it can lead to transient loss of data.
-- **[New in v0.25.2]** New search parameter flag `prioritize_num_matching_fields` that allows you to configure whether
-  the text match score should consider number of matching fields as a ranking criteria. This defaults to `true`.
-- **[New in v0.25.2]** Unload embedding model and free memory when no collections use a given model.
-- **[New in v0.25.2]** Allow the hybrid search / keyword search weight (`alpha`) to be configurable in `vector_query`.
-- **[New in v0.25.2]** Allow the direction of drop tokens to be configurable via `drop_tokens_mode` search parameter.
-- **[New in v0.25.2]** Handle zero width non-joiner character for Persian.
-- **[New in v0.25.2]** Ability to apply vector search only on the results of keyword search.
-- **[New in v0.25.2]** Prevent Typesense from loading an embedding model that exceeds available memory.
-- **[New in v0.25.2]** Improvements to range faceting: float value support, min/max ranges by leaving range param blank,
-  support spaces in range label.
-- **[New in v0.25.2]** Support `remote_embedding_timeout_ms` and `remote_embedding_num_tries` for indexing.
-- **[New in v0.25.2]** Better isolation of operations across collections.
-- **[New in v0.25.2]** Parameterize compaction of store during collection drop via the `compact_store` parameter.
-- **[New in v0.25.2]** Server argument for configuring the periodic DB compaction interval 
-   via `db-compaction-interval`. Default: `604800` (seconds).
-- **[New in v0.25.2]** When using `group_by`, you can now control if documents with a `null` value in the grouped field should be placed in one group together, or should not be grouped using the `group_missing_values` parameter.
+- **Curate / override by tags:** You can tag override rules with tags and then trigger curation by referring to the rule 
+  by the tag name directly.
+- **Store metadata with override rules:** With override metadata, you can set up a curation rule that matches a query 
+  and the search end-point will return the pre-defined metadata associated for that rule. This can can be used to display a 
+  message on the front-end.
+- **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in 
+  alphabetical order for display via `"facet_by": "phone(sort_by: _alpha:asc)"` or on the value of another field
+  via `"facet_by": "recipe.name(sort_by: recipe.calories:asc)"`
+- **Fetching parent of faceted field:** When you facet on a nested field like `color.name` you can now set 
+  `"facet_return_parent": "color.name"`. This will return the parent color object as parent property in the facet response.
+- **Configurable HNSW Parameters:** `M`, `efConstruction` and `efSearch` have been made configurable.
+- **Disable typos for numerical tokens:** Use `enable_typos_for_numerical_tokens: false` parameter to disable typos on numerical.
+- **Customize URL for OpenAI embedding API:** This allows you to use other OpenAI compatible APIs.
+- **Pagination for collections, synonyms & overrides listing:** These API end-points now support `limit` and `offset` GET parameters. 
+- Integration with Cloudflare Workers AI for RAG.
+- Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
+- Option to ignore "not found" error when deleting an object that's already deleted.
+  query tokens which are often model numbers or identifiers.
+- Added ability to create non-indexed, but required fields.
+- Exposed swap usage as a metric in `/metrics.json` API.
+- The `/health` API returns additional information about memory/disk exhaustion.
+- Build support for Apple M1 / M2
+- Add support for image embeddings using CLIP
+- Auto deletion of expired API keys when the `autodelete: true` property is set during key creation.
 
 ### Bug Fixes
 
-- Fixed updates of nested object field values.
-- Fix geopoint indexing in nested fields.
-- Fixed some special characters not getting highlighted properly in prefix searches.
-- Fixed a bug in phrase matches on array.
-- Fixed a socket leak on followers of a cluster when import data fails validation.
-- Fixed high memory usage incurred in export/import of large datasets.
-- Fixed bad unicode characters in export.
-- Fixed errors that were caused by presence of bad Japanese unicode characters in import.
-- Fixed broken http/2 support on CURL v8.
-- Fixed non-curated members of a group appearing in curated override results.
-- Fixed override query rule being case-sensitive.
-- Fixed phrase search not considering field weights.
-- [New in v0.25.1] Handle mismatched vector dimensions during indexing
-- [New in v0.25.1] Allow remote embedders to use multiple per-collection credentials
-- [New in v0.25.1] Fixed altering of schema involving embedding fields
-- [New in v0.25.1] Fixed charset in content-type header of export API response
-- [New in v0.25.1] Fixed an issue in analytics query aggregation that caused crash on empty collections
-- [New in v0.25.1] Fixed group by on vector search
-- [New in v0.25.1] Improved error handling of remote embedding APIs
-- [New in v0.25.1] Fixed tokenizer of embedding models that use XLM-RoBERTa
-- [New in v0.25.1] Fixed upsert of unchanged docs containing embedding fields, that would cause the embedding field value to be removed.
-- [New in v0.25.1] Fixed text match score calculation to consider the presence of dropped tokens when ranking.
-- **[New in v0.25.2]** Improve precision of HNSW index under frequent deletion and updates of vectors.
-- **[New in v0.25.2]** Fixed a regression in analytics aggregation for aggregation intervals configured to > 60 seconds.
-- **[New in v0.25.2]** Fixed a bug that prevented two embedding field names from sharing the same prefix.
-- **[New in v0.25.2]** Fixed reindexing of old documents with embeddings on collection schema update.
-- **[New in v0.25.2]** Fixed group by search that used facet range query.
-- **[New in v0.25.2]** Fixed edge cases in indexing and querying of optional nested fields.
-- **[New in v0.25.2]** Fixed hanging when PaLM API is down.
-- **[New in v0.25.2]** Fixed an edge case in deletion of values from infix search index.
-- **[New in v0.25.2]** Fixed hybrid search not considering `hidden_hits` search parameter.
-- **[New in v0.25.2]** Tweaked text embedding mean-pooling code to match the vectors generated by Python libraries.
-- **[New in v0.25.2]** Fixed truncation of certain float values in facet response.
+- Fixed multiple synonym substitutions in query yielding no results.
+- Fix `typo_tokens_threshold` not considering the number of grouped hits.
+- Fixed odd behavior when `_eval` condition in `sort_by` contained a comma.
+- Fixed `object` type auto-creating schema for nested fields even for non-indexed fields.
+- Fixed open quote present in search query treated as phrase search.
+- Fixed facet by range not working with decimal numbers or with numerical labels or labels that contain spaces.
+- Fixed extra new line shows up in the import API response.
+- Fixed face range end values being exclusive in nature when it should be inclusive.
+- Fixed edge cases in handling unicode in German / Thai locales.
+- Fixed facet counts being incorrect when combined with grouping and pinning.
 
 ### Deprecations / behavior changes
 
