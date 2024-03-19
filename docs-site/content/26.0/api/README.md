@@ -25,6 +25,7 @@ This release contains important new features, performance improvements and bug f
 - **Voice search:** Capture and send query via voice data -- we will transcribe (via Whispher model) and provide search results. 
 - **Built-in conversational RAG:** You can now seamlessly run a vector search and then pass the result to an LLM 
   for summarizing the result as an answer.
+- **Improved faceting and filtering performance:** Query planner has been optimized to handle many common patterns better.
 - **Stemming:** Snowball stemmer can be enabled for fields so that the field values are stemmed before indexing.
 - **Prefix filtering:** During filtering, you can now query on records that begin with a given prefix string. For example, 
   `company_name: Acm*` will return names that begin with `acm`.
@@ -62,9 +63,14 @@ This release contains important new features, performance improvements and bug f
 - Added ability to create non-indexed, but required fields.
 - Exposed swap usage as a metric in `/metrics.json` API.
 - The `/health` API returns additional information about memory/disk exhaustion.
+- Support overriding wildcard query via `"q": "*"` in rules.
 - Build support for Apple M1 / M2
-- Add support for image embeddings using CLIP
+- Add support for image embeddings using CLIP.
+- Add option to expand search query for suggestion aggregation.
 - Auto deletion of expired API keys when the `autodelete: true` property is set during key creation.
+- Make cache num entries configurable.
+- Add flag for logging search query at the start of req cycle.
+- Improved on-disk compaction: prunes older records more aggressively, leading to better bounds on data storage.
 
 ### Bug Fixes
 
@@ -74,10 +80,15 @@ This release contains important new features, performance improvements and bug f
 - Fixed `object` type auto-creating schema for nested fields even for non-indexed fields.
 - Fixed open quote present in search query treated as phrase search.
 - Fixed facet by range not working with decimal numbers or with numerical labels or labels that contain spaces.
-- Fixed extra new line shows up in the import API response.
+- Fixed extra new line showing up in the import API response.
 - Fixed face range end values being exclusive in nature when it should be inclusive.
 - Fixed edge cases in handling unicode in German / Thai locales.
 - Fixed facet counts being incorrect when combined with grouping and pinning.
+- Fixed highlighting quirks on long documents.
+- Fixed inheritance of sort field property for nested fields.
+- Fixed propagation of dynamic field properties for child nested fields.
+- Fixed some edge cases in phrase search.
+- Fixed update doc API returning 200 status code, instead of 201.
 
 ### Deprecations / behavior changes
 
