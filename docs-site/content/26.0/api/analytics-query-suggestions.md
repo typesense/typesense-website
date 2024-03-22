@@ -8,7 +8,7 @@ priority: 0.7
 
 Typesense can aggregate search queries for both analytics purposes and for query suggestions.
 
-## Enable the feature
+## Enabling the feature
 
 ### When Self-Hosting
 
@@ -28,7 +28,12 @@ Set this to a smaller value (minimum value is `60` seconds) to get more frequent
 
 We automatically set `--enable-search-analytics=true` and `--analytics-flush-interval=300` (every 5 minutes) in Typesense Cloud (more context in the section above).
 
-## Create a collection for aggregation
+## Query suggestions
+
+You can capture the search queries that are happening in the system and use that to either track the popular queries or power an autosuggest 
+feature with them.
+
+### Create a collection for queries
 
 Let's first create a new collection to which search queries will be aggregated and logged to.
 
@@ -95,7 +100,7 @@ curl -k "http://localhost:8108/collections" \
   </template>
 </Tabs>
 
-## Create an analytics rule
+### Create an analytics rule
 
 We can now create a `popular_queries` analytics rule that stores the most frequently occurring search queries 
 in the collection we created above. We limit the popular queries to the top 1000 queries via the `limit` parameter. 
@@ -181,91 +186,8 @@ your Typesense cluster.
 
 **NOTE:** This aggregation will happen every 5 minutes on Typesense Cloud.
 
-### Aggregation key
 
-When you send a search query to the source collection, you can optionally send a `x-typesense-user-id` parameter or 
-a `X-TYPESENSE-USER-ID` header to indicate the user who made this particular search request. When not specified, Typesense uses the client IP address for aggregation by default.
-
-Since Typesense could be used for type-ahead searches, a search query is counted for aggregation only when there is 
-at least a **4-second pause** after the query. For example, `f -> fo -> foo -> 4 second pause` will register the `foo` query.
-
-:::tip
-When testing locally, please be mindful of this 4-second pause and also the `analytics-flush-interval` configuration. 
-
-If you send a lot of queries to the source collection in a short period of time, search terms might not appear in the destination collection right away.  
-:::
-
-## List all rules
-
-The listing API allows you to list all the analytics rules stored in your Typesense cluster.
-
-<Tabs :tabs="['JavaScript','Ruby','Shell']">
-
-
-  <template v-slot:JavaScript>
-
-```js
-typesense.analytics.rules().retrieve()
-```
-
-  </template>
-
-  <template v-slot:Ruby>
-
-```rb
-typesense.analytics.rules.retrieve
-```
-
-  </template>
-
-  <template v-slot:Shell>
-
-```bash
-curl -k "http://localhost:8108/analytics/rules" \
-      -X GET \ 
-      -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
-```
-
-  </template>
-</Tabs>
-
-## Remove a rule
-
-Removing an analytics rule will stop aggregation of new queries, but the already aggregated queries will still be present in the destination collection.
-
-<Tabs :tabs="['JavaScript','Ruby','Shell']">
-
-
-  <template v-slot:JavaScript>
-
-```js
-typesense.analytics.rules('product_queries_aggregation').delete()
-```
-
-  </template>
-
-  <template v-slot:Ruby>
-
-```rb
-typesense.analytics.rules['product_queries_aggregation'].delete
-```
-
-  </template>
-
-  <template v-slot:Shell>
-
-```bash
-curl -k "http://localhost:8108/analytics/rules/product_queries_aggregation" 
-      -X DELETE \
-      -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
-```
-
-  </template>
-</Tabs>
-
-## Query Suggestions
+### Query suggestion UX
 
 Once you've set up the analytics rules above, top search terms will start appearing in the destination collection. 
 
@@ -341,6 +263,239 @@ curl "http://localhost:8108/multi_search" \
             }
           ]
         }'
+```
+
+  </template>
+</Tabs>
+
+#### Aggregation key
+
+When you send a search query to the source collection, you can optionally send a `x-typesense-user-id` parameter or 
+a `X-TYPESENSE-USER-ID` header to indicate the user who made this particular search request. When not specified, Typesense uses the client IP address for aggregation by default.
+
+Since Typesense could be used for type-ahead searches, a search query is counted for aggregation only when there is 
+at least a **4-second pause** after the query. For example, `f -> fo -> foo -> 4 second pause` will register the `foo` query.
+
+:::tip
+When testing locally, please be mindful of this 4-second pause and also the `analytics-flush-interval` configuration. 
+
+If you send a lot of queries to the source collection in a short period of time, search terms might not appear in the destination collection right away.  
+:::
+
+## No hits queries
+
+Like popular queries, you can track queries that produced no hits as well. You can use these queries to identify gaps in your content.
+
+### Create a collection for queries
+
+Let's first create a new collection to which search queries that produce no hits will be aggregated and logged to.
+
+This collection is just like any other Typesense collection, except that it is automatically populated by Typesense with 
+no-hits search queries.
+
+The `q` and `count` fields are mandatory.
+
+<Tabs :tabs="['JavaScript','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "no_hits_queries",
+  "fields": [
+    {"name": "q", "type": "string" },
+    {"name": "count", "type": "int32" }
+  ]
+}
+
+client.collections().create(schema)
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+schema = {
+  'name'      => 'no_hits_queries',
+  'fields'    => [
+    {
+      'name'  => 'q',
+      'type'  => 'string'
+    },
+    {
+      'name'  => 'count',
+      'type'  => 'int32'
+    }
+  ],
+  'default_sorting_field' => 'count'
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/collections" \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+        "name": "no_hits_queries",
+        "fields": [
+          {"name": "q", "type": "string" },
+          {"name": "count", "type": "int32" }
+        ]
+      }'
+```
+
+  </template>
+</Tabs>
+
+### Create an analytics rule
+
+We will track the most `1000` frequently occurring queries that don't produce a hit when the `products` collection is searched. These queries are then 
+aggregated in `no_hits_queries` collection.
+
+<Tabs :tabs="['JavaScript','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let ruleName =  'product_queries_aggregation'
+let ruleConfiguration = {
+  "type": "nohits_queries",
+  "params": {
+    "source": {
+      "collections": ["products"]
+    },
+    "destination": {
+      "collection": "no_hits_queries"
+    },
+    "limit": 1000
+  }
+}
+
+client.analytics.rules().upsert(ruleName, ruleConfiguration)
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+rule_name = 'popular_queries'
+rule_configuration = {
+  'type' => 'nohits_queries',
+  'params' => {
+    'source' => {
+      'collections' => ['products']
+    },
+    'destination' => {
+      'collection' => 'no_hits_queries'
+    },
+    'limit' => 1000
+  }
+}
+
+typesense.analytics.rules.upsert(rule_name, rule_configuration)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/analytics/rules" \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+        "name": "product_no_hits",
+        "type": "nohits_queries",
+        "params": {
+            "source": {
+                "collections": ["products"]
+            },
+            "destination": {
+                "collection": "no_hits_queries"
+            },
+            "limit": 1000
+        }
+      }'
+```
+
+  </template>
+
+</Tabs>
+
+
+## Listing all rules
+
+The listing API allows you to list all the analytics rules stored in your Typesense cluster.
+
+<Tabs :tabs="['JavaScript','Ruby','Shell']">
+
+
+  <template v-slot:JavaScript>
+
+```js
+typesense.analytics.rules().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+typesense.analytics.rules.retrieve
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/analytics/rules" \
+      -X GET \ 
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
+```
+
+  </template>
+</Tabs>
+
+## Remove a rule
+
+Removing an analytics rule will stop aggregation of new queries, but the already aggregated queries will still be present in the destination collection.
+
+<Tabs :tabs="['JavaScript','Ruby','Shell']">
+
+
+  <template v-slot:JavaScript>
+
+```js
+typesense.analytics.rules('product_queries_aggregation').delete()
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+typesense.analytics.rules['product_queries_aggregation'].delete
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/analytics/rules/product_queries_aggregation" 
+      -X DELETE \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" 
 ```
 
   </template>
