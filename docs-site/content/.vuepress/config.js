@@ -266,6 +266,7 @@ let config = {
             ['/26.0/api/geosearch', 'GeoSearch'],
             ['/26.0/api/vector-search', 'Vector Search'],
             ['/26.0/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/26.0/api/joins', 'Joins'],
             ['/26.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
             ['/26.0/api/api-keys', 'API Keys'],
             ['/26.0/api/curation', 'Curation'],

@@ -37,6 +37,8 @@ This release contains important new features, performance improvements and bug f
   will exclude all documents whose `artist` field value contains the word `jackson`.
 - **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"` 
   will exclude documents that have an `id` value of `id1` or `id2`.
+- **Eval scoring in sort_by:** When `_eval` is used in `sort_by`, you can now provide custom scores for records matching
+  the filter expression.
 - **Adding custom metadata to collection schema:** While creating a collection you can send a `metadata` object field, 
   which is persisted along with collection schema. This is useful for record keeping.
 
@@ -55,7 +57,8 @@ This release contains important new features, performance improvements and bug f
 - **Configurable HNSW Parameters:** `M`, `efConstruction` and `efSearch` have been made configurable.
 - **Disable typos for numerical tokens:** Use `enable_typos_for_numerical_tokens: false` parameter to disable typos on numerical.
 - **Customize URL for OpenAI embedding API:** This allows you to use other OpenAI compatible APIs.
-- **Pagination for collections, synonyms & overrides listing:** These API end-points now support `limit` and `offset` GET parameters. 
+- **Pagination for collections, synonyms & overrides listing:** These API end-points now support `limit` and `offset` GET parameters.
+- Prevent the contents of a field from being stored on-disk via the `store: false` field property.
 - Integration with Cloudflare Workers AI for RAG.
 - Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
 - Option to ignore "not found" error when deleting an object that's already deleted.
