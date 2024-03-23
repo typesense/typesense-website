@@ -779,40 +779,7 @@ For [select RAM / CPU configurations](https://typesense.helpscoutdocs.com/articl
 
 #### When Self Hosting:
 
-You would have to install the following additional dependencies, after which Typesense will automatically make use of any available Nvidia GPUs:
-
-1. Install CUDA following the instructions on Nvidia's site [here](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html).
-
-    You want to specifically install the following versions of these packages: `cuda=11.8.0-1`, `libcudnn8=8.9.2.26-1+cuda11.8` and `libcudnn8-dev=8.9.2.26-1+cuda11.8` and their dependencies.
-
-2. Install cuDNN following the instructions [here](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html).
-
-    You want to specifically install the `libcudnn8` and `libcudnn8-dev` packages.
-
-3. Add the following to `/etc/profile.d/cuda-path.sh`:
-
-    ```bash
-    export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
-    export CUDA_HOME=/usr/local/cuda
-    ```
-
-4. Install the Typesense GPU dependencies package:
-
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
-<br>
-# arm64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-      </code></pre>
-    </div>
-  </template>
-</Tabs>
+Follow the [installation guide](../../guide/install-typesense.md#using-a-gpu-optional).
 
 ### Using OpenAI API
 
