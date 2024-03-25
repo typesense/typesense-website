@@ -61,16 +61,15 @@ This release contains important new features, performance improvements and bug f
 - Integration with Cloudflare Workers AI for RAG.
 - Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
 - Option to ignore "not found" error when deleting an object that's already deleted.
-  query tokens which are often model numbers or identifiers.
-- Added ability to create non-indexed, but required fields.
+- Allow a field which is configured as `index: false` + `optional: false`. Previously this was not allowed.
 - Exposed swap usage as a metric in `/metrics.json` API.
 - The `/health` API returns additional information about memory/disk exhaustion.
 - Support overriding wildcard query via `"q": "*"` in rules.
 - Build support for Apple M1 / M2
 - Add support for image embeddings using CLIP.
-- Add option to expand search query for suggestion aggregation.
+- Add option to expand prefix search query via the `expand_query` parameter for suggestion aggregation.
 - Auto deletion of expired API keys when the `autodelete: true` property is set during key creation.
-- Make cache num entries configurable.
+- Make the size of search cache configurable via the `--cache-num-entries` server flag. Default is `1000`.
 - Add flag for logging search query at the start of req cycle.
 - Improved on-disk compaction: prunes older records more aggressively, leading to better bounds on data storage.
 

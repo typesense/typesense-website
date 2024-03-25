@@ -299,6 +299,8 @@ curl "http://localhost:8108/metrics.json" \
   "system_disk_used_bytes": "561152",
   "system_memory_total_bytes": "2086899712",
   "system_memory_used_bytes": "1004507136",
+  "system_memory_total_swap_bytes": "1004507136",
+  "system_memory_used_swap_bytes": "0.00",
   "system_network_received_bytes": "1466",
   "system_network_sent_bytes": "182",
   "typesense_memory_active_bytes": "29630464",
@@ -425,6 +427,9 @@ curl "http://localhost:8108/health"
 
   </template>
 </Tabs>
+
+When a node is running out of memory / disk, the API response will have an additional `resource_error` field that's 
+set to either `OUT_OF_DISK` or `OUT_OF_MEMORY`.
 
 #### Definition
 `GET ${TYPESENSE_HOST}/health`

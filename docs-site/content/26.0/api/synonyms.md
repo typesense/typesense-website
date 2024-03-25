@@ -354,6 +354,9 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/colle
 ## List all synonyms
 List all synonyms associated with a given collection.
 
+NOTE: By default, ALL synonyms are returned, but you can use the `offset` and `limit` parameters to 
+paginate on the listing.
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 

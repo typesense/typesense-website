@@ -120,6 +120,7 @@ let ruleConfiguration = {
     "destination": {
       "collection": "product_queries"
     },
+    "expand_query": false,
     "limit": 1000
   }
 }
@@ -177,13 +178,19 @@ curl -k "http://localhost:8108/analytics/rules" \
 
 </Tabs>
 
-
 That's it! 
 
 Search queries will now be aggregated and stored in the `product_queries` (destination) collection, whenever you make a search on the `products` (source) collection.
 
 Queries will be aggregated and sent to the destination collection based on the `analytics-flush-interval` configuration on 
 your Typesense cluster. 
+
+**Automatically expanding prefix search queries:**
+
+While creating the analytics rule, you can set `expand_query: true` to make Typesense aggregate the expanded versions 
+of the search queries made. For e.g. if a user stops typing at `sho` and the hits were fetched for the word `shoe`, 
+setting this parameter to `true` will make Typesense aggregate the word `shoe` instead of `sho`. By default, this parameter
+is set to `false`, i.e. we will capture the actual user queries (including prefix queries) without any expansion.
 
 **NOTE:** This aggregation will happen every 5 minutes on Typesense Cloud.
 

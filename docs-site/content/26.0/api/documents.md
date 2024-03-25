@@ -1348,6 +1348,9 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X DELETE \
   </template>
 </Tabs>
 
+**NOTE:** When a document does not exist for the given `id`, an error is returned. To ignore this error and treat the 
+deletion as success, you can send `ignore_not_found=true` parameter.
+
 **Sample Response**
 
 <Tabs :tabs="['JSON']">

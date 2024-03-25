@@ -270,13 +270,14 @@ The collection names can contain regular expressions. For example, if you have m
 `POST ${TYPESENSE_HOST}/keys`
 
 ### Arguments
-| Parameter    | Required  | Description                                                                                                                                                                                                            |
-|:-------------|:----------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| actions      | yes       | List of allowed actions. See next table for possible values.                                                                                                                                                           |
-| collections  | yes       | List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.                                                                                |
-| description  | yes       | Internal description to identify what the key is for                                                                                                                                                                   |
-| value        | no        | By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key.  |
-| expires_at   | no        | [Unix timestamp](https://www.epochconverter.com/) until which the key is valid.                                                                                                                                        |
+| Parameter    | Required  | Description                                                                                                                                                                                                           |
+|:-------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| actions      | yes       | List of allowed actions. See next table for possible values.                                                                                                                                                          |
+| collections  | yes       | List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.                                                                               |
+| description  | yes       | Internal description to identify what the key is for                                                                                                                                                                  |
+| value        | no        | By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key. |
+| expires_at   | no        | [Unix timestamp](https://www.epochconverter.com/) until which the key is valid.                                                                                                                                       |
+| autodelete   | no        | Automatically purge expired keys. This happens hourly. Default: `false`                                                                                                                                               |
 
 ### Sample actions
 

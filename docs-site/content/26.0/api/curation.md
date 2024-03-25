@@ -465,6 +465,8 @@ Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (whic
 ## List all overrides
 Listing all overrides associated with a given collection.
 
+NOTE: By default, ALL overrides are returned, but you can use the `offset` and `limit` parameters to paginate on the listing.
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
 
