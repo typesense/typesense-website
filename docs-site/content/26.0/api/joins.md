@@ -199,8 +199,15 @@ To get the user ids that can access a particular document:
 }
 ```
 
-**NOTE:** Since both `documents` and `users` collections contain an `id` field, we provide an alias to the `$users(ids)` field
-using the `as` keyword.
+## Sort by joined collection field
+
+We can sort on a field that's present in the joined collection this way:
+
+```json
+{
+  "sort_by": "$JoinedCollectionName(field_name:asc)"
+}
+```
 
 ## Merging / nesting joined fields
 

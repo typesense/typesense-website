@@ -2561,6 +2561,40 @@ curl 'http://localhost:8108/multi_search' \
 # Be sure to replace `embedding` with the name of the field that stores your embeddings.
 ```
 
+## Configuring HNSW parameters
+
+#### Indexing parameters
+
+You can set `ef_construction` (default: `16`) and `M` (default: `200`) for vector and embedding fields while creating 
+the collection.
+
+```json
+{
+  "name": "docs",
+  "fields": [
+    {
+      "name": "vec",
+      "type": "float[]",
+      "num_dim": 768,
+      "hnsw_params": {
+        "ef_construction": 100,
+        "M": 8
+      }
+    }
+  ]
+}
+```
+#### Search Parameters
+
+You can set a custom `ef` via the `vector_query` parameter (default value is `10`).
+
+```json
+{
+  "vector_query" : "vec:([], ef:100)"
+}
+```
+
+
 ## UI Examples
 
 - [Here's](https://hn-comments-search.typesense.org) a demo that shows you how to implement Hybrid Search (Semantic Search + Keyword Search + Filtering + Faceting) using Typesense's built-in embedding generation mechanism.

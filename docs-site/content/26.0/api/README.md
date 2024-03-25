@@ -33,11 +33,11 @@ This release contains important new features, performance improvements and bug f
   indexing and search process to improve search relevance and performance.
 - **Personalized vector search via historical queries:** The `vector_query` parameter supports a `qs` parameter that accepts a 
   comma list of historical search queries. We compute the average embedding of these queries and use that as the vector for search.
-- **NOT contains**: You can exclude results that contains a specific string. For example, `"filter_by": "artist:! Jackson"`
+- **NOT contains**: Exclude results that contains a specific string during filtering. For example, `"filter_by": "artist:! Jackson"`
   will exclude all documents whose `artist` field value contains the word `jackson`.
 - **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"` 
   will exclude documents that have an `id` value of `id1` or `id2`.
-- **Eval scoring in sort_by:** When `_eval` is used in `sort_by`, you can now provide custom scores for records matching
+- **Eval / filter scoring in sort_by:** When `_eval` is used in `sort_by`, you can now provide custom scores for records matching
   the filter expression.
 - **Adding custom metadata to collection schema:** While creating a collection you can send a `metadata` object field, 
   which is persisted along with collection schema. This is useful for record keeping.
@@ -46,9 +46,8 @@ This release contains important new features, performance improvements and bug f
 
 - **Curate / override by tags:** You can tag override rules with tags and then trigger curation by referring to the rule 
   by the tag name directly.
-- **Store metadata with override rules:** With override metadata, you can set up a curation rule that matches a query 
-  and the search end-point will return the pre-defined metadata associated for that rule. This can can be used to display a 
-  message on the front-end.
+- **Store metadata with override rules:** Store a `metadata` object within an override, so that the search end-point response
+  will return the pre-defined metadata associated for that rule. This can can be used to display a message on the front-end.
 - **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in 
   alphabetical order for display via `"facet_by": "phone(sort_by: _alpha:asc)"` or on the value of another field
   via `"facet_by": "recipe.name(sort_by: recipe.calories:asc)"`

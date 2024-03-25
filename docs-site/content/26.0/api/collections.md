@@ -451,6 +451,31 @@ so this is primarily useful for creating new collections from an existing refere
 Cloning a collection this way, does **not** copy the data. 
 :::
 
+### Adding metadata to schema
+
+If you wish, you could populate a `metadata` object to the schema while creating a collection to add 
+details about the collection, for e.g. when it was created, who created it etc.
+
+```json
+{
+  "name": "docs",
+  "enable_nested_fields": true,
+  "fields": [
+    {
+      "name": "title",
+      "type": "string",
+      "facet": true
+    }
+  ],
+  "metadata": {
+    "batch_job": 325,
+    "indexed_from": "2023-04-20T00:00:00.000Z"
+  }
+}
+```
+
+The fields within the `metadata` object are persisted and returned in the `GET /collections` end-point.
+
 ### Notes on indexing common types of data
 
 Here's how to index other common types of data, using the basic primitives in the table above:

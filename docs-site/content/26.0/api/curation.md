@@ -209,6 +209,45 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
   </template>
 </Tabs>
 
+### Add tags to rules
+
+You can add tags to override rules and then trigger curation by referring to the rule by the tag name directly.
+
+```json
+{
+    "overrides": [
+        {
+            "id": "tagging-example",
+            "includes": [{"id": "1348","position": 1}],
+            "rule": {
+                "match": "exact",
+                "query": "iphone pro",
+                "tags": ["apple", "iphone"]
+            }
+        }
+    ]
+}
+```
+Now, when we search the collection, we can pass one or more tags via the `override_tags` parameter to directly 
+trigger the curations rules that match the tags:
+
+```json
+{
+   "override_tags": "apple,iphone"
+}
+```
+
+**Additional notes on how rule tagging works**
+
+If `override1` is tagged with `tagA,tagB`, and `override2` is tagged with just `tagA` and `override3` is not tagged:
+
+1. If a search sets `override_tags` to `tagA`, we only consider overrides that contain `tagA` (`override1` and `override2`) 
+   with the usual logic -- in alphabetic order of override name and then process both if stop rule processing is false.
+2. If a search sets `override_tags` to `tagA,tagB`, we evaluate any rules that contain both `tagA` and tagB first, 
+   then rules with either `tagA` or `tagB`, but not overrides that contain no tags. Within each group, we evaluate 
+   in alphabetic order of override name and process multiple rules if `stop_processing` is `false`. 
+3. If a search sets no `override_tags`, we only consider rules that have no tags associated with them.
+
 ### Dynamic filtering
 
 In the following example, we will apply a filter dynamically to a query that matches a rule.
@@ -410,8 +449,10 @@ Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (whic
 | rule.query            | One of either `rule.query` or `rule.filter_by` is required. | Indicates what search queries should be overridden.                                                                                                                                                                                                                                                          |
 | rule.match            | no                                                          | Indicates whether the match on the query term should be `exact` or `contains`. Required when `rule.query` is set.                                                                                                                                                                                            |
 | rule.filter_by        | One of either `rule.query` or `rule.filter_by` is required. | Indicates that the override should apply when the `filter_by` parameter in a search query _exactly_ matches the string specified here (including backticks, spaces, brackets, etc).                                                                                                                          |
+| rule.tags             | no                                                          | List of tag values to associate with this override rule.                                                                                                                                                                                                                                                     |
 | excludes              | no                                                          | List of document `id`s that should be excluded from the search results.                                                                                                                                                                                                                                      |
 | includes              | no                                                          | List of document `id`s that should be included in the search results with their corresponding `positions`.                                                                                                                                                                                                   |
+| metadata              | no                                                          | Custom dictionary object called `metadata` which contains data that's returned in the search response. This can can be used to display a pre-defined message on the front-end when a particular rule is triggered.                                                                                           |
 | filter_by             | no                                                          | A filter by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                       |
 | sort_by               | no                                                          | A sort by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                         |
 | replace_query         | no                                                          | Replaces the current search query with this value, when the search query matches the override rule.                                                                                                                                                                                                          |
