@@ -12,10 +12,11 @@ Typesense can aggregate search queries for both analytics purposes and for query
 
 ### When Self-Hosting
 
-The Search analytics feature needs to be explicitly enabled via the `--enable-search-analytics` flag for query suggestions and other analytics features to work.
+The Search analytics feature needs to be explicitly enabled via the `--enable-search-analytics` and `--analytics-dir=/path/to/tsanalytics` flags 
+for query suggestions and other analytics features to work.
 
 ```bash
-./typesense-server --data-dir=/tmp/data --api-key=abcd --enable-search-analytics=true --analytics-flush-interval=60
+./typesense-server --data-dir=/tmp/data --api-key=abcd --enable-search-analytics=true --analytics-dir=/tmp/tsanalytics --analytics-flush-interval=60
 ```
 
 Search queries are first aggregated in-memory in every Typesense node independently and then persisted in a configured search suggestions collection (see below) periodically. 
@@ -430,6 +431,135 @@ curl -k "http://localhost:8108/analytics/rules" \
 
 </Tabs>
 
+
+## Aggregating click counts
+
+Typesense allows you to track how often a particular document is clicked on. You can use then use this counter value for ranking the results on popularity.
+
+Let's say there's a collection with a `popularity` field that we will use for tracking clicks:
+
+```json
+{                                        
+  "name": "products",           
+  "fields": [       
+    {"name": "title", "type": "string"},
+    {"name": "popularity", "type": "int32", "optional": true}
+  ]                                    
+}
+```
+
+We mark the `popularity` field as `optional` since we want to skip this field during indexing and let Typesense increment the value of this field based on 
+user interactions.
+
+### Create an analytics rule
+
+Let's define a `counter` analytics rule that will increment this field whenever a click event happens.
+
+<Tabs :tabs="['JavaScript','Ruby','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+let ruleName =  'product_queries_aggregation'
+let ruleConfiguration = {
+    "name": "products_popularity",
+    "type": "counter",
+    "params": {
+        "source": {
+            "collections": ["products"],
+            "events":  [
+              {"type": "click", "weight": 1, "name": "products_click_counter"}
+            ]
+        },
+        "destination": {
+            "collection": "products",
+            "counter_field": "popularity"
+        }
+    }
+}
+
+client.analytics.rules().upsert(ruleName, ruleConfiguration)
+```
+
+  </template>
+
+<template v-slot:Ruby>
+
+```rb
+rule_name = 'popular_queries'
+rule_configuration = {
+    "name" => "products_popularity",
+    "type" => "counter",
+    "params" => {
+        "source": {
+            "collections" => ["products"],
+            "events" =>  [
+              {"type" => "click", "weight" => 1, "name" => "products_click_counter"}
+            ]
+        },
+        "destination" => {
+            "collection" => "products",
+            "counter_field" => "popularity"
+        }
+    }
+}
+
+typesense.analytics.rules.upsert(rule_name, rule_configuration)
+```
+
+  </template>
+
+<template v-slot:Shell>
+
+```bash
+curl -k "http://localhost:8108/analytics/rules" \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+      -d '{
+        "name": "products_popularity",
+        "type": "counter",
+        "params": {
+            "source": {
+                "collections": ["products"],
+                "events":  [
+                    {"type": "click", "weight": 1, "name": "products_click_counter"}
+                ]
+            },
+            "destination": {
+                "collection": "products",
+                "counter_field": "popularity"
+            }
+        }
+      }'
+```
+
+</template>
+
+</Tabs>
+
+The counter rule indicates which collection must be tracked and where the counter value should be stored. The `weight` property of the event parameter 
+determines the size of the increments. In this case, we want to increment the `popularity` field by 1 every time a click is made against that document.
+
+### Send click events
+
+Once this counter rule is in-place, you can send start sending click events using the event name that we configured in the counter rule 
+earlier (`products_click_counter`):
+
+```bash
+curl "http://localhost:8108/analytics/events" -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+      "type": "click",
+      "name": "products_click_counter",
+      "data": {
+            "q": "nike shoes",
+            "doc_id": "1024",
+            "user_id": "111112"
+      }
+}'
+```
+
+The click events are aggregated, and the `popularity` field in the collection is incremented based on the frequency specified by the 
+`--analytics-flush-interval` option.
 
 ## Listing all rules
 
