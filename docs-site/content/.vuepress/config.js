@@ -273,6 +273,7 @@ let config = {
             ['/26.0/api/curation', 'Curation'],
             ['/26.0/api/collection-alias', 'Collection Alias'],
             ['/26.0/api/synonyms', 'Synonyms'],
+            ['/26.0/api/stopwords', 'Stopwords'],
             ['/26.0/api/cluster-operations', 'Cluster Operations'],
           ],
         },

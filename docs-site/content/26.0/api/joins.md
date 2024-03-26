@@ -243,9 +243,129 @@ by using the `merge` strategy:
 
 The default behavior is `strategy: nest`.
 
+#### Forcing nested array for joined fields
+
+In a one-to-many join query, you might want the joined collection's fields to be always represented as an array of 
+objects, even if there is only a single match.
+
+For example, given the following authors and books:
+
+```json lines
+{"id": "0", ",first_name": "Enid", "last_name": "Blyton"}
+{"id": "1", ",first_name": "JK", "last_name": "Rowling"}
+```
+
+```json lines
+{"title": "Famous Five", "author_id": "0"}
+{"title": "Secret Seven", "author_id": "0"}
+{"title": "Harry Potter", ",author_id": "1"}
+```
+
+When we query the `authors` collection and join on the `books` collection, like this:
+
+```json
+{
+  "collection": "authors",
+  "q": "*",
+  "filter_by": "$books(id:*)",
+  "include_fields": "$books(*)"
+}
+```
+
+We might end up with the books being either a nested object or a nested array of objects, depending on whether there 
+are 1 or more matched books for each author.
+
+```json
+[
+  {
+    "document": {
+      "id": "1",
+      "first_name": "JK",
+      "last_name": "Rowling",
+      "books": {
+        "author_id": "1",
+        "id": "2",
+        "title": "Harry Potter"
+      }
+    }
+  },
+  {
+    "document": {
+      "id": "0",
+      "first_name": "Enid",
+      "last_name": "Blyton",
+      "books": [
+        {
+          "author_id": "0",
+          "id": "0",
+          "title": "Famous Five"
+        },
+        {
+          "author_id": "0",
+          "id": "1",
+          "title": "Secret Seven"
+        }
+      ]
+    }
+  }
+]
+```
+
+To always make the fields of the joined `books` collection be an array of objects, you can use the `nest_array` 
+field merging strategy.
+
+```json
+{
+  "collection": "authors",
+  "q": "*",
+  "filter_by": "$books(id:*)",
+  "include_fields": "$books(*, strategy: nest_array)"
+}
+```
+
+This will always return an array of objects for the fields of `books` collection.
+
+```json
+[
+  {
+    "document": {
+      "id": "1",
+      "first_name": "JK",
+      "last_name": "Rowling",
+      "books": [
+        {
+          "author_id": "1",
+          "id": "2",
+          "title": "Harry Potter"
+        }
+      ]
+    }
+  },
+  {
+    "document": {
+      "id": "0",
+      "first_name": "Enid",
+      "last_name": "Blyton",
+      "books": [
+        {
+          "author_id": "0",
+          "id": "0",
+          "title": "Famous Five"
+        },
+        {
+          "author_id": "0",
+          "id": "1",
+          "title": "Secret Seven"
+        }
+      ]
+    }
+  }
+]
+```
+
 ## References inside an object
 
-Let's say there is an `object` field called `order` in a `orders` collection. We can make the order refer to a 
+Let's say there is an `object` field called `order` in a `orders` collection. We can make the order refer to a
 product in a `products` collection like this:
 
 ```json
@@ -258,7 +378,7 @@ product in a `products` collection like this:
 }
 ```
 
-Alternatively, if we had an array of `order` objects with each order object containing a reference, then 
+Alternatively, if we had an array of `order` objects with each order object containing a reference, then
 the type of the reference field would have to be an array as well.
 
 ```json
