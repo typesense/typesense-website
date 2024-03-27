@@ -249,6 +249,20 @@ curl "http://localhost:8108/config" \
 #### Definition
 `POST ${TYPESENSE_HOST}/config`
 
+## Clear cache
+
+Responses of search requests that are sent with `use_cache` parameter are cached in a LRU cache. To clear 
+this cache completely:
+
+```shell
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST \
+  http://localhost:8108/operations/cache/clear
+```
+
+#### Definition
+`POST ${TYPESENSE_HOST}/operations/cache/clear`
+
+
 
 ## Cluster Metrics
 
