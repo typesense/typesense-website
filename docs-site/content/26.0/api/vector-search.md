@@ -2515,6 +2515,22 @@ Here's an example:
   ...
 }
 ```
+## Searching with historical queries
+
+You can send a list of search queries via the `queries` parameter to make vector search compute a weighted query embedding 
+from the queries. You can use this for personalizing search results based on historical search queries.
+
+In the following example, vector search is made from the embedding calculated from the embeddings of the queries 
+`smart phone` and `apple ipad`. 
+
+We can also use the optional `query_weights` parameter to assign appropriate weights to the queries. If the 
+`query_weights` parameter is not passed, all queries will have equal weightage.
+
+```json
+{
+  "vector_query": "embedding:([], queries:[smart phone, apple ipad], query_weights:[0.9, 0.1])"
+}
+```
 
 ## Rank keyword search via vector search
 
