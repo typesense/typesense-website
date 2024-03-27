@@ -17,46 +17,62 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 This release contains important new features, performance improvements and bug fixes.
 
+### New Versioning Scheme
+
+Starting with this release, we're dropping the `0.x.y` versioning scheming and switching to a `x.y` versioning scheme. 
+
+So we're going from `0.25 --> 26.0`.
+
+Typesense has been production-ready for a few years now, and is actively used at scale in production, serving billions of search requests per month just on Typesense Cloud, and several billions more in self-hosted clusters.
+
+We originally intended the `0.x` versioning scheme to communicate that there might be backward in-compatible changes between versions. 
+In reality though, we've only had to do two backward incompatible changes over the years. 
+However, the usage of the previous `0.x` versioning scheme seemed to mis-communicate Typesense's production-readiness among new users, causing confusion.
+
+Switching from `0.x` to `1.x` also seemed to mis-communicate the progress and feature-set maturity we've built over the years.
+So we decided to simply drop the `0.` and switch to whole numbers for major version, to convey Typesense's progress over the last 8 years.
+
 ### New Features
 
-- **Joins:** Connect one or more collections via common reference fields and join them during query time. This 
+- **JOINs:** Connect one or more collections via common reference fields and join them during query time. This 
   allows you to model SQL-like relationships elegantly.
-- **Analytics:** Ability to track popular records, queries that don't produce hits and logging events to file.
-- **Voice search:** Capture and send query via voice data -- we will transcribe (via Whispher model) and provide search results. 
-- **Built-in conversational RAG:** You can now seamlessly run a vector search and then pass the result to an LLM 
+- **Analytics:** Ability to track popular records, queries that don't produce hits and logging events to a file.
+- **Voice search:** Capture and send query via voice recordings -- Typesense will transcribe (via Whisper model) and provide search results.
+- **Image search:** Search through images using text descriptions of their contents, or perform similarity searches, using the CLIP model.
+- **Built-in conversational search (RAG):** You can now seamlessly run a vector search and then pass the result to an LLM 
   for summarizing the result as an answer.
-- **Improved faceting and filtering performance:** Query planner has been optimized to handle many common patterns better.
-- **Stemming:** Snowball stemmer can be enabled for fields so that the field values are stemmed before indexing.
+- **Stemming:** Snowball stemmer can be enabled for fields so that the field values are stemmed before indexing. This is helpful for different word-forms of the same root word (eg: plurals / singular).
 - **Prefix filtering:** During filtering, you can now query on records that begin with a given prefix string. For example, 
   `company_name: Acm*` will return names that begin with `acm`.
 - **Stop words:**  Specify a list of common words (e.g. `the`, `was`, etc.) that should be excluded from the 
   indexing and search process to improve search relevance and performance.
 - **Personalized vector search via historical queries:** The `vector_query` parameter supports a `qs` parameter that accepts a 
-  comma list of historical search queries. We compute the average embedding of these queries and use that as the vector for search.
-- **NOT contains**: Exclude results that contains a specific string during filtering. For example, `"filter_by": "artist:! Jackson"`
-  will exclude all documents whose `artist` field value contains the word `jackson`.
-- **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"` 
-  will exclude documents that have an `id` value of `id1` or `id2`.
-- **Eval / filter scoring in sort_by:** When `_eval` is used in `sort_by`, you can now provide custom scores for records matching
+  comma-separated list of historical search queries. We compute the average embedding of these queries and use that as the vector for search.
+- **Optional filtering / Filter scoring:** You can now use `_eval` in `sort_by` and assign scores to records that match particular filters, to boost or bury a set of records together.
   the filter expression.
-- **Adding custom metadata to collection schema:** While creating a collection you can send a `metadata` object field, 
-  which is persisted along with collection schema. This is useful for record keeping.
 
 ### Enhancements
 
-- **Curate / override by tags:** You can tag override rules with tags and then trigger curation by referring to the rule 
-  by the tag name directly.
-- **Store metadata with override rules:** Store a `metadata` object within an override, so that the search end-point response
-  will return the pre-defined metadata associated for that rule. This can can be used to display a message on the front-end.
-- **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in 
+- **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in
   alphabetical order for display via `"facet_by": "phone(sort_by: _alpha:asc)"` or on the value of another field
   via `"facet_by": "recipe.name(sort_by: recipe.calories:asc)"`
-- **Fetching parent of faceted field:** When you facet on a nested field like `color.name` you can now set 
+- **Fetching parent of faceted field:** When you facet on a nested field like `color.name` you can now set
   `"facet_return_parent": "color.name"`. This will return the parent color object as parent property in the facet response.
+- **Improved faceting and filtering performance:** Query planner has been optimized to handle many common patterns better.
+- **NOT contains**: Exclude results that contains a specific string during filtering. For example, `"filter_by": "artist:! Jackson"`
+  will exclude all documents whose `artist` field value contains the word `jackson`.
+- **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"`
+  will exclude documents that have an `id` value of `id1` or `id2`.
+- **Curate / override by tags:** You can tag override rules with tags and then trigger curation by referring to the rule 
+  by the tag name directly at search time.
 - **Configurable HNSW Parameters:** `M`, `efConstruction` and `efSearch` have been made configurable.
 - **Disable typos for numerical tokens:** Use `enable_typos_for_numerical_tokens: false` parameter to disable typos on numerical.
 - **Customize URL for OpenAI embedding API:** This allows you to use other OpenAI compatible APIs.
 - **Pagination for collections, synonyms & overrides listing:** These API end-points now support `limit` and `offset` GET parameters.
+- **Store custom metadata with collection schema:** While creating a collection you can send a `metadata` object field,
+  which is persisted along with collection schema. This is useful for record keeping.
+- **Store metadata with override rules:** Store a `metadata` object within an override, so that the search end-point response
+  will return the pre-defined metadata associated for that rule. This can can be used to display a message on the front-end.
 - Prevent the contents of a field from being stored on-disk via the `store: false` field property.
 - Integration with Cloudflare Workers AI for RAG.
 - Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
@@ -65,8 +81,7 @@ This release contains important new features, performance improvements and bug f
 - Exposed swap usage as a metric in `/metrics.json` API.
 - The `/health` API returns additional information about memory/disk exhaustion.
 - Support overriding wildcard query via `"q": "*"` in rules.
-- Build support for Apple M1 / M2
-- Add support for image embeddings using CLIP.
+- Build support for Apple M1 / M2 / M3
 - Add option to expand prefix search query via the `expand_query` parameter for suggestion aggregation.
 - Auto deletion of expired API keys when the `autodelete: true` property is set during key creation.
 - Make the size of search cache configurable via the `--cache-num-entries` server flag. Default is `1000`.
@@ -117,7 +132,7 @@ If you're self-hosting Typesense, here's how to upgrade:
 
 #### Single node deployment
 
-1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data.
+1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data, for safety purposes.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -148,11 +163,7 @@ field in the `/debug` end-point response.
 
 ## Downgrading
 
-Once you upgrade to `v0.25` of Typesense Server the internal structure of the data directory becomes incompatible with older versions of Typesense. 
-
-However, if you need to downgrade to `v0.24`, we've released a special version `v0.24.2` that backports these data structure changes back to `0.24` while keeping other `0.24.1` features as is.
-
-So `v0.25` can only be downgraded to `v0.24.2`. 
+Once you upgrade to `v26` of Typesense Server, you can only downgrade back to `v0.25.x`. 
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
