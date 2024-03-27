@@ -2,7 +2,7 @@
 
 Laravel supports a native integration with Typesense, via Laravel Scout. 
 
-Here's the official documentation on how to set up this integration: [https://laravel.com/docs/10.x/scout#typesense](https://laravel.com/docs/10.x/scout#typesense).  
+Here's the official documentation on how to set up this integration: [https://laravel.com/docs/scout#typesense](https://laravel.com/docs/scout#typesense).  
 
 Here's a demo Laravel app that shows you the Typesense Scout integration in action:
 

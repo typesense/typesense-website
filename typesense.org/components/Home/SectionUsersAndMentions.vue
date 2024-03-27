@@ -134,10 +134,17 @@ export default {
           alt: 'Changelog',
         },
         {
+          href: 'https://kick.com',
+          imgPath: 'user_logos/kick-logo.svg',
+          width: 60,
+          height: 20,
+          alt: 'Kick.com',
+        },
+        {
           href: 'https://elevenlabs.io',
           imgPath: 'user_logos/eleven-labs.svg',
-          width: 150,
-          height: 20,
+          width: 145,
+          height: 19,
           alt: 'ElevenLabs',
         },
         {
@@ -163,11 +170,11 @@ export default {
           alt: 'Poorvika Mobiles',
         },
         {
-          href: 'https://ade.aero',
-          imgPath: 'user_logos/aerotrade.svg',
-          width: 150,
-          height: 16,
-          alt: 'AeroTrade',
+          href: 'https://lonelyplanet.com',
+          imgPath: 'user_logos/lonely-planet-logo.svg',
+          width: 170,
+          height: 24,
+          alt: 'Lonely Planet',
         },
         {
           href: 'https://soundsnap.com',
@@ -175,13 +182,6 @@ export default {
           width: 150,
           height: 28,
           alt: 'Soundsnap',
-        },
-        {
-          href: 'https://tradingstrategy.ai/blog/world-fastest-token-search',
-          imgPath: 'user_logos/trading-strategy.svg',
-          width: 125,
-          height: 31,
-          alt: 'Trading Strategy',
         },
       ],
     }

@@ -22,7 +22,7 @@ Here is an evolving set of use-cases where Typesense can be used:
 10. To power **data visualizations** like charts and tables, using the aggregated facet metrics returned by Typesense.
 
 
-If you're using Typesense for any other use-cases let us know in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-25mb3r14m-60o24PIIkDt~a6x7mk1XDQ)
+If you're using Typesense for any other use-cases let us know in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-2fetvh0pw-ft5y2YQlq4l_bPhhqpjXig)
 
 ## Bad Use Cases
 
