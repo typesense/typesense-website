@@ -53,6 +53,7 @@ So we decided to simply drop the `0.` and switch to whole numbers for major vers
 
 ### Enhancements
 
+- Collection schema changes only blocks writes now, and reads will be serviced as usual. Previously both reads and writes were blocked. 
 - **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in
   alphabetical order for display via `"facet_by": "phone(sort_by: _alpha:asc)"` or on the value of another field
   via `"facet_by": "recipe.name(sort_by: recipe.calories:asc)"`

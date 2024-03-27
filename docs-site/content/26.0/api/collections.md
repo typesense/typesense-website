@@ -1078,9 +1078,12 @@ curl "http://localhost:8108/collections/companies" \
 `PATCH ${TYPESENSE_HOST}/collections/:collection`
 
 :::tip
-The schema update is a synchronous blocking operation. When the update is in progress, all incoming writes and reads to
-_that particular collection_ will wait for the schema update to finish. So, we recommend updating fields one at a time, 
-especially for large collections and during off-peak hours.
+The schema update operation is a synchronous blocking operation. 
+
+When the update is in progress, all incoming writes to _that particular collection_ will wait for the schema update to finish. 
+So, we recommend updating fields one at a time, especially for large collections and during off-peak hours.
+
+Reads will be serviced as usual, without blocking.
 
 Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 :::
