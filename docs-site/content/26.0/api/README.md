@@ -74,6 +74,8 @@ So we decided to simply drop the `0.` and switch to whole numbers for major vers
   which is persisted along with collection schema. This is useful for record keeping.
 - **Store metadata with override rules:** Store a `metadata` object within an override, so that the search end-point response
   will return the pre-defined metadata associated for that rule. This can can be used to display a message on the front-end.
+- **Faster numerical range queries:** You can set `range_index: true` in a field's schema for fast range queries 
+  (this will incur additional memory overhead though).
 - Prevent the contents of a field from being stored on-disk via the `store: false` field property.
 - Integration with Cloudflare Workers AI for RAG.
 - Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
