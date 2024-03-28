@@ -4,9 +4,9 @@ sitemap:
   priority: 0.7
 ---
 
-# Joins
+# JOINs
 
-Typesense supports joining documents from one or more collections based on a related column between them.
+Typesense supports JOINing documents from one or more collections based on a related column between them.
 
 ## One-to-One relation
 

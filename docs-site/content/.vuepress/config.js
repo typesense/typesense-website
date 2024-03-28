@@ -269,7 +269,7 @@ let config = {
             ['/26.0/api/voice-search-query', 'Voice Query'],
             ['/26.0/api/image-search', 'Image Search'],
             ['/26.0/api/conversational-search-rag', 'Conversational Search (RAG)'],
-            ['/26.0/api/joins', 'Joins'],
+            ['/26.0/api/joins', 'JOINs'],
             ['/26.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
             ['/26.0/api/api-keys', 'API Keys'],
             ['/26.0/api/curation', 'Curation'],
