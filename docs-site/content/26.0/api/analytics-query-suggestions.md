@@ -554,15 +554,16 @@ earlier (`products_click_counter`):
 
 ```bash
 curl "http://localhost:8108/analytics/events" -X POST \
-     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-      "type": "click",
-      "name": "products_click_counter",
-      "data": {
-            "q": "nike shoes",
-            "doc_id": "1024",
-            "user_id": "111112"
-      }
-}'
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \ 
+     -d '{
+            "type": "click",
+            "name": "products_click_counter",
+            "data": {
+                  "q": "nike shoes",
+                  "doc_id": "1024",
+                  "user_id": "111112"
+            }
+        }'
 ```
 
 The click events are aggregated, and the `popularity` field in the collection is incremented based on the frequency specified by the 
