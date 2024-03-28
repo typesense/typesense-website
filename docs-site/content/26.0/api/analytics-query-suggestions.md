@@ -12,14 +12,15 @@ Typesense can aggregate search queries for both analytics purposes and for query
 
 ### When Self-Hosting
 
-The Search analytics feature needs to be explicitly enabled via the `--enable-search-analytics` and `--analytics-dir=/path/to/tsanalytics` flags 
-for query suggestions and other analytics features to work.
+The Search analytics feature needs to be explicitly enabled via the `--enable-search-analytics` and `--analytics-dir` 
+flags for query suggestions and other analytics features to work.
 
 ```bash
-./typesense-server --data-dir=/tmp/data --api-key=abcd --enable-search-analytics=true --analytics-dir=/tmp/tsanalytics --analytics-flush-interval=60
+./typesense-server --data-dir=/path/to/data --api-key=abcd \
+  --enable-search-analytics=true \
+  --analytics-dir=/path/to/analytics-data \ 
+  --analytics-flush-interval=60
 ```
-
-Search queries are first aggregated in-memory in every Typesense node independently and then persisted in a configured search suggestions collection (see below) periodically. 
 
 The `--analytics-flush-interval` flag determines how often the search query aggregations are persisted to the suggestion collection. 
 
@@ -438,12 +439,12 @@ curl -k "http://localhost:8108/analytics/rules" \
 
 </Tabs>
 
+## Counting events for popularity
 
-## Aggregating click counts
+Typesense allows you to track how often a particular document is clicked on or purchased. You can then use this 
+counter value for ranking the results on popularity.
 
-Typesense allows you to track how often a particular document is clicked on. You can use then use this counter value for ranking the results on popularity.
-
-Let's say there's a collection with a `popularity` field that we will use for tracking clicks:
+Let's say there's a collection with a `popularity` field that we will use as a counter:
 
 ```json
 {                                        
@@ -455,8 +456,8 @@ Let's say there's a collection with a `popularity` field that we will use for tr
 }
 ```
 
-We mark the `popularity` field as `optional` since we want to skip this field during indexing and let Typesense increment the value of this field based on 
-user interactions.
+We mark the `popularity` field as `optional` since we want to skip this field during indexing and let Typesense 
+increment the value of this field based on user interactions.
 
 ### Create an analytics rule
 
@@ -529,7 +530,7 @@ curl -k "http://localhost:8108/analytics/rules" \
             "source": {
                 "collections": ["products"],
                 "events":  [
-                    {"type": "click", "weight": 1, "name": "products_click_counter"}
+                    {"type": "click", "weight": 1, "name": "products_click_event"}
                 ]
             },
             "destination": {
@@ -544,10 +545,11 @@ curl -k "http://localhost:8108/analytics/rules" \
 
 </Tabs>
 
-The counter rule indicates which collection must be tracked and where the counter value should be stored. The `weight` property of the event parameter 
-determines the size of the increments. In this case, we want to increment the `popularity` field by 1 every time a click is made against that document.
+The counter rule indicates which collection must be tracked and where the counter value should be stored. 
+The `weight` property of the event parameter determines the size of the increments. In this case, we want to increment 
+the `popularity` field by 1 every time a `click` event is sent to Typesense that's associated with that document.
 
-### Send click events
+### Sending click events
 
 Once this counter rule is in-place, you can send start sending click events using the event name that we configured in the counter rule 
 earlier (`products_click_counter`):
@@ -557,7 +559,7 @@ curl "http://localhost:8108/analytics/events" -X POST \
      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \ 
      -d '{
             "type": "click",
-            "name": "products_click_counter",
+            "name": "products_click_event",
             "data": {
                   "q": "nike shoes",
                   "doc_id": "1024",
@@ -568,6 +570,66 @@ curl "http://localhost:8108/analytics/events" -X POST \
 
 The click events are aggregated, and the `popularity` field in the collection is incremented based on the frequency specified by the 
 `--analytics-flush-interval` option.
+
+### Aggregating multiple events
+
+In fact, you can setup a counter rule that gives different weights to different events.
+
+| Event Type | Description                                                             |
+|:-----------|:------------------------------------------------------------------------|
+| click      | Tracking clicks against documents returned in search response.          |    
+| conversion | Tracking conversion (e.g. purchase) of specific documents.              |    
+| visit      | Tracking page visits to specific documents, useful for recommendations. |   
+
+Let's setup a rule for aggregating both `click` and `conversion` events.
+
+```json
+{
+  "name": "products_popularity",
+  "type": "counter",
+  "params": {
+    "source": {
+      "collections": [
+        "products"
+      ],
+      "events": [
+        {
+          "type": "click",
+          "weight": 1,
+          "name": "products_click_event"
+        },
+        {
+          "type": "conversion",
+          "weight": 2,
+          "name": "products_purchase_event"
+        }
+      ]
+    },
+    "destination": {
+      "collection": "products",
+      "counter_field": "popularity"
+    }
+  }
+}
+```
+
+You can now send a `conversion` event via the API.
+
+```bash
+curl "http://localhost:8108/analytics/events" -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \ 
+     -d '{
+            "type": "conversion",
+            "name": "products_purchase_event",
+            "data": {
+                  "doc_id": "1022",
+                  "user_id": "111117"
+            }
+        }'
+```
+
+Since we've configured a `conversion` event to have a weight of `2`, the `popularity` field in the `products` 
+collection will be incremented by `2` for every conversion event.
 
 ## Listing all rules
 
