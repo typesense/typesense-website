@@ -43,7 +43,7 @@ Let's create a collection called `docs` with a vector field called `vec` that co
 
 :::tip
 We create a vector with 4 dimensions to keep the code snippets readable. Depending on what model you use, real world 
-use will require creating vector fields with atleast 256 dimensions to produce good results.
+use will require creating vector fields with at least 256 dimensions to produce good results.
 :::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">

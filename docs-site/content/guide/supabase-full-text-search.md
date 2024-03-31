@@ -488,7 +488,7 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
     DECLARE
-        -- lock key: an arbitary number that will be used as a 'key' to lock the function
+        -- lock key: an arbitrary number that will be used as a 'key' to lock the function
         -- only one instance of the function can have the key and run at any time
         -- If multiple requests are sent at the same time while 
         -- rows are actively being updated, it is impossible to know which will be processed first.
@@ -641,7 +641,7 @@ curl -X GET "<TYPESENSE URL>/collections/products/documents/search?q=*" \
 
 ## Step 5.2: Bulk Syncing Inserts/Updates with Edge Functions
 
-Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as being able to accomodate relatively high volume syncs. It is also particularly useful when it is necessary to santize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
+Some users may prefer using servers as an intermediary to communicate with Typesense. This has the benefit of reducing strain on the database, as well as being able to accommodate relatively high volume syncs. It is also particularly useful when it is necessary to sanitize or reformat data. Fortunately, Supabase offers serverless edge functions in Deno (TypeScript).
 
 If an edge function fails halfway through its execution, there must be a way to capture and resolve the failure. In the previous example, row syncs were tracked with a *products_sync_tracker* table based on row updates. However, an alternative structure can be introduced that offers advantages for edge functions. Using the *products* table *updated_at* column, unsynced rows can be tracked by timing instead and resent when edge functions fail. For this to work, it is helpful to remove the previous trigger on the *products* table and replace them with one that monitors the *updated_at* column.
 
@@ -1313,7 +1313,7 @@ USING(
 );
 ```
 
-Instead of directly deleting rows, users will have to modify a row in a way that essentially tags it as unuseable. In this case, setting the user_id column to NULL will make the row inaccessible to all app users.
+Instead of directly deleting rows, users will have to modify a row in a way that essentially tags it as unusable. In this case, setting the user_id column to NULL will make the row inaccessible to all app users.
 
 A PG/plSQL function can be made with either the *PG_NET* or *HTTP* extension to sync rows with nullified *user_id* columns with Typesense and then delete them:
 

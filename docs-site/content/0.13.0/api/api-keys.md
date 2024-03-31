@@ -344,7 +344,7 @@ curl 'http://localhost:8108/keys/1' -X DELETE -H "X-TYPESENSE-API-KEY: ${TYPESEN
 ## Generate Scoped Search Key
 You can generate scoped search API keys that have embedded search parameters in them. This is useful for example when you have multi-tenant data indexed in your Typesense instance, but only want your users to access their own subset of the data.
 
-To do this, you can embed a filter in a generated scoped search API key. When you use that key for search operations, those filters will get automatically applied and cannot be overriden.
+To do this, you can embed a filter in a generated scoped search API key. When you use that key for search operations, those filters will get automatically applied and cannot be overridden.
 
 We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope, create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
 
