@@ -70,10 +70,10 @@ There are a couple of **community supported** contributions for deploying on Kub
 
 ### Mac via Homebrew
 
-:::warning Compatibility with macOS & Apple M1/M2
-The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
+:::warning Compatibility with macOS
+The macOS native binary only works with macOS Ventura (13.x) or above.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
+For older versions of macOS, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 <Tabs :tabs="['Shell']">
@@ -99,10 +99,10 @@ For macOS running on Apple Silicon CPUs:
 
 ### Mac Binary
 
-:::warning Compatibility with macOS & Apple M1/M2
-The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
+:::warning Compatibility with macOS
+The macOS native binary only works with macOS Ventura (13.x) or above.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
+For older versions of macOS, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 <Tabs :tabs="['Shell']">
@@ -144,7 +144,7 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires Ubuntu 20 or later.
+v26.0 of Typesense Server requires Ubuntu 20 or later.
 :::
 
 ### RPM package on CentOS/RHEL
@@ -171,7 +171,7 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires recent versions of the Linux kernel.
+v26.0 of Typesense Server requires recent versions of the Linux kernel.
 :::
 
 ### Linux Binary
@@ -196,7 +196,7 @@ mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in product
 </Tabs>
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
+v26.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
 :::
 
 ### Windows [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
@@ -228,6 +228,47 @@ By default, Typesense will start on port 8108, and the installation will generat
 :::tip
 We are starting a single node here, but Typesense can also run in a clustered mode. See the [High Availability](./high-availability.md) section for more details.
 :::
+
+
+### Using a GPU (optional)
+
+Using a GPU will be handy for generating embeddings for vector search and for voice query.
+
+You would have to install the following additional dependencies, after which Typesense will automatically make use of any available Nvidia GPUs:
+
+1. Install CUDA following the instructions on Nvidia's site [here](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html).
+
+    You want to specifically install the following versions of these packages: `cuda=11.8.0-1`, `libcudnn8=8.9.2.26-1+cuda11.8` and `libcudnn8-dev=8.9.2.26-1+cuda11.8` and their dependencies.
+
+2. Install cuDNN following the instructions [here](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html).
+
+    You want to specifically install the `libcudnn8` and `libcudnn8-dev` packages.
+
+3. Add the following to `/etc/profile.d/cuda-path.sh`:
+
+    ```bash
+    export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+    export CUDA_HOME=/usr/local/cuda
+    ```
+
+4. Install the Typesense GPU dependencies package:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code># x64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+<br>
+# arm64
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+      </code></pre>
+    </div>
+  </template>
+</Tabs>
+
 
 ## 🆗 Health Check
 
