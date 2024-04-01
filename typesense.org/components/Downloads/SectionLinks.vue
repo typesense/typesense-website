@@ -64,11 +64,18 @@ curl -O https://dl.typesense.org/releases/{{
             <h2 class="text-primary">MacOS</h2>
           </div>
           <CodeBlockTabbed :underline-links="true" state-id="macOS">
-            <pre data-language="bash" data-display-language="Apple Silicon">
-docker pull typesense/typesense:{{ typesenseLatestVersion }}
-            </pre>
-            <pre data-language="bash" data-display-language="Homebrew (Intel)">
+            <pre data-language="bash" data-display-language="Homebrew">
 brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}
+            </pre>
+            <pre
+              data-language="bash"
+              data-display-language="Binary (Apple Silicon)"
+            >
+curl -O https://dl.typesense.org/releases/{{
+                typesenseLatestVersion
+              }}/typesense-server-{{
+                typesenseLatestVersion
+              }}-darwin-arm64.tar.gz
             </pre>
             <pre data-language="bash" data-display-language="Binary (Intel)">
 curl -O https://dl.typesense.org/releases/{{
