@@ -149,7 +149,7 @@ If you're self-hosting Typesense, here's how to upgrade:
 
 #### Single node deployment
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.md#create-snapshot-for-backups) of your data, for safety purposes.
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -167,7 +167,7 @@ field in the `/debug` end-point response.
 | 1     | LEADER   |
 | 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.md#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.html#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
