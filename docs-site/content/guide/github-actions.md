@@ -35,7 +35,7 @@ jobs:
         run: sleep 10 && curl http://localhost:8108/health
 ```
 
-This workflow setup runs your action's steps against each version of Typesense specfied in the `typesense-version` list. This allows you run your tests against mutiple versions of Typesense. One usecase of running your tests against multiple versions is if you want to be sure that updating your Typesense self-hosted or cloud version won't break your app's functionality.
+This workflow setup runs your action's steps against each version of Typesense specified in the `typesense-version` list. This allows you run your tests against multiple versions of Typesense. One usecase of running your tests against multiple versions is if you want to be sure that updating your Typesense self-hosted or cloud version won't break your app's functionality.
 
 There's a full example of how this works [here](https://github.com/jirevwe/typesense-actions-demo).
 

@@ -436,7 +436,7 @@ u'{"company_name":"Random Corp.","country":"AU","id":"126","num_employees":531}'
 
 
 ## Import documents
-The documents to be imported must be formatted in a newline delimited JSON stucture.
+The documents to be imported must be formatted in a newline delimited JSON structure.
 You can feed the output file from a Typesense export operation directly as import.
 
 Here's an example file:

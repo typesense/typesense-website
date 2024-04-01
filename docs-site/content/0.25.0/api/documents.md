@@ -12,7 +12,7 @@ Every record you index in Typesense is called a `Document`.
 
 A document to be indexed in a given collection must conform to the [schema of the collection](./collections.md#create-a-collection).
 
-If the document contains an `id` field of type `string`, Typesense will use that field as the identifier for the document. 
+If the document contains an `id` field of type `string`, Typesense will use that field as the identifier for the document.
 Otherwise, Typesense will assign an auto-generated identifier to the document. Since it's a special field, the `id` field
 is not required to be defined as part of the collection schema.
 
@@ -25,7 +25,7 @@ The `id` should not include spaces or any other characters that require [encodin
 If you need to index a document in response to some user action in your application, you can use the single document create endpoint.
 
 If you need to index multiple documents at a time, we highly recommend using the [import documents](#index-multiple-documents) endpoint, which is optimized for bulk imports.
-For eg: If you have 100 documents, indexing them using the import endpoint at once will be much more performant than indexing documents one a time. 
+For eg: If you have 100 documents, indexing them using the import endpoint at once will be much more performant than indexing documents one a time.
 
 Let's see how we can add a new document to a collection.
 
@@ -319,11 +319,11 @@ This is essentially one JSON object per line, without commas between documents. 
 
 If you are using one of our client libraries, you can also pass in an array of documents and the library will take care of converting it into JSONL.
 
-You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL](#import-a-json-file) before importing to Typesense. 
+You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL](#import-a-json-file) before importing to Typesense.
 
 #### Action modes (create, upsert, update & emplace)
 
-Besides batch-creating documents, you can also use the `action` query parameter to update documents using 
+Besides batch-creating documents, you can also use the `action` query parameter to update documents using
 their `id` field.
 
 <table>
@@ -333,12 +333,12 @@ their `id` field.
     </tr>
     <tr>
         <td>upsert</td>
-        <td>Creates a new document or updates an existing document if a document with the same <code>id</code> already exists. 
+        <td>Creates a new document or updates an existing document if a document with the same <code>id</code> already exists.
            Requires the whole document to be sent. For partial updates, use the <code>update</code> action below.</td>
     </tr>
     <tr>
         <td>update	</td>
-        <td>Updates an existing document. Fails if a document with the given <code>id</code> does not exist. You can send 
+        <td>Updates an existing document. Fails if a document with the given <code>id</code> does not exist. You can send
             a partial document containing only the fields that are to be updated.</td>
     </tr>
     <tr>
@@ -572,7 +572,7 @@ Likewise, using the `return_doc` parameter will return the entire document back 
 By default, Typesense ingests 40 documents at a time into Typesense - after every 40 documents are ingested, Typesense will then service the search request queue, before switching back to imports.
 To increase this value, use the `batch_size` parameter.
 
-Note that this parameter controls server-side batching of documents sent in a single import API call. 
+Note that this parameter controls server-side batching of documents sent in a single import API call.
 Increasing this value might affect search performance, so we'd recommend that you not change the default unless you really need to.
 You can also do client-side batching, by sending your documents over multiple import API calls (potentially in parallel).
 
@@ -712,7 +712,7 @@ client.collections['titles'].documents.create(document, {
 
 ```rb
 document = {'title'  => 1984, 'points' => 100}
-client.collections['titles'].documents.create(document, 
+client.collections['titles'].documents.create(document,
     dirty_values: 'coerce_or_reject'
 )
 ```
@@ -782,7 +782,7 @@ To do that, we can define a schema as follows:
     {"name": ".*", "type": "string*" }
   ]
 }
-``` 
+```
 
 Now, Typesense will automatically convert any single/multi-valued data into their corresponding string
 representations automatically when data is indexed with the `dirty_values: "coerce_or_reject"` mode.
@@ -909,8 +909,8 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       -T documents.jsonl \
       "http://localhost:8108/collections/companies/documents/import?action=create"
 
-# If you have a large JSONL file, 
-#   you can split the file and 
+# If you have a large JSONL file,
+#   you can split the file and
 #   parallelize the import using this one liner:
 parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X POST -T {} http://localhost:8108/collections/companies/documents/import?action=create'
 ```
@@ -942,12 +942,12 @@ Once you have the JSONL file, you can then import it following the [instructions
 
 ### Import other file types
 
-Typesense is primarily a JSON store, optimized for fast search. 
+Typesense is primarily a JSON store, optimized for fast search.
 So if you can extract data from other file types and convert it into structured JSON, you can import it into Typesense and search through it.
 
-For eg, here's one library you can use to [convert DOCX files to JSON](https://github.com/microsoft/Simplify-Docx). 
+For eg, here's one library you can use to [convert DOCX files to JSON](https://github.com/microsoft/Simplify-Docx).
 
-[Apache Tika](https://tika.apache.org/) is another library to extract text and metadata from PDF, PPT, XLS and over a 1000 different file formats. 
+[Apache Tika](https://tika.apache.org/) is another library to extract text and metadata from PDF, PPT, XLS and over a 1000 different file formats.
 
 Once you've extracted the JSON, you can then [index](#index-documents) them in Typesense just like any other JSON file.
 
@@ -1042,12 +1042,12 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 
 ## Update documents
 
-Typesense allows you to update a single document, multiple documents, or documents that match a particular 
+Typesense allows you to update a single document, multiple documents, or documents that match a particular
 `filter_by` query.
 
 ### Update a single document
 
-We can update a single document from a collection by using its `id`. The update can be partial, 
+We can update a single document from a collection by using its `id`. The update can be partial,
 as shown below:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
@@ -1116,10 +1116,10 @@ await client.collection('companies').document('124').update(document);
 
 ```java
 HashMap<String, Object> document = new HashMap<>();
-document.put("company_name","Stark Industries"); 
+document.put("company_name","Stark Industries");
 document.put("num_employees",5500);
 
-HashMap<String, Object> updatedDocument = client.collections("companies").documents("124").update(document) 
+HashMap<String, Object> updatedDocument = client.collections("companies").documents("124").update(document)
 ```
 
   </template>
@@ -1174,7 +1174,7 @@ curl "http://localhost:8108/collections/companies/documents/124" -X PATCH \
 ### Update multiple documents
 
 To update multiple documents, use the import endpoint with [`action=update`](#action-modes-batch-create-upsert-update-emplace),
-[`action=upsert`](#action-modes-batch-create-upsert-update-emplace) or [`action=emplace`](#action-modes-batch-create-upsert-update-emplace). 
+[`action=upsert`](#action-modes-batch-create-upsert-update-emplace) or [`action=emplace`](#action-modes-batch-create-upsert-update-emplace).
 
 ### Update by query
 
@@ -1188,7 +1188,7 @@ let document = {
   'tag': 'large'
 }
 
-client.collections('comapnies').documents().update(document, {"filter_by": "num_employees:>1000"})
+client.collections('companies').documents().update(document, {"filter_by": "num_employees:>1000"})
 ```
 
   </template>
@@ -1241,11 +1241,11 @@ await client.collection('companies').document.update(document, {filter_by: 'num_
 
 ```java
 HashMap<String, Object> document = new HashMap<>();
-document.put("tag","large"); 
+document.put("tag","large");
 UpdateDocumentsParameters updateDocumentsParameters = new UpdateDocumentsParameters();
 updateDocumentsParameters.filterBy("num_employees:>1000");
 
-HashMap<String, Object> updatedDocument = client.collections("companies").documents().update(document, updateDocumentsParameters) 
+HashMap<String, Object> updatedDocument = client.collections("companies").documents().update(document, updateDocumentsParameters)
 ```
 
 </template>
@@ -1465,7 +1465,7 @@ To delete multiple documents by ID, you can use `filter_by=id: [id1, id2, id3]`.
 
 To delete all documents in a collection, you can use a filter that matches all documents in your collection.
 For eg, if you have an `int32` field called `popularity` in your documents, you can use `filter_by=popularity:>0` to delete all documents.
-Or if you have a `bool` field called `in_stock` in your documents, you can use `filter_by=in_stock:[true,false]` to delete all documents.  
+Or if you have a `bool` field called `in_stock` in your documents, you can use `filter_by=in_stock:[true,false]` to delete all documents.
 
 :::
 

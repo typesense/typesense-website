@@ -5,7 +5,7 @@ instead of having to click buttons in the Typesense Cloud Web Console.
 
 :::tip
 If you're familiar with AWS or GCP, a good analogy for what the Typesense Cloud Cluster Management API lets you do, is what the AWS/GCP REST APIs allow you to do: 
-provision resources, manage their lifecycle, access control, etc. programatically, instead of having to click on buttons in the AWS / GCP Web Console.
+provision resources, manage their lifecycle, access control, etc. programmatically, instead of having to click on buttons in the AWS / GCP Web Console.
 :::
 
 ## What You Can Do with this API
