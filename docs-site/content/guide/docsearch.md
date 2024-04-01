@@ -370,7 +370,7 @@ Here's the [docsearch-scraper configuration](https://github.com/typesense/typese
 Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
-<!-- Somwhere in your doc site's navigation -->
+<!-- Somewhere in your doc site's navigation -->
 <div id="searchbar"></div>
 
 <!-- Before the closing head -->
@@ -411,7 +411,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
-<!-- Somwhere in your doc site's navigation -->
+<!-- Somewhere in your doc site's navigation -->
 <input type="search" id="searchbar">
 
 <!-- Before the closing head -->

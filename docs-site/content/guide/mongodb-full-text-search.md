@@ -79,7 +79,7 @@ changeStream.on('change', next => {
 
 To use Typesense, we first need to create a client. Typesense supports multiple API clients including Javascript, Python, Ruby, PHP etc.
 
-To initalize the Javascript client, you need the API key of the Typesense server:
+To initialize the Javascript client, you need the API key of the Typesense server:
 
 ```js
 import Typesense from 'typesense'

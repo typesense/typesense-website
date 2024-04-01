@@ -134,7 +134,7 @@ For context, here's what an example event that DynamoDB will be calling our Lamb
         },
         "SequenceNumber": "222",
         "Keys": {
-          // your partion key and sort key
+          // your partition key and sort key
         },
         "SizeBytes": 59,
         "NewImage": {
