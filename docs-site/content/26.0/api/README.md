@@ -30,30 +30,46 @@ In reality though, we've only had to do two backward incompatible changes over t
 However, the usage of the previous `0.x` versioning scheme seemed to mis-communicate Typesense's production-readiness among new users, causing confusion.
 
 Switching from `0.x` to `1.x` also seemed to mis-communicate the progress and feature-set maturity we've built over the years.
-So we decided to simply drop the `0.` and switch to whole numbers for major version, to convey Typesense's progress over the last 8 years.
+So we decided to simply drop the `0.` and switch to whole numbers for major versions, to convey Typesense's progress over the last 8 years.
 
 ### New Features
 
-- **JOINs:** Connect one or more collections via common reference fields and join them during query time. This 
-  allows you to model SQL-like relationships elegantly.
-- **Analytics:** Ability to track popular records, queries that don't produce hits and logging events to a file.
-- **Voice search:** Capture and send query via voice recordings -- Typesense will transcribe (via Whisper model) and provide search results.
-- **Image search:** Search through images using text descriptions of their contents, or perform similarity searches, using the CLIP model.
-- **Built-in conversational search (RAG):** You can now seamlessly run a vector search and then pass the result to an LLM 
+- **Built-in Conversational Search (RAG):** You can now seamlessly run a semantic search and then pass the result to an LLM
   for summarizing the result as an answer.
-- **Stemming:** Snowball stemmer can be enabled for fields so that the field values are stemmed before indexing. This is helpful for different word-forms of the same root word (eg: plurals / singular).
-- **Prefix filtering:** During filtering, you can now query on records that begin with a given prefix string. For example, 
-  `company_name: Acm*` will return names that begin with `acm`.
-- **Stop words:**  Specify a list of common words (e.g. `the`, `was`, etc.) that should be excluded from the 
-  indexing and search process to improve search relevance and performance.
-- **Personalized vector search via historical queries:** The `vector_query` parameter supports a `qs` parameter that accepts a 
+  - Built-in support for OpenAI and Cloudflare Workers AI hosted models.
+  - [Docs](https://typesense.org/docs/26.0/api/conversational-search-rag.html)
+- **Image Search:** Search through images using text descriptions of their contents, or perform similarity searches, using the CLIP model.
+  - [Docs](https://typesense.org/docs/26.0/api/image-search.html)
+- **Voice Search:** Capture and send query via voice recordings -- Typesense will transcribe (via Whisper model) and provide search results.
+  - [Docs](https://typesense.org/docs/26.0/api/voice-search-query.html)
+- **JOINs:** Connect one or more collections via common reference fields and join them during query time. This
+  allows you to model SQL-like relationships elegantly.
+  - [Docs](https://typesense.org/docs/26.0/api/joins.html)
+- **Search Personalization using Historical Queries:** The `vector_query` parameter in Vector Search supports a `qs` parameter (stands for plural of the `q` parameter) that accepts a
   comma-separated list of historical search queries. We compute the average embedding of these queries and use that as the vector for search.
-- **Optional filtering / Filter scoring:** You can now use `_eval` in `sort_by` and assign scores to records that match particular filters, to boost or bury a set of records together.
+  - [Docs](https://typesense.org/docs/26.0/api/vector-search.html#searching-with-historical-queries) 
+- **Analytics:**
+  - Ability to track queries that don't produce hits. [Docs](https://typesense.org/docs/26.0/api/analytics-query-suggestions.html#no-hits-queries)
+  - Ability to track counts of document-level analytics (eg: clicks, views, etc) to improve search relevance. [Docs](https://typesense.org/docs/26.0/api/analytics-query-suggestions.html#counting-events-for-popularity)
+- **Sorting based on Filter Score:** You can now use `_eval` in `sort_by` and assign scores to records that match particular filters, to boost or bury a set of records together.
   the filter expression.
+  - [Docs](https://typesense.org/docs/26.0/api/search.html#sorting-based-on-filter-score)
+- **Stemming:** Allows handling common word variations of the same root word. This is helpful for different word-forms of the same root word (eg: plurals / singular).
+  - Eg: Searching for `walking`, will also return results with `walk`, `walked`, `walks`, etc when stemming is enabled.
+  - [Docs](https://typesense.org/docs/26.0/api/collections.html#schema-parameters). See the `stem: true` property under the `fields` parameter.
+- **Prefix Filtering:** During filtering, you can now query on records that begin with a given prefix string. 
+  - Eg: `company_name: Acm*` will return names that begin with `acm`.
+  - Previously, only full-word or full-attribute-value matching was possible in `filter_by` and only `q` supported prefix matches.
+- **Stop Words:** Specify a list of common words (e.g.`a`, `am`, `the`, `are`, etc.) that should be excluded from the indexing and search process to improve search relevance and performance.
+  - [Docs](https://typesense.org/docs/26.0/api/stopwords.html)
+- **Curate / Override by Tags:** You can tag override rules with tags and then trigger curation by referring to the rule
+  by the tag name directly at search time.
+  - [Docs](https://typesense.org/docs/26.0/api/curation.html#add-tags-to-rules)
+
 
 ### Enhancements
 
-- Collection schema changes only blocks writes now, and reads will be serviced as usual. Previously both reads and writes were blocked. 
+- Collection schema changes only block writes now, and reads will be serviced as usual. Previously both reads and writes were blocked. 
 - **Sort facets alphabetically or by the value of another field:** Sort facet values can now be sorted in
   alphabetical order for display via `"facet_by": "phone(sort_by: _alpha:asc)"` or on the value of another field
   via `"facet_by": "recipe.name(sort_by: recipe.calories:asc)"`
@@ -64,8 +80,6 @@ So we decided to simply drop the `0.` and switch to whole numbers for major vers
   will exclude all documents whose `artist` field value contains the word `jackson`.
 - **Excluding IDs via filtering:** The `id` field now support the `:!=` operation, so `"filter_by": "id:!=[id1, id2]"`
   will exclude documents that have an `id` value of `id1` or `id2`.
-- **Curate / override by tags:** You can tag override rules with tags and then trigger curation by referring to the rule 
-  by the tag name directly at search time.
 - **Configurable HNSW Parameters:** `M`, `efConstruction` and `efSearch` have been made configurable.
 - **Disable typos for numerical tokens:** Use `enable_typos_for_numerical_tokens: false` parameter to disable typos on numerical.
 - **Customize URL for OpenAI embedding API:** This allows you to use other OpenAI compatible APIs.
@@ -77,7 +91,6 @@ So we decided to simply drop the `0.` and switch to whole numbers for major vers
 - **Faster numerical range queries:** You can set `range_index: true` in a field's schema for fast range queries 
   (this will incur additional memory overhead though).
 - Prevent the contents of a field from being stored on-disk via the `store: false` field property.
-- Integration with Cloudflare Workers AI for RAG.
 - Expose information about applied typo tolerance or dropped tokens in `text_match_info` response.
 - Option to ignore "not found" error when deleting an object that's already deleted.
 - Allow a field which is configured as `index: false` + `optional: false`. Previously this was not allowed.
@@ -127,7 +140,8 @@ If you're on Typesense Cloud:
 1. Go to [https://cloud.typesense.org/clusters](https://cloud.typesense.org/clusters).
 2. Click on your cluster
 3. Click on "Cluster Configuration" on the left-side pane, and then click on "Modify"
-4. Schedule a time for the upgrade.
+4. Select a new Typesense Server version in the dropdown
+5. Schedule a time for the upgrade.
 
 ### Self Hosted
 
@@ -135,7 +149,7 @@ If you're self-hosting Typesense, here's how to upgrade:
 
 #### Single node deployment
 
-1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data, for safety purposes.
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.md#create-snapshot-for-backups) of your data, for safety purposes.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -153,7 +167,7 @@ field in the `/debug` end-point response.
 | 1     | LEADER   |
 | 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](cluster-operations.md#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.md#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 

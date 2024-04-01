@@ -426,7 +426,7 @@ string, then the next document that contains the field named `title` will be exp
 | vec_dist    | no       | The distance metric to be used for vector search. Default: `cosine`. You can also use `ip` for inner product.        
 | reference   | no       | Name of a field in another collection that should be linked to this collection so that it can be joined during query.       
 | range_index | no       | Enables an index optimized for range filtering on numerical fields (e.g. `rating:>3.5`). Default: `false`.         
-| stem        | no       | Enables snowball stemmer for the field. Values are stemmed before indexing in-memory. Default: `false`.       
+| stem        | no       | Values are stemmed before indexing in-memory. Default: `false`.       
 
 
 ### Field types

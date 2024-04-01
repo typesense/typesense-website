@@ -428,9 +428,11 @@ For eg:
 
 This will result in documents where `in_stock` is set to `true` to be ranked first, followed by documents where `in_stock` is set to `false`.
 
-Instead of sorting on just `true / false` values, we can also provide custom scores to the records matching a bunch of filter 
-clauses. For example, if we have a `shoes` collection and if we wish to rank all `Nike` shoes ahead of `Adidas` shoes, 
-we can do:
+### Sorting based on filter score
+
+Instead of sorting on just `true / false` values like above, we can also provide custom scores to the records matching a bunch of filter clauses. 
+
+For example, if we have a `shoes` collection and if we wish to rank all `Nike` shoes ahead of `Adidas` shoes, we can do:
 
 ```json
 {
