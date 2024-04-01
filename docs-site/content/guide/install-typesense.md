@@ -70,10 +70,10 @@ There are a couple of **community supported** contributions for deploying on Kub
 
 ### Mac via Homebrew
 
-:::warning Compatibility with macOS & Apple M1/M2
-The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
+:::warning Compatibility with macOS
+The macOS native binary only works with macOS Ventura (13.x) or above.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
+For older versions of macOS, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 <Tabs :tabs="['Shell']">
@@ -99,10 +99,10 @@ For macOS running on Apple Silicon CPUs:
 
 ### Mac Binary
 
-:::warning Compatibility with macOS & Apple M1/M2
-The macOS native binary only works with macOS Ventura (13.x) or above, running on an Intel CPU.
+:::warning Compatibility with macOS
+The macOS native binary only works with macOS Ventura (13.x) or above.
 
-For older versions of macOS running on an Intel CPU and for all versions of macOS running on Apple M1/M2 CPUs, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
+For older versions of macOS, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
 <Tabs :tabs="['Shell']">
@@ -144,7 +144,7 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires Ubuntu 20 or later.
+v26.0 of Typesense Server requires Ubuntu 20 or later.
 :::
 
 ### RPM package on CentOS/RHEL
@@ -171,7 +171,7 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires recent versions of the Linux kernel.
+v26.0 of Typesense Server requires recent versions of the Linux kernel.
 :::
 
 ### Linux Binary
@@ -196,7 +196,7 @@ mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in product
 </Tabs>
 
 :::warning Compatibility
-v0.25.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
+v26.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
 :::
 
 ### Windows [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
