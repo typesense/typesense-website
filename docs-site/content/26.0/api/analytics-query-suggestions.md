@@ -475,7 +475,7 @@ let ruleConfiguration = {
         "source": {
             "collections": ["products"],
             "events":  [
-              {"type": "click", "weight": 1, "name": "products_click_counter"}
+              {"type": "click", "weight": 1, "name": "products_click_event"}
             ]
         },
         "destination": {
@@ -501,7 +501,7 @@ rule_configuration = {
         "source": {
             "collections" => ["products"],
             "events" =>  [
-              {"type" => "click", "weight" => 1, "name" => "products_click_counter"}
+              {"type" => "click", "weight" => 1, "name" => "products_click_event"}
             ]
         },
         "destination" => {
