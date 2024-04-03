@@ -312,6 +312,15 @@
                   </td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">
+                    JOINs across multiple indices
+                  </td>
+                  <td>✅️</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">Dynamic Sorting</td>
                   <td>
                     ✅<br /><br />Sort fields can be defined at query time using
@@ -349,11 +358,18 @@
                   <td>✅</td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">Ranking on Filter Scores</td>
+                  <td>✅️</td>
+                  <td>✅️</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">Facet Value Searches</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>❌</td>
-                  <td>❌</td>
+                  <td>✅️</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -393,18 +409,17 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
-                  <td>
-                    ✅<br /><br />
-                    <a
-                      href="https://github.com/typesense/typesense/issues/248#issuecomment-1876036874"
-                      target="_blank"
-                      >Available</a
-                    >
-                    as of v0.26.0.rc55.
-                  </td>
+                  <td>✅</td>
                   <td>✅️</td>
                   <td>✅️</td>
                   <td>✅️</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Stemming</td>
+                  <td>✅</td>
+                  <td>✅️</td>
+                  <td>✅️</td>
+                  <td>❌</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
@@ -527,6 +542,30 @@
                   <td>✅<br /><br />Can be implemented using Vector Search</td>
                   <td>❌</td>
                   <td>✅️<br /><br />Can be implemented using Vector Search</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Image Search</td>
+                  <td>✅<br /><br />Built-in integration with CLIP</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Voice Search</td>
+                  <td>✅<br /><br />Built-in integration with Whisper</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Conversational Q&A Search</td>
+                  <td>
+                    ✅<br /><br />Built-in RAG pipeline and integration with
+                    OpenAI and Cloudflare LLMs
+                  </td>
+                  <td>❌</td>
+                  <td>❌</td>
                   <td>❌</td>
                 </tr>
                 <tr>

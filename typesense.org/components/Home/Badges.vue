@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       githubStars: '17K',
-      dockerPulls: '12M',
+      dockerPulls: '13M',
       cloudSearchesPerMonth: '3B',
       animationDuration: 350,
       animationEffect: 'zoom-out',
