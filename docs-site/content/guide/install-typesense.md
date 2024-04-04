@@ -108,7 +108,12 @@ For older versions of macOS, please use the [Docker](#docker) or [Docker Compose
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
     <div class="manual-highlight">
-      <pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
+      <pre class="language-bash"><code># Apple Silicon CPU
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
+<br>
+# Intel CPUs
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 <br>
 # Start Typesense

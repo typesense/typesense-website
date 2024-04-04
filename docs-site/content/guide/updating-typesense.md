@@ -128,7 +128,12 @@ export TYPESENSE_API_KEY=xyz
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
     <div class="manual-highlight">
-      <pre class="language-bash"><code>curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
+      <pre class="language-bash"><code># Apple Silicon CPU 
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
+<br>
+# Intel CPU 
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 <br>
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
