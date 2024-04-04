@@ -677,7 +677,16 @@ Once a parent Search API Key is revoked, all scoped API keys that were generated
 
 ### Usage
 
-We can generate scoped search API keys without having to make any calls to the Typesense server. We use an API key that we previously generated with a search scope (only), create an HMAC digest of the parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also generate scoped search API keys from the command line.
+We can generate scoped search API keys without having to make any calls to the Typesense server. 
+
+We should use an API key that we previously generated with a **search scope (only)**, create an HMAC digest of the 
+parameters with this key and use that as the API key. Our client libraries handle this logic for you, but you can also 
+generate scoped search API keys from the command line.
+
+::: tip
+Scoped search API keys must only be created from a parent API key that has no other permissions besides `documents:search`
+:::
+
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
