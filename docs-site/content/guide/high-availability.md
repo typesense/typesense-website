@@ -187,7 +187,7 @@ So for example:
 - A 3 node cluster can handle a loss of 1 node.
 - A 5 node cluster can handle a loss of 2 nodes.
 
-If a Typesense cluster loses more than `(N-1/2)` nodes at the same time, the cluster becomes unstable because it loses quorum and the remaining node(s) cannot safely build consensus on which node is the leader.
+If a Typesense cluster loses more than `(N-1)/2` nodes at the same time, the cluster becomes unstable because it loses quorum and the remaining node(s) cannot safely build consensus on which node is the leader.
 To avoid a potential split brain issue, Typesense then stops accepting writes and reads until some manual verification and intervention is done.
 
 To recover a cluster in this state:
