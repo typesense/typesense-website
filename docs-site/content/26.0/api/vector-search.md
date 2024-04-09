@@ -972,6 +972,240 @@ When you create the collection above, we will call the OpenAI API to create embe
 
 You have to provide a valid OpenAI API key in `model_config` to use this feature.
 
+### Using OpenAI-compatible APIs
+
+You can also use OpenAI-API-compatible API providers like Azure, by customizing the base URL in the `model_config`:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
+
+  <template v-slot:JavaScript>
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "openai/text-embedding-ada-002",
+          "api_key": "your_api_key_as_required_by_the_custom_provider",
+          "url": "https://your-custom-openai-compatible-api.domain.com"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$schema = [
+  "name" => "products",
+  "fields" => [
+    [
+      "name" => "product_name",
+      "type" => "string"
+    ],
+    [
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => [
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => [
+          "model_name" => "openai/text-embedding-ada-002",
+          "api_key" => "your_api_key_as_required_by_the_custom_provider",
+          "url" => "https://your-custom-openai-compatible-api.domain.com"
+        ]
+      ]
+    ]
+  ]
+];
+
+$client->collections->create($schema);
+
+```
+  
+  </template>
+
+  <template v-slot:Python>
+
+```py
+schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name" : "product_name",
+      "type" : "string"
+    },
+    {
+      "name" : "embedding",
+      "type" : "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "openai/text-embedding-ada-002",
+          "api_key": "your_api_key_as_required_by_the_custom_provider",
+          "url": "https://your-custom-openai-compatible-api.domain.com"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+schema = {
+  "name" => "products",
+  "fields" => [
+    {
+      "name" => "product_name",
+      "type" => "string"
+    },
+    {
+      "name" => "embedding",
+      "type" => "float[]",
+      "embed" => {
+        "from" => [
+          "product_name"
+        ],
+        "model_config" => {
+          "model_name" => "openai/text-embedding-ada-002",
+          "api_key" => "your_api_key_as_required_by_the_custom_provider",
+          "url" => "https://your-custom-openai-compatible-api.domain.com"
+        }
+      }
+    }
+  ]
+}
+
+client.collections.create(schema)
+
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+CollectionSchema collectionSchema = new CollectionSchema();
+ArrayList<String> embedFrom = new ArrayList<>();
+embedFrom.add("product_name");
+embedFrom.add("categories");
+
+collectionschema.name("products")
+                .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
+                .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
+                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_api_key_as_required_by_the_custom_provider").url("https://your-custom-openai-compatible-api.domain.com")
+                ));
+
+CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+  </template>
+
+  <template v-slot:Shell>
+     
+```bash
+curl 'http://localhost:8108/collections' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "name": "products",
+        "fields": [
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+              "from": [
+                "product_name"
+              ],
+              "model_config": {
+                "model_name": "openai/text-embedding-ada-002",
+                "api_key": "your_api_key_as_required_by_the_custom_provider",
+                "url": "https://your-custom-openai-compatible-api.domain.com"
+              }
+            }
+          }
+        ]
+      }'
+
+```
+   </template>
+</Tabs>
+
+When you create the collection above, Typesense will call the OpenAI-API compatible API server running behind `https://your-custom-openai-compatible-api.domain.com` to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
+
+The custom API server behind the specified URL should provide the following endpoint:
+
+**Endpoint**: 
+
+`POST /v1/embeddings`
+
+**Request Body:**
+
+| Parameter  | Type               | Description                  |
+|------------|--------------------|------------------------------|
+| model      | string             | Model name                   | 
+| input      | string or string[] | Input string or string array |
+
+**Response Body:**
+
+```json
+{
+    "data": [
+        {
+            "embedding": [
+                       ....
+            ]
+        }
+    ]
+}
+```
+
+Response body might have additional data, but the embeddings MUST be returned in the format above.
+
+**Error Response Body:**
+
+```json
+{
+  "error": {
+    "message": "Error message",
+    "type": "error_type",
+    "param": null,
+    "code": "error_code"
+  }
+}
+```
+
 ### Using Google PaLM API
 
 This API provided by [Google MakerSuite](https://developers.generativeai.google/products/makersuite) to generate embeddings.
