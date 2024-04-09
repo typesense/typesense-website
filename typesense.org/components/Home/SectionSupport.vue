@@ -27,14 +27,6 @@
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
             <HomeSupportOption
-              :image="require('~/assets/images/email.svg')"
-              name="Email"
-              href="#"
-              onclick="Beacon('navigate', '/ask/message/'); Beacon('open'); return false;"
-            ></HomeSupportOption>
-          </div>
-          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
-            <HomeSupportOption
               :image="require('~/assets/images/slack.svg')"
               name="Slack"
               :image-height="35"
@@ -45,20 +37,9 @@
           </div>
           <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
             <HomeSupportOption
-              :image="require('~/assets/images/np_help_3407902_FFFFFF.svg')"
-              name="Office Hours"
-              :image-height="45"
-              image-margin="6px"
-              href="https://calendly.com/jason-typesense/typesense-office-hours"
-              target="_blank"
-            ></HomeSupportOption>
-          </div>
-          <div class="col-sm-2 mt-4 mt-sm-0 d-flex justify-content-center">
-            <HomeSupportOption
               :image="require('~/assets/images/video_call.svg')"
-              name="Phone call"
-              href="#"
-              onclick="Beacon('navigate', '/ask/message/'); Beacon('open'); return false;"
+              name="Priority Support"
+              href="/support"
             ></HomeSupportOption>
           </div>
         </div>

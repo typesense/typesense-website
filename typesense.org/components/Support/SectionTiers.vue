@@ -23,12 +23,10 @@
                     Private Slack Connect<br />
                     GitHub Issues<br />
                     Public Slack Community<br />
-                    Weekly Office Hours<br />
                   </td>
                   <td>
                     GitHub Issues<br />
                     Public Slack Community<br />
-                    Weekly Office Hours
                   </td>
                 </tr>
                 <tr class="text-center">

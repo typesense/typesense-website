@@ -19,7 +19,7 @@ export default {
           hid: 'description',
           name: 'description',
           content:
-            "Need help building with Typesense? We've got your covered. GitHub issues, Slack community, Weekly Office Hours, Email, Phone Calls.",
+            "Need help building with Typesense? We've got your covered. GitHub issues, Slack community, Email, Phone Calls.",
         },
       ],
     }
