@@ -339,6 +339,16 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `overrides:delete`   | Allows the deletion of overrides.                 |
 | `overrides:*`        | Allows all override operations.                   |
 
+#### Stopwords actions
+
+| Action             | Description                                  |
+|:-------------------|:---------------------------------------------|
+| `stopwords:list`   | Allows all stopword sets to be fetched.      |
+| `stopwords:get`    | Allows a single stopword set to be retrieved |
+| `stopwords:create` | Allows the creation of a stopword set.       |
+| `stopwords:delete` | Allows the deletion of a stopword set.       |
+| `stopwords:*`      | Allows all stopwords operations.             |
+
 #### Keys actions
 
 | Action        | Description                                    |
