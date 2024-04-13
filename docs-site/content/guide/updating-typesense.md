@@ -27,7 +27,7 @@ For all other types of configuration changes, you would have to provision a new 
 **Note**: 
 
 - For single-node non-HA clusters, there will be a downtime of about 5-60 minutes depending on the size of your dataset while the upgrade happens.
-- For multi-node HA and SDN clusters, the upgrade will happen one node at a time, so the other nodes in the cluster will continue to serve traffic and you should see a zero-downtime upgrade. Learn more [here](https://typesense.helpscoutdocs.com/article/86-high-availability).
+- For multi-node HA and SDN clusters, the upgrade will happen one node at a time, so the other nodes in the cluster will continue to serve traffic and you should see a zero-downtime upgrade. Learn more [here](https://typesense-cloud.helpscoutdocs.com/article/10-high-availability).
 
 ## Typesense Self-Hosted
 

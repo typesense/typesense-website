@@ -775,7 +775,7 @@ So when using one of the [built-in models](#using-built-in-models), you might wa
 
 #### On Typesense Cloud:
 
-For [select RAM / CPU configurations](https://typesense.helpscoutdocs.com/article/174-gpu-acceleration), you'll find the option to turn on "GPU Acceleration" when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
+For [select RAM / CPU configurations](https://typesense-cloud.helpscoutdocs.com/article/4-gpu-acceleration), you'll find the option to turn on "GPU Acceleration" when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
 
 #### When Self Hosting:
 

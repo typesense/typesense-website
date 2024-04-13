@@ -107,7 +107,7 @@ GPU is not necessary when using remote embedding models like OpenAI, PaLM API or
 Typesense currently only support Nvidia GPUs.
 
 :::tip
-In Typesense Cloud, you'll find the option to turn on "GPU Acceleration" for [select RAM / CPU configurations](https://typesense.helpscoutdocs.com/article/174-gpu-acceleration) 
+In Typesense Cloud, you'll find the option to turn on "GPU Acceleration" for [select RAM / CPU configurations](https://typesense-cloud.helpscoutdocs.com/article/4-gpu-acceleration) 
 when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
 :::
 
