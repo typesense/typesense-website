@@ -390,3 +390,19 @@ the type of the reference field would have to be an array as well.
   ]
 }
 ```
+
+## Using aliases with Joins
+
+You can use a collection alias in a reference field definition. In the example below, `products` could be an alias:
+
+```json
+{"name": "product_id", "type": "string", "reference": "products.product_id"}
+```
+
+However, it's important to keep in mind that a collection's documents store the internal IDs of 
+the referenced collection's documents. These internal IDs are sequential in nature and are assigned to documents based on 
+the order in which they are indexed.
+
+Therefore, it's **crucial** to treat the referenced collections as a group, i.e., if you intend to switch any one of the collections 
+via an alias update, you must reindex all the related collections simultaneously. This will guarantee that the internal IDs 
+remain in sync across all the collections involved in the join operation.
