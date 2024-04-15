@@ -4,7 +4,7 @@ const config = {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Typesense | Fast, typo-tolerant open source search engine',
+    title: 'Typesense | Open Source Alternative to Algolia + Pinecone',
     htmlAttrs: {
       lang: 'en',
     },
