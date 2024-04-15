@@ -115,7 +115,7 @@ nodes.add(
 
 Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2),"<API_KEY>");
 
-Clienr client = new Client(configuration);
+Client client = new Client(configuration);
 ```
 
   </template>
