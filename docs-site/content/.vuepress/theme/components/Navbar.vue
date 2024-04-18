@@ -3,7 +3,14 @@
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
     <div class="logo-and-links">
       <a href="/" class="home-link">
-        <img v-if="$site.themeConfig.logo" class="logo" :src="$withBase($site.themeConfig.logo)" :alt="$siteTitle" :width="$site.themeConfig.logoWidth" :height="$site.themeConfig.logoHeight" />
+        <img
+          v-if="$site.themeConfig.logo"
+          class="logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
+          :width="$site.themeConfig.logoWidth"
+          :height="$site.themeConfig.logoHeight"
+        />
         <span v-if="$siteTitle" ref="siteName" class="site-name" :class="{ 'can-hide': $site.themeConfig.logo }">{{
           $siteTitle
         }}</span>
@@ -36,7 +43,7 @@ import SidebarButton from '@theme/components/SidebarButton.vue'
 import NavLinks from '@theme/components/NavLinks.vue'
 import VersionDropdown from '../../components/VersionDropdown'
 import TypesenseSearchBox from '../../components/TypesenseSearchBox'
-import isSemVer from "../../utils/isSemVer";
+import isSemVer from '../../utils/isSemVer'
 
 export default {
   name: 'Navbar',
@@ -69,8 +76,31 @@ export default {
     },
 
     showVersionDropdown() {
-      return isSemVer(this.$page.path.split('/')[1])
-    }
+      return isSemVer(this.normalizedVersionStringForSemVer(this.$page.path.split('/')[1]))
+    },
+  },
+
+  methods: {
+    normalizedVersionStringForSemVer(version) {
+      const parts = version.split('.')
+      const rcIndex = parts.findIndex(part => part.startsWith('rc'))
+
+      if (rcIndex > -1) {
+        const rcPart = parts.splice(rcIndex, 1)[0]
+        while (parts.length < 3) {
+          parts.push('0')
+        }
+        parts.push(rcPart)
+      } else {
+        while (parts.length < 3) {
+          parts.push('0')
+        }
+      }
+
+      // console.log(`${version} normalized to ${parts.join(".")}`);
+
+      return parts.join('.')
+    },
   },
 
   mounted() {
