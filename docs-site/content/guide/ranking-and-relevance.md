@@ -5,6 +5,9 @@ Typesense ranks search results using a simple tie-breaking sorting algorithm tha
 1. Text match score, exposed as a special ` _text_match` field.
 2. User-defined indexed numerical fields (eg: popularity, rating, score, etc)
 3. User-defined indexed string fields (eg: name) <Badge type="tip" text="v0.23.0" vertical="middle" />
+4. Conditions that attribute values should match (eg: boost all records with category: shoes) <Badge type="tip" text="v26" vertical="middle" />
+
+[[toc]]
 
 ## Text Match Score
 
@@ -41,23 +44,6 @@ This would sort the results in the following manner:
 2. If any two document share the same text match score, sort them by average rating.
 3. If there is still a tie, sort them by their year of publication.
 
-### Ranking based on Relevance and Popularity <Badge type="tip" text="v0.23.0" vertical="top" />
-
-You can bucket results based on textual relevance and then sort within those buckets by a custom ranking/popularity score you've calculated on your end using the following:
-
-```
-sort_by=_text_match(buckets: 10):desc,weighted_score:desc
-```
-
-This will divide the result set into 10 buckets (with the first bucket containing the most relevant results) and force all results within each bucket to tie in `_text_match` score,
-which will then cause those tied results to be sorted by your custom `weighted_score` field within each bucket.
-
-### Ranking exact matches
-
-By default, if the search query matches a particular field value verbatim, Typesense deems that document to have the highest relevancy and prioritizes it. 
-
-However, there might be cases where this might not be desirable behavior. You can turn this off by setting `prioritize_exact_match=false` when [searching](../latest/api/search.md#search-parameters).
-
 ### Default Ranking Order
 
 When you don't provide a `sort_by` parameter to your search request, the documents will be ranked first on the _text_match score, then default sorting field values specified in the collection's schema, and if not specified the document insertion order:
@@ -74,39 +60,96 @@ If you wish to sort the documents strictly by an indexed numerical or string fie
 sort_by=price:desc,_text_match:desc
 ```
 
+## Ranking based on Relevance and Popularity
+
+You can bucket results based on textual relevance and then sort within those buckets by a custom ranking/popularity score you've calculated on your end using the following:
+
+```
+sort_by=_text_match(buckets: 10):desc,weighted_score:desc
+```
+
+This will do the following:
+
+1. Fetch all results matching the query
+2. Sort them by text relevance (text match score desc)
+3. Divide the results into equal-sized 10 buckets (with the first bucket containing the most relevant results)
+4. Force all results within each bucket to tie in `_text_match` score. So all results in the 1st bucket will be forced to have the same text match score, all results in the 2nd bucket will be forced to have the same text match score, etc.
+5. This will cause a tie inside each bucket, and then the `weighted_score` will be used to break the tie and re-rank results within each bucket.
+
+The higher the number of buckets, the more granular the re-ranking based on your weighted score will be.
+For eg, if you have 100 results, and `buckets: 50`, then each bucket will have 2 results, those two results within each bucket will be re-ranked based on your `weighted_score`.
+
+
+## Ranking exact matches
+
+By default, if the search query matches a particular field value verbatim, Typesense deems that document to have the highest relevancy and prioritizes it.
+
+However, there might be cases where this might not be desirable behavior. You can turn this off by setting `prioritize_exact_match=false` when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">searching</RouterLink>.
+
+## Ranking based on conditions
+
+You can rank documents based on any expressions that evaluate to either `true` or `false`, using the special `_eval(<expression>)` operation as a `sort_by` parameter.
+
+The syntax for the expression inside `_eval()` is the same as the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#filter-parameters`">`filter_by` search parameter</RouterLink>, so we also call this feature "Optional Filtering".
+
+For eg:
+
+```json
+{
+  "sort_by": "_eval(in_stock:true):desc,popularity:desc"
+}
+```
+
+This will result in documents where `in_stock` is set to `true` to be ranked first, followed by documents where `in_stock` is set to `false`.
+
+## Boosting / Burying sets of records
+
+Instead of sorting on just `true / false` values like above, we can also provide custom scores to the records matching a bunch of filter clauses.
+
+For example, if we have a `shoes` collection and if we wish to rank all `Nike` shoes ahead of `Adidas` shoes, we can do:
+
+```json
+{
+  "sort_by": "_eval([ (brand:Nike):3, (brand:Adidas):2 ]):desc"
+}
+```
+
+There can be as many expressions as needed in the `_eval` and each of those expressions can be as complex as standard `filter_by` expressions.
+
 ## Promoting or Hiding Results (Merchandising)
 
 You can choose to pin (or hide) particular records by ID in particular ranking positions:
 
-1. Based on a search query by setting up [Overrides (aka Curation)](../latest/api/curation.md) or
-2. Dynamically using the [`pinned_hits` and `hidden_hits`](../latest/api/search.md#search-parameters) search parameter
+1. Based on a search query by setting up <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html`">Overrides (aka Curation)</RouterLink> or
+2. Dynamically using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#ranking-and-sorting-parameters`">`pinned_hits` and `hidden_hits`</RouterLink> search parameter
 
-For eg: if someone searches for `phone`, you could setup an override to pin a particular product that has a good deal on it in position 1. 
+For eg: if someone searches for `phone`, you could setup an override to pin a particular product that has a good deal on it in position 1.
 
-Another common use-case for pinning results is merchandising in an ecommerce store, 
+Another common use-case for pinning results is merchandising in an ecommerce store,
 where a merchandiser (or your own custom ML model) might want to curate the exact products that should appear next to each other for a given product category.
 Depending on the category page that the user is viewing, you can use the `pinned_hits` parameter to define which records should show up in which position for that page.
 
-If you maintain the `Category Page -> pinned_hits` mapping in a CMS system, you can let your internal users modify it and have your application pull down this mapping when a particular category page is being rendered. 
+If you maintain the `Category Page -> pinned_hits` mapping in a CMS system, you can let your internal users modify it and have your application pull down this mapping when a particular category page is being rendered.
+
 
 ## Tuning Typo Tolerance
 
 Typesense handles typographical errors automatically for you out-of-the-box.
 But there might be use cases where you might need to turn off typo tolerance or tweak its sensitivity (eg: part numbers, phone numbers)
 
-To turn off typo tolerance completely, set `num_typos=0` and `typo_tokens_threshold=0` when [searching](../latest/api/search.md#search-parameters).
+To turn off typo tolerance completely, set `num_typos=0` and `typo_tokens_threshold=0` when <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#typo-tolerance-parameters`">searching</RouterLink>.
 
 You can also tweak typo tolerance sensitivity by setting those values to higher numbers as needed.
-To control typo tolerance based on word length, you can use the `min_len_1typo` and `min_len_2typo` [search parameters](../latest/api/search.md#search-parameters).
+To control typo tolerance based on word length, you can use the `min_len_1typo` and `min_len_2typo` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#typo-tolerance-parameters`">search parameters</RouterLink>.
 
-You can also adjust typo tolerance settings for individual fields by specifying multiple comma-separated values for `num_typos`. 
+You can also adjust typo tolerance settings for individual fields by specifying multiple comma-separated values for `num_typos`.
 For eg: if you have `query_by=name,phone_number,zip_code` and you don't want typo tolerance on `phone_number` or `zip_code` you can set `num_typos=2,0,0`.
 
 ## Handling No Results
 
-In some use-cases if all of the user's search terms don't match any of the documents, you might not want to show the user a "No results found" message.
+In some use-cases, if all of the user's search terms don't match any of the documents, you might not want to show the user a "No results found" message.
 
-In such cases, you can have Typesense automatically drop words / tokens from the user's search query, one at a time and repeat the search to show results that are close to the user's original query. 
+In such cases, you can have Typesense automatically drop words / tokens from the user's search query, one at a time and repeat the search to show results that are close to the user's original query.
 
 This behavior is controlled by the `drop_tokens_threshold` search parameter, which has a default value of `1`. This means that if a search query only returns 1 or 0 results, Typesense will start dropping search keywords and repeat the search until at least 1 result is found.
 

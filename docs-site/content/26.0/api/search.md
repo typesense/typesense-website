@@ -442,7 +442,7 @@ For example, if we have a `shoes` collection and if we wish to rank all `Nike` s
 ```
 
 There can be as many expressions as needed in the `_eval` and each of those expressions can be as complex as 
-standard `filter_by` expression.
+standard `filter_by` expressions.
 
 ### Sorting null, empty or missing values
 
