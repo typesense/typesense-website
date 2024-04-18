@@ -5,7 +5,7 @@ using their existing SSO credentials.
 
 :::tip Our SAML-integration is platform-agnostic
 
-We've tested our SAML integration with popular SSO vendors like Okta, Azure Active Directory, Microsoft Entra ID, Google SSO and Rippling SSO,
+We've tested our SAML integration with popular SSO vendors like Okta, Azure Active Directory, Microsoft Entra ID, JumpCloud, Google SSO and Rippling SSO,
 but you can integrate **any SSO vendor** that offers SAML-based SSO with Typesense Cloud.
 
 :::
@@ -21,7 +21,7 @@ Here's how to set up SSO for a team in Typesense Cloud:
 ### Step 1: Set up a team
 
 1. [Sign up](https://cloud.typesense.org/signup) for an account on Typesense Cloud using regular email/password-based authentication.
-2. Click on your email address on the top right of the page (which will open up the accounts switcher) and click on "New Team".
+2. Click on your email address on the top right of the page (which will open up the account switcher) and click on "New Team".
 3. Give your team a name, specify a contact email and click on "Create Team".
 4. For security and verification purposes, we require a valid payment method on file for your team account before you can set up SSO for it (even though we do not charge extra for SSO).
    So once you create your team, click on "account" in the top navbar, scroll down to the "Billing" section and add a Payment Method to your team account.
@@ -33,7 +33,7 @@ We now need to set up your SSO platform to continue the setup.
 If you already use GitHub authentication, and have created a Typesense Cloud team via a GitHub org, you will not be able to set up SSO on this team. 
 
 You would have to sign up for a new account with email/password-based authentication, then create a new team under that login and set up SSO for that team.
-We can then move the clusters from your existing team account to your new team account if you reach out to support, once adding a payment method to your account.
+We can then move the clusters from your existing team account to your new team account if you reach out to support, once adding a payment method to your new account.
 
 :::
 
@@ -50,7 +50,9 @@ We can then move the clusters from your existing team account to your new team a
 
 3. Use the image [here](/docs/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
 
-4. Once you've created the app, your SSO platform should give you the following information:
+4. Enable Response Assertion signing in your SSO app. It's usually found under "Advanced" settings and often enabled by default.
+
+5. Once you've created the app, your SSO platform should give you the following information:
 
    - IdP Single Sign-On URL (also called Identity Provider Single Sign-On URL or Login URL in some SSO platforms)
    - IdP Entity ID (also called Identity Provider Issuer or AD Identifier in some SSO platforms)
@@ -96,7 +98,7 @@ There are two ways to log in to Typesense Cloud once you've configured SSO.
 
 This is also called the SP-initiated SSO in common terminology. 
 
-You'll find a unique SSO-login link in Typesense Cloud, that you can pass on to your team to log in and access their team: 
+You'll find a unique SSO-login link in Typesense Cloud, that you can pass on to your team (or setup as a bookmark in your SSO platform) for your team to log in and access your Typesense Cloud team: 
 
 1. As an admin, switch to your team account using the account switcher on the top right.
 2. Scroll down to "Team Management" and click on "Configure SSO".
@@ -123,7 +125,7 @@ So you don't have to explicitly provision users in Typesense Cloud each time.
 ### How to remove users
 
 Removing a user's access from your SSO platform will remove their access from Typesense Cloud _for their next session_. 
-If you need to revoke their access immediately, you want to _also_ visit your team's account page and remove the user from under the "Team Management" section. 
+If you need to revoke their access immediately, you want to _also_ visit your team's account page in Typesense Cloud and remove the user from under the "Team Management" section. 
 
 ### Role-based access control
 
