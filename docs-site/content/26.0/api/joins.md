@@ -184,7 +184,7 @@ To fetch all the documents accessible to a `user_a`, we can query this way:
 {
     "q": "*",
     "collection": "documents",
-    "filter_by": "$user_doc_access(user_id:= user_a)"
+    "filter_by": "$user_doc_access(user_id:=user_a)"
 }
 ```
 To get the user ids that can access a particular document:
@@ -258,7 +258,7 @@ For example, given the following authors and books:
 ```json lines
 {"title": "Famous Five", "author_id": "0"}
 {"title": "Secret Seven", "author_id": "0"}
-{"title": "Harry Potter", ",author_id": "1"}
+{"title": "Harry Potter", "author_id": "1"}
 ```
 
 When we query the `authors` collection and join on the `books` collection, like this:
