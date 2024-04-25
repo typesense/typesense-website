@@ -2,13 +2,9 @@
 
 In addition to performance and ease-of-use, Typesense is also designed to have low operational overhead in Production.
 
-::: tip Typesense is a single self-contained binary with no runtime dependencies. 
-&nbsp;
-:::
+When running Typesense in [Typesense Cloud](https://cloud.typesense.org), running in production is as simple as flipping a switch to enable "High Availability" and you'll have a distributed multi-node cluster that is production-ready and ready-to-use.
 
-Running Typesense in Production is as simple as [installing Typesense](./install-typesense.md) and starting the Typesense process as a daemon, either via Docker or a process manager. 
-
-When you install our Debian or RPM packages, they will automatically set up a systemctl service (`typesense-server.service`) and a templated configuration file for you (`/etc/typesense/typesense-server.ini`).   
+Typesense is a single self-contained binary with no runtime dependencies. So when self-hosting, running Typesense in Production involves simply [installing Typesense](./install-typesense.md), starting the Typesense process as a daemon, either via Docker or a process manager (our DEB and RPM packages do this for you) and configuring [High Availability](./high-availability.md) as needed.
 
 ## Production Best Practices
 
@@ -60,6 +56,7 @@ Most of the server infrastructure related items are not applicable to Typesense 
 - If you are storing multi-tenant data in a single collection, ensure that you have configured your [Scoped Search API Keys](../latest/api/api-keys.md#generate-scoped-search-key) correctly, to include the logged-in user's ID in the embedded filter.
   - Scoped Search API Keys need to be generated in your backend stack, and passed on to the frontend which should then send that to Typesense in API Calls. 
   - Be sure to never expose your parent Search API Key to users, since that key has unrestricted access to all records.
+- On Typesense Cloud, set up a [team account](./typesense-cloud/team-accounts.md) to manage access and setup [Single Sign-On](./typesense-cloud/single-sign-on.md).
 
 ### Schema Management
 
@@ -69,12 +66,17 @@ Most of the server infrastructure related items are not applicable to Typesense 
 
 ### Staying Up-To-Date
  
-- To get updates when new versions of Typesense are released, click on "Watch" -> "Custom" -> "Releases" in the [Typesense GitHub repository](https://github.com/typesense/typesense).
+- To get updates when new versions of Typesense are released, click on "Watch" → "Custom" → "Releases" in the [Typesense GitHub repository](https://github.com/typesense/typesense).
   - Follow these [update instructions](./updating-typesense.md) to update to the latest version.
 - We also post updates on Twitter [@typesense](https://twitter.com/typesense) and in our [Slack Community](https://join.slack.com/t/typesense-community/shared_invite/zt-2fetvh0pw-ft5y2YQlq4l_bPhhqpjXig).
 
 ### Support
 
-While we strive to help via [GitHub Issues](https://github.com/typesense/typesense/issues), for prioritized production-grade support with guaranteed response SLAs from the core team, we'd ask that you sign up for one of our [support plans](https://typesense.org/support) or [sponsor us on GitHub](https://github.com/sponsors/typesense).
+We've strived to keep Typesense as self-service and out-of-the-box as possible, with fully public documentation.
 
-Paid Support is one of the key ways we use to financially support our lean bootstrapped team, so purchasing our support plans helps us improve our core product for everyone in the community, while also providing you peace of mind when running Typesense in production. 
+But if you need help or have any questions, feel free to reach out through one of these channels:
+
+- Open a [GitHub issue](https://github.com/typesense/typesense/issues)
+- Join our public [Slack community](https://join.slack.com/t/typesense-community/shared_invite/zt-2fetvh0pw-ft5y2YQlq4l_bPhhqpjXig) to discuss general questions and/or issues
+- Browse through [past conversations](https://threads.typesense.org/) in our Slack community
+- For prioritized support with private Slack, email & phone-based support with guaranteed SLAs, see [here](https://typesense.org/support)

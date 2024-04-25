@@ -202,6 +202,7 @@ let config = {
         },
         {
           title: 'Reference Implementations',
+          path: '/guide/reference-implementations/',
           collapsable: false, // optional, defaults to true
           children: [
             ['/guide/reference-implementations/recipe-search', 'Recipe Search'],

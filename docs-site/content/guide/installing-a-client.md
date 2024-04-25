@@ -20,16 +20,10 @@ We also have the following community-maintained client libraries:
 - [python orm client](https://github.com/RedSnail/typesense_orm)
 - [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
 - [Elixir](https://github.com/jaeyson/ex_typesense)
+---
+- <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-clients.html#framework-integrations`">Other Framework Integrations</RouterLink>
 
-We also have several framework integrations listed <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-clients.html#framework-integrations`">here</RouterLink>.
-
-:::tip
-If you don't see an official client in your language, you can still use any HTTP library in your language to make API calls to Typesense's RESTful API directly.
-:::
-
-<br>
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
   <template v-slot:JavaScript>
 
 ```js
@@ -62,4 +56,55 @@ gem install typesense
 ```
 
   </template>
+  <template v-slot:Dart>
+
+```dart
+// With Dart:
+//  $ dart pub add typesense
+
+// With Flutter:
+//  $ flutter pub add typesense
+
+// This will add a line like this to your package's pubspec.yaml:
+// dependencies:
+//   typesense: ^0.3.0
+
+// Now in your Dart code, you can use:
+
+import 'package:typesense/typesense.dart';
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+// Download the JAR file from the releases section in the typesense-java repository. 
+// (https://github.com/typesense/typesense-java/releases)
+// And the import it them to your project
+
+import org.typesense.api.*;
+import org.typesense.models.*;
+import org.typesense.resources.*;
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+// For an iOS app, add typesense-swift as a framework dependency:
+// Target -> General -> Frameworks, Libraries, and Embedded Content -> "+" -> Add Package Dependency -> typesense-swift
+
+//For swift packages, add typesense-swift to the dependencies array in Package.swift:
+...
+dependencies: [
+           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "0.1.0"),
+],
+...
+```
+
+  </template>
 </Tabs>
+
+:::tip
+If you don't see an official client in your language, you can still use any HTTP library in your language to make API calls to Typesense's RESTful API directly.
+:::
