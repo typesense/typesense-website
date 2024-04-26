@@ -32,7 +32,7 @@ curl 'http://localhost:8108/conversations/models' \
   -d '{
         "model_name": "openai/gpt-3.5-turbo",
         "api_key": "OPENAI_API_KEY",
-        "system_prompt": "Be concise in your responses, with just one or two sentences."
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
         "max_bytes": 1024
       }'
 ```
@@ -50,7 +50,7 @@ curl 'http://localhost:8108/conversations/models' \
         "model_name": "cf/mistral/mistral-7b-instruct-v0.1",
         "api_key": "CLOUDFLARE_API_KEY",
         "account_id": "CLOUDFLARE_ACCOUNT_ID",
-        "system_prompt": "Be concise in your responses, with just one or two sentences."
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
         "max_bytes": 1024
       }'
 ```
@@ -80,7 +80,7 @@ This will return a response with an auto-generated conversation model ID, that w
   "id": "5a11318f-e31b-4144-81b3-b302a86571d3",
   "max_bytes": 1024,
   "model_name": "openai/gpt-3.5-turbo",
-  "system_prompt": "Be concise in your responses, with just one or two sentences."
+  "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
 }
 ```
 
@@ -343,13 +343,15 @@ curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86
 
 ### Update a model
 
+You can update the system prompt like this:
+
 ```shell
 curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86571d3' \
   -X PUT \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-        "system_prompt": "Be elaborate in your responses"
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic. Be very concise in your answers."
       }'
 ```
 
