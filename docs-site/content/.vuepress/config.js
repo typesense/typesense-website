@@ -231,6 +231,10 @@ let config = {
               '/guide/reference-implementations/guitar-chords-search-in-different-js-frameworks',
               'Guitar Chords Search in different JS frameworks',
             ],
+            [
+              '/guide/reference-implementations/pg-essays-conversational-search',
+              'Paul Graham essays conversational search',
+            ],
           ],
         },
       ],
