@@ -233,7 +233,7 @@ let config = {
             ],
             [
               '/guide/reference-implementations/pg-essays-conversational-search',
-              'Conversation Search with Paul Graham Essays',
+              'Conversational Search with Paul Graham Essays',
             ],
             ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
