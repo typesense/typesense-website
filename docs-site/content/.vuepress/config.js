@@ -235,6 +235,10 @@ let config = {
               '/guide/reference-implementations/pg-essays-conversational-search',
               'Paul Graham essays conversational search',
             ],
+            [
+              '/guide/reference-implementations/ai-image-search.md',
+              'AI Image Search',
+            ],
           ],
         },
       ],
