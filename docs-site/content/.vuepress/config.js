@@ -231,11 +231,11 @@ let config = {
               '/guide/reference-implementations/guitar-chords-search-in-different-js-frameworks',
               'Guitar Chords Search in different JS frameworks',
             ],
-            [
-              '/guide/reference-implementations/pg-essays-conversational-search',
-              'Conversational Search with Paul Graham Essays',
-            ],
-            ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
+            // [
+            //   '/guide/reference-implementations/pg-essays-conversational-search',
+            //   'Conversational Search with Paul Graham Essays',
+            // ],
+            // ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },
       ],
