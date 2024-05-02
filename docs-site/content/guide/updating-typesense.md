@@ -53,7 +53,7 @@ If you are running Typesense in clustered mode for high availability, make sure 
       <pre class="language-bash"><code>docker stop &lt;container_id&gt;
 <br>
 docker run -p 8108:8108 \
-            -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+            -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
             --data-dir /data \
             --api-key=$TYPESENSE_API_KEY \
             --enable-cors</code></pre>
@@ -118,7 +118,7 @@ kill &lt;TYPESENSE_PROCESS_ID&gt; # will gracefully shutdown
 <br>
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-./typesense-server --data-dir=$(pwd)/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
     </div>
   </template>
 </Tabs>
@@ -142,7 +142,7 @@ kill &lt;TYPESENSE_PROCESS_ID&gt; # will gracefully shutdown
 <br>
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-./typesense-server --data-dir=$(pwd)/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
     </div>
   </template>
 </Tabs>

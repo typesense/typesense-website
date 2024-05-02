@@ -25,10 +25,10 @@ We also publish official Docker images for Typesense on [Docker hub](https://hub
     <div class="manual-highlight">
       <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
 <br>    
-mkdir $(pwd)/typesense-data
+mkdir "$(pwd)"/typesense-data
 <br>
 docker run -p 8108:8108 \
-            -v$(pwd)/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+            -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
             --data-dir /data \
             --api-key=$TYPESENSE_API_KEY \
             --enable-cors</code></pre>
@@ -41,8 +41,7 @@ docker run -p 8108:8108 \
 <Tabs :tabs="['yml']">
   <template v-slot:yml>
     <div class="manual-highlight">
-      <pre class="language-yaml"><code>version: '3.4'
-services:
+      <pre class="language-yaml"><code>services:
   typesense:
     image: typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}
     restart: on-failure
@@ -56,7 +55,7 @@ services:
 </Tabs>
 
 ```shell
-mkdir $(pwd)/typesense-data
+mkdir "$(pwd)"/typesense-data
 
 docker-compose up
 ```
@@ -118,8 +117,8 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-
 <br>
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-mkdir $(pwd)/typesense-data
-./typesense-server --data-dir=$(pwd)/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+mkdir "$(pwd)"/typesense-data
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
     </div>
   </template>
 </Tabs>
@@ -194,8 +193,8 @@ tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-a
 <br>
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-mkdir $(pwd)/typesense-data # Use a directory like /var/lib/typesense in production
-./typesense-server --data-dir=$(pwd)/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+mkdir "$(pwd)"/typesense-data # Use a directory like /var/lib/typesense in production
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
     </div>
   </template>
 </Tabs>
