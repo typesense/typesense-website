@@ -33,7 +33,7 @@ curl 'http://localhost:8108/conversations/models' \
         "model_name": "openai/gpt-3.5-turbo",
         "api_key": "OPENAI_API_KEY",
         "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
-        "max_bytes": 1024
+        "max_bytes": 16384
       }'
 ```
 
@@ -51,7 +51,7 @@ curl 'http://localhost:8108/conversations/models' \
         "api_key": "CLOUDFLARE_API_KEY",
         "account_id": "CLOUDFLARE_ACCOUNT_ID",
         "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
-        "max_bytes": 1024
+        "max_bytes": 16384
       }'
 ```
 
@@ -78,7 +78,7 @@ This will return a response with an auto-generated conversation model ID, that w
 {
   "api_key": "sk-7K**********************************************",
   "id": "5a11318f-e31b-4144-81b3-b302a86571d3",
-  "max_bytes": 1024,
+  "max_bytes": 16384,
   "model_name": "openai/gpt-3.5-turbo",
   "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
 }
