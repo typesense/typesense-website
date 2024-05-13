@@ -406,3 +406,14 @@ the order in which they are indexed.
 Therefore, it's **crucial** to treat the referenced collections as a group, i.e., if you intend to switch any one of the collections 
 via an alias update, you must reindex all the related collections simultaneously. This will guarantee that the internal IDs 
 remain in sync across all the collections involved in the join operation.
+
+## Left Join
+
+By default, Typesense performs inner join. To perform left join,
+
+```json
+{
+  "filter_by": "id:* || $join_collection_name( <join_condition> )" 
+}
+```
+can be specified. `id:*` matches all documents of the collection being searched. So the result will include the referenced documents if a reference exists otherwise the document will be returned as is.
