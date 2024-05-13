@@ -409,7 +409,7 @@ remain in sync across all the collections involved in the join operation.
 
 ## Left Join
 
-To perform left join,
+By default, Typesense performs inner join. To perform left join,
 
 ```json
 {
