@@ -2815,7 +2815,7 @@ curl 'http://localhost:8108/multi_search' \
 
 #### Indexing parameters
 
-You can set `ef_construction` (default: `16`) and `M` (default: `200`) for vector and embedding fields while creating 
+You can set `ef_construction` (default: `200`) and `M` (default: `16`) for vector and embedding fields while creating 
 the collection.
 
 ```json
