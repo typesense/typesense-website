@@ -1006,7 +1006,7 @@ Unfortunately, not all syncs will succeed. It's important to have some retry mec
 2. Updates 'PENDING' functions to 'FAILED' if certain conditions are met
 3. Re-attempts a failed sync request
 
-#### PL/pgSQL Function to Manage Edge Redeployment and Maitenance
+#### PL/pgSQL Function to Manage Edge Redeployment and Maintenance
 
 ```sql
 CREATE OR REPLACE FUNCTION edge_function_maintainer()
