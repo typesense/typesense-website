@@ -238,6 +238,7 @@ let config = {
             // ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },
+        ['/guide/faqs', 'Frequently Asked Questions'],
       ],
 
       '/cloud-management-api/v1/': [
