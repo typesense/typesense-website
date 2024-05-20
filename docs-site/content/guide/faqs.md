@@ -131,18 +131,6 @@ If you're using Hybrid Search, you can control the weightage of keyword vs seman
 
 You can also try using a different ML model that was trained using a dataset that's closer to your domain, to generate better emebeddings.
 
-## Filtering
-
-### What is the difference between filtering and faceting?
-
-Let's say you have a [dataset of songs](https://songs-search.typesense.org/) like in the screenshot below.
-
-The **_count_** next to each of the "Release Dates" and "Artists" on the left is obtained by faceting on the `release_date` and `artist` fields.
-
-If you click on say "John Denver" and want to only fetch songs where the artist is "John Denver", that is called filtering. 
-
-![Faceting Usecase Example](~@images/faceting_usecase_example.png)
-
 ## Faceting
 
 ### How do I get facet counts for values that users have not filtered on?
@@ -171,6 +159,32 @@ Type in "Hello" in the search bar, and then click on "The Beatles".
 
 Now look for a request to `multi_search` in the browser's dev console network tab, and look at the structure of the queries generated.
 :::
+
+### What is the difference between filtering and faceting?
+
+Let's say you have a [dataset of songs](https://songs-search.typesense.org/) like in the screenshot below.
+
+The **_count_** next to each of the "Release Dates" and "Artists" on the left is obtained by faceting on the `release_date` and `artist` fields.
+
+If you click on say "John Denver" and want to only fetch songs where the artist is "John Denver", that is called filtering.
+
+![Faceting Usecase Example](~@images/faceting_usecase_example.png)
+
+
+## Operations
+
+### How do I get the memory usage for a single collection or field?
+
+Typesense does not track memory usage by individual collections or fields. It only tracks memory metrics at an aggregate process-level. 
+You can access these metrics using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#cluster-metrics`">`GET /metrics.json`</RouterLink> endpoint.
+
+### How do I set up HTTPS with Typesense?
+
+By default, Typesense runs on port `8108` and serves HTTP traffic.
+
+To enable HTTPS, you want to change the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html#networking`">`api-port`</RouterLink> to `443` and then use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html#ssl-https`">`ssl-certificate` and `ssl-certificate-key`</RouterLink> parameters to point to your SSL certificate and SSL private key respectively.
+
+Providers like [LetsEncrypt](https://letsencrypt.org) offer free SSL certificates.
 
 ## RC Builds
 
