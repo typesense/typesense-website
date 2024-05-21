@@ -186,7 +186,23 @@ To enable HTTPS, you want to change the <RouterLink :to="`/${$site.themeConfig.t
 
 Providers like [LetsEncrypt](https://letsencrypt.org) offer free SSL certificates.
 
-## RC Builds
+## Releases
+
+### When is the next version of Typesense launching?
+
+We tend to add features and fixes on a continuous iterative cycle and publish RC (Release Candidate) builds every 1-2 weeks. Once the amount of changes have reached a critical mass, we then go into a feature freeze for the upcoming version, address a final round of last-mile issues if any, run performance benchmarks and regression tests, continuously dogfood the builds and if everything looks good we do a final GA (Generally Available) release.
+
+We do not have a fixed timeline for GA releases since we want final builds to be sufficiently tested and stable. That said, in the past we've done [GA releases](https://github.com/typesense/typesense/releases) every 2-3 months.
+
+### How do you plan your roadmap?
+
+We do Just-In-Time planning, at most 2 months in advance. Even within that window we tend to reprioritize based on your feedback. So items you see on [our roadmap](https://github.com/orgs/typesense/projects/1) more than one version out are subject to change.
+
+While we generally tend to prioritize requests from our [Prioritized Support](https://typesense.org/support/) users, [Typesense Cloud](https://cloud.typesense.org/) users, our [GitHub Sponsors](https://github.com/sponsors/typesense) and our open source Community Contributors, we also prioritize features based on the number of people asking for it, features/fixes that are small enough and can be addressed while we work on other related features, features/fixes that help improve stability & relevance and features that address interesting use cases that excite us!
+
+If you'd like to have a request prioritized, we ask that you add a detailed use-case for it, either as a comment on an existing issue (in addition to a thumbs-up) or in a new issue. The detailed context you share about how you'd use the feature you're asking for helps significantly.
+
+[View Roadmap »](https://github.com/orgs/typesense/projects/1)
 
 ### Can I run RC builds in production?
 
@@ -207,6 +223,22 @@ We do not publish RC builds for other platforms.
 ## Firebase Extension
 
 Here's a dedicated FAQ for the Firebase Extension: [https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs](https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs)
+
+## Typesense Cloud
+
+### What is the difference between Typesense Cloud and Self-Hosted version?
+
+Here's how Typesense Cloud and Self-Hosted (on any VPS or other cloud) compare:
+
+- **API Parity:** We run the same binaries we publish open source in Typesense Cloud as well, so the core APIs and features are the same.
+- **Admin UI:** Typesense Self-Hosted is an API-only product. Whereas in Typesense Cloud we provide a UI to explore the data, setup synonyms, aliases, overrides, merchandizing, etc by pointing and clicking - ideal for non-technical members of your team to manage search behavior themselves, without having to take up engineering time. 
+- **Managed Infrastructure:** In Typesense Cloud we take care of the infrastructure for you completely. As you scale, we can automatically scale your clusters for you (when you turn this setting on). Setting up a [Highly Available cluster](./high-availability.md), changing [cluster capacity](./system-requirements.md) and changing [Typesense versions](./updating-typesense.md) is point and click (or can be automated [via an API](/cloud-management-api/v1/README.md)) in Typesense Cloud, saving your infrastructure team valuable time.
+- **Globally Distributed:** In Typesense Cloud, we offer a [Search Delivery Network](/guide/typesense-cloud/search-delivery-network.md) feature that works like a CDN, but we _replicate_ your full dataset to each of the regions you choose (unlike in a CDN where only frequently used items are kept on the edge), and the node that's closest to a searcher will respond to the search request. This reduces network latency and speeds up the search for your users around the world. 
+- **Role-Based Access Control:** In Typesense Cloud, we give you Role Based Access control for members of your team, so you don’t have to share API keys with team members to give them selective access to different parts of the UI.
+- **Switching Effort:** Since we run the same binaries, you can migrate between self-hosted and Typesense Cloud by just exporting and importing data.
+- **Cost:** You'll have to compare the [pricing](https://cloud.typesense.org/pricing/) we publish on Typesense Cloud, with what it would cost to run an equivalent capacity VM(s) on your server hosting provider, plus add the engineering time required to self-host, manage infrastructure and keep up with updates. In general, we find that once you add engineering time, Typesense Cloud becomes cheaper, because we’re able to amortize engineering time on our side across all customers, bringing down costs for all users.
+- **Support:** We offer [Prioritized Support](https://typesense.org/support/) on Typesense Cloud, whereas for Self-Hosted support is best-effort or usually [self-service](/help.md). 
+
 
 ## Help
 
