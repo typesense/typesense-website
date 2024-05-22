@@ -137,6 +137,9 @@ let config = {
         ['/overview/use-cases', 'Use Cases'],
         ['/overview/demos', 'Live Demos'],
         ['/overview/benchmarks', 'Benchmarks'],
+        ['/guide/', 'Guide'],
+        ['/api/', 'API Reference'],
+        ['/help', 'Help'],
       ],
       '/guide/': [
         ['/guide/', 'Introduction'],
