@@ -5,6 +5,12 @@ The plugin allows you to index your posts, pages and provides ways to showcase t
 
 This article will walk you through the installation and configuration of the plugin.
 
+:::tip Third-Party Integration
+The WordPress plugin described in this article is built and maintained by a member of the extended Typesense community - [Codemanas](https://www.codemanas.com/)
+
+Please reach out to them directly for additional support.
+:::
+
 ## Minimum Requirements
 
 You need the following minimum requirements to install this plugin:
