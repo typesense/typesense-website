@@ -8,7 +8,7 @@ When using Typesense you might want to run end-to-end tests -- these are test th
 
 There is a GitHub Action providing a Typesense server. You can find it in the GitHub marketplace at [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) and install it from there.
 
-You can configure the Typesense server in your workflow YAML file. Depending on your needs, you may configre it to run on a different port or you may make run your tests against a matrix of multiple Typesense versions.
+You can configure the Typesense server in your workflow YAML file. Depending on your needs, you may configure it to run on a different port or you may make run your tests against a matrix of multiple Typesense versions.
 
 Here’s a sample configuration using the [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) package to add Typesense to your GitHub Actions:
 
