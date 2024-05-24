@@ -26,7 +26,7 @@ Algolia requires separate indices for each sort order, which counts towards your
 
 With Typesense, these settings can be configured at search time via query parameters which makes it very flexible and unlocks new use cases. Typesense is also able to give you sorted results with a single index, vs having to create multiple. This helps reduce memory consumption.
 
-Algolia offers the following features that Typesense does not have currently: personalization & server-based search analytics. For analytics, you can still instrument your search on the client-side and send search metrics to your web analytics tool of choice.
+Algolia offers the following features that Typesense does not have currently: built-in personalization and recommendations. You can still implement these in Typesense, using Typesense's underlying vector store.
 
 See a side-by-side feature comparison [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
 

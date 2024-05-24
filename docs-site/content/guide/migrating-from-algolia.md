@@ -3,7 +3,26 @@
 If you are currently using Algolia and are planning a migration to Typesense, this guide is meant to give you some helpful pointers to help ease your transition.
 We've put this together based on common things we've seen Algolia users experience when switching to Typesense.
 
-## API Compatibility
+## Timeline
+
+The most frequent question we get from Algolia users exploring a switch to Typesense, is how long a migration typically takes. 
+
+The median migration timeline has been about 2-3 weeks.
+
+The record so far has been 3 hours, to switch from Algolia to Typesense in production (of course this is an outlier). 
+On the other end of the spectrum, we've had a few users take 1-1.5 months, since they wanted to deploy Typesense behind a feature flag to a small percentage of traffic, and then slowly ramp traffic up to Typesense over a period of weeks, while closely metrics and fine-tuning.
+
+If you're using Algolia's [InstantSearch](https://github.com/algolia/instantsearch) UI widgets, then the migration timeline tends to be on the lower end of the spectrum,
+since we have an [adapter library](#migrating-frontend-ui-components) that once you install into your frontend app, will take care of transalting the queries to Typesense. So you can keep your existing UI widgets as is, and migrate in as little as 30 minutes to an hour.
+
+So the key work involved would be to push your JSON documents into Typesense, instead of Algolia and account for the nuances below.
+You'd also want to consider migration of synonyms and query rules, for which both Algolia and Typesense have APIs for to export and import. 
+
+## Architecture
+
+Both Algolia and Typesense are very similar architecturally - **both are in-memory search engines**, optimized for lightning-fast search.
+
+### API Compatibility
 
 While Typesense _is_ an open source alternative to Algolia that gives you the same instant-search-as-you-type experience,
 it also improves on some key aspects of Algolia.
@@ -55,8 +74,9 @@ We plan to close the gap based on feedback we get from Algolia users switching o
 - Validations for field data types when documents are indexed (similar to typed languages) to prevent inconsistent data from getting into the index. (This can be turned off if you need Algolia-like behavior)
 - Ability to specify numerical weights for particular fields during search, to give them more priority
 - Ability to store and query multiple geo (latitude / longitude) fields in the same record, and combine them using logical operators when filtering in a single query.
-- Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>
-- Ability to use embedding models like OpenAI, PaLM API or built-in models like S-BERT, E-5, etc in order to implement hybrid (semantic + keyword) search and integrate with Large Language Models (LLMs). 
+- Ability to store vectors from your own machine learning models and do <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">nearest neighbor searches</RouterLink>.
+- Ability to use embedding models like OpenAI, PaLM API or built-in models like S-BERT, E-5, etc in order to implement hybrid (semantic + keyword) search and integrate with Large Language Models (LLMs).
+- Ability to have the engine return results as <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/conversational-search-rag.html`">Conversational Responses</RouterLink> (Built-in RAG) using your JSON data.
 - Ability to create <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">aliases</RouterLink> for collections, like symlinks
 - In general many parameters that are configurable at the index level in Algolia are dynamically configurable at search time in Typesense, which gives you more flexibility
 - No limits on record size, maximum index size, number of synonyms, number of rules or number of indices
@@ -235,7 +255,7 @@ Typesense also offers a hosted search service called [Typesense Cloud](https://c
 Typesense Cloud pricing is based on the amount of [RAM & CPU](./system-requirements.md) you need to index your data and support your desired traffic concurrency respectively.
 It's a flat hourly fee depending on the configuration you choose, plus standard bandwidth charges, similar to AWS, GCP, etc.
 There are no per-record or per-search charges unlike Algolia. You can throw as much traffic or data at your cluster as it can handle. 
-We've seen this pricing model save up to 95% in search costs for users switching from Algolia to Typesense Cloud.
+We've seen this pricing model save anywhere from 50% to 95% in search costs for users switching from Algolia to Typesense Cloud.
 
 ## Algolia Migration Support
 
