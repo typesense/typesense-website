@@ -170,6 +170,18 @@ If you click on say "John Denver" and want to only fetch songs where the artist 
 
 ![Faceting Usecase Example](~@images/faceting_usecase_example.png)
 
+## Indexing
+
+### Why don't all my records from my database show up in Typesense when I sync my data?
+
+If you're using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">`import`</RouterLink> API endpoint to bulk import documents into Typesense, 
+this endpoint returns an HTTP 200 in all cases, even if a few documents fail to import (to account for partial successes).
+
+So your HTTP client might not be throwing an error even during an error. 
+
+Always be sure to check the API response for any `{success: false, ...}` records to see if there are any documents that failed import, which usually happens due to schema validation errors.
+
+You can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#returning-the-id-of-the-imported-documents`">`?return_id=true`</RouterLink> query parameter to get Typesense to return the exact document ID that errored out.
 
 ## Operations
 
