@@ -201,7 +201,7 @@ let config = {
             ['/guide/magento2-search', 'Search for Magento Sites'],
             ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
-            ['/guide/github-actions', 'Running Tests With the Typesense Github Action'],
+            ['/guide/github-actions', 'Running Tests in Github Actions'],
           ],
         },
         {

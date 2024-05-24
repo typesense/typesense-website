@@ -1,16 +1,22 @@
-# Running E2E Tests with the Typesense Github Action
+---
+sidebarDepth: 2
+---
 
-GitHub Actions provides powerful automation which enables you to setup your continuous integration and continuous deployment pipelines; you can use it to run tests in your codebase, build images and deploy workloads to different environments.
+# Running E2E Tests with the Typesense in GitHub Action
 
-## Use Typesense in GitHub Actions
+When using Typesense you might want to run end-to-end tests - these are tests that run with real instances of your application's dependencies and not against mocks. 
 
-When using Typesense you might want to run end-to-end tests -- these are test that run with real instances of your application's dependencies and not against mocks. Running your tests against an actual Typesense instance increases the confidence in your code and the contract between your app and Typesense. Adding Typesense to a GitHub Action is pretty straightforward.
+Running your tests against an actual Typesense instance increases the confidence in your code and the contract between your app and Typesense. Adding Typesense to a GitHub Action is pretty straightforward.
 
-There is a GitHub Action providing a Typesense server. You can find it in the GitHub marketplace at [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) and install it from there.
+There are two options:
+
+### Option 1: Pre-Built action
+
+There is a GitHub Action built a member of the Typesense Community. You'll find it in the GitHub marketplace at [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) and install it from there.
 
 You can configure the Typesense server in your workflow YAML file. Depending on your needs, you may configure it to run on a different port or you may make run your tests against a matrix of multiple Typesense versions.
 
-Here’s a sample configuration using the [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) package to add Typesense to your GitHub Actions:
+Here's a sample configuration using the [jirevwe/typesense-github-action](https://github.com/marketplace/actions/typesense-server-in-github-actions) package to add Typesense to your GitHub Actions:
 
 ```yaml
 name: Run tests
@@ -39,7 +45,9 @@ This workflow setup runs your action's steps against each version of Typesense s
 
 There's a full example of how this works [here](https://github.com/jirevwe/typesense-actions-demo).
 
-Or you want something direct, no additional Github actions package needed:
+### Option 2: Without Dependencies
+
+If you want something direct without any additional dependencies, add this to your GitHub actions config file:
 
 ```yaml
 name: Run tests
@@ -76,7 +84,7 @@ jobs:
         run: sleep 1 && curl http://localhost:8108/health
 ```
 
-A full example file can be found [here](https://github.com/jaeyson/ex_typesense/blob/main/.github/workflows/ci.yml).
+A full example file can be found here: [jaeyson/ex_typesense](https://github.com/jaeyson/ex_typesense/blob/main/.github/workflows/ci.yml).
 
-And that's it! As we saw above, Typesense is easy to set up and simple to use. You can use it with your apps to create fast, typo-tolerant search interfaces. And with this package you can easily test your Typesense integration. If you face any difficulties with Typesense or would like to see any new features added, head over to our [GitHub repo](https://github.com/typesense/typesense) and create an issue.
+And that's it!
 
