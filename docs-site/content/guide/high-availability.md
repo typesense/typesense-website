@@ -213,7 +213,7 @@ Here's a sample 3-node client configuration:
 /*
  *  Our JavaScript client library works on both the server and the browser.
  *  When using the library on the browser, please be sure to use the
- *  search-only API Key rather than the master API key since the latter
+ *  search-only API Key rather than the admin API key since the latter
  *  has write access to Typesense and you don't want to expose that.
  */
 
@@ -358,7 +358,9 @@ export TYPESENSE_HOST='https://typesense.example.net'
 
 ### When using Typesense Cloud or a Load Balancer
 
-If you use Typesense Cloud (with load-balancing enabled on your cluster, which is enabled by default for all clusters provisioned after June 16, 2022), or if you choose to set up a server-side load-balancer for convenience, you can specify the single load-balanced endpoint, instead of specifying each of the individual ones in the client libraries.
+If you use Typesense Cloud (with load-balancing enabled on your cluster, which is enabled by default for all clusters provisioned after June 16, 2022), or if you choose to set up a server-side load-balancer for convenience, you want to specify the load-balanced endpoint where all requests are routed to by default, by the client. 
+
+In Typesense Cloud, you also want to specify the individual hostnames in addition - these are used as fallback nodes by the client, in case the load-balanced endpoint hits a stale node that is currently in a "connection-draining" status just as a node rotation happens (lasts 30s per node rotation, for eg during a configuration change or infrastructure update). 
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
@@ -367,7 +369,7 @@ If you use Typesense Cloud (with load-balancing enabled on your cluster, which i
 /*
  *  Our JavaScript client library works on both the server and the browser.
  *  When using the library on the browser, please be sure to use the
- *  search-only API Key rather than the master API key since the latter
+ *  search-only API Key rather than the admin API key since the latter
  *  has write access to Typesense and you don't want to expose that.
  */
 
