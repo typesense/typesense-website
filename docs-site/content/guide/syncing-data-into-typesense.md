@@ -82,7 +82,9 @@ for await (const event of stream) {
 }
 ```
 
-Note however that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
+If you want to see how syncing data into Typesense with Prisma Pulse looks like in practice, check out this [ready-to-run example](https://github.com/prisma/prisma-examples/tree/latest/pulse/product-search-with-typesense).
+
+It's important to note that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
 So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
 ## Full re-indexing
