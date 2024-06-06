@@ -67,7 +67,6 @@ curl 'http://localhost:8108/conversations/models' \
   -d '{
         "model_name": "vllm/NousResearch/Meta-Llama-3-8B-Instruct",
         "vllm_url": "http://localhost:8000",
-        "api_key": "VLLM_API_KEY",
         "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
         "max_bytes": 16384
       }'
