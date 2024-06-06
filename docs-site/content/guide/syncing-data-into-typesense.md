@@ -50,7 +50,7 @@ you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersi
 
 ### Using Prisma Pulse
 
-Pulse extends the Prisma ORM to simplify event-driven workflows for your database. It allows you to stream database changes to Typesense in real-time, keeping your search collections up-to-date with the latest data.
+[Prisma Pulse](https://www.prisma.io/data-platform/pulse?utm_source=typesense&utm_medium=typesense-docs) extends the [Prisma ORM](https://www.prisma.io/orm?utm_source=typesense&utm_medium=typesense-docs) to simplify event-driven workflows for your database. It allows you to stream database changes to Typesense in real-time, keeping your search collections up-to-date with the latest data.
 
 #### Setup at a glance
 
