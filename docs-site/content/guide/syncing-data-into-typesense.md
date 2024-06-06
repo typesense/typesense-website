@@ -28,7 +28,7 @@ If your primary database has the concept of change triggers or change data captu
 For eg, here are a couple of ways to sync data from [MongoDB](./mongodb-full-text-search.md), [DynamoDB](./dynamodb-full-text-search.md) and [Firestore](./firebase-full-text-search.md). 
 To sync data from MySQL using binlogs, there's [Maxwell](https://github.com/zendesk/maxwell) which will convert the binlogs into JSON and place it in a Kafka topic for you to consume.
 
-### ORM Hooks
+### Using ORM Hooks
 
 If you use an ORM, you can hook into callbacks provided by your ORM framework:
 
@@ -45,8 +45,13 @@ Read more about how to deploy Airbyte, and set it up [here](https://docs.airbyte
 
 ## Sync real-time changes
 
-In addition to the above, if you have a use case where you want to update some records in realtime, may be because you want a user's edit to a record to be immediately reflected in the search results (and not after say 10s or whatever your sync interval is in the above process),
+### Using the API
+
+In addition to [syncing changes periodically](#sync-changes-in-bulk-periodically), if you have a use case where you want to update some records in realtime, may be because you want a user's edit to a record to be immediately reflected in the search results (and not after say 10s or whatever your sync interval is in the above process),
 you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-a-single-document`">Single Document Indexing API</RouterLink>.
+
+It's important to note that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
+So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
 ### Using Prisma Pulse
 
@@ -83,9 +88,6 @@ for await (const event of stream) {
 ```
 
 If you want to see how syncing data into Typesense with Prisma Pulse looks like in practice, check out this [ready-to-run example](https://github.com/prisma/prisma-examples/tree/latest/pulse/product-search-with-typesense).
-
-It's important to note that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
-So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
 ## Full re-indexing
 
