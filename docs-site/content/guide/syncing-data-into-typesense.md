@@ -48,6 +48,40 @@ Read more about how to deploy Airbyte, and set it up [here](https://docs.airbyte
 In addition to the above, if you have a use case where you want to update some records in realtime, may be because you want a user's edit to a record to be immediately reflected in the search results (and not after say 10s or whatever your sync interval is in the above process),
 you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-a-single-document`">Single Document Indexing API</RouterLink>.
 
+### Using Prisma Pulse
+
+Pulse extends the Prisma ORM to simplify event-driven workflows for your database. It allows you to stream database changes to Typesense in real-time, keeping your search collections up-to-date with the latest data.
+
+#### Setup at a glance
+
+1. Prerequisites:
+   - Ensure you have Pulse set up and enabled alongside Typesense in your project. Read more on setting up Pulse in their [documentation](https://www.prisma.io/docs/pulse/getting-started).
+2. Stream database changes to Typesense:
+   Use Pulse's `.stream()` API to listen for database changes and sync them to your Typesense collections.
+
+Here's an example building on the `books` collection from the setup guide:
+
+```typescript
+const stream = await prisma.book.stream({ name: "book-events" });
+
+for await (const event of stream) {
+  switch (event.action) {
+    case "create":
+      const newBook = event.created; // Data of the newly created book record
+      await typesense.collections("books").documents().create(newBook);
+      break;
+    case "update":
+      const updatedBook = event.after; // Data of a book record after it has been updated
+      await typesense.collections("books").documents(updatedBook.id).update(updatedBook);
+      break;
+    case "delete":
+      const deletedBookId = event.deleted.id; // ID of the deleted book record
+      await typesense.collections("books").documents(deletedBookId).delete();
+      break;
+  }
+}
+```
+
 Note however that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
 So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
