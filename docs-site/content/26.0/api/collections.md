@@ -1097,8 +1097,8 @@ curl "http://localhost:8108/collections/companies" \
 **Definition**
 `PATCH ${TYPESENSE_HOST}/collections/:collection`
 
-:::tip
-The schema update operation is a synchronous blocking operation. 
+:::warning
+The schema update operation is a synchronous **blocking** operation. 
 
 When the update is in progress, all incoming writes to _that particular collection_ will wait for the schema update to finish. 
 So, we recommend updating fields one at a time, especially for large collections and during off-peak hours.
@@ -1142,18 +1142,20 @@ curl "http://localhost:8108/collections/companies" \
 
 ### Using an alias
 
-If you need to do zero-downtime schema changes, you could also re-create the collection fully and use 
+If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use 
 the [Collection Alias](./collection-alias.md) feature to do a zero-downtime switch over to the new collection:
 
-1. [Create your collection](#create-a-collection) as usual with a timestamped name. For eg: `movies_jan_1`
-2. [Create an alias](./collection-alias.md#create-or-update-an-alias) pointing to your collection. For eg: create an alias called `movies` pointing to `movies_jan_1`
-3. Use the collection alias in your application to search / index documents in your collection.
-4. When you need to make schema changes, create a new timestamped collection with the updated collection schema, for eg: `movies_feb_1` and reindex your data in it.
+Let's say you have a collection called `movies_jan_1` that you want to change the schema for.
+
+1. First [create an alias](./collection-alias.md#create-or-update-an-alias) pointing to your collection. For eg: create an alias called `movies` pointing to `movies_jan_1`. Use this collection alias in your application to search / index documents in your collection.
+2. Create a **new** timestamped collection with the updated collection schema. For eg: `movies_feb_1`.
+3. In your application, temporarily write to both the old collection and also to the new collection in parallel - essentially dual writes. Eg: Send writes both to the `movies_jan_1` collection and also to the new `movies_feb_1` collection.
+4. Now, upsert the data from your primary database into the new collection. Eg `movies_feb_1`.
 5. [Update the collection alias](./collection-alias.md#create-or-update-an-alias) to now point to the new collection. Eg: Update `movies` to now point to `movies_feb_1`.
-6. [Drop the old collection](#drop-a-collection), `movies_jan_1` in our example.
+6. Stop your application from sending writes to the old collection and [drop the old collection](#drop-a-collection), `movies_jan_1` in our example.
 
 Once you update the alias, any search / indexing operations will go to the new collection (eg: `movies_feb_1`) 
-without you having to do any application-side changes.
+without you having to do any additional application-side changes.
 
 ### Dynamic field additions
 
