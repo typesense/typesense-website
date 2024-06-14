@@ -162,6 +162,10 @@ let config = {
             ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
             ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
             ['/guide/docsearch', 'Search for Documentation Sites'],
+            [
+              '/guide/adding-laravel-scout-to-existing-project.md',
+              'Adding the Laravel Scout Typesense Driver to an Existing Project',
+            ],
           ],
         },
         {
