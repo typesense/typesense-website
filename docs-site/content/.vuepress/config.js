@@ -235,6 +235,8 @@ let config = {
               '/guide/reference-implementations/guitar-chords-search-in-different-js-frameworks',
               'Guitar Chords Search in different JS frameworks',
             ],
+            ['/guide/reference-implementations/address-autocomplete.md', 'Address autocomplete'],
+
             // [
             //   '/guide/reference-implementations/pg-essays-conversational-search',
             //   'Conversational Search with Paul Graham Essays',
