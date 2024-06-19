@@ -1,11 +1,18 @@
-# Adding the Laravel Scout Typesense Driver to an Existing Project
+# Laravel Full-Text Search
 
-[Laravel Scout](https://laravel.com/docs/11.x/scout) is a powerful tool that provides a simple, driver-based solution for adding full-text search to [Laravel Eloquent](https://laravel.com/docs/11.x/eloquent) ORM models. This guide will focus on how to add the Laravel Scout Typesense Driver to an existing Laravel project.
+[Laravel Scout](https://laravel.com/docs/11.x/scout) is a powerful package that provides a simple, driver-based solution for adding full-text search to [Laravel Eloquent](https://laravel.com/docs/11.x/eloquent) ORM models. 
 
+Laravel Scout has native support for Typesense and this guide will focus on how to add the Laravel Scout Typesense Driver to an existing Laravel project in order to add full-text search to your Laravel application.
 
 ## Prerequisites
 
-This guide will use [Laravel Sail](https://laravel.com/docs/11.x/sail), a CLI that enables you to run Laravel applications using Docker. Ensure you have Docker installed on your machine before proceeding. You can install Docker by following the instructions on the [official Docker website](https://docs.docker.com/get-docker/). To create a new Laravel project using Laravel Sail, you can follow the instructions in the [official Laravel documentation](https://laravel.com/docs/11.x/installation#docker-installation-using-sail). This guide will use a Linux environment, but you can adapt the commands to your operating system.
+This guide will use [Laravel Sail](https://laravel.com/docs/11.x/sail), a CLI that enables you to run Laravel applications using Docker. 
+
+Please ensure that you have Docker installed on your machine before proceeding. You can install Docker by following the instructions on the [official Docker website](https://docs.docker.com/get-docker/). 
+
+To create a new Laravel project using Laravel Sail, you can follow the instructions in the [official Laravel documentation](https://laravel.com/docs/11.x/installation#docker-installation-using-sail). 
+
+This guide will use a Linux environment, but you can adapt the commands to your operating system.
 
 ## Step 1: Create a New Laravel Project Using Laravel Sail
 
@@ -72,7 +79,7 @@ You can now access the Laravel application by visiting `http://localhost` in you
 
 ## Step 2: Install the Laravel Scout Typesense Driver
 
-To install the Laravel Scout Typesense Driver, you need to add the package to your Laravel project. You can do this by running the following command: 
+To install the Laravel Scout Typesense Driver, let's add the package to your Laravel project. You can do this by running the following command: 
 
 <Tabs :tabs="['Shell']">
 
@@ -121,7 +128,7 @@ NOTE: The default Typesense in Laravel Scout version is `0.25.2`. If you want to
 
 </Tabs>
 
-In order for the changes to take effect, you need to rebuild the Docker containers:
+In order for the changes to take effect, let's rebuild the Docker containers:
 
 <Tabs :tabs="['Shell']">
 
@@ -139,7 +146,7 @@ In order for the changes to take effect, you need to rebuild the Docker containe
 
 ## Step 3: Install Laravel Scout
 
-As per [Laravel Sail's documentation](https://laravel.com/docs/11.x/sail#executing-composer-commands), to install Laravel Scout via the Composer package manager, you need to run the following command:
+As per [Laravel Sail's documentation](https://laravel.com/docs/11.x/sail#executing-composer-commands), to install Laravel Scout via Composer, let's run the following command:
 
 <Tabs :tabs="['Shell']">
 
@@ -168,7 +175,7 @@ You'll also need to install the [Official PHP client for the Typesense API](http
 </Tabs>
 
 
-Next, you need to publish the Laravel Scout configuration file:
+Next, let's publish the Laravel Scout configuration file:
 
 <Tabs :tabs="['Shell']">
 
@@ -194,6 +201,7 @@ return [
     ...
     'driver' => env('SCOUT_DRIVER', 'typesense'),
     ...
+];
 ```
 
 </template>
@@ -202,8 +210,8 @@ return [
 
 ## Step 4: Create a Model and Migrate Data
 
-Next, you need to add some data to the PostgreSQL database. You can use any dataset you want, but this guide will use Terenci Claramunt's ([@terencicp](https://github.com/terencicp)) public dataset of Steam Games released from 2013 to 2023, which you can find [here](https://github.com/typesense/showcase-laravel-steam-games-search/blob/master/data/games.csv), and save it in the `data` folder.
-To use it, you'll have to create an Eloquent model for the Steam Games, and create a migration file, along with a model file and a controller. To do so, you can use the following command:
+Next, let's add some data to the PostgreSQL database. You can use any dataset you want, but this guide will use Terenci Claramunt's ([@terencicp](https://github.com/terencicp)) public dataset of Steam Games released from 2013 to 2023, which you can find [here](https://github.com/typesense/showcase-laravel-steam-games-search/blob/master/data/games.csv), and save it in the `data` folder.
+To use it, you'll have to create an Eloquent model for the Steam Games, and create a migration file, along with a model file and a controller. To do so, let's use the following command:
 
 <Tabs :tabs="['Shell']">
 
@@ -219,7 +227,7 @@ To use it, you'll have to create an Eloquent model for the Steam Games, and crea
 
 </Tabs>
 
-This command will create a new Eloquent model named `Game`, along with a migration file and a resource controller. You can then modify the model file `app/Models/Game.php`to include the necessary columns for the Steam Games dataset:
+This command will create a new Eloquent model named `Game`, along with a migration file and a resource controller. Let's now modify the model file `app/Models/Game.php` to include the necessary columns for the Steam Games dataset:
 
 <Tabs :tabs="['PHP']">
 
@@ -352,7 +360,7 @@ We've created a [simple bash script](https://github.com/typesense/showcase-larav
 
 ## Step 5: Index the Data Using Laravel Scout
 
-To index the data using Laravel Scout, you need to add the `Searchable` trait to the `Game` model, and create a `toSearchableArray` method that returns the indexable data array for the model. This is required only for Models that have a different schema in the database than in Typesense, e.g. Models that include Dates. You can modify the `app/Models/Game.php` file as follows:
+To index the data using Laravel Scout, let's add the `Searchable` trait to the `Game` model, and create a `toSearchableArray` method that returns the indexable data array for the model. This is required only for Models that have a different schema in the database than in Typesense, e.g. Models that include Dates. You can modify the `app/Models/Game.php` file as follows:
 
 <Tabs :tabs="['PHP']">
 
@@ -436,7 +444,7 @@ class Game extends Model
 
 </Tabs>
 
-And then define the schema in the `config/scout.php` file:
+And then define the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#with-pre-defined-schema`">Collection Schema</RouterLink> in the `config/scout.php` file:
 
 <Tabs :tabs="['PHP']">
 
@@ -556,4 +564,4 @@ Game::search('persona')->get()->toArray();
 </Tabs>
 
 
-You can then proceed as you prefer. You can create a controller to handle the search requests, or use the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to use Instantsearch.js on your frontend. If you prefer using using a Javascript framework, you can use [Inertia.js](https://inertiajs.com/) to create a Vue.js, Svelte or React.js frontend. This [demo](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter.
+You can then proceed as you prefer. You can create a controller to handle the search requests, or use the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to use Instantsearch.js on your frontend. If you prefer using a Javascript framework, you can use [Inertia.js](https://inertiajs.com/) to create a Vue.js, Svelte or React.js frontend. This [demo](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter.
