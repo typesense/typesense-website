@@ -523,7 +523,9 @@ return [
 
 </Tabs>
 
-After which, you can import the data into Typesense by running the following command:
+## Step 6: Backfilling Existing Data
+
+You can import the data into Typesense by running the following command:
 
 <Tabs :tabs="['Shell']">
 
