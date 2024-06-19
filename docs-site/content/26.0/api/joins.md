@@ -83,8 +83,74 @@ the case of multiple references, i.e. one document being related to zero or more
 
 ## One-to-many relation
 
-Let's suppose that we have a `products` collection, and we want to offer personalized pricing for customers, 
-i.e. each product would have a different price for every customer. The join feature comes handy here.
+### Simple Example
+
+For a simple example, let's suppose that we have a `orders` collection, and we want to keep track of different orders for each customer, 
+i.e. each customer could have a number of different orders.
+
+The schema of the `customers` collection will look like this
+
+```json
+{
+  "name":  "customers",
+  "fields": [
+    {"name": "forename", "type": "string"},
+    {"name": "surname", "type": "string"},
+    {"name": "email", "type": "string"}
+  ]
+}
+```
+
+Let's create a `orders` collection that stores a order's details, and it will
+also reference the corresponding user that placed it in the user collection.
+
+```json
+{
+  "name":  "orders",
+  "fields": [
+    {"name": "total_price", "type": "float"},
+    {"name": "initial_date", "type": "int64"},
+    {"name": "accepted_date", "type": "int64", "optional": true},
+    {"name": "completed_date", "type": "int64", "optional": true},
+    {"name": "customer_id", "type": "string", "reference": "customers.id"}
+  ] 
+}
+```
+
+We can now search the `customers` collection, and filter for the orders for a particular customer from  
+the `orders` collection via `filter_by`:
+
+```json
+{
+    "q":"*",
+    "collection":"customers",
+    "filter_by":"$orders(customer_id:=customer_a)"
+}
+```
+
+We can filter by other fields as well, like fetching customers with orders with a total price under `100`:
+
+```json
+{
+    "q": "*",
+    "collection": "customers",
+    "filter_by": "$orders(total_price:<100)"
+}
+```
+
+By default, the above queries will include all the fields from the referenced `orders` 
+collection. To include only the `total_price` field from the referenced collection, you could do:
+
+```json
+{
+  "include_fields": "$orders(total_price)" 
+}
+```
+
+### Specialized Example
+
+For a more specialized example, suppose that we have a `products` collection, and we want to offer personalized pricing for customers, 
+i.e. each product would have a different price for every customer. The join feature comes handy here too.
 
 The schema of the `products` collection will look like this
 
@@ -134,8 +200,7 @@ Want to fetch products with price under `100`? That's easy to do too.
 }
 ```
 
-By default, the above queries will include all the fields from the referenced `customer_product_prices` 
-collection. To include only the `custom_price` field from the referenced collection, you could do:
+Similarly with the [simpler example](#simple-example), you can include only the `custom_price` field from the referenced collection:
 
 ```json
 {
