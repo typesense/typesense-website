@@ -2201,7 +2201,8 @@ let searchRequests = {
     {
       'collection': 'docs',
       'q': '*',
-      'vector_query' : 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' // <=== Be sure to replace `embedding` with the name of the field that stores your embeddings. 
+      'vector_query' : 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', // <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'exclude_fields': 'embedding', // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth. 
     }
   ]
 }
@@ -2219,7 +2220,8 @@ $searchRequests = [
     [
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'exclude_fields' => 'embedding' // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
     ]
   ]
 ];
@@ -2239,7 +2241,8 @@ search_requests = {
     {
       'collection': 'docs',
       'q' : '*',
-      'vector_query': 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'vector_query': 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'exclude_fields': 'embedding' # <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
     }
   ]
 }
@@ -2258,7 +2261,8 @@ search_requests = {
     {
       'collection' => 'docs',
       'q' => '*',
-      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)' # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'vector_query' => 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', # <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'exclude_fields' => 'embedding' # <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
     }
   ]
 }
@@ -2278,6 +2282,7 @@ final searchRequests = {
       'collection': 'docs',
       'q': '*',
       'vector_query': 'embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)', //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      'exclude_fields': 'embedding' // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
     }
   ]
 };
@@ -2297,6 +2302,7 @@ HashMap<String,String > search1 = new HashMap<>();
 search1.put("collection","docs");
 search1.put("q","*");
 search1.put("vector_query", "embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+search1.put("exclude_fields", "embedding"); // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
 
 List<HashMap<String, String>> searches = new ArrayList<>();
 searches.add(search1);
@@ -2322,23 +2328,20 @@ curl 'http://localhost:8108/multi_search' \
               {
                 "collection": "docs",
                 "q": "*",
-                "vector_query": "embedding:([0.96826,0.94,0.39557,0.306488], k:100)"
+                "vector_query": "embedding:([0.96826,0.94,0.39557,0.306488], k:100)",
+                "exclude_fields": "embedding"
               }
             ]
           }'
 
 # Be sure to replace `embedding` with the name of the field that stores your embeddings.
+# We use `exclude_fields` so Typesense doesn't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
 ```
 
   </template>
 </Tabs>
 
 NOTE: If both `per_page` and `k` parameters are provided, the larger value is used.
-
-:::tip
-Since vector search queries tend to be large because of the large dimension of the query vector, we are
-using the `multi_searc`h end-point that sends the search parameters as a POST request body.
-:::
 
 Every matching hit in the response will contain a `vector_distance` field that indicates how "close" the document's
 vector value is to the query vector. Typesense uses the cosine similarity, so this distance will be a value between 
@@ -2348,6 +2351,19 @@ vector value is to the query vector. Typesense uses the cosine similarity, so th
 - If the document's vector is extremely different from the query vector, then the distance will be `2`.
 
 The hits are automatically sorted in ascending order of the `vector_distance`, i.e. best matching documents appear first.
+
+:::tip
+Since vector search queries tend to be large because of the large dimension of the query vector, we are
+using the `multi_search` end-point that sends the search parameters as a POST request body.
+:::
+
+:::warning Network Bandwidth Optimization
+By default Typesense returns all fields in the document as part of the search API response.
+
+So if your documents contain a vector field, this could lead to a lot of floating point vector data returned by Typesense for each search query, unnecessarily, eating into your network bandwidth and could lead to a lot of wasted CPU cycles.
+
+To prevent this, you want to add `exclude_fields: "your_embedding_field_name"` as a search parameter.
+:::
 
 **Sample Response**
 
