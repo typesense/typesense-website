@@ -523,6 +523,8 @@ return [
 
 </Tabs>
 
+After setting up the Laravel Scout Driver, all subsequent model changes will be automatically synced with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout.
+
 ## Step 6: Backfilling Existing Data
 
 You can import the data into Typesense by running the following command:
