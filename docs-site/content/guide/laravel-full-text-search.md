@@ -522,7 +522,73 @@ return [
 
 </Tabs>
 
-After setting up the Laravel Scout Driver, all subsequent model changes will be automatically synced with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout.
+After setting up the Laravel Scout Driver, all subsequent model changes will be automatically synced with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout. 
+To verify that it's working, let's create a new record in the `Games` table. We'll be using [Laravel Tinker](https://github.com/laravel/tinker), a REPL enabling us to write and execute PHP code interactively. You can run the following command to open Laravel Tinker:
+
+<Tabs :tabs="['Shell']">
+
+<template v-slot:Shell>
+
+```shell
+./vendor/bin/sail artisan tinker
+```
+
+</template>
+
+</Tabs>
+
+And then create a new record in the `Games` table:
+
+<Tabs :tabs="['PHP']">
+
+<template v-slot:PHP>
+
+```php
+use App\Models\Game;
+
+$game = Game::create([
+    'name' => 'Typesense is awesome',
+    'release_date' => now(),
+    'price' => 10.99,
+    'positive' => 0,
+    'negative' => 0,
+    'app_id' => 99999,
+    'min_owners' => 0,
+    'max_owners' => 0,
+    'hltb_single' => 0
+]);
+```
+
+</template>
+
+</Tabs>
+
+You can then run a search query to verify that the record has been indexed in Typesense:
+
+<Tabs :tabs="['Shell', 'PHP']">
+
+<template v-slot:Shell>
+
+```shell
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/games/documents/search?q=typesense&query_by=name"
+```
+
+</template>
+
+<template v-slot:PHP>
+
+```php
+use App\Models\Game;
+
+Game::search('typesense')->get()->toArray();
+```
+
+</template>
+
+</Tabs>
+
+You should see the record you created in the search results.
 
 ## Step 6: Backfilling Existing Data
 
