@@ -16,7 +16,6 @@ This guide will use a Linux environment, but you can adapt the commands to your 
 
 ## Step 1: Create a New Laravel Project Using Laravel Sail
 
-
 Laravel Sail by default uses a [set of default services](https://laravel.com/docs/11.x/installation#choosing-your-sail-services), if the user doesn't specify any specific services. For this guide, we will use the PostgreSQL database service. This command is used to create a new Laravel project using Laravel Sail:
 
 <Tabs :tabs="['Shell']">
