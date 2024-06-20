@@ -154,17 +154,6 @@ let config = {
           ],
         },
         {
-          title: 'Walk-throughs',
-          collapsable: false, // optional, defaults to true
-          children: [
-            ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
-            ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
-            ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
-            ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
-            ['/guide/docsearch', 'Search for Documentation Sites'],
-          ],
-        },
-        {
           title: 'How-To-s', // required
           collapsable: false, // optional, defaults to true
           children: [
@@ -184,6 +173,18 @@ let config = {
               'Role-Based Access Control for Admin Dashboard (Typesense Cloud)',
             ],
             ['/guide/typesense-cloud/single-sign-on', 'Single Sign-On (Typesense Cloud)'],
+          ],
+        },
+        {
+          title: 'Walk-throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
+            ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
+            ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+            ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
+            ['/guide/docsearch', 'Search for Documentation Sites'],
+            ['/guide/laravel-full-text-search.md', 'Laravel Full Text Search'],
           ],
         },
         {
