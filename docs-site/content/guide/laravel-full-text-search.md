@@ -635,5 +635,8 @@ Game::search('persona')->get()->toArray();
 
 </Tabs>
 
+You can then proceed as you prefer. You can create a controller to handle the search requests, or use the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to use Instantsearch.js on your frontend. If you prefer using a Javascript framework, you can use [Inertia.js](https://inertiajs.com/) to create a Vue.js, Svelte or React.js frontend.
 
-You can then proceed as you prefer. You can create a controller to handle the search requests, or use the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to use Instantsearch.js on your frontend. If you prefer using a Javascript framework, you can use [Inertia.js](https://inertiajs.com/) to create a Vue.js, Svelte or React.js frontend. This [demo](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter.
+## UI Examples
+
+This [demo](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter.
