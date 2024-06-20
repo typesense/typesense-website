@@ -154,37 +154,32 @@ let config = {
           ],
         },
         {
-          title: 'How-To-s', // required
+          title: 'Configuration', // required
           collapsable: false, // optional, defaults to true
           children: [
-            ['/guide/high-availability', 'High Availability'],
-            ['/guide/typesense-cloud/search-delivery-network', 'Search Delivery Network (Typesense Cloud)'],
-            ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/system-requirements', 'System Requirements'],
-            ['/guide/organizing-collections', 'Organizing Collections'],
-            ['/guide/syncing-data-into-typesense', 'Syncing Data into Typesense'],
-            ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
-            ['/guide/data-access-control', 'Managing Access to Data'],
-            ['/guide/running-in-production', 'Running in Production'],
+            ['/guide/high-availability', 'High Availability'],
+            ['/guide/updating-typesense', 'Updating Typesense'],
             ['/guide/backups', 'Backups'],
-            ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
-            [
-              '/guide/typesense-cloud/role-based-access-control-admin-dashboard',
-              'Role-Based Access Control for Admin Dashboard (Typesense Cloud)',
-            ],
-            ['/guide/typesense-cloud/single-sign-on', 'Single Sign-On (Typesense Cloud)'],
+            ['/guide/typesense-cloud/search-delivery-network', 'Search Delivery Network (Typesense Cloud)'],
           ],
         },
         {
-          title: 'Walk-throughs',
+          title: 'Data Management', // required
           collapsable: false, // optional, defaults to true
           children: [
-            ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
-            ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
-            ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
-            ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
-            ['/guide/docsearch', 'Search for Documentation Sites'],
-            ['/guide/laravel-full-text-search.md', 'Laravel Full Text Search'],
+            ['/guide/organizing-collections', 'Organizing Collections'],
+            ['/guide/syncing-data-into-typesense', 'Syncing Data into Typesense'],
+            ['/guide/data-access-control', 'Managing Access to Data'],
+          ],
+        },
+        {
+          title: 'Best Practices',
+          collapsable: false,
+          children: [
+            ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
+            ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
+            ['/guide/running-in-production', 'Running in Production'],
           ],
         },
         {
@@ -197,12 +192,36 @@ let config = {
             ['/guide/personalization', 'Personalization'],
             ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/query-suggestions', 'Query Suggestions'],
+            ['/guide/github-actions', 'Running Tests in Github Actions'],
+            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
+          ],
+        },
+
+        {
+          title: 'Walk-Throughs',
+          collapsable: false, // optional, defaults to true
+          children: [
+            ['/guide/firebase-full-text-search', 'Firebase Full Text Search'],
+            ['/guide/dynamodb-full-text-search', 'AWS DynamoDB Full Text Search'],
+            ['/guide/mongodb-full-text-search', 'MongoDB Full Text Search'],
+            ['/guide/supabase-full-text-search', 'Supabase Full Text Search'],
+            ['/guide/laravel-full-text-search.md', 'Laravel Full Text Search'],
+            ['/guide/docsearch', 'Search for Documentation Sites'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
-            ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
-            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
-            ['/guide/github-actions', 'Running Tests in Github Actions'],
+          ],
+        },
+        {
+          title: 'Teams',
+          collapsable: false,
+          children: [
+            ['/guide/typesense-cloud/team-accounts', 'Team Accounts (Typesense Cloud)'],
+            [
+              '/guide/typesense-cloud/role-based-access-control-admin-dashboard',
+              'Role-Based Access Control for Admin Dashboard (Typesense Cloud)',
+            ],
+            ['/guide/typesense-cloud/single-sign-on', 'Single Sign-On (Typesense Cloud)'],
           ],
         },
         {
