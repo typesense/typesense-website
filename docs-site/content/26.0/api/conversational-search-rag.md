@@ -18,7 +18,7 @@ Instead of having to build your own RAG pipeline, Typesense essentially has buil
 
 Let's start by creating a conversation model resource, that will hold the model name and parameters.
 
-Typesense currently supports OpenAI and Cloudflare hosted Large Language Models. 
+Typesense currently supports OpenAI, Cloudflare and vLLM hosted Large Language Models.
 
 <Tabs :tabs="['OpenAI', 'Cloudflare']">
 
@@ -57,17 +57,34 @@ curl 'http://localhost:8108/conversations/models' \
 
 </template>
 
+<template v-slot:vLLM>
+
+```shell
+curl 'http://localhost:8108/conversations/models' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "model_name": "vllm/NousResearch/Meta-Llama-3-8B-Instruct",
+        "vllm_url": "http://localhost:8000",
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
+        "max_bytes": 16384
+      }'
+```
+
+</template>
 </Tabs>
 
 #### Parameters
 
 | Parameter     | Description                                                                                                                                               |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| model_name    | Name of the LLM model offered by OpenAI or Cloudflare                                                                                                     |
+| model_name    | Name of the LLM model offered by OpenAI, Cloudflare or vLLM                                                                                               |
 | api_key       | The LLM service's API Key                                                                                                                                 |
 | account_id    | LLM service's account ID (only applicable for Cloudflare)                                                                                                 |
 | system_prompt | The system prompt that contains special instructions to the LLM                                                                                           |
 | max_bytes     | The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. |
+| vllm_url      | URL of vLLM service                                                                                                                                       |
 
 
 **Response:**
