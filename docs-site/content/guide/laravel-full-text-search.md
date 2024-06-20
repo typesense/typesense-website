@@ -232,7 +232,7 @@ This command will create a new Eloquent model named `Game`, along with a migrati
 
 <template v-slot:PHP>
 
-```php{18,25-36,43-53}
+```php{17,24-34,41-50}
 <?php
 
 namespace App\Models;
@@ -298,7 +298,7 @@ And modify the migration file `database/migrations/**timestamp**_create_games_ta
 
 <template v-slot:PHP>
 
-```php{17-25}
+```php{16-24}
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -365,7 +365,7 @@ To index the data using Laravel Scout, let's add the `Searchable` trait to the `
 
 <template v-slot:PHP>
 
-```php{7,44-55}
+```php{7,42-53}
 <?php
 
 namespace App\Models;
@@ -449,7 +449,7 @@ And then define the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersio
 
 <template v-slot:PHP>
 
-```php{3,9-70}
+```php{3,9-64}
 <?php
 
 use App\Models\Game;
@@ -522,7 +522,8 @@ return [
 
 </Tabs>
 
-After setting up the Laravel Scout Driver, all subsequent model changes will be automatically synced with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout. 
+After setting up the Laravel Scout Driver, all subsequent model changes will be **automatically synced** with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout. 
+
 To verify that it's working, let's create a new record in the `Games` table. We'll be using [Laravel Tinker](https://github.com/laravel/tinker), a REPL enabling us to write and execute PHP code interactively. You can run the following command to open Laravel Tinker:
 
 <Tabs :tabs="['Shell']">
@@ -565,7 +566,7 @@ $game = Game::create([
 
 You can then run a search query to verify that the record has been indexed in Typesense:
 
-<Tabs :tabs="['Shell', 'PHP']">
+<Tabs :tabs="['PHP', 'Shell']">
 
 <template v-slot:Shell>
 
@@ -590,9 +591,11 @@ Game::search('typesense')->get()->toArray();
 
 You should see the record you created in the search results.
 
-## Step 6: Backfilling Existing Data
+## Step 6: Backfill Existing Data
 
-You can import the data into Typesense by running the following command:
+Our setup so far will cause data changes to be auto-synced into Typesense for any changes _going forward_.
+
+To backfill your existing data in your tables into Typesense, you can run this command:
 
 <Tabs :tabs="['Shell']">
 
@@ -608,7 +611,7 @@ You can import the data into Typesense by running the following command:
 
 To test that everything is working correctly, you can run a search query:
 
-<Tabs :tabs="['Shell', 'PHP']">
+<Tabs :tabs="['PHP', 'Shell']">
 
 <template v-slot:Shell>
 
