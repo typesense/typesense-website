@@ -663,7 +663,7 @@ You should see the record you created in the search results.
 
 ### Dynamic Search Parameters
 
-You can also set search parameters for searching through your collections on the fly. For example, you can set the `query_by` parameter to search by a game's Steam App ID only:
+You can also set <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#search-parameters`">search parameters</RouterLink> for searching through your collections on the fly. For example, you can set the `query_by` parameter to search by a game's Steam App ID only:
 
 <Tabs :tabs="['PHP']">
 
@@ -729,6 +729,6 @@ Game::search('persona')->get()->toArray();
 
 You can then proceed as you prefer. You can create a controller to handle the search requests, or use the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) to use Instantsearch.js on your frontend. If you prefer using a Javascript framework, you can use [Inertia.js](https://inertiajs.com/) to create a Vue.js, Svelte or React.js frontend.
 
-## UI Examples
+## Examples
 
-This [demo](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter.
+This [Demo Laravel app](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter, and uses Laravel Scout to sync the data from Postgres to Typesense.
