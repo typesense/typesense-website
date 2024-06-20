@@ -661,6 +661,28 @@ Game::search('typesense')->get()->toArray();
 
 You should see the record you created in the search results.
 
+### Dynamic Search Parameters
+
+You can also set search parameters for searching through your collections on the fly. For example, you can set the `query_by` parameter to search by a game's Steam App ID only:
+
+<Tabs :tabs="['PHP']">
+
+<template v-slot:PHP>
+
+```php
+
+use App\Models\Game;
+
+Game::search('99999')->options([
+    'query_by' => 'app_id'
+])->get()->toArray();
+
+```
+
+</template>
+
+</Tabs>
+
 ## Step 6: Backfill Existing Data
 
 Our setup so far will cause data changes to be auto-synced into Typesense for any changes _going forward_.
