@@ -143,7 +143,7 @@ In order for the changes to take effect, let's rebuild the Docker containers:
 
 </Tabs>
 
-## Step 3: Install Laravel Scout
+## Step 3: Install and Configure Laravel Scout
 
 As per [Laravel Sail's documentation](https://laravel.com/docs/11.x/sail#executing-composer-commands), to install Laravel Scout via Composer, let's run the following command:
 
@@ -206,6 +206,76 @@ return [
 </template>
 
 </Tabs>
+
+### Configure Queueing (Optional)
+
+While not required, you can configure Laravel Scout to handle indexing and searching using [queues](https://laravel.com/docs/11.x/scout#queueing). For this guide, we'll use the `database` queue driver, but you can use a plethora of different drivers mentioned in the [official Laravel documentation](https://laravel.com/docs/11.x/queues#driver-prerequisites). To configure the `database` queue driver, let's ensure that the database includes a table for the jobs by running the following commands:
+
+<Tabs :tabs="['Shell']">
+
+<template v-slot:Shell>
+
+```shell
+./vendor/bin/sail artisan make:queue-table
+
+./vendor/bin/sail artisan migrate
+```
+
+</template>
+
+</Tabs>
+
+Next, let's configure the `SCOUT_CONNECTION` environment variable in the `.env` file to use the `database` queue driver:
+
+<Tabs :tabs="['Shell']">
+
+<template v-slot:Shell>
+
+```shell
+echo "SCOUT_CONNECTION=database" >> .env
+```
+
+</template>
+
+</Tabs>
+
+And finally, let's configure the `config/scout.php` file to use the `database` queue driver:
+
+<Tabs :tabs="['PHP']">
+
+<template v-slot:PHP>
+
+```php
+...
+return [
+    ...
+    'queue' => [
+        'connection' => env('SCOUT_CONNECTION', false),
+        'queue' => 'scout',
+    ],
+    ...
+];
+```
+
+</template>
+
+</Tabs>
+
+You can then run the queue worker to start processing the queued jobs:
+
+<Tabs :tabs="['Shell']">
+
+<template v-slot:Shell>
+
+```shell
+./vendor/bin/sail artisan queue:work database --queue=scout
+```
+
+</template>
+
+</Tabs>
+
+This will start the queue worker in the background, processing the queued jobs. For more info regarding queue workers and their benefits, you can refer to the [official Laravel documentation](https://laravel.com/docs/11.x/queues).
 
 ## Step 4: Create a Model and Migrate Data
 
