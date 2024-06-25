@@ -54,6 +54,14 @@ You can use the `token_separators` and `symbols_to_index` parameters to control 
 
 [Here](./tips-for-searching-common-types-of-data.md) is a detailed article with examples on how to use these two parameters, when searching through different types of data.
 
+### How do I handle singular / plural variations of a keyword?
+
+You can use the stemming feature to allow search queries that contain variations of a word in your dataset (eg: singular / plurals, tense changes, etc) to still match the record.
+
+For eg: searching for `walking`, will also return results with `walk`, `walked`, `walks`, etc when stemming is enabled.
+
+You can enable stemming by setting the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-parameters`">`stem: true`</RouterLink> parameter in the field definition in the collection schema. 
+
 ### When I search for a short string, I don't get all results. How do I address this?
 
 By default, Typesense only considers the top 4 prefix matches, for performance reasons.
