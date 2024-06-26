@@ -401,7 +401,7 @@ Remember to never expose your main search key client-side, since exposing the ma
 
 ```js
 keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124')
+client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'company_id:124'})
 ```
 
   </template>
@@ -410,7 +410,7 @@ client.keys().generateScopedSearchKey(keyWithSearchPermissions, {'filter_by': 'c
 
 ```php
 $keyWithSearchPermissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-$client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124')
+$client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' => 'company_id:124'])
 ```
 
   </template>
@@ -418,7 +418,7 @@ $client->keys->generateScopedSearchKey($keyWithSearchPermissions, ['filter_by' =
 
 ```py
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124")
+client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_by": "company_id:124"})
 ```
 
   </template>
@@ -426,7 +426,7 @@ client.keys().generate_scoped_search_key(key_with_search_permissions, {"filter_b
 
 ```rb
 key_with_search_permissions = 'RN23GFr1s6jQ9kgSNg2O7fYcAUXU7127'
-client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124')
+client.keys().generate_scoped_search_key(key_with_search_permissions, {'filter_by': 'company_id:124'})
 ```
 
   </template>
