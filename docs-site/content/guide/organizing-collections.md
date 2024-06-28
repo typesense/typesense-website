@@ -90,7 +90,7 @@ you could move just that user's data into a new collection, while leaving all ot
 
 ## Single vs Multiple Clusters
 
-There are a couple of scenarios were multiple clusters could be beneficial:
+There are a couple of scenarios where multiple clusters could be beneficial:
 
 **Multiple Environments**: Read more [above](#handling-dev-staging-prod-environments)
 
