@@ -51,11 +51,11 @@ Requests are first sent to the Nearest Node endpoint, and if it fails for some r
 const Typesense = require('typesense')
 
 let client = new Typesense.Client({
-  'nearestNode': { 'host': 'xxx.a1.typesense.net', 'port': '443', 'protocol': 'https' }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
+  'nearestNode': { 'host': 'xxx.a1.typesense.net', 'port': 443, 'protocol': 'https' }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
   'nodes': [
-    { 'host': 'xxx-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'xxx-2.a1.typesense.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'xxx-3.a1.typesense.net', 'port': '443', 'protocol': 'https' },
+    { 'host': 'xxx-1.a1.typesense.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'xxx-2.a1.typesense.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'xxx-3.a1.typesense.net', 'port': 443, 'protocol': 'https' },
   ],
   'apiKey': '<API_KEY>',
   'connectionTimeoutSeconds': 2

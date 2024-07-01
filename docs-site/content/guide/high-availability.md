@@ -221,9 +221,9 @@ const Typesense = require('typesense')
 
 let client = new Typesense.Client({
   'nodes': [
-    { 'host': 'typesense-1.example.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'typesense-2.example.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'typesense-3.example.net', 'port': '443', 'protocol': 'https' },
+    { 'host': 'typesense-1.example.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'typesense-2.example.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'typesense-3.example.net', 'port': 443, 'protocol': 'https' },
   ],
   'apiKey': '<API_KEY>',
   'connectionTimeoutSeconds': 2
@@ -376,11 +376,11 @@ In Typesense Cloud, you also want to specify the individual hostnames in additio
 const Typesense = require('typesense')
 
 let client = new Typesense.Client({
-  'nearestNode': { 'host': 'xxx.a1.typesense.net', 'port': '443', 'protocol': 'https' }, // This is the special Load Balanced hostname that you'll see in the Typesense Cloud dashboard if you turn on High Availability
+  'nearestNode': { 'host': 'xxx.a1.typesense.net', 'port': 443, 'protocol': 'https' }, // This is the special Load Balanced hostname that you'll see in the Typesense Cloud dashboard if you turn on High Availability
   'nodes': [
-    { 'host': 'xxx-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'xxx-2.a1.typesense.net', 'port': '443', 'protocol': 'https' },
-    { 'host': 'xxx-3.a1.typesense.net', 'port': '443', 'protocol': 'https' },
+    { 'host': 'xxx-1.a1.typesense.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'xxx-2.a1.typesense.net', 'port': 443, 'protocol': 'https' },
+    { 'host': 'xxx-3.a1.typesense.net', 'port': 443, 'protocol': 'https' },
   ],
   'apiKey': '<API_KEY>',
   'connectionTimeoutSeconds': 2
