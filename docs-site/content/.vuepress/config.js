@@ -232,6 +232,7 @@ let config = {
             ['/guide/reference-implementations/typesense-autocomplete-js', 'Autocomplete.js with Typesense'],
             ['/guide/reference-implementations/hn-comments-semantic-hybrid-search', 'Semantic + Hybrid Search'],
             ['/guide/reference-implementations/laravel-scout-integration', 'Laravel Scout Integration'],
+            ['/guide/reference-implementations/joins', 'JOINs with Django'],
             [
               '/guide/reference-implementations/guitar-chords-search-in-different-js-frameworks',
               'Guitar Chords Search in different JS frameworks',
