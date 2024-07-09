@@ -214,9 +214,9 @@ traffic is automatically re-routed to the next closest node that is healthy serv
 So specifying fallback nodes in the client configuration is optional (but still recommended when a client library supports it), as traffic re-routing in error scenarios happens on the server-side. 
 
 In Typesense Cloud SDN clusters provisioned **before Jun 16, 2022**,
-the nearest node endpoint will always resolve to the node that's closest to the user, regardless of whether the node is healthy or not.
+the nearest node endpoint will resolve to the node that's closest to the user, regardless of whether the node is healthy or not.
 So you would have to rely on client-side load-balancing and the fallback nodes mentioned above to route requests away from unhealthy nodes.
 In this case, specifying both the nearest node and fallback node is required in the client libraries.  
 
-If you'd like to enable automatic re-routing for your existing SDN cluster provisioned before Jun 16, 2022, please reach out to us at support at typesense d0t org with your Cluster ID.
+If you'd like to enable automatic re-routing (server-side load-balancing) for your existing SDN cluster provisioned before Jun 16, 2022, you can do that by going to your Cluster Dashboard > Cluster Configuration > Modify and then enable "Load Balancing" and schedule the change.
 :::
