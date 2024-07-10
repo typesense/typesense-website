@@ -370,6 +370,9 @@ the max range value is omitted so that the `others` facet label will cover all v
 }
 ```
 
+Faceting by range requires the field to have `sort` property enabled. This is enabled by default for all numerical fields, 
+unless you've explicitly configured otherwise.
+
 🔗 You'll find detailed documentation for `facet_by` in the [Faceting Parameters](#faceting-parameters) table above.
 
 ## Sort Results
