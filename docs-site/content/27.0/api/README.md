@@ -19,15 +19,55 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- 
+- Enable/disable typo tolerance on numerical and alphanumerical words in the query via the `enable_typos_for_numerical_tokens` and
+  `enable_typos_for_alpha_numerical_tokens` search parameters. Defaults to `true` for both parameters.
+- Storing the history of the conversational search feature as a regular Typesense collection.
+- Support synonyms on query prefixes and typo-corrected query tokens via the `synonym_prefix` 
+  and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
+- Support nested reference collections in `include_fields` search parameter, e.g. `$Coll_B(title, $Coll_A(title))`
+- Customization of faceting index used for search via the `facet_index_type` parameter.
+- Support `sort_by` of nested joined collection.
+- Allow joining in export of documents.
+- Add `sum_score` mode for `text_match_type` which sums the field-level text match scores to arrive at a document-level score.
 
 ### Enhancements
 
-- 
+- Added `enable_synonyms` boolean flag to enable/disable the application of synonyms during search (default: `true`).
+- Allow `filter_curated_hits` search parameter to be applicable to pinned hits as well.
+- Added `filter-by-max-ops` server-side flag that can customize the maximum number of operators that can be present 
+  in a `filter_by` clause (default: `100`).
+- Collection listing API now respects the collections allowed in the API key associated with the request.
+- Use 64K page size for Jemalloc on ARM64 / Linux.
+- Added `--max-per-page` server-side flag that increases the number of hits that can be fetched within a single page. Default: `250`. 
+- Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
+- Log in-flight search queries during a crash.
+- Added search parameter `enable_analytics` that prevents the given query from being used for analytics aggregation.
+- Suppress punctuations and non-speech tokens from appearing in voice search (e.g. `hmm`).
+- Support array fields in `facet_return_parent` search parameter. 
+- Increase max length of facet value stored to `255` characters.
+- Allow special characters in range facet labels.
+- Added API key support for vLLM conversation models.
+- Allow dynamic update of cache size via the `/config` API with the `cache-num-entries` key.
+- Support exact prefix value filtering via the `:=` operation. For example, given `filter_by: name:= S*`.
+  we will match `Steve Jobs` but NOT `Adam Stator`.
+- Support `include_fields` and `exclude_fields` in the single document fetch end-point.
 
 ### Bug Fixes
 
-- 
+- Fixed various bugs in the conversational search feature.
+- Fixed a few bugs and edge cases involving reference fields and joins.
+- Fixed a bug in the use of `flat_search_cutoff` parameter of vector search that returned sub-optimal results.
+- Fixed an edge case in use of `_eval()` along with hybrid search.
+- Fixed an edge case in vector query by document ID returning k+1 hits.
+- Fixed wildcard query not excluding un-indexed fields while searching.
+- Fixed a crash that occurred while loading collections that's related to indexing a collection not referenced by other collections.
+- Fixed an edge case in the sorting clause of `_eval` operation that caused a rare crash.
+- Fixed stemming for non-English locales.
+- Fixed semantic search faceting happening on the entire result set instead of only on `k` returned docs.
+- Fixed geosearch not returning real distances when `precision` parameter was used. 
+- Fixed quirks around deletion of analytics event rules.
+- Fixed an issue with deletion & update of array reference fields.
+- Return `store` field property in collection schema response.
 
 ### Deprecations / behavior changes
 
