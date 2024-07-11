@@ -62,11 +62,20 @@ sort_by=price:desc,_text_match:desc
 
 ## Ranking based on Relevance and Popularity
 
-You can bucket results based on textual relevance and then sort within those buckets by a custom ranking/popularity score you've calculated on your end using the following:
+If you have a popularity score for your documents that you have either:
+
+1) calculated on your end in your application using any formula of your choice or 
+2) calculated using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html#counting-events-for-popularity`">counter analytics rule in Typesense</RouterLink> 
+
+You can have Typesense mix your custom scores with the text relevance score it calculates, so results that are more popular (as defined by your custom score) are boosted more in ranking.  
+
+Here's the search parameter to achieve this:
 
 ```
 sort_by=_text_match(buckets: 10):desc,weighted_score:desc
 ```
+
+Where `weighted_score` is a field in your document with your custom score. 
 
 This will do the following:
 
