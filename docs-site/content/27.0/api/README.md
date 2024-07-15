@@ -26,7 +26,7 @@ This release contains important new features, performance improvements and bug f
   and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
 - Support nested reference collections in `include_fields` search parameter, e.g. `$Coll_B(title, $Coll_A(title))`
 - Customization of faceting index used for search via the `facet_index_type` parameter.
-- Support `sort_by` of nested joined collection.
+- Support `sort_by` of nested join field.
 - Allow joining in export of documents.
 - Add `sum_score` mode for `text_match_type` which sums the field-level text match scores to arrive at a document-level score.
 
@@ -54,11 +54,11 @@ This release contains important new features, performance improvements and bug f
 
 ### Bug Fixes
 
-- Fixed various bugs in the conversational search feature.
-- Fixed a few bugs and edge cases involving reference fields and joins.
-- Fixed a bug in the use of `flat_search_cutoff` parameter of vector search that returned sub-optimal results.
+- Fixed a few bugs in the use of conversational search feature on a HA set-up.
 - Fixed an edge case in use of `_eval()` along with hybrid search.
 - Fixed an edge case in vector query by document ID returning k+1 hits.
+- Fixed a bug in the use of `flat_search_cutoff` parameter of vector search that returned suboptimal results.
+- Fixed a few bugs and edge cases involving reference fields and joins.
 - Fixed wildcard query not excluding un-indexed fields while searching.
 - Fixed a crash that occurred while loading collections that's related to indexing a collection not referenced by other collections.
 - Fixed an edge case in the sorting clause of `_eval` operation that caused a rare crash.
@@ -71,7 +71,9 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
-There are no depreciation or behavior changes in this version.
+The conversational search feature now uses a Typesense collection for storing the conversation history. During 
+upgrade, we will create a default collection with the name `default_conversation_history_<timestamp>` and migrate 
+existing conversations to this collection.  
 
 ## Upgrading
 
