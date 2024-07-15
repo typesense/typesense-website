@@ -956,6 +956,12 @@ Once you've extracted the JSON, you can then [index](#index-documents) them in T
 
 Fetch an individual document from a collection by using its `id`.
 
+:::tip
+You can send a comma separated list of fields to include or exclude via `include_fields` and `exclude_fields`
+parameters.
+:::
+
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 

@@ -19,8 +19,8 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- Enable/disable typo tolerance on numerical and alphanumerical words in the query via the `enable_typos_for_numerical_tokens` and
-  `enable_typos_for_alpha_numerical_tokens` search parameters. Defaults to `true` for both parameters.
+- Enable/disable typo tolerance on alphanumerical words in the query via the 
+  `enable_typos_for_alpha_numerical_tokens` search parameter. Default: `true`.
 - Storing the history of the conversational search feature as a regular Typesense collection.
 - Support synonyms on query prefixes and typo-corrected query tokens via the `synonym_prefix` 
   and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
@@ -33,7 +33,7 @@ This release contains important new features, performance improvements and bug f
 ### Enhancements
 
 - Added `enable_synonyms` boolean flag to enable/disable the application of synonyms during search (default: `true`).
-- Allow `filter_curated_hits` search parameter to be applicable to pinned hits as well.
+- Added `filter_curated_hits` search parameter which allows you to customize filter behavior for pinned hits.
 - Added `filter-by-max-ops` server-side flag that can customize the maximum number of operators that can be present 
   in a `filter_by` clause (default: `100`).
 - Collection listing API now respects the collections allowed in the API key associated with the request.

@@ -92,6 +92,8 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--snapshot-interval-seconds`     | false    | Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery. |
 | `--db-compaction-interval`        | false    | Frequency of automatic on-disk [database compaction](./cluster-operations.md#compacting-the-on-disk-database). Default: `604,800` (7 days)<br><br> If you do frequent collection drops and recreates, you want to considering setting this to say 24 hours.                          |
 | `--skip-writes`                   | false    | Starts Typesense in a mode that does not read writes from the Raft log. This is useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.                                                                                             |
+| `--filter-by-max-ops`             | false    | Maximum number of operators permitted in `filter_by` clause. Default: `100`                                                                                                                                                                                                          |
+| `--max-per-page`                  | false    | Max number of hits permitted per page. Default: `250`                                                                                                                                                                                                                                |
 
 
 ## Using a Configuration File

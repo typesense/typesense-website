@@ -28,7 +28,13 @@ Set this to a smaller value (minimum value is `60` seconds) to get more frequent
 
 ### On Typesense Cloud
 
-We automatically set `--enable-search-analytics=true` and `--analytics-flush-interval=300` (every 5 minutes) in Typesense Cloud (more context in the section above).
+We automatically set `--enable-search-analytics=true` and `--analytics-flush-interval=300` (every 5 minutes) in 
+Typesense Cloud (more context in the section above).
+
+### Disabling for specific queries
+
+To disable analytics aggregation for specific search queries (for e.g. those originating from a test script), you can 
+set `enable_analytics: false` as a search query parameter. 
 
 ## Query suggestions
 
