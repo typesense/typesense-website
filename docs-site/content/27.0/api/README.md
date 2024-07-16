@@ -19,16 +19,16 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
+- Add `sum_score` mode for `text_match_type` which sums the field-level text match scores to arrive at a document-level score.
 - Enable/disable typo tolerance on alphanumerical words in the query via the 
   `enable_typos_for_alpha_numerical_tokens` search parameter. Default: `true`.
-- Storing the history of the conversational search feature as a regular Typesense collection.
+- Storing the conversation history from conversational search as a regular Typesense collection.
 - Support synonyms on query prefixes and typo-corrected query tokens via the `synonym_prefix` 
   and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
 - Support nested reference collections in `include_fields` search parameter, e.g. `$Coll_B(title, $Coll_A(title))`
 - Customization of faceting index used for search via the `facet_index_type` parameter.
 - Support `sort_by` of nested join field.
 - Allow joining in export of documents.
-- Add `sum_score` mode for `text_match_type` which sums the field-level text match scores to arrive at a document-level score.
 
 ### Enhancements
 
@@ -68,6 +68,9 @@ This release contains important new features, performance improvements and bug f
 - Fixed quirks around deletion of analytics event rules.
 - Fixed an issue with deletion & update of array reference fields.
 - Return `store` field property in collection schema response.
+- Fixed a hanging issue when OpenAI API returned no response.
+- Fixed persistence of `range_index` and `stem` field properties.
+- Fixed highlighting of text stored in fields inside array of objects.
 
 ### Deprecations / behavior changes
 
