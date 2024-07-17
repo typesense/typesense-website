@@ -74,9 +74,14 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
-The conversational search feature now uses a Typesense collection for storing the conversation history. During 
-upgrade, we will create a default collection with the name `default_conversation_history_<timestamp>` and migrate 
-existing conversations to this collection.  
+**Conversational search API**
+
+To address some limitations that we found with the previous design of the conversational search feature, 
+we now use a Typesense collection for storing the conversation history. During upgrade, we will attempt to create a 
+default collection with the name `default_conversation_history_<timestamp>` and migrate existing conversations 
+to this collection. **However,** given the edge cases we found and have now fixed with the new approach on HA 
+clusters, this automated migration may not work: if it does not, please refer to the updated guide on how to 
+[re-create the conversation model](conversational-search-rag.md).
 
 ## Upgrading
 
