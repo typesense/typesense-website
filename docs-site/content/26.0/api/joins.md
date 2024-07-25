@@ -8,6 +8,9 @@ sitemap:
 
 Typesense supports JOINing documents from one or more collections based on a related column between them.
 
+**Note:** Adding a reference field in an existing collection via alter operation is not yet supported.
+
+
 ## One-to-One relation
 
 When you create a collection, you can create a field that connects a document to a field in another collection 
