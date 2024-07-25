@@ -270,7 +270,15 @@ Following the `$JoinedCollectionName( ... )` convention, we can specify to `sort
 
 ```json
 {
-  "sort_by": "$JoinedCollectionName( _eval(field_name:foo):desc, field_name:desc )"
+  "sort_by": "$JoinedCollectionName( field_name:desc )"
+}
+```
+
+Similarly, to specify an `_eval` operation using the joined collection's field:
+
+```json
+{
+  "sort_by": "$JoinedCollectionName( _eval(field_name:foo):desc )"
 }
 ```
 
