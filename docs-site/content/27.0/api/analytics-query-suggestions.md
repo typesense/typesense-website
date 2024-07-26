@@ -567,15 +567,19 @@ curl "http://localhost:8108/analytics/events" -X POST \
             "type": "click",
             "name": "products_click_event",
             "data": {
-                  "q": "nike shoes",
                   "doc_id": "1024",
                   "user_id": "111112"
             }
         }'
 ```
 
-The click events are aggregated, and the `popularity` field in the collection is incremented based on the frequency specified by the 
-`--analytics-flush-interval` option.
+The click events are aggregated, and the `popularity` field of the document with `id` specified in the 
+`doc_id` event data is incremented. Frequency of aggregation is controlled by the `--analytics-flush-interval` option.
+
+:::tip
+Ensure that the `doc_id` sent in the event payload matches with the actual `id` of the document stored in the 
+destination collection.
+:::
 
 ### Aggregating multiple events
 
