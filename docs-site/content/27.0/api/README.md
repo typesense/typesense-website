@@ -26,7 +26,7 @@ This release contains important new features, performance improvements and bug f
 - Support synonyms on query prefixes and typo-corrected query tokens via the `synonym_prefix` 
   and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
 - Support nested reference collections in `include_fields` search parameter, e.g. `$Coll_B(title, $Coll_A(title))`
-- Customization of faceting index used for search via the `facet_index_type` parameter.
+- Customization of faceting index used for search via the `facet_strategy` parameter.
 - Support `sort_by` of nested join field.
 - Allow joining in export of documents.
 
