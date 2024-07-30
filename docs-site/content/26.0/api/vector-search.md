@@ -2533,7 +2533,8 @@ This will automatically embed the `chair` query with the same model used for the
 
 When using [auto-embedding](#option-b-auto-embedding-generation-within-typesense), you can set `query_by` to a list of both regular fields and auto-embedding fields, to do a hybrid search on multiple fields.
 
-Typesense will do a keyword search on all the regular fields, and a semantic search on the auto-embedding field and combine the results into a ranked set of results using Rank Fusion: 
+Typesense will do a keyword search on all the regular fields, and a semantic search on the auto-embedding field and 
+combine the results using Rank Fusion to arrive at a **fusion score** that is used to rank the hits. 
 
 ```
 K = rank of document in keyword search
@@ -2551,7 +2552,8 @@ The `0.7` and `0.3` values can be changed using the [`alpha` parameter](#weighta
 ```js
 let search_parameters = {
   'q'                          : 'chair',
-  'query_by'                   : 'embedding,product_name',
+  'query_by'                   : 'product_name,embedding',
+  'sort_by'                   :  '_text_match:desc',
 }
 
 client.collections('products').documents().search(search_parameters)
@@ -2564,7 +2566,8 @@ client.collections('products').documents().search(search_parameters)
   ```php
 $search_parameters = [
   'q'                          => 'chair',
-  'query_by'                   => 'embedding,product_name',
+  'query_by'                   => 'product_name,embedding',
+  'sort_by'                   => '_text_match:desc',
 ];
 
 $client->collections['products']->documents->search($search_parameters);
@@ -2577,7 +2580,8 @@ $client->collections['products']->documents->search($search_parameters);
   ```py
 search_parameters = {
   'q'                          : 'chair',
-  'query_by'                   : 'embedding,product_name',
+  'query_by'                   : 'product_name,embedding',
+  'sort_by'                   :  '_text_match:desc',
 }
 
 client.collections['products'].documents.search(search_parameters)
@@ -2590,7 +2594,8 @@ client.collections['products'].documents.search(search_parameters)
   ```rb
 search_parameters = {
   'q'                          => 'chair',
-  'query_by'                   => 'embedding,product_name',
+  'query_by'                   => 'product_name,embedding',
+  'sort_by'                    => '_text_match:desc',
 }
 
 client.collections['products'].documents.search(search_parameters)
@@ -2604,7 +2609,8 @@ client.collections['products'].documents.search(search_parameters)
 SearchParameters searchParameters = new SearchParameters();
 
 searchParameters.q("chair")
-                .queryBy("embedding,product_name");
+                .queryBy("product_name,embedding,")
+                .sortBy("_text_match:desc");
 
 SearchResult searchResult = client.collections("products").documents().search(searchParameters);
 ```
@@ -2619,9 +2625,9 @@ curl 'http://localhost:8108/multi_search' \
     -d '{
           "searches": [
             {
-              "collection": "products",
-              "query_by": "embedding,product_name",
               "q": "chair",
+              "query_by": "product_name,embedding",
+              "sort_by": "_text_match:desc",
               "exclude_fields": "embedding"
             }
           ]
@@ -2632,11 +2638,31 @@ curl 'http://localhost:8108/multi_search' \
 
 </Tabs>
 
+:::tip
 During hybrid search, the `_text_match` clause in `sort_by` will refer to the combined fusion score. 
+:::
 
-You can also do a hybrid search when using your own embedding field, by combining the `q` parameter with the `vector_query` parameter.
+If you are populating the embedding field externally, without using auto-embedding, you can still do a hybrid 
+search by passing the embedding of the query string manually via the `vector_query` parameter. 
 
-Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search using the `vector_query` field and combine the results into a ranked set of results using Rank Fusion (see above).
+```shell
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+          "searches": [
+            {
+              "q": "chair",
+              "query_by": "product_name,embedding",
+              "vector_query": "embedding:([0.2, 0.4, 0.1])",
+              "sort_by": "_text_match:desc"
+            }
+          ]
+        }'
+```
+
+Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search 
+using the `vector_query` field and combine the results into a ranked set of results using rank fusion as described earlier.
 
 ### Weightage for Semantic vs Keyword matches
 
@@ -2752,19 +2778,24 @@ curl 'http://localhost:8108/multi_search' \
 
 </Tabs>
 
-### Hybrid Sorting
+### Sorting hybrid matches on vector distance
 
-When doing a hybrid search (especially with a `q` parameter and an explicit `vector_query` parameter), you can sort by a combination of vector distance and also other numeric parameters using the special sort keyword `_vector_distance`  in `sort_by`.
+If you want to fetch both keyword and vector search matches but sort the results only on the vector distance, you can use 
+the special sort keyword `_vector_distance`  in `sort_by`.
 
 Here's an example:
 
 ```json
 {
-  ...
+  "q": "chair",
+  "query_by": "title,embedding",
   "sort_by": "popularity_score:desc,_vector_distance:asc"
-  ...
 }
 ```
+
+We are searching on both the title text field and the `embedding` vector field, but the final results are sorted 
+first on `popularity_score` and then on vector distance.
+
 ## Searching with historical queries
 
 You can send a list of search queries via the `queries` parameter to make vector search compute a weighted query embedding 
