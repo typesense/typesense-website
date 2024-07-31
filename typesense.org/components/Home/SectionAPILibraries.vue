@@ -180,7 +180,7 @@
               />
             </a>
             <a
-              href="https://laravel.com/docs/10.x/scout#typesense"
+              href="https://laravel.com/docs/11.x/scout#typesense"
               target="_blank"
             >
               <img
