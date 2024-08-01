@@ -1109,9 +1109,10 @@ Alternatively, you can also use the [alias feature](#using-an-alias) to do zero 
 :::
 
 :::warning
-Starting with `v26.0`, only one alter operation can be in progress at a time for a given cluster.
+Only one alter operation can be in progress at a time for a given cluster.
 
-This was enforced because clients were timing out on alter operations and retrying.
+Since the alter operation can take a long time, this ensures that a client with a short default time-out does 
+not end up retrying the same alter request.
 :::
 
 The update operation consists of an initial validation step where the records on-disk are assessed to ensure 
