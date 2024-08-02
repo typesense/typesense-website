@@ -36,6 +36,7 @@ export default {
   box-shadow: 0px 0px 10px 0px #ffdd1720;
   border: 1px solid lighten($gray-100, 1%);
   border-bottom: 3px solid lighten($primary, 1%);
+  border-radius: 15px;
 
   @media (min-width: map-get($grid-breakpoints, 'sm')) {
     min-width: 200px;
@@ -53,7 +54,7 @@ a {
     text-decoration: underline;
     text-decoration-color: $primary;
     text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+    text-underline-offset: 6px;
   }
 }
 </style>

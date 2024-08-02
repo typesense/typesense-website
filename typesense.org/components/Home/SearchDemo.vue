@@ -33,7 +33,7 @@
       </div>
 
       <Transition name="fade">
-        <AisStats class="text-right mt-1 mb-4">
+        <AisStats class="text-right mb-4">
           <span
             slot-scope="{ nbHits, processingTimeMS }"
             class="small text-gray-200"
@@ -45,8 +45,8 @@
         </AisStats>
       </Transition>
       <div class="row justify-content-end mt-3">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
           <Transition name="fade">
             <AisHits
               :transform-items="transformSearchHits"
@@ -60,7 +60,7 @@
                   <div class="d-flex justify-content-between">
                     <div
                       class="text-truncate d-inline-block text-gray-200"
-                      style="max-width: 250px"
+                      style="max-width: 280px"
                     >
                       <ais-highlight attribute="title" :hit="item" />
                     </div>

@@ -146,6 +146,7 @@ GithubButton {
 
 .navbar {
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
@@ -167,7 +168,7 @@ a {
       text-decoration: underline;
       text-decoration-color: $primary;
       text-decoration-thickness: 1px;
-      text-underline-offset: 4px;
+      text-underline-offset: 6px;
     }
 
     &:hover {
@@ -176,7 +177,7 @@ a {
       text-decoration: underline;
       text-decoration-color: $primary;
       text-decoration-thickness: 1px;
-      text-underline-offset: 4px;
+      text-underline-offset: 6px;
     }
   }
 
@@ -186,7 +187,7 @@ a {
       text-decoration: underline;
       text-decoration-color: $primary;
       text-decoration-thickness: 1px;
-      text-underline-offset: 4px;
+      text-underline-offset: 6px;
     }
 
     &:hover {
@@ -195,7 +196,7 @@ a {
       text-decoration: underline;
       text-decoration-color: $primary;
       text-decoration-thickness: 1px;
-      text-underline-offset: 4px;
+      text-underline-offset: 6px;
     }
   }
 }

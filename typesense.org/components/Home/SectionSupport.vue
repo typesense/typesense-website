@@ -1,16 +1,11 @@
 <template>
-  <div class="bg-gradient-3 text-white py-5">
+  <div class="bg-gradient-6 text-white py-5">
+    <div class="py-1">&nbsp;</div>
     <div class="container">
-      <h2
-        class="text-center text-shadow-primary-1"
-        data-aos="zoom-out"
-        data-aos-duration="350"
-      >
+      <h2 class="text-center" data-aos="zoom-out" data-aos-duration="350">
         Backed by responsive support
       </h2>
-      <div class="text-center">
-        Let us help you build a scalable and robust search experience
-      </div>
+      <div class="text-center">Offered by expert search engineers</div>
       <div class="mt-3">&nbsp;</div>
       <div class="container">
         <div
@@ -44,30 +39,10 @@
           </div>
         </div>
       </div>
-
-      <div class="mt-3">&nbsp;</div>
-      <div class="row mt-5">
-        <div class="col-sm">
-          <div class="text-center">
-            <h4 class="mb-2">
-              <img
-                src="~/assets/images/magic_wand.svg"
-                alt="magic wand"
-                width="35"
-                height="35"
-                class="mr-2 mb-3 mb-sm-0"
-              /><br class="d-block d-sm-none" />
-              We also offer Concierge Onboarding and Prioritized Support, for
-              when you need it.
-            </h4>
-            <div>
-              <NuxtLink class="text-white" to="/support/">Learn more</NuxtLink>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+    <div class="py-3">&nbsp;</div>
   </div>
 </template>
 
 <style lang="scss" scoped></style>
+<script setup lang="ts"></script>

@@ -31,15 +31,15 @@ body {
 
 .bg-gradient-1 {
   @media(max-width: map-get($grid-breakpoints, 'sm')) {
-    background: linear-gradient(darken($secondary-dark-2, 15%) 8%, $secondary-dark-2 20%, darken($secondary-dark-2, 15%) 40%, #000000 80%);
+    background: linear-gradient(darken($secondary-dark-2, 15%) 8%, #350019 20%, darken($secondary-dark-2, 15%) 40%, #000000 80%);
   }
 
   @media(min-width: map-get($grid-breakpoints, 'sm')) {
-    background: linear-gradient(173deg, #000000 0%, darken($secondary-dark-2, 15%) 28%, $secondary-dark-2 43%, darken($secondary-dark-2, 15%) 56%, #000000 78%, #FFFFFF calc(78% + 1px));
+    background: linear-gradient(173deg, #000000 0%, darken($secondary-dark-2, 15%) 28%, #350019 43%, darken($secondary-dark-2, 15%) 56%, #000000 78%, #FFFFFF calc(78% + 1px));
   }
 
   @media(min-width: map-get($grid-breakpoints, 'xxl')) {
-    background: linear-gradient(darken($secondary-dark-2, 15%) 22%, $secondary-dark-2 46%, darken($secondary-dark-2, 15%) 72%, #000000 100%);
+    background: linear-gradient(darken($secondary-dark-2, 15%) 22%, #350019 46%, darken($secondary-dark-2, 15%) 72%, #000000 100%);
   }
 }
 
@@ -53,6 +53,14 @@ body {
 
 .bg-gradient-4 {
   background: linear-gradient(#000000 0%, darken($secondary-dark-2, 10%) 70%, $secondary-dark-2 100%);
+}
+
+.bg-gradient-5 {
+  background: linear-gradient($black 0%, #470022 0%, $black 75%);
+}
+
+.bg-gradient-6 {
+  background: linear-gradient($black 0%, #250012 0%, $black 85%);
 }
 
 .bg-light-2 {
@@ -112,7 +120,7 @@ a {
   text-decoration: underline;
   text-decoration-color: $primary;
   text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  text-underline-offset: 6px;
 
   &:hover {
     text-decoration-color: darken($primary, 5%);
@@ -125,7 +133,7 @@ mark {
 }
 
 .text-shadow-primary-1 {
-  text-shadow: 0px 0px 30px #c10045;
+  text-shadow: 0px 0px 14px #710029;
 }
 
 .text-shadow-primary-2 {
@@ -142,7 +150,7 @@ mark {
   &:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+    text-underline-offset: 6px;
     text-decoration-color: darken($primary, 5%);
   }
 }

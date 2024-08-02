@@ -16,6 +16,7 @@ export default ({ app }) => {
           offset: 10,
           duration: 800,
           easing: 'linear',
+          disable: true,
         })
       }
     })
