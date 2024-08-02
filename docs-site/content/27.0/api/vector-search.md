@@ -2823,8 +2823,8 @@ In the example below, we are using the vector distance as a secondary sorting co
 ```json
 {
   "q": "shoes",
-  "query_by": "title,brand",
-  "sort_by": "_text_match:desc,_vector_query(embedding:([0.43, 0.13, 0.21])):asc"
+  "query_by": "title",
+  "sort_by": "_text_match:desc,_vector_query(embedding:([])):asc"
 }
 ```
 
