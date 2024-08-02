@@ -298,7 +298,7 @@
                 <img
                   src="~/assets/images/langchain-logo.svg"
                   alt="LangChain"
-                  height="20"
+                  height="19"
                 />
               </a>
             </div>

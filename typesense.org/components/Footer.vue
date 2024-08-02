@@ -4,26 +4,27 @@
       <div class="row">
         <div class="col-sm-5 py-2">
           <div class="text-serif font-weight-light">
-            <h3 class="mb-0 text-serif-2">
+            <h4 class="mb-0 text-serif-2">
               <NuxtLink to="/" class="font-weight-bold">Typesense</NuxtLink>
-            </h3>
+            </h4>
           </div>
           <div class="font-weight-light">
-            An open source, typo-tolerant search engine
+            Fast, open source, typo-tolerant search engine
           </div>
-          <div class="mt-4 font-weight-light">
+          <div class="mt-5 font-weight-light">
             <address>
-              <strong>Typesense Inc.</strong> <br />
-              Houston, TX<br /><br />
+              <strong>Typesense, Inc.</strong> <br />
+              Houston, TX<br />
               <a href="https://twitter.com/typesense" target="_blank"
                 >@typesense</a
-              ><br />
+              >
+              |
               <a href="mailto:contact@typesense.org" target="_blank"
                 >contact@typesense.org</a
               >
             </address>
           </div>
-          <div class="mt-4 font-weight-light">
+          <div class="font-weight-light small">
             Typesense® is a registered trademark of Typesense, Inc.
           </div>
         </div>

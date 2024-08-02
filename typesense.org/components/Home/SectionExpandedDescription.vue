@@ -2,10 +2,10 @@
   <div class="mt-xl-4">
     <div class="container-fluid">
       <h2 class="text-sm-center text-gradient-1" style="line-height: 1.3">
-        The Open Source Alternative to Algolia + Pinecone
+        Open Source Alternative to Algolia + Pinecone
       </h2>
       <h2 class="text-sm-center text-gradient-1">
-        The Easier To Use Alternative to Elasticsearch
+        Easier To Use Alternative to Elasticsearch
       </h2>
       <div class="text-sm-center mt-4">
         <NuxtLink to="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"

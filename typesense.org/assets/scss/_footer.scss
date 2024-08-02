@@ -29,7 +29,6 @@ footer.navbar {
 
   color: #5a5a5a;
   background-color: $gray-800;
-  font-size: 0.85em;
   min-height: auto;
   border: none;
   border-radius: 0;
@@ -43,10 +42,11 @@ footer.navbar {
 
     .nav-link {
       display: inline-block;
+      margin-bottom: 15px;
     }
 
     address {
-      line-height: 1.3em;
+      line-height: 1.4em;
     }
   }
 }
