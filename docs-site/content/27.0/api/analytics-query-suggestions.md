@@ -201,6 +201,52 @@ is set to `false`, i.e. we will capture the actual user queries (including prefi
 
 **NOTE:** This aggregation will happen every 5 minutes on Typesense Cloud.
 
+### Send events via API
+
+If you wish to send the search queries as events via the API, you can create an analytics rule that defines a `search`
+event for consumption. By setting `enable_auto_aggregation` to `false`, only the search queries sent via the 
+API will be aggregated.
+
+```json
+{
+  "name": "product_queries_aggregation",
+  "type": "popular_queries",
+  "params": {
+    "source": {
+      "collections": [
+        "products"
+      ],
+      "enable_auto_aggregation": false,
+      "events": [
+        {
+          "type": "search",
+          "name": "products_search_event"
+        }
+      ]
+    },
+    "destination": {
+      "collection": "product_queries"
+    },
+    "limit": 1000
+  }
+}
+```
+
+With this rule in place, you can now directly send the queries as `search` events, via the API.
+
+```bash
+curl "http://localhost:8108/analytics/events" -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -d '{                           
+            "type": "search",                   
+            "name": "products_search_event",
+            "data": {                     
+                  "q": "running shoes",
+                  "user_id": "1234"
+            }
+        }'   
+```
+
 
 ### Query suggestion UX
 
@@ -583,7 +629,7 @@ destination collection.
 
 ### Aggregating multiple events
 
-In fact, you can setup a counter rule that gives different weights to different events.
+In fact, you can set up a counter rule that gives different weights to different events.
 
 | Event Type | Description                                                             |
 |:-----------|:------------------------------------------------------------------------|
