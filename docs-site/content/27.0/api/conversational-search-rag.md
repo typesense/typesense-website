@@ -40,7 +40,7 @@ curl "http://localhost:8108/collections" \
             {
                 "name": "message",
                 "type": "string",
-                "index: false
+                "index": false
             },
             {
                 "name": "timestamp",
@@ -67,10 +67,11 @@ curl 'http://localhost:8108/conversations/models' \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
+        "id": "conv-model-1",
         "model_name": "openai/gpt-3.5-turbo",
         "history_collection": "conversation_store",
         "api_key": "OPENAI_API_KEY",
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",        
         "max_bytes": 16384
       }'
 ```
@@ -85,11 +86,12 @@ curl 'http://localhost:8108/conversations/models' \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
+        "id": "conv-model-1",
         "model_name": "cf/mistral/mistral-7b-instruct-v0.1",
         "history_collection": "conversation_store",
         "api_key": "CLOUDFLARE_API_KEY",
         "account_id": "CLOUDFLARE_ACCOUNT_ID",
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
         "max_bytes": 16384
       }'
 ```
@@ -104,10 +106,11 @@ curl 'http://localhost:8108/conversations/models' \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
+        "id": "conv-model-1",
         "model_name": "vllm/NousResearch/Meta-Llama-3-8B-Instruct",
         "history_collection": "conversation_store",
         "vllm_url": "http://localhost:8000",
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
         "max_bytes": 16384
       }'
 ```
@@ -129,18 +132,21 @@ curl 'http://localhost:8108/conversations/models' \
 
 **Response:**
 
-This will return a response with an auto-generated conversation model ID, that we will use in our search queries:
-
 ```json
 {
   "api_key": "sk-7K**********************************************",
-  "id": "5a11318f-e31b-4144-81b3-b302a86571d3",
+  "id": "conv-model-1",
   "max_bytes": 16384,
   "model_name": "openai/gpt-3.5-turbo",
   "history_collection": "conversation_store",
-  "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic."
+  "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic."
 }
 ```
+
+:::tip
+If you don't pass an explicit `id` for the model, the API will return a response with an auto-generated conversation 
+model `id`, that we can use in our search queries:
+:::
 
 ## Start a Conversation
 
@@ -156,7 +162,7 @@ Where `X` is the auto-generated Conversation Model ID returned by Typesense in t
 Here's an example, where we ask the question "Can you suggest an action series?" in the `q` parameter, using data we've indexed in a collection called `tv_shows` in Typesense.
 
 ```shell
-curl 'http://localhost:8108/multi_search?q=can+you+suggest+an+action+series&conversation=true&conversation_model_id=5a11318f-e31b-4144-81b3-b302a86571d3' \
+curl 'http://localhost:8108/multi_search?q=can+you+suggest+an+action+series&conversation=true&conversation_model_id=conv-model-1' \
         -X POST \
         -H "Content-Type: application/json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
@@ -238,7 +244,7 @@ We can continue a conversation that we started previously and ask follow-up ques
 Continuing our example from above, let's ask the follow-up question - "How about another one" in the `q` parameter:
 
 ```shell
-curl 'http://localhost:8108/multi_search?q=how+about+another+one&conversation=true&conversation_model_id=5a11318f-e31b-4144-81b3-b302a86571d3&conversation_id=771aa307-b445-4987-b100-090c00a13f1b' \
+curl 'http://localhost:8108/multi_search?q=how+about+another+one&conversation=true&conversation_model_id=conv-model-1&conversation_id=771aa307-b445-4987-b100-090c00a13f1b' \
         -X POST \
         -H "Content-Type: application/json" \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
@@ -393,7 +399,7 @@ curl 'http://localhost:8108/conversations/models' \
 ### Retrieve a single model
 
 ```shell
-curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86571d3' \
+curl 'http://localhost:8108/conversations/models/conv-model-1' \
   -X GET \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
@@ -401,22 +407,27 @@ curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86
 
 ### Update a model
 
-You can update the system prompt like this:
+You can update the model parameters like this:
 
 ```shell
-curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86571d3' \
+curl 'http://localhost:8108/conversations/models/conv-model-1' \
   -X PUT \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic. Be very concise in your answers."
+        "id": "conv-model-1",
+        "model_name": "openai/gpt-3.5-turbo",
+        "history_collection": "conversation_store",
+        "api_key": "OPENAI_API_KEY",
+        "system_prompt": "Hey, you are an **intelligent** assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
+        "max_bytes": 16384
       }'
 ```
 
 ### Delete a model
 
 ```shell
-curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86571d3' \
+curl 'http://localhost:8108/conversations/models/conv-model-1' \
   -X DELETE \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
