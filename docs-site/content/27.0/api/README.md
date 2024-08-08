@@ -80,8 +80,20 @@ To address some limitations that we found with the previous design of the conver
 we now use a Typesense collection for storing the conversation history. During upgrade, we will attempt to create a 
 default collection with the name `default_conversation_history_<timestamp>` and migrate existing conversations 
 to this collection. **However,** given the edge cases we found and have now fixed with the new approach on HA 
-clusters, this automated migration may not work: if it does not, please refer to the updated guide on how to 
+clusters, this automated migration may not work: if it does not, please refer to the guide on how to 
 [re-create the conversation model](conversational-search-rag.md).
+
+**Exhaustive `total_values` in facet stats**
+
+We refactored the faceting data structures to improve efficiency. This had an impact on how the `total_values` in
+`facet_stats` is computed for low-cardinality facet fields: it's now computed only within the
+results returned, instead of on the whole dataset. To get the correct value, send this additional search parameter:
+
+```
+"facet_strategy": "exhaustive"
+```
+
+This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` to be exact.
 
 ## Upgrading
 

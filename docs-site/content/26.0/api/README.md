@@ -124,7 +124,16 @@ So we decided to simply drop the `0.` and switch to whole numbers for major vers
 
 ### Deprecations / behavior changes
 
-There are no depreciation or behavior changes in this version.
+We refactored the faceting data structures to improve efficiency. This had an impact on how the `total_values` in 
+`facet_stats` is computed for low-cardinality facet fields: it's now computed only within the 
+results returned, instead of on the whole dataset. To get the correct value, use Typesense `v27` and 
+send this additional search parameter:
+
+```
+"facet_strategy": "exhaustive"
+```
+
+This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` to be exact.
 
 ## Upgrading
 
