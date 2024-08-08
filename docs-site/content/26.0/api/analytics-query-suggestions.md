@@ -186,6 +186,8 @@ Search queries will now be aggregated and stored in the `product_queries` (desti
 Queries will be aggregated and sent to the destination collection based on the `analytics-flush-interval` configuration on 
 your Typesense cluster. 
 
+Please note that the `popular_queries` analytics type will only track queries that have a search result.
+
 **Automatically expanding prefix search queries:**
 
 While creating the analytics rule, you can set `expand_query: true` to make Typesense aggregate the expanded versions 
