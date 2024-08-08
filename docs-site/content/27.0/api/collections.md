@@ -731,7 +731,12 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all collections
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
-NOTE: By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the collection listing.
+:::tip
+By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the 
+collection listing.
+
+You can also set `exclude_fields=fields` to exclude the field definitions from being returned in the response.
+:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>

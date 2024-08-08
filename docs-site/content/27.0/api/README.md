@@ -51,6 +51,8 @@ This release contains important new features, performance improvements and bug f
 - Support exact prefix value filtering via the `:=` operation. For example, given `filter_by: name:= S*`.
   we will match `Steve Jobs` but NOT `Adam Stator`.
 - Support `include_fields` and `exclude_fields` in the single document fetch end-point.
+- Support for `exclude_fields` in collection listing API end-point. This is useful when you have a lot of fields which 
+  bloats the payload.
 
 ### Bug Fixes
 
