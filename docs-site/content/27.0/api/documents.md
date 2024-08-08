@@ -1275,7 +1275,7 @@ curl "http://localhost:8108/collections/companies/documents?filter_by=num_employ
 
 ```json
 {
-  "tag": "large"
+  "num_updated": 24
 }
 ```
 
