@@ -27,7 +27,7 @@ On successfully adding the stopword set we will get a response like this:
 
 ```json
 {
-  "name": "stopword_set1",
+  "id": "stopword_set1",
   "locale": "en",
   "stopwords": [
     "states","united","france","germany","italy"
