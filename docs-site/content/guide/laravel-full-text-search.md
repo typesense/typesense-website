@@ -732,3 +732,8 @@ You can then proceed as you prefer. You can create a controller to handle the se
 ## Examples
 
 This [Demo Laravel app](https://github.com/typesense/showcase-laravel-steam-games-search/tree/master) uses a React Typescript frontend with the Typesense InstantSearch Adapter, and uses Laravel Scout to sync the data from Postgres to Typesense.
+
+## Additional Reading
+
+- Here's an article written by a Typesense user about [Moving from MySQL to Typesense for Full-text search in Laravel](https://tighten.com/insights/blazing-fast-full-text-search-in-laravel-from-mysql-to-typesense/).
+- Here's a [video walk-through of how to set up the Typesense Scout driver](https://www.youtube.com/watch?v=0o3Ua52Y6pU) from the Laravel team. 
