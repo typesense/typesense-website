@@ -27,10 +27,17 @@ curl "http://localhost:8108/collections" \
        -d '{
         "name": "conversation_store",
         "fields": [
-             {
+            {
                 "name": "conversation_id",
-                "type": "string",
-                "facet": true
+                "type": "string"
+            },
+            {
+                "name": "model_id",
+                "type": "string"
+            },
+            {
+                "name": "timestamp",
+                "type": "int32"
             },
             {
                 "name": "role",
@@ -41,11 +48,6 @@ curl "http://localhost:8108/collections" \
                 "name": "message",
                 "type": "string",
                 "index": false
-            },
-            {
-                "name": "timestamp",
-                "type": "int32",
-                "sort": true
             }
         ]
     }'
@@ -120,15 +122,16 @@ curl 'http://localhost:8108/conversations/models' \
 
 #### Parameters
 
-| Parameter          | Description                                                                                                                                             |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| model_name         | Name of the LLM model offered by OpenAI, Cloudflare or vLLM                                                                                             |
-| api_key            | The LLM service's API Key                                                                                                                               |
-| history_collection | Typesense collection that stores the historical conversations                                                                                           |
-| account_id         | LLM service's account ID (only applicable for Cloudflare)                                                                                               |
-| system_prompt      | The system prompt that contains special instructions to the LLM                                                                                         |
+| Parameter          | Description                                                                                                                                               |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| model_name         | Name of the LLM model offered by OpenAI, Cloudflare or vLLM                                                                                               |
+| api_key            | The LLM service's API Key                                                                                                                                 |
+| history_collection | Typesense collection that stores the historical conversations                                                                                             |
+| account_id         | LLM service's account ID (only applicable for Cloudflare)                                                                                                 |
+| system_prompt      | The system prompt that contains special instructions to the LLM                                                                                           |
+| ttl                | Time interval in seconds after which the messages would be deleted. Default: 86400 (24 hours)                                                             |
 | max_bytes          | The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. |
-| vllm_url           | URL of vLLM service                                                                                                                                     |
+| vllm_url           | URL of vLLM service                                                                                                                                       |
 
 **Response:**
 
@@ -336,54 +339,13 @@ Similar to the conversation history, only the top search results, limited to 300
 
 ## Managing Past Conversations
 
-Typesense stores all questions and answers, along with a `conversation_id` parameter for 24 hours, to support follow-ups. 
+Typesense stores all questions and answers (conversation history), in the Typesense collection specified by the 
+`history_collection` parameter. Each conversation has a `conversation_id` parameter associated with it and is 
+persisted by default for 24 hours to support follow-ups. This persistence period can be configured by the 
+model's `ttl` parameter.
 
-Conversation histories are not tied to specific collections, making them versatile and compatible with different collections at any time.
-
-You can manage conversation histories using the following endpoints.
-
-### Fetch all conversations
-
-```bash
-curl 'http://localhost:8108/conversations' \
-  -X GET \
-  -H 'Content-Type: application/json' \
-  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
-
-### Fetch a single conversation
-
-```bash
-curl 'http://localhost:8108/conversations/771aa307-b445-4987-b100-090c00a13f1b' \
-  -X GET \
-  -H 'Content-Type: application/json' \
-  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
-
-### Update the TTL for a conversation
-
-Conversations are stored by default for 24 hours, and then purged. 
-
-To expire them in a different time frame, you can set a TTL like this:
-
-```bash
-curl 'http://localhost:8108/conversations/771aa307-b445-4987-b100-090c00a13f1b' \
-  -X PUT \
-  -H 'Content-Type: application/json' \
-  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-  -d '{
-        "ttl": 3600
-      }'
-```
-
-### Delete a conversation
-
-```bash
-curl 'http://localhost:8108/conversations/771aa307-b445-4987-b100-090c00a13f1b' \
-  -X DELETE \
-  -H 'Content-Type: application/json' \
-  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
+You can use the collection APIs to manage these messages. Since the conversation history is not tied to 
+specific search collections, they are versatile and compatible with different search collections at any time.
 
 ## Managing Conversation Models
 
