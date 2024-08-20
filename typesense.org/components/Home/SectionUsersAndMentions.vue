@@ -118,10 +118,10 @@ export default {
           alt: 'Logitech',
         },
         {
-          href: 'https://changelog.com',
-          imgPath: 'user_logos/changelog.svg',
-          height: 37,
-          alt: 'Changelog',
+          href: 'https://www.bbcmaestro.com',
+          imgPath: 'user_logos/bbc-maestro-logo.svg',
+          height: 17,
+          alt: 'Soundsnap',
         },
         {
           href: 'https://kick.com',
@@ -130,10 +130,16 @@ export default {
           alt: 'Kick.com',
         },
         {
-          href: 'https://elevenlabs.io',
-          imgPath: 'user_logos/eleven-labs.svg',
-          height: 15,
-          alt: 'ElevenLabs',
+          href: 'https://lonelyplanet.com',
+          imgPath: 'user_logos/lonely-planet-logo.svg',
+          height: 19,
+          alt: 'Lonely Planet',
+        },
+        {
+          href: 'https://changelog.com',
+          imgPath: 'user_logos/changelog.svg',
+          height: 34,
+          alt: 'Changelog',
         },
         {
           href: 'https://eats.oddle.me',
@@ -144,7 +150,7 @@ export default {
         {
           href: 'https://macrofactorapp.com',
           imgPath: 'user_logos/macro-factor.svg',
-          height: 17,
+          height: 18,
           alt: 'Macro Factor',
           noref: true,
         },
@@ -155,16 +161,10 @@ export default {
           alt: 'Poorvika Mobiles',
         },
         {
-          href: 'https://lonelyplanet.com',
-          imgPath: 'user_logos/lonely-planet-logo.svg',
-          height: 18,
-          alt: 'Lonely Planet',
-        },
-        {
-          href: 'https://soundsnap.com',
-          imgPath: 'user_logos/soundsnap.svg',
-          height: 25,
-          alt: 'Soundsnap',
+          href: 'https://elevenlabs.io',
+          imgPath: 'user_logos/eleven-labs.svg',
+          height: 14,
+          alt: 'ElevenLabs',
         },
       ],
     }
