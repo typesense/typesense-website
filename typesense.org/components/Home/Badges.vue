@@ -36,9 +36,9 @@
 export default {
   data() {
     return {
-      githubStars: '18K',
-      dockerPulls: '14M',
-      cloudSearchesPerMonth: '5B',
+      githubStars: '19K',
+      dockerPulls: '16M',
+      cloudSearchesPerMonth: '10B',
       animationDuration: 350,
       animationEffect: 'zoom-out',
     }

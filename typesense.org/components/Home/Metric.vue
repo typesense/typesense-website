@@ -42,8 +42,8 @@ export default {
 .metric-value {
   border-right: 2px solid $primary;
   padding: 0 15px;
-  font-size: 3rem;
-  text-shadow: 0px 0px 30px rgba(253, 220, 25, 0.52);
+  font-size: 3.1rem;
+  //text-shadow: 0px 0px 30px rgba(253, 220, 25, 0.52);
 }
 .metric-link {
   text-decoration: none;

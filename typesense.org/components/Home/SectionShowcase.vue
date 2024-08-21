@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <h2 id="showcase" class="text-gradient-1 text-shadow-primary-2">
-      Showcase
-    </h2>
+    <h2 id="showcase" class="text-gradient-1">Showcase</h2>
     <div>
       Built with Typesense, InstantSearch UI components & hosted on Typesense
       Cloud.
@@ -72,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-5">
       <div class="col-sm">
         <h4 class="mt-4 mb-2">
           Build lightning-fast <em>browsing experiences</em> with Typesense,
@@ -82,7 +80,7 @@
           Let users filter, drill down and explore data in, for example, an
           ecommerce store, a tourism site like AirBnB, and more.
         </div>
-        <div class="grid">
+        <div class="grid mt-4">
           <HomeShowcaseBlock
             emoji="⚡ 🔍 📦️"
             link="https://ecommerce-store.typesense.org/"

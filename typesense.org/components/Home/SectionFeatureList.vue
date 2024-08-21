@@ -1,9 +1,10 @@
 <template>
   <div class="container mt-xxl-5" data-aos="fade-up">
-    <h2 class="text-center text-gradient-2 text-shadow-primary-2">
+    <h2 class="text-center text-gradient-2">
       Features you love, minus the complexity
     </h2>
     <div class="text-center">Neatly wrapped in an intuitive RESTful API</div>
+    <div class="my-1">&nbsp;</div>
 
     <div class="grid mt-5">
       <div v-for="feature in features" :key="feature.name">

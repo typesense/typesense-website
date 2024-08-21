@@ -8,6 +8,9 @@ sitemap:
 
 Typesense supports JOINing documents from one or more collections based on a related column between them.
 
+**Note:** Adding a reference field in an existing collection via alter operation is not yet supported.
+
+
 ## One-to-One relation
 
 When you create a collection, you can create a field that connects a document to a field in another collection 
@@ -266,11 +269,19 @@ To get the user ids that can access a particular document:
 
 ## Sort by joined collection field
 
-We can sort on a field that's present in the joined collection this way:
+Following the `$JoinedCollectionName( ... )` convention, we can specify to `sort_by` on a field that's present in the joined collection this way:
 
 ```json
 {
-  "sort_by": "$JoinedCollectionName(field_name:asc)"
+  "sort_by": "$JoinedCollectionName( field_name:desc )"
+}
+```
+
+Similarly, to specify an `_eval` operation using the joined collection's field:
+
+```json
+{
+  "sort_by": "$JoinedCollectionName( _eval(field_name:foo):desc )"
 }
 ```
 

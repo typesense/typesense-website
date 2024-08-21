@@ -54,8 +54,10 @@ If there are multiple books containing these exact words, then all those documen
 To break the tie, we could specify up to two additional `sort_by` fields. 
 For instance, we could say:
 
-```
-sort_by=_text_match:desc,average_rating:desc,publication_year:desc
+```json
+{
+  "sort_by": "_text_match:desc,average_rating:desc,publication_year:desc"
+}
 ```
 
 This would sort the results in the following manner:
@@ -68,25 +70,40 @@ This would sort the results in the following manner:
 
 When you don't provide a `sort_by` parameter to your search request, the documents will be ranked first on the _text_match score, then default sorting field values specified in the collection's schema, and if not specified the document insertion order:
 
-```
-sort_by=_text_match:desc,default_sorting_field:desc,document_insertion_order:desc
+```json
+{
+  "sort_by": "_text_match:desc,default_sorting_field:desc,document_insertion_order:desc"
+}
 ```
 
 ## Strict Ordering or Hard Sorting
 
 If you wish to sort the documents strictly by an indexed numerical or string field like `price`, `name`, etc, you can just move the text match score criteria to the end as follows:
 
-```
-sort_by=price:desc,_text_match:desc
+```json
+{
+  "sort_by": "price:desc,_text_match:desc"
+}
 ```
 
 ## Ranking based on Relevance and Popularity
 
-You can bucket results based on textual relevance and then sort within those buckets by a custom ranking/popularity score you've calculated on your end using the following:
+If you have a popularity score for your documents that you have either:
 
+1) calculated on your end in your application using any formula of your choice or 
+2) calculated using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html#counting-events-for-popularity`">counter analytics rule in Typesense</RouterLink> 
+
+You can have Typesense mix your custom scores with the text relevance score it calculates, so results that are more popular (as defined by your custom score) are boosted more in ranking.  
+
+Here's the search parameter to achieve this:
+
+```json
+{
+  "sort_by": "_text_match(buckets: 10):desc,weighted_score:desc"
+}
 ```
-sort_by=_text_match(buckets: 10):desc,weighted_score:desc
-```
+
+Where `weighted_score` is a field in your document with your custom score. 
 
 This will do the following:
 
@@ -99,6 +116,30 @@ This will do the following:
 The higher the number of buckets, the more granular the re-ranking based on your weighted score will be.
 For eg, if you have 100 results, and `buckets: 50`, then each bucket will have 2 results, those two results within each bucket will be re-ranked based on your `weighted_score`.
 
+## Ranking based on Relevance and Recency
+
+A common need is to rank results have been published recently higher than older results.
+
+To implement this in Typesense, you want to store the **Unix timestamp** when a document was published as an **int64** field (eg: `published_at_timestamp`).
+
+Now to sort based on both text relevance and recency, you could use the following `sort_by` parameter:
+
+```json
+{
+  "sort_by": "_text_match(buckets: 10):desc,published_at_timestamp:desc"
+}
+```
+
+This will do the following:
+
+1. Fetch all results matching the query
+2. Sort them by text relevance (text match score desc)
+3. Divide the results into equal-sized 10 buckets (with the first bucket containing the most relevant results)
+4. Force all results within each bucket to tie in `_text_match` score. So all results in the 1st bucket will be forced to have the same text match score, all results in the 2nd bucket will be forced to have the same text match score, etc.
+5. This will cause a tie inside each bucket, and then the `published_at_timestamp` will be used to break the tie and re-rank results within each bucket.
+
+The higher the number of buckets, the more granular the re-ranking based on your weighted score will be.
+For eg, if you have 100 results, and `buckets: 50`, then each bucket will have 2 results, those two results within each bucket will be re-ranked based on your `published_at_timestamp`.
 
 ## Ranking exact matches
 

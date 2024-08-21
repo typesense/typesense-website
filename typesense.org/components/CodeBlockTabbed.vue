@@ -84,7 +84,7 @@ export default {
 <style lang="scss">
 .code-block {
   filter: drop-shadow(7px 7px 8px rgba(0, 0, 0, 0.33));
-  border-radius: $border-radius;
+  border-radius: 15px;
   background-color: darken($secondary-dark-2, 15%);
 
   .card-body {

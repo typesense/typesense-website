@@ -1108,6 +1108,13 @@ Reads will be serviced as usual, without blocking.
 Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 :::
 
+:::warning
+Only one alter operation can be in progress at a time for a given cluster.
+
+Since the alter operation can take a long time, this ensures that a client with a short default time-out does 
+not end up retrying the same alter request.
+:::
+
 The update operation consists of an initial validation step where the records on-disk are assessed to ensure 
 that they are compatible with the proposed schema change. For example, let's say there is a `string` field `A` which 
 is already present in the documents on-disk but is not part of the schema. If you try to update the collection 

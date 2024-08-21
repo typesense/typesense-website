@@ -6,7 +6,11 @@
     </a>
     <br class="d-block d-sm-none" />
     <a
-      class="btn btn-primary text-left ml-sm-2 mt-3 mt-sm-0"
+      :class="
+        (useOutlineStyleForSecondaryCTA
+          ? 'border border-primary btn-primary-outline text-primary text-decoration-none'
+          : 'btn-primary') + ` btn text-left ml-sm-2 mt-3 mt-sm-0`
+      "
       href="https://cloud.typesense.org"
       role="button"
     >
@@ -15,6 +19,17 @@
     </a>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    useOutlineStyleForSecondaryCTA: {
+      type: Boolean,
+      default: false,
+    },
+  },
+}
+</script>
 
 <style scoped>
 .btn {

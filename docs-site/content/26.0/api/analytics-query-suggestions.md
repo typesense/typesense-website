@@ -442,7 +442,7 @@ curl -k "http://localhost:8108/analytics/rules" \
 ## Counting events for popularity
 
 Typesense allows you to track how often a particular document is clicked on or purchased. You can then use this 
-counter value for ranking the results on popularity.
+counter value to [rank search results based on popularity](/guide/ranking-and-relevance.md#ranking-based-on-relevance-and-popularity).
 
 Let's say there's a collection with a `popularity` field that we will use as a counter:
 

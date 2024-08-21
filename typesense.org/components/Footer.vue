@@ -4,26 +4,27 @@
       <div class="row">
         <div class="col-sm-5 py-2">
           <div class="text-serif font-weight-light">
-            <h3 class="mb-0 text-serif-2">
+            <h4 class="mb-0 text-serif-2">
               <NuxtLink to="/" class="font-weight-bold">Typesense</NuxtLink>
-            </h3>
+            </h4>
           </div>
           <div class="font-weight-light">
-            An open source, typo-tolerant search engine
+            Fast, open source, typo-tolerant search engine
           </div>
-          <div class="mt-4 font-weight-light">
+          <div class="mt-5 font-weight-light">
             <address>
-              <strong>Typesense Inc.</strong> <br />
-              Houston, TX<br /><br />
+              <strong>Typesense, Inc.</strong> <br />
+              Houston, TX<br />
               <a href="https://twitter.com/typesense" target="_blank"
                 >@typesense</a
-              ><br />
+              >
+              |
               <a href="mailto:contact@typesense.org" target="_blank"
                 >contact@typesense.org</a
               >
             </address>
           </div>
-          <div class="mt-4 font-weight-light">
+          <div class="font-weight-light small">
             Typesense® is a registered trademark of Typesense, Inc.
           </div>
         </div>
@@ -60,136 +61,6 @@
           </ul>
         </div>
 
-        <div class="col-sm-2 mt-4 mt-md-0">
-          <ul class="nav flex-column">
-            <li class="nav-item"><strong>Libraries</strong></li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-js"
-                >Javascript Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-php"
-                >PHP Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-ruby"
-                >Ruby Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-go"
-                >Go Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-python"
-                >Python Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-dart"
-                >Dart Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/DAXGRID/typesense-dotnet"
-                >.Net Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-java"
-                >Java Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-swift"
-                >Swift Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/runeanielsen/typesense-clj"
-                >Clojure Client
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://laravel.com/docs/10.x/scout#typesense"
-                >Laravel Scout Driver
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://wordpress.org/plugins/search-with-typesense/?ref=typesense"
-                >Wordpress Plugin
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link p-0" href="https://tooljet.com/?ref=typesense"
-                >Tooljet Extension
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/gatsby-plugin-typesense"
-                >Gatsby Plugin
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-instantsearch-adapter"
-                >Instantsearch.js adapter
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/typesense-docsearch.js"
-                >Documentation Search
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/docusaurus-theme-search-typesense"
-                >Docusaurus Search Theme
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link p-0"
-                href="https://github.com/typesense/firestore-typesense-search"
-                >Firebase Extension
-              </a>
-            </li>
-          </ul>
-        </div>
-
         <div class="col-sm-3 mt-4 mt-md-0">
           <ul class="nav flex-column">
             <li class="nav-item">
@@ -222,7 +93,7 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
-                href="https://join.slack.com/t/typesense-community/shared_invite/zt-2fetvh0pw-ft5y2YQlq4l_bPhhqpjXig"
+                href="https://join.slack.com/t/typesense-community/shared_invite/zt-2otyo41xs-tbZNeeC6F37_FKftAdUc5A"
                 >Slack Community</a
               >
             </li>
@@ -245,7 +116,7 @@ a {
   &:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
+    text-underline-offset: 6px;
     text-decoration-color: darken($primary, 5%);
   }
 }

@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h2 class="text-center text-gradient-1 text-shadow-primary-2">
+    <h2 class="text-center text-gradient-1">
       Batteries-Included Developer Experience
     </h2>
     <div class="text-center">Zero to Instant-Search, in 30 seconds 🚀</div>
+    <div class="my-1">&nbsp;</div>
 
     <HomeDeveloperExperienceStep class="mt-5" data-aos="fade-up">
       <template #code>
@@ -197,7 +198,7 @@ client.collections['books'].documents.import(documents)</pre
         </CodeBlockTabbed>
       </template>
       <template #description>
-        <h4>2. Index Data</h4>
+        <h4>2. Import Your Data</h4>
         <div>Create a collection, then add some documents to it.</div>
       </template>
     </HomeDeveloperExperienceStep>
@@ -241,18 +242,16 @@ puts client.collections['books'].documents.search({
           You now have a typo-tolerant, search server you can send search
           queries to.
         </div>
-        <div class="mt-4">
-          <a
-            href="https://cloud.typesense.org"
-            target="_blank"
-            class="btn btn-primary"
-            role="button"
-          >
-            <strong>Try on Typesense Cloud</strong>
-          </a>
-        </div>
       </template>
     </HomeDeveloperExperienceStep>
+
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-sm text-center">
+          <HomeCTAs class="mt-4" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -124,6 +124,94 @@ For eg, let's say you have two types of data called `products` and `articles` an
 You can create a single collection with both products and articles, set all fields as optional, add a field called `document_type: product | article` to identify if a document is a product or an article. 
 When you send a search query, now both types of records are returned in the same ranked list, and you can use the `document_type` field to visually differentiate each type of record in your search interface.
 
+### How do I ensure that all keywords in my search query are present in the returned results?
+
+You want to set `drop_tokens_threshold: 0` as a search parameter. 
+
+For more context on how this works, please read this section below: [The `q` search parameter](#the-q-search-parameter)
+
+### Can I implement Boolean Search with Typesense?
+
+Yes, but with some caveats, that require additional consideration.
+
+Let's start with some background context about the features that you can use to implement Boolean Search. 
+
+#### The `q` search parameter
+
+Typesense has a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">search parameter</RouterLink> called `q` 
+that accepts any **full-text** search terms. The provided search terms are searched for across any of the fields mentioned in the `query_by` search parameter.
+
+Now, if there are no records in your dataset where all the provided search terms are found in the same document, then by default Typesense will start 
+dropping search terms in the `q` parameter, one by one, left to right and repeat the search operation, until enough search results are found.
+
+The threshold for "enough" results in the above statement can be configured using the `drop_tokens_threshold` search parameter and 
+the direction of the dropping of keywords can be configured using the `drop_tokens_mode` search parameter.
+
+For eg: let's say you're doing the following search:
+
+```json
+{
+  "q": "senior software engineering manager",
+  "query_by": "job_title,seniority",
+  "drop_tokens_threshold": 10,
+  "drop_tokens_mode": "right_to_left"
+}
+```
+
+1. Typesense will first look for a record that contains all 4 search terms - `senior`, `software`, `engineering` and `manager` in the **same record**, across the `job_title` and `seniority` fields.
+2. If there are less than `10` records found (which is configured using `drop_tokens_threshold`), Typesense will continue dropping search terms and this time, drop the search term `manager` and repeat the search for `senior software engineering`. 
+3. Now, if there are at least `10 records` found for this modified query, Typesense will stop the search and return those results.
+4. But, if there are still less than `10` records found, Typesense will now drop another search term `engineering` and repeat the search for `senior software`.
+5. If there are still less than `10` records found, Typesense will drop another term and repeat the search for just `senior`.
+
+This process will continue until at least 10 results are found, or there's only 1 search term left in the original search query. 
+
+##### Using token-dropping for OR Search:
+
+With the feature explained above, if you set `drop_tokens_threshold: 10000000` (essentially any large number that's higher than the total number of documents in your dataset),
+and `drop_tokens_mode: both_sides:3`, then Typesense will essentially drop every keyword in your search query, one-by-one, from both directions and repeat the search multiple times, which is essentially an OR operation.
+
+You can also use quotes around particular search terms to group them together. For eg: `senior "software engineering" manager` will ensure that `software engineering` always exists in the that same order in the record, for it to be considered a match and the other search terms are considered optional.
+
+##### Disabling token-dropping for AND Search:
+
+With the feature explained above, if you set `drop_tokens_threshold: 0`, that disables the feature and Typesense will only return records where ALL the search terms mentioned in the query are present in the same record.
+
+#### Boolean Search using the `filter_by` search parameter:
+
+If you need to do more structured queries, then you can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#filter-parameters`">`filter_by` search parameter</RouterLink>, 
+which supports complex boolean expressions with precedence, etc.
+
+For eg, let's say we want to search for `software engineering lead` OR `software engineering manager` in the same search query.
+
+You could do something like this:
+
+```json
+{
+  "q": "*",
+  "filter_by": "job_title:[software engineering lead, software engineering manager]"
+}
+```
+
+If we want to search for `software engineering lead` records, which have a job location as `remote` or `hyrbid`, we would do:
+
+```json
+{
+  "q": "*",
+  "filter_by": "job_title:software engineering lead && job_location:[remote, hybrid]"
+}
+```
+
+You could also do "starts with" matching using filter_by. For eg, say we want to find all records where the title starts with `software`, you could do:
+
+```json
+{
+  "q": "*",
+  "filter_by": "job_title:=software*"
+}
+```
+
+
 ## Semantic Search
 
 ### How do I fine-tune semantic search results?

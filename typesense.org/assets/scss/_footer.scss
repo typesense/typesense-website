@@ -11,10 +11,10 @@ body {
   }
 
   &.footer-lg-margin {
-    margin-bottom: 1424px; // Controls spacing from content to footer
+    margin-bottom: 924px; // Controls spacing from content to footer
 
     @media (min-width: map-get($grid-breakpoints, 'sm')) {
-      margin-bottom: 839px;
+      margin-bottom: 472px;
     }
   }
 }
@@ -28,14 +28,13 @@ footer.navbar {
   line-height: 30px;
 
   color: #5a5a5a;
-  background-color: $gray-100;
-  font-size: 0.85em;
+  background-color: $gray-800;
   min-height: auto;
   border: none;
   border-radius: 0;
 
   &.footer-lg {
-    @extend .bg-gradient-4;
+    background-color: $black;
 
     * {
       color: $white;
@@ -43,10 +42,11 @@ footer.navbar {
 
     .nav-link {
       display: inline-block;
+      margin-bottom: 15px;
     }
 
     address {
-      line-height: 1.3em;
+      line-height: 1.4em;
     }
   }
 }

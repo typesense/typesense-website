@@ -28,7 +28,7 @@
             </h1>
             <h3 class="font-weight-lighter">No PhD required.</h3>
             <div class="mt-5">
-              <HomeCTAs />
+              <HomeCTAs use-outline-style-for-secondary-c-t-a="true" />
               <GitHubStars class="mt-4 d-inline-block d-sm-none" />
             </div>
           </div>
