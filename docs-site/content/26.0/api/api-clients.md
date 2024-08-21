@@ -171,6 +171,7 @@ We also have the following framework integrations:
 ## CMS
 
 - [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
+- [Vector Search add-on for WordPress](https://wordpress.org/plugins/typesense-wp-vector/) by Knowhalim
 - [Craft CMS](https://plugins.craftcms.com/typesense) by Percipio
 - [Prepr Headless CMS](https://docs.prepr.io/integrations/typesense#introduction)
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
