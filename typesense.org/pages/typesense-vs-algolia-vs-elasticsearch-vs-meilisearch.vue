@@ -150,6 +150,7 @@
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />Active-passive replication</td>
+                  <td>❌</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">GPU Acceleration Support</td>
