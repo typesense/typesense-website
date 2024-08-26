@@ -1094,6 +1094,13 @@ curl "http://localhost:8108/collections/companies" \
   </template>
 </Tabs>
 
+:::tip
+Dropping a field affects only the schema and the in-memory index; 
+it does not remove the data associated with that field from the existing documents stored on disk.
+In Typesense, documents can contain additional fields not explicitly defined in the schema.
+To permanently remove a field and its data from a document, you must update the document directly.
+:::
+
 **Definition**
 `PATCH ${TYPESENSE_HOST}/collections/:collection`
 
