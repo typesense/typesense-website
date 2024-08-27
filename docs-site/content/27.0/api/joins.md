@@ -497,3 +497,90 @@ By default, Typesense performs inner join. To perform left join,
 }
 ```
 can be specified. `id:*` matches all documents of the collection being searched. So the result will include the referenced documents if a reference exists otherwise the document will be returned as is.
+
+## Nested Joins
+
+Typesense supports nesting joins for queries involving multiple data retrieval and filtering levels. Suppose we are managing the inventory of multiple retailers where a particular product can have many variants. The data could be modeled like this:
+
+```json
+{
+  "name": "products",
+  "fields": [
+    { "name": "name", "type": "string" }
+  ]
+}
+```
+```json
+{
+  "name": "product_variants",
+  "fields": [
+    { "name": "title", "type": "string" },
+    { "name": "price", "type": "float" },
+    { "name": "product_id", "type": "string", "reference": "products.id" }
+  ]
+}
+```
+```json
+{
+  "name": "retailers",
+  "fields": [
+    { "name": "title", "type": "string" },
+    { "name": "location", "type": "geopoint" }
+  ]
+}
+```
+```json
+{
+  "name": "inventory",
+  "fields": [
+    { "name": "qty", "type": "int32" },
+    { "name": "retailer_id", "type": "string", "reference": "retailers.id" },
+    { "name": "product_variant_id", "type": "string", "reference": "product_variants.id" }
+  ]
+}
+```
+Nested joins syntax follows `$JoinedCollectionName( $NestedJoinedCollectionName(...))` convention. To search through the product names and to get all the inventory of every retailer, the following query can be sent:
+
+```json
+{
+  "collection": "products",
+  "q": "shampoo",
+  "query_by": "name",
+  "filter_by": "$product_variants( $inventory( $retailers(id:*)))",
+  "include_fields": "$product_variants(price, $inventory(qty, $retailers(title)))"
+}
+```
+
+If we want to search for products within a geo radius, the following query can be sent:
+
+```json
+{
+  "collection": "products",
+  "q": "shampoo",
+  "query_by": "name",
+  "filter_by": "$product_variants( $inventory( $retailers(location:(48.87538726829884, 2.296113163780903,1 km))))",
+  "include_fields": "$product_variants(price, $inventory(qty, $retailers(title)))"
+}
+```
+
+If we also want to filter by price, the following query can be sent:
+
+```json
+{
+  "collection": "products",
+  "q": "shampoo",
+  "query_by": "name",
+  "filter_by": "$product_variants(price:<100 && $inventory( $retailers(location:(48.87538726829884, 2.296113163780903,1 km))))",
+  "include_fields": "$product_variants(price, $inventory(qty, $retailers(title)))"
+}
+```
+
+### Sort by a nested joined collection's field
+
+Following the `$JoinedCollectionName( $NestedJoinedCollectionName(...))` convention, we can specify to sort_by on a field that's present in the nested joined collection this way:
+
+```json
+{
+  "sort_by": "$JoinedCollectionName( $NestedJoinedCollectionName(field_name:desc))"
+}
+```
