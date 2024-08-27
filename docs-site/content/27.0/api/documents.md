@@ -956,12 +956,6 @@ Once you've extracted the JSON, you can then [index](#index-documents) them in T
 
 Fetch an individual document from a collection by using its `id`.
 
-:::tip
-You can send a comma separated list of fields to include or exclude via `include_fields` and `exclude_fields`
-parameters.
-:::
-
-
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 
@@ -1040,6 +1034,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 
   </template>
 </Tabs>
+
+While retrieving a document, you can use the following parameters to control the fields that are returned:
+
+| Parameter      | Description                                                         |
+|:---------------|:--------------------------------------------------------------------|
+| include_fields | List of fields that should be present in the returned document.     |
+| exclude_fields | List of fields that should not be present in the returned document. |
 
 **Definition**
 

@@ -269,7 +269,7 @@ To get the user ids that can access a particular document:
 
 ## Sort by joined collection field
 
-Following the `$JoinedCollectionName( ... )` convention, we can specify to `sort_by` on a field that's present in the joined collection this way:
+Following the `$JoinedCollectionName( ... )` convention, we can `sort_by` on a field that's present in the joined collection this way:
 
 ```json
 {

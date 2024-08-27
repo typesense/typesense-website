@@ -19,40 +19,62 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- Add `sum_score` mode for `text_match_type` which sums the field-level text match scores to arrive at a document-level score.
-- Enable/disable typo tolerance on alphanumerical words in the query via the 
+- **A new `text_match_type` mode called `sum_score`** which sums the field-level text match scores to arrive at a document-level score.
+  - This mode is helpful in cases where you need to consider a document with more matches across more weighted fields, to be more relevant.
+  - [Docs](https://typesense.org/docs/27.0/api/search.html#ranking-and-sorting-parameters)
+- Enable/disable typo tolerance on alphanumeric words in the query via the 
   `enable_typos_for_alpha_numerical_tokens` search parameter. Default: `true`.
-- Storing the conversation history from conversational search as a regular Typesense collection.
+  - For eg: If you need to disable typo tolerance for a word that contains a mix of letters and numbers like `turbo100`, you can now set `enable_typos_for_alpha_numerical_tokens: false` as a search parameter.
+  - [Docs](https://typesense.org/docs/27.0/api/search.html#typo-tolerance-parameters)
+- Conversation History from Conversational Searches is now stored as a regular Typesense collection.
+  - This is new feature, also has a corresponding breaking change. See the `Deprecations / behavior changes` section below.
+  - [Docs](https://typesense.org/docs/27.0/api/conversational-search-rag.html#create-a-conversation-history-collection)
 - Support synonyms on query prefixes and typo-corrected query tokens via the `synonym_prefix` 
-  and `synonym_num_typos` parameters. Defaults to `synonym_prefix: false` and `synonym_num_typos: 0`.
-- Support nested reference collections in `include_fields` search parameter, e.g. `$Coll_B(title, $Coll_A(title))`
+  and `synonym_num_typos` parameters. 
+  - Defaults to [`synonym_prefix: false`](https://typesense.org/docs/27.0/api/search.html#ranking-and-sorting-parameters) and [`synonym_num_typos: 0`](https://typesense.org/docs/27.0/api/search.html#typo-tolerance-parameters).
 - Customization of faceting index used for search via the `facet_strategy` parameter.
-- Support `sort_by` of nested join field.
-- Allow joining in export of documents.
+  - By default, Typesense picks an efficient `facet_strategy` for you based on some built-heuristics. But this flag now lets you explicitly control which strategy to use: `exhaustive` or `top_values` or `automatic` (default).
+  - [Docs](https://typesense.org/docs/27.0/api/search.html#faceting-parameters)
+- Support nested reference collections (when using JOINs), in `include_fields` search parameter, Eg: `include_fields: $Collection_B(title, $Collection_A(title))`
+- Support `sort_by` of nested join fields. Eg: `sort_by: $Collection_B( $Collection_A(price) )`
+- Ability to use JOINs when using the documents export endpoint, with the `filter_by` and `include_fields` parameters. 
+- Support exact prefix value filtering via the `:=` operation. For example, given `filter_by: name:= S*`.
+  we will match `Steve Jobs` but NOT `Adam Stator`.
 
 ### Enhancements
 
+**Search Parameters:**
+
 - Added `enable_synonyms` boolean flag to enable/disable the application of synonyms during search (default: `true`).
 - Added `filter_curated_hits` search parameter which allows you to customize filter behavior for pinned hits.
-- Added `filter-by-max-ops` server-side flag that can customize the maximum number of operators that can be present 
-  in a `filter_by` clause (default: `100`).
-- Collection listing API now respects the collections allowed in the API key associated with the request.
-- Use 64K page size for Jemalloc on ARM64 / Linux.
-- Added `--max-per-page` server-side flag that increases the number of hits that can be fetched within a single page. Default: `250`. 
-- Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
-- Log in-flight search queries during a crash.
 - Added search parameter `enable_analytics` that prevents the given query from being used for analytics aggregation.
-- Suppress punctuations and non-speech tokens from appearing in voice search (e.g. `hmm`).
-- Support array fields in `facet_return_parent` search parameter. 
-- Increase max length of facet value stored to `255` characters.
+- Support array fields in `facet_return_parent` search parameter.
 - Allow special characters in range facet labels.
-- Added API key support for vLLM conversation models.
+- Increase max length of facet value stored to `255` characters.
+
+**Server-side improvements:**
+
+- Added `--filter-by-max-ops` server-side flag that can customize the maximum number of operators that can be present
+  in a `filter_by` clause (default: `100`).
+- Added `--max-per-page` server-side flag that increases the number of hits that can be fetched within a single page. Default: `250`.
 - Allow dynamic update of cache size via the `/config` API with the `cache-num-entries` key.
-- Support exact prefix value filtering via the `:=` operation. For example, given `filter_by: name:= S*`.
-  we will match `Steve Jobs` but NOT `Adam Stator`.
-- Support `include_fields` and `exclude_fields` in the single document fetch end-point.
-- Support for `exclude_fields` in collection listing API end-point. This is useful when you have a lot of fields which 
-  bloats the payload.
+- Use 64K page size for Jemalloc on ARM64 / Linux.
+- Log in-flight search queries during a crash.
+
+**AI Search:**
+
+- Added API key support for vLLM conversation models using the `api_key` parameter
+- Suppress punctuations and non-speech tokens from appearing in voice search (e.g. `hmm`).
+
+**API Endpoints:**
+
+- Support `include_fields` and `exclude_fields` in the single document fetch (`GET /collections/x/documents/id`) end-point.
+- `GET /collections` API endpoint now respects the collections allowed in the API key associated with the request.
+- Support for `exclude_fields` in the `GET /collections` API end-point. This is useful when you have a lot of fields which bloats the payload.
+
+**Performance:**
+
+- Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
 
 ### Bug Fixes
 
@@ -76,26 +98,34 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
-**Conversational search API**
+**Conversational Search:**
 
 To address some limitations that we found with the previous design of the conversational search feature, 
-we now use a Typesense collection for storing the conversation history. During upgrade, we will attempt to create a 
+we now use a Typesense collection for storing the conversation history. 
+
+During upgrade, we will attempt to create a 
 default collection with the name `default_conversation_history_<timestamp>` and migrate existing conversations 
-to this collection. **However,** given the edge cases we found and have now fixed with the new approach on HA 
+to this collection. 
+
+**However,** given the edge cases we found and have now fixed with the new approach on multi-node Highly Available 
 clusters, this automated migration may not work: if it does not, please refer to the guide on how to 
-[re-create the conversation model](conversational-search-rag.md).
+[re-create the conversation model](https://typesense.org/docs/27.0/api/conversational-search-rag.html).
 
 **Exhaustive `total_values` in facet stats**
 
 We refactored the faceting data structures to improve efficiency. This had an impact on how the `total_values` in
 `facet_stats` is computed for low-cardinality facet fields: it's now computed only within the
-results returned, instead of on the whole dataset. To get the correct value, send this additional search parameter:
+results returned, instead of on the whole dataset. 
 
-```
-"facet_strategy": "exhaustive"
+To get an accurate `total_values` for the entire dataset, send this additional search parameter:
+
+```json
+{
+  "facet_strategy": "exhaustive"
+}
 ```
 
-This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` to be exact.
+This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` key in the response to be exact.
 
 ## Upgrading
 
@@ -138,7 +168,7 @@ field in the `/debug` end-point response.
 | 1     | LEADER   |
 | 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.html#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.0/cluster-operations.html#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
