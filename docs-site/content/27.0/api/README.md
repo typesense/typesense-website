@@ -104,7 +104,7 @@ To address some limitations that we found with the previous design of the conver
 we now use a Typesense collection for storing the conversation history. 
 
 During upgrade, we will attempt to create a 
-default collection with the name `default_conversation_history_<timestamp>` and migrate existing conversations 
+default collection with the name `ts_conversation_history_model_id` and migrate existing conversations 
 to this collection. 
 
 **However,** given the edge cases we found and have now fixed with the new approach on multi-node Highly Available 
