@@ -75,6 +75,7 @@ This release contains important new features, performance improvements and bug f
 **Performance:**
 
 - Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
+- Improved working memory used when loading large embedding models.
 
 ### Bug Fixes
 
@@ -95,6 +96,10 @@ This release contains important new features, performance improvements and bug f
 - Fixed a hanging issue when OpenAI API returned no response.
 - Fixed persistence of `range_index` and `stem` field properties.
 - Fixed highlighting of text stored in fields inside array of objects.
+- Fix `_vector_query` parameter in `sort_by` clause being treated as a sorting field.
+- Fix overrides not working with semantic search.
+- Fixed a regression in v26 that prevented an empty array from being used as a valid value in filter_by clause.
+- Fix `return_id` not being returned in import API response during failures.
 
 ### Deprecations / behavior changes
 
