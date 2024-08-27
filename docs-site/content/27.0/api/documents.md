@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Documents
@@ -1035,6 +1035,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
   </template>
 </Tabs>
 
+While retrieving a document, you can use the following parameters to control the fields that are returned:
+
+| Parameter      | Description                                                         |
+|:---------------|:--------------------------------------------------------------------|
+| include_fields | List of fields that should be present in the returned document.     |
+| exclude_fields | List of fields that should not be present in the returned document. |
+
 **Definition**
 
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
@@ -1269,7 +1276,7 @@ curl "http://localhost:8108/collections/companies/documents?filter_by=num_employ
 
 ```json
 {
-  "tag": "large"
+  "num_updated": 24
 }
 ```
 

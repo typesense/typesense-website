@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Collections
@@ -731,7 +731,12 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all collections
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
-NOTE: By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the collection listing.
+:::tip
+By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the 
+collection listing.
+
+You can also set `exclude_fields=fields` to exclude the field definitions from being returned in the response.
+:::
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
@@ -1095,7 +1100,7 @@ curl "http://localhost:8108/collections/companies" \
 </Tabs>
 
 :::tip
-Dropping a field affects only the schema and the in-memory index; 
+Dropping a field affects only the schema and the in-memory index;
 it does not remove the data associated with that field from the existing documents stored on disk.
 In Typesense, documents can contain additional fields not explicitly defined in the schema.
 
@@ -1120,7 +1125,7 @@ Alternatively, you can also use the [alias feature](#using-an-alias) to do zero 
 :::warning
 Only one alter operation can be in progress at a time for a given cluster.
 
-Since the alter operation can take a long time, this ensures that a client with a short default time-out does 
+Since the alter operation can take a long time, this ensures that a client with a short default time-out does
 not end up retrying the same alter request.
 :::
 
@@ -1134,6 +1139,7 @@ If the validation is successful, the actual schema change is done and the record
 indexed / re-indexed / dropped as per the requested change. The process is complete as soon as the API call 
 returns (make sure you use a large client timeout value). Because of the blocking nature of the update, we 
 recommend doing the change during off-peak hours. 
+
 Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 
 ### Modifying an existing field

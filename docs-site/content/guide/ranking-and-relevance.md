@@ -9,17 +9,37 @@ Typesense ranks search results using a simple tie-breaking sorting algorithm tha
 
 [[toc]]
 
-## Text Match Score
+## Text Match Score & Type
 
-The text match score is computed based on the following metrics:
+Typesense first computes a per-field text match score based on the following heuristics:
 
 1. **Frequency**: Number of tokens overlapping between the search query and a text field. Documents that have more overlapping tokens will be ranked above those with lesser overlapping tokens.
 2. **Edit distance**: If a given token in the query is not found, we look at tokens that are within an edit distance of num_typos characters from the query tokens. Documents that contain the tokens in the query exactly are ranked higher than those containing tokens with larger edit distances.
 3. **Proximity**: Whether the query tokens appear verbatim or interspersed with other tokens in the field. Documents in which the query tokens appear right next to each other will be ranked above documents where the query tokens exist but are far apart in a text field.
-4. **Ordering of `query_by` fields**: A document that matches on a field earlier in the list of `query_by` fields is considered more relevant than a document matched on a field later in the list.
-5. **Field weights specified in `query_by_weights` field**: A document that matches a field with a higher score is considered more relevant than a document that matches on a field with a lower score.
+4. **Ordering of `query_by` fields**: A document that matches on a field earlier in the list of `query_by` fields is considered more relevant than a document matched on a field later in the list. This implicit weighting can be overrided with `query_by_weights`.
+5. **Field weights specified in `query_by_weights` field**: A document that matches a field with a higher score is 
+   considered more relevant than a document that matches on a field with a lower score. These weights override the 
+   implicit weights from ordering of `query_by` fields. 
 
-Based on the above metrics, Typesense calculates a `_text_match` score for ranking the documents on text relevance.
+Per-field text match scores are then used to arrive at a per-document aggregated text match score that's 
+used to order the documents when you set the `sort_by` search parameter to `_text_match:desc`.
+
+Given that different search use cases will require different strategies, Typesense supports several text matching modes 
+for the computation of the aggregated per-document score. This can be configured via the `text_match_type` search 
+parameter, and it can contain the following values:
+
+- `max_score` (default): The largest text match score across all fields is picked as the representative score of the document. 
+   Field weights are used only as a tie-breaker when 2 documents share the same text match score. In this mode, we 
+   give priority to a field matching the words in the query as much as possible. Only when several fields match the query 
+   equally, we use the field weights to decide which document should be prioritized.
+- `max_weight`: The text match score of the highest weighted field is used as the representative score 
+   of the record. In this mode, we give priority to matches on the fields that we deem to be most important. In doing so, 
+   a document which matches the query partially on a field with higher weightage is deemed to be more relevant than a document 
+   that matches the query completely on a field with lesser weightage.
+- `sum_score`. We sum the field-level weighted text match scores to arrive at a document-level score. In this mode, 
+   we consider the contribution of all fields to a document's overall match with the query. The downside of this mode is that 
+   a document with partial matches on several low-weighted fields can be prioritized over a document with a complete match 
+   on a single higher weighted field.
 
 ## Tie-Breaking-based Ranking
 

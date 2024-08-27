@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Vector Search
@@ -2533,8 +2533,8 @@ This will automatically embed the `chair` query with the same model used for the
 
 When using [auto-embedding](#option-b-auto-embedding-generation-within-typesense), you can set `query_by` to a list of both regular fields and auto-embedding fields, to do a hybrid search on multiple fields.
 
-Typesense will do a keyword search on all the regular fields, and a semantic search on the auto-embedding field and 
-combine the results using Rank Fusion to arrive at a **fusion score** that is used to rank the hits. 
+Typesense will do a keyword search on all the regular fields, and a semantic search on the auto-embedding field and
+combine the results using Rank Fusion to arrive at a **fusion score** that is used to rank the hits.
 
 ```
 K = rank of document in keyword search
@@ -2604,7 +2604,7 @@ client.collections['products'].documents.search(search_parameters)
   </template>
 
 <template v-slot:Java>
-  
+
   ```java
 SearchParameters searchParameters = new SearchParameters();
 
@@ -2639,11 +2639,11 @@ curl 'http://localhost:8108/multi_search' \
 </Tabs>
 
 :::tip
-During hybrid search, the `_text_match` clause in `sort_by` will refer to the combined fusion score. 
+During hybrid search, the `_text_match` clause in `sort_by` will refer to the combined fusion score.
 :::
 
-If you are populating the embedding field externally, without using auto-embedding, you can still do a hybrid 
-search by passing the embedding of the query string manually via the `vector_query` parameter. 
+If you are populating the embedding field externally, without using auto-embedding, you can still do a hybrid
+search by passing the embedding of the query string manually via the `vector_query` parameter.
 
 ```shell
 curl 'http://localhost:8108/multi_search' \
@@ -2661,7 +2661,7 @@ curl 'http://localhost:8108/multi_search' \
         }'
 ```
 
-Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search 
+Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search
 using the `vector_query` field and combine the results into a ranked set of results using rank fusion as described earlier.
 
 ### Weightage for Semantic vs Keyword matches
@@ -2780,8 +2780,8 @@ curl 'http://localhost:8108/multi_search' \
 
 ### Sorting hybrid matches on vector distance
 
-If you want to fetch both keyword and vector search matches but sort the results only on the vector distance, you can use 
-the special sort keyword `_vector_distance`  in `sort_by`.
+If you want to fetch both keyword and vector search matches but sort the results only on the vector distance, 
+you can use the special sort keyword `_vector_distance`  in `sort_by`.
 
 Here's an example:
 
@@ -2793,7 +2793,7 @@ Here's an example:
 }
 ```
 
-We are searching on both the title text field and the `embedding` vector field, but the final results are sorted 
+We are searching on both the title text field and the `embedding` vector field, but the final results are sorted
 first on `popularity_score` and then on vector distance.
 
 ## Searching with historical queries
@@ -2823,8 +2823,8 @@ In the example below, we are using the vector distance as a secondary sorting co
 ```json
 {
   "q": "shoes",
-  "query_by": "title,brand",
-  "sort_by": "_text_match:desc,_vector_query(embedding:([0.43, 0.13, 0.21])):asc"
+  "query_by": "title",
+  "sort_by": "_text_match:desc,_vector_query(embedding:([])):asc"
 }
 ```
 
