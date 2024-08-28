@@ -19,7 +19,7 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- **A new `text_match_type` mode called `sum_score`** which sums the field-level text match scores to arrive at a document-level score.
+- A new `text_match_type` mode called `sum_score` which sums the field-level text match scores to arrive at a document-level score.
   - This mode is helpful in cases where you need to consider a document with more matches across more weighted fields, to be more relevant.
   - [Docs](https://typesense.org/docs/27.0/api/search.html#ranking-and-sorting-parameters)
 - Enable/disable typo tolerance on alphanumeric words in the query via the 
