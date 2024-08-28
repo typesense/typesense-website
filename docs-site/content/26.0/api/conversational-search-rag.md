@@ -5,6 +5,9 @@ sitemap:
 ---
 
 # Conversational Search (RAG)
+:::warning
+This feature has seen several breaking changes in `v27`, so please ensure you're using the latest version of Typesense.
+:::
 
 Typesense has the ability to respond to free-form questions, with conversational responses and also maintain context for follow-up questions and answers.
 
@@ -356,20 +359,6 @@ curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86
   -X GET \
   -H 'Content-Type: application/json' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
-
-### Update a model
-
-You can update the system prompt like this:
-
-```shell
-curl 'http://localhost:8108/conversations/models/5a11318f-e31b-4144-81b3-b302a86571d3' \
-  -X PUT \
-  -H 'Content-Type: application/json' \
-  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-  -d '{
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you don’t have knowledge about that topic. Be very concise in your answers."
-      }'
 ```
 
 ### Delete a model
