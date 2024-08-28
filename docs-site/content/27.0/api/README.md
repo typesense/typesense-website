@@ -36,7 +36,7 @@ This release contains important new features, performance improvements and bug f
   - By default, Typesense picks an efficient `facet_strategy` for you based on some built-heuristics. But this flag now lets you explicitly control which strategy to use: `exhaustive` or `top_values` or `automatic` (default).
   - [Docs](https://typesense.org/docs/27.0/api/search.html#faceting-parameters)
 - Support nested reference collections (when using JOINs), in `include_fields` search parameter, Eg: `include_fields: $Collection_B(title, $Collection_A(title))`
-- Support `sort_by` of nested join fields. Eg: `sort_by: $Collection_B( $Collection_A(price) )`
+- Support `sort_by` of nested join fields. Eg: `sort_by: $Collection_B( $Collection_A(price:asc) )`
 - Ability to use JOINs when using the documents export endpoint, with the `filter_by` and `include_fields` parameters. 
 - Support exact prefix value filtering via the `:=` operation. For example, given `filter_by: name:= S*`.
   we will match `Steve Jobs` but NOT `Adam Stator`.
