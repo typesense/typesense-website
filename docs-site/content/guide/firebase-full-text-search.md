@@ -195,9 +195,9 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   },
   // The following parameters are directly passed to Typesense's search API endpoint.
   //  So you can pass any parameters supported by the search endpoint below.
-  //  queryBy is required.
+  //  query_by is required.
   additionalSearchParameters: {
-    queryBy: "title,description,tags",
+    query_by: "title,description,tags",
   },
 })
 const searchClient = typesenseInstantsearchAdapter.searchClient
