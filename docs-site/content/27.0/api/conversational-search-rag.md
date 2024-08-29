@@ -96,7 +96,7 @@ curl 'http://localhost:8108/conversations/models' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -d '{
         "id": "conv-model-1",
-        "model_name": "cf/mistral/mistral-7b-instruct-v0.1",
+        "model_name": "cloudflare/@cf/mistral/mistral-7b-instruct-v0.1",
         "history_collection": "conversation_store",
         "api_key": "CLOUDFLARE_API_KEY",
         "account_id": "CLOUDFLARE_ACCOUNT_ID",
