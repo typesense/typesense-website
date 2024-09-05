@@ -43,7 +43,7 @@ You can combine multiple filters using boolean operators.
 | Operator | Description | Example |
 |----------|-------------|---------|
 | `&&`     | AND | `country:=USA && city:=New York` |
-| `\|\|`   | OR  | `country:=USA \|\| country:=Canada` |
+| `||`   | OR  | `country:=USA || country:=Canada` |
 | `!`      | NOT | `!country:=USA` |
 
 When using boolean operators, you can use parentheses to group your filters.
@@ -51,9 +51,20 @@ When using boolean operators, you can use parentheses to group your filters.
 
 For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
 
-`(country:=USA || country:=Canada) && city:=New York`
+```
+(country:=USA || country:=Canada) && city:=New York
+```
 
 This will return products that are either made in the USA or Canada, and are located in New York.
+
+## Escaping special characters
+
+If you want to filter for a value that includes special characters, such as `,`, you can use
+backticks around your filter value:
+
+```
+country:=`United States, Minor Outlying Islands`
+```
 
 ## Filtering Joined Collections
 
@@ -61,14 +72,18 @@ When filtering for joined collection, you use the `$TableName(<filter>)` syntax.
 
 For example, if you have a `products` collection with a `category` field and a `categories` collection with a `name` field, you can filter for products that are in the `Electronics` category like this:
 
-`$categories(name:=Electronics)`
+```
+$categories(name:=Electronics)
+```
 
 Inside of the joined collection, you can use any filter string that you would use directly for that
 collection, including `&&`, `||` and `!` boolean operators. For example, to filter on products in
-the Electronics category AND the `Mobile Phones` category, but NOT in the `Disposable` category, and
+the Electronics category AND the `Mobile` category, but NOT in the `Disposable` category, and
 under $100, you can use the following filter:
 
-`$categories(name:=Electronics && name:=Mobile Phones && name:=!Disposable) && price:<100`
+```
+$categories(name:=Electronics && name:=Mobile && name:!=Disposable) && price:<100
+```
 
 **IMPORTANT** Joins must be configured in the schema prior to using them in a filter.
 
