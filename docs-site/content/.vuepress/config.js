@@ -179,6 +179,7 @@ let config = {
           children: [
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
             ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
+            ['/guide/tips-for-filtering', 'Tips for Filtering Data in Typesense'],
             ['/guide/running-in-production', 'Running in Production'],
           ],
         },
