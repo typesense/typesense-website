@@ -710,7 +710,18 @@ the results by a `popularity` score.
 
 Let's create a preset with name `listing_view`.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['JavaScript','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+  await client.presets().upsert("listing_view", {
+    value: {
+      searches: [{ collection: "products", q: "*", sort_by: "popularity" }],
+    },
+  });
+```
+
+  </template>
   <template v-slot:Dart>
 
 ```dart
@@ -737,7 +748,16 @@ curl "http://localhost:8108/presets/listing_view" -X PUT \
 
 You can refer to this preset configuration during a search operation.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['JavaScript','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+await client.multiSearch().perform({},{
+  preset: 'listing_view'
+});
+```
+
+  </template>
   <template v-slot:Dart>
 
 ```dart
