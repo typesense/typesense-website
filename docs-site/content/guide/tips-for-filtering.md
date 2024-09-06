@@ -18,36 +18,106 @@ use the `filter_by` parameter to specify a custom filter string.
 ```
 
 Note that the base format for a filter is `field: <operator> <value>`. Every filter field must have
-a `:` after it.
+a **`:`** after it.
 
 - :white_check_mark: Correct: `price:>=100`
 - :x: Incorrect: `price>=100`
 
 ## Available Operators
-| Operator | Description | Example |
-|----------|-------------|---------|
-| `=`      | Equal to    | `country:=USA` |
-| `>`      | Greater than| `price:>100` |
-| `<`      | Less than   | `price:<100` |
-| `!=`     | Not equal to| `status:!=inactive` |
-| `<=`     | Less than or equal to | `price:<=100` |
-| `>=`     | Greater than or equal to | `price:>=100` |
-| `=[]`    | one of | `country:=[USA, UK, Canada]` |
-| `!=[]`   | not one of | `country:!=[USA, UK, Canada]` |
-| `[..]`   | Range | `price:[100..200]` |
 
-## Boolean operations
+| Operator | Description              | Available types                             | Example                      |
+| -------- | ------------------------ | ------------------------------------------- | ---------------------------- |
+| `=`      | Equal to                 | `string`, `int32`, `int64`, `float`, `bool` | `country:=USA`               |
+| `:`      | Partially equal to       | `string`                                    | `country:New`                |
+| `>`      | Greater than             | `int32`, `int64`, `float`                   | `price:>100`                 |
+| `<`      | Less than                | `int32`, `int64`, `float`                   | `price:<100`                 |
+| `!=`     | Not equal to             | `string`, `int32`, `int64`, `float`, `bool` | `status:!=inactive`          |
+| `<=`     | Less than or equal to    | `int32`, `int64`, `float`                   | `price:<=100`                |
+| `>=`     | Greater than or equal to | `int32`, `int64`, `float`                   | `price:>=100`                |
+| `[]`     | Part of                  | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
+| `![]`    | Not Part of              | `string`, `int32`, `int64`, `float`, `bool` | `country:![USA, UK, Canada]` |
+| `[..]`   | Range                    | `int32`, `int64`, `float`                   | `price:[100..200]`           |
 
-You can combine multiple filters using boolean operators.
+### Non-exact Operator for String Types
 
-| Operator | Description | Example |
-|----------|-------------|---------|
-| `&&`     | AND | `country:=USA && city:=New York` |
-| `||`   | OR  | `country:=USA || country:=Canada` |
-| `!`      | NOT | `!country:=USA` |
+The non-exact operator (`:`) allows for word-level partial matching on `string` fields. It's useful when you want to find results that contain a specific substring:
 
-When using boolean operators, you can use parentheses to group your filters.
+```
+country:New
+```
 
+This filter will match any country name containing "New", such as:
+
+- New Zealand
+- New Caledonia
+
+The non-exact operator doesn't take token position into account, so it is usually faster than the exact `:=` operator.
+
+### Array Operators
+
+Array operators allow you to filter numeric fields (`int32`, `int64`, or `float`) based on specific conditions:
+
+```
+price:[<20, >100]
+```
+
+Will result in items with a price of:
+
+- Under 20
+- Over 100
+
+Commas act as OR operators, allowing flexible condition combinations.
+
+#### The Range Operator
+
+The range operator can be used with multiple array elements, creating a logical OR between ranges or values:
+
+```
+price:[100...200, 15...50, 800]
+```
+
+This matches items with prices:
+
+- Between 100 and 200
+- Between 15 and 50
+- Exactly 800
+
+## Prefix Filtering
+
+You can use an asterisk (`*`) to denote a prefix in a `string` field filter. This allows you to filter for fields that begin with the provided prefix:
+
+```
+name:Jo*
+```
+
+This filter will return results for people whose names include a word starting with `Jo`, such as:
+
+- Jonathan Jacobs
+- John McKinley
+- Michael Johansson
+
+When you use the prefix in conjunction with the exact-match operator `:=`, the results will only include entries where the prefix matches the beginning of the name:
+
+```
+name:=Jo*
+```
+
+This will return:
+
+- ✅ Jonathan Jacobs
+- ✅ John McKinley
+- ❌ Michael Johansson
+
+## Boolean Operations
+
+You can combine multiple filters using logical operators.
+
+| Operator                  | Description | Example                                                |
+| ------------------------- | ----------- | ------------------------------------------------------ |
+| `&&`                      | Logical AND | `country:=USA && city:=New York`                       |
+| <code>&#124;&#124;</code> | Logical OR  | <code>country:=USA &#124;&#124; country:=Canada</code> |
+
+When using logical operators, you can use parentheses to group your filters.
 
 For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
 
@@ -56,19 +126,92 @@ For example, to filter for products that are either made in the USA or Canada, a
 ```
 
 This will return products that are either made in the USA or Canada, and are located in New York.
+When using logical operators, you can use parentheses to group your filters.
+For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
+
+```
+(country:=USA || country:=Canada) && city:=New York
+```
+
+### Operator Precedence
+
+In boolean operations, the AND operator (`&&`) has higher precedence than the OR operator (`||`). This means that AND operations are performed before OR operations, unless parentheses are used to specify a different order.
+
+For example:
+
+```
+country:=USA || country:=Canada && city:=New York
+```
+
+Would be interpreted as:
+
+```
+country:=USA || (country:=Canada && city:=New York)
+```
+
+To change the order of operations, use parentheses:
+
+```
+(country:=USA || country:=Canada) && city:=New York
+```
+
+## Filtering Array Types
+
+Any of the array types can be used for filtering, matching any of their values.
+
+For example, if there's a field called `department_prices` that's a `int32[]` and there's a document with `department_prices = [32, 60, 80]`,
+then the filter of:
+
+```
+department_prices:<80
+```
+
+Would in turn return this document.
+
+Subsequently, you can also use array operators:
+
+```
+deparment_prices:[20...80]
+```
 
 ## Escaping special characters
 
-If you want to filter for a value that includes special characters, such as `,`, you can use
+If you want to filter for a value that includes special characters, such as a comma (`,`), you can use
 backticks around your filter value:
 
 ```
 country:=`United States, Minor Outlying Islands`
 ```
 
+## Filtering Geopoints
+
+For information on filtering `geopoint` fields to search within a specific area, please refer to our <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/geosearch.html#searching-within-a-radius`">documentation</RouterLink> on Geosearch.
+
+## Filtering Nested Object Fields
+
+You can also filter on <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#indexing-nested-fields`">nested object fields</RouterLink> by using the dot (`.`) notation to refer to nested fields.
+
+For example, if you have a `customer` nested object inside your collection schema that looks like this:
+
+```json{3}
+{
+  "customer": {
+    "name": "John Doe",
+    "city": "Alpha",
+    "dob": 964924500
+  }
+}
+```
+
+You can filter by the customer's name like:
+
+```
+customer.name:=John Doe
+```
+
 ## Filtering Joined Collections
 
-When filtering for joined collection, you use the `$TableName(<filter>)` syntax.
+When filtering for joined collection, you use the `$CollectionName(<filter>)` syntax.
 
 For example, if you have a `products` collection with a `category` field and a `categories` collection with a `name` field, you can filter for products that are in the `Electronics` category like this:
 
@@ -85,6 +228,10 @@ under $100, you can use the following filter:
 $categories(name:=Electronics && name:=Mobile && name:!=Disposable) && price:<100
 ```
 
-**IMPORTANT** Joins must be configured in the schema prior to using them in a filter.
+Filtering on joined fields is supported at any level of nesting. For a detailed explanation and examples, please refer to our <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/joins.html#nested-joins`">documentation on nested joins</RouterLink>.
+
+:::warning
+Joins must be configured in the schema prior to using them in a filter.
+:::
 
 See <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/joins.html`">JOINs</RouterLink> for more details.
