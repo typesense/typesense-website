@@ -2190,6 +2190,8 @@ The text used to generate embeddings for the `embedding` field will be `passage:
 
 Once you've indexed your embeddings in a vector field, you can now search for documents that are "closest" to a given query vector. 
 
+#### Pagination
+
 To control the number of documents that are returned, you can either use the `per_page` pagination parameter or the `k` parameter within the vector query.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Java','Shell']">
