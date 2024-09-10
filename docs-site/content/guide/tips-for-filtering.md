@@ -26,7 +26,7 @@ a **`:`** after it.
 ## Available Operators
 
 | Operator | Description              | Available types                             | Example                      |
-| -------- | ------------------------ | ------------------------------------------- | ---------------------------- |
+|----------|--------------------------|---------------------------------------------|------------------------------|
 | `=`      | Equal to                 | `string`, `int32`, `int64`, `float`, `bool` | `country:=USA`               |
 | `:`      | Partially equal to       | `string`                                    | `country:New`                |
 | `>`      | Greater than             | `int32`, `int64`, `float`                   | `price:>100`                 |
@@ -34,24 +34,35 @@ a **`:`** after it.
 | `!=`     | Not equal to             | `string`, `int32`, `int64`, `float`, `bool` | `status:!=inactive`          |
 | `<=`     | Less than or equal to    | `int32`, `int64`, `float`                   | `price:<=100`                |
 | `>=`     | Greater than or equal to | `int32`, `int64`, `float`                   | `price:>=100`                |
-| `[]`     | Part of                  | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
-| `![]`    | Not Part of              | `string`, `int32`, `int64`, `float`, `bool` | `country:![USA, UK, Canada]` |
+| `[]`     | Is one of                | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
+| `![]`    | Is not any of            | `string`, `int32`, `int64`, `float`, `bool` | `country:![USA, UK, Canada]` |
 | `[..]`   | Range                    | `int32`, `int64`, `float`                   | `price:[100..200]`           |
 
 ### Non-exact Operator for String Types
 
-The non-exact operator (`:`) allows for word-level partial matching on `string` fields. It's useful when you want to find results that contain a specific substring:
+The non-exact operator (`:`) allows for **word-level** partial matching on `string` fields. It's useful when you want to find results that contain a specific word:
 
 ```
-country:New
+location:New
 ```
 
 This filter will match any country name containing "New", such as:
 
-- New Zealand
-- New Caledonia
+- ✅ New Zealand
+- ✅ New Caledonia
+- ✅ Papua New Guinea
 
-The non-exact operator doesn't take token position into account, so it is usually faster than the exact `:=` operator.
+But it will NOT match a location like:
+
+- ❌ `Newfoundland`
+
+Since `New` is not a standalone word in the string `Newfoundland`. If you need this type of matching, see [Prefix Filtering](#prefix-filtering) below.
+
+:::tip Performance Tip
+
+The non-exact operator (`:`) doesn't take token position into account, so it is usually faster than the exact `:=` operator.
+
+:::
 
 ### Array Operators
 
@@ -63,7 +74,7 @@ price:[<20, >100]
 
 Will result in items with a price of:
 
-- Under 20
+- Under 20 `OR`
 - Over 100
 
 Commas act as OR operators, allowing flexible condition combinations.
@@ -84,7 +95,9 @@ This matches items with prices:
 
 ## Prefix Filtering
 
-You can use an asterisk (`*`) to denote a prefix in a `string` field filter. This allows you to filter for fields that begin with the provided prefix:
+> This feature is only available as of Typesense Server v27.0
+
+You can use an asterisk (`*`) to denote a prefix in a `string` field filter. This allows you to filter for fields that **begin with** the provided prefix:
 
 ```
 name:Jo*
@@ -102,10 +115,13 @@ When you use the prefix in conjunction with the exact-match operator `:=`, the r
 name:=Jo*
 ```
 
-This will return:
+This will match:
 
 - ✅ Jonathan Jacobs
 - ✅ John McKinley
+
+But not:
+
 - ❌ Michael Johansson
 
 ## Boolean Operations
@@ -159,7 +175,7 @@ To change the order of operations, use parentheses:
 
 Any of the array types can be used for filtering, matching any of their values.
 
-For example, if there's a field called `department_prices` that's a `int32[]` and there's a document with `department_prices = [32, 60, 80]`,
+For example, if there's a field called `department_prices` that's a `int32[]` and there's a document with `department_prices: [32, 60, 80]`,
 then the filter of:
 
 ```
