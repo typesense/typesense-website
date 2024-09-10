@@ -1114,8 +1114,9 @@ to the field you want to remove.
 :::warning
 The schema update operation is a synchronous **blocking** operation. 
 
-When the update is in progress, all incoming writes to _that particular collection_ will wait for the schema update to finish. 
-So, we recommend updating fields one at a time, especially for large collections and during off-peak hours.
+When a schema update is in progress, all incoming writes to _that particular collection_ will wait for the schema update operation to finish.
+In a multi-node HA cluster, the schema update is executed on all nodes in the cluster in parallel. So writes will be blocked across the entire cluster while the schema update is in progress.
+Given this, we recommend updating fields one at a time, especially for large collections and during off-peak hours.
 
 Reads will be serviced as usual, without blocking.
 
