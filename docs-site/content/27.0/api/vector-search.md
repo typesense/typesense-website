@@ -2190,8 +2190,6 @@ The text used to generate embeddings for the `embedding` field will be `passage:
 
 Once you've indexed your embeddings in a vector field, you can now search for documents that are "closest" to a given query vector. 
 
-#### Pagination
-
 To control the number of documents that are returned, you can either use the `per_page` pagination parameter or the `k` parameter within the vector query.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart','Java','Shell']">
@@ -2357,6 +2355,29 @@ The hits are automatically sorted in ascending order of the `vector_distance`, i
 :::tip
 Since vector search queries tend to be large because of the large dimension of the query vector, we are
 using the `multi_search` end-point that sends the search parameters as a POST request body.
+:::
+
+:::tip
+To paginate through the results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
+```shell{11,13,14}
+curl 'http://localhost:8108/multi_search' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -X POST \
+  -d '{
+    "searches": [
+      {
+        "q": "device to type things on",
+        "query_by": "embedding",
+        "collection": "products",
+        "prefix": "false",
+        "vector_query": "embedding([], k: 200)",
+        "exclude_fields": "embedding",
+        "per_page": 10,
+        "page": 1
+      }
+    ]
+  }'
+```
 :::
 
 :::warning Network Bandwidth Optimization
