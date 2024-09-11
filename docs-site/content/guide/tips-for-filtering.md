@@ -42,7 +42,7 @@ a **`:`** after it.
 
 The non-exact operator (`:`) allows for **word-level** partial matching on `string` fields. It's useful when you want to find results that contain a specific word:
 
-```
+```shell
 location:New
 ```
 
@@ -68,7 +68,7 @@ The non-exact operator (`:`) doesn't take token position into account, so it is 
 
 Array operators allow you to filter numeric fields (`int32`, `int64`, or `float`) based on specific conditions:
 
-```
+```shell
 price:[<20, >100]
 ```
 
@@ -83,7 +83,7 @@ Commas act as OR operators, allowing flexible condition combinations.
 
 The range operator can be used with multiple array elements, creating a logical OR between ranges or values:
 
-```
+```shell
 price:[100...200, 15...50, 800]
 ```
 
@@ -99,7 +99,7 @@ This matches items with prices:
 
 You can use an asterisk (`*`) to denote a prefix in a `string` field filter. This allows you to filter for fields that **begin with** the provided prefix:
 
-```
+```shell
 name:Jo*
 ```
 
@@ -111,7 +111,7 @@ This filter will return results for people whose names include a word starting w
 
 When you use the prefix in conjunction with the exact-match operator `:=`, the results will only include entries where the prefix matches the beginning of the name:
 
-```
+```shell
 name:=Jo*
 ```
 
@@ -137,7 +137,7 @@ When using logical operators, you can use parentheses to group your filters.
 
 For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
 
-```
+```shell
 (country:=USA || country:=Canada) && city:=New York
 ```
 
@@ -145,7 +145,7 @@ This will return products that are either made in the USA or Canada, and are loc
 When using logical operators, you can use parentheses to group your filters.
 For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
 
-```
+```shell
 (country:=USA || country:=Canada) && city:=New York
 ```
 
@@ -155,19 +155,19 @@ In boolean operations, the AND operator (`&&`) has higher precedence than the OR
 
 For example:
 
-```
+```shell
 country:=USA || country:=Canada && city:=New York
 ```
 
 Would be interpreted as:
 
-```
+```shell
 country:=USA || (country:=Canada && city:=New York)
 ```
 
 To change the order of operations, use parentheses:
 
-```
+```shell
 (country:=USA || country:=Canada) && city:=New York
 ```
 
@@ -178,7 +178,7 @@ Any of the array types can be used for filtering, matching any of their values.
 For example, if there's a field called `department_prices` that's a `int32[]` and there's a document with `department_prices: [32, 60, 80]`,
 then the filter of:
 
-```
+```shell
 department_prices:<80
 ```
 
@@ -186,7 +186,7 @@ Would in turn return this document.
 
 Subsequently, you can also use array operators:
 
-```
+```shell
 deparment_prices:[20...80]
 ```
 
@@ -195,7 +195,7 @@ deparment_prices:[20...80]
 If you want to filter for a value that includes special characters, such as a comma (`,`), you can use
 backticks around your filter value:
 
-```
+```shell
 country:=`United States, Minor Outlying Islands`
 ```
 
@@ -231,7 +231,7 @@ When filtering for joined collection, you use the `$CollectionName(<filter>)` sy
 
 For example, if you have a `products` collection with a `category` field and a `categories` collection with a `name` field, you can filter for products that are in the `Electronics` category like this:
 
-```
+```shell
 $categories(name:=Electronics)
 ```
 
@@ -240,7 +240,7 @@ collection, including `&&`, `||` and `!` boolean operators. For example, to filt
 the Electronics category AND the `Mobile` category, but NOT in the `Disposable` category, and
 under $100, you can use the following filter:
 
-```
+```shell
 $categories(name:=Electronics && name:=Mobile && name:!=Disposable) && price:<100
 ```
 
