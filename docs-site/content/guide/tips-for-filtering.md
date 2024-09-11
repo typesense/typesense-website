@@ -201,6 +201,23 @@ country:=`United States, Minor Outlying Islands`
 
 ## Filtering Geopoints
 
+You can filter on `geopoint` fields by searching either within a specific radius, or by specifying a bounding box.
+
+For example, to filter for results within a 10 kilometer radius of a specific location, you can use the following filter:
+
+```shell
+location:(48.90615915923891, 2.3435897727061175, 10 km),
+```
+
+:::tip
+You can use the same filter for miles by changing the distance unit to `mi`.
+:::
+
+Or, to filter for results within a bounding box, you can use the following filter:
+
+```shell
+location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)
+```
 For information on filtering `geopoint` fields to search within a specific area, please refer to our <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/geosearch.html#searching-within-a-radius`">documentation</RouterLink> on Geosearch.
 
 ## Filtering Nested Object Fields
