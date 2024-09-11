@@ -447,7 +447,7 @@ Notice how searching for `Desktop copier` returns `Desktop` as a result which is
 
 For effective pagination with semantic or hybrid search, use the `k` parameter in `vector_search` to ground the search to a specific number of closest items:
 
-```shell{11}
+```shell{11,13,14}
 curl 'http://localhost:8108/multi_search' \
   -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   -X POST \
@@ -460,12 +460,17 @@ curl 'http://localhost:8108/multi_search' \
         "prefix": "false",
         "vector_query": "embedding([], k: 200)",
         "exclude_fields": "embedding",
+        "per_page": 10,
+        "page": 1
       }
     ]
   }'
 ```
 
 Optionally, use the `distance_threshold` parameter in `vector_query` to fine-tune semantic search results:
+* The `vector_query` parameter is set to `embedding([], k: 200)`, limiting the search to the 200 closest items.
+* `per_page` is set to 10, returning the top 10 results sorted by relevance.
+* You can then use the `page` parameter to paginate through the results.
 
 ```shell{11}
 curl 'http://localhost:8108/multi_search' \
