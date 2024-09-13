@@ -467,11 +467,9 @@ curl 'http://localhost:8108/multi_search' \
   }'
 ```
 
-* The `vector_query` parameter is set to `embedding([], k: 200)`, limiting the search to the 200 closest items.
-* `per_page` is set to 10, returning the top 10 results sorted by relevance.
+* The `vector_query` parameter is set to `embedding([], k: 200)`, limiting the vector search to the 200 nearest-neighbor items.
+* `per_page` is set to `10`, returning the top 10 results sorted by relevance.
 * You can then use the `page` parameter to paginate through the results.
-
-### Fine-tuning
 
 Optionally, you can use the `distance_threshold` parameter in `vector_query` to fine-tune semantic search results:
 
