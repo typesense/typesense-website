@@ -442,6 +442,57 @@ Notice how searching for `Desktop copier` returns `Desktop` as a result which is
 }
 ```
 
+
+### Pagination
+
+For effective pagination with semantic or hybrid search, use the `k` parameter in `vector_search` to ground the search to a specific number of closest items:
+
+```shell{11,13,14}
+curl 'http://localhost:8108/multi_search' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -X POST \
+  -d '{
+    "searches": [
+      {
+        "q": "device to type things on",
+        "query_by": "embedding",
+        "collection": "products",
+        "prefix": "false",
+        "vector_query": "embedding([], k: 200)",
+        "exclude_fields": "embedding",
+        "per_page": 10,
+        "page": 1
+      }
+    ]
+  }'
+```
+
+* The `vector_query` parameter is set to `embedding([], k: 200)`, limiting the vector search to the 200 nearest-neighbor items.
+* `per_page` is set to `10`, returning the top 10 results sorted by relevance.
+* You can then use the `page` parameter to paginate through the results.
+
+Optionally, you can use the `distance_threshold` parameter in `vector_query` to fine-tune semantic search results:
+
+```shell{11}
+curl 'http://localhost:8108/multi_search' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -X POST \
+  -d '{
+    "searches": [
+      {
+        "q": "device to type things on",
+        "query_by": "embedding",
+        "collection": "products",
+        "prefix": "false",
+        "vector_query": "embedding([], k: 200, distance_threshold: 1.0)",
+        "exclude_fields": "embedding",
+      }
+    ]
+  }'
+```
+
+For more details on the `vector_query` parameter and its options, please refer to the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#nearest-neighbor-vector-search`">API documentation</RouterLink> for Vector Search.
+
 ## Live Demo
 
 [Here's](https://hn-comments-search.typesense.org) a live demo that shows you how to implement Semantic Search and Hybrid Search.

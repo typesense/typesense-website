@@ -2405,6 +2405,33 @@ To prevent this, you want to add `exclude_fields: "your_embedding_field_name"` a
   </template>
 </Tabs>
 
+### Pagination
+
+To paginate through the vector search (or semantic or hybrid search) results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
+
+```shell{11,12,13}
+curl 'http://localhost:8108/multi_search' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -X POST \
+  -d '{
+    "searches": [
+      {
+        "q": "device to type things on",
+        "query_by": "embedding",
+        "collection": "products",
+        "exclude_fields": "embedding",
+        "vector_query": "embedding([], k: 200)",
+        "per_page": 10,
+        "page": 1
+      }
+    ]
+  }'
+```
+
+This will ground the vector search to fetch the closest 200 items, and then paginate within that result-set, fetching 10 results per page. You'd then increment `page` to fetch additional pages of results.
+
+We do this because, with vector search, every item in the dataset is technically a "match" to some level of closeness. So we have to limit the upper limit of closeness either using a quantity value using the `k` parameter as described above, and/or using the [`distance_threshold`](#distance-threshold) parameter of `vector_query`. 
+
 ## Querying for similar documents
 
 If you have a particular document `id` and want to find documents that are "similar" to this document, you can do a vector query that references this `id` directly.
