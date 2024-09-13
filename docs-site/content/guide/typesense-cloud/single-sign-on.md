@@ -119,8 +119,18 @@ Your users can visit your organization's SSO portal and click on the Typesense C
 
 Once you've configured SSO for a team in Typesense Cloud, to add new users, you only need to give them access to the SSO app in your SSO platform. 
 
-When the user logs in for the first time, Typesense Cloud will automatically create a new user account and add the account to your Typesense Cloud team. 
-So you don't have to explicitly provision users in Typesense Cloud each time. 
+When a user you've authorized Typesense Cloud access for on your SSO platform, logs in for the first time into Typesense Cloud, we will automatically create a new user account for them and add their account to your Typesense Cloud team. 
+So you don't have to explicitly provision users in Typesense Cloud each time.
+
+:::tip
+SSO-created accounts are independent from accounts that use email/password-based login, even if they share the same email address. 
+
+So when a user logs in via SSO, their previous email/password-based account (if they created one) would still be active.
+But you can remove those accounts from being able to access your team account, from your team's account page.
+You'll find both their SAML account and their email/pwd based account, and you want to remove the latter.
+
+Once you do this, users will only be able to access your team account via SSO.
+:::
 
 ### How to remove users
 
