@@ -128,7 +128,7 @@ If you're using <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/a
 ## DDOS protection
 
 DDOS attacks are notoriously hard to thwart without significant amount of resources. 
-So if DDOS is a concern you want to protect against, we recommend that you put each of your Typesense node hostnames behind a Cloudflare DNS endpoint (with the Proxy setting turned ON)
+So if DDOS is a concern you want to protect against, we recommend that you put each of your Typesense node hostnames behind a Cloudflare DNS endpoint (with the Proxy setting turned ON and SSL mode set to Full)
 and then use the Cloudflare hostnames in your Typesense client configs. 
 
 For example, for a 3-node cluster, you'd set up the following proxied connections:
