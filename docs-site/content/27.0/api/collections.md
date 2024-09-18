@@ -377,7 +377,7 @@ For eg, if you want to index all fields, except for fields that start with `desc
   "fields": [
     {"name": ".*", "type": "auto" },
     {"name": ".*_facet", "type": "auto", "facet": true },
-    {"name": "description_.*", "type": "auto", "index": false, "optional": true },
+    {"name": "description_.*", "type": "string", "index": false, "optional": true },
     {"name": "country", "type": "string", "facet": true }
   ]
 }
