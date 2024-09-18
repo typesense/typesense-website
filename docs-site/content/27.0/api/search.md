@@ -680,7 +680,7 @@ You can also sort the results by the sizes of the groups by using `_group_found`
 }
 ```
 
-You'll find detailed documentation for these grouping parameters in the [Groping Parameters](#grouping-parameters) table above.
+You'll find detailed documentation for these grouping parameters in the [Grouping Parameters](#grouping-parameters) table above.
 
 ## Pagination
 
