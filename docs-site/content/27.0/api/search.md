@@ -794,8 +794,6 @@ The `value` key in the preset configuration can also match the search parameters
     },
   })
 ```
-
-It's generally recommended to use single-search presets for flexibility. You can then combine them in a multi-search request using the `preset` parameter.
 :::
 
 You can use the preset configuration for a `GET .../search` end-point as well. 
