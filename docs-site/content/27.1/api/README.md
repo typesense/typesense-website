@@ -78,7 +78,7 @@ The changelog below contains aggregates all the changes between `v0.26.0` and `v
 
 - Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
 - Improved working memory used when loading large embedding models.
-- **[New in v0.27.2]** Fixed an important performance regression in evaluation of range filter queries.
+- **[New in v27.1]** Fixed an important performance regression in evaluation of range filter queries.
 
 ### Bug Fixes
 
@@ -103,17 +103,17 @@ The changelog below contains aggregates all the changes between `v0.26.0` and `v
 - Fix overrides not working with semantic search.
 - Fixed a regression in v26 that prevented an empty array from being used as a valid value in filter_by clause.
 - Fix `return_id` not being returned in import API response during failures.
-- **[New in v0.27.2]** When infix search does not find highlight, use normal search.
-- **[New in v0.27.2]** Don't return error if `limit_hits` threshold is breached. Instead, just return empty results.
-- **[New in v0.27.2]** Add guard for non-indexed default sorting field.
-- **[New in v0.27.2]** Fix OpenAI error handling during conversation model init.
-- **[New in v0.27.2]** Fixed usage of `distance_threshold` parameter for inner product vector distance.
-- **[New in v0.27.2]** Fixed and improved validation for analytics rules and events.
-- **[New in v0.27.2]** Fixed an edge case with scoped API key usage with joins. 
-- **[New in v0.27.2]** Fixed prefix highlighting bugs that occurred due to use of stemming.
-- **[New in v0.27.2]** Initialize analytics db store only if analytics dir is given. We will create a directory if it does not exist.
-- **[New in v0.27.2]** Fixed exporting regression that prevented embedding fields, joined fields and non-schema fields from being exported.
-- **[New in v0.27.2]** Fixed `geo_distance_meters` returning values in `km` / `mi`.
+- **[New in v27.1]** When infix search does not find highlight, use normal search.
+- **[New in v27.1]** Don't return error if `limit_hits` threshold is breached. Instead, just return empty results.
+- **[New in v27.1]** Add guard for non-indexed default sorting field.
+- **[New in v27.1]** Fix OpenAI error handling during conversation model init.
+- **[New in v27.1]** Fixed usage of `distance_threshold` parameter for inner product vector distance.
+- **[New in v27.1]** Fixed and improved validation for analytics rules and events.
+- **[New in v27.1]** Fixed an edge case with scoped API key usage with joins. 
+- **[New in v27.1]** Fixed prefix highlighting bugs that occurred due to use of stemming.
+- **[New in v27.1]** Initialize analytics db store only if analytics dir is given. We will create a directory if it does not exist.
+- **[New in v27.1]** Fixed exporting regression that prevented embedding fields, joined fields and non-schema fields from being exported.
+- **[New in v27.1]** Fixed `geo_distance_meters` returning values in `km` / `mi`.
 
 ### Deprecations / behavior changes
 
