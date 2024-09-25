@@ -258,6 +258,7 @@ let config = {
               'Guitar Chords Search in different JS frameworks',
             ],
             ['/guide/reference-implementations/address-autocomplete.md', 'Address autocomplete'],
+            ['/guide/reference-implementations/kotlin-soccer-search.md', 'Kotlin Full Text Search'],
 
             // [
             //   '/guide/reference-implementations/pg-essays-conversational-search',
