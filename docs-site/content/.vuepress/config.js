@@ -264,7 +264,7 @@ let config = {
             //   '/guide/reference-implementations/pg-essays-conversational-search',
             //   'Conversational Search with Paul Graham Essays',
             // ],
-            // ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
+            ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },
         ['/guide/faqs', 'Frequently Asked Questions'],
