@@ -15,9 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release fixes some bugs and performance regressions identified in [`v0.27.0`](../../0.27.0/).
+This release fixes some bugs and performance regressions identified in [`v27.0`](../../27.0/).
 
-The changelog below contains aggregates all the changes between `v0.26.0` and `v0.27.x`.
+The changelog below contains aggregates all the changes between `v27.0` and `v27.x`. Changes in this point release are highlighted with `New in v27.1`.
 
 ### New Features
 
