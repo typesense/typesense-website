@@ -93,7 +93,7 @@
             <li class="nav-item">
               <a
                 class="nav-link p-0"
-                href="https://join.slack.com/t/typesense-community/shared_invite/zt-2otyo41xs-tbZNeeC6F37_FKftAdUc5A"
+                href="https://typesense.link/slack-community"
                 >Slack Community</a
               >
             </li>
