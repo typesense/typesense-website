@@ -68,13 +68,11 @@ This would sort the results in the following manner:
 
 ### Default Ranking Order
 
-When you don't provide a `sort_by` parameter to your search request, the documents will be ranked first on the _text_match score, then default sorting field values specified in the collection's schema, and if not specified the document insertion order:
+When you don't provide a `sort_by` parameter to your search request, the documents will be ranked in the following order:
 
-```json
-{
-  "sort_by": "_text_match:desc,default_sorting_field:desc,document_insertion_order:desc"
-}
-```
+1. First on the _text_match score
+2. Then default sorting field values specified in the collection's schema
+3. And finally, if not specified the document insertion order.
 
 ## Strict Ordering or Hard Sorting
 
