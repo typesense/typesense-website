@@ -439,6 +439,16 @@ For eg:
 
 This will result in documents where `in_stock` is set to `true` to be ranked first, followed by documents where `in_stock` is set to `false`.
 
+You can combine expressions, much like in the `filter_by` search parameter, using logical operators:
+
+```json
+{
+  "sort_by": "_eval(has_relevant_experience:true && location:(48.853,2.344,5.1 km)):desc,application_date:desc"
+}
+```
+
+This will prioritize candidates that have relevant work experience and are located within a 5 kilometer radius from the headquarters.
+
 ### Sorting based on filter score
 
 Instead of sorting on just `true / false` values like above, we can also provide custom scores to the records matching a bunch of filter clauses. 
