@@ -94,7 +94,7 @@
                   </td>
                   <td>
                     <a
-                      href="https://join.slack.com/t/typesense-community/shared_invite/zt-2otyo41xs-tbZNeeC6F37_FKftAdUc5A"
+                      href="https://typesense.link/slack-community"
                       target="_blank"
                       class="btn btn-outline-primary text-decoration-none"
                       role="button"

@@ -4,6 +4,10 @@
 
 Laravel Scout has native support for Typesense and this guide will focus on how to add the Laravel Scout Typesense Driver to an existing Laravel project in order to add full-text search to your Laravel application.
 
+If you're interested in a video walk-through, here's one put together by [Aaron Francis](https://x.com/aarondfrancis): 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bDLVeJQei_Q?si=3aQLOLn4GEwJy1ok" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Prerequisites
 
 This guide will use [Laravel Sail](https://laravel.com/docs/11.x/sail), a CLI that enables you to run Laravel applications using Docker. 

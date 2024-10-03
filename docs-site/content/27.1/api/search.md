@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Search
@@ -216,7 +216,7 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 | drop_tokens_mode                        | no       | Dictates the direction in which the words in the query must be dropped when the original words in the query do not appear in any document. <br><br>Values: `right_to_left` (default), `left_to_right`, `both_sides:3`<br><br> A note on `both_sides:3` - for queries upto 3 tokens (words) in length, this mode will drop tokens from both sides and exhaustively rank all matching results. If query length is greater than 3 words, Typesense will just fallback to default behavior of `right_to_left`                                                                                                                                                                           |
 | enable_typos_for_numerical_tokens       | no       | Set this parameter to `false` to disable typos on numerical query tokens. Default: `true`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | enable_typos_for_alpha_numerical_tokens | no       | Set this parameter to `false` to disable typos on alphanumerical query tokens. Default: `true`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| synonym_num_typos                       | no       | Allow synonym resolution on typo-corrected words in the query. <br><br>Default: `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| synonym_num_typos                       | no       | Allow synonym resolution on typo-corrected words in the query. <br><br>Default: `0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 
 ### Filter parameters
@@ -716,7 +716,7 @@ Let's create a preset with name `listing_view`.
 ```js
   await client.presets().upsert("listing_view", {
     value: {
-      collection: "products", q: "*", sort_by: "popularity",
+      searches: [{ collection: "products", q: "*", sort_by: "popularity" }],
     },
   });
 ```
@@ -727,7 +727,9 @@ Let's create a preset with name `listing_view`.
 ```dart
   await client.presets.upsert('listing_view', {
     'value': {
-      'collection': 'products', 'q': '*','sort_by': 'popularity'
+      'searches': [
+        {'collection': 'products', 'q': '*','sort_by': 'popularity'}
+      ]
     }
   });
 ```
@@ -739,10 +741,11 @@ Let's create a preset with name `listing_view`.
 curl "http://localhost:8108/presets/listing_view" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
--d '{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
+-d '{"value": {"searches":[{"collection":"products","q":"*", "sort_by": "popularity"}]}}'
 ```
   </template>
 </Tabs>
+
 You can refer to this preset configuration during a search operation.
 
 <Tabs :tabs="['JavaScript','Dart','Shell']">
@@ -773,30 +776,37 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
   </template>
 </Tabs>
 
-:::tip
-The `value` key in the preset configuration can also match the search parameters for <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/federated-multi-search.html`">Federated / Multi Search</RouterLink>. For example:
+You can use the preset configuration for a `GET .../search` end-point as well. 
 
-```js
-  await client.presets().upsert("listing_view", {
-    value: {
-      searches: [
-        {
-          collection: "products",
-          q: "*",
-          sort_by: "popularity",
-        },
-        {
-          collection: "blog_posts",
-          q: "*",
-          sort_by: "published_at:desc",
-        }
-      ],
-    },
-  })
+The only requirement is that for 
+`GET .../search`, the stored preset value should be a simple dictionary of search configurations, like this.
+
+<Tabs :tabs="['Dart','Shell']">
+  <template v-slot:Dart>
+
+```dart
+  await client.presets.upsert('listing_view', {
+    'value': {
+      {
+        'collection': 'products',
+        'q': '*',
+        'sort_by': 'popularity',
+      }
+    }
+  });
 ```
-:::
 
-It's generally recommended to use single-search presets for flexibility. You can then combine them in a multi-search request using the `preset` parameter.
+  </template>
+  <template v-slot:Shell>
+
+```shell
+curl "http://localhost:8108/presets/listing_view" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
+{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
+```
+  </template>
+</Tabs>
 
 :::tip
 Explicit query parameters passed to the search end-point will override parameters stored in preset value.

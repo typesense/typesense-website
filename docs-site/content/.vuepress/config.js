@@ -258,12 +258,13 @@ let config = {
               'Guitar Chords Search in different JS frameworks',
             ],
             ['/guide/reference-implementations/address-autocomplete.md', 'Address autocomplete'],
+            ['/guide/reference-implementations/kotlin-soccer-search.md', 'Kotlin Full Text Search'],
 
             // [
             //   '/guide/reference-implementations/pg-essays-conversational-search',
             //   'Conversational Search with Paul Graham Essays',
             // ],
-            // ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
+            ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },
         ['/guide/faqs', 'Frequently Asked Questions'],
@@ -283,6 +284,38 @@ let config = {
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],
         ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
         ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
+      ],
+
+      //For 27.1
+      '/27.1/api/': [
+        ['/27.1/api/', 'Introduction'],
+        ['/27.1/api/server-configuration', 'Server Configuration'],
+        ['/27.1/api/api-clients', 'API Clients'],
+        ['/27.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/27.1/api/collections', 'Collections'],
+            ['/27.1/api/documents', 'Documents'],
+            ['/27.1/api/search', 'Search'],
+            ['/27.1/api/geosearch', 'GeoSearch'],
+            ['/27.1/api/vector-search', 'Vector Search'],
+            ['/27.1/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/27.1/api/voice-search-query', 'Voice Query'],
+            ['/27.1/api/image-search', 'Image Search'],
+            ['/27.1/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/27.1/api/joins', 'JOINs'],
+            ['/27.1/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
+            ['/27.1/api/api-keys', 'API Keys'],
+            ['/27.1/api/curation', 'Curation'],
+            ['/27.1/api/collection-alias', 'Collection Alias'],
+            ['/27.1/api/synonyms', 'Synonyms'],
+            ['/27.1/api/stopwords', 'Stopwords'],
+            ['/27.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/27.1/api/api-errors', 'API Errors'],
       ],
 
       //For 27.0

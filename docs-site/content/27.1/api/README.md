@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Typesense API Reference for v{{ $page.typesenseVersion }}
@@ -15,7 +15,9 @@ To learn how to install and run Typesense, see the [Guide section](/guide/README
 
 ## What's new
 
-This release contains important new features, performance improvements and bug fixes.
+This release fixes some bugs and performance regressions identified in [`v27.0`](../../27.0/).
+
+The changelog below aggregates all the changes between `v27.0` and `v27.x`. Changes in this point release are highlighted with `New in v27.1`.
 
 ### New Features
 
@@ -76,6 +78,7 @@ This release contains important new features, performance improvements and bug f
 
 - Implemented lazy filtering of numerical fields which speeds up a subset of searches when `enable_lazy_filter` boolean parameter is enabled.
 - Improved working memory used when loading large embedding models.
+- **[New in v27.1]** Fixed an important performance regression in evaluation of range filter queries.
 
 ### Bug Fixes
 
@@ -100,6 +103,17 @@ This release contains important new features, performance improvements and bug f
 - Fix overrides not working with semantic search.
 - Fixed a regression in v26 that prevented an empty array from being used as a valid value in filter_by clause.
 - Fix `return_id` not being returned in import API response during failures.
+- **[New in v27.1]** When infix search does not find highlight, use normal search.
+- **[New in v27.1]** Don't return error if `limit_hits` threshold is breached. Instead, just return empty results.
+- **[New in v27.1]** Add guard for non-indexed default sorting field.
+- **[New in v27.1]** Fix OpenAI error handling during conversation model init.
+- **[New in v27.1]** Fixed usage of `distance_threshold` parameter for inner product vector distance.
+- **[New in v27.1]** Fixed and improved validation for analytics rules and events.
+- **[New in v27.1]** Fixed an edge case with scoped API key usage with joins. 
+- **[New in v27.1]** Fixed prefix highlighting bugs that occurred due to use of stemming.
+- **[New in v27.1]** Initialize analytics db store only if analytics dir is given. We will create a directory if it does not exist.
+- **[New in v27.1]** Fixed exporting regression that prevented embedding fields, joined fields and non-schema fields from being exported.
+- **[New in v27.1]** Fixed `geo_distance_meters` returning values in `km` / `mi`.
 
 ### Deprecations / behavior changes
 
