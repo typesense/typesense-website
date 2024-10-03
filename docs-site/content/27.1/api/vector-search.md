@@ -2918,6 +2918,28 @@ You can set a custom `ef` via the `vector_query` parameter (default value is `10
 }
 ```
 
+## Vector Search Parameters
+
+Here are all the possible parameters you can use inside the `vector_query` search parameter, that we've covered in the various sections above:
+
+| Parameter            | Description                                                             |  Example                                                                                                                  |
+|----------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `k`                  | Number of nearest neighbors to return                                   |  `k:100`                                                                                                                  |
+| `id`                 | ID of a document to find similar documents to                           |  `id:foobar`                                                                                                              |
+| `alpha`              | Weight assigned to vector search ranking in hybrid search               |  `alpha:0.8`                                                                                                              |
+| `distance_threshold` | Maximum vector distance threshold for results                           |  `distance_threshold:0.30`                                                                                                |
+| `queries`            | List of historical search queries to compute a weighted query embedding |  `queries:[smart phone, apple ipad]`                                                                                      |
+| `query_weights`      | Weights corresponding to the queries                                    |  `query_weights:[0.9, 0.1]`                                                                                               |
+| `flat_search_cutoff` | Threshold for bypassing HNSW index for brute-force search []            |  `flat_search_cutoff:20`                                                                                                  |
+| `ef`                 | Custom HNSW search parameter                                            |  `ef:100`                                                                                                                 |
+
+You can use each of the above parameters inside `vector_query` like this example:
+
+```json
+{
+  "vector_query": "vector_field_name:([], k: 100, alpha: 0.8, distance_threshold:0.30)"
+}
+```
 
 ## UI Examples
 
