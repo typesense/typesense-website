@@ -796,37 +796,7 @@ The `value` key in the preset configuration can also match the search parameters
 ```
 :::
 
-You can use the preset configuration for a `GET .../search` end-point as well. 
-
-The only requirement is that for 
-`GET .../search`, the stored preset value should be a simple dictionary of search configurations, like this.
-
-<Tabs :tabs="['Dart','Shell']">
-  <template v-slot:Dart>
-
-```dart
-  await client.presets.upsert('listing_view', {
-    'value': {
-      {
-        'collection': 'products',
-        'q': '*',
-        'sort_by': 'popularity',
-      }
-    }
-  });
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```shell
-curl "http://localhost:8108/presets/listing_view" -X PUT \
--H "Content-Type: application/json" \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
-{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
-```
-  </template>
-</Tabs>
+It's generally recommended to use single-search presets for flexibility. You can then combine them in a multi-search request using the `preset` parameter.
 
 :::tip
 Explicit query parameters passed to the search end-point will override parameters stored in preset value.
