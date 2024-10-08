@@ -2691,6 +2691,11 @@ curl 'http://localhost:8108/multi_search' \
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search
 using the `vector_query` field and combine the results into a ranked set of results using rank fusion as described earlier.
 
+:::warning Performance Tip
+If you expect users to use several-words-long queries in the `q` parameter when doing hybrid search (which is common during [conversational search](./conversational-search-rag.md) for eg), 
+you want to set `drop_tokens_threshold: 0` as an additional search parameter to avoid redundant internal keyword searches and excessive CPU usage. Read more about what this parameter does under [this table](./search.md#typo-tolerance-parameters).
+:::
+
 ### Weightage for Semantic vs Keyword matches
 
 By default, Typesense assigns a weight of `0.3` for vector search rank and a weight of `0.7` for keyword search rank. 
