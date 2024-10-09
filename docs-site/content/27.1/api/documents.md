@@ -1395,7 +1395,7 @@ client.collections('companies').documents().delete({'filter_by': 'num_employees:
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->documents->delete(['filter_by' => 'num_employees:>100']));
+$client->collections['companies']->documents->delete(['filter_by' => 'num_employees:>100']);
 ```
 
   </template>
