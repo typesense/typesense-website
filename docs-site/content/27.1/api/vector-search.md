@@ -1724,7 +1724,7 @@ curl 'http://localhost:8108/multi_search' \
 | Parameter                     | Description                                                                                                                                                                           | Default |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. | 200     |  
-| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout during indeixng.                                                                             | 60000     |  
+| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout during indexing.                                                                             | 60000     |  
 | `remote_embedding_num_tries` | The number of times to retry an API call to a remote embedding service on failure during indexing.                                                                                    | 2       |  
 
 <Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
