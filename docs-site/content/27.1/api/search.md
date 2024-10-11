@@ -716,7 +716,7 @@ Let's create a preset with name `listing_view`.
 ```js
   await client.presets().upsert("listing_view", {
     value: {
-      searches: [{ collection: "products", q: "*", sort_by: "popularity" }],
+      collection: "products", q: "*", sort_by: "popularity",
     },
   });
 ```
@@ -727,9 +727,7 @@ Let's create a preset with name `listing_view`.
 ```dart
   await client.presets.upsert('listing_view', {
     'value': {
-      'searches': [
-        {'collection': 'products', 'q': '*','sort_by': 'popularity'}
-      ]
+      'collection': 'products', 'q': '*','sort_by': 'popularity'
     }
   });
 ```
@@ -741,7 +739,7 @@ Let's create a preset with name `listing_view`.
 curl "http://localhost:8108/presets/listing_view" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
--d '{"value": {"searches":[{"collection":"products","q":"*", "sort_by": "popularity"}]}}'
+-d '{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
 ```
   </template>
 </Tabs>
