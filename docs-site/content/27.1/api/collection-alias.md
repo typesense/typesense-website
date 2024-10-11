@@ -21,7 +21,7 @@ Convenient isn't it? Let's now look at how we can create, update and manage alia
 
 ## Create or Update an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -93,6 +93,18 @@ client.aliases().upsert("companies", collectionAlias);
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+aliasedCollection := &api.CollectionAliasSchema{
+  CollectionName: "companies_june11",
+}
+
+// Creates/updates an alias called `companies` to the `companies_june11` collection
+client.Aliases().Upsert(context.Background(), "companies", aliasedCollection)
+```
+
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -136,13 +148,13 @@ curl "http://localhost:8108/aliases/companies" -X PUT \
 
 ### Arguments
 | Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------| 
+| -------------- | ----------- |-------------------------------------------------------|
 |collection_name	|yes	|Name of the collection you wish to map the alias to.|
 
 ## Retrieve an alias
 We can find out which collection an alias points to by fetching it.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -186,6 +198,13 @@ CollectionAliasSchema collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+client.Alias("companies").Retrieve(context.Background())
+```
+
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -225,7 +244,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ## List all aliases
 List all aliases and the corresponding collections that they map to.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -266,6 +285,13 @@ await client.aliases.retrieve();
 
 ```java
 CollectionAliasesResponse collectionAliasesResponse = client.aliases().retrieve();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.Aliases().Retrieve(context.Background())
 ```
 
   </template>
@@ -314,7 +340,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ## Delete an alias
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -355,6 +381,13 @@ await client.alias('companies').delete();
 
 ```java
 CollectionAliasSchema collectionAlias = client.aliases("companies").delete();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.Alias("companies").Delete(context.Background())
 ```
 
   </template>
