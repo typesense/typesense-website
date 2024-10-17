@@ -117,6 +117,17 @@ The changelog below aggregates all the changes between `v27.0` and `v27.x`. Chan
 
 ### Deprecations / behavior changes
 
+**Analytics directory**
+
+We now require the `analytics-dir` flag to be provided for using analytics features.  
+
+```bash
+./typesense-server --data-dir=/path/to/data --api-key=abcd \
+  --enable-search-analytics=true \
+  --analytics-dir=/path/to/analytics-data \ 
+  --analytics-flush-interval=60
+```
+
 **Conversational Search:**
 
 To address some limitations that we found with the previous design of the conversational search feature, 
