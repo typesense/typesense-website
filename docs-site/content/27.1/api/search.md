@@ -9,7 +9,7 @@ sitemap:
 In Typesense, a search consists of a query against one or more text fields and a list of filters against numerical or facet fields.
 You can also sort and facet your results.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -90,6 +90,20 @@ SearchParameters searchParameters = new SearchParameters()
                                         .filterBy("num_employees:>100")
                                         .sortBy("num_employees:desc");
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+searchParameters := &api.SearchCollectionParams{
+  Q:        pointer.String("stark"),
+  QueryBy:  pointer.String("company_name"),
+  FilterBy: pointer.String("num_employees:>100"),
+  SortBy:   pointer.String("num_employees:desc"),
+}
+
+client.Collection("companies").Documents().Search(context.Background(), searchParameters)
 ```
 
   </template>
@@ -329,8 +343,8 @@ Note that you need to enable faceting for fields in the [Collection Schema](./co
 {
   fields: [
     {
-      facet: true, 
-      name: "<field>", 
+      facet: true,
+      name: "<field>",
       type: "<datatype>"
     }
   ]
@@ -345,13 +359,13 @@ You can also sort facets on the value of a sibling field like this: `recipe.name
 
 ### Mapping facet strings
 
-Pass a comma separated string of nested facet fields into the `facet_return_parent` parameter, whose parent object should be returned in facet response. 
+Pass a comma separated string of nested facet fields into the `facet_return_parent` parameter, whose parent object should be returned in facet response.
 
 For e.g. when you set this to `facet_return_parent: color.name`, this will return the parent `color` object as parent property in the facet response.
 
 ### Facet ranges
 
-For numerical fields, you can provide a list of ranges and corresponding labels on which the documents should be 
+For numerical fields, you can provide a list of ranges and corresponding labels on which the documents should be
 faceted upon.
 
 For example, if your documents contain a `rating` field, and you want to facet the ratings as
@@ -363,12 +377,12 @@ For example, if your documents contain a `rating` field, and you want to facet t
 }
 ```
 
-This will bucket the `rating` values into the ranges requested and count the documents in each of the ranges to 
-produce the facet counts. 
+This will bucket the `rating` values into the ranges requested and count the documents in each of the ranges to
+produce the facet counts.
 
 NOTE: range start values are inclusive, but the range end values are exclusive in nature.
 
-You can leave start / end range value blank to cover the minimum / maximum value respectively. In the example below, 
+You can leave start / end range value blank to cover the minimum / maximum value respectively. In the example below,
 the max range value is omitted so that the `others` facet label will cover all values greater than or equal to 100.
 
 ```json
@@ -377,14 +391,14 @@ the max range value is omitted so that the `others` facet label will cover all v
 }
 ```
 
-Faceting by range requires the field to have `sort` property enabled. This is enabled by default for all numerical fields, 
+Faceting by range requires the field to have `sort` property enabled. This is enabled by default for all numerical fields,
 unless you've explicitly configured otherwise.
 
 🔗 You'll find detailed documentation for `facet_by` in the [Faceting Parameters](#faceting-parameters) table above.
 
 ## Sort Results
 
-You can use the `sort_by` search parameter to sort results by upto 3 fields in a tie-breaking mechanism - 
+You can use the `sort_by` search parameter to sort results by upto 3 fields in a tie-breaking mechanism -
 if the first field has the same values, then the second field is used. If the 1st and 2nd fields have the same values, then the 3rd field is used to break the tie.
 
 The text similarity score is exposed as a special `_text_match` field that you can use in the list of sorting fields.
@@ -393,7 +407,7 @@ The text similarity score is exposed as a special `_text_match` field that you c
 
 ### Sorting on numeric values
 
-Sorting is enabled by default on all numeric and boolean values. You can directly use these fields in the `sort_by` parameter. 
+Sorting is enabled by default on all numeric and boolean values. You can directly use these fields in the `sort_by` parameter.
 
 ### Sorting on strings
 
@@ -407,9 +421,9 @@ For e.g. here's a collection schema where sorting is allowed on the `email` stri
   "fields": [
     {"name": "name", "type": "string" },
     {
-      "name": "email", 
-      "type": "string", 
-      "sort": true 
+      "name": "email",
+      "type": "string",
+      "sort": true
     }
   ]
 }
@@ -451,7 +465,7 @@ This will prioritize candidates that have relevant work experience and are locat
 
 ### Sorting based on filter score
 
-Instead of sorting on just `true / false` values like above, we can also provide custom scores to the records matching a bunch of filter clauses. 
+Instead of sorting on just `true / false` values like above, we can also provide custom scores to the records matching a bunch of filter clauses.
 
 For example, if we have a `shoes` collection and if we wish to rank all `Nike` shoes ahead of `Adidas` shoes, we can do:
 
@@ -461,7 +475,7 @@ For example, if we have a `shoes` collection and if we wish to rank all `Nike` s
 }
 ```
 
-There can be as many expressions as needed in the `_eval` and each of those expressions can be as complex as 
+There can be as many expressions as needed in the `_eval` and each of those expressions can be as complex as
 standard `filter_by` expressions.
 
 ### Sorting null, empty or missing values
@@ -503,7 +517,7 @@ To group on a particular field, it must be a faceted field.
 
 Grouping returns the hits in a nested structure, that's different from the plain JSON response format we saw earlier. Let's repeat the query we made earlier with a `group_by` parameter:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -598,6 +612,21 @@ SearchParameters searchParameters = new SearchParameters()
 SearchResult searchResult = client.collections("companies").documents().search(searchParameters);
 ```
   </template>
+  <template v-slot:Go>
+
+```go
+searchParameters := &api.SearchCollectionParams{
+  Q:          pointer.String("stark"),
+  QueryBy:    pointer.String("company_name"),
+  FilterBy:   pointer.String("num_employees:>100"),
+  SortBy:     pointer.String("num_employees:desc"),
+  GroupBy:    pointer.String("country"),
+  GroupLimit: pointer.Int(1),
+}
+
+client.Collection("companies").Documents().Search(context.Background(), searchParameters)
+```
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -686,7 +715,7 @@ You can also sort the results by the sizes of the groups by using `_group_found`
 
 ```json{2}
 {
-  "sort_by": "_group_found:desc" 
+  "sort_by": "_group_found:desc"
 }
 ```
 
@@ -709,18 +738,18 @@ Read more in the [Ranking and Relevance Guide](../../guide/ranking-and-relevance
 
 ## Presets
 
-Search presets allow you to store a bunch of search parameters together, and reference them by a name. You can then 
-use this preset name when you make a search request, instead of passing all the search parameters individually 
+Search presets allow you to store a bunch of search parameters together, and reference them by a name. You can then
+use this preset name when you make a search request, instead of passing all the search parameters individually
 in each search request.
 
 You can then change the preset configuration on the Typesense side, to change your search parameters, without having to re-deploy your application.
 
-For example, you can create a preset configuration called a `listing_view` which does a wildcard search and sorts 
+For example, you can create a preset configuration called a `listing_view` which does a wildcard search and sorts
 the results by a `popularity` score.
 
 Let's create a preset with name `listing_view`.
 
-<Tabs :tabs="['JavaScript','Dart','Shell']">
+<Tabs :tabs="['JavaScript','Dart','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -745,6 +774,24 @@ Let's create a preset with name `listing_view`.
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+preset := &api.PresetUpsertSchema{}
+preset.Value.FromMultiSearchSearchesParameter(api.MultiSearchSearchesParameter{
+  Searches: []api.MultiSearchCollectionParameters{
+    {
+      Collection: "products",
+      Q:          pointer.String("*"),
+      SortBy:     pointer.String("popularity"),
+    },
+  },
+})
+
+client.Presets().Upsert(context.Background(), "listing-view", preset)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```shell
@@ -758,7 +805,7 @@ curl "http://localhost:8108/presets/listing_view" -X PUT \
 
 You can refer to this preset configuration during a search operation.
 
-<Tabs :tabs="['JavaScript','Dart','Shell']">
+<Tabs :tabs="['JavaScript','Dart','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -777,6 +824,18 @@ await client.multiSearch.perform({}, queryParams: {
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+client.MultiSearch.Perform(context.Background(),
+  &api.MultiSearchParams{
+    Preset: pointer.String("listing_view"),
+  },
+  api.MultiSearchSearchesParameter{},
+)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```shell
@@ -786,12 +845,12 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
   </template>
 </Tabs>
 
-You can use the preset configuration for a `GET .../search` end-point as well. 
+You can use the preset configuration for a `GET .../search` end-point as well.
 
-The only requirement is that for 
+The only requirement is that for
 `GET .../search`, the stored preset value should be a simple dictionary of search configurations, like this.
 
-<Tabs :tabs="['Dart','Shell']">
+<Tabs :tabs="['Dart','Go','Shell']">
   <template v-slot:Dart>
 
 ```dart
@@ -804,6 +863,19 @@ The only requirement is that for
       }
     }
   });
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+preset := &api.PresetUpsertSchema{}
+preset.Value.FromSearchParameters(api.SearchParameters{
+  Q:      "*",
+  SortBy: pointer.String("popularity"),
+})
+
+client.Presets().Upsert(context.Background(), "listing-view", preset)
 ```
 
   </template>
