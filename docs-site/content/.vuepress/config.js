@@ -196,6 +196,7 @@ let config = {
             ['/guide/github-actions', 'Running Tests in Github Actions'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
+            ['/guide/natural-language-search', 'Natural Language Search'],
           ],
         },
 
