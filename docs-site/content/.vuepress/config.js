@@ -99,6 +99,8 @@ let config = {
         query_by:
           'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
         vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)',
+        include_fields:
+          'id,anchor,content,hierarchy,hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,url',
       },
     },
     // Versioned nav links are dynamically populated by .vuepress/plugins/typesense-enhancements.js
