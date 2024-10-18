@@ -237,6 +237,7 @@ let config = {
               '/guide/reference-implementations/ecommerce-storefront-with-next-js-and-typesense',
               'E-Commerce Storefront with Next.js',
             ],
+            ['/guide/reference-implementations/nextjs-app-router-ssr', 'Next.js App Router with Server-Side Rendering'],
             ['/guide/reference-implementations/songs-search', 'Songs Search'],
             ['/guide/reference-implementations/books-search', 'Books Search'],
             ['/guide/reference-implementations/good-reads-books-search-with-vue', 'Good Reads Books Search with Vue'],
