@@ -261,10 +261,10 @@ let config = {
             ['/guide/reference-implementations/address-autocomplete.md', 'Address autocomplete'],
             ['/guide/reference-implementations/kotlin-soccer-search.md', 'Kotlin Full Text Search'],
 
-            // [
-            //   '/guide/reference-implementations/pg-essays-conversational-search',
-            //   'Conversational Search with Paul Graham Essays',
-            // ],
+            [
+              '/guide/reference-implementations/pg-essays-conversational-search',
+              'Conversational Search with Paul Graham Essays',
+            ],
             ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },
