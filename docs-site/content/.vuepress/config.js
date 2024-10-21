@@ -70,28 +70,28 @@ let config = {
     typesenseDocsearch: {
       typesenseServerConfig: {
         nearestNode: {
-          host: 'qtg5aekc2iosjh93p.a1.typesense.net',
+          host: '01brzocp328nd4xvp.a1.typesense.net',
           port: 443,
           protocol: 'https',
         },
         nodes: [
           {
-            host: 'qtg5aekc2iosjh93p-1.a1.typesense.net',
+            host: '01brzocp328nd4xvp-1.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
           {
-            host: 'qtg5aekc2iosjh93p-2.a1.typesense.net',
+            host: '01brzocp328nd4xvp-2.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
           {
-            host: 'qtg5aekc2iosjh93p-3.a1.typesense.net',
+            host: '01brzocp328nd4xvp-3.a1.typesense.net',
             port: 443,
             protocol: 'https',
           },
         ],
-        apiKey: '8hLCPSQTYcBuK29zY5q6Xhin7ONxHy99',
+        apiKey: 'SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8',
       },
       typesenseCollectionName: 'typesense_docs',
       typesenseSearchParams: {
@@ -239,6 +239,7 @@ let config = {
               '/guide/reference-implementations/ecommerce-storefront-with-next-js-and-typesense',
               'E-Commerce Storefront with Next.js',
             ],
+            ['/guide/reference-implementations/nextjs-app-router-ssr', 'Next.js App Router with Server-Side Rendering'],
             ['/guide/reference-implementations/songs-search', 'Songs Search'],
             ['/guide/reference-implementations/books-search', 'Books Search'],
             ['/guide/reference-implementations/good-reads-books-search-with-vue', 'Good Reads Books Search with Vue'],
@@ -262,10 +263,10 @@ let config = {
             ['/guide/reference-implementations/address-autocomplete.md', 'Address autocomplete'],
             ['/guide/reference-implementations/kotlin-soccer-search.md', 'Kotlin Full Text Search'],
 
-            // [
-            //   '/guide/reference-implementations/pg-essays-conversational-search',
-            //   'Conversational Search with Paul Graham Essays',
-            // ],
+            [
+              '/guide/reference-implementations/pg-essays-conversational-search',
+              'Conversational Search with Paul Graham Essays',
+            ],
             ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
           ],
         },

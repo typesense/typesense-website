@@ -35,11 +35,12 @@ Command line arguments can be passed to the server as `--parameter=value`.
 
 ### Analytics
 
-| Parameter                    | Required | Description                                                                                                                          |
-|------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `--enable-search-analytics`  | false    | Allow search queries to be aggregated for query analytics. Default: `false`                                                          |
-| `--analytics-dir`            | false    | Directory for Typesense to store analytics data.                                                                                     |
-| `--analytics-flush-interval` | false    | Interval (in seconds) that determines how often the search query aggregations are persisted to storage. Default: `3600` (every hour) |
+| Parameter                       | Required | Description                                                                                                                          |
+|---------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `--enable-search-analytics`     | false    | Allow search queries to be aggregated for query analytics. Default: `false`                                                          |
+| `--analytics-dir`               | false    | Directory for Typesense to store analytics data.                                                                                     |
+| `--analytics-flush-interval`    | false    | Interval (in seconds) that determines how often the search query aggregations are persisted to storage. Default: `3600` (every hour) |
+| `--analytics-minute-rate-limit` | false    | Maximum number of analytics events that can be sent per minute. Default: `5`                                                         |
 
 ### Logging
 

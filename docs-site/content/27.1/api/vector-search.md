@@ -1724,7 +1724,7 @@ curl 'http://localhost:8108/multi_search' \
 | Parameter                     | Description                                                                                                                                                                           | Default |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `remote_embedding_batch_size` | Max size of each batch that will be sent to remote APIs while importing multiple documents at once. Using lower amount will lower timeout risk, but increase number of requests made. | 200     |  
-| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout during indeixng.                                                                             | 60000     |  
+| `remote_embedding_timeout_ms` | How long to wait until an API call to a remote embedding service is considered a timeout during indexing.                                                                             | 60000     |  
 | `remote_embedding_num_tries` | The number of times to retry an API call to a remote embedding service on failure during indexing.                                                                                    | 2       |  
 
 <Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
@@ -2691,6 +2691,11 @@ curl 'http://localhost:8108/multi_search' \
 Typesense will do a keyword search using the `q` parameter, and a nearest neighbor search
 using the `vector_query` field and combine the results into a ranked set of results using rank fusion as described earlier.
 
+:::warning Performance Tip
+If you expect users to use several-words-long queries in the `q` parameter when doing hybrid search (which is common during [conversational search](./conversational-search-rag.md) for eg), 
+you want to set `drop_tokens_threshold: 0` as an additional search parameter to avoid redundant internal keyword searches and excessive CPU usage. Read more about what this parameter does under [this table](./search.md#typo-tolerance-parameters).
+:::
+
 ### Weightage for Semantic vs Keyword matches
 
 By default, Typesense assigns a weight of `0.3` for vector search rank and a weight of `0.7` for keyword search rank. 
@@ -2918,6 +2923,28 @@ You can set a custom `ef` via the `vector_query` parameter (default value is `10
 }
 ```
 
+## Vector Search Parameters
+
+Here are all the possible parameters you can use inside the `vector_query` search parameter, that we've covered in the various sections above:
+
+| Parameter            | Description                                                             |  Example                                                                                                                  |
+|----------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `k`                  | Number of nearest neighbors to return                                   |  `k:100`                                                                                                                  |
+| `id`                 | ID of a document to find similar documents to                           |  `id:foobar`                                                                                                              |
+| `alpha`              | Weight assigned to vector search ranking in hybrid search               |  `alpha:0.8`                                                                                                              |
+| `distance_threshold` | Maximum vector distance threshold for results                           |  `distance_threshold:0.30`                                                                                                |
+| `queries`            | List of historical search queries to compute a weighted query embedding |  `queries:[smart phone, apple ipad]`                                                                                      |
+| `query_weights`      | Weights corresponding to the queries                                    |  `query_weights:[0.9, 0.1]`                                                                                               |
+| `flat_search_cutoff` | Threshold for bypassing HNSW index for brute-force search []            |  `flat_search_cutoff:20`                                                                                                  |
+| `ef`                 | Custom HNSW search parameter                                            |  `ef:100`                                                                                                                 |
+
+You can use each of the above parameters inside `vector_query` like this example:
+
+```json
+{
+  "vector_query": "vector_field_name:([], k: 100, alpha: 0.8, distance_threshold:0.30)"
+}
+```
 
 ## UI Examples
 
