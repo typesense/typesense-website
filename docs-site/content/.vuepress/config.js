@@ -91,7 +91,7 @@ let config = {
             protocol: 'https',
           },
         ],
-        apiKey: 'SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8',
+        apiKey: 'qt4AWfMTN2YeLq1EjgQF6GngcOz3J3jl',
       },
       typesenseCollectionName: 'typesense_docs',
       typesenseSearchParams: {
