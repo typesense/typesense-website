@@ -2,6 +2,8 @@
 
 One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data. In this guide, we will learn how to instruct our model to understand a user's search query and convert it into a structured JSON format, which we can use to perform a search.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xyXccgMqBow?si=utqcCh9HDEnoGtmL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Setting up the project
 
 We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/firebase/genkit) which is a framework that makes it really easy to add generative AI in our applications. You can take a look at [the documentation](https://firebase.google.com/docs/genkit/nextjs) on how to initialize Genkit in a Next.js app.
@@ -93,7 +95,8 @@ We're now ready to index the dataset into the collection we just created.
 var fs = require('fs/promises')
 
 const carsInJsonl = await fs.readFile('cars.jsonl')
-// You should increase the connection timeout to at least 5 minutes when indexing
+// IMPORTANT: Be sure to increase connectionTimeoutSeconds to at least 5 minutes or more for imports,
+//  when instantiating the client
 typesense({ isServer: true }).collections('cars').documents().import(carsInJsonl)
 ```
 
