@@ -193,10 +193,10 @@ let config = {
             ['/guide/personalization', 'Personalization'],
             ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/query-suggestions', 'Query Suggestions'],
-            ['/guide/github-actions', 'Running Tests in Github Actions'],
-            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
-            ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/natural-language-search', 'Natural Language Search'],
+            ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
+            ['/guide/github-actions', 'Running Tests in Github Actions'],
+            ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
           ],
         },
 
