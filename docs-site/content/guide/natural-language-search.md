@@ -272,8 +272,8 @@ Sorting hints:
 
 ## Car properties ##
 
-| Name | Data Type | Filter | Sort | Enum Values  | Description|
-|------|-----------|--------|------|--------------|------------|
+| Name | Data Type | Filter | Sort | Enum Values | Description |
+|------|-----------|--------|------|-------------|-------------|
 ${await getCachedCollectionProperties()}
 
 ### Query (for the query property) ###
