@@ -1,14 +1,74 @@
 # Natural Language Search
 
-One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data. In this guide, we will learn how to instruct our model to understand a user's search query and convert it into a structured JSON format, which we can use to perform a search.
+One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data. 
+In this guide, we will learn how to make use of this capability to understand a user's search query and convert it into a structured Typesense search query.
+
+## Use-case
+
+Let's take an example of a public [cars dataset](https://www.kaggle.com/datasets/rupindersinghrana/car-features-and-prices-dataset).
+Using Google's [Gemini](https://deepmind.google/technologies/gemini/) LLM along with Typesense we can support natural language queries like the following:
+
+- `A honda or BMW with at least 200hp, rear-wheel drive, from 20K to 50K, must be newer than 2014`
+- `Show me the most powerful car you have`
+- `High performance Italian cars, above 700hp`
+- `I don't know how to drive a manual`
+
+Notice how in some queries there might be multiple criteria mentioned, and in some cases the keyword itself might not be present in the dataset. 
+
+Here's a sample record from this dataset for context:
+
+```json
+{
+    "city_mpg": 13,
+    "driven_wheels": "rear wheel drive",
+    "engine_cylinders": 8,
+    "engine_fuel_type": "premium unleaded (recommended)",
+    "engine_hp": 707,
+    "highway_mpg": 22,
+    "id": "1480",
+    "make": "Dodge",
+    "market_category": ["Factory Tuner", "High-Performance"],
+    "model": "Charger",
+    "msrp": 65945,
+    "number_of_doors": 4,
+    "popularity": 1851,
+    "transmission_type": "AUTOMATIC",
+    "vehicle_size": "Large",
+    "vehicle_style": "Sedan",
+    "year": 2017
+}
+```
+
+## Data flow
+
+The key idea is this:
+
+1. Take the natural language query that the user types in
+2. Send it to the LLM with specific instructions on how to convert it into a Typesense search query with the `filter_by`, `sort_by` and `q` search parameters
+3. Execute a query in Typesense with those search parameters returned by the LLM and return the results
+
+We're essentially doing something similar to Text-to-SQL, except that we're now doing Text-to-Typesense-Query, running the query and returning results. 
+
+This seemingly simple concept helps build powerful natural language search experiences. 
+The trick though with LLMs is to [refine the prompt](#writing-the-prompt) well-enough that it consistently produces a good translation of the text into valid Typesense syntax.
+
+## Live Demo
+
+Here's a video of what we'll be building in this guide:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xyXccgMqBow?si=utqcCh9HDEnoGtmL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+You can also play around with it live here: [https://natural-language-search-cars-genkit.typesense.org/](https://natural-language-search-cars-genkit.typesense.org/)
+
+Let's now see how to build this application end-to-end.
+
 ## Setting up the project
 
-We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/firebase/genkit) which is a framework that makes it really easy to add generative AI in our applications. You can take a look at [the documentation](https://firebase.google.com/docs/genkit/nextjs) on how to initialize Genkit in a Next.js app.
+We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/firebase/genkit) which is a framework that makes it really easy to add generative AI in our applications. 
 
-Next, let's install the Typesense client and [zod](https://zod.dev/).
+Follow the instructions in [Genkit's documentation](https://firebase.google.com/docs/genkit/nextjs) to learn how to initialize Genkit in a Next.js app.
+
+Next, let's install the Typesense client and [zod](https://zod.dev/) into our app:
 
 ```shell
 npm i typesense@next zod
@@ -20,10 +80,12 @@ The dataset we will use can be downloaded [from Github](https://github.com/types
 
 We will need two separate Typesense API keys:
 
-- A search-only API key for use on the front end.
-- A secret back-end API key with write access.
+- A search-only API key for use on the front end
+- A backend API key with write access
 
-Please refer to [the Api Reference](https://typesense.org/docs/latest/api/api-keys.html#search-only-api-key) on how to generate a search only api key. If you're using [Typesense Cloud](./install-typesense.md#option-1-typesense-cloud), click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
+Please refer to <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#search-only-api-key`">API Keys</RouterLink> docs on how to generate a search-only-api key. 
+
+If you're using [Typesense Cloud](./install-typesense.md#option-1-typesense-cloud), click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
@@ -33,7 +95,7 @@ import Typesense from 'typesense'
 /*
  *  Our JavaScript client library works on both the server and the browser.
  *  When using the library on the browser, please be sure to use the
- *  search-only API Key rather than the master API key since the latter
+ *  search-only API Key rather than an admin API key since the latter
  *  has write access to Typesense and you don't want to expose that.
  */
 export const typesense = ({ isServer = false } = {}) =>
@@ -52,7 +114,9 @@ export const typesense = ({ isServer = false } = {}) =>
   </template>
 </Tabs>
 
-## Create and add data to the collection
+## Create the Typesense collection
+
+We'll use the following schema to create a Typesense Collection and import our cars dataset into it:
 
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
@@ -86,13 +150,13 @@ typesense({ isServer: true })
   </template>
 </Tabs>
 
-We're now ready to index the dataset into the collection we just created.
+We're now ready to index the dataset into the collection we just created:
 
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
 
 ```js
-var fs = require('fs/promises')
+let fs = require('fs/promises')
 
 const carsInJsonl = await fs.readFile('cars.jsonl')
 // IMPORTANT: Be sure to increase connectionTimeoutSeconds to at least 5 minutes or more for imports,
@@ -105,7 +169,7 @@ typesense({ isServer: true }).collections('cars').documents().import(carsInJsonl
 
 ## Writing the prompt
 
-Our goal is to translate a natural language query e.g. `'Latest Ford under 40K$'` into Typesense query format:
+Our goal is to translate a natural language query e.g. `'Latest Ford under 40K$'` into Typesense's query format:
 
 ```json
 {
@@ -134,7 +198,7 @@ const TypesenseQuerySchema = z
   </template>
 </Tabs>
 
-We can make the LLM ouput conform to our `TypesenseQuerySchema` by specifying it in `defineDotprompt()`
+We can make the LLM ouput conform to our `TypesenseQuerySchema` by specifying it in `defineDotprompt()`:
 
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
@@ -156,7 +220,6 @@ const typesensePrompt = async () =>
       },
       name: 'typesense-prompt',
     },
-    // prettier-ignore
     `You are assisting a user in searching for cars. Convert their query into the appropriate Typesense query format based on the instructions below.
 
 ### Typesense Query Syntax ###
@@ -229,7 +292,23 @@ Provide the valid JSON with the correct filter and sorting format, only include 
   </template>
 </Tabs>
 
-The car properties will be dynamically provided to the LLM based on our Typesense `cars` collection schema.
+### Dynamic Prompt based on the Schema
+
+Notice the `getCachedCollectionProperties()` function in the prompt above.
+
+That function essentially converts the Typesense collection schema into a tabular format with a list of field names and sample enum values in each field. 
+We're using a markdown format to help the LLM recognize these field values in the query and convert them into appropriate field filters.
+
+Here's an example of what the output of that function could look like:
+
+```markdown
+## Car properties ##
+
+| Name | Data Type | Filter | Sort | Enum Values  | Description|
+|------|-----------|--------|------|--------------|------------|
+```
+
+Here's how that function looks:
 
 <Tabs :tabs="['JavaScript']">
 <template v-slot:JavaScript>
@@ -318,6 +397,8 @@ const getCachedCollectionProperties = unstable_cache(async () => await getCollec
 
 ## Integrate with Typesense
 
+Let's now integrate our dynamic prompt into our application:
+
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
 
@@ -391,4 +472,4 @@ That's it! Our users can now use natural language to search for cars and the int
 
 Keep in mind that LLMs may occasionally misunderstand queries or generate Typesense queries that are invalid. In such cases, tweaking the prompt to handle specific edge cases or incorporating fallback logic can ensure better results over time.
 
-You can find the [full source code](https://github.com/typesense/showcase-generation-augmented-retrieval-genkit) of the demo application on Github.
+You can find the [full source code](https://github.com/typesense/showcase-generation-augmented-retrieval-genkit) of the demo application on GitHub and a live demo [here](https://natural-language-search-cars-genkit.typesense.org/).
