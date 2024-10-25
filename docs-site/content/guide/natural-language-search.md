@@ -1,6 +1,6 @@
 # Natural Language Search
 
-One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data. 
+One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data.
 In this guide, we will learn how to make use of this capability to understand a user's search query and convert it into a structured Typesense search query.
 
 ## Use-case
@@ -13,29 +13,29 @@ Using Google's [Gemini](https://deepmind.google/technologies/gemini/) LLM along 
 - `High performance Italian cars, above 700hp`
 - `I don't know how to drive a manual`
 
-Notice how in some queries there might be multiple criteria mentioned, and in some cases the keyword itself might not be present in the dataset. 
+Notice how in some queries there might be multiple criteria mentioned, and in some cases the keyword itself might not be present in the dataset.
 
 Here's a sample record from this dataset for context:
 
 ```json
 {
-    "city_mpg": 13,
-    "driven_wheels": "rear wheel drive",
-    "engine_cylinders": 8,
-    "engine_fuel_type": "premium unleaded (recommended)",
-    "engine_hp": 707,
-    "highway_mpg": 22,
-    "id": "1480",
-    "make": "Dodge",
-    "market_category": ["Factory Tuner", "High-Performance"],
-    "model": "Charger",
-    "msrp": 65945,
-    "number_of_doors": 4,
-    "popularity": 1851,
-    "transmission_type": "AUTOMATIC",
-    "vehicle_size": "Large",
-    "vehicle_style": "Sedan",
-    "year": 2017
+  "city_mpg": 13,
+  "driven_wheels": "rear wheel drive",
+  "engine_cylinders": 8,
+  "engine_fuel_type": "premium unleaded (recommended)",
+  "engine_hp": 707,
+  "highway_mpg": 22,
+  "id": "1480",
+  "make": "Dodge",
+  "market_category": ["Factory Tuner", "High-Performance"],
+  "model": "Charger",
+  "msrp": 65945,
+  "number_of_doors": 4,
+  "popularity": 1851,
+  "transmission_type": "AUTOMATIC",
+  "vehicle_size": "Large",
+  "vehicle_style": "Sedan",
+  "year": 2017
 }
 ```
 
@@ -47,9 +47,9 @@ The key idea is this:
 2. Send it to the LLM with specific instructions on how to convert it into a Typesense search query with the `filter_by`, `sort_by` and `q` search parameters
 3. Execute a query in Typesense with those search parameters returned by the LLM and return the results
 
-We're essentially doing something similar to Text-to-SQL, except that we're now doing Text-to-Typesense-Query, running the query and returning results. 
+We're essentially doing something similar to Text-to-SQL, except that we're now doing Text-to-Typesense-Query, running the query and returning results.
 
-This seemingly simple concept helps build powerful natural language search experiences. 
+This seemingly simple concept helps build powerful natural language search experiences.
 The trick though with LLMs is to [refine the prompt](#writing-the-prompt) well-enough that it consistently produces a good translation of the text into valid Typesense syntax.
 
 ## Live Demo
@@ -64,7 +64,7 @@ Let's now see how to build this application end-to-end.
 
 ## Setting up the project
 
-We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/firebase/genkit) which is a framework that makes it really easy to add generative AI in our applications. 
+We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/firebase/genkit) which is a framework that makes it really easy to add generative AI in our applications.
 
 Follow the instructions in [Genkit's documentation](https://firebase.google.com/docs/genkit/nextjs) to learn how to initialize Genkit in a Next.js app.
 
@@ -83,7 +83,7 @@ We will need two separate Typesense API keys:
 - A search-only API key for use on the front end
 - A backend API key with write access
 
-Please refer to <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#search-only-api-key`">API Keys</RouterLink> docs on how to generate a search-only-api key. 
+Please refer to <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#search-only-api-key`">API Keys</RouterLink> docs on how to generate a search-only-api key.
 
 If you're using [Typesense Cloud](./install-typesense.md#option-1-typesense-cloud), click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
@@ -296,16 +296,32 @@ Provide the valid JSON with the correct filter and sorting format, only include 
 
 Notice the `getCachedCollectionProperties()` function in the prompt above.
 
-That function essentially converts the Typesense collection schema into a tabular format with a list of field names and sample enum values in each field. 
+That function essentially converts the Typesense collection schema into a tabular format with a list of field names and sample enum values in each field.
 We're using a markdown format to help the LLM recognize these field values in the query and convert them into appropriate field filters.
 
 Here's an example of what the output of that function could look like:
 
 ```markdown
-## Car properties ##
+## Car properties
 
-| Name | Data Type | Filter | Sort | Enum Values  | Description|
-|------|-----------|--------|------|--------------|------------|
+| Name              | Data Type | Filter | Sort | Enum Values                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Description                               |
+| ----------------- | --------- | ------ | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| year              | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| engine_hp         | float     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| engine_cylinders  | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| number_of_doors   | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| highway_mpg       | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| city_mpg          | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| popularity        | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                           |
+| msrp              | int32     | Yes    | Yes  |                                                                                                                                                                                                                                                                                                                                                                                                                                                              | in USD                                    |
+| make              | string    | Yes    | No   | Chevrolet, Ford, Dodge, Mercedes-Benz, BMW, Toyota, Infiniti, GMC, Volkswagen, Nissan, Mazda, Audi, Cadillac, Lexus, Volvo, Honda, Suzuki, Hyundai, Pontiac, Mitsubishi, Chrysler, Kia, Porsche, Subaru, Acura, Buick, Oldsmobile, Saab, Lincoln, Bentley, Ferrari, Plymouth, Aston Martin, Land Rover, Lamborghini, Maserati, Scion, FIAT, Rolls-Royce, Lotus, Maybach, HUMMER, McLaren, Alfa Romeo, Genesis, Spyker, Bugatti                               |                                           |
+| model             | string    | Yes    | No   | 911, F-150, Tundra, E-Class, Silverado 1500, 3 Series, Sierra 1500, Tacoma, B-Series Pickup, Truck, Accord, Colorado, 300-Class, 9-3, Civic, Q50, Forte, Canyon, Frontier, Ram Pickup 1500, R8, C-Class, 4 Series, 3, S-Class, Gallardo, 6 Series, Dakota, Golf GTI, Jetta, Camaro, 900, 850, S-10, Colt, Charger, Continental GT, G6, Juke, 370Z, Jimmy, Pickup, Sidekick, Corvette, Q70, Shadow, Ranger, Mustang, G Coupe, Durango, Silverado 1500 Classic | There are more enum values for this field |
+| engine_fuel_type  | string    | Yes    | No   | regular unleaded, premium unleaded (required), premium unleaded (recommended), flex-fuel (unleaded/E85), diesel, flex-fuel (premium unleaded required/E85), flex-fuel (premium unleaded recommended/E85), electric, natural gas                                                                                                                                                                                                                              |                                           |
+| transmission_type | string    | Yes    | No   | AUTOMATIC, MANUAL, AUTOMATED_MANUAL, UNKNOWN, DIRECT_DRIVE                                                                                                                                                                                                                                                                                                                                                                                                   |                                           |
+| driven_wheels     | string    | Yes    | No   | front wheel drive, rear wheel drive, all wheel drive, four wheel drive                                                                                                                                                                                                                                                                                                                                                                                       |                                           |
+| market_category   | string[]  | Yes    | No   | Luxury, Performance, High-Performance, Crossover, Hatchback, Factory Tuner, Flex Fuel, Exotic, Hybrid, Diesel                                                                                                                                                                                                                                                                                                                                                |                                           |
+| vehicle_size      | string    | Yes    | No   | Compact, Midsize, Large                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                           |
+| vehicle_style     | string    | Yes    | No   | Sedan, 4dr SUV, Coupe, Convertible, Wagon, 4dr Hatchback, Extended Cab Pickup, 2dr Hatchback, Crew Cab Pickup, Passenger Minivan, Regular Cab Pickup, 2dr SUV, Cargo Van, Passenger Van, Cargo Minivan, Convertible SUV                                                                                                                                                                                                                                      |                                           |
 ```
 
 Here's how that function looks:
@@ -326,7 +342,7 @@ async function getCollectionProperties() {
       const { name, type, sort } = field
       rows.push(
         // prettier-ignore
-        `| ${name} | ${type} | Yes | ${booleanToYesNo(sort)} | N/A | ${collection.metadata?.[name] || ''} |`,
+        `|${name}|${type}|Yes|${booleanToYesNo(sort)}||${collection.metadata?.[name] || ''}|`,
       )
     }
   })
@@ -343,11 +359,11 @@ async function getCollectionProperties() {
   const facetableRows = facetableFields?.map(({ type, name, sort }, i) => {
     const counts = facetValues.facet_counts?.[i].counts
     const exceedMaxNumValues =
-      counts && counts?.length > MAX_FACET_VALUES ? 'There are more enum values for this field' : 'N/A'
+      counts && counts?.length > MAX_FACET_VALUES ? 'There are more enum values for this field' : ''
     const enums = counts?.map(item => item.value).join(', ')
     // prettier-ignore
-    return `| ${name} | ${type} | Yes | ${booleanToYesNo(sort)} | ${enums} | ${collection.metadata?.[name] || ''
-    } ${exceedMaxNumValues} |`;
+    return `|${name}|${type}|Yes|${booleanToYesNo(sort)}|${enums}|${collection.metadata?.[name] || ' '
+    }${exceedMaxNumValues}|`;
   })
   return rows.concat(facetableRows).join('\n')
 }
