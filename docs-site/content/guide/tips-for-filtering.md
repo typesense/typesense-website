@@ -25,18 +25,18 @@ a **`:`** after it.
 
 ## Available Operators
 
-| Operator | Description              | Available types                             | Example                      |
-|----------|--------------------------|---------------------------------------------|------------------------------|
-| `=`      | Equal to                 | `string`, `int32`, `int64`, `float`, `bool` | `country:=USA`               |
-| `:`      | Partially equal to       | `string`                                    | `country:New`                |
-| `>`      | Greater than             | `int32`, `int64`, `float`                   | `price:>100`                 |
-| `<`      | Less than                | `int32`, `int64`, `float`                   | `price:<100`                 |
-| `!=`     | Not equal to             | `string`, `int32`, `int64`, `float`, `bool` | `status:!=inactive`          |
-| `<=`     | Less than or equal to    | `int32`, `int64`, `float`                   | `price:<=100`                |
-| `>=`     | Greater than or equal to | `int32`, `int64`, `float`                   | `price:>=100`                |
-| `[]`     | Is one of                | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
-| `![]`    | Is not any of            | `string`, `int32`, `int64`, `float`, `bool` | `country:![USA, UK, Canada]` |
-| `[..]`   | Range                    | `int32`, `int64`, `float`                   | `price:[100..200]`           |
+| Operator  | Description              | Available types                             | Example                      |
+|-----------|--------------------------|---------------------------------------------|------------------------------|
+| `=`       | Equal to                 | `string`, `int32`, `int64`, `float`, `bool` | `country:=USA`               |
+| `:`       | Partially equal to       | `string`                                    | `country:New`                |
+| `>`       | Greater than             | `int32`, `int64`, `float`                   | `price:>100`                 |
+| `<`       | Less than                | `int32`, `int64`, `float`                   | `price:<100`                 |
+| `!=`      | Not equal to             | `string`, `int32`, `int64`, `float`, `bool` | `status:!=inactive`          |
+| `<=`      | Less than or equal to    | `int32`, `int64`, `float`                   | `price:<=100`                |
+| `>=`      | Greater than or equal to | `int32`, `int64`, `float`                   | `price:>=100`                |
+| `[]`      | Is one of                | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
+| `!=[]`    | Is not any of            | `string`, `int32`, `int64`, `float`, `bool` | `country:!=[USA, UK, Canada]`|
+| `[..]`    | Range                    | `int32`, `int64`, `float`                   | `price:[100..200]`           |
 
 ### Non-exact Operator for String Types
 
