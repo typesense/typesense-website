@@ -302,6 +302,8 @@ We tend to add features and fixes on a continuous iterative cycle and publish RC
 
 We do not have a fixed timeline for GA releases since we want final builds to be sufficiently tested and stable. That said, in the past we've done [GA releases](https://github.com/typesense/typesense/releases) every 2-3 months.
 
+In the meantime, most RC builds are safe to run in production. Read more here: [Can I run RC builds in production?](#can-i-run-rc-builds-in-production).
+
 ### How do you plan your roadmap?
 
 We do Just-In-Time planning, at most 2 months in advance. Even within that window we tend to reprioritize based on your feedback. So items you see on [our roadmap](https://github.com/orgs/typesense/projects/1) more than one version out are subject to change.
