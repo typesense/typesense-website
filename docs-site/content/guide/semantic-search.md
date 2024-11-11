@@ -458,7 +458,7 @@ curl 'http://localhost:8108/multi_search' \
         "query_by": "embedding",
         "collection": "products",
         "prefix": "false",
-        "vector_query": "embedding([], k: 200)",
+        "vector_query": "embedding:([], k: 200)",
         "exclude_fields": "embedding",
         "per_page": 10,
         "page": 1
@@ -467,7 +467,7 @@ curl 'http://localhost:8108/multi_search' \
   }'
 ```
 
-* The `vector_query` parameter is set to `embedding([], k: 200)`, limiting the vector search to the 200 nearest-neighbor items.
+* The `vector_query` parameter is set to `embedding:([], k: 200)`, limiting the vector search to the 200 nearest-neighbor items.
 * `per_page` is set to `10`, returning the top 10 results sorted by relevance.
 * You can then use the `page` parameter to paginate through the results.
 
@@ -484,7 +484,7 @@ curl 'http://localhost:8108/multi_search' \
         "query_by": "embedding",
         "collection": "products",
         "prefix": "false",
-        "vector_query": "embedding([], k: 200, distance_threshold: 1.0)",
+        "vector_query": "embedding:([], k: 200, distance_threshold: 1.0)",
         "exclude_fields": "embedding",
       }
     ]
