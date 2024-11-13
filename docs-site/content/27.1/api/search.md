@@ -297,10 +297,10 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 
 ### Caching parameters
 
-| Parameter | Required | Description                                                                                                                                                                                             |
-|:----------|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| use_cache | no       | Enable server side caching of search query results. By default, caching is disabled.<br><br>Default: `false`                                                                                            |
-| cache_ttl | no       | The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60` |
+| Parameter | Required | Description                                                                                                                                                                                                                                                                                                                                                  |
+|:----------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| use_cache | no       | Enable server side caching of search query results. By default, caching is disabled.<br><br>When using <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/federated-multi-search.html`">multi_search</RouterLink>, this parameter needs to be specified as a URL query parameter, and NOT in the POST request body. <br><br>Default: `false` |
+| cache_ttl | no       | The duration (in seconds) that determines how long the search query is cached. This value can only be set as part of a [scoped API key](./api-keys.md#generate-scoped-search-key).<br><br>Default: `60`                                                                                                                                                      |
 
 ## Filter Results
 
