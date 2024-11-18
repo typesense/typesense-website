@@ -267,6 +267,7 @@ let config = {
               'Conversational Search with Paul Graham Essays',
             ],
             ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
+            ['/guide/reference-implementations/podcasts-voice-search.md', 'Podcasts Voice Search'],
           ],
         },
         ['/guide/faqs', 'Frequently Asked Questions'],
