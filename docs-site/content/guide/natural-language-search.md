@@ -68,10 +68,10 @@ We will be using [Next.js](https://nextjs.org/) and [Genkit](https://github.com/
 
 Follow the instructions in [Genkit's documentation](https://firebase.google.com/docs/genkit/nextjs) to learn how to initialize Genkit in a Next.js app.
 
-Next, let's install the Typesense client and [zod](https://zod.dev/) into our app:
+Next, let's install the Typesense client into our app:
 
 ```shell
-npm i typesense@next zod
+npm i typesense@next
 ```
 
 The dataset we will use can be downloaded [from Github](https://github.com/typesense/showcase-generation-augmented-retrieval-genkit/blob/main/scripts/data/cars.jsonl).
@@ -184,7 +184,7 @@ In Genkit, the model output schema is defined using Zod.
 <template v-slot:JavaScript>
 
 ```js
-import * as z from 'zod'
+import { z } from 'genkit'
 
 const TypesenseQuerySchema = z
   .object({
@@ -198,33 +198,21 @@ const TypesenseQuerySchema = z
   </template>
 </Tabs>
 
-We can make the LLM ouput conform to our `TypesenseQuerySchema` by specifying it in `defineDotprompt()`:
+We can make the LLM ouput conform to our `TypesenseQuerySchema` by specifying it in `generate()`:
 
 <Tabs :tabs="['JavaScript']">
   <template v-slot:JavaScript>
 
 ```js
-import { defineDotprompt } from '@genkit-ai/dotprompt'
-
-const typesensePrompt = async () =>
-  defineDotprompt(
-    {
-      model: 'googleai/gemini-1.5-flash',
-      input: {
-        schema: z.object({
-          query: z.string(),
-        }),
-      },
-      output: {
-        schema: TypesenseQuerySchema,
-      },
-      name: 'typesense-prompt',
-    },
-    `You are assisting a user in searching for cars. Convert their query into the appropriate Typesense query format based on the instructions below.
+const { output } = await ai.generate({
+  model: gemini15Flash,
+  output: { schema: TypesenseQuerySchema },
+  system: // prettier-ignore
+      `You are assisting a user in searching for cars. Convert their query into the appropriate Typesense query format based on the instructions below.
 
 ### Typesense Query Syntax ###
 
-## Filtering (for the filter_by property) ##
+## Filtering ##
 
 Matching values: The syntax is {fieldName} follow by a match operator : and a string value or an array of string values each separated by a comma. Do not encapsulate the value in double quote or single quote. Examples:
 - model:prius
@@ -243,14 +231,14 @@ OR Conditions Across Fields: Use || only for different fields. Examples:
  - vehicle_size:Large || vehicle_style:Wagon
  - (vehicle_size:Large || vehicle_style:Wagon) && year:>2010
 
-If the same field is used for filtering multiple values in an || (OR) operation, then use the multi-value OR syntax. For eg:
-\`make:BMW || make:Honda || make:Ford\`
-should be simplified as:
-\`make:[BMW, Honda, Ford]\`
-
 Negation: Use :!= to exclude values. Examples:
  - make:!=Nissan
  - make:!=[Nissan,BMW]
+
+ If the same field is used for filtering multiple values in an || (OR) operation, then use the multi-value OR syntax. For eg:
+\`make:BMW || make:Honda || make:Ford\`
+should be simplified as:
+\`make:[BMW, Honda, Ford]\`
 
 If any string values have parentheses, surround the value with backticks to escape them.
 
@@ -259,7 +247,7 @@ For eg, if a field has the value "premium unleaded (required)", and you need to 
 - fuel_type:\`premium unleaded (required)\`
 - fuel_type!:\`premium unleaded (required)\`
 
-## Sorting (for the sort_by property) ##
+## Sorting ##
 
 You can only sort maximum 3 sort fields at a time. The syntax is {fieldName}: follow by asc (ascending) or dsc (descending), if sort by multiple fields, separate them by a comma. Examples:
  - msrp:desc
@@ -270,23 +258,22 @@ Sorting hints:
   - When a user says something like "powerful", sort by engine_hp.
   - When a user says something like "latest", sort by year.
 
+### Query ###
+Include query only if both filter_by and sort_by are inadequate.
+
 ## Car properties ##
 
 | Name | Data Type | Filter | Sort | Enum Values | Description |
 |------|-----------|--------|------|-------------|-------------|
 ${await getCachedCollectionProperties()}
 
-### Query (for the query property) ###
-Include query only if both filter_by and sort_by are inadequate.
-
-### User-Supplied Query ###
-
-{{query}}
-
 ### Output Instructions ###
-
 Provide the valid JSON with the correct filter and sorting format, only include fields with non-null values. Do not add extra text or explanations.`,
-  )
+
+  prompt: //prettier-ignore
+`### User-Supplied Query ###
+${query}`,
+})
 ```
 
   </template>
@@ -420,34 +407,37 @@ Let's now integrate our dynamic prompt into our application:
 
 ```js
 'use server'
-import { configureGenkit } from '@genkit-ai/core'
-import { defineFlow, runFlow } from '@genkit-ai/flow'
-import { googleAI } from '@genkit-ai/googleai'
+import { genkit, z } from 'genkit'
+import { gemini15Flash, googleAI } from '@genkit-ai/googleai'
 import { TypesenseQuerySchema } from '@/schemas/typesense'
 
-configureGenkit({
+const ai = genkit({
   plugins: [googleAI()],
-  logLevel: 'debug',
+  model: gemini15Flash,
 })
 
-const generateTypesenseQuery = defineFlow(
+const generateTypesenseQuery = ai.defineFlow(
   {
     name: 'generateTypesenseQuery',
     inputSchema: z.string(),
     outputSchema: TypesenseQuerySchema,
   },
   async query => {
-    const llmResponse = await typesensePrompt().generate({
-      model: 'googleai/gemini-1.5-flash-latest',
-      input: { query },
+    const { output } = await ai.generate({
+      model: gemini15Flash,
+      output: { schema: TypesenseQuerySchema },
+      system: `...`,
+      prompt: //prettier-ignore
+`### User-Supplied Query ###
+${query}`,
     })
-    return llmResponse.output()
+
+    if (output == null) {
+      throw new Error("Response doesn't satisfy schema.")
+    }
+    return output
   },
 )
-
-export async function callGenerateTypesenseQuery(query: string) {
-  return await runFlow(generateTypesenseQuery, query)
-}
 ```
 
   </template>
