@@ -5,19 +5,49 @@ sitemap:
 ---
 
 # Collection Alias
-An alias is a virtual collection name that points to a real collection. If you're familiar with symbolic links on Linux, it's very similar to that.
+An alias is a virtual collection name that points to a real collection. If you're familiar with symbolic links in Linux, it's very similar to that.
 
-Aliases are useful when you want to reindex your data in the background on a new collection and switch your application to it without any changes to your code. Let's take an example.
+**You can use an alias name, instead of the collection name, in any API call that uses a collection name.** Typesense will internally resolve the alias to the collection name that the alias is configured to point to, and use that to perform the operation (searches, writes, etc). 
+
+## Use Case
+One common use-case for aliases is to reindex your data in the background on a new collection and then switch your application to it without any changes to your code. 
+
+Here's an example:
 
 Let's say we have a collection called `companies_june10` and an alias called `companies` pointing to that collection.
 
-`companies ---> companies_june10`
+```
+companies ---> companies_june10
+```
 
-On the next day (June 11), we will create a new collection called `companies_june11` and start indexing the documents in the background into this collection. When we are done indexing, if we updated the `companies` alias to point to this new collection, your application would immediately start querying against the freshly indexed collection.
+In our application, for all search API calls we'll use the alias name `companies`, instead of using the collection name `companies_june10`:
 
-`companies ---> companies_june11`
+```shell
+curl "http://localhost:8108/multi_search" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{
+          "searches": [
+            {
+              "collection": "companies",
+              "q": "Acme"
+            }
+          ]
+        }'
+```
 
-Convenient isn't it? Let's now look at how we can create, update and manage aliases.
+Since `companies` is an alias, Typesense will resolve `"collection": "companies"` to `companies_june10` internally, and perform the search against that collection.
+
+On the next day (June 11), let's say we want to reindex our entire dataset. We can create a new collection called `companies_june11` and start indexing the documents in the background into this collection. 
+
+When we are done indexing, if we updated the `companies` alias to now point to this new collection `companies_june11`, your application would immediately start sending searches to this freshly indexed collection, because we're using the alias name in the search query like above.
+
+```
+companies ---> companies_june11
+```
+
+Convenient, isn't it? Let's now look at how we can create, update and manage aliases.
 
 ## Create or Update an alias
 
