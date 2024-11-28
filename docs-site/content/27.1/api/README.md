@@ -157,6 +157,13 @@ To get an accurate `total_values` for the entire dataset, send this additional s
 
 This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` key in the response to be exact.
 
+**Regular expression in field names in query_by, facet_by etc.**
+
+We've fixed some bugs in the way regular expression in field names are resolved. These bug fixes _could_ cause
+the field resolution to fail if you were relying on the wrong behavior. For example, if you had a field 
+named `body..*._title` in the schema, you can no longer resolve fields that match this pattern by 
+sending `query_by=body` which was working earlier (as a bug).
+
 ## Upgrading
 
 Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
