@@ -2,9 +2,11 @@
 
 In this article, we'll talk about how to handle locale-specific text in your Typesense collections. We'll cover:
 - [Basic Locale Configuration](#basic-locale-configuration)
+- [Default Behavior and English Text](#default-behavior-and-english-text)
 - [Language Code Support](#language-code-support)
 - [Commonly Used Languages](#commonly-used-languages)
 - [Language-Specific Features](#language-specific-features)
+- [Advanced Tokenization Options](#advanced-tokenization-options)
 - [Best Practices](#best-practices)
 
 ## Basic Locale Configuration
@@ -23,6 +25,18 @@ To enable language-specific text handling, specify the locale when defining your
 
 Each field can have its own locale setting, allowing you to handle multilingual content within the same document.
 
+## Default Behavior and English Text
+
+When no locale is specified for a field, Typesense treats it as English (`en`) by default. This has important implications:
+
+- For default English fields, diacritics (accent marks) are automatically removed from European accented characters
+- For non-English locales, diacritics are preserved due to ICU (International Components for Unicode) tokenization
+
+This affects search behavior in important ways:
+- When searching fields with preserved diacritics, an exact match with accents will be prioritized
+- Due to typo tolerance, if no exact accented match is found, non-accented versions will be matched
+- For optimal matching, consider your users' likely search patterns when deciding whether to preserve diacritics
+
 ## Language Code Support
 
 Typesense supports any valid two-letter [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes). This means you're not limited to just the commonly documented languages - you can use any standard language code like:
@@ -34,7 +48,7 @@ Typesense supports any valid two-letter [ISO 639-1 language code](https://en.wik
 - `pl` for Polish
 - etc.
 
-The locale parameter accepts any valid ISO 639-1 code and will use the appropriate ICU (International Components for Unicode) rules for that language.
+The locale parameter accepts any valid ISO 639-1 code and will use the appropriate ICU rules for that language.
 
 ### How It Works
 
@@ -110,6 +124,33 @@ Some languages receive special word segmentation handling:
 - **Vietnamese**: Proper handling of tone marks and compounds
 - **Chinese**: Character-based segmentation and variant handling
 
+## Advanced Tokenization Options
+
+### Custom Tokenization with `pre_segmented_query`
+
+For languages with complex word boundaries or when you need more control over tokenization, Typesense offers the `pre_segmented_query` parameter. This feature allows you to:
+
+1. Use your own tokenizer for both indexing and querying
+2. Have Typesense simply split on spaces rather than applying its default tokenization rules
+
+This is particularly useful for:
+- Chinese and other CJK languages where ML-based word splitting might be more accurate
+- Languages with complex compound words
+- Special domain-specific tokenization needs
+
+Example usage:
+```json
+{
+  "q": "pre tokenized query",
+  "pre_segmented_query": true
+}
+```
+
+When using this feature, ensure that:
+- Your indexing tokenization matches your query tokenization
+- Tokens are space-separated in both indexed content and queries
+- You maintain consistency in your tokenization approach
+
 ## Best Practices
 
 1. **Always Specify the Locale** if it's not an English field
@@ -131,3 +172,9 @@ Some languages receive special word segmentation handling:
      "title_th": "ชื่อเรื่องภาษาไทย"
    }
    ```
+
+3. **Consider Diacritic Handling**
+   - For European languages, consider whether your users are likely to search with or without diacritics
+
+4. **Custom Tokenization**
+   - Consider using `pre_segmented_query` for languages where default tokenization might not be optimal
