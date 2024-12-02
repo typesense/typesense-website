@@ -177,7 +177,7 @@ When using this feature, ensure that:
 
 ## Best Practices
 
-1. **Always Specify the Locale** if it's not an English field
+1. **Always Specify the Locale** if it's not an English field.
 
    ```json
    {
@@ -200,9 +200,9 @@ When using this feature, ensure that:
    ```
 
 1. **Consider Diacritic Handling**
-  - For European languages, consider whether your users are likely to search
-    with or without diacritics
+   
+    For European languages, consider whether your users are likely to search with or without diacritics.
 
 1. **Custom Tokenization**
-  - Consider using `pre_segmented_query` for languages where default
-    tokenization might not be optimal
+    
+    Consider using `pre_segmented_query` for languages where default tokenization might not be optimal.
