@@ -129,8 +129,9 @@ We also have the following framework integrations:
 
 - [Firebase](https://github.com/typesense/firestore-typesense-search)
 - [AWS Amplify](https://github.com/olliethedev/amplify-graphql-typesense-transformer)
-- [Laravel](https://laravel.com/docs/11.x/scout#typesense)
-- [Laravel] (https://github.com/sebastiansulinski/laravel-search)
+- Laravel:
+  - [Laravel Scout](https://laravel.com/docs/11.x/scout#typesense) (official native integration)
+  - [sebastiansulinski / laravel-search](https://github.com/sebastiansulinski/laravel-search)
 - [Symfony](https://github.com/acseo/TypesenseBundle)
 - [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
