@@ -93,7 +93,8 @@ If you want to see how syncing data into Typesense with Prisma Pulse looks like 
 
 In addition to the above strategies, you could also do a re-index of your entire dataset on say a nightly basis, just to make sure any gaps in the synced data due to schema validation errors, network issues, failed retries etc are addressed and filled.
 
-You want to use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">Collection Alias</RouterLink> feature to do a reindex without any downtime into a new collection and then switch the alias over to the new collection.
+You could use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collection-alias.html`">Collection Alias</RouterLink> feature to do a reindex into a new collection and then switch the alias over to the new collection. 
+Or you can use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">Bulk Import API</RouterLink> with `action=upsert`, along with the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#delete-by-query`">Delete by Query</RouterLink> endpoint on an existing collection and reimport your existing dataset. 
 
 ## Tips when importing data
 
