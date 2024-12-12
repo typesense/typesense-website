@@ -190,11 +190,23 @@ So for example:
 If a Typesense cluster loses more than `(N-1)/2` nodes at the same time, the cluster becomes unstable because it loses quorum and the remaining node(s) cannot safely build consensus on which node is the leader.
 To avoid a potential split brain issue, Typesense then stops accepting writes and reads until some manual verification and intervention is done.
 
-To recover a cluster in this state:
+To recover a cluster that has lost quorum:
 
-1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. You don't have to restart the Typesense process, since changes to the node file are automatically picked up within 30s.
-2. Once this node returns ok when you call `/health`, edit the nodes file and then add back another node in the cluster, and wait for it to catch up with the new leader.
-3. Repeat Step 2 for each node until the cluster is healthy again.
+1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. 
+    
+   You don't have to restart the Typesense process, since changes to the node file are automatically picked up within 30s.
+
+2. Wait for this node to return ok when you call it's `/health` endpoint.
+3. Edit the nodes file on this single node to now contain its own IP address and also the IP address of a 2nd node.
+4. Edit the nodes file on the 2nd node to now contain the IP address of the 1st node and the 2nd node, and start the Typesense process on the 2nd node. 
+
+    This will get the 2nd node to sync data from the 1st node. If the 2nd node had fallen behind the first node by too much, you might have to clear the data dir from the 2nd node before starting the 2nd node back up, which will get the 2nd node to sync a fresh snapshot of the data from the first node.
+
+5. Wait for the 2nd node to return ok when you call it's `/health` endpoint. 
+    
+    At this stage, both the 1st and 2nd nodes should be healthy.
+
+6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up. 
 
 ## Client Configuration
 
