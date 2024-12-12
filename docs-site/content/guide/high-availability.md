@@ -194,7 +194,7 @@ To recover a cluster that has lost quorum:
 
 1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. 
     
-   You don't have to restart the Typesense process, since changes to the node file are automatically picked up within 30s.
+   You don't have to restart the Typesense process, since changes to the nodes file are automatically picked up within 30s.
 
 2. Wait for this node to return ok when you call it's `/health` endpoint.
 3. Edit the nodes file on this single node to now contain its own IP address and also the IP address of a 2nd node.
