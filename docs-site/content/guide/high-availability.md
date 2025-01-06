@@ -27,7 +27,10 @@ If a particular node has an infrastructure issue, or is inaccessible for any rea
 You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**. 
 
 For HA clusters provisioned **before June 16, 2022**, you will only see the individual hostnames. Health-checking and traffic re-routing are done client-side in our official client libraries.
-See [Client Configuration](#client-configuration) below. If you'd like to enable server-side load-balancing for your existing clusters, please reach out to us at support at typesense d0t org with your Cluster ID.
+See [Client Configuration](#client-configuration) below. 
+
+To enable server-side load balancing on your existing clusters, open your Cluster Dashboard, go to Cluster Configuration, select Modify, toggle Load Balancing ON, and schedule the change. 
+After that, configure your client libraries to use the `nearestNode` parameter as described under [Client Configuration](#client-configuration) below.
 :::
 
 ## High Availability when Self-Hosting Typesense
