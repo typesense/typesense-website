@@ -19,14 +19,42 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
+- Support union / merging of search results across collections containing similar type of fields. (https://github.com/typesense/typesense/pull/2051)
+- Dictionary based stemming: stemming is now configurable through an import of a custom dictionary that maps a word to a root form. (https://github.com/typesense/typesense/pull/2062) 
+- Allow search results to be randomized via `sort_by=_rand(seed)` clause. (https://github.com/typesense/typesense/pull/1918)
+- Ability to re-rank hybrid search hits by augmenting their keyword / semantic match score when the 
+  hit was identified by only either keyword or vector search. (https://github.com/typesense/typesense/pull/1968)
+- Sort hits based on a pivot value. (https://github.com/typesense/typesense/pull/2003) 
+- Support decay functions in `sort_by` to support gaussian, linear, and exponential decay of values. (https://github.com/typesense/typesense/pull/2036) 
+- Field level `token_separators` and `symbols_to_index` are now supported. (https://github.com/typesense/typesense/pull/2118)
+- Support bucketing of text match scores based on `bucket_size` parameter. (https://github.com/typesense/typesense/pull/2120)
+- Ability to truncate a collection. (https://github.com/typesense/typesense/pull/2127)
+- Index and search on geo polygons. (https://github.com/typesense/typesense/pull/2150)
+
 ### Enhancements
 
+- Support `distance_threshold` parameter for vector query that uses inner product distance.
+- Allow updating of remote model's `api_key` parameter. (https://github.com/typesense/typesense/pull/1944)
+- Support `max_filter_by_candidates` search parameter that controls the number of similar words that Typesense.
+  considers during fuzzy search on `filter_by` values (default is `4`).
+- Performance and stability fixes for joins.
+- API endpoint that returns status of alter schema operations that are in-progress. (https://github.com/typesense/typesense/pull/2123)
 
 ### Bug Fixes
 
+- Fixed fields with `async_reference` property not being restored correctly on restart. 
+- Fixed sorting with nested reference fields.
+- Addressed edge cases in conversation API.
+- Assign default sorting score if reference is not found while sorting by a reference field.
+- Fix `distance_threshold` in `vector_query` not working correctly while sorting.
+- Add validation to ensure that embedding fields are of type `float[]`.
+- Fix vector query format validation error messages.
+- Fix race condition in high concurrency image embedding.
+- Fix `flat_search_cutoff` not working for hybrid search.
 
 ### Deprecations / behavior changes
 
+There are no deprecations / behavior changes in this release.
 
 ## Upgrading
 
