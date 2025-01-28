@@ -1164,6 +1164,8 @@ curl 'http://localhost:8108/collections' \
 
 When you create the collection above, Typesense will call the OpenAI-API compatible API server running behind `https://your-custom-openai-compatible-api.domain.com` to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
 
+The `model_name` within `model_config` *must* begin with `openai`.
+
 The custom API server behind the specified URL should provide the following endpoint:
 
 **Endpoint**: 
