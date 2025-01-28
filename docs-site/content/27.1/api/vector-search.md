@@ -51,7 +51,7 @@ Here is one (of many possible) practical applications of vector search - a "Find
 
 Here are two articles that talk about embeddings in more detail:
 
-- [What Are Word and Sentence Embeddings?](https://txt.cohere.ai/sentence-word-embeddings/)f
+- [What Are Word and Sentence Embeddings?](https://txt.cohere.ai/sentence-word-embeddings/)
 - [Getting Started With Embeddings](https://huggingface.co/blog/getting-started-with-embeddings)
 
 Let's now discuss how to do index and search embeddings in Typesense.
