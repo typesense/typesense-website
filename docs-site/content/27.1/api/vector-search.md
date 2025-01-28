@@ -51,7 +51,7 @@ Here is one (of many possible) practical applications of vector search - a "Find
 
 Here are two articles that talk about embeddings in more detail:
 
-- [What Are Word and Sentence Embeddings?](https://txt.cohere.ai/sentence-word-embeddings/)
+- [What Are Word and Sentence Embeddings?](https://txt.cohere.ai/sentence-word-embeddings/)f
 - [Getting Started With Embeddings](https://huggingface.co/blog/getting-started-with-embeddings)
 
 Let's now discuss how to do index and search embeddings in Typesense.
@@ -1163,6 +1163,8 @@ curl 'http://localhost:8108/collections' \
 </Tabs>
 
 When you create the collection above, Typesense will call the OpenAI-API compatible API server running behind `https://your-custom-openai-compatible-api.domain.com` to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
+
+The `model_name` within `model_config` *must* begin with `openai`.
 
 The custom API server behind the specified URL should provide the following endpoint:
 
