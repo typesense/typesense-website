@@ -5,10 +5,22 @@ sitemap:
 ---
 
 # Federated / Multi Search
-You can send multiple search requests in a single HTTP request, using the Multi-Search feature. This is especially useful to avoid round-trip network latencies incurred otherwise if each of these requests are sent in separate HTTP requests.
 
-You can also use this feature to do a **federated search** across multiple collections in a single HTTP request.
-For eg: in an ecommerce products dataset, you can show results from both a "products" collection, and a "brands" collection to the user, by searching them in parallel with a `multi_search` request.
+Multi search allows you to make multiple search requests in a single HTTP request. It helps you avoid 
+round-trip network latencies incurred otherwise if each of these requests are sent as separate HTTP requests.
+
+You can use it in two different modes:
+
+- **Federated search**: each search request in the multi-search payload returns results as independently.
+- **Union search**: the response of each search request is merged into a single unified order.
+
+## Federated search
+
+With **federated search**, you can use a`multi_search` request to search across multiple collections 
+in a single HTTP request, with the search results being independent of each other.
+
+For eg: in an ecommerce products dataset, you can show results from both a "products" collection, 
+and a "brands" collection to the user, by searching them in parallel with a `multi_search` request.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
   <template v-slot:JavaScript>
@@ -275,6 +287,95 @@ curl "http://localhost:8108/multi_search?query_by=name" \
 
 `POST ${TYPESENSE_HOST}/multi_search`
 
+::: tip
+For federated search, the `results` array in a `multi_search` response is guaranteed to be in the same order
+as the queries you send in the `searches` array in your request.
+:::
+
+## Union search
+
+The search results returned by each of the search queries in a `multi_search` request can be merged into a 
+single ordered set of hits via the `union` option.
+
+In the following example, we are making two different search requests to the same collection. Each search query 
+is filtering the `posts` collection by two different usernames.
+
+Since the `union` property is set to `true`, the response from each of these two search queries will be merged 
+into a single ordered set of hits.
+
+```bash
+curl 'http://localhost:8108/multi_search?page=1&per_page=2' -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
+{
+  "union": true,
+  "searches": [
+    {
+      "collection": "posts",
+      "q": "*",
+      "filter_by": "user_name:stark_industry"
+    },
+    {
+      "collection": "posts",
+      "q": "*",
+      "filter_by": "user_name:rogers_steve"
+    }
+  ]
+}'
+```
+
+**Sample Response**
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "found": 3,
+  "hits": [
+    {
+      "document": {
+        "content": "USA",
+        "id": "124",
+        "likes": 5215,
+        "user_name": "stark_industry"
+      },
+      "highlight": {},
+      "highlights": []
+    },
+    {
+      "document": {
+        "content": "CA",
+        "id": "125",
+        "likes": 2133,
+        "user_name": "rogers_steve"
+      },
+      "highlight": {},
+      "highlights": []
+    }
+  ],
+  "out_of": 3,
+  "page": 1,
+  "search_cutoff": false,
+  "search_time_ms": 0,
+  "union_request_params": [
+    {
+      "collection": "posts",
+      "first_q": "*",
+      "per_page": 2,
+      "q": "*"
+    },
+    {
+      "collection": "posts",
+      "first_q": "*",
+      "per_page": 2,
+      "q": "*"
+    }
+  ]
+}
+```
+  </template>
+</Tabs>
+
 ## `multi_search` Parameters
 
 You can use any of the [Search Parameters here](./search.md#search-parameters) for each individual search operation within a `multi_search` request.
@@ -286,9 +387,6 @@ In addition, you can use the following parameters with `multi_search` requests:
 | limit_multi_searches | no	      | Max number of search requests that can be sent in a multi-search request. Eg: `20`<br><br>Default: `50`<br><br>You want to generate a [scoped API key](./api-keys.md##generate-scoped-search-key) with this parameter embedded and use that API key to perform the search, so it's automatically applied and can't be changed at search time. |
 | x-typesense-api-key  | no	      | You can embed a separate search API key for each search within a multi_search request. <br><br> This is useful when you want to apply different embedded filters for each collection in individual [scoped API keys](./api-keys.md##generate-scoped-search-key).                                                                              |
 
-::: tip
-The `results` array in a `multi_search` response is guaranteed to be in the same order as the queries you send in the `searches` array in your request.
-:::
 
 ## Example UI Implementation
 
