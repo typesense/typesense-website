@@ -932,6 +932,91 @@ via the [API](../api/cluster-operations.md#compacting-the-on-disk-database).
 **Definition**
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
 
+## Truncate a collection
+
+You can remove all documents from a collection while keeping the collection and schema intact by using the truncate operation.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.collections('companies').documents().delete({'truncate': true})
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->collections['companies']->documents->delete(['truncate' => true]);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.collections['companies'].documents.delete({'truncate': true})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.collections['companies'].documents.delete(truncate: true)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+await client.collection('companies').documents.delete({'truncate': true});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+CollectionResponse response = client.collections("companies").documents().delete(new DeleteDocumentsParameters().truncate(true));
+```
+
+  </template>
+  <template v-slot:Swift>
+
+```swift
+let (response, httpResponse) = try await client.collection(name: "companies").documents().delete(parameters: DeleteDocumentsParams(truncate: true))
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -X DELETE \
+    "http://localhost:8108/collections/companies/documents?truncate=true"
+```
+
+  </template>
+</Tabs>
+
+**Sample Response**
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "num_deleted": 125
+}
+```
+
+  </template>
+</Tabs>
+
+**Definition**
+`DELETE ${TYPESENSE_HOST}/collections/:collection/documents?truncate=true`
+
+The response includes the number of documents that were deleted in the `num_deleted` field. For an empty collection, this value will be 0.
+
 ## Update or alter a collection
 
 Typesense supports adding or removing fields to a collection's schema in-place.
