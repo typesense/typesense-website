@@ -315,6 +315,7 @@ let config = {
             ['/28.0/api/curation', 'Curation'],
             ['/28.0/api/collection-alias', 'Collection Alias'],
             ['/28.0/api/synonyms', 'Synonyms'],
+            ['/28.0/api/stemming', 'Stemming'],
             ['/28.0/api/stopwords', 'Stopwords'],
             ['/28.0/api/cluster-operations', 'Cluster Operations'],
           ],
