@@ -442,6 +442,104 @@ Notice how searching for `Desktop copier` returns `Desktop` as a result which is
 }
 ```
 
+### Re-ranking Hybrid Matches
+
+When doing hybrid search, by default Typesense returns both keyword matches and semantic matches in the results. For example:
+
+```bash
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+      "searches": [
+        {
+          "query_by": "product_name,embedding",
+          "q": "desktop copier",
+          "collection": "products",
+          "prefix": "false",
+          "exclude_fields": "embedding",
+          "per_page": 2
+        }
+      ]
+    }'
+```
+
+A search for "desktop copier" might return results like this:
+
+```json{18,22,32,36}
+{
+  "hits": [
+    {
+      "document": {
+        "id": "2",
+        "product_name": "Desktop"
+      },
+      "highlight": {
+        "product_name": {
+          "matched_tokens": ["Desktop"],
+          "snippet": "<mark>Desktop</mark>"
+        }
+      },
+      "hybrid_search_info": {
+        "rank_fusion_score": 0.8500000238418579
+      },
+      "text_match": 1060320051,
+      "text_match_info": {
+        "best_field_score": "517734"
+      },
+      "vector_distance": 0.510231614112854
+    },
+    {
+      "document": {
+        "id": "3",
+        "product_name": "Printer"
+      },
+      "hybrid_search_info": {
+        "rank_fusion_score": 0.30000001192092896
+      },
+      "text_match": 0,
+      "text_match_info": {
+        "best_field_score": "0"
+      },
+      "vector_distance": 0.4459354281425476
+    }
+  ]
+}
+```
+
+Notice how:
+- The first result "Desktop" is a keyword match (high text_match score)
+- The second result "Printer" is a semantic match (low vector_distance but zero text_match)
+
+By default:
+- Documents found through keyword search but not through vector search will only have a text match score
+- Documents found through vector search but not through keyword search will only have a vector distance score
+
+You can optionally compute both scores for all matches by setting `rerank_hybrid_matches: true`. When enabled:
+- Documents found only through keyword search will also get a vector distance score
+- Documents found only through vector search will also get a text match score
+
+Example with re-ranking enabled:
+
+```bash{10}
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+          "searches": [
+            {
+              "collection": "products",
+              "query_by": "embedding,product_name", 
+              "q": "desktop copier",
+              "rerank_hybrid_matches": true,
+              "vector_query": "embedding:([], alpha: 0.8)",
+              "exclude_fields": "embedding"
+            }
+          ]
+        }'
+```
+
+This provides more comprehensive ranking of results by computing both scores for all matches, at the cost of additional computation time.
 
 ### Pagination
 

@@ -2726,6 +2726,46 @@ won't have an impact on an embedding field mentioned in `query_by`. However, sin
 must match the length of `query_by`, you can use a placeholder value like `0`.
 :::
 
+### Re-ranking Hybrid Matches
+
+By default, during hybrid search:
+- Documents found through keyword search but not through vector search will only have a text match score
+- Documents found through vector search but not through keyword search will only have a vector distance score
+
+You can optionally compute both scores for all matches by setting `rerank_hybrid_matches: true` in your search parameters. When enabled:
+- Documents found only through keyword search will also get a vector distance score
+- Documents found only through vector search will also get a text match score
+
+This allows for more comprehensive ranking of results, at the cost of additional computation time.
+
+Example:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl 'http://localhost:8108/multi_search' \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -X POST \
+    -d '{
+          "searches": [
+            {
+              "collection": "products",
+              "query_by": "embedding,product_name",
+              "q": "chair",
+              "rerank_hybrid_matches": true,
+              "vector_query": "embedding:([], alpha: 0.8)",        
+              "exclude_fields": "embedding"
+            }
+          ]
+        }'
+```
+
+  </template>
+</Tabs>
+
+Each hit in the response will contain a `text_match_info` and a `vector_distance` score, regardless of whether it was initially found through keyword or vector search.
+
 ### Distance Threshold
 
 You can also set a maximum vector distance threshold for results of semantic search and hybrid search. You should set `distance_threshold` in `vector_query` parameter for this.
