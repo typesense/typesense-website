@@ -1249,6 +1249,49 @@ curl "http://localhost:8108/collections/companies" \
        }'
 ```
 
+### Get Schema Change Status
+
+You can check the status of in-progress schema change operations by using the schema changes endpoint.
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/operations/schema_changes" \
+     -X GET \
+     -H "Content-Type: application/json" \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+If no schema changes are in progress, you'll get an empty response. When a schema change is in progress, you'll get details about the operation:
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+[
+  {
+    "collection": "companies",
+    "validated_docs": 873000,
+    "altered_docs": 0
+  }
+]
+```
+
+  </template>
+</Tabs>
+
+The response shows:
+- Which collection is being altered
+- Number of documents validated against the new schema
+- Number of documents that have been altered
+
+**Definition**
+`GET ${TYPESENSE_HOST}/operations/schema_changes`
+
 ### Using an alias
 
 If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use 
