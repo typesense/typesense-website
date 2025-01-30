@@ -43,6 +43,12 @@ The language used for stemming is automatically determined from the `locale` par
 
 For cases where you need more precise control over word variations, or when dealing with irregular forms that algorithmic stemming can't handle well, you can use stemming dictionaries. These allow you to define exact mappings between words and their root forms.
 
+### Pre-made Dictionaries
+
+Typesense provides a pre-made English plurals dictionary that handles common singular/plural variations. You can download it [here](dl.typesense.org/data/stemming/plurals_en_v1.jsonl) 
+
+This dictionary is particularly useful when you need reliable handling of English plural forms without the potential side effects of algorithmic stemming.
+
 ### Creating a Stemming Dictionary
 
 First, create a JSONL file with your word mappings:
