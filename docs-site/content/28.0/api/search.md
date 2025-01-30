@@ -565,6 +565,73 @@ This feature is useful for:
 - Organizing numerical values around a target number
 - Creating "closer to" style sorting experiences
 
+### Decay Function Sorting
+
+Decay functions allow you to score and sort results based on how far they are from a target value, with the score decreasing according to various mathematical functions. This is particularly useful for:
+
+- Boosting recent items in time-based sorting
+- Implementing distance-based relevance
+- Creating smooth falloffs in numeric ranges
+
+You can use decay functions in the `sort_by` parameter with the following syntax:
+
+```json
+{
+  "sort_by": "field_name(origin: value, func: function_name, scale: value, decay: rate):direction"
+}
+```
+
+#### Parameters
+
+| Parameter | Required | Description                                                                                             |
+|-----------|----------|---------------------------------------------------------------------------------------------------------|
+| `origin`  | Yes      | The reference point from which the decay function is calculated. Must be an integer.                    |
+| `func`    | Yes      | The decay function to use. Supported values: `gauss`, `linear`, `exp`, or `diff`                        |
+| `scale`   | Yes      | The distance from origin at which the score should decay by the decay rate. Must be a non-zero integer. |
+| `offset`  | No       | An offset to apply to the origin point. Must be an integer. Defaults to 0.                              |
+| `decay`   | No       | The rate at which scores decay, between 0.0 and 1.0. Defaults to 0.5.                                   |
+
+#### Example
+
+Let's say you have a collection of products with timestamps and want to sort them giving preference to items closer to a specific date:
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/products/documents/search\
+?q=smartphone\
+&query_by=product_name\
+&sort_by=timestamp(origin: 1728385250, func: gauss, scale: 1000, decay: 0.5):desc"
+```
+
+For a dataset with these records:
+```json
+{"product_name": "Samsung Smartphone", "timestamp": 1728383250}
+{"product_name": "Vivo Smartphone", "timestamp": 1728384250}
+{"product_name": "Oneplus Smartphone", "timestamp": 1728385250}
+{"product_name": "Pixel Smartphone", "timestamp": 1728386250}
+{"product_name": "Moto Smartphone", "timestamp": 1728387250}
+```
+
+The results would be ordered based on how close each timestamp is to the origin (1728385250), with scores decreasing according to the gaussian function:
+1. Oneplus Smartphone (exact match with origin - highest score)
+2. Pixel Smartphone (1000 units from origin - decayed score)
+3. Vivo Smartphone (1000 units from origin - decayed score)
+4. Moto Smartphone (2000 units from origin - further decayed score)
+5. Samsung Smartphone (2000 units from origin - further decayed score)
+
+#### Supported Functions
+
+- `gauss`: Gaussian decay - smooth bell curve falloff
+- `linear`: Linear decay - constant rate of decrease
+- `exp`: Exponential decay - rapidly decreasing scores
+- `diff`: Difference-based decay - simple linear difference from origin
+
+:::tip
+- The `decay` parameter determines how quickly scores decrease - lower values mean faster decay
+- Use `gauss` for smooth falloff, `linear` for constant decrease, and `exp` for rapid decrease
+- `scale` determines the distance at which scores decay by the specified rate
+:::
+
 ## Group Results
 
 You can aggregate search results into groups or buckets by specify one or more `group_by` fields.
