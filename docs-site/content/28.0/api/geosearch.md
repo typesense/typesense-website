@@ -425,6 +425,98 @@ You want to specify the geo-points of the polygon as lat, lng pairs.
 'filter_by' : 'location:(48.8662, 2.3255, 48.8581, 2.3209, 48.8561, 2.3448, 48.8641, 2.3469)'
 ```
 
+## Geographic Polygons
+
+You can also store polygonal geographic areas using the `geopolygon` field type and then check if points fall within these areas.
+
+### Creating a Collection with Geopolygons
+
+Let's create a collection with a field to store polygon areas:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -H "Content-Type: application/json" \
+     "http://localhost:8108/collections" -X POST \
+     -d '{
+       "name": "territories",
+       "fields": [
+         {"name": "name", "type": "string"},
+         {"name": "area", "type": "geopolygon"}
+       ]
+     }'
+```
+
+  </template>
+</Tabs>
+
+### Adding Polygon Areas
+
+Add documents containing polygon areas by specifying the coordinates in counter-clockwise (CCW) or clockwise (CW) order:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/territories/documents" -X POST \
+     -H "Content-Type: application/json" \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -d '{
+       "name": "square",
+       "area": "0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0"
+     }'
+```
+
+  </template>
+</Tabs>
+
+:::warning NOTE
+Coordinates must be specified in proper CCW or CW order to form a valid polygon. Incorrect ordering will result in an error.
+:::
+
+### Searching Points in Polygons
+
+You can search for documents whose polygon areas contain a specific point:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     "http://localhost:8108/collections/territories/documents/search\
+      ?q=*&filter_by=area:(0.5, 0.5)"
+```
+
+  </template>
+</Tabs>
+
+This will return all polygons that contain the point (0.5, 0.5).
+
+**Sample Response**
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "found": 1,
+  "hits": [
+    {
+      "document": {
+        "area": [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0],
+        "id": "0",
+        "name": "square"
+      }
+    }
+  ]
+}
+```
+
+  </template>
+</Tabs>
+
 ## Sorting by Additional Attributes within a Radius
 
 ### exclude_radius
