@@ -632,6 +632,45 @@ The results would be ordered based on how close each timestamp is to the origin 
 - `scale` determines the distance at which scores decay by the specified rate
 :::
 
+### Text Match Score Bucketing
+
+When sorting by text match score (`_text_match`), you can optionally group results into buckets of similar text match scores and then apply additional sorting within each bucket. This is useful when you want to maintain approximate relevance groupings while applying secondary sorting criteria.
+
+You can enable this by using the `bucket_size` parameter:
+
+```json
+{
+  "sort_by": "_text_match(bucket_size: 3):desc,points:desc"
+}
+```
+
+For example, if you search for "mark" against these records:
+```json
+[
+  {"title": "Mark Antony", "points": 100},
+  {"title": "Marks Spencer", "points": 200},
+  {"title": "Mark Twain", "points": 100},
+  {"title": "Mark Payne", "points": 300},
+  {"title": "Marks Henry", "points": 200},
+  {"title": "Mark Aurelius", "points": 200}
+]
+```
+
+With `bucket_size: 3`, Typesense will:
+1. First group the results into buckets of 3 records based on text match scores
+2. Then within each bucket, sort by points in descending order
+
+So records with similar text match relevance stay together, while being ordered by points within their relevance group.
+
+The `bucket_size` parameter accepts:
+- Any positive integer: Groups results into buckets of that size
+- `0`: Disables bucketing (default behavior)
+
+:::tip
+- A larger bucket size means more emphasis on the secondary sort field
+- When `bucket_size` is larger than the number of results, no bucketing occurs
+:::
+
 ## Group Results
 
 You can aggregate search results into groups or buckets by specify one or more `group_by` fields.
