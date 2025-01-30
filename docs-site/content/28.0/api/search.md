@@ -489,6 +489,44 @@ sort_by=title(missing_values: last):desc
 
 The possible values of `missing_values` are: `first` or `last`.
 
+
+### Random Sorting
+
+You can randomly sort search results using the special `_rand()` parameter in `sort_by`. You can optionally provide a seed value, which must be a positive integer.
+
+For example, with a specific seed:
+
+```json
+{
+  "sort_by": "_rand(42)"
+}
+```
+
+Or without a seed value, which will use the current timestamp as the seed:
+
+```json
+{
+  "sort_by": "_rand()"
+}
+```
+
+Using a specific seed value will produce the same random ordering across searches, which is useful when you want consistent randomization (e.g., for A/B testing or result sampling). Using `_rand()` without a seed will produce different random orderings on each request.
+
+You can combine random sorting with other sort fields:
+
+```json
+{
+  "sort_by": "_rand():desc,popularity:desc"
+}
+```
+
+:::tip
+- When no seed is provided, the current timestamp is used as the seed
+- When a seed is provided, it must be a positive integer
+- Using the same seed will produce the same random ordering
+- Different seed values (or no seed) will produce different random orderings
+:::
+
 ## Group Results
 
 You can aggregate search results into groups or buckets by specify one or more `group_by` fields.
