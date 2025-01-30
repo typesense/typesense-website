@@ -1390,6 +1390,40 @@ curl 'http://localhost:8108/collections' \
 
 **Note:** The only supported model is `embedding-gecko-001` for now.
 
+### Updating Remote Model API Key
+
+You can update the API key used for remote embedding models (like OpenAI) without recreating the collection:
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/products" \
+     -X PATCH \
+     -H "Content-Type: application/json" \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     -d '{
+       "fields": [
+         {
+           "name": "embedding",
+           "embed": {
+             "from": ["product_name"],
+             "model_config": {
+               "model_name": "openai/text-embedding-ada-002",
+               "api_key": "new_api_key"
+             }
+           }
+         }
+       ]
+     }'
+```
+
+  </template>
+</Tabs>
+
+:::warning
+Note: All fields parameters (`name`, `embed.from`, and `model_config` parameters) must be included in the update request.
+:::
 ### Using GCP Vertex AI API
 
 This API also provided by Google under the Google Cloud Platform (GCP) umbrella. 
