@@ -16,7 +16,7 @@ Typesense provides two approaches to handle word variations:
 
 ## Basic Stemming
 
-Basic stemming uses the [Snowball stemmer](https://snowballstem.org/) algorithm to automatically detect and handle word variations. This works well for common word patterns in the configured language.
+Basic stemming uses the [Snowball stemmer](https://snowballstem.org/) algorithm to automatically detect and handle word variations. Being rules-based, it works well for common word patterns in the configured language, but may produce unintended side effects with brand names, proper nouns, and locations. Since these rules are designed primarily for common nouns, applying them to specialized content like company names or locations can sometimes degrade search relevance.
 
 To enable basic stemming for a field, set `"stem": true` in your collection schema:
 
