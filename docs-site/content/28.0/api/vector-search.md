@@ -1424,6 +1424,7 @@ curl "http://localhost:8108/collections/products" \
 :::warning
 Note: All fields parameters (`name`, `embed.from`, and `model_config` parameters) must be included in the update request.
 :::
+
 ### Using GCP Vertex AI API
 
 This API also provided by Google under the Google Cloud Platform (GCP) umbrella. 
@@ -2995,6 +2996,24 @@ You can set a custom `ef` via the `vector_query` parameter (default value is `10
 {
   "vector_query" : "vec:([], ef:100)"
 }
+```
+
+## Distance Metrics 
+
+By default, Typesense uses cosine similarity as the distance metric for vector search. When you use a `distance_threshold` parameter, documents with cosine distances larger than the threshold will:
+
+- In standalone vector search: be excluded from results
+- When used in sorting (`sort_by`): get the maximum possible distance score but remain in results
+
+You can use this with both cosine similarity and inner product distance metrics. For example:
+
+```json
+{
+  "vector_query": "embedding:([], distance_threshold: 0.30)"
+}
+```
+
+This helps filter out less relevant results while still allowing other sort conditions to take effect.
 ```
 
 ## Vector Search Parameters
