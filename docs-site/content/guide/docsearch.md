@@ -191,6 +191,26 @@ docker run -it \
   typesense/docsearch-scraper:0.11.0
 ```
 
+#### Custom Headers
+
+You can add custom HTTP headers to the scraper's outgoing requests by adding a `headers` object to your configuration file. This is useful when you need to add specific headers for authentication or other purposes.
+
+Example configuration with custom headers:
+
+```json
+{
+  "index_name": "your_docs",
+  "start_urls": ["https://your-site.com"],
+  "headers": {
+    "Authorization": "Bearer your-token-here",
+    "Custom-Header": "custom-value"
+  },
+  // ... rest of your configuration
+}
+```
+
+The headers you specify will be applied to all outgoing requests made by the scraper. You can override built-in headers if needed, though care should be taken when doing so to ensure the scraper continues to function properly.
+
 #### Authentication
 
 If you're looking to scrape content that requires authentication, there's a
