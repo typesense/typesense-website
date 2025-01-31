@@ -691,7 +691,7 @@ The `bucket_size` parameter accepts:
 
 - Use `buckets` when you want to ensure a specific number of relevance groups, regardless of the total number of results
 - Use `bucket_size` when you want to maintain consistent bucket sizes, regardless of the total number of results
-- A larger number of `buckets` or larger `bucket_size` means more emphasis on the secondary sort field
+- A smaller number of `buckets` or larger `bucket_size` means more emphasis on the secondary sort field
 - When `bucket_size` is larger than the number of results, no bucketing occurs
 
 ## Group Results
