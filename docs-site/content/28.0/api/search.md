@@ -633,11 +633,31 @@ The results would be ordered based on how close each timestamp is to the origin 
 - `scale` determines the distance at which scores decay by the specified rate
 :::
 
-### Text Match Score Bucketing
+## Text Match Score Bucketing
 
-When sorting by text match score (`_text_match`), you can optionally group results into buckets of similar text match scores and then apply additional sorting within each bucket. This is useful when you want to maintain approximate relevance groupings while applying secondary sorting criteria.
+When sorting by text match score (`_text_match`), Typesense offers two different approaches to bucket your results: `buckets` and `bucket_size`. Both parameters allow you to group results with similar relevance scores together before applying secondary sorting criteria.
 
-You can enable this by using the `bucket_size` parameter:
+### Using the `buckets` Parameter
+
+The `buckets` parameter divides your results into a specified number of equal-sized groups:
+
+```json
+{
+  "sort_by": "_text_match(buckets: 10):desc,weighted_score:desc"
+}
+```
+
+This approach:
+1. Takes all matching results
+2. Divides them into the specified number of equal-sized buckets (e.g., 10 buckets)
+3. Forces all results within each bucket to have the same text match score
+4. Applies the secondary sort criteria (e.g., `weighted_score`) within each bucket
+
+For example, if you have 100 results and specify `buckets: 10`, each bucket will contain 10 results that will be treated as having equal relevance, then sorted by the secondary criterion.
+
+### Using the `bucket_size` Parameter
+
+Alternatively, the `bucket_size` parameter groups results into fixed-size buckets:
 
 ```json
 {
@@ -658,19 +678,21 @@ For example, if you search for "mark" against these records:
 ```
 
 With `bucket_size: 3`, Typesense will:
-1. First group the results into buckets of 3 records based on text match scores
-2. Then within each bucket, sort by points in descending order
+1. Group the results into buckets of 3 records based on text match scores
+2. Within each bucket, sort by points in descending order
 
-So records with similar text match relevance stay together, while being ordered by points within their relevance group.
+This ensures that records with similar text match relevance stay together while being ordered by points within their relevance group.
 
 The `bucket_size` parameter accepts:
 - Any positive integer: Groups results into buckets of that size
 - `0`: Disables bucketing (default behavior)
 
-:::tip
-- A larger bucket size means more emphasis on the secondary sort field
+### Choosing Between `buckets` and `bucket_size`
+
+- Use `buckets` when you want to ensure a specific number of relevance groups, regardless of the total number of results
+- Use `bucket_size` when you want to maintain consistent bucket sizes, regardless of the total number of results
+- A larger number of `buckets` or larger `bucket_size` means more emphasis on the secondary sort field
 - When `bucket_size` is larger than the number of results, no bucketing occurs
-:::
 
 ## Group Results
 
