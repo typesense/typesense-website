@@ -55,6 +55,24 @@ You can do this by setting <RouterLink :to="`/${$site.themeConfig.typesenseLates
 }
 ```
 
+:::tip Field-Level Control
+From Typesense `v28.0` and above, you can configure `token_separators` and `symbols_to_index` at the field level, which takes precedence over collection-level settings.
+
+Example:
+```json
+{
+  "name": "products",
+  "fields": [
+    {
+      "name": "part_number",
+      "type": "string",
+      "token_separators": ["-", "."],
+      "symbols_to_index": ["_"]
+    }
+  ]
+}
+:::
+
 We still have the case of searching for `83913` or `9444AT` which occur in the middle of strings.
 
 To solve for this, we have two options:

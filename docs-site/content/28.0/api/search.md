@@ -222,10 +222,11 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 
 ### Filter parameters
 
-| Parameter          | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|:-------------------|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Parameter          | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|:-------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | filter_by          | no       | Filter conditions for refining your search results.<br><br>A field can be matched against one or more values.<br><br>Examples:<br>- `country: USA`<br>- `country: [USA, UK]` returns documents that have `country` of `USA` OR `UK`.<br><br>**Exact vs Non-Exact Filtering:**<br>To match a string field's full value verbatim, you can use the `:=` (exact match) operator. For eg: `category := Shoe` will match documents with `category` set as `Shoe` and not documents with a `category` field set as `Shoe Rack`. <br><br>Using the `:` (non-exact) operator will do a word-level partial match on the field, without taking token position into account (so is usually faster). Eg: `category:Shoe` will match records with `category` of `Shoe` or `Shoe Rack` or `Outdoor Shoe`. <br><br>Tip: If you have a field that doesn't have any spaces in the values across any documents and want to filter on it, you want to use the `:` operator to improve performance, since it will avoid doing token position checks. <br><br>**Escaping Special Characters:**<br>You can also filter using multiple values and use the backtick character to denote a string literal: <code>category:= [\`Running Shoes, Men\`, \`Sneaker (Men)\`, Boots]</code>.<br><br>**Negation:**<br>Not equals / negation is supported via the `:!=` operator, e.g. `author:!=JK Rowling` or `id:!=[id1, id2]`. You can also negate multiple values: `author:!=[JK Rowling, Gilbert Patten]`<br><br> To exclude results that _contains_ a specific string during filtering you can do `artist:! Jackson` will exclude all documents whose `artist` field value contains the word `jackson`.  <br><br>**Numeric Filtering:**<br>Filter documents with numeric values between a min and max value, using the range operator `[min..max]` or using simple comparison operators `>`, `>=` `<`, `<=`, `=`. <br><br>You can enable `"range_index": true` on the numerical field schema for fast range queries (will incur additional memory usage for the index though). <br><br>Examples:<br>-`num_employees:<40`<br>-`num_employees:[10..100]`<br>-`num_employees:[<10, >100]`<br>-`num_employees:[10..100, 140]` (Filter docs where value is between 10 to 100 or exactly 140).<br>-`num_employees:!= [10, 100, 140]` (Filter docs where value is **NOT** 10, 100 or 140).<br><br>**Multiple Conditions:**<br>You can separate multiple conditions with the `&&` operator.<br><br>Examples:<br>- `num_employees:>100 && country: [USA, UK]`<br>- `categories:=Shoes && categories:=Outdoor`<br><br>To do ORs across _different_ fields (eg: color is blue OR category is Shoe), you can use the ` ||` operator. <br><br>Examples:<br>- `color: blue || category: shoe`<br>- `(color: blue || category: shoe) && in_stock: true` <br><br>**Filtering Arrays:**<br>filter_by can be used with array fields as well. <br><br>For eg: If `genres` is a `string[]` field: <br><br>- `genres:=[Rock, Pop]` will return documents where the `genres` array field contains `Rock OR Pop`. <br>- `genres:=Rock && genres:=Acoustic` will return documents where the `genres` array field contains both `Rock AND Acoustic`. <br><br>**Prefix filtering:**<br> You can filter on records that begin with a given prefix string like this: <br><br> `company_name: Acm*` <br><br> This will will return documents where any of the words in the `company_name` field begin with `acm`, for e.g. a name like `Corporation of Acme`.  <br><br> You can combine the field-level match operator `:=` with prefix filtering like this: <br><br> `name := S*` <br><br>This will return documents that have `name: Steve Jobs` but not documents that have `name: Adam Stator`. <br><br>**Geo Filtering:**<br> Read more about [GeoSearch and filtering](geosearch.md) in this dedicated section. <br><br>**Embedding Filters in API Keys:**<br> You can embed the `filter_by` parameter (or parts of it) in a Scoped Search API Key to set up conditional access control for documents and/or enforce filters for any search requests that use that API key. Read more about [Scoped Search API Key](api-keys.md#generate-scoped-search-key) in this dedicated section.   |
-| enable_lazy_filter | no       | Applies the filtering operation incrementally / lazily. Set this to `true` when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: `false`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| enable_lazy_filter | no       | Applies the filtering operation incrementally / lazily. Set this to `true` when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: `false`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| max_filter_by_candidates | no | Controls the number of similar words that Typesense considers during fuzzy search on `filter_by` values. Useful for controlling prefix matches like `company_name:Acm*`. Default: 4.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
 ### Ranking and Sorting parameters
 
@@ -488,6 +489,210 @@ sort_by=title(missing_values: last):desc
 ```
 
 The possible values of `missing_values` are: `first` or `last`.
+
+
+### Random Sorting
+
+You can randomly sort search results using the special `_rand()` parameter in `sort_by`. You can optionally provide a seed value, which must be a positive integer.
+
+For example, with a specific seed:
+
+```json
+{
+  "sort_by": "_rand(42)"
+}
+```
+
+Or without a seed value, which will use the current timestamp as the seed:
+
+```json
+{
+  "sort_by": "_rand()"
+}
+```
+
+Using a specific seed value will produce the same random ordering across searches, which is useful when you want consistent randomization (e.g., for A/B testing or result sampling). Using `_rand()` without a seed will produce different random orderings on each request.
+
+You can combine random sorting with other sort fields:
+
+```json
+{
+  "sort_by": "_rand():desc,popularity:desc"
+}
+```
+
+:::tip
+- When no seed is provided, the current timestamp is used as the seed
+- When a seed is provided, it must be a positive integer
+- Using the same seed will produce the same random ordering
+- Different seed values (or no seed) will produce different random orderings
+:::
+
+### Sorting with a Pivot Value
+
+You can sort results relative to a specific pivot value using the `pivot` parameter in `sort_by`. This is particularly useful when you want to order items based on their distance from a reference point.
+
+For example, if you have timestamps and want to sort based on proximity to a specific timestamp:
+
+```json
+{
+  "sort_by": "timestamp(pivot: 1728386250):asc"
+}
+```
+
+This will sort results so that:
+- With `asc`: Values closest to the pivot value appear first, followed by values further away
+- With `desc`: Values furthest from the pivot value appear first, followed by values closer to it
+
+Example results when sorting in ascending order relative to pivot value 1728386250:
+```
+timestamp: 1728386250 (exact match to pivot)
+timestamp: 1728387250 (1000 away from pivot)
+timestamp: 1728385250 (1000 away from pivot)
+timestamp: 1728384250 (2000 away from pivot)
+timestamp: 1728383250 (3000 away from pivot)
+```
+
+You can combine pivot sorting with other sort fields:
+
+```json
+{
+  "sort_by": "timestamp(pivot: 1728386250):asc,popularity:desc"
+}
+```
+
+This feature is useful for:
+- Sorting by proximity to a reference date/time
+- Organizing numerical values around a target number
+- Creating "closer to" style sorting experiences
+
+### Decay Function Sorting
+
+Decay functions allow you to score and sort results based on how far they are from a target value, with the score decreasing according to various mathematical functions. This is particularly useful for:
+
+- Boosting recent items in time-based sorting
+- Implementing distance-based relevance
+- Creating smooth falloffs in numeric ranges
+
+You can use decay functions in the `sort_by` parameter with the following syntax:
+
+```json
+{
+  "sort_by": "field_name(origin: value, func: function_name, scale: value, decay: rate):direction"
+}
+```
+
+#### Parameters
+
+| Parameter | Required | Description                                                                                             |
+|-----------|----------|---------------------------------------------------------------------------------------------------------|
+| `origin`  | Yes      | The reference point from which the decay function is calculated. Must be an integer.                    |
+| `func`    | Yes      | The decay function to use. Supported values: `gauss`, `linear`, `exp`, or `diff`                        |
+| `scale`   | Yes      | The distance from origin at which the score should decay by the decay rate. Must be a non-zero integer. |
+| `offset`  | No       | An offset to apply to the origin point. Must be an integer. Defaults to 0.                              |
+| `decay`   | No       | The rate at which scores decay, between 0.0 and 1.0. Defaults to 0.5.                                   |
+
+#### Example
+
+Let's say you have a collection of products with timestamps and want to sort them giving preference to items closer to a specific date:
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/products/documents/search\
+?q=smartphone\
+&query_by=product_name\
+&sort_by=timestamp(origin: 1728385250, func: gauss, scale: 1000, decay: 0.5):desc"
+```
+
+For a dataset with these records:
+```json
+{"product_name": "Samsung Smartphone", "timestamp": 1728383250}
+{"product_name": "Vivo Smartphone", "timestamp": 1728384250}
+{"product_name": "Oneplus Smartphone", "timestamp": 1728385250}
+{"product_name": "Pixel Smartphone", "timestamp": 1728386250}
+{"product_name": "Moto Smartphone", "timestamp": 1728387250}
+```
+
+The results would be ordered based on how close each timestamp is to the origin (1728385250), with scores decreasing according to the gaussian function:
+1. Oneplus Smartphone (exact match with origin - highest score)
+2. Pixel Smartphone (1000 units from origin - decayed score)
+3. Vivo Smartphone (1000 units from origin - decayed score)
+4. Moto Smartphone (2000 units from origin - further decayed score)
+5. Samsung Smartphone (2000 units from origin - further decayed score)
+
+#### Supported Functions
+
+- `gauss`: Gaussian decay - smooth bell curve falloff
+- `linear`: Linear decay - constant rate of decrease
+- `exp`: Exponential decay - rapidly decreasing scores
+- `diff`: Difference-based decay - simple linear difference from origin
+
+:::tip
+- The `decay` parameter determines how quickly scores decrease - lower values mean faster decay
+- Use `gauss` for smooth falloff, `linear` for constant decrease, and `exp` for rapid decrease
+- `scale` determines the distance at which scores decay by the specified rate
+:::
+
+## Text Match Score Bucketing
+
+When sorting by text match score (`_text_match`), Typesense offers two different approaches to bucket your results: `buckets` and `bucket_size`. Both parameters allow you to group results with similar relevance scores together before applying secondary sorting criteria.
+
+### Using the `buckets` Parameter
+
+The `buckets` parameter divides your results into a specified number of equal-sized groups:
+
+```json
+{
+  "sort_by": "_text_match(buckets: 10):desc,weighted_score:desc"
+}
+```
+
+This approach:
+1. Takes all matching results
+2. Divides them into the specified number of equal-sized buckets (e.g., 10 buckets)
+3. Forces all results within each bucket to have the same text match score
+4. Applies the secondary sort criteria (e.g., `weighted_score`) within each bucket
+
+For example, if you have 100 results and specify `buckets: 10`, each bucket will contain 10 results that will be treated as having equal relevance, then sorted by the secondary criterion.
+
+### Using the `bucket_size` Parameter
+
+Alternatively, the `bucket_size` parameter groups results into fixed-size buckets:
+
+```json
+{
+  "sort_by": "_text_match(bucket_size: 3):desc,points:desc"
+}
+```
+
+For example, if you search for "mark" against these records:
+```json
+[
+  {"title": "Mark Antony", "points": 100},
+  {"title": "Marks Spencer", "points": 200},
+  {"title": "Mark Twain", "points": 100},
+  {"title": "Mark Payne", "points": 300},
+  {"title": "Marks Henry", "points": 200},
+  {"title": "Mark Aurelius", "points": 200}
+]
+```
+
+With `bucket_size: 3`, Typesense will:
+1. Group the results into buckets of 3 records based on text match scores
+2. Within each bucket, sort by points in descending order
+
+This ensures that records with similar text match relevance stay together while being ordered by points within their relevance group.
+
+The `bucket_size` parameter accepts:
+- Any positive integer: Groups results into buckets of that size
+- `0`: Disables bucketing (default behavior)
+
+### Choosing Between `buckets` and `bucket_size`
+
+- Use `buckets` when you want to ensure a specific number of relevance groups, regardless of the total number of results
+- Use `bucket_size` when you want to maintain consistent bucket sizes, regardless of the total number of results
+- A smaller number of `buckets` or larger `bucket_size` means more emphasis on the secondary sort field
+- When `bucket_size` is larger than the number of results, no bucketing occurs
 
 ## Group Results
 

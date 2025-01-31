@@ -87,13 +87,14 @@ If you wish to sort the documents strictly by an indexed numerical or string fie
 ## Ranking based on Relevance and Popularity
 
 If you have a popularity score for your documents that you have either:
-
 1) calculated on your end in your application using any formula of your choice or 
 2) calculated using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html#counting-events-for-popularity`">counter analytics rule in Typesense</RouterLink> 
 
-You can have Typesense mix your custom scores with the text relevance score it calculates, so results that are more popular (as defined by your custom score) are boosted more in ranking.  
+You can have Typesense mix your custom scores with the text relevance score it calculates, so results that are more popular (as defined by your custom score) are boosted more in ranking. There are two approaches you can use:
 
-Here's the search parameter to achieve this:
+### Using Fixed Number of Buckets
+
+Here's how to divide results into a specific number of relevance groups:
 
 ```json
 {
@@ -104,7 +105,6 @@ Here's the search parameter to achieve this:
 Where `weighted_score` is a field in your document with your custom score. 
 
 This will do the following:
-
 1. Fetch all results matching the query
 2. Sort them by text relevance (text match score desc)
 3. Divide the results into equal-sized 10 buckets (with the first bucket containing the most relevant results)
@@ -112,8 +112,31 @@ This will do the following:
 5. This will cause a tie inside each bucket, and then the `weighted_score` will be used to break the tie and re-rank results within each bucket.
 
 The higher the number of buckets, the more granular the re-ranking based on your weighted score will be.
-For eg, if you have 100 results, and `buckets: 50`, then each bucket will have 2 results, those two results within each bucket will be re-ranked based on your `weighted_score`.
+For example, if you have 100 results, and `buckets: 50`, then each bucket will have 2 results, those two results within each bucket will be re-ranked based on your `weighted_score`.
 
+### Using Fixed Bucket Size
+
+Alternatively, you can group results into fixed-size relevance groups:
+
+```json
+{
+  "sort_by": "_text_match(bucket_size: 3):desc,weighted_score:desc"
+}
+```
+
+This approach will:
+1. Fetch all results matching the query
+2. Sort them by text relevance
+3. Group results into fixed-size buckets (e.g., 3 results per bucket)
+4. Apply the `weighted_score` sorting within each fixed-size bucket
+
+For example, if you have 100 results and `bucket_size: 3`, Typesense will create approximately 33 buckets with 3 results each. Each group of 3 results with similar text relevance will be sorted by their `weighted_score`.
+
+### Choosing Between Approaches
+
+- Use `buckets` when you want a specific number of relevance groups
+- Use `bucket_size` when you want to ensure a consistent number of results are compared by popularity at a time
+- Both approaches help you balance between text relevance and popularity in your search results
 ## Ranking based on Relevance and Recency
 
 A common need is to rank results have been published recently higher than older results.
