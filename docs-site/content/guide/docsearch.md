@@ -209,7 +209,7 @@ Example configuration with custom headers:
 }
 ```
 
-The headers you specify will be applied to all outgoing requests made by the scraper. You can override built-in headers if needed, though care should be taken when doing so to ensure the scraper continues to function properly.
+The headers you specify will be applied to all outgoing requests made by the scraper.
 
 #### Authentication
 
