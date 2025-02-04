@@ -65,7 +65,7 @@ Then upload it using the stemming dictionary API:
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/stemming/dictionary/import?id=irregular-plurals" \
+curl "http://localhost:8108/stemming/dictionaries/import?id=irregular-plurals" \
 -X POST \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
@@ -128,7 +128,7 @@ You can use both basic stemming (`"stem": true`) and dictionary stemming (`"stem
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/stemming/dictionary/irregular-plurals"
+"http://localhost:8108/stemming/dictionaries/irregular-plurals"
 ```
 
   </template>
