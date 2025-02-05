@@ -84,7 +84,7 @@ Commas act as OR operators, allowing flexible condition combinations.
 The range operator can be used with multiple array elements, creating a logical OR between ranges or values:
 
 ```shell
-price:[100...200, 15...50, 800]
+price:[100..200, 15..50, 800]
 ```
 
 This matches items with prices:
@@ -187,7 +187,7 @@ Would in turn return this document.
 Subsequently, you can also use array operators:
 
 ```shell
-deparment_prices:[20...80]
+deparment_prices:[20..80]
 ```
 
 ## Escaping special characters
