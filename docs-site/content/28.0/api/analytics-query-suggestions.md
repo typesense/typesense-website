@@ -140,7 +140,7 @@ client.analytics.rules().upsert(ruleName, ruleConfiguration)
   <template v-slot:Ruby>
 
 ```rb
-rule_name = 'popular_queries'
+rule_name = 'product_queries_aggregation'
 rule_configuration = {
   'type' => 'popular_queries',
   'params' => {
@@ -426,7 +426,7 @@ aggregated in `no_hits_queries` collection.
   <template v-slot:JavaScript>
 
 ```js
-let ruleName =  'product_queries_aggregation'
+let ruleName =  'product_no_hits'
 let ruleConfiguration = {
   "type": "nohits_queries",
   "params": {
@@ -448,7 +448,7 @@ client.analytics.rules().upsert(ruleName, ruleConfiguration)
   <template v-slot:Ruby>
 
 ```rb
-rule_name = 'popular_queries'
+rule_name = 'product_no_hits'
 rule_configuration = {
   'type' => 'nohits_queries',
   'params' => {
@@ -521,9 +521,8 @@ Let's define a `counter` analytics rule that will increment this field whenever 
   <template v-slot:JavaScript>
 
 ```js
-let ruleName =  'product_queries_aggregation'
+let ruleName =  'product_clicks'
 let ruleConfiguration = {
-    "name": "products_popularity",
     "type": "counter",
     "params": {
         "source": {
@@ -547,9 +546,8 @@ client.analytics.rules().upsert(ruleName, ruleConfiguration)
 <template v-slot:Ruby>
 
 ```rb
-rule_name = 'popular_queries'
+rule_name = 'product_clicks'
 rule_configuration = {
-    "name" => "products_popularity",
     "type" => "counter",
     "params" => {
         "source": {
@@ -578,7 +576,7 @@ curl -k "http://localhost:8108/analytics/rules" \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       -d '{
-        "name": "products_popularity",
+        "name": "product_clicks",
         "type": "counter",
         "params": {
             "source": {
