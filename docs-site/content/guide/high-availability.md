@@ -7,7 +7,7 @@ In cluster mode, Typesense will automatically replicate your entire dataset to a
 Read and write API calls can be sent to any nodes in the cluster -
 read API calls will be served by the node that receives it, write API calls are automatically forwarded to the leader of the cluster internally.
 
-Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
+Since Raft requires a quorum for consensus, you need to run a **_minimum of 3 nodes_** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
 
 [[toc]]
 
@@ -15,21 +15,21 @@ Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 no
 
 In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you.
 
-When you flip the setting ON when launching a cluster, you'll see a special Load Balanced endpoint in addition to the individual hostnames*, in your cluster dashboard:
+When you flip the setting ON when launching a cluster, you'll see a special Load Balanced endpoint in addition to the individual hostnames\*, in your cluster dashboard:
 
 <img src="~@images/high-availability/ha-hostnames.png" height="350" width="367" alt="Typesense Cloud HA Hostnames">
 
 Requests sent to the Load-Balanced endpoint are distributed between all the 3 nodes in the cluster.
 If a particular node has an infrastructure issue, or is inaccessible for any reason, it is automatically quarantined and traffic is re-routed to the other healthy nodes.
 
-::: warning *Note
+::: warning \*Note
 
 You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**.
 
 For HA clusters provisioned **before June 16, 2022**, you will only see the individual hostnames. Health-checking and traffic re-routing are done client-side in our official client libraries.
-See [Client Configuration](#client-configuration) below. 
+See [Client Configuration](#client-configuration) below.
 
-To enable server-side load balancing on your existing clusters, open your Cluster Dashboard, go to Cluster Configuration, select Modify, toggle Load Balancing ON, and schedule the change. 
+To enable server-side load balancing on your existing clusters, open your Cluster Dashboard, go to Cluster Configuration, select Modify, toggle Load Balancing ON, and schedule the change.
 After that, configure your client libraries to use the `nearestNode` parameter as described under [Client Configuration](#client-configuration) below.
 :::
 
@@ -62,6 +62,7 @@ Here's an example of a `--nodes` file for a 3-node cluster:
 </Tabs>
 
 In the example above
+
 - The `peering_address` (the IP address used for cluster operations) is `192.168.12.x`
 - The `peering_port` (the port used for cluster operations) is `8107`
 - The `api_port` (the actual port to which clients connect to) is `8108`
@@ -134,12 +135,13 @@ typesense-server \
 </Tabs>
 
 :::warning IMPORTANT
+
 - `--peering-address` should be a **Private IP address**, since it is only meant for internal cluster operations and contains unencrypted Raft data that is exchanged between nodes.
 
 - `--api-address` can be a public or private IP address. This is the IP address that your end users/clients will connect to interact with the Typesense API.
 
 - We strongly recommend setting `--api-port` to 443 (HTTPS) in a production setting, and configuring SSL certs using the `--ssl-certificate` and `--ssl-certificate-key` server parameters.
-:::
+  :::
 
 :::tip
 If you are using Docker, make sure that you've configured the Docker network in such a way that the Typesense process within the Docker container can communicate with the other Typesense processes using their IP addresses.
@@ -195,21 +197,21 @@ To avoid a potential split brain issue, Typesense then stops accepting writes an
 
 To recover a cluster that has lost quorum:
 
-1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. 
-    
+1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address.
+
    You don't have to restart the Typesense process, since changes to the nodes file are automatically picked up within 30s.
 
 2. Wait for this node to return ok when you call it's `/health` endpoint.
 3. Edit the nodes file on this single node to now contain its own IP address and also the IP address of a 2nd node.
-4. Edit the nodes file on the 2nd node to now contain the IP address of the 1st node and the 2nd node, and start the Typesense process on the 2nd node. 
+4. Edit the nodes file on the 2nd node to now contain the IP address of the 1st node and the 2nd node, and start the Typesense process on the 2nd node.
 
-    This will get the 2nd node to sync data from the 1st node. If the 2nd node had fallen behind the first node by too much, you might have to clear the data dir from the 2nd node before starting the 2nd node back up, which will get the 2nd node to sync a fresh snapshot of the data from the first node.
+   This will get the 2nd node to sync data from the 1st node. If the 2nd node had fallen behind the first node by too much, you might have to clear the data dir from the 2nd node before starting the 2nd node back up, which will get the 2nd node to sync a fresh snapshot of the data from the first node.
 
-5. Wait for the 2nd node to return ok when you call it's `/health` endpoint. 
-    
-    At this stage, both the 1st and 2nd nodes should be healthy.
+5. Wait for the 2nd node to return ok when you call it's `/health` endpoint.
 
-6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up. 
+   At this stage, both the 1st and 2nd nodes should be healthy.
+
+6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up.
 
 ## Client Configuration
 
@@ -349,9 +351,9 @@ Client client = new Client(configuration);
 
 ```go
 import (
-  "github.com/typesense/typesense-go/v2/typesense"
-  "github.com/typesense/typesense-go/v2/typesense/api"
-  "github.com/typesense/typesense-go/v2/typesense/api/pointer"
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
 )
 
 client := typesense.NewClient(
@@ -543,9 +545,9 @@ Client client = new Client(configuration);
 
 ```go
 import (
-  "github.com/typesense/typesense-go/v2/typesense"
-  "github.com/typesense/typesense-go/v2/typesense/api"
-  "github.com/typesense/typesense-go/v2/typesense/api/pointer"
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
 )
 
 client := typesense.NewClient(

@@ -183,7 +183,7 @@ Client client = new Client(configuration);
 ```go
 import (
   "time"
-  "github.com/typesense/typesense-go/v2/typesense"
+  "github.com/typesense/typesense-go/v3/typesense"
 )
 
 client := typesense.NewClient(

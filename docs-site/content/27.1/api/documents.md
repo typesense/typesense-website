@@ -129,7 +129,7 @@ document := struct {
   Country:      "USA",
 }
 
-client.Collection("companies").Documents().Create(context.Background(), document)
+client.Collection("companies").Documents().Create(context.Background(), document, &api.DocumentIndexParameters{})
 ```
 
   </template>
@@ -282,7 +282,7 @@ document := struct {
   Country:      "USA",
 }
 
-client.Collection("companies").Documents().Upsert(context.Background(), document)
+client.Collection("companies").Documents().Upsert(context.Background(), document, &api.DocumentIndexParameters{})
 ```
 
   </template>
@@ -518,7 +518,7 @@ documents := []interface{}{
 }
 
 params := &api.ImportDocumentsParams{
-  Action:    pointer.String("create"),
+  Action:    pointer.Any(api.Create),
 }
 
 // IMPORTANT: Be sure to increase connectionTimeoutSeconds to at least 5 minutes or more for imports,
@@ -734,7 +734,7 @@ indexed does not match the previously [inferred](./collections.md#with-auto-sche
 This parameter can be sent with any of the document write API endpoints, for both single documents and multiple documents.
 
 | Value              | Behavior                                                                                                                                            |
-|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------|
+| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `coerce_or_reject` | Attempt coercion of the field's value to previously inferred type. If coercion fails, reject the write outright with an error message.              |
 | `coerce_or_drop`   | Attempt coercion of the field's value to previously inferred type. If coercion fails, drop the particular field and index the rest of the document. |
 | `drop`             | Drop the particular field and index the rest of the document.                                                                                       |
@@ -751,7 +751,7 @@ the default behavior is `reject` (this ensures backward compatibility with older
 Let's now attempt to index a document with a `title` field that contains an integer. We will assume that this
 field was previously inferred to be of type `string`. Let's use the `coerce_or_reject` behavior here:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -825,6 +825,23 @@ client.collections("books").documents().create(hmap,queryParameters);
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+document := struct {
+  Title  int `json:"title"`
+  Points int `json:"points"`
+}{
+  Title:  1984,
+  Points: 100,
+}
+
+client.Collection("titles").Documents().Create(context.Background(), document, &api.DocumentIndexParameters{
+  DirtyValues: pointer.Any(api.CoerceOrReject),
+})
+```
+
+  </template>
 <template v-slot:Shell>
 
 ```bash
@@ -891,7 +908,6 @@ You can see how they will be transformed below:
 
 </template>
 </Tabs>
-
 
 ### Import a JSONL file
 
@@ -974,7 +990,7 @@ client.collections("books").documents().import_(data.toString(), queryParameters
 
 ```go
 params := &api.ImportDocumentsParams{
-  Action: pointer.String("create"),
+	Action: pointer.Any(api.Create),
 }
 documentsInJsonl, err := os.Open("documents.jsonl")
 // defer close, error handling ...
@@ -1042,7 +1058,6 @@ For eg, here's one library you can use to [convert DOCX files to JSON](https://g
 [Apache Tika](https://tika.apache.org/) is another library to extract text and metadata from PDF, PPT, XLS and over a 1000 different file formats.
 
 Once you've extracted the JSON, you can then [index](#index-documents) them in Typesense just like any other JSON file.
-
 
 ## Retrieve a document
 
@@ -1137,14 +1152,13 @@ $ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 While retrieving a document, you can use the following parameters to control the fields that are returned:
 
 | Parameter      | Description                                                         |
-|:---------------|:--------------------------------------------------------------------|
+| :------------- | :------------------------------------------------------------------ |
 | include_fields | List of fields that should be present in the returned document.     |
 | exclude_fields | List of fields that should not be present in the returned document. |
 
 **Definition**
 
 `GET ${TYPESENSE_HOST}/collections/:collection/documents/:id`
-
 
 ## Update documents
 
@@ -1240,7 +1254,7 @@ document := struct {
   NumEmployees: 5500,
 }
 
-client.Collection("companies").Document("124").Update(context.Background(), document)
+client.Collection("companies").Document("124").Update(context.Background(), document, &api.DocumentIndexParameters{})
 ```
 
   </template>
@@ -1301,7 +1315,7 @@ To update multiple documents, use the import endpoint with [`action=update`](#ac
 
 To update all documents that match a given `filter_by` query:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1367,6 +1381,21 @@ UpdateDocumentsParameters updateDocumentsParameters = new UpdateDocumentsParamet
 updateDocumentsParameters.filterBy("num_employees:>1000");
 
 HashMap<String, Object> updatedDocument = client.collections("companies").documents().update(document, updateDocumentsParameters)
+```
+
+</template>
+  <template v-slot:Go>
+
+```go
+document := struct {
+  Tag string `json:"tag"`
+}{
+  Tag: "large",
+}
+
+client.Collection("companies").Documents().Update(context.Background(), document, &api.UpdateDocumentsParams{
+  FilterBy: pointer.Any("num_employees:>1000"),
+})
 ```
 
 </template>
@@ -1595,7 +1624,6 @@ Use the `batch_size` parameter to control the number of documents that should de
   </template>
 </Tabs>
 
-
 **Definition**
 
 `DELETE ${TYPESENSE_HOST}/collections/:collection/documents?filter_by=X&batch_size=N`
@@ -1662,7 +1690,7 @@ client.collections("companies").documents().export(exportDocumentsParameters);
   <template v-slot:Go>
 
 ```go
-client.Collection("companies").Documents().Export(context.Background())
+client.Collection("companies").Documents().Export(context.Background(), &api.ExportDocumentsParams{})
 ```
 
   </template>
@@ -1700,7 +1728,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 While exporting, you can use the following parameters to control the result of the export:
 
 | Parameter      | Description                                                                                         |
-|:---------------|:----------------------------------------------------------------------------------------------------|
+| :------------- | :-------------------------------------------------------------------------------------------------- |
 | filter_by      | Restrict the exports to documents that satisfies the [`filter by` query](search.md#filter-results). |
 | include_fields | List of fields that should be present in the exported documents.                                    |
 | exclude_fields | List of fields that should not be present in the exported documents.                                |

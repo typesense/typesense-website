@@ -15,6 +15,7 @@ gunzip books.jsonl.gz
 This should give you a file called `books.jsonl` which we'll use below.
 
 ## Initializing the client
+
 Let's begin by configuring the Typesense client by pointing it to a Typesense node.
 
 - Be sure to use the same API key that you used to [start the Typesense server](./install-typesense.md#🎬-start) earlier.
@@ -123,9 +124,9 @@ Client client = new Client(configuration);
 
 ```go
 import (
-  "github.com/typesense/typesense-go/v2/typesense"
-  "github.com/typesense/typesense-go/v2/typesense/api"
-  "github.com/typesense/typesense-go/v2/typesense/api/pointer"
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
 )
 
 client := typesense.NewClient(
@@ -155,6 +156,7 @@ export TYPESENSE_HOST='http://localhost:8108'
 That's it - we're now ready to start interacting with the Typesense server.
 
 ## Creating a "books" collection
+
 In Typesense, a [`Collection`](../latest/api/collections.md) is a group of related [`Documents`](../latest/api/documents.md) that is roughly equivalent to a table in a relational database. When we create a collection, we give it a name and describe the fields that will be indexed when a document is added to the collection.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
@@ -392,6 +394,7 @@ curl "${TYPESENSE_HOST}/collections/books/documents/import" \
 </Tabs>
 
 ## Searching for books
+
 We will start with a really simple search query - let's search for `harry potter` and ask Typesense to rank books that have more ratings higher in the results.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
@@ -525,7 +528,6 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-
 In addition to returning the matching documents, Typesense also highlights where the query terms appear in a document via the `highlight` property.
 
 Want to actually see newest `harry potter` books returned first? No problem, we can change the `sort_by` clause to `publication_year:desc`:
@@ -539,6 +541,7 @@ For eg, if your dataset contains the word "Harry Potter" and the user searches f
 Read more about Semantic Search in the dedicated guide article [here](./semantic-search.md).
 
 ## Filtering results
+
 Now, let's tweak our query to only fetch books that are published before the year 1998. To do that, we just have to add a `filter_by` clause to our query:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
