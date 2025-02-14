@@ -381,6 +381,32 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `keys:delete` | Allows the deletion of API keys.               |
 | `keys:*`      | Allows all API Key related operations.         |
 
+#### Analytics actions
+
+| Action             | Description                                                                             |
+|:-------------------|:----------------------------------------------------------------------------------------|
+| `analytics:list`   | Allows all analytics rules to be fetched.                                               |
+| `analytics:get`    | Allows for a single analytics rule to be fetched.                                       |
+| `analytics:create` | Allows the creation of analytics rules and events.                                      |
+| `analytics:delete` | Allows the deletion of analytics rules and events.                                      |
+| `analytics:*`      | Allows all analytics rules and events related operations.                               |
+
+##### Analytics Rules actions
+
+| Action             | Description                                                                        |
+|:-------------------|:-----------------------------------------------------------------------------------|
+| `analytics/rules:list`   | Allows all analytics rules to be fetched.                                    |
+| `analytics/rules:get`    | Allows for a single analytics rule to be fetched.                            |
+| `analytics/rules:create` | Allows the creation of analytics rules.                                      |
+| `analytics/rules:delete` | Allows the deletion of analytics rules.                                      |
+| `analytics/rules:*`      | Allows all analytics rules related operations.                               |
+
+##### Analytics Events actions
+
+| Action                    | Description                                                                        |
+|:--------------------------|:-----------------------------------------------------------------------------------|
+| `analytics/events:create` | Allows the creation of analytics events.                                           |
+
 #### Misc actions
 
 | Action               | Description                                       |

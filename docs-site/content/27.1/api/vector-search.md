@@ -1351,6 +1351,8 @@ curl 'http://localhost:8108/collections' \
 
 When you create the collection above, Typesense will call the OpenAI-API compatible API server running behind `https://your-custom-openai-compatible-api.domain.com` to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
 
+The `model_name` within `model_config` *must* begin with `openai`.
+
 The custom API server behind the specified URL should provide the following endpoint:
 
 **Endpoint**:
@@ -2728,7 +2730,7 @@ To prevent this, you want to add `exclude_fields: "your_embedding_field_name"` a
 
 ### Pagination
 
-To paginate through the vector search (or semantic or hybrid search) results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
+To paginate through the vector search (or semantic or hybrid search) results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding:([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
 
 ```shell{11,12,13}
 curl 'http://localhost:8108/multi_search' \
@@ -2741,7 +2743,7 @@ curl 'http://localhost:8108/multi_search' \
         "query_by": "embedding",
         "collection": "products",
         "exclude_fields": "embedding",
-        "vector_query": "embedding([], k: 200)",
+        "vector_query": "embedding:([], k: 200)",
         "per_page": 10,
         "page": 1
       }
