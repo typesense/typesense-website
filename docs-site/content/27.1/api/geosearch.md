@@ -197,7 +197,7 @@ curl -k "http://localhost:8108/collections" -X POST
 
 Let's now index a document.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -278,6 +278,24 @@ document.add("points", 1);
 document.add("location", location);
 
 client.collection("places").documents.create(document);
+```
+
+  </template>
+
+  <template v-slot:Go>
+
+```go
+document := struct {
+  Title    int       `json:"title"`
+  Points   int       `json:"points"`
+  Location []float64 `json:"location"`
+}{
+  Title:    1984,
+  Points:   100,
+  Location: []float64{48.86093481609114, 2.33698396872901},
+}
+
+client.Collection("places").Documents().Create(context.Background(), document, &api.DocumentIndexParameters{})
 ```
 
   </template>
