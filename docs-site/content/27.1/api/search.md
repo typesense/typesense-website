@@ -782,9 +782,9 @@ preset := &api.PresetUpsertSchema{}
 preset.Value.FromMultiSearchSearchesParameter(api.MultiSearchSearchesParameter{
   Searches: []api.MultiSearchCollectionParameters{
     {
-      Collection: "products",
-      Q:          pointer.String("*"),
-      SortBy:     pointer.String("popularity"),
+      Collection: pointer.Any("products"),
+      Q:          pointer.Any("*"),
+      SortBy:     pointer.Any("popularity"),
     },
   },
 })
@@ -872,7 +872,7 @@ The only requirement is that for
 ```go
 preset := &api.PresetUpsertSchema{}
 preset.Value.FromSearchParameters(api.SearchParameters{
-  Q:      "*",
+  Q:      pointer.String("*"),
   SortBy: pointer.String("popularity"),
 })
 
