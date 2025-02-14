@@ -1639,7 +1639,7 @@ You would need the following authentication information to use this method:
 
 Please refer to the Vertex AI docs for more information on how to fetch these values.
 
-<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java', 'Go', 'Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1798,6 +1798,57 @@ collectionschema.name("products")
                       .clientSecret("your_gcp_client_secret").projectId("your_gcp_project_id")))
                 ));
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+
+  </template>
+
+  <template v-slot:Go>
+
+```go
+schema := &api.CollectionSchema{
+  Name: "products",
+  Fields: []api.Field{
+    {Name: "product_name", Type: "string"},
+    {Name: "embedding", Type: "float[]",
+      Embed: &struct {
+        From        []string "json:\"from\""
+        ModelConfig struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        } "json:\"model_config\""
+      }{
+        From: []string{"product_name"},
+        ModelConfig: struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        }{
+          ModelName:    "gcp/embedding-gecko-001",
+          AccessToken:  pointer.Any("your_gcp_access_token"),
+          RefreshToken: pointer.Any("your_gcp_refresh_token"),
+          ClientId:     pointer.Any("your_gcp_app_client_id"),
+          ClientSecret: pointer.Any("your_gcp_client_secret"),
+          ProjectId:    pointer.Any("your_gcp_project_id"),
+        },
+      }},
+  },
+}
+client.Collections().Create(context.Background(), schema)
 ```
 
   </template>
@@ -2308,7 +2359,7 @@ Some models may require a prefix to know if texts are queries or they are actual
 
 If you set this property in `model_config`, the given indexing prefix will be added to the text that will be used to create embeddings when you index a document and `query_prefix` to the actual query before creating embeddings of it.Example:
 
-<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python', 'Ruby', 'Java','Go','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -2444,6 +2495,53 @@ collectionschema.name("products")
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+schema := &api.CollectionSchema{
+  Name: "products",
+  Fields: []api.Field{
+    {Name: "product_name", Type: "string"},
+    {Name: "embedding", Type: "float[]",
+      Embed: &struct {
+        From        []string "json:\"from\""
+        ModelConfig struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        } "json:\"model_config\""
+      }{
+        From: []string{"product_name"},
+        ModelConfig: struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        }{
+          ModelName:      "e5-base",
+          IndexingPrefix: pointer.Any("passage:"),
+          QueryPrefix:    pointer.Any("query:"),
+        },
+      }},
+  },
+}
+client.Collections().Create(context.Background(), schema)
 ```
 
   </template>
@@ -2627,10 +2725,10 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 searchRequests := api.MultiSearchSearchesParameter{
   Searches: []api.MultiSearchCollectionParameters{
     {
-      Collection:    "docs",
-      Q:             pointer.String("*"),
-      VectorQuery:   pointer.String("embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"), // <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
-      ExcludeFields: pointer.String("embedding"),                                             // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
+      Collection:    pointer.Any("docs"),
+      Q:             pointer.Any("*"),
+      VectorQuery:   pointer.Any("embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"), // <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+      ExcludeFields: pointer.Any("embedding"),                                             // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
     },
   },
 }
@@ -2860,8 +2958,8 @@ SearchResult searchResult = client.collections("products").documents().search(se
 
   ```go
 searchParameters := &api.SearchCollectionParams{
-    Q:       pointer.String("chair"),
-    QueryBy: pointer.String("embedding"),
+    Q:       pointer.Any("chair"),
+    QueryBy: pointer.Any("embedding"),
 }
 
 client.Collection("products").Documents().Search(context.Background(), searchParameters)
