@@ -10,7 +10,7 @@ Typesense supports geo search on fields containing latitude and longitude values
 
 Let's create a collection called `places` with a field called `location` of type `geopoint`.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -150,16 +150,42 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 ```
 
   </template>
+<template v-slot:Go>
+
+```go
+schema := &api.CollectionSchema{
+  Name: "places",
+  Fields: []api.Field{
+    {
+      Name: "title",
+      Type: "string",
+    },
+    {
+      Name: "points",
+      Type: "int32",
+    },
+    {
+      Name: "location",
+      Type: "geopoint",
+    },
+  },
+  DefaultSortingField: pointer.String("points"),
+}
+
+client.Collections().Create(context.Background(), schema)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/collections" -X POST 
+curl -k "http://localhost:8108/collections" -X POST
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "places",
         "fields": [
           {"name": "title", "type": "string" },
-          {"name": "points", "type": "int32" }, 
+          {"name": "points", "type": "int32" },
           {"name": "location", "type": "geopoint"}
         ],
         "default_sorting_field": "points"
@@ -171,7 +197,7 @@ curl -k "http://localhost:8108/collections" -X POST
 
 Let's now index a document.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -256,6 +282,24 @@ client.collection("places").documents.create(document);
 
   </template>
 
+  <template v-slot:Go>
+
+```go
+document := struct {
+  Title    int       `json:"title"`
+  Points   int       `json:"points"`
+  Location []float64 `json:"location"`
+}{
+  Title:    1984,
+  Points:   100,
+  Location: []float64{48.86093481609114, 2.33698396872901},
+}
+
+client.Collection("places").Documents().Create(context.Background(), document, &api.DocumentIndexParameters{})
+```
+
+  </template>
+
   <template v-slot:Shell>
 
 ```bash
@@ -280,7 +324,7 @@ We can now search for places within a given radius of a given latlong
 In addition, let's also sort the records that are closest to a given
 location (this location can be the same or different from the latlong used for filtering).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -363,6 +407,20 @@ SearchParameters searchParameters = new SearchParameters()
                                         .filterBy("location:(48.90615915923891, 2.3435897727061175, 5.1 km)")
                                         .sortBy("location(48.853, 2.344):asc");
 SearchResult searchResult = client.collections("places").documents().search(searchParameters);
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+searchParameters := &api.SearchCollectionParams{
+  Q:        pointer.String("*"),
+  QueryBy:  pointer.String("title"),
+  FilterBy: pointer.String("location:(48.90615915923891, 2.3435897727061175, 5.1 km)"),
+  SortBy:   pointer.String("location(48.853, 2.344):asc"),
+}
+
+client.Collection("places").Documents().Search(context.Background(), searchParameters)
 ```
 
   </template>
