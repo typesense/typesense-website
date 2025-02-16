@@ -6,7 +6,7 @@ sitemap:
 
 # Collections
 
-In Typesense, every record you index is called a `Document` and a group of documents with similar fields is called a `Collection`. 
+In Typesense, every record you index is called a `Document` and a group of documents with similar fields is called a `Collection`.
 A Collection is roughly equivalent to a table in a relational database.
 
 ## Create a collection
@@ -31,7 +31,7 @@ There are two ways to specify a schema:
 2. [Have Typesense automatically detect your fields and data types](#with-auto-schema-detection) based on the documents you index.
 
 The simplest option is [#2](#with-auto-schema-detection) where you don't have to worry about defining an explicit schema.
-But if you need more fine-grained control and/or validation, you want to use [#1](#with-pre-defined-schema) or even mix both together. 
+But if you need more fine-grained control and/or validation, you want to use [#1](#with-pre-defined-schema) or even mix both together.
 
 ### With pre-defined schema
 
@@ -39,9 +39,9 @@ Let's first create a collection with an explicit, pre-defined schema.
 
 This option gives you fine-grained control over your document fields' [data types](#field-types) and configures your collection to reject documents that don't match the data types defined in your schema ([by default](./documents.md#dealing-with-dirty-data)).
 
-If you want Typesense to automatically detect your schema for you, skip over to [auto-schema detection](#with-auto-schema-detection). 
+If you want Typesense to automatically detect your schema for you, skip over to [auto-schema detection](#with-auto-schema-detection).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -168,7 +168,34 @@ final schema = Schema(
 
 await client.collections.create(schema);
 ```
-    
+
+  </template>
+  <template v-slot:Go>
+
+```go
+schema := &api.CollectionSchema{
+  Name: "companies",
+  Fields: []api.Field{
+    {
+      Name: "company_name",
+      Type: "string",
+    },
+    {
+      Name: "num_employees",
+      Type: "int32",
+    },
+    {
+      Name:  "country",
+      Type:  "string",
+      Facet: pointer.True(),
+    },
+  },
+  DefaultSortingField: pointer.String("num_employees"),
+}
+
+client.Collections().Create(context.Background(), schema)
+```
+
   </template>
   <template v-slot:Java>
 
@@ -251,22 +278,22 @@ See [Schema Parameters](#schema-parameters) for all available options, and [Fiel
 `POST ${TYPESENSE_HOST}/collections`
 
 :::warning IMPORTANT NOTE & TIP
-All fields you mention in a collection's schema will be indexed _in memory_. 
+All fields you mention in a collection's schema will be indexed _in memory_.
 
 There might be cases where you don't intend to search / filter / facet / group by a particular field and just want it to be stored (on disk) and returned as is when a document is a search hit.
-For eg: you can store image URLs in every document that you might use when displaying search results, but you might not want to text-search the actual URLs. 
+For eg: you can store image URLs in every document that you might use when displaying search results, but you might not want to text-search the actual URLs.
 
-You want to NOT mention these fields in the collection's schema or mark these fields as `index: false` (see `fields` [schema parameter](#schema-parameters) below) to mark it as an unindexed field. 
+You want to NOT mention these fields in the collection's schema or mark these fields as `index: false` (see `fields` [schema parameter](#schema-parameters) below) to mark it as an unindexed field.
 You can have any number of these additional unindexed fields in the documents when adding them to a collection - they will just be stored on disk, and will not take up any memory.
 :::
 
 ### With auto schema detection
- 
-If your field names are dynamic and not known upfront, or if you just want to keep things simple and index all fields you send in your documents by default,
-auto-schema detection should help you. 
 
-You can define a wildcard field with the name `.*` and  type `auto` to let Typesense automatically 
-detect the type of the fields when you [add documents](./documents.md#index-a-single-document) to the collection. 
+If your field names are dynamic and not known upfront, or if you just want to keep things simple and index all fields you send in your documents by default,
+auto-schema detection should help you.
+
+You can define a wildcard field with the name `.*` and type `auto` to let Typesense automatically
+detect the type of the fields when you [add documents](./documents.md#index-a-single-document) to the collection.
 In fact, you can use **any RegEx expression to define a field name**.
 
 <Tabs :tabs="['JSON']">
@@ -274,7 +301,7 @@ In fact, you can use **any RegEx expression to define a field name**.
 
 ```json
 {
-  "name": "companies",  
+  "name": "companies",
   "fields": [
     {"name": ".*", "type": "auto" }
   ]
@@ -284,7 +311,7 @@ In fact, you can use **any RegEx expression to define a field name**.
   </template>
 </Tabs>
 
-When a `.*` field is defined this way,  all the fields in a document are automatically indexed for **searching and filtering**.
+When a `.*` field is defined this way, all the fields in a document are automatically indexed for **searching and filtering**.
 
 #### Data Coercion
 
@@ -334,9 +361,9 @@ You can control this default coercion behavior at write-time with the [`dirty_va
 
 #### Faceting fields with auto-schema detection
 
-[Faceting](./search.md#facet-results) is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory, 
-especially for large text fields. However, you can still explicitly define specific fields (with or without RegEx names) to facet by 
-setting `facet: true` for them. 
+[Faceting](./search.md#facet-results) is not enabled for a wildcard field `{"name": ".*" , ...}`, since that can consume a lot of memory,
+especially for large text fields. However, you can still explicitly define specific fields (with or without RegEx names) to facet by
+setting `facet: true` for them.
 
 For e.g, when you define a schema like this:
 
@@ -357,7 +384,7 @@ This will only set field names that end with `_facet` in the document, as a face
 
 #### `Geopoint` and auto-schema detection
 
-A [`geopoint` field](#field-types) requires an explicit type definition, as the geo field value is represented as a 2-element 
+A [`geopoint` field](#field-types) requires an explicit type definition, as the geo field value is represented as a 2-element
 float field and we cannot differentiate between a lat/long definition and an actual float array.
 
 #### Indexing all but some fields
@@ -373,7 +400,7 @@ For eg, if you want to index all fields, except for fields that start with `desc
 
 ```json
 {
-  "name": "companies",  
+  "name": "companies",
   "fields": [
     {"name": ".*", "type": "auto" },
     {"name": ".*_facet", "type": "auto", "facet": true },
@@ -393,7 +420,7 @@ If an explicit definition is available for a field (`country` in the example abo
 preference to that before falling back to the wildcard definition.
 
 When such an explicit field definition is not available, the first document that contains a field with a given name
-determines the type of that field. 
+determines the type of that field.
 
 For example, if you index a document with a field named `title` and it is a
 string, then the next document that contains the field named `title` will be expected to have a string too.
@@ -455,7 +482,7 @@ Typesense allows you to index the following types of fields:
 
 ### Cloning a collection schema
 
-Here's how you can clone an existing collection's schema (documents are not copied), overrides and synonyms. 
+Here's how you can clone an existing collection's schema (documents are not copied), overrides and synonyms.
 
 ```shell
 curl -k "http://localhost:8108/collections?src_name=existing_coll" -X POST -H "Content-Type: application/json" \
@@ -464,17 +491,17 @@ curl -k "http://localhost:8108/collections?src_name=existing_coll" -X POST -H "C
       }'
 ```
 
-The above API call will create a new collection called `new_coll` that contains the schema, overrides and synonyms of 
-the collection `existing_coll`. The actual documents in the `existing_coll` collection are **not** copied, 
+The above API call will create a new collection called `new_coll` that contains the schema, overrides and synonyms of
+the collection `existing_coll`. The actual documents in the `existing_coll` collection are **not** copied,
 so this is primarily useful for creating new collections from an existing reference template.
 
 :::tip
-Cloning a collection this way, does **not** copy the data. 
+Cloning a collection this way, does **not** copy the data.
 :::
 
 ### Adding metadata to schema
 
-If you wish, you could populate a `metadata` object to the schema while creating a collection to add 
+If you wish, you could populate a `metadata` object to the schema while creating a collection to add
 details about the collection, for e.g. when it was created, who created it etc.
 
 ```json
@@ -514,7 +541,7 @@ You must first enable nested fields at a collection level via the `enable_nested
 ```shell{4,6-7}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-        "name": "docs", 
+        "name": "docs",
         "enable_nested_fields": true,
         "fields": [
           {"name": "person", "type": "object"},
@@ -544,7 +571,7 @@ And say you only want to index the `zip` field inside the `address` nested objec
 ```shell{7}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-        "name": "docs", 
+        "name": "docs",
         "enable_nested_fields": true,
         "fields": [
           {"name": "name", "type": "string"},
@@ -576,11 +603,10 @@ To index specific fields inside an array of objects, you want to specify an **ar
 
 And say you only want to index the `zip` field inside each address object in the `addresses` array of objects, without indexing other fields, you can specify this in the schema like this:
 
-
 ```shell{7}
 curl -k "http://localhost:8108/collections" -X POST -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-        "name": "docs", 
+        "name": "docs",
         "enable_nested_fields": true,
         "fields": [
           {"name": "name", "type": "string"},
@@ -609,7 +635,7 @@ For example, a document like this containing nested objects:
       "fieldB": ["valueB", "valueC", "valueD"]
     }
   }
-}  
+}
 ```
 
 would need to be flattened as:
@@ -617,7 +643,7 @@ would need to be flattened as:
 ```json
 {
   "nested_field.field1": "value1",
-  "nested_field.field2":  ["value2", "value3", "value4"],
+  "nested_field.field2": ["value2", "value3", "value4"],
   "nested_field.field3.fieldA": "valueA",
   "nested_field.field3.fieldB": ["valueB", "valueC", "valueD"]
 }
@@ -632,18 +658,19 @@ At display time when parsing the results, you can then use the nested version.
 #### Indexing Dates
 
 Dates need to be converted into [Unix timestamps](https://en.wikipedia.org/wiki/Unix_time) and stored as `int64` fields in Typesense.
-Most languages have libraries that help do this conversion for you. 
+Most languages have libraries that help do this conversion for you.
 
-You'll then be able to use numerical operators like `<`, `>`, etc to filter records that are before or after or between dates. 
+You'll then be able to use numerical operators like `<`, `>`, etc to filter records that are before or after or between dates.
 
 #### Indexing other types of data
 
 Read our dedicated guide article on how to index other common types of data like emails, phone numbers, SKUs, model numbers, etc [here](../../guide/tips-for-searching-common-types-of-data.md).
 
 ## Retrieve a collection
+
 Retrieve the details of a collection, given its name.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -677,13 +704,20 @@ client.collections['companies'].retrieve
 
 ```dart
 await client.collection('companies').retrieve();
-```    
+```
 
   </template>
   <template v-slot:Java>
 
 ```java
 CollectionResponse collection = client.collections("companies").retrieve();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.Collection("companies").Retrieve(context.Background())
 ```
 
   </template>
@@ -730,16 +764,17 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 `GET ${TYPESENSE_HOST}/collections/:collection`
 
 ## List all collections
+
 Returns a summary of all your collections. The collections are returned sorted by creation date, with the most recent collections appearing first.
 
 :::tip
-By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the 
+By default, ALL collections are returned, but you can use the `offset` and `limit` parameters to paginate on the
 collection listing.
 
 You can also set `exclude_fields=fields` to exclude the field definitions from being returned in the response.
 :::
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -780,6 +815,13 @@ await client.collections.retrieve();
 
 ```java
 CollectionResponse[] collectionResponses = client.collections().retrieve();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.Collections().Retrieve(context.Background())
 ```
 
   </template>
@@ -838,9 +880,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 `GET ${TYPESENSE_HOST}/collections`
 
 ## Drop a collection
+
 Permanently drops a collection. This action cannot be undone. For large collections, this might have an impact on read latencies.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -884,6 +927,13 @@ CollectionResponse collectionResponse = client.collections("companies").delete()
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+client.Collection("companies").Delete(context.Background())
+```
+
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -891,7 +941,7 @@ let (collectionResponse, response) = try await client.collection(name: "companie
 ```
 
   </template>
-  
+
   <template v-slot:Shell>
 
 ```bash
@@ -1029,7 +1079,7 @@ Typesense supports updating all fields **except** the `id` field (since it's a s
 Let's see how we can add a new `company_category` field to the `companies` collection and also drop the existing
 `num_employees` field.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -1056,7 +1106,7 @@ $update_schema = [
     [
       'name'  => 'company_category',
       'type'  => 'string'
-    ]    
+    ]
   ]
 ];
 $client->collections['companies']->update($update_schema);
@@ -1067,7 +1117,7 @@ $client->collections['companies']->update($update_schema);
 
 ```py
 update_schema = {
-  'fields': [    
+  'fields': [
     {
       'name'  :  'num_employees',
       'drop'  :  True
@@ -1094,8 +1144,8 @@ update_schema = {
     {
       'name'  => 'company_category',
       'type'  => 'string'
-    }    
-  ]  
+    }
+  ]
 }
 client.collections['companies'].update(update_schema)
 ```
@@ -1107,7 +1157,7 @@ client.collections['companies'].update(update_schema)
 final updateSchema = UpdateSchema(
   {
     Field('num_employees', drop: true),
-    Field('company_category', Type.string)    
+    Field('company_category', Type.string)
   }
 );
 await client.collection('companies').update(updateSchema);
@@ -1124,13 +1174,27 @@ client.collections("companies").update(updateSchema);
 ```
 
 </template>
+<template v-slot:Go>
+
+```go
+updateSchema := &api.CollectionUpdateSchema{
+  Fields: []api.Field{
+    {Name: "num_employees", Drop: pointer.True()},
+    {Name: "company_category", Type: "string"},
+  },
+}
+
+client.Collection("companies").Update(context.Background(), updateSchema)
+```
+
+</template>
 <template v-slot:Swift>
 
 ```swift
 let updateSchema = CollectionUpdateSchema(
   fields: [
     Field(name: "num_employees", drop: true),
-    Field(name: "company_category", type: "string")    
+    Field(name: "company_category", type: "string")
   ]
 )
 try await client.collections.update(updateSchema: updateSchema)
@@ -1148,7 +1212,7 @@ curl "http://localhost:8108/collections/companies" \
        -d '{
          "fields": [
            {"name": "num_employees", "drop": true },
-           {"name": "company_category", "type": "string" }           
+           {"name": "company_category", "type": "string" }
          ]
        }'
 ```
@@ -1163,22 +1227,22 @@ curl "http://localhost:8108/collections/companies" \
 
 ```json
 {
-   "fields": [
-      {
-         "drop": true,
-         "name": "num_employees"
-      },
-      {
-         "name": "company_category",
-         "facet": false,
-         "index": true,
-         "infix": false,
-         "locale": "",
-         "optional": false,
-         "sort": false,
-         "type": "string"
-      }
-   ]
+  "fields": [
+    {
+      "drop": true,
+      "name": "num_employees"
+    },
+    {
+      "name": "company_category",
+      "facet": false,
+      "index": true,
+      "infix": false,
+      "locale": "",
+      "optional": false,
+      "sort": false,
+      "type": "string"
+    }
+  ]
 }
 ```
 
@@ -1198,7 +1262,7 @@ to the field you want to remove.
 `PATCH ${TYPESENSE_HOST}/collections/:collection`
 
 :::warning
-The schema update operation is a synchronous **blocking** operation. 
+The schema update operation is a synchronous **blocking** operation.
 
 When a schema update is in progress, all incoming writes to _that particular collection_ will wait for the schema update operation to finish.
 In a multi-node HA cluster, the schema update is executed on all nodes in the cluster in parallel. So writes will be blocked across the entire cluster while the schema update is in progress.
@@ -1216,22 +1280,22 @@ Since the alter operation can take a long time, this ensures that a client with 
 not end up retrying the same alter request.
 :::
 
-The update operation consists of an initial validation step where the records on-disk are assessed to ensure 
-that they are compatible with the proposed schema change. For example, let's say there is a `string` field `A` which 
-is already present in the documents on-disk but is not part of the schema. If you try to update the collection 
-schema by adding a field `A` with type `integer`, the validation step will reject this change as it's incompatible 
+The update operation consists of an initial validation step where the records on-disk are assessed to ensure
+that they are compatible with the proposed schema change. For example, let's say there is a `string` field `A` which
+is already present in the documents on-disk but is not part of the schema. If you try to update the collection
+schema by adding a field `A` with type `integer`, the validation step will reject this change as it's incompatible
 with the type of data already present.
 
-If the validation is successful, the actual schema change is done and the records are 
-indexed / re-indexed / dropped as per the requested change. The process is complete as soon as the API call 
-returns (make sure you use a large client timeout value). Because of the blocking nature of the update, we 
-recommend doing the change during off-peak hours. 
+If the validation is successful, the actual schema change is done and the records are
+indexed / re-indexed / dropped as per the requested change. The process is complete as soon as the API call
+returns (make sure you use a large client timeout value). Because of the blocking nature of the update, we
+recommend doing the change during off-peak hours.
 
 Alternatively, you can also use the [alias feature](#using-an-alias) to do zero downtime schema changes.
 
 ### Modifying an existing field
 
-Since Typesense currently only supports adding/deleting a field, any modifications to an existing field should be 
+Since Typesense currently only supports adding/deleting a field, any modifications to an existing field should be
 expressed as a drop + add operation. All fields **except** the `id` field can be modified.
 
 For example, to add a `facet` property to the `company_category` field, we will drop + add it in the same change set:
@@ -1244,7 +1308,7 @@ curl "http://localhost:8108/collections/companies" \
        -d '{
          "fields": [
            {"name": "company_category", "drop": true },
-           {"name": "company_category", "type": "string", "facet": true }   
+           {"name": "company_category", "type": "string", "facet": true }
          ]
        }'
 ```
@@ -1294,7 +1358,7 @@ The response shows:
 
 ### Using an alias
 
-If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use 
+If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use
 the [Collection Alias](./collection-alias.md) feature to do a zero-downtime switch over to the new collection:
 
 Let's say you have a collection called `movies_jan_1` that you want to change the schema for.
@@ -1306,11 +1370,11 @@ Let's say you have a collection called `movies_jan_1` that you want to change th
 5. [Update the collection alias](./collection-alias.md#create-or-update-an-alias) to now point to the new collection. Eg: Update `movies` to now point to `movies_feb_1`.
 6. Stop your application from sending writes to the old collection and [drop the old collection](#drop-a-collection), `movies_jan_1` in our example.
 
-Once you update the alias, any search / indexing operations will go to the new collection (eg: `movies_feb_1`) 
+Once you update the alias, any search / indexing operations will go to the new collection (eg: `movies_feb_1`)
 without you having to do any additional application-side changes.
 
 ### Dynamic field additions
 
-If you only need to _add_ new fields to the schema on the fly, we recommend using [auto-schema detection](#with-auto-schema-detection) 
-when creating the collection. You can essentially define RegEx field names and when documents containing 
+If you only need to _add_ new fields to the schema on the fly, we recommend using [auto-schema detection](#with-auto-schema-detection)
+when creating the collection. You can essentially define RegEx field names and when documents containing
 new field names that match the RegEx come in, the new fields will automatically be added to the schema.
