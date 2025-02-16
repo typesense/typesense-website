@@ -583,22 +583,30 @@ schema := &api.CollectionSchema{
       Embed: &struct {
         From        []string "json:\"from\""
         ModelConfig struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
       }{
         From: []string{"product_name", "categories"},
         ModelConfig: struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         }{
           ModelName: "ts/e5-small",
         },
@@ -839,22 +847,30 @@ schema := &api.CollectionSchema{
       Embed: &struct {
         From        []string "json:\"from\""
         ModelConfig struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
       }{
         From: []string{"brand", "categories"},
         ModelConfig: struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         }{
           ModelName: "ts/all-MiniLM-L12-v2",
         },
@@ -1092,22 +1108,30 @@ schema := &api.CollectionSchema{
       Embed: &struct {
         From        []string "json:\"from\""
         ModelConfig struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
       }{
         From: []string{"product_name"},
         ModelConfig: struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         }{
           ModelName: "openai/text-embedding-ada-002",
           ApiKey:    pointer.String("your_openai_api_key"),
@@ -1163,7 +1187,7 @@ You have to provide a valid OpenAI API key in `model_config` to use this feature
 
 You can also use OpenAI-API-compatible API providers like Azure, by customizing the base URL in the `model_config`:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
 
   <template v-slot:JavaScript>
 
@@ -1311,6 +1335,60 @@ collectionschema.name("products")
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+```
+  </template>
+
+  <template v-slot:Go>
+
+```go
+schema := &api.CollectionSchema{
+  Name: "products",
+  Fields: []api.Field{
+    {
+      Name: "product_name",
+      Type: "string",
+    },
+    {
+      Name: "embedding",
+      Type: "float[]",
+      Embed: &struct {
+        From        []string "json:\"from\""
+        ModelConfig struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        } "json:\"model_config\""
+      }{
+        From: []string{"product_name"},
+        ModelConfig: struct {
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
+        }{
+          ModelName: "openai/text-embedding-ada-002",
+          ApiKey:    pointer.Any("your_api_key_as_required_by_the_custom_provider"),
+          Url:       pointer.Any("https://your-custom-openai-compatible-api.domain.com"),
+        },
+      },
+    },
+  },
+}
+
+client.Collections().Create(context.Background(), schema)
 ```
   </template>
 
@@ -1559,22 +1637,30 @@ schema := &api.CollectionSchema{
       Embed: &struct {
         From        []string "json:\"from\""
         ModelConfig struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
       }{
         From: []string{"product_name"},
         ModelConfig: struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         }{
           ModelName: "google/embedding-gecko-001",
           ApiKey:    pointer.String("your_google_api_key"),
@@ -2325,22 +2411,30 @@ schema := &api.CollectionSchema{
       Embed: &struct {
         From        []string "json:\"from\""
         ModelConfig struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
       }{
         From: []string{"product_name"},
         ModelConfig: struct {
-          AccessToken  *string "json:\"access_token,omitempty\""
-          ApiKey       *string "json:\"api_key,omitempty\""
-          ClientId     *string "json:\"client_id,omitempty\""
-          ClientSecret *string "json:\"client_secret,omitempty\""
-          ModelName    string  "json:\"model_name\""
-          ProjectId    *string "json:\"project_id,omitempty\""
+          AccessToken    *string "json:\"access_token,omitempty\""
+          ApiKey         *string "json:\"api_key,omitempty\""
+          ClientId       *string "json:\"client_id,omitempty\""
+          ClientSecret   *string "json:\"client_secret,omitempty\""
+          IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
+          ModelName      string  "json:\"model_name\""
+          ProjectId      *string "json:\"project_id,omitempty\""
+          QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          RefreshToken   *string "json:\"refresh_token,omitempty\""
+          Url            *string "json:\"url,omitempty\""
         }{
           ModelName: "test_model",
         },
