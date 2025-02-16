@@ -6,7 +6,7 @@ sitemap:
 
 # Federated / Multi Search
 
-Multi search allows you to make multiple search requests in a single HTTP request. It helps you avoid 
+Multi search allows you to make multiple search requests in a single HTTP request. It helps you avoid
 round-trip network latencies incurred otherwise if each of these requests are sent as separate HTTP requests.
 
 You can use it in two different modes:
@@ -16,13 +16,13 @@ You can use it in two different modes:
 
 ## Federated search
 
-With **federated search**, you can use a`multi_search` request to search across multiple collections 
+With **federated search**, you can use a`multi_search` request to search across multiple collections
 in a single HTTP request, with the search results being independent of each other.
 
-For eg: in an ecommerce products dataset, you can show results from both a "products" collection, 
+For eg: in an ecommerce products dataset, you can show results from both a "products" collection,
 and a "brands" collection to the user, by searching them in parallel with a `multi_search` request.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -181,6 +181,32 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+searchRequests := api.MultiSearchSearchesParameter{
+  Searches: []api.MultiSearchCollectionParameters{
+    {
+      Collection: "products",
+      Q:          pointer.String("shoe"),
+      FilterBy:   pointer.String("price:=[50..120]"),
+    },
+    {
+      Collection: "brands",
+      Q:          pointer.String("Nike"),
+    },
+  },
+}
+
+// Search parameters that are common to all searches go here
+commonSearchParams := &api.MultiSearchParams{
+  QueryBy: pointer.String("name"),
+}
+
+client.MultiSearch.Perform(context.Background(), commonSearchParams, searchRequests)
+```
+
+  </template>
   <template v-slot:Shell>
 
 ```bash
@@ -294,13 +320,13 @@ as the queries you send in the `searches` array in your request.
 
 ## Union search
 
-The search results returned by each of the search queries in a `multi_search` request can be merged into a 
+The search results returned by each of the search queries in a `multi_search` request can be merged into a
 single ordered set of hits via the `union` option.
 
-In the following example, we are making two different search requests to the same collection. Each search query 
+In the following example, we are making two different search requests to the same collection. Each search query
 is filtering the `posts` collection by two different usernames.
 
-Since the `union` property is set to `true`, the response from each of these two search queries will be merged 
+Since the `union` property is set to `true`, the response from each of these two search queries will be merged
 into a single ordered set of hits.
 
 ```bash
