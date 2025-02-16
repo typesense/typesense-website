@@ -1,35 +1,35 @@
 # High Availability
 
-You can run a cluster of Typesense nodes for high availability. 
+You can run a cluster of Typesense nodes for high availability.
 Typesense uses the Raft consensus algorithm to manage the cluster and recover from node failures.
 
-In cluster mode, Typesense will automatically replicate your entire dataset to all nodes in the cluster, automatically and continuously. 
-Read and write API calls can be sent to any nodes in the cluster - 
-read API calls will be served by the node that receives it, write API calls are automatically forwarded to the leader of the cluster internally. 
+In cluster mode, Typesense will automatically replicate your entire dataset to all nodes in the cluster, automatically and continuously.
+Read and write API calls can be sent to any nodes in the cluster -
+read API calls will be served by the node that receives it, write API calls are automatically forwarded to the leader of the cluster internally.
 
-Since Raft requires a quorum for consensus, you need to run a ***minimum of 3 nodes*** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
+Since Raft requires a quorum for consensus, you need to run a **_minimum of 3 nodes_** to tolerate a 1-node failure. Running a 5-node cluster will tolerate failures of up to 2 nodes, but at the expense of slightly higher write latencies.
 
 [[toc]]
 
 ## High Availability in Typesense Cloud
 
-In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you. 
+In [Typesense Cloud](https://cloud.typesense.org), we manage High Availability for you.
 
-When you flip the setting ON when launching a cluster, you'll see a special Load Balanced endpoint in addition to the individual hostnames*, in your cluster dashboard: 
+When you flip the setting ON when launching a cluster, you'll see a special Load Balanced endpoint in addition to the individual hostnames\*, in your cluster dashboard:
 
 <img src="~@images/high-availability/ha-hostnames.png" height="350" width="367" alt="Typesense Cloud HA Hostnames">
 
 Requests sent to the Load-Balanced endpoint are distributed between all the 3 nodes in the cluster.
 If a particular node has an infrastructure issue, or is inaccessible for any reason, it is automatically quarantined and traffic is re-routed to the other healthy nodes.
 
-::: warning *Note
+::: warning \*Note
 
-You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**. 
+You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**.
 
 For HA clusters provisioned **before June 16, 2022**, you will only see the individual hostnames. Health-checking and traffic re-routing are done client-side in our official client libraries.
-See [Client Configuration](#client-configuration) below. 
+See [Client Configuration](#client-configuration) below.
 
-To enable server-side load balancing on your existing clusters, open your Cluster Dashboard, go to Cluster Configuration, select Modify, toggle Load Balancing ON, and schedule the change. 
+To enable server-side load balancing on your existing clusters, open your Cluster Dashboard, go to Cluster Configuration, select Modify, toggle Load Balancing ON, and schedule the change.
 After that, configure your client libraries to use the `nearestNode` parameter as described under [Client Configuration](#client-configuration) below.
 :::
 
@@ -62,6 +62,7 @@ Here's an example of a `--nodes` file for a 3-node cluster:
 </Tabs>
 
 In the example above
+
 - The `peering_address` (the IP address used for cluster operations) is `192.168.12.x`
 - The `peering_port` (the port used for cluster operations) is `8107`
 - The `api_port` (the actual port to which clients connect to) is `8108`
@@ -134,12 +135,13 @@ typesense-server \
 </Tabs>
 
 :::warning IMPORTANT
+
 - `--peering-address` should be a **Private IP address**, since it is only meant for internal cluster operations and contains unencrypted Raft data that is exchanged between nodes.
 
 - `--api-address` can be a public or private IP address. This is the IP address that your end users/clients will connect to interact with the Typesense API.
 
-- We strongly recommend setting `--api-port` to 443 (HTTPS) in a production setting, and configuring SSL certs using the `--ssl-certificate` and `--ssl-certificate-key` server parameters. 
-:::
+- We strongly recommend setting `--api-port` to 443 (HTTPS) in a production setting, and configuring SSL certs using the `--ssl-certificate` and `--ssl-certificate-key` server parameters.
+  :::
 
 :::tip
 If you are using Docker, make sure that you've configured the Docker network in such a way that the Typesense process within the Docker container can communicate with the other Typesense processes using their IP addresses.
@@ -177,13 +179,13 @@ All the other nodes should return a response of:
 
 where `state: 4` indicates that the node was selected to be a follower.
 
-If you see `state: 1` on more than one node, that indicates that the cluster was not formed properly. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information. Ensure that the nodes can talk to each other on the ports you've configured as the HTTP port and the Peering port. 
+If you see `state: 1` on more than one node, that indicates that the cluster was not formed properly. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information. Ensure that the nodes can talk to each other on the ports you've configured as the HTTP port and the Peering port.
 
 If you see a value other than `state: 4` or `state: 1` that indicates an error. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information.
 
 ### Recovering a cluster that has lost quorum
 
-A Typesense cluster with N nodes can tolerate a failure of at most `(N-1)/2` nodes without affecting reads or writes. 
+A Typesense cluster with N nodes can tolerate a failure of at most `(N-1)/2` nodes without affecting reads or writes.
 
 So for example:
 
@@ -195,21 +197,21 @@ To avoid a potential split brain issue, Typesense then stops accepting writes an
 
 To recover a cluster that has lost quorum:
 
-1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address. 
-    
+1. Force one of the nodes to become a single-node cluster by editing its nodes file to contain just its own IP address.
+
    You don't have to restart the Typesense process, since changes to the nodes file are automatically picked up within 30s.
 
 2. Wait for this node to return ok when you call it's `/health` endpoint.
 3. Edit the nodes file on this single node to now contain its own IP address and also the IP address of a 2nd node.
-4. Edit the nodes file on the 2nd node to now contain the IP address of the 1st node and the 2nd node, and start the Typesense process on the 2nd node. 
+4. Edit the nodes file on the 2nd node to now contain the IP address of the 1st node and the 2nd node, and start the Typesense process on the 2nd node.
 
-    This will get the 2nd node to sync data from the 1st node. If the 2nd node had fallen behind the first node by too much, you might have to clear the data dir from the 2nd node before starting the 2nd node back up, which will get the 2nd node to sync a fresh snapshot of the data from the first node.
+   This will get the 2nd node to sync data from the 1st node. If the 2nd node had fallen behind the first node by too much, you might have to clear the data dir from the 2nd node before starting the 2nd node back up, which will get the 2nd node to sync a fresh snapshot of the data from the first node.
 
-5. Wait for the 2nd node to return ok when you call it's `/health` endpoint. 
-    
-    At this stage, both the 1st and 2nd nodes should be healthy.
+5. Wait for the 2nd node to return ok when you call it's `/health` endpoint.
 
-6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up. 
+   At this stage, both the 1st and 2nd nodes should be healthy.
+
+6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up.
 
 ## Client Configuration
 
@@ -221,7 +223,7 @@ and it will load balance reads & writes across all nodes and will automatically 
 
 Here's a sample 3-node client configuration:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Go', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -254,7 +256,7 @@ use Typesense\Client;
 
 $client = new Client(
   [
-    'nodes' => [ 
+    'nodes' => [
       ['host' => 'typesense-1.example.net', 'port' => '443', 'protocol' => 'https'],
       ['host' => 'typesense-2.example.net', 'port' => '443', 'protocol' => 'https'],
       ['host' => 'typesense-3.example.net', 'port' => '443', 'protocol' => 'https'],
@@ -345,6 +347,27 @@ Client client = new Client(configuration);
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+import (
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
+)
+
+client := typesense.NewClient(
+    typesense.WithNodes([]string{
+      "https://xxx-1.a1.typesense.net:443",
+      "https://xxx-2.a1.typesense.net:443",
+      "https://xxx-3.a1.typesense.net:443",
+    }),
+    typesense.WithAPIKey("<API_KEY>"),
+    typesense.WithConnectionTimeout(2*time.Second),
+)
+```
+
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -373,11 +396,11 @@ export TYPESENSE_HOST='https://typesense.example.net'
 
 ### When using Typesense Cloud or a Load Balancer
 
-If you use Typesense Cloud (with load-balancing enabled on your cluster, which is enabled by default for all clusters provisioned after June 16, 2022), or if you choose to set up a server-side load-balancer for convenience, you want to specify the load-balanced endpoint where all requests are routed to by default, by the client. 
+If you use Typesense Cloud (with load-balancing enabled on your cluster, which is enabled by default for all clusters provisioned after June 16, 2022), or if you choose to set up a server-side load-balancer for convenience, you want to specify the load-balanced endpoint where all requests are routed to by default, by the client.
 
-In Typesense Cloud, you also want to specify the individual hostnames in addition - these are used as fallback nodes by the client, in case the load-balanced endpoint hits a stale node that is currently in a "connection-draining" status just as a node rotation happens (lasts 30s per node rotation, for eg during a configuration change or infrastructure update). 
+In Typesense Cloud, you also want to specify the individual hostnames in addition - these are used as fallback nodes by the client, in case the load-balanced endpoint hits a stale node that is currently in a "connection-draining" status just as a node rotation happens (lasts 30s per node rotation, for eg during a configuration change or infrastructure update).
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Swift', 'Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby', 'Dart', 'Java', 'Go', 'Swift', 'Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -412,7 +435,7 @@ use Typesense\Client;
 $client = new Client(
   [
     'nearest_node' =>  ['host' => 'xxx.a1.typesense.net', 'port' => '443', 'protocol' => 'https'], // This is the special Load Balanced hostname that you'll see in the Typesense Cloud dashboard if you turn on High Availability
-    'nodes' => [ 
+    'nodes' => [
       ['host' => 'xxx-1.a1.typesense.net', 'port' => '443', 'protocol' => 'https'],
       ['host' => 'xxx-2.a1.typesense.net', 'port' => '443', 'protocol' => 'https'],
       ['host' => 'xxx-3.a1.typesense.net', 'port' => '443', 'protocol' => 'https'],
@@ -518,6 +541,29 @@ Client client = new Client(configuration);
 ```
 
   </template>
+  <template v-slot:Go>
+
+```go
+import (
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
+)
+
+client := typesense.NewClient(
+    // This is the special Load Balanced hostname that you'll see in the Typesense Cloud dashboard if you turn on High Availability
+    typesense.WithNearestNode("https://xxx.a1.typesense.net:443"),
+    typesense.WithNodes([]string{
+      "https://xxx-1.a1.typesense.net:443",
+      "https://xxx-2.a1.typesense.net:443",
+      "https://xxx-3.a1.typesense.net:443",
+    }),
+    typesense.WithAPIKey("<API_KEY>"),
+    typesense.WithConnectionTimeout(2*time.Second),
+)
+```
+
+  </template>
   <template v-slot:Swift>
 
 ```swift
@@ -546,4 +592,4 @@ export TYPESENSE_HOST='https://xxx.a1.typesense.net'
   </template>
 </Tabs>
 
-Here `xxx.a1.typesense.net` is a Load Balanced endpoint. 
+Here `xxx.a1.typesense.net` is a Load Balanced endpoint.

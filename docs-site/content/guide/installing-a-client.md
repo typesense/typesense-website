@@ -20,10 +20,12 @@ We also have the following community-maintained client libraries:
 - [python orm client](https://github.com/RedSnail/typesense_orm)
 - [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
 - [Elixir](https://github.com/jaeyson/ex_typesense)
+
 ---
+
 - <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-clients.html#framework-integrations`">Other Framework Integrations</RouterLink>
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java','Go','Swift']">
   <template v-slot:JavaScript>
 
 ```js
@@ -78,13 +80,26 @@ import 'package:typesense/typesense.dart';
   <template v-slot:Java>
 
 ```java
-// Download the JAR file from the releases section in the typesense-java repository. 
+// Download the JAR file from the releases section in the typesense-java repository.
 // (https://github.com/typesense/typesense-java/releases)
 // And the import it them to your project
 
 import org.typesense.api.*;
 import org.typesense.models.*;
 import org.typesense.resources.*;
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+// $ go get github.com/typesense/typesense-go/v3/typesense
+
+import (
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
+)
 ```
 
   </template>
