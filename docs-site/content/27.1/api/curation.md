@@ -158,8 +158,8 @@ SearchOverride searchOverride = client.collections("companies").overrides().upse
 ```go
 override := &api.SearchOverrideSchema{
   Rule: api.SearchOverrideRule{
-    Query: "apple",
-    Match: "exact",
+    Query: pointer.Any("apple"),
+    Match: pointer.Any(api.Exact),
   },
   Includes: &[]api.SearchOverrideInclude{
     {Id: "422", Position: 1},
@@ -379,8 +379,8 @@ SearchOverride searchOverride = client.collections("companies").overrides().upse
 ```go
 override := &api.SearchOverrideSchema{
   Rule: api.SearchOverrideRule{
-    Query: "{brand} phone",
-    Match: "contains",
+    Query: pointer.Any("{brand} phone"),
+    Match: pointer.Any(api.Contains),
   },
   FilterBy:            pointer.String("brand:={brand}"),
   RemoveMatchedTokens: pointer.True(),
