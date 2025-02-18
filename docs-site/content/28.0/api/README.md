@@ -37,6 +37,7 @@ This release contains important new features, performance improvements and bug f
 - Support `max_filter_by_candidates` search parameter that controls the number of similar words that Typesense considers during fuzzy search on `filter_by` values (default is `4`).
 - Performance and stability fixes for joins.
 - API endpoint that returns status of alter schema operations that are in-progress. ([PR#2123](https://github.com/typesense/typesense/pull/2123))
+- Faceting performance improvements.
 
 ### Bug Fixes
 
