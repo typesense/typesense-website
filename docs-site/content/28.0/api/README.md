@@ -19,26 +19,24 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- Support union / merging of search results across collections containing similar type of fields. (https://github.com/typesense/typesense/pull/2051)
-- Dictionary based stemming: stemming is now configurable through an import of a custom dictionary that maps a word to a root form. (https://github.com/typesense/typesense/pull/2062) 
-- Allow search results to be randomized via `sort_by=_rand(seed)` clause. (https://github.com/typesense/typesense/pull/1918)
-- Ability to re-rank hybrid search hits by augmenting their keyword / semantic match score when the 
-  hit was identified by only either keyword or vector search. (https://github.com/typesense/typesense/pull/1968)
-- Sort hits based on a pivot value. (https://github.com/typesense/typesense/pull/2003) 
-- Support decay functions in `sort_by` to support gaussian, linear, and exponential decay of values. (https://github.com/typesense/typesense/pull/2036) 
-- Field level `token_separators` and `symbols_to_index` are now supported. (https://github.com/typesense/typesense/pull/2118)
-- Support bucketing of text match scores based on `bucket_size` parameter. (https://github.com/typesense/typesense/pull/2120)
-- Ability to truncate a collection. (https://github.com/typesense/typesense/pull/2127)
-- Index and search on geo polygons. (https://github.com/typesense/typesense/pull/2150)
+- Support union / merging of search results across collections containing similar type of fields. ([PR#2051](https://github.com/typesense/typesense/pull/2051))
+- Dictionary based stemming: stemming is now configurable through an import of a custom dictionary that maps a word to a root form. ([PR#2062](https://github.com/typesense/typesense/pull/2062))
+- Allow search results to be randomized via `sort_by=_rand(seed)` clause. ([PR#1918](https://github.com/typesense/typesense/pull/1918))
+- Ability to re-rank hybrid search hits by augmenting their keyword / semantic match score when the hit was identified by only either keyword or vector search. ([PR#1968](https://github.com/typesense/typesense/pull/1968))
+- Sort hits based on a pivot value. ([PR#2003](https://github.com/typesense/typesense/pull/2003))
+- Support decay functions in `sort_by` to support gaussian, linear, and exponential decay of values. ([PR#2036](https://github.com/typesense/typesense/pull/2036))
+- Field level `token_separators` and `symbols_to_index` are now supported. ([PR#2118](https://github.com/typesense/typesense/pull/2118))
+- Support bucketing of text match scores based on `bucket_size` parameter. ([PR#2120](https://github.com/typesense/typesense/pull/2120))
+- Ability to truncate a collection. ([PR#2127](https://github.com/typesense/typesense/pull/2127))
+- Index and search on geo polygons. ([PR#2150](https://github.com/typesense/typesense/pull/2150))
 
 ### Enhancements
 
 - Support `distance_threshold` parameter for vector query that uses inner product distance.
-- Allow updating of remote model's `api_key` parameter. (https://github.com/typesense/typesense/pull/1944)
-- Support `max_filter_by_candidates` search parameter that controls the number of similar words that Typesense.
-  considers during fuzzy search on `filter_by` values (default is `4`).
+- Allow updating of remote model's `api_key` parameter. ([PR#1944](https://github.com/typesense/typesense/pull/1944))
+- Support `max_filter_by_candidates` search parameter that controls the number of similar words that Typesense considers during fuzzy search on `filter_by` values (default is `4`).
 - Performance and stability fixes for joins.
-- API endpoint that returns status of alter schema operations that are in-progress. (https://github.com/typesense/typesense/pull/2123)
+- API endpoint that returns status of alter schema operations that are in-progress. ([PR#2123](https://github.com/typesense/typesense/pull/2123))
 
 ### Bug Fixes
 
@@ -79,7 +77,7 @@ If you're self-hosting Typesense, here's how to upgrade:
 
 #### Single node deployment
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.1/api/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/28.0/api/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -97,7 +95,7 @@ field in the `/debug` end-point response.
 | 1     | LEADER   |
 | 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.1/api/cluster-operations.html#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/28.0/api/cluster-operations.html#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
