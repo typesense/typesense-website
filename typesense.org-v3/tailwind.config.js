@@ -16,6 +16,7 @@ export default {
         'dark-secondary': '#86CE15',
         'blue-in-green': '#0C19EA',
         'text-primary': '#000000',
+        'text-inverted': '#fff',
         'text-muted': '#4D4D4D',
       },
     },
