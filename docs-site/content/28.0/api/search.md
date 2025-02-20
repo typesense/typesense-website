@@ -294,6 +294,7 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 | group_by             | no       | You can aggregate search results into groups or buckets by specify one or more `group_by` fields. Separate multiple fields with a comma.<br><br>NOTE: To group on a particular field, it must be a faceted field.<br><br>E.g. `group_by=country,company_name`                                            |
 | group_limit          | no       | Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`                                                                                                                       |
 | group_missing_values | no       | Setting this parameter to `true` will place all documents that have a `null` value in the `group_by` field, into a single group. Setting this parameter to `false`, will cause each document with a `null` value in the `group_by` field to not be grouped with other documents. <br><br>Default: `true` |
+| validate_field_names | no       | Controls whether Typesense should validate if the grouped fields exist in the schema. When set to false, Typesense will not throw an error if a grouped field is missing. This is useful for programmatic grouping where not all fields may exist. <br><br>Default: `true`                               |
 
 ### Results parameters
 
