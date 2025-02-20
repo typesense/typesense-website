@@ -29,7 +29,7 @@ This release contains important new features, performance improvements and bug f
 - Support bucketing of text match scores based on `bucket_size` parameter. ([PR#2120](https://github.com/typesense/typesense/pull/2120))
 - Ability to truncate a collection. ([PR#2127](https://github.com/typesense/typesense/pull/2127))
 - Index and search on geo polygons. ([PR#2150](https://github.com/typesense/typesense/pull/2150))
-- Support `validate_field_names` parameter to disable field name validation in faceting, filtering and grouping operations. ([PR#2077](https://github.com/typesense/typesense/pull/2077))
+- Support `validate_field_names` parameter to disable field name validation in faceting, filtering and grouping operations.
 
 ### Enhancements
 
