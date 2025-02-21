@@ -1,19 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  vite: {
+    plugins: [require("vite-svg-loader")()],
+  },
   app: {
     head: {
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.svg" }],
     },
   },
-  css: ['~/assets/css/fonts.css'],
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
+  css: ["~/assets/css/fonts.css"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
   googleFonts: {
     families: {
-      Inter: [300, 400],
+      Inter: [300, 400, 500],
     },
-    display: 'swap',
+    display: "swap",
     preconnect: true,
   },
   tailwindcss: {

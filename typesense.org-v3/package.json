@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "prettier": "^3.5.1",
-    "prettier-plugin-tailwindcss": "^0.6.11"
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "vite-svg-loader": "^5.1.0"
   }
 }
