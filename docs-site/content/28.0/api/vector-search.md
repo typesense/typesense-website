@@ -395,6 +395,10 @@ To simplify the process of embedding generation, Typesense can automatically use
 
 When you do a search query on this automatically-generated vector field, your search query will be vectorized using the same model used for the field, which then allows you to do semantic search or combine keyword and semantic search to do hybrid search.
 
+:::tip Embedding Updates
+Embeddings are only regenerated when one or more fields specified in the `embed.from` configuration are updated. This helps avoid unnecessary embedding recreation and API calls when other fields in the document are modified.
+:::
+
 ### Creating an auto-embedding field
 
 To create a field that automatically embeds other string or string array fields, you need to set the `embed` property of the field.
