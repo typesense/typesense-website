@@ -4,6 +4,11 @@ import Github from "@/assets/icons/github.svg";
 import Linkedin from "@/assets/icons/linkedin.svg";
 import X from "@/assets/icons/x.svg";
 
+const GITHUB_LINK = "https://github.com/typesense";
+const SLACK_LINK = "https://typesense.link/slack-community";
+const LINKEDIN_LINK = "https://www.linkedin.com/company/typesense/";
+const X_LINK = "https://x.com/typesense";
+
 const pages = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
@@ -72,7 +77,7 @@ const supportLinks = [
           <h2>Page</h2>
           <ul>
             <li v-for="page in pages" :key="page.name">
-              <router-link :href="page.link">{{ page.name }}</router-link>
+              <NuxtLink :to="page.link">{{ page.name }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -84,12 +89,12 @@ const supportLinks = [
                 v-for="item in libraries.slice(undefined, 9)"
                 :key="item.name"
               >
-                <router-link :href="item.link">{{ item.name }}</router-link>
+                <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
               </li>
             </ul>
             <ul>
               <li v-for="item in libraries.slice(9)" :key="item.name">
-                <router-link :href="item.link">{{ item.name }}</router-link>
+                <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
               </li>
             </ul>
           </div>
@@ -98,7 +103,7 @@ const supportLinks = [
           <h2>Support</h2>
           <ul>
             <li v-for="item in supportLinks" :key="item.name">
-              <router-link :href="item.link">{{ item.name }}</router-link>
+              <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -114,16 +119,16 @@ const supportLinks = [
       </div>
 
       <div class="mr-2.5 flex gap-2.5">
-        <SocialLink>
+        <SocialLink :link-to="GITHUB_LINK">
           <Github />
         </SocialLink>
-        <SocialLink accent="true">
+        <SocialLink accent="true" :link-to="SLACK_LINK">
           <Slack />
         </SocialLink>
-        <SocialLink>
+        <SocialLink :link-to="LINKEDIN_LINK">
           <Linkedin />
         </SocialLink>
-        <SocialLink>
+        <SocialLink :link-to="X_LINK">
           <X />
         </SocialLink>
       </div>
@@ -133,8 +138,7 @@ const supportLinks = [
 
 <style scoped>
 h2 {
-  @apply mb-4 text-text-primary;
-  font-weight: 500;
+  @apply mb-4 text-base font-medium text-text-primary;
 }
 li {
   @apply mb-3;

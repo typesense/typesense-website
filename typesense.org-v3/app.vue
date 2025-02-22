@@ -11,7 +11,15 @@
   box-sizing: border-box;
 }
 html {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
+  font-family: "Inter", sans-serif;
+}
+h1 {
+  @apply font-heading;
+  font-size: 56px;
+  line-height: 1.2;
+}
+h1 strong {
+  @apply text-primary;
+  font-weight: inherit;
 }
 </style>

@@ -10,9 +10,10 @@ export default {
       colors: {
         primary: "#353FD7",
         secondary: "#C0FF58",
-        background: "#FFFFFF",
+        bg: "#FFFFFF",
+        "bg-gray": "#FAFAFA",
         muted: "#F1F1F1",
-        "dark-background": "#000",
+        "dark-bg": "#000",
         "secondary-bg": "#CFFC75",
         "dark-secondary": "#86CE15",
         "blue-in-green": "#0C19EA",
