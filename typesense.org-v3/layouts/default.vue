@@ -1,7 +1,9 @@
 <template>
-  <div class="p-x-6 relative w-full px-[152px]">
+  <div class="p-x-6 relative w-full">
     <Navbar />
-    <slot />
+    <main class="px-[152px]">
+      <slot />
+    </main>
     <Footer />
   </div>
 </template>

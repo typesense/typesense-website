@@ -122,7 +122,7 @@ const supportLinks = [
         <SocialLink :link-to="GITHUB_LINK">
           <Github />
         </SocialLink>
-        <SocialLink accent="true" :link-to="SLACK_LINK">
+        <SocialLink :accent="true" :link-to="SLACK_LINK">
           <Slack />
         </SocialLink>
         <SocialLink :link-to="LINKEDIN_LINK">

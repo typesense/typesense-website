@@ -1,4 +1,5 @@
-import { _0 } from '../.nuxt/types/tailwind.config';
+import { _0 } from '../.nuxt/types/tailwind.config'; import { SearchDemo } from
+'../.nuxt/components';
 <script setup lang="ts">
 definePageMeta({
   layout: "default",
@@ -11,10 +12,12 @@ definePageMeta({
     <h1 class="mb-2 mt-4 font-heading text-[56px] leading-[1.2]">
       Lightning fast, <br /><strong>Open Source </strong>Search
     </h1>
-    <p class="text-text-muted">
+    <p class="mb-14 text-text-muted">
       Cutting-edge, in-memory search engine for mere mortals. Knowledge of
       rocket science optional.
     </p>
+
+    <SearchDemo />
   </section>
   <section class="flex w-full flex-col items-center pt-32 text-center">
     <h1 class="mb-2 mt-4">
@@ -43,7 +46,7 @@ definePageMeta({
 
 <style scoped>
 .card {
-  @apply bg-bg-gray flex flex-col justify-between rounded-3xl p-4 text-left font-medium;
+  @apply bg-bg-gray-1 flex flex-col justify-between rounded-3xl p-4 text-left font-medium;
   aspect-ratio: 184/133;
 }
 .card strong {
