@@ -11,31 +11,33 @@ const navLinks = ref([
 ]);
 </script>
 <template>
-  <nav
-    class="absolute left-36 right-36 top-4 flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted"
+  <div
+    class="fixed left-36 right-36 top-0 z-10 overflow-hidden rounded-3xl pt-4 backdrop-blur-md"
   >
-    <div>
-      <NuxtLink to="/" class="text-xl font-bold text-white"
-        ><div class="flex items-center">
-          <img
-            src="/typesense-icon.svg"
-            alt="Typesense"
-            class="mr-2 inline-block h-8 w-8"
-          />
-          <img src="/typesense-logo.svg" alt="" /></div
-      ></NuxtLink>
-    </div>
-
-    <ul class="flex items-center space-x-8 text-sm">
-      <li v-for="item in navLinks" :key="item.link">
-        <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
-      </li>
-    </ul>
-
-    <button
-      class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg"
+    <nav
+      class="flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted"
     >
-      Try For Free
-    </button>
-  </nav>
+      <div>
+        <NuxtLink to="/" class="text-xl font-bold text-white"
+          ><div class="flex items-center">
+            <img
+              src="/typesense-icon.svg"
+              alt="Typesense"
+              class="mr-2 inline-block h-8 w-8"
+            />
+            <img src="/typesense-logo.svg" alt="" /></div
+        ></NuxtLink>
+      </div>
+      <ul class="flex items-center space-x-8 text-sm">
+        <li v-for="item in navLinks" :key="item.link">
+          <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+        </li>
+      </ul>
+      <button
+        class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg"
+      >
+        Try For Free
+      </button>
+    </nav>
+  </div>
 </template>
