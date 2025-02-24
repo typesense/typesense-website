@@ -22,6 +22,10 @@ export default {
         "text-inverted": "#fff",
         "text-muted": "#4D4D4D",
       },
+      letterSpacing: {
+        tighter: "-0.32px", // Override default tighter spacing
+        tight: "-0.28px", // Override default tighter spacing
+      },
     },
   },
   plugins: [],

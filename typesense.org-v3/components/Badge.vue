@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg border border-muted px-5 py-2.5">
+  <div class="mb-4 w-max rounded-lg border border-[#0000001A] px-5 py-[6.5px]">
     <span class="text-sm font-semibold capitalize tracking-[4.2px]">
       <slot />
     </span>

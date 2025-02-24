@@ -41,8 +41,6 @@ if (config.public.typesenseHostNearest) {
   };
 }
 
-console.log(config);
-
 const searchClient = new TypesenseInstantSearchAdapter.default({
   server: serverConfig,
   additionalSearchParameters: {

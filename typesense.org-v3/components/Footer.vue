@@ -89,12 +89,22 @@ const supportLinks = [
                 v-for="item in libraries.slice(undefined, 9)"
                 :key="item.name"
               >
-                <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+                <a
+                  :href="item.link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >{{ item.name }}</a
+                >
               </li>
             </ul>
             <ul>
               <li v-for="item in libraries.slice(9)" :key="item.name">
-                <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+                <a
+                  :href="item.link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >{{ item.name }}</a
+                >
               </li>
             </ul>
           </div>
