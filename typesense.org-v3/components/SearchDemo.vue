@@ -17,16 +17,17 @@ import SearchIcon from "@/assets/icons/search.svg";
 import SearchStatsStars from "@/assets/icons/search-stats-stars.svg";
 import ExternalLinkIcon from "@/assets/icons/external-link.svg";
 import BackgroundIllustration from "@/assets/images/background-illustration.svg";
+import type { BaseAdapterOptions } from "typesense-instantsearch-adapter";
 
 const INDEX_NAME = "r";
 const config = useRuntimeConfig();
 
-const serverConfig = {
+const serverConfig: BaseAdapterOptions["server"] = {
   apiKey: config.public.typesenseSearchOnlyApiKey,
   nodes: config.public.typesenseHosts.split(",").map((h) => {
     return {
       host: h,
-      port: config.public.typesensePort,
+      port: Number(config.public.typesensePort),
       protocol: config.public.typesenseProtocol,
     };
   }),
@@ -35,7 +36,7 @@ const serverConfig = {
 if (config.public.typesenseHostNearest) {
   serverConfig.nearestNode = {
     host: config.public.typesenseHostNearest,
-    port: config.public.typesensePort,
+    port: Number(config.public.typesensePort),
     protocol: config.public.typesenseProtocol,
   };
 }
