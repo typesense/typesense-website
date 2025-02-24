@@ -12,11 +12,13 @@
 }
 html {
   font-family: "Inter", sans-serif;
+  overflow-x: hidden;
 }
 h1 {
   @apply font-heading;
   font-size: 56px;
   line-height: 1.2;
+  letter-spacing: -1.44px;
 }
 h1 strong {
   @apply text-primary;

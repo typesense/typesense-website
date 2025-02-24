@@ -11,12 +11,12 @@ definePageMeta({
     <h1 class="mb-2 mt-4 font-heading text-[56px] leading-[1.2]">
       Lightning fast, <br /><strong>Open Source </strong>Search
     </h1>
-    <p class="text-text-muted">
+    <p class="leading-[1.8] text-text-muted">
       Cutting-edge, in-memory search engine for mere mortals. Knowledge of
       rocket science optional.
     </p>
 
-    <div class="mb-14 mt-[59px] flex items-center gap-3">
+    <div class="mb-14 mt-[60px] flex items-center gap-3">
       <Button> Try For Free <ArrowRight /> </Button>
       <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
     </div>

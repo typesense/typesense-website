@@ -16,6 +16,7 @@ import * as TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter"
 import SearchIcon from "@/assets/icons/search.svg";
 import SearchStatsStars from "@/assets/icons/search-stats-stars.svg";
 import ExternalLinkIcon from "@/assets/icons/external-link.svg";
+import BackgroundIllustration from "@/assets/images/background-illustration.svg";
 
 const INDEX_NAME = "r";
 const config = useRuntimeConfig();
@@ -155,7 +156,10 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
 // };
 </script>
 <template>
-  <div class="min-h-[416px]">
+  <div class="relative min-h-[416px]">
+    <BackgroundIllustration
+      class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%]"
+    />
     <AisInstantSearchSsr
       :search-client="searchClient"
       :index-name="INDEX_NAME"
@@ -166,6 +170,7 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
         <div class="background"></div>
         <div class="gradient-secondary"></div>
         <div class="gradient"></div>
+
         <div
           class="mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5"
         >
@@ -201,7 +206,7 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
           >
             <template v-slot:item="{ item }">
               <div
-                class="bg-bg-gray-1 flex h-[54px] items-center justify-between p-0 px-5"
+                class="flex h-[54px] items-center justify-between bg-bg-gray-1 p-0 px-5"
               >
                 <div class="flex items-center">
                   <div class="mr-3 size-4 rounded-full bg-bg"></div>
