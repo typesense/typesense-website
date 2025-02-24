@@ -1,6 +1,5 @@
-import { _0 } from '../.nuxt/types/tailwind.config'; import { SearchDemo } from
-'../.nuxt/components';
 <script setup lang="ts">
+import ArrowRight from "@/assets/icons/arrow-right.svg";
 definePageMeta({
   layout: "default",
 });
@@ -12,10 +11,15 @@ definePageMeta({
     <h1 class="mb-2 mt-4 font-heading text-[56px] leading-[1.2]">
       Lightning fast, <br /><strong>Open Source </strong>Search
     </h1>
-    <p class="mb-14 text-text-muted">
+    <p class="text-text-muted">
       Cutting-edge, in-memory search engine for mere mortals. Knowledge of
       rocket science optional.
     </p>
+
+    <div class="mb-14 mt-[59px] flex items-center gap-3">
+      <Button> Try For Free <ArrowRight /> </Button>
+      <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
+    </div>
 
     <SearchDemo />
   </section>
@@ -46,7 +50,7 @@ definePageMeta({
 
 <style scoped>
 .card {
-  @apply bg-bg-gray-1 flex flex-col justify-between rounded-3xl p-4 text-left font-medium;
+  @apply flex flex-col justify-between rounded-3xl bg-bg-gray-1 p-4 text-left font-medium;
   aspect-ratio: 184/133;
 }
 .card strong {

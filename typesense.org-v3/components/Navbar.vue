@@ -12,7 +12,7 @@ const navLinks = ref([
 </script>
 <template>
   <nav
-    class="bg-dark-bg absolute left-36 right-36 top-4 flex h-14 items-center justify-between rounded-[64px] pl-8 pr-[10px] font-light text-text-inverted"
+    class="absolute left-36 right-36 top-4 flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted"
   >
     <div>
       <NuxtLink to="/" class="text-xl font-bold text-white"
@@ -32,6 +32,10 @@ const navLinks = ref([
       </li>
     </ul>
 
-    <Button> Try For Free </Button>
+    <button
+      class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg"
+    >
+      Try For Free
+    </button>
   </nav>
 </template>
