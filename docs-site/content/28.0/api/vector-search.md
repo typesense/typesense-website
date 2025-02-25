@@ -3570,7 +3570,6 @@ You can use this with both cosine similarity and inner product distance metrics.
 ```
 
 This helps filter out less relevant results while still allowing other sort conditions to take effect.
-```
 
 ## Vector Search Parameters
 
