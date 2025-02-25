@@ -1,0 +1,17 @@
+<svg width="240" height="150" viewBox="0 0 240 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="240" height="202.396" rx="12" fill="#F1F1F1"/>
+<rect x="9" y="9" width="222" height="112" rx="8" fill="white"/>
+<g opacity="0.2">
+<rect x="24" y="28" width="56" height="56" rx="28" fill="#F1F1F1"/>
+</g>
+<line opacity="0.1" x1="51" y1="55.75" x2="190" y2="55.75" stroke="black" stroke-width="0.5" stroke-dasharray="2 2"/>
+<rect x="102" y="38" width="36" height="36" rx="18" fill="#353FD7"/>
+<path d="M115.14 50.38H125.1V53.56H124.88C124.76 53.2133 124.32 52.7 123.56 52.02C122.813 51.3267 122.107 50.9067 121.44 50.76V61.98C121.44 62.3267 121.527 62.5667 121.7 62.7C121.767 62.7533 121.787 62.82 121.76 62.9C121.747 62.9667 121.693 63 121.6 63H118.64C118.547 63 118.487 62.9667 118.46 62.9C118.447 62.82 118.473 62.7533 118.54 62.7C118.713 62.58 118.8 62.3467 118.8 62V50.76C118.133 50.9067 117.42 51.3267 116.66 52.02C115.913 52.7133 115.487 53.2267 115.38 53.56H115.14V50.38Z" fill="white"/>
+<rect x="34" y="38" width="36" height="36" rx="18" fill="#F1F1F1"/>
+<rect x="44" y="48" width="16" height="16" rx="8" fill="white"/>
+<g opacity="0.2">
+<rect x="160" y="28" width="56" height="56" rx="28" fill="#F1F1F1"/>
+</g>
+<rect x="170" y="38" width="36" height="36" rx="18" fill="#F1F1F1"/>
+<rect x="180" y="48" width="16" height="16" rx="8" fill="white"/>
+</svg>
