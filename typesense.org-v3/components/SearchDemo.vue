@@ -8,6 +8,7 @@ import {
   AisConfigure,
   AisHighlight,
   AisStats,
+  AisStateResults,
   createServerRootMixin,
   //@ts-ignore
 } from "vue-instantsearch/vue3/es";
@@ -17,6 +18,7 @@ import SearchIcon from "@/assets/icons/search.svg";
 import SearchStatsStars from "@/assets/icons/search-stats-stars.svg";
 import ExternalLinkIcon from "@/assets/icons/external-link.svg";
 import BackgroundIllustration from "@/assets/images/background-illustration.svg";
+import NoResultsFound from "@/assets/images/no-results-found.svg";
 import type { BaseAdapterOptions } from "typesense-instantsearch-adapter";
 
 const INDEX_NAME = "r";
@@ -95,6 +97,7 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
           return h(AisInstantSearchSsr, null, () => [
             h(AisSearchBox),
             h(AisStats),
+            h(AisStateResults),
             h(AisHits),
             h(AisConfigure, { hitsPerPage: 6 }),
           ]);
@@ -105,57 +108,21 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
   });
 });
 
-// export default {
-//   components: {
-//     AisInstantSearch,
-//     AisHits,
-//     AisSearchBox,
-//     AisStats,
-//     AisConfigure,
-//     AisHighlight,
-//   },
-//   data({ config }) {
-//     const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-//       server: typesenseServerConfig(config),
-//       additionalSearchParameters: {
-//         query_by: "title",
-//         prioritize_exact_match: false,
-//       },
-//     });
-
-//     return {
-//       searchClient: typesenseInstantsearchAdapter.searchClient,
-//       INDEX_NAME,
-//       initialUiState: {
-//         r: {
-//           query: "steamed",
-//         },
-//       },
-//       hitsPerPage: 5,
-//       starQueryResults: {
-//         out_of: 2231142,
-//       },
-//     };
-//   },
-//   methods: {
-//     transformSearchHits: (items) => {
-//       return items.map((item) => {
-//         let fixedLink = item.link;
-//         if (!item.link.startsWith("http")) {
-//           fixedLink = `http://${item.link}`;
-//         }
-
-//         return {
-//           ...item,
-//           link: fixedLink,
-//         };
-//       });
-//     },
-//   },
-// };
+const transformItems = (items: { link: string }[]) =>
+  items.map((item) => {
+    let fixedLink = item.link;
+    if (!item.link.startsWith("http")) {
+      fixedLink = `http://${item.link}`;
+    }
+    console.log(item.link);
+    return {
+      ...item,
+      link: fixedLink,
+    };
+  });
 </script>
 <template>
-  <div class="relative min-h-[416px]">
+  <div class="relative">
     <BackgroundIllustration
       class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%]"
     />
@@ -195,39 +162,65 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
             </template>
           </AisStats>
         </div>
-        <div
-          class="overflow-hidden rounded-xl bg-bg text-left text-sm tracking-[-0.28px] text-[#2D2D45]"
+
+        <AisStateResults
+          class="flex min-h-[334px] overflow-hidden rounded-xl bg-bg text-left text-sm tracking-[-0.28px] text-[#2D2D45]"
         >
-          <AisHits
-            :class-names="{
-              'ais-Hits-list': 'flex flex-col gap-0.5',
-            }"
-          >
-            <template v-slot:item="{ item }">
-              <div
-                class="flex h-[54px] items-center justify-between bg-bg-gray-1 p-0 px-5"
-              >
-                <div class="flex items-center">
-                  <div class="mr-3 size-4 rounded-full bg-bg"></div>
-                  <AisHighlight
-                    attribute="title"
-                    :hit="item"
-                    :class-names="{
-                      'ais-Highlight-highlighted':
-                        'bg-transparent text-primary',
-                    }"
-                  />
+          <template v-slot="{ results: { hits, query } }">
+            <AisHits
+              v-show="hits.length > 0"
+              :class-names="{
+                'ais-Hits': 'flex-1',
+                'ais-Hits-list': 'flex flex-col gap-0.5',
+              }"
+              :transform-items="transformItems"
+            >
+              <template v-slot:item="{ item }">
+                <div
+                  class="flex h-[54px] items-center justify-between bg-bg-gray-1 p-0 px-5"
+                >
+                  <div class="flex items-center">
+                    <div class="mr-3 size-4 rounded-full bg-bg"></div>
+                    <AisHighlight
+                      attribute="title"
+                      :hit="item"
+                      :class-names="{
+                        'ais-Highlight-highlighted':
+                          'bg-transparent text-primary',
+                      }"
+                    />
+                  </div>
+                  <a
+                    :href="item.link"
+                    target="_blank"
+                    class="rounded-lg bg-bg p-2"
+                    ><ExternalLinkIcon
+                  /></a>
                 </div>
-                <a
-                  :href="item.link"
-                  target="_blank"
-                  class="rounded-lg bg-bg p-2"
-                  ><ExternalLinkIcon
-                /></a>
-              </div>
-            </template>
-          </AisHits>
-        </div>
+              </template>
+            </AisHits>
+            <div
+              class="flex flex-1 flex-col items-center self-center"
+              v-show="hits.length === 0"
+            >
+              <NoResultsFound />
+              <h3
+                class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
+              >
+                No Results Found
+              </h3>
+              <AisStats class="text-sm tracking-[-0.28px] text-text-muted">
+                <template v-slot="{ nbHits, processingTimeMS }">
+                  Found
+                  {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
+                  {{
+                    parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS
+                  }}ms
+                </template>
+              </AisStats>
+            </div>
+          </template>
+        </AisStateResults>
       </div>
     </AisInstantSearchSsr>
   </div>

@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import ArrowRight from "@/assets/icons/arrow-right.svg";
+</script>
 <template>
   <section class="flex w-full flex-col items-center pt-32 text-center">
     <Badge>NO PHD REQUIRED</Badge>
