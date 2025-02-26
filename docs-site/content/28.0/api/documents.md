@@ -340,6 +340,10 @@ curl "http://localhost:8108/collections/companies/documents?action=upsert" -X PO
 
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
+:::tip
+If your application needs to handle more than 10s of writes-per-second, you should look into using a buffer table or queuing system to use hte bulk import API. For a more detailed guide, check out [High-volume writes in Typesense](../../guide/syncing-data-into-typesense.md#high-volume-writes).
+:::
+
 ### Index multiple documents
 
 You can index multiple documents in a batch using the import API.
