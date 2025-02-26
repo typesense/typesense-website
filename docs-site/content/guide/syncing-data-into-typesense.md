@@ -53,6 +53,45 @@ you can also use the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersi
 It's important to note that the bulk import endpoint is much more performant and uses less CPU capacity, than the single document indexing endpoint for the same number of documents.
 So you want to try and use the bulk import endpoint as much as possible, even if that means reducing your sync interval for the process above to as low as say 2s.
 
+### High-volume writes
+
+If your application generates more than 10s of writes-per-second, you want to switch to using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">Bulk Import API</RouterLink>, which is much more performant in handling high volume writes than the single document write endpoint.
+For eg, sending 10,000 documents over 10,000 different single API calls is going to be an order magnitude more CPU intensive and slower than sending those 10K documents in a single bulk import API call.
+
+Here's an approach to combine real-time needs with the efficiency of bulk imports:
+
+1. Create a "buffer table" in your primary database (or in your caching system) with columns for:
+
+   - `record_id`: The ID of the original record
+   - `operation_type`: The type of operation (insert, update, delete)
+   - `record_data`: The full record data as JSON (for inserts/updates)
+   - `created_at`: Timestamp when the record was added to the buffer
+   - `processed`: Boolean flag indicating if this record has been processed
+
+2. As record change in realtime in your application:
+
+   - Insert the change into the buffer table described above.
+   - Continue with your application logic without waiting for Typesense indexing
+
+3. Set up a scheduled job(s) that run frequently (even as little as every 5-10 seconds):
+   This job queries unprocessed records from the buffer table, groups them by operation type, sends inserts/updates as a bulk import API call with `action=upsert`, marks processed records in the buffer table, and optionally removes old processed records after a retention period.
+
+#### Worker parallelism considerations
+
+When scaling your synchronization process, it's crucial to match the number of concurrent write operations to your Typesense cluster's available CPU processing capacity:
+
+- For optimal performance, the number of concurrent bulk import operations should not exceed `N-2`, where `N` is the number of CPU cores available to Typesense.
+- For example, on an 8vCPU server, limit concurrent bulk imports to 6 workers.
+
+This ensures that Typesense retains enough capacity to handle search requests while processing writes.
+
+This buffer-based approach provides several benefits:
+
+- Your application remains responsive as database writes aren't blocked by Typesense indexing
+- You take advantage of the much more efficient bulk import API
+- The buffer provides an audit trail of changes
+- You can tune the processing frequency based on your real-time requirements
+
 ### Using Prisma Pulse
 
 [Prisma Pulse](https://www.prisma.io/data-platform/pulse?utm_source=typesense&utm_medium=typesense-docs) extends the [Prisma ORM](https://www.prisma.io/orm?utm_source=typesense&utm_medium=typesense-docs) to simplify event-driven workflows for your database. It allows you to stream database changes to Typesense in real-time, keeping your search collections up-to-date with the latest data.
