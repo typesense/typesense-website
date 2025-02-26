@@ -9,4 +9,5 @@ definePageMeta({
   <HomeSectionAchievements />
   <HomeSectionUsers />
   <HomeSectionUseCases />
+  <HomeSectionComparison />
 </template>

@@ -114,7 +114,6 @@ const transformItems = (items: { link: string }[]) =>
     if (!item.link.startsWith("http")) {
       fixedLink = `http://${item.link}`;
     }
-    console.log(item.link);
     return {
       ...item,
       link: fixedLink,
