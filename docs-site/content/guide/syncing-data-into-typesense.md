@@ -55,9 +55,12 @@ So you want to try and use the bulk import endpoint as much as possible, even if
 
 ### High-volume writes
 
-If your application needs to handle more than 10s of single-document writes per second, indexing each one independently can cause performance issues. Here's an approach that combines real-time needs with the efficiency of bulk imports:
+If your application generates more than 10s of writes-per-second, you want to switch to using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">Bulk Import API</RouterLink>, which is much more performant in handling high volume writes than the single document write endpoint.
+For eg, sending 10,000 documents over 10,000 different single API calls is going to be an order magnitude more CPU intensive and slower than sending those 10K documents in a single bulk import API call.
 
-1. Create a "buffer table" in your primary database with columns for:
+Here's an approach to combine real-time needs with the efficiency of bulk imports:
+
+1. Create a "buffer table" in your primary database (or in your caching system) with columns for:
 
    - `record_id`: The ID of the original record
    - `operation_type`: The type of operation (insert, update, delete)
@@ -65,29 +68,20 @@ If your application needs to handle more than 10s of single-document writes per 
    - `created_at`: Timestamp when the record was added to the buffer
    - `processed`: Boolean flag indicating if this record has been processed
 
-2. When records need real-time updates in your application:
+2. As record change in realtime in your application:
 
-   - Insert the change into the buffer table
+   - Insert the change into the buffer table described above.
    - Continue with your application logic without waiting for Typesense indexing
 
-3. Set up a cron job that runs frequently (every 5-10 seconds):
+3. Set up a scheduled job(s) that run frequently (even as little as every 5-10 seconds):
    This job queries unprocessed records from the buffer table, groups them by operation type, sends inserts/updates as a bulk import API call with `action=upsert`, marks processed records in the buffer table, and optionally removes old processed records after a retention period.
-
-4. Configure your application to check the buffer when searching:
-   For critical searches where absolute real-time results are necessary, you can check the buffer table for any unprocessed changes affecting the search results and merge them client-side.
-
-#### Scaling with dedicated queueing systems
-
-For production environments with high throughput requirements, consider replacing the buffer table with a dedicated queueing system such as Redis, Apache Kafka, RabbitMQ, or managed solutions like Amazon SQS or Google Cloud Pub-Sub.
-
-These systems provide several advantages over a simple database buffer table. They offer better performance under high load, built-in persistence mechanisms, and consumer scaling where multiple workers can process queue items in parallel. They also include retry mechanisms, dead-letter queues, and robust monitoring and alerting capabilities.
 
 #### Worker parallelism considerations
 
-When scaling your synchronization process, it's crucial to match the number of concurrent write operations to Typesense's available processing capacity:
+When scaling your synchronization process, it's crucial to match the number of concurrent write operations to your Typesense cluster's available CPU processing capacity:
 
-- For optimal performance, the number of concurrent bulk import operations should not exceed `n-2`, where `n` is the number of threads available to Typesense (or vCPU cores in Typesense Cloud's case).
-- For example, on an 8 vCPU Typesense Cloud instance, limit concurrent bulk imports to 6 workers.
+- For optimal performance, the number of concurrent bulk import operations should not exceed `N-2`, where `N` is the number of CPU cores available to Typesense.
+- For example, on an 8vCPU server, limit concurrent bulk imports to 6 workers.
 
 This ensures that Typesense retains enough capacity to handle search requests while processing writes.
 

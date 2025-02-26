@@ -341,7 +341,12 @@ curl "http://localhost:8108/collections/companies/documents?action=upsert" -X PO
 `POST ${TYPESENSE_HOST}/collections/:collection/documents`
 
 :::tip
-If your application needs to handle more than 10s of writes-per-second, you should look into using a buffer table or queuing system to use hte bulk import API. For a more detailed guide, check out [High-volume writes in Typesense](../../guide/syncing-data-into-typesense.md#high-volume-writes).
+If your application generates more than 10s of writes-per-second, you want to switch to using the [bulk import API](#index-multiple-documents), which is much more performant in handling high volume writes than the single document write endpoint. 
+For eg, sending 10000 documents over 10000 different single API calls is going to be an order magnitude more CPU intensive and slower than sending those 10K documents in a single bulk import API call.
+
+A simple way to switch to bulk imports is to have your application write into a buffer table on your side first, instead of to Typesense directly. 
+And then have a scheduled job that periodically reads from this table (even if it's every 5-10s for eg) and flushes the data into Typesense in batches. 
+For a more detailed guide, check out [High-volume writes in Typesense](../../guide/syncing-data-into-typesense.md#high-volume-writes).
 :::
 
 ### Index multiple documents
