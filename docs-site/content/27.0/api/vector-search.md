@@ -2407,7 +2407,7 @@ To prevent this, you want to add `exclude_fields: "your_embedding_field_name"` a
 
 ### Pagination
 
-To paginate through the vector search (or semantic or hybrid search) results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
+To paginate through the vector search (or semantic or hybrid search) results, use the `k` parameter in `vector_search` to limit results (e.g., `embedding:([], k: 200)`), set `per_page` for the number of results per page, and use the `page` parameter to navigate through paginated results:
 
 ```shell{11,12,13}
 curl 'http://localhost:8108/multi_search' \
@@ -2420,7 +2420,7 @@ curl 'http://localhost:8108/multi_search' \
         "query_by": "embedding",
         "collection": "products",
         "exclude_fields": "embedding",
-        "vector_query": "embedding([], k: 200)",
+        "vector_query": "embedding:([], k: 200)",
         "per_page": 10,
         "page": 1
       }

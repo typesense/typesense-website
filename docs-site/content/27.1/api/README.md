@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Typesense API Reference for v{{ $page.typesenseVersion }}
@@ -117,6 +117,17 @@ The changelog below aggregates all the changes between `v27.0` and `v27.x`. Chan
 
 ### Deprecations / behavior changes
 
+**Analytics directory**
+
+We now require the `analytics-dir` flag to be provided for using analytics features.  
+
+```bash
+./typesense-server --data-dir=/path/to/data --api-key=abcd \
+  --enable-search-analytics=true \
+  --analytics-dir=/path/to/analytics-data \ 
+  --analytics-flush-interval=60
+```
+
 **Conversational Search:**
 
 To address some limitations that we found with the previous design of the conversational search feature, 
@@ -146,6 +157,13 @@ To get an accurate `total_values` for the entire dataset, send this additional s
 
 This will force Typesense to compute facets in an exhaustive manner and allows the `total_values` key in the response to be exact.
 
+**Regular expression in field names in query_by, facet_by etc.**
+
+We've fixed some bugs in the way regular expression in field names are resolved. These bug fixes _could_ cause
+the field resolution to fail if you were relying on the wrong behavior. For example, if you had a field 
+named `body..*._title` in the schema, you can no longer resolve fields that match this pattern by 
+sending `query_by=body` which was working earlier (as a bug).
+
 ## Upgrading
 
 Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
@@ -169,7 +187,7 @@ If you're self-hosting Typesense, here's how to upgrade:
 
 #### Single node deployment
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/26.0/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.1/api/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
 2. Stop Typesense server.
 3. Replace the binary via the tar package or via the DEB/RPM installer. 
 4. Start Typesense server back again.
@@ -187,7 +205,7 @@ field in the `/debug` end-point response.
 | 1     | LEADER   |
 | 4     | FOLLOWER |
 
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.0/cluster-operations.html#create-snapshot-for-backups) of your data 
+1. Trigger a snapshot to [create a backup](https://typesense.org/docs/27.1/api/cluster-operations.html#create-snapshot-for-backups) of your data 
    on the leader node.
 2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
 3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 

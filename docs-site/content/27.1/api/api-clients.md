@@ -1,6 +1,6 @@
 ---
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # API Clients
@@ -34,14 +34,14 @@ We also have the following community-maintained client libraries:
 - [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
 - [Elixir](https://github.com/jaeyson/ex_typesense)
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Swift']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Go','Swift']">
   <template v-slot:JavaScript>
 
 ```js
 // npm install typesense @babel/runtime
 
 // Browser
-<script src="dist/typesense.min.js"></script>
+<script src='dist/typesense.min.js'></script>
 ```
 
   </template>
@@ -89,13 +89,26 @@ import 'package:typesense/typesense.dart';
   <template v-slot:Java>
 
 ```java
-// Download the JAR file from the releases section in the typesense-java repository. 
+// Download the JAR file from the releases section in the typesense-java repository.
 // (https://github.com/typesense/typesense-java/releases)
 // And the import it them to your project
 
 import org.typesense.api.*;
 import org.typesense.models.*;
 import org.typesense.resources.*;
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+// $ go get github.com/typesense/typesense-go/v3/typesense
+
+import (
+  "github.com/typesense/typesense-go/v3/typesense"
+  "github.com/typesense/typesense-go/v3/typesense/api"
+  "github.com/typesense/typesense-go/v3/typesense/api/pointer"
+)
 ```
 
   </template>
@@ -120,7 +133,7 @@ dependencies: [
 
 We have a community-maintained Postman Collection here: [https://github.com/typesense/postman](https://github.com/typesense/postman).
 
-[Postman](https://www.postman.com/downloads/) is an app that let's you perform HTTP requests by pointing and clicking, instead of having to type them out in the terminal. 
+[Postman](https://www.postman.com/downloads/) is an app that let's you perform HTTP requests by pointing and clicking, instead of having to type them out in the terminal.
 The Postman Collection above gives you template requests that you can import into Postman, to quickly make API calls to Typesense.
 
 ## Framework Integrations
@@ -129,7 +142,9 @@ We also have the following framework integrations:
 
 - [Firebase](https://github.com/typesense/firestore-typesense-search)
 - [AWS Amplify](https://github.com/olliethedev/amplify-graphql-typesense-transformer)
-- [Laravel](https://laravel.com/docs/11.x/scout#typesense)
+- Laravel:
+  - [Laravel Scout](https://laravel.com/docs/11.x/scout#typesense) (official native integration)
+  - [sebastiansulinski / laravel-search](https://github.com/sebastiansulinski/laravel-search)
 - [Symfony](https://github.com/acseo/TypesenseBundle)
 - [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
@@ -188,7 +203,7 @@ We also have the following framework integrations:
 - [Prometheus Exporter](https://github.com/imatefx/typesense-prometheus-exporter)
 
 :::tip
-Planning to build an integration with Typesense? 
+Planning to build an integration with Typesense?
 
 We're happy to give you guidance on best-practices, and feature your work on this page.
 

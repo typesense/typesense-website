@@ -115,7 +115,7 @@ The easiest way to run the scraper is using Docker.
    :::
 1. Run the scraper:
     ```bash
-    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.9.1
+    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.11.0
     ```
 
 This will scrape your documentation site and index it into Typesense.
@@ -144,7 +144,7 @@ Just make sure that the config is available inside the container. In other words
 docker run -it \
   -v "/path/to/config/dir/on/your/machine:/tmp/search" \
   -e "CONFIG=/tmp/search/typesense.json" \
-  typesense/docsearch-scraper:0.9.1
+  typesense/docsearch-scraper:0.11.0
 ```
 
 #### Trusting certificates from internal CAs
@@ -162,7 +162,7 @@ docker run -it \
   --env "REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt" \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.9.1
+  typesense/docsearch-scraper:0.11.0
 ```
 
 #### Set environment variables on the command line, rather than using a .env file
@@ -176,7 +176,7 @@ docker run -it \
   -e "TYPESENSE_PORT=443" \
   -e "TYPESENSE_PROTOCOL=https" \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.9.1
+  typesense/docsearch-scraper:0.11.0
 ```
 
 #### Resolving hosts
@@ -188,8 +188,28 @@ docker run -it \
   --add-host intranet.company.com:10.1.2.3 \
   --env-file=/path/to/your/.env  \
   -e "CONFIG=$(cat config.json | jq -r tostring)" \
-  typesense/docsearch-scraper:0.9.1
+  typesense/docsearch-scraper:0.11.0
 ```
+
+#### Custom Headers
+
+You can add custom HTTP headers to the scraper's outgoing requests by adding a `headers` object to your configuration file. This is useful when you need to add specific headers for authentication or other purposes.
+
+Example configuration with custom headers:
+
+```json
+{
+  "index_name": "your_docs",
+  "start_urls": ["https://your-site.com"],
+  "headers": {
+    "Authorization": "Bearer your-token-here",
+    "Custom-Header": "custom-value"
+  },
+  // ... rest of your configuration
+}
+```
+
+The headers you specify will be applied to all outgoing requests made by the scraper.
 
 #### Authentication
 

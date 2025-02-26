@@ -56,11 +56,52 @@ You can use the `token_separators` and `symbols_to_index` parameters to control 
 
 ### How do I handle singular / plural variations of a keyword?
 
-You can use the stemming feature to allow search queries that contain variations of a word in your dataset (eg: singular / plurals, tense changes, etc) to still match the record.
+There are two ways to handle word variations (like singular/plural forms) in Typesense:
 
-For eg: searching for `walking`, will also return results with `walk`, `walked`, `walks`, etc when stemming is enabled.
+#### 1. Using Basic Stemming
 
-You can enable stemming by setting the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-parameters`">`stem: true`</RouterLink> parameter in the field definition in the collection schema. 
+You can use the built-in stemming feature to automatically handle common variations of words in your dataset (eg: singular/plurals, tense changes, etc).
+For eg: searching for `walking` will also return results with `walk`, `walked`, `walks`, etc when stemming is enabled.
+
+You can enable stemming by setting the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#field-parameters`">`stem: true`</RouterLink> parameter in the field definition in the collection schema.
+
+#### 2. Using Custom Stemming Dictionaries
+
+:::warning NOTE
+Custom stemming dictionaries are only available in `v28.0` and above.
+:::
+
+For more precise control over word variations, you can use custom stemming dictionaries that define exact mappings between words and their root forms.
+
+First, create a dictionary by uploading a JSONL file that contains your word mappings:
+
+```json
+{"word": "meetings", "root":"meeting"}
+{"word": "people", "root":"person"}
+{"word": "children", "root":"child"}
+```
+
+Upload this dictionary using the stemming dictionary API:
+
+```bash
+curl -X POST \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  --data-binary @plurals.jsonl \
+  "http://localhost:8108/stemming/dictionary/import?id=my_dictionary"
+```
+
+Then enable the dictionary in your collection schema by setting the `stem_dictionary` parameter:
+
+```json
+{
+  "name": "companies",
+  "fields": [
+    {"name": "title", "type": "string", "stem_dictionary": "my_dictionary"}
+  ]
+}
+```
+
+For more details on stemming, read the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/stemming`">stemming documentation</RouterLink>.
 
 ### When I search for a short string, I don't get all results. How do I address this?
 
@@ -301,6 +342,8 @@ Providers like [LetsEncrypt](https://letsencrypt.org) offer free SSL certificate
 We tend to add features and fixes on a continuous iterative cycle and publish RC (Release Candidate) builds every 1-2 weeks. Once the amount of changes have reached a critical mass, we then go into a feature freeze for the upcoming version, address a final round of last-mile issues if any, run performance benchmarks and regression tests, continuously dogfood the builds and if everything looks good we do a final GA (Generally Available) release.
 
 We do not have a fixed timeline for GA releases since we want final builds to be sufficiently tested and stable. That said, in the past we've done [GA releases](https://github.com/typesense/typesense/releases) every 2-3 months.
+
+In the meantime, most RC builds are safe to run in production. Read more here: [Can I run RC builds in production?](#can-i-run-rc-builds-in-production).
 
 ### How do you plan your roadmap?
 
