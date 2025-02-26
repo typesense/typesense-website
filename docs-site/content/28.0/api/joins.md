@@ -443,6 +443,26 @@ This will always return an array of objects for the fields of `books` collection
 ]
 ```
 
+## Asynchronous references
+
+You can use the `async_reference` option when creating reference fields. This allows documents to be indexed successfully even when the referenced document doesn't exist yet.
+
+```json
+{
+  "name": "orders",
+  "fields": [
+    {"name": "product_id", "type": "string", "reference": "products.product_id", "optional": true, "async_reference": true}
+  ]
+}
+```
+
+By setting `async_reference: true`, documents will be indexed without returning the error:
+```
+Reference document having '...' not found in the collection '...'.
+```
+
+The resolution of references will happen automatically when the referenced documents get indexed later. This is particularly useful in scenarios where you need to index documents in an order different from their dependency relationships.
+
 ## References inside an object
 
 Let's say there is an `object` field called `order` in a `orders` collection. We can make the order refer to a
