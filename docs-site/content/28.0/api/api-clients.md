@@ -192,6 +192,7 @@ We also have the following framework integrations:
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
 - [Drupal](https://www.drupal.org/project/search_api_typesense)
 - [Silverstripe CMS](https://codeberg.org/0x/silverstripe-typesense)
+- [Ghost](https://github.com/magicpages/ghost-typesense) by MagicPages
 
 ## Utilities
 
