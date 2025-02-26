@@ -932,7 +932,7 @@ Embedding models are computationally intensive to run.
 So when using one of the [built-in models](#using-built-in-models), you might want to consider running Typesense on a server with a GPU to improve the performance of embedding generation, especially for large datasets.
 
 :::tip
-The GPU is only used for generating embeddings and not when using the embeddings generated for Vector Search.
+The GPU is only used for _generating_ embeddings - when indexing documents and when generating embeddings for the search term. The actual nearest-neighbor vector search operation does not use the GPU. 
 :::
 
 #### On Typesense Cloud:
