@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Conversational Search (RAG)
@@ -186,6 +186,13 @@ curl 'http://localhost:8108/multi_search?q=can+you+suggest+an+action+series&conv
               ]
             }'
 ```
+
+:::warning IMPORTANT
+It's important to specify `"exclude_fields": "embedding"` in the search request, so that the raw floating point numbers aren't being sent to the LLM unnecessarily, which will end up consuming most of the context window.
+
+You also want to remove any other fields that might not be relevant to generating a conversational response by specifying them in `exclude_fields`.
+:::
+
 **Response:**
 
 Typesense will now return a new field in the search API response called `conversation`.

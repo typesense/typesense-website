@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.7
+  priority: 0.3
 ---
 
 # Server Configuration
@@ -10,8 +10,8 @@ These parameters control and fine-tune various default server-settings in Typese
 
 [[toc]]
 
-:::tip
-We manage the following parameters for you in Typesense Cloud. So this section only applies if you're self-hosting Typesense.
+:::tip Typesense Cloud
+We manage the following server parameters for you in Typesense Cloud automatically. But if you need to customize any of them, please email us at support at typesense dot org with a brief description of your use-case that requires the change, and we can do the change for you from our side. 
 :::
 
 ## Using Command Line Arguments
@@ -35,19 +35,20 @@ Command line arguments can be passed to the server as `--parameter=value`.
 
 ### Analytics
 
-| Parameter                    | Required | Description                                                                                                                          |
-|------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `--enable-search-analytics`  | false    | Allow search queries to be aggregated for query analytics. Default: `false`                                                          |
-| `--analytics-dir`            | false    | Directory for Typesense to store analytics data.                                                                                     |
-| `--analytics-flush-interval` | false    | Interval (in seconds) that determines how often the search query aggregations are persisted to storage. Default: `3600` (every hour) |
+| Parameter                       | Required | Description                                                                                                                          |
+|---------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `--enable-search-analytics`     | false    | Allow search queries to be aggregated for query analytics. Default: `false`                                                          |
+| `--analytics-dir`               | false    | Directory for Typesense to store analytics data.                                                                                     |
+| `--analytics-flush-interval`    | false    | Interval (in seconds) that determines how often the search query aggregations are persisted to storage. Default: `3600` (every hour) |
+| `--analytics-minute-rate-limit` | false    | Maximum number of analytics events that can be sent per minute. Default: `5`                                                         |
 
 ### Logging
 
 | Parameter                     | Required | Description                                                                                                                                                                                                                                                               |
 |-------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
-| `--log-dir`                   | false    | By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory.                                                                                                                                                      |
-| `--enable-access-logging`     | false    | Logs the API requests and corresponding IP addresses to the `log-dir`. Default: `false`                                                                                                                                                                                   |
-| `--enable-search-logging`     | false    | Logs the search API request + payload right at the start of search request lifecycle. Default: `false`                                                                                                                                                                    |
+| `--log-dir`                   | false    | By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory. Logs are written to a file called `typesense.log` inside this directory.                                                                             |
+| `--enable-access-logging`     | false    | Logs the API requests and corresponding IP addresses to a file called `typesense-access.log` inside `log-dir`. Default: `false`                                                                                                                                           |
+| `--enable-search-logging`     | false    | Logs the search API request + payload right at the start of search request lifecycle to a file called `typesense.log` inside `log-dir`. Default: `false`                                                                                                                  |
 | `--log-slow-requests-time-ms` | false    | Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging. <br><br>You can also [dynamically enable](../api/cluster-operations.md#toggle-slow-request-log) slow requests logging via the `/config` API. |
 
 

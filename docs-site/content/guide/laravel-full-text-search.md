@@ -596,6 +596,10 @@ return [
 
 </Tabs>
 
+:::warning
+Don't forget to import your model a the top of the `config.php` file using `use App\Models\Game;`. This is essential for the `model-settings` to work.
+:::
+
 After setting up the Laravel Scout Driver, all subsequent model changes will be **automatically synced** with Typesense, using the [Model Observer](https://github.com/laravel/scout/blob/10.x/src/ModelObserver.php) provided by Laravel Scout. 
 
 To verify that it's working, let's create a new record in the `Games` table. We'll be using [Laravel Tinker](https://github.com/laravel/tinker), a REPL enabling us to write and execute PHP code interactively. You can run the following command to open Laravel Tinker:
