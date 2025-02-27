@@ -45,7 +45,7 @@ For cases where you need more precise control over word variations, or when deal
 
 ### Pre-made Dictionaries
 
-Typesense provides a pre-made English plurals dictionary that handles common singular/plural variations. You can download it [here](dl.typesense.org/data/stemming/plurals_en_v1.jsonl) 
+Typesense provides a pre-made English plurals dictionary that handles common singular/plural variations. You can download it [here](https://dl.typesense.org/data/stemming/plurals_en_v1.jsonl). 
 
 This dictionary is particularly useful when you need reliable handling of English plural forms without the potential side effects of algorithmic stemming.
 
