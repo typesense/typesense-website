@@ -66,21 +66,45 @@ const userLogos = [
 
 <template>
   <section class="mt-[200px]">
-    <div class="grid grid-cols-4 grid-rows-4 gap-4">
-      <div class="col-span-2 mb-6">
-        <Badge>You'll be in good company</Badge>
-        <h2>
-          From <strong>Scrappy</strong> Startups to
-          <strong>Household</strong> Names
-        </h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex h-max flex-col justify-between gap-6">
+        <div>
+          <Badge>You'll be in good company</Badge>
+          <h2>
+            From <strong>Scrappy</strong> Startups to
+            <strong>Household</strong> Names
+          </h2>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <Card
+            class="h-[140px]"
+            v-for="userLogo in userLogos.slice(0, 2)"
+            :key="userLogo.href"
+          >
+            <a :key="userLogo.href" :href="userLogo.href" target="_blank">
+              <img
+                :src="userLogo.imgPath"
+                :alt="userLogo.alt"
+                :style="`height:${userLogo.height}px !important;`"
+              />
+            </a>
+          </Card>
+        </div>
       </div>
-
-      <img
-        class="col-span-2 row-span-2 mt-3.5 max-h-[390px] w-full rounded-3xl object-cover"
-        src="@/assets/images/typesense-on-nasdaq.jpeg"
-        alt="Typesense on Nasdaq billboard in New York City"
-      />
-      <Card v-for="userLogo in userLogos">
+      <div class="relative mt-3.5 overflow-hidden">
+        <img
+          class="absolute h-full w-full rounded-3xl object-cover"
+          src="@/assets/images/typesense-on-nasdaq.jpeg"
+          alt="Typesense on Nasdaq billboard in New York City"
+        />
+      </div>
+    </div>
+    <div class="mt-4 grid grid-cols-4 gap-4">
+      <Card
+        class="h-[140px]"
+        v-for="userLogo in userLogos.slice(2)"
+        :key="userLogo.href"
+      >
         <a :key="userLogo.href" :href="userLogo.href" target="_blank">
           <img
             class=""
