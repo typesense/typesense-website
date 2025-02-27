@@ -335,6 +335,19 @@ To enable HTTPS, you want to change the <RouterLink :to="`/${$site.themeConfig.t
 
 Providers like [LetsEncrypt](https://letsencrypt.org) offer free SSL certificates.
 
+### I restarted Typesense, and I'm now seeing an HTTP 503. Why?
+
+Typesense is an in-memory data store. When you restart the Typesense process, we read the data that was previously sent into Typesense (and stored on disk as a backup) and use it to re-build the in-memory indices.
+The amount of time this takes depends on the size of your dataset. So until your data is fully re-indexed in RAM, the node will return an HTTP 503.
+
+To avoid this downtime, you want to set up Typesense in a [Highly Available](./high-availability.md) configuration so that even if one node needs to be restarted, the other nodes in the cluster will continue servicing traffic without any downtime.
+
+If you see an HTTP 503 during writes, that is due to Typesense's built-in backpressure mechanism documented under this section about [Handling 503s during writes](./syncing-data-into-typesense.md#handling-http-503s).
+
+### I'm seeing a large amount of pending write batches. How can I speed this up?
+
+This usually happens when there is a high volume of single-document writes being sent into Typesense. You want to switch to using the bulk import API as described in this section about [High Volume Writes](./syncing-data-into-typesense.md#high-volume-writes).
+
 ## Releases
 
 ### When is the next version of Typesense launching?
