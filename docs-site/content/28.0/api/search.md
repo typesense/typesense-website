@@ -1004,52 +1004,152 @@ client.Presets().Upsert(context.Background(), "listing-view", preset)
 
 ```shell
 curl "http://localhost:8108/presets/listing_view" -X PUT \
--H "Content-Type: application/json" \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
--d '{"value": {"collection":"products","q":"*", "sort_by": "popularity"}}'
+    -H "Content-Type: application/json" \
+    -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+    -d '{
+          "value": {
+            "collection": "products",
+            "q": "*",
+            "sort_by": "popularity"
+          }
+        }'
 ```
   </template>
 </Tabs>
 
-You can refer to this preset configuration during a search operation.
+You can refer to this preset configuration during a search operation using the `preset` search parameter.
 
-<Tabs :tabs="['JavaScript','Dart','Go','Shell']">
+The following shows the [`multi_search`](./federated-multi-search.md) endpoint, but you can also use the `preset` search parameter with the single search endpoint as well.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-await client.multiSearch().perform({},{
-  preset: 'listing_view'
-});
+let searchRequests = {
+  'searches': [
+    {
+      'preset': 'listing_view'
+    }
+  ]
+}
+
+client.multiSearch.perform(searchRequests, {})
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$searchRequests = [
+  'searches' => [
+    [
+      'preset' => 'listing_view'
+    ]
+  ]
+];
+
+$client->multiSearch->perform($searchRequests, []);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+search_requests = {
+  'searches': [
+    {
+      'preset': 'listing_view'
+    }
+  ]
+}
+
+client.multi_search.perform(search_requests, {})
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+search_requests = {
+  'searches': [
+    {
+      'preset': 'listing_view'
+    }
+  ]
+}
+
+client.multi_search.perform(search_requests, {})
 ```
 
   </template>
   <template v-slot:Dart>
 
 ```dart
-await client.multiSearch.perform({}, queryParams: {
-  'preset': 'listing_view'
-});
+final searchRequests = {
+  'searches': [
+    {
+      'preset': 'listing_view'
+    }
+  ]
+};
+
+await client.multiSearch.perform(searchRequests, queryParams: {});
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+HashMap<String,String > search1 = new HashMap<>();
+
+search1.put("preset","listing_view");
+
+List<HashMap<String, String>> searches = new ArrayList<>();
+searches.add(search1);
+
+HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
+searchRequests.put("searches",searches);
+
+HashMap<String,String> commonSearchParams = new HashMap<>();
+
+client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
   </template>
   <template v-slot:Go>
 
 ```go
-client.MultiSearch.Perform(context.Background(),
-  &api.MultiSearchParams{
-    Preset: pointer.String("listing_view"),
+searchRequests := api.MultiSearchSearchesParameter{
+  Searches: []api.MultiSearchCollectionParameters{
+    {
+      Preset: "listing_view"
+    },
   },
-  api.MultiSearchSearchesParameter{},
-)
+}
+
+commonSearchParams := &api.MultiSearchParams{}
+
+client.MultiSearch.Perform(context.Background(), commonSearchParams, searchRequests)
 ```
 
   </template>
   <template v-slot:Shell>
 
-```shell
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"  -X POST \
-'http://localhost:8108/multi_search?preset=listing_view'
+```bash
+curl "http://localhost:8108/multi_search" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{
+          "searches": [
+            {
+              "preset": "listing_view"
+            }
+          ]
+        }'
 ```
+
   </template>
 </Tabs>
 
