@@ -30,7 +30,7 @@ h2 strong {
   font-weight: inherit;
 }
 .subtext {
-  @apply text-base tracking-tighter text-text-muted;
+  @apply mt-2 text-base tracking-tighter text-text-muted;
   line-height: 1.8;
 }
 </style>

@@ -66,7 +66,7 @@ const supportLinks = [
           </div>
         </div>
         <div>
-          <h2>Typesense, Inc.</h2>
+          <h4>Typesense, Inc.</h4>
           <div class="text-nowrap">
             Houston, TX <br />@typesense | contact@typesense.org
           </div>
@@ -74,7 +74,7 @@ const supportLinks = [
       </div>
       <div class="flex w-full justify-evenly gap-20">
         <div>
-          <h2>Page</h2>
+          <h4>Page</h4>
           <ul>
             <li v-for="page in pages" :key="page.name">
               <NuxtLink :to="page.link">{{ page.name }}</NuxtLink>
@@ -82,7 +82,7 @@ const supportLinks = [
           </ul>
         </div>
         <div class="col-span-2">
-          <h2>Libraries</h2>
+          <h4>Libraries</h4>
           <div class="flex gap-6 text-nowrap">
             <ul>
               <li
@@ -110,7 +110,7 @@ const supportLinks = [
           </div>
         </div>
         <div>
-          <h2>Support</h2>
+          <h4>Support</h4>
           <ul>
             <li v-for="item in supportLinks" :key="item.name">
               <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
@@ -147,7 +147,7 @@ const supportLinks = [
 </template>
 
 <style scoped>
-h2 {
+h4 {
   @apply mb-4 text-base font-medium text-text-primary;
 }
 li {

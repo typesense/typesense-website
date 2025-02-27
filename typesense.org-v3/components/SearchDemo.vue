@@ -121,7 +121,7 @@ const transformItems = (items: { link: string }[]) =>
   });
 </script>
 <template>
-  <div class="relative">
+  <div class="relative min-h-[414px]">
     <BackgroundIllustration
       class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%]"
     />
@@ -163,7 +163,7 @@ const transformItems = (items: { link: string }[]) =>
         </div>
 
         <AisStateResults
-          class="flex min-h-[334px] overflow-hidden rounded-xl bg-bg text-left text-sm tracking-[-0.28px] text-[#2D2D45]"
+          class="flex overflow-hidden rounded-xl bg-bg text-left text-sm tracking-[-0.28px] text-[#2D2D45]"
         >
           <template v-slot="{ results: { hits, query } }">
             <AisHits

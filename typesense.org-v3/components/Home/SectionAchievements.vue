@@ -4,8 +4,8 @@
       The <strong>Open Source Alternative</strong> to Algolia
     </h2>
     <p class="subtext">
-      It’s like Algolia and Pinecone had a baby… that’s way easier to handle
-      than Elasticsearch and is actually open source.
+      It&rsquo;s like Algolia and Pinecone had a baby… that&rsquo;s way easier
+      to handle than Elasticsearch and is actually open source.
     </p>
     <div class="mt-40 grid w-full grid-cols-3 gap-4">
       <div class="card">
