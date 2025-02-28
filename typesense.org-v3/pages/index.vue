@@ -11,4 +11,5 @@ definePageMeta({
   <HomeSectionUseCases />
   <HomeSectionComparison />
   <HomeSectionAPILibraries />
+  <HomeSectionFeatures />
 </template>

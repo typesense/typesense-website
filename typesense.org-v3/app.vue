@@ -16,7 +16,7 @@ html {
 }
 h1,
 h2 {
-  @apply font-heading font-medium;
+  @apply font-heading font-medium capitalize;
   font-size: 56px;
   line-height: 1.2;
   letter-spacing: -1.44px;
