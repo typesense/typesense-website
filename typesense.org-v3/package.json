@@ -12,13 +12,20 @@
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
+    "@pinia/nuxt": "^0.10.1",
+    "lodash.startcase": "^4.4.0",
     "nuxt": "^3.13.1",
+    "pinia": "^3.0.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
     "typesense-instantsearch-adapter": "^2.8.0",
     "vue": "latest",
     "vue-instantsearch": "^4.20.4",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@types/lodash.startcase": "^4.4.9",
+    "@types/prismjs": "^1.26.5",
     "prettier": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "vite-svg-loader": "^5.1.0"

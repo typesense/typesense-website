@@ -5,11 +5,14 @@ definePageMeta({
 </script>
 
 <template>
-  <HomeSectionHero />
-  <HomeSectionAchievements />
-  <HomeSectionUsers />
-  <HomeSectionUseCases />
-  <HomeSectionComparison />
-  <HomeSectionAPILibraries />
-  <HomeSectionFeatures />
+  <div class="px-32">
+    <HomeSectionHero />
+    <HomeSectionAchievements />
+    <HomeSectionUsers />
+    <HomeSectionUseCases />
+    <HomeSectionComparison />
+    <HomeSectionAPILibraries />
+    <HomeSectionFeatures />
+  </div>
+  <HomeSectionDeveloperExperience />
 </template>

@@ -8,10 +8,11 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@pinia/nuxt"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],
+      "Fira Code": [400],
     },
     display: "swap",
     preconnect: true,

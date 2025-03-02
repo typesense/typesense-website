@@ -15,7 +15,9 @@ html {
   overflow-x: hidden;
 }
 h1,
-h2 {
+h2,
+h3,
+h4 {
   @apply font-heading font-medium capitalize;
   font-size: 56px;
   line-height: 1.2;
@@ -23,6 +25,12 @@ h2 {
 }
 h2 {
   font-size: 48px;
+}
+h3 {
+  font-size: 32px;
+}
+h4 {
+  font-size: 24px;
 }
 h1 strong,
 h2 strong {
