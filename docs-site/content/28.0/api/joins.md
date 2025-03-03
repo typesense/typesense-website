@@ -271,6 +271,8 @@ To get the user ids that can access a particular document:
 }
 ```
 
+When the reference field is an array type(string[], int32[], int64[]) we always return the joined documents in an array even if a particular document has relation with only one document. Since `user_doc_access` collection has a singular reference field type, we will only return the joined documents in an array when it has relation with more than one documents. `strategy: nest_array` can be mentioned in `include_fields` to force Typesense to return the joined documents in an array regardless of their relation count. Check `Forcing nested array for joined fields` section [here](#merging-nesting-joined-fields).
+
 ## Sort by joined collection field
 
 Following the `$JoinedCollectionName( ... )` convention, we can `sort_by` on a field that's present in the joined collection this way:
