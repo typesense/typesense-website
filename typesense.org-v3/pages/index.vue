@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="px-32">
+  <div class="site-padding">
     <HomeSectionHero />
     <HomeSectionAchievements />
     <HomeSectionUsers />
@@ -15,4 +15,7 @@ definePageMeta({
     <HomeSectionFeatures />
   </div>
   <HomeSectionDeveloperExperience />
+  <div class="site-padding">
+    <HomeSectionIntegrations />
+  </div>
 </template>

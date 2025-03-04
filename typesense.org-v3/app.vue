@@ -41,4 +41,7 @@ h2 strong {
   @apply mt-2 text-base tracking-tighter text-text-muted;
   line-height: 1.8;
 }
+.site-padding {
+  @apply px-32;
+}
 </style>
