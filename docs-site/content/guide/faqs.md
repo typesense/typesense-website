@@ -335,6 +335,12 @@ To enable HTTPS, you want to change the <RouterLink :to="`/${$site.themeConfig.t
 
 Providers like [LetsEncrypt](https://letsencrypt.org) offer free SSL certificates.
 
+### I see an HTTP 503, "Not Ready or Lagging". Why?
+
+If you see an HTTP 503 during writes, that is due to Typesense's built-in backpressure mechanism. This section talks about how to [Handle these HTTP 503s](./syncing-data-into-typesense.md#handling-http-503s).
+
+If you see an HTTP 503 after a restart, see [below](#i-restarted-typesense-and-im-now-seeing-an-http-503-why).
+
 ### I restarted Typesense, and I'm now seeing an HTTP 503. Why?
 
 Typesense is an in-memory data store. When you restart the Typesense process, we read the data that was previously sent into Typesense (and stored on disk as a backup) and use it to re-build the in-memory indices.

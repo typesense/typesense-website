@@ -166,11 +166,12 @@ If you see an HTTP 503, you want to do one or more of the following:
     Many a time a short client-side timeout ends up causing frequent retry writes of the same data, leading to a thundering herd issue.
 3. Increase the retry time interval in the client library to a larger number or set it to a random value between 10 and 60 seconds (especially in a serverless environment) to introduce some jitter in how quickly retries are attempted.
     This gives the Typesense process more time to catch up on previous writes.
-4. If you have fields that you're only using for display purposes and not for searching / filtering / faceting / sorting / grouping, you want to leave them out of the schema to avoid having to index them. 
+4. If you have a high volume of single-document write API calls, you want to switch to using the bulk import API endpoint, which is much more performant. See this dedicated section about handling [high volume writes](#high-volume-writes).
+5. If you have fields that you're only using for display purposes and not for searching / filtering / faceting / sorting / grouping, you want to leave them out of the schema to avoid having to index them. 
     You can still send these fields in the document when sending it to Typesense - they'll just be stored on disk and returned when the document is a hit, instead of being indexed in memory.
     This will help avoid using unnecessary CPU cycles for indexing.
-5. Sometimes disk I/O might be a bottleneck, especially if each individual document is large. In these cases, you want to turn on High Performance Disk in Typesense Cloud or use nVME SSD disks to improve performance.
-6. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">server configuration parameters</RouterLink>.
+6. Sometimes disk I/O might be a bottleneck, especially if each individual document is large. In these cases, you want to turn on High Performance Disk in Typesense Cloud or use nVME SSD disks to improve performance.
+7. You could also change the value of `healthy-read-lag` and `healthy-write-lag` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">server configuration parameters</RouterLink>.
     This is usually not needed once the above steps are taken. On Typesense Cloud, we can increase these values for you from our side if you email support at typesense dot org.
 
 ### Handling Rejecting write: running out of resource type errors
