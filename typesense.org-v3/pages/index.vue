@@ -1,3 +1,4 @@
+import { HomeSectionShowcase } from '../.nuxt/components';
 <script setup lang="ts">
 definePageMeta({
   layout: "default",
@@ -17,5 +18,6 @@ definePageMeta({
   <HomeSectionDeveloperExperience />
   <div class="site-padding">
     <HomeSectionIntegrations />
+    <HomeSectionShowcase />
   </div>
 </template>

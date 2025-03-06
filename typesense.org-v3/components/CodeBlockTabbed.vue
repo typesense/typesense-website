@@ -15,7 +15,6 @@ import "prismjs/plugins/autolinker/prism-autolinker.css";
 import startCase from "lodash.startcase";
 import CopyIcon from "@/assets/icons/copy.svg";
 
-// Define props
 const props = defineProps({
   stateId: {
     type: String,

@@ -139,7 +139,7 @@ const transformItems = (items: { link: string }[]) =>
         <div
           class="mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5"
         >
-          <SearchIcon class="mr-3" />
+          <SearchIcon class="mr-3 size-5 text-primary" />
           <AisSearchBox
             placeholder="Search for recipes..."
             class="flex-1 tracking-[-0.32px] text-primary"
