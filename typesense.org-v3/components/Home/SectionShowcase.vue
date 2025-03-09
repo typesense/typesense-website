@@ -103,6 +103,126 @@ import Box from "@/assets/icons/box.svg";
       />
     </div>
   </section>
+  <section class="beyond-search mt-[200px]">
+    <div class="flex flex-col items-center text-center">
+      <Badge>Beyond Search</Badge>
+      <h2>
+        Build Snappy <strong>browsing experiences</strong>, <br />
+        besides just text-based search.
+      </h2>
+      <p class="subtext !mt-16 mb-7">
+        Compose Powerful Search & Discovery User Interfaces, quickly.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4">
+      <div class="card">
+        <div class="icon-list">
+          <span class="icon-wrapper">
+            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/search-bold.svg" alt="Search" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/box-bold.svg" alt="Box" />
+          </span>
+        </div>
+        <h5>E-Commerce Storefront Browsing Experiences</h5>
+        <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
+          <li
+            v-for="item in [
+              'Samsung',
+              'Go phone',
+              'Mobile Phone',
+              'Charger',
+              'Case',
+              'Mobile Phone',
+            ]"
+            class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
+            :key="item"
+          >
+            <span class="rounded-full bg-bg p-[5px]"
+              ><img src="/images/showcase/phone.svg" alt="Phone icon"
+            /></span>
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+      <div class="card !bg-secondary-bg">
+        <div class="icon-list">
+          <span class="icon-wrapper">
+            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/keyboard-bold.svg" alt="Keyboard" />
+          </span>
+        </div>
+        <h5>
+          Browse & Find xkcd Comics by Topic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;
+        </h5>
+        <div class="illustration-panel flex gap-6 p-3.5">
+          <img src="/images/showcase/xkcd-1.png" alt="Xkcd comic 1" />
+          <img src="/images/showcase/xkcd-2.png" alt="Xkcd comic 2" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon-list">
+          <span class="icon-wrapper">
+            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/search-bold.svg" alt="Search" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/box-bold.svg" alt="Box" />
+          </span>
+        </div>
+        <h5>E-Commerce Storefront with Next.js + Typesense</h5>
+        <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
+          <li
+            v-for="item in [
+              'Samsung',
+              'Go phone',
+              'Mobile Phone',
+              'Charger',
+              'Case',
+              'Mobile Phone',
+            ]"
+            class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
+            :key="item"
+          >
+            <span class="rounded-full bg-bg p-[5px]"
+              ><img src="/images/showcase/phone.svg" alt="Phone icon"
+            /></span>
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="icon-list">
+          <span class="icon-wrapper">
+            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/search-bold.svg" alt="Search" />
+          </span>
+          <span class="icon-wrapper">
+            <img src="/images/showcase/global-bold.svg" alt="Global" />
+          </span>
+        </div>
+        <h5>AirBnB Browsing Experience with 1M listings</h5>
+        <div class="illustration-panel p-2">
+          <img
+            class="h-full w-full rounded-2xl object-cover"
+            src="/images/showcase/map.png"
+            alt="AirBnB search"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
@@ -126,5 +246,24 @@ h5 {
 }
 .icon-list > * {
   @apply text-text-muted;
+}
+
+.icon-wrapper {
+  @apply rounded-full bg-bg p-3;
+}
+
+.beyond-search .card {
+  @apply h-[400px];
+}
+
+.beyond-search .icon-list {
+  @apply mb-[30px] gap-1.5;
+}
+.beyond-search h5 {
+  @apply mb-6;
+}
+
+.illustration-panel {
+  @apply min-h-64 w-[486px] rounded-3xl bg-bg shadow-[-5px_4px_34px_0px_rgba(0,0,0,0.10)];
 }
 </style>
