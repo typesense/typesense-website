@@ -13,6 +13,7 @@ export default {
         bg: "#FFFFFF",
         "bg-gray-1": "#F9F9F9",
         "bg-gray-2": "#FAFAFA",
+        "bg-gray-3": "#F1F1F1",
         muted: "#F1F1F1",
         "dark-bg": "#000",
         "secondary-bg": "#CFFC75",

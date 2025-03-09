@@ -19,5 +19,6 @@ definePageMeta({
     <HomeSectionIntegrations />
     <HomeSectionShowcase />
     <HomeSectionSearchUIIntegration />
+    <HomeSectionSupport />
   </div>
 </template>
