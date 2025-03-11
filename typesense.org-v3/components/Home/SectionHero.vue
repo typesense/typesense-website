@@ -17,6 +17,6 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
       <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
     </div>
 
-    <SearchDemo />
+    <HomeSectionSearch />
   </section>
 </template>

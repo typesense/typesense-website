@@ -17,12 +17,20 @@ import * as TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter"
 import SearchIcon from "@/assets/icons/search.svg";
 import SearchStatsStars from "@/assets/icons/search-stats-stars.svg";
 import ExternalLinkIcon from "@/assets/icons/external-link.svg";
-import BackgroundIllustration from "@/assets/images/background-illustration.svg";
 import NoResultsFound from "@/assets/images/no-results-found.svg";
 import type { BaseAdapterOptions } from "typesense-instantsearch-adapter";
 
-const INDEX_NAME = "r";
+const props = defineProps<{
+  classNames?: {
+    searchBarWrapper?: string;
+    hitList?: string;
+    hitItem?: string;
+  };
+}>();
+
 const config = useRuntimeConfig();
+const hitsPerPage = 6;
+const INDEX_NAME = config.public.typesenseCollectionName;
 
 const serverConfig: BaseAdapterOptions["server"] = {
   apiKey: config.public.typesenseSearchOnlyApiKey,
@@ -99,7 +107,7 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
             h(AisStats),
             h(AisStateResults),
             h(AisHits),
-            h(AisConfigure, { hitsPerPage: 6 }),
+            h(AisConfigure, { hitsPerPage }),
           ]);
         },
       },
@@ -121,139 +129,95 @@ const transformItems = (items: { link: string }[]) =>
   });
 </script>
 <template>
-  <div class="relative min-h-[414px]">
-    <BackgroundIllustration
-      class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%]"
-    />
-    <AisInstantSearchSsr
-      :search-client="searchClient"
-      :index-name="INDEX_NAME"
-      initial-ui-state="initialUiState"
-    >
-      <ais-configure :hitsPerPage="6" />
-      <div class="relative w-[784px] p-2">
-        <div class="background"></div>
-        <div class="gradient-secondary"></div>
-        <div class="gradient"></div>
+  <AisInstantSearchSsr
+    :search-client="searchClient"
+    :index-name="INDEX_NAME"
+    initial-ui-state="initialUiState"
+  >
+    <ais-configure :hitsPerPage="hitsPerPage" />
 
-        <div
-          class="mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5"
+    <div
+      :class="`mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5 ${props.classNames?.searchBarWrapper || ''}`"
+    >
+      <SearchIcon class="mr-3 size-5 text-primary" />
+      <AisSearchBox
+        placeholder="Search for recipes..."
+        class="flex-1 tracking-[-0.32px] text-primary"
+        :class-names="{
+          'ais-SearchBox-input':
+            'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
+          'ais-SearchBox-submit': 'hidden',
+          'ais-SearchBox-reset': 'hidden',
+        }"
+        :show-loading-indicator="false"
+      />
+      <AisStats class="text-sm tracking-[-0.28px] text-text-muted">
+        <template v-slot="{ nbHits, processingTimeMS }">
+          <span class="flex items-center gap-2">
+            <SearchStatsStars /> Found {{ nbHits.toLocaleString() }} recipes out
+            of 2,231,142 in
+            {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}ms
+          </span>
+        </template>
+      </AisStats>
+    </div>
+
+    <AisStateResults
+      class="flex overflow-hidden rounded-xl bg-bg text-left text-sm tracking-tight text-[#2D2D45]"
+    >
+      <template v-slot="{ results: { hits } }">
+        <AisHits
+          v-show="hits.length > 0"
+          :class-names="{
+            'ais-Hits': 'flex-1',
+            'ais-Hits-list': `flex flex-col gap-0.5 ${props.classNames?.hitList || ''}`,
+          }"
+          :transform-items="transformItems"
         >
-          <SearchIcon class="mr-3 size-5 text-primary" />
-          <AisSearchBox
-            placeholder="Search for recipes..."
-            class="flex-1 tracking-[-0.32px] text-primary"
-            :class-names="{
-              'ais-SearchBox-input':
-                'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
-              'ais-SearchBox-submit': 'hidden',
-              'ais-SearchBox-reset': 'hidden',
-            }"
-            :show-loading-indicator="false"
-          />
-          <AisStats class="text-sm tracking-[-0.28px] text-text-muted">
+          <template v-slot:item="{ item }">
+            <div
+              :class="`flex h-[54px] items-center justify-between bg-bg-gray-1 p-0 px-5 ${props.classNames?.hitItem || ''}`"
+            >
+              <div class="flex items-center">
+                <div class="circle mr-3 size-4 rounded-full bg-bg"></div>
+                <AisHighlight
+                  attribute="title"
+                  :hit="item"
+                  :class-names="{
+                    'ais-Highlight-highlighted': 'bg-transparent text-primary',
+                  }"
+                />
+              </div>
+              <a :href="item.link" target="_blank" class="rounded-lg bg-bg p-2"
+                ><ExternalLinkIcon class="external-link-icon size-3"
+              /></a>
+            </div>
+          </template>
+        </AisHits>
+        <div
+          class="flex min-h-[334px] flex-1 flex-col items-center justify-center self-center"
+          v-show="hits.length === 0"
+        >
+          <NoResultsFound />
+          <h3
+            class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
+          >
+            No Results Found
+          </h3>
+          <AisStats
+            class="no-result-stats text-sm tracking-[-0.28px] text-text-muted"
+          >
             <template v-slot="{ nbHits, processingTimeMS }">
-              <span class="flex items-center gap-2">
-                <SearchStatsStars /> Found {{ nbHits.toLocaleString() }} recipes
-                out of 2,231,142 in
-                {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}ms
-              </span>
+              Found
+              {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
+              {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}ms
             </template>
           </AisStats>
         </div>
-
-        <AisStateResults
-          class="flex overflow-hidden rounded-xl bg-bg text-left text-sm tracking-[-0.28px] text-[#2D2D45]"
-        >
-          <template v-slot="{ results: { hits, query } }">
-            <AisHits
-              v-show="hits.length > 0"
-              :class-names="{
-                'ais-Hits': 'flex-1',
-                'ais-Hits-list': 'flex flex-col gap-0.5',
-              }"
-              :transform-items="transformItems"
-            >
-              <template v-slot:item="{ item }">
-                <div
-                  class="flex h-[54px] items-center justify-between bg-bg-gray-1 p-0 px-5"
-                >
-                  <div class="flex items-center">
-                    <div class="mr-3 size-4 rounded-full bg-bg"></div>
-                    <AisHighlight
-                      attribute="title"
-                      :hit="item"
-                      :class-names="{
-                        'ais-Highlight-highlighted':
-                          'bg-transparent text-primary',
-                      }"
-                    />
-                  </div>
-                  <a
-                    :href="item.link"
-                    target="_blank"
-                    class="rounded-lg bg-bg p-2"
-                    ><ExternalLinkIcon
-                  /></a>
-                </div>
-              </template>
-            </AisHits>
-            <div
-              class="flex flex-1 flex-col items-center self-center"
-              v-show="hits.length === 0"
-            >
-              <NoResultsFound />
-              <h3
-                class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
-              >
-                No Results Found
-              </h3>
-              <AisStats class="text-sm tracking-[-0.28px] text-text-muted">
-                <template v-slot="{ nbHits, processingTimeMS }">
-                  Found
-                  {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
-                  {{
-                    parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS
-                  }}ms
-                </template>
-              </AisStats>
-            </div>
-          </template>
-        </AisStateResults>
-      </div>
-    </AisInstantSearchSsr>
-  </div>
+      </template>
+    </AisStateResults>
+  </AisInstantSearchSsr>
 </template>
-
-<style scoped>
-.background {
-  @apply pointer-events-none absolute inset-0 z-[-1];
-  border-radius: 12px;
-  box-shadow:
-    0px 4px 80px 0px rgba(165, 165, 165, 0.15),
-    0px 4px 9px 0px rgba(255, 255, 255, 0.25) inset;
-}
-.gradient-secondary {
-  @apply absolute left-1/2 top-1/2 z-[-2] -translate-x-1/2 -translate-y-1/2 bg-secondary;
-  width: 683.999px;
-  height: 272px;
-  opacity: 0.3;
-  filter: blur(150px);
-}
-.gradient {
-  @apply absolute inset-0 z-[-3] overflow-hidden rounded-xl;
-}
-.gradient::after {
-  @apply pointer-events-none z-[-3] block size-full;
-  content: "";
-  background: linear-gradient(
-    110deg,
-    rgba(255, 255, 101, 0.3) -1.25%,
-    rgba(53, 63, 215, 0.3) 99.32%
-  );
-  filter: blur(92px);
-}
-</style>
 
 <style>
 .ais-SearchBox-input[type="search"]::-webkit-search-cancel-button {

@@ -48,7 +48,8 @@ const supportLinks = [
 </script>
 
 <template>
-  <footer class="bg-light w-full px-16 py-[67px] text-sm text-text-muted">
+  <FooterSectionCTA />
+  <footer class="w-full bg-bg px-16 py-[67px] text-sm text-text-muted">
     <div class="mb-14 flex gap-24">
       <div class="flex flex-col justify-between">
         <div>
