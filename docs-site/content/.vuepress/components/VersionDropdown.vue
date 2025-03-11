@@ -64,10 +64,6 @@ export default {
       // - Also newer format versions (without leading 0) need API prefix
       const needsApiPrefix = (majorVersion === 0 && minorVersion >= 20) || majorVersion > 0
 
-      if (this.currentPath === '/') {
-        return `/${version}${needsApiPrefix ? '/api/' : '/'}${this.currentHash}`
-      }
-
       const normalizedPath = this.currentPath.replace('/api', '')
       const prefix = needsApiPrefix ? '/api' : ''
 
