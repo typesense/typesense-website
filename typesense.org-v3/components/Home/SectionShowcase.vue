@@ -9,15 +9,17 @@ import Keyboard from "@/assets/icons/keyboard.svg";
 import Box from "@/assets/icons/box.svg";
 </script>
 <template>
-  <section class="mt-[200px] grid grid-cols-4 gap-4">
-    <div>
+  <section
+    class="mt-[200px] grid grid-cols-4 gap-4 max-md:gap-2 max-sm:grid-cols-1"
+  >
+    <div class="flex-col items-center max-md:flex max-md:text-center">
       <Badge>Live</Badge>
       <h2>Showcase</h2>
       <p class="subtext">
         Live Demos, with Full Source.<br />
         Fork Away.
       </p>
-      <Button class="mt-8">See More<ArrowRight /></Button>
+      <Button class="mt-8 max-md:my-6">See More<ArrowRight /></Button>
     </div>
     <div class="card">
       <div class="top-container">
@@ -107,28 +109,31 @@ import Box from "@/assets/icons/box.svg";
     <div class="flex flex-col items-center text-center">
       <Badge>Beyond Search</Badge>
       <h2>
-        Build Snappy <strong>browsing experiences</strong>, <br />
+        Build Snappy <br class="show-sm" />
+        <strong>browsing experiences</strong>, <br />
         besides just text-based search.
       </h2>
-      <p class="subtext !mt-16 mb-7">
+      <p class="subtext !mt-16 mb-7 max-md:!mt-2 max-md:mb-5">
         Compose Powerful Search & Discovery User Interfaces, quickly.
       </p>
     </div>
 
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-4 gap-4 max-md:grid-cols-1 max-md:gap-2">
       <div class="card">
-        <div class="icon-list">
-          <span class="icon-wrapper">
-            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/search-bold.svg" alt="Search" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/box-bold.svg" alt="Box" />
-          </span>
+        <div class="title">
+          <div class="icon-list">
+            <span class="icon-wrapper">
+              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/search-bold.svg" alt="Search" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/box-bold.svg" alt="Box" />
+            </span>
+          </div>
+          <h5>E-Commerce Storefront Browsing Experiences</h5>
         </div>
-        <h5>E-Commerce Storefront Browsing Experiences</h5>
         <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
           <li
             v-for="item in [
@@ -150,36 +155,40 @@ import Box from "@/assets/icons/box.svg";
         </ul>
       </div>
       <div class="card !bg-secondary-bg">
-        <div class="icon-list">
-          <span class="icon-wrapper">
-            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/keyboard-bold.svg" alt="Keyboard" />
-          </span>
+        <div class="title">
+          <div class="icon-list">
+            <span class="icon-wrapper">
+              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/keyboard-bold.svg" alt="Keyboard" />
+            </span>
+          </div>
+          <h5>
+            Browse & Find xkcd Comics by
+            Topic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+          </h5>
         </div>
-        <h5>
-          Browse & Find xkcd Comics by Topic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        </h5>
         <div class="illustration-panel flex gap-6 p-3.5">
           <img src="/images/showcase/xkcd-1.png" alt="Xkcd comic 1" />
           <img src="/images/showcase/xkcd-2.png" alt="Xkcd comic 2" />
         </div>
       </div>
       <div class="card">
-        <div class="icon-list">
-          <span class="icon-wrapper">
-            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/search-bold.svg" alt="Search" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/box-bold.svg" alt="Box" />
-          </span>
+        <div class="title">
+          <div class="icon-list">
+            <span class="icon-wrapper">
+              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/search-bold.svg" alt="Search" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/box-bold.svg" alt="Box" />
+            </span>
+          </div>
+          <h5>E-Commerce Storefront with Next.js + Typesense</h5>
         </div>
-        <h5>E-Commerce Storefront with Next.js + Typesense</h5>
         <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
           <li
             v-for="item in [
@@ -201,18 +210,20 @@ import Box from "@/assets/icons/box.svg";
         </ul>
       </div>
       <div class="card">
-        <div class="icon-list">
-          <span class="icon-wrapper">
-            <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/search-bold.svg" alt="Search" />
-          </span>
-          <span class="icon-wrapper">
-            <img src="/images/showcase/global-bold.svg" alt="Global" />
-          </span>
+        <div class="title">
+          <div class="icon-list">
+            <span class="icon-wrapper">
+              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/search-bold.svg" alt="Search" />
+            </span>
+            <span class="icon-wrapper">
+              <img src="/images/showcase/global-bold.svg" alt="Global" />
+            </span>
+          </div>
+          <h5>AirBnB Browsing Experience with 1M listings</h5>
         </div>
-        <h5>AirBnB Browsing Experience with 1M listings</h5>
         <div class="illustration-panel p-2">
           <img
             class="h-full w-full rounded-2xl object-cover"
@@ -227,7 +238,7 @@ import Box from "@/assets/icons/box.svg";
 
 <style scoped>
 .card {
-  @apply flex h-[300px] flex-col gap-4 overflow-hidden rounded-2xl bg-bg-gray-2 px-6 pt-6;
+  @apply flex h-[300px] flex-col gap-4 overflow-hidden rounded-2xl bg-bg-gray-2 px-6 pt-6 max-md:h-[230px];
 }
 .top-container {
   @apply flex flex-col gap-2;
@@ -249,11 +260,11 @@ h5 {
 }
 
 .icon-wrapper {
-  @apply rounded-full bg-bg p-3;
+  @apply h-min rounded-full bg-bg p-3 max-md:p-2;
 }
 
 .beyond-search .card {
-  @apply h-[400px];
+  @apply h-[400px] max-md:max-h-[250px];
 }
 
 .beyond-search .icon-list {
@@ -265,5 +276,14 @@ h5 {
 
 .illustration-panel {
   @apply min-h-64 w-[486px] rounded-3xl bg-bg shadow-[-5px_4px_34px_0px_rgba(0,0,0,0.10)];
+}
+.beyond-search .title {
+  @apply flex-row-reverse gap-6 max-md:flex;
+}
+.beyond-search .title h5 {
+  @apply flex-1;
+}
+.beyond-search .title img {
+  @apply max-md:size-4;
 }
 </style>
