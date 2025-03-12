@@ -3,12 +3,16 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
 import Dots from "@/assets/images/dots.svg";
 </script>
 <template>
-  <section class="mt-[200px] flex items-end justify-between">
-    <div>
+  <section
+    class="mt-[200px] flex items-end justify-between gap-6 max-md:flex-col"
+  >
+    <div
+      class="flex-col items-center max-md:flex max-md:w-full max-md:text-center"
+    >
       <Badge>We've got your back</Badge>
       <h2>
         Backed by<br />
-        <strong>responsive</strong><br />
+        <strong>responsive</strong><br class="max-md:hidden" />
         support
       </h2>
       <p class="subtext">
@@ -17,17 +21,20 @@ import Dots from "@/assets/images/dots.svg";
       </p>
     </div>
 
-    <div class="overflow-hidden rounded-3xl bg-secondary-bg pr-16 pt-16">
+    <div
+      class="overflow-hidden rounded-3xl bg-secondary-bg pr-16 pt-16 max-md:bg-bg max-md:p-0"
+    >
       <div
-        class="flex max-w-[592px] flex-col gap-4 rounded-tr-3xl bg-bg-gray-2 p-4 shadow-[-5px_4px_34px_0px_rgba(0,_0,_0,_0.10)]"
+        class="flex max-w-[592px] flex-col gap-4 rounded-tr-3xl bg-bg-gray-2 p-4 shadow-[-5px_4px_34px_0px_rgba(0,_0,_0,_0.10)] max-md:p-0"
       >
-        <Dots class="self-end" />
+        <Dots class="self-end max-md:hidden" />
         <div class="card">
-          <div class="flex gap-6">
+          <div class="description">
             <img
               src="/images/support/priority-support.svg"
               alt="Priority Support"
             />
+            <h4>Priority Support</h4>
             <p>
               Fast-tracked assistance directly from the Typesense team, ensuring
               your issues are resolved quickly and efficiently.
@@ -39,8 +46,9 @@ import Dots from "@/assets/images/dots.svg";
           </div>
         </div>
         <div class="card">
-          <div class="flex gap-6">
+          <div class="description">
             <img src="/images/support/github-support.svg" alt="Github" />
+            <h4>Github</h4>
             <p>
               Access Typesense’s open-source repository on GitHub, where you can
               report issues, request features, and contribute to the ongoing
@@ -53,8 +61,9 @@ import Dots from "@/assets/images/dots.svg";
           </div>
         </div>
         <div class="card !bg-primary">
-          <div class="flex gap-6">
+          <div class="description">
             <img src="/images/support/slack-support.svg" alt="Slack Support" />
+            <h4 class="text-text-inverted">Slack</h4>
             <p class="!text-text-inverted">
               Typesense community and team in real-time through Slack. Get quick
               answers, share ideas, and collaborate on solutions in an
@@ -72,7 +81,7 @@ import Dots from "@/assets/images/dots.svg";
 </template>
 <style scoped>
 .card {
-  @apply bg-bg-gray-3 flex flex-col gap-8 rounded-2xl p-6;
+  @apply flex flex-col gap-8 rounded-2xl bg-bg-gray-3 p-6 max-sm:gap-6;
 }
 
 .card p {
@@ -80,5 +89,17 @@ import Dots from "@/assets/images/dots.svg";
 }
 .heading-cta {
   @apply flex items-center justify-between;
+}
+.heading-cta h4 {
+  @apply max-md:hidden;
+}
+.description {
+  @apply flex gap-6 max-sm:flex-col max-sm:gap-0;
+}
+.description h4 {
+  @apply mb-2 mt-3 hidden max-sm:block;
+}
+.description img {
+  @apply max-sm:size-14;
 }
 </style>
