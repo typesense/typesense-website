@@ -67,7 +67,15 @@ export default {
       const normalizedPath = this.currentPath.replace('/api', '')
       const prefix = needsApiPrefix ? '/api' : ''
 
-      return `/${version}${prefix}${normalizedPath}${this.currentHash}`
+      const targetPath = `/${version}${prefix}${normalizedPath}`
+
+      const pageExists = this.$site.pages.some(page => page.path === targetPath ?? page.path === `${targetPath}/`)
+
+      if (!pageExists && normalizedPath !== '/') {
+        return `/${version}${needsApiPrefix ? '/api/' : '/'}`
+      }
+
+      return `${targetPath}${this.currentHash}`
     },
     switchVersion(event) {
       const newVersion = event.target.value
