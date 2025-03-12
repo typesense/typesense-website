@@ -173,6 +173,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
+:::tip
+Typesense uses offset-based pagination. You can control pagination using the `page` and `per_page` parameters. For more details, check the [pagination parameter documentation](#pagination-parameters).
+:::
+
 When a `string[]` field is queried, the `highlights` structure will include the corresponding matching array indices of the snippets. For e.g:
 
 <Tabs :tabs="['JSON']">
