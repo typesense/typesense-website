@@ -174,7 +174,9 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 </Tabs>
 
 :::tip
-Typesense uses offset-based pagination. You can control pagination using the `page` and `per_page` parameters. For more details, check the [pagination parameter documentation](#pagination-parameters).
+Typesense paginates results by default, with a default page size of `10` hits per page.
+
+You can control pagination using the `page` and `per_page` parameters, or use offset-based pagination using the `offset` and `limit` parameters. Read more about pagination in the section about [pagination parameter documentation](#pagination-parameters).
 :::
 
 When a `string[]` field is queried, the `highlights` structure will include the corresponding matching array indices of the snippets. For e.g:
@@ -937,7 +939,7 @@ You'll find detailed documentation for these grouping parameters in the [Groupin
 
 ## Pagination
 
-You can use the `page` and `per_page` search parameters to control pagination of results.
+You can use the `page` and `per_page` search parameters to control pagination of results. You can also use offset-based pagination using the `offset` and `limit` parameters.
 
 By default, Typesense returns the top 10 results (`page: 1`, `per_page: 10`).
 
