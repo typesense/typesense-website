@@ -1,5 +1,12 @@
 # Updating Typesense
 
+Before updating Typesense versions, please make sure you've read the [release notes](https://github.com/typesense/typesense/releases) for each of the versions since the one you'll be upgrading from. 
+
+While we strive hard to minimize any breaking changes between versions, sometimes there might be behavior changes or changes to defaults that might affect search behavior. 
+So we recommend testing version upgrades in a staging environment, before updating your production environment.
+
+We'd also recommend having a set of test search terms and expected results that you can use to verify behavior changes between versions. 
+
 ## Typesense Cloud
 
 If you're running Typesense on Typesense Cloud: 
@@ -24,27 +31,50 @@ We support the following configuration changes in Typesense Cloud:
 
 For all other types of configuration changes, you would have to provision a new cluster with the desired configuration and reindex your data in it.
 
-**Note**: 
+### Zero-Downtime Upgrades on Typesense Cloud
 
-- For single-node non-HA clusters, there will be a downtime of about 5-60 minutes depending on the size of your dataset while the upgrade happens.
-- For multi-node HA and SDN clusters, the upgrade will happen one node at a time, so the other nodes in the cluster will continue to serve traffic and you should see a zero-downtime upgrade. Learn more [here](https://typesense-cloud.helpscoutdocs.com/article/10-high-availability).
+**For clusters that have High Availability enabled and/or Search Delivery Network enabled**: the upgrade will happen one node at a time. So the other nodes in the cluster will continue to serve traffic and you should see a zero-downtime upgrade. 
+Learn more [here](https://typesense-cloud.helpscoutdocs.com/article/10-high-availability) about all the scenarios when HA helps.
+
+:::warning IMPORTANT
+When you have a cluster with High Availability enabled, you want to ensure that you have also configured your client libraries as described [here](./high-availability.md#when-using-typesense-cloud-or-a-load-balancer) with all the hostnames you see in your cluster dashboard, before triggering the config change.
+:::
+
+**For single-node non-HA clusters**: there will be a downtime of about 5-60 minutes depending on the size of your dataset while the upgrade happens. You want to enable HA on your cluster to avoid this downtime. Note that once HA is enabled on a cluster it cannot be turned off. 
 
 ## Typesense Self-Hosted
 
-The process of updating Typesense is simple:
-
-1. Install the new version of Typesense
-2. Restart the server
-
-You won't need to re-index any of your documents.
+The process of updating Typesense is simple - install the new version of Typesense and restart the server. You won't need to re-index any of your documents. 
+Typesense will automatically use the raw data from disk and rebuild the in-memory indices on the new version as needed. 
 
 So if you used the Docker image, just stop the running container, then run `docker run` with the new version. Make sure you pass the same arguments to `docker` run as before.
 
 If you installed Typesense with one of the prebuilt binaries or from one of the package managers, just download the new version of Typesense, replace the binary, or use the package manager to upgrade the DEB/RPM and restart the process.
 
-::: warning Important
-If you are running Typesense in clustered mode for high availability, make sure you update the nodes **one at a time**. Wait until the `/health` endpoint responds with the status code `200` on the node you just updated, before updating the next node.
-:::
+### Zero-Downtime Upgrades when Self-Hosting
+
+If you've deployed Typesense in a multi-node [Highly Available](./high-availability.md) configuration, you can do zero-downtime upgrades by doing a rolling upgrade. 
+
+To do this, you want to make sure you update **one node at a time**, wait until the `/health` endpoint responds with the status code `200` on the node you just updated, before updating the next node.
+
+#### Upgrade Order
+During the upgrade, you want to ensure that the leader of the cluster is using the **older** Typesense version.
+In other words, you want to upgrade each of the followers first and the leader last. 
+You can determine whether a node is a leader or follower by the value of the `state` field in the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#debug`">`/debug`</RouterLink> end-point response.
+
+| State | Role     |
+|-------|----------|
+| 1     | LEADER   |
+| 4     | FOLLOWER |
+
+1. Trigger a snapshot to <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#create-snapshot-for-backups`">create a backup</RouterLink> of your data on the leader node.
+2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer, or via Docker. (See below for code snippets for each installation method).
+3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy).
+4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node uninterrupted for now.
+5. Once all followers have been upgraded to your desired version, stop Typesense on the leader.
+6. The other nodes will elect a new leader and keep working.
+7. Replace the binary on the old leader and start the Typesense server back again.
+8. This node will re-join the cluster as a follower, and we are done.
 
 ### Updating via Docker
 <Tabs :tabs="['Shell']">
