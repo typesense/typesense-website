@@ -45,32 +45,50 @@ const usecases = [
 </script>
 
 <template>
-  <section class="mt-[186px] flex flex-col items-center text-center">
+  <section class="mb-[200px] mt-[186px] flex flex-col items-center text-center">
     <Badge>Search meets 2025</Badge>
-    <h2>
+    <h2 class="max-sm:hidden">
       Meticulously Engineered For <br />
       <strong>Performance</strong> & <strong>Ease-Of-Use</strong>.
     </h2>
-    <div class="usecases mt-8">
+    <h2 class="hidden max-sm:block">
+      Meticulously<br />
+      <strong
+        >Engineered For <br />
+        Performance</strong
+      >
+      &<br />
+      Ease-Of-Use.
+    </h2>
+    <p class="subtext mb-6 hidden !text-[14px] max-sm:block">
+      <b class="text-text-primary">Typesense is a modern</b>, blazing-fast,
+      developer-friendly, open source search engine. It uses cutting-edge
+      algorithms that take advantage of the latest advances in Hardware
+      Capabilities & Machine Learning.
+    </p>
+    <Button type="white" class="hidden max-sm:flex"
+      >Our Mission <ArrowRight
+    /></Button>
+    <div class="card-list mt-8 grid-rows-3 max-sm:grid-rows-5">
       <div
         class="card flex flex-col"
         v-for="usecase in usecases"
         :key="usecase.title"
       >
-        <div class="relative flex-1 overflow-hidden">
+        <div class="relative flex-1 overflow-hidden max-sm:min-h-[108px]">
           <img
-            class="absolute top-0 w-full"
+            class="absolute top-0 w-full rounded-xl max-sm:min-w-[150%] max-sm:rounded-md"
             :src="usecase.image"
             alt="usecase.title"
           />
         </div>
         <h3
-          class="mt-[17px] font-heading text-lg font-medium leading-[1.2] tracking-[-0.54px]"
+          class="mt-[17px] font-heading text-lg font-medium leading-[1.2] tracking-[-0.54px] max-sm:mt-2.5 max-sm:text-sm"
         >
           {{ usecase.title }}
         </h3>
       </div>
-      <div class="card col-span-2 text-left">
+      <div class="card col-span-2 text-left max-sm:hidden">
         <p class="mb-3 text-sm leading-[1.8] tracking-tight text-text-muted">
           <span class="text-text-primary"
             ><b class="font-semibold">Typesense</b> is a modern</span
@@ -84,22 +102,24 @@ const usecases = [
         </div>
       </div>
     </div>
+    <Button class="mt-8 hidden max-sm:flex"
+      >Typesense&rsquo;s use cases <ArrowRight
+    /></Button>
   </section>
 </template>
 
 <style scoped>
 .card {
-  @apply rounded-2xl p-4;
+  @apply rounded-2xl p-4 max-sm:rounded-lg max-sm:p-0.5 max-sm:pb-2.5;
   box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
 }
-.usecases {
-  @apply grid grid-cols-4 grid-rows-4 gap-4;
-}
-.card:last-child {
-  grid-column: 2 / span 2; /* Start at column 2 and span 2 columns */
-}
-.card:nth-child(10) {
-  grid-row: 3;
-  grid-column: 4;
+@media (min-width: 640px) {
+  .card:last-child {
+    grid-column: 2 / span 2; /* Start at column 2 and span 2 columns */
+  }
+  .card:nth-child(10) {
+    grid-row: 3;
+    grid-column: 4;
+  }
 }
 </style>

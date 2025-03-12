@@ -10,7 +10,7 @@
 }
 @media not all and (min-width: 640px) {
   :root {
-    --site-margin: 24px;
+    --site-margin: 16px;
   }
 }
 * {
@@ -49,10 +49,7 @@ h2 strong {
   @apply text-primary;
   font-weight: inherit;
 }
-.subtext {
-  @apply mt-2 text-base tracking-tighter text-text-muted;
-  line-height: 1.8;
-}
+
 .site-padding {
   margin: 0 var(--site-margin);
 }
