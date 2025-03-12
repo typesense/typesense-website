@@ -82,10 +82,12 @@ const platforms = [
         Integrations
       </h2>
       <p class="subtext">
-        CMS, E-Commerce, Dev Platforms and more. Plug and Go.
+        CMS, E-Commerce, Dev Platforms and more.<span class="max-sm:hidden">
+          Plug and Go.</span
+        >
       </p>
     </div>
-    <div class="mt-4 grid grid-cols-4 gap-4">
+    <div class="card-list mt-4 max-md:mt-8">
       <a
         v-for="item in platforms"
         :key="item.name"
