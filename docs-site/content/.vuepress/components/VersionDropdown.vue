@@ -14,7 +14,9 @@
       </option>
     </select>
     <div class="old-version-warning" v-show="showOldVersionWarning">
-      You are viewing docs for an old version. Switch to latest <RouterLink :to="`/${latestVersion}/`"> v{{ latestVersion }}</RouterLink>.
+      You are viewing docs for an old version. Switch to latest
+      <RouterLink :to="getVersionedPath(latestVersion)"> v{{ latestVersion }}</RouterLink
+      >.
     </div>
   </div>
 </template>
@@ -41,18 +43,44 @@ export default {
     },
     showOldVersionWarning() {
       return this.currentVersion && this.currentVersion !== '' && this.currentVersion !== this.latestVersion
-    }
+    },
+    currentPath() {
+      const fullPath = this.$route.path
+      const versionMatch = fullPath.match(new RegExp(`^\\/${this.currentVersion}(\\/.*)?$`))
+      return versionMatch && versionMatch[1] ? versionMatch[1] : '/'
+    },
+    currentHash() {
+      return this.$route.hash || ''
+    },
   },
   methods: {
+    getVersionedPath(version) {
+      const versionParts = version.split('.')
+      const majorVersion = parseInt(versionParts[0], 10)
+      const minorVersion = parseInt(versionParts[1], 10)
+
+      // Determine if version needs API prefix:
+      // - Versions >= 0.20.0 need API prefix
+      // - Also newer format versions (without leading 0) need API prefix
+      const needsApiPrefix = (majorVersion === 0 && minorVersion >= 20) || majorVersion > 0
+
+      const normalizedPath = this.currentPath.replace('/api', '')
+      const prefix = needsApiPrefix ? '/api' : ''
+
+      const targetPath = `/${version}${prefix}${normalizedPath}`
+
+      const pageExists = this.$site.pages.some(page => page.path === targetPath ?? page.path === `${targetPath}/`)
+
+      if (!pageExists && normalizedPath !== '/') {
+        return `/${version}${needsApiPrefix ? '/api/' : '/'}`
+      }
+
+      return `${targetPath}${this.currentHash}`
+    },
     switchVersion(event) {
       const newVersion = event.target.value
-      if (this.$page.typesenseVersion !== newVersion) {
-        let newPath = `/${newVersion}/`
-        const [ majorVersion, minorVersion, patchVersion] = newVersion.split('.')
-        if(majorVersion >= 0 && minorVersion >= 20) {
-          newPath += 'api/'
-        }
-        this.$router.push(newPath)
+      if (this.currentVersion !== newVersion) {
+        this.$router.push(this.getVersionedPath(newVersion))
       }
     },
   },
