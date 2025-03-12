@@ -14,7 +14,7 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       vs Meilisearch vs
       <strong>Typesense</strong>
     </h2>
-    <p class="subtext mb-[55px] mt-2 !text-text-primary max-sm:mb-6">
+    <p class="subtext mb-[55px] mt-2 text-base !text-text-primary max-sm:mb-6">
       <span class="max-sm:hidden">
         We&rsquo;ve compiled a side-by-side chart from each engine&rsquo;s
         official docs - no spin, just the raw data.

@@ -65,14 +65,17 @@ const libraries = [
 </script>
 <template>
   <section class="mt-[194px]">
-    <div class="grid grid-cols-2 gap-4">
-      <div>
+    <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+      <div class="max-sm:text-center">
         <h2>
           <strong>API Libraries</strong> In Your<br />
           Favorite Languages
         </h2>
-        <p class="subtext mb-7">
-          And if you don't find a library, reach out to us to collab on one
+        <p class="subtext mb-7 max-sm:mb-6">
+          And if you don't find a library, reach out to us to<br
+            class="show-sm"
+          />
+          collab on one
         </p>
       </div>
       <div class="grid grid-cols-2 items-end gap-4">
@@ -92,7 +95,7 @@ const libraries = [
         </a>
       </div>
     </div>
-    <div class="mt-4 grid grid-cols-4 gap-4">
+    <div class="card-list mt-4 max-sm:mt-3">
       <a
         v-for="library in libraries.slice(2)"
         :key="library.name"

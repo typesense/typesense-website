@@ -14,7 +14,7 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
       class="mt-[60px] flex flex-col gap-14 max-sm:mt-7 max-sm:flex-col-reverse max-sm:gap-8"
     >
       <div class="flex flex-col items-center">
-        <p class="subtext !mt-0 mb-6 sm:hidden">
+        <p class="subtext !mt-0 mb-6 text-base sm:hidden">
           Typesense is a lightning-fast, open-source search engine designed to
           deliver instant, relevant search results.
         </p>
