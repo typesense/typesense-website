@@ -4,8 +4,8 @@ const typesenseLatestVersion = "28.0";
 <template>
   <section class="mt-[200px] flex w-full flex-col gap-6">
     <div class="ctn">
-      <div class="flex flex-col justify-between py-14">
-        <div>
+      <div class="guide">
+        <div class="max-md:mb-8 max-md:text-center">
           <h3>
             Batteries-Included <br />
             Developer Experience
@@ -57,7 +57,7 @@ brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}</pre
       </CodeBlockTabbed>
     </div>
     <div class="ctn">
-      <div class="flex flex-col justify-between py-14">
+      <div class="guide">
         <div></div>
         <div>
           <div class="step">Step 02</div>
@@ -209,7 +209,7 @@ client.collections['books'].documents.import(documents)</pre
     </div>
 
     <div class="ctn">
-      <div class="flex flex-col justify-between py-14">
+      <div class="guide">
         <div></div>
         <div>
           <div class="step">Step 03</div>
@@ -256,14 +256,17 @@ puts client.collections['books'].documents.search({
 
 <style scoped>
 .ctn {
-  @apply relative flex h-[650px] justify-between gap-24 rounded-[32px] bg-secondary-bg pl-32;
+  @apply relative flex h-[650px] justify-between gap-24 overflow-hidden rounded-[32px] bg-secondary-bg pl-32 max-md:h-auto max-md:flex-col max-md:gap-8 max-md:rounded-b-none max-md:rounded-t-3xl max-md:px-4;
+}
+.guide {
+  @apply flex flex-col justify-between py-14 max-md:pb-0 max-md:pt-8;
 }
 .step {
   @apply mb-3 text-sm tracking-tight;
   opacity: 0.7;
 }
 .code {
-  @apply mt-[142px];
+  @apply mt-[142px] min-h-[350px] flex-1 max-md:mt-0 max-md:max-h-[350px] max-md:!min-w-[calc(100%+48px)];
   max-width: 801px;
   min-width: 801px;
 }

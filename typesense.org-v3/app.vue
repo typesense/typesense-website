@@ -38,6 +38,7 @@ h2 {
   font-size: 48px;
 }
 h3 {
+  @apply max-sm:!text-[24px];
   font-size: 32px;
 }
 h4 {

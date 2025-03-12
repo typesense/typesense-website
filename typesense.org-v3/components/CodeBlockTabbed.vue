@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
     <div
       v-for="tab in tabs"
       :key="tab.displayLanguage"
-      class="tab-pane hidden overflow-hidden rounded-t-xl"
+      class="tab-pane hidden overflow-auto rounded-t-xl"
       :class="{ active: activeTab === tab.displayLanguage }"
     >
       <pre><code
@@ -158,6 +158,7 @@ onBeforeUnmount(() => {
   @apply cursor-pointer rounded-lg bg-bg px-2.5 py-1.5 text-sm leading-[1.1] text-text-muted;
 }
 .copy-btn {
+  @apply bottom-4 right-4 max-md:absolute;
   font-family: "Fira Code", "Inter", sans-serif;
 }
 
@@ -166,28 +167,19 @@ onBeforeUnmount(() => {
 }
 
 .tab-pane.active {
-  display: block;
-  height: 100%;
+  display: flex;
+  flex: 1;
 }
 
-pre[class*="language-"] {
+pre {
   @apply p-6;
-  height: 100%;
+  flex: 1;
+  background-color: #151228;
   overflow: auto;
   margin: 0;
-  background-color: #151228;
   border-radius: 0 !important;
 }
 pre > * {
   font-family: "Fira Code", "Inter", sans-serif !important;
-}
-
-pre[class*="language-"] .url-link {
-  color: #4a9df8;
-  text-decoration: none;
-}
-
-code.underline-links .url-link {
-  border-bottom: #1a5fb4 1px dotted;
 }
 </style>
