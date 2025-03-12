@@ -7,7 +7,9 @@
       It&rsquo;s like Algolia and Pinecone had a baby… that&rsquo;s way easier
       to handle than Elasticsearch and is actually open source.
     </p>
-    <div class="mt-40 grid w-full grid-cols-3 gap-4">
+    <div
+      class="mt-40 grid w-full grid-cols-3 gap-4 max-sm:mt-8 max-sm:grid-cols-1"
+    >
       <div class="card">
         <strong>14M</strong>
         <h3>Docker<br />Pulls</h3>
@@ -26,15 +28,16 @@
 
 <style scoped>
 .card {
-  @apply flex flex-col justify-between rounded-3xl bg-bg-gray-1 p-4 text-left font-medium;
+  @apply flex flex-col justify-between rounded-3xl bg-bg-gray-1 p-4 text-left font-medium max-sm:!aspect-auto max-sm:flex-row-reverse max-sm:items-center max-sm:rounded-xl max-sm:py-2.5;
   aspect-ratio: 184/133;
 }
 .card strong {
-  @apply text-right;
+  @apply text-right max-sm:!text-[64px] max-sm:!tracking-[-2.56px];
   font-size: 100px;
+  letter-spacing: -4px;
 }
 .card h3 {
-  @apply mt-16 font-heading text-2xl;
+  @apply mt-16 font-heading text-2xl max-sm:mt-0 max-sm:!text-[20px];
   line-height: 1.2;
 }
 </style>

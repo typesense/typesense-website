@@ -41,6 +41,7 @@ h3 {
   font-size: 32px;
 }
 h4 {
+  @apply max-sm:!text-[20px];
   font-size: 24px;
 }
 h1 strong,
