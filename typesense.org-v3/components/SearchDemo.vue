@@ -139,19 +139,21 @@ const transformItems = (items: { link: string }[]) =>
     <div
       :class="`mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5 ${props.classNames?.searchBarWrapper || ''}`"
     >
-      <SearchIcon class="mr-3 size-5 text-primary" />
-      <AisSearchBox
-        placeholder="Search for recipes..."
-        class="flex-1 tracking-[-0.32px] text-primary"
-        :class-names="{
-          'ais-SearchBox-input':
-            'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
-          'ais-SearchBox-submit': 'hidden',
-          'ais-SearchBox-reset': 'hidden',
-        }"
-        :show-loading-indicator="false"
-      />
-      <AisStats class="text-sm tracking-[-0.28px] text-text-muted">
+      <div class="input-wrapper flex w-full flex-1 items-center">
+        <SearchIcon class="mr-3 size-5 text-primary" />
+        <AisSearchBox
+          placeholder="Search for recipes..."
+          class="flex-1 tracking-[-0.32px] text-primary"
+          :class-names="{
+            'ais-SearchBox-input':
+              'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
+            'ais-SearchBox-submit': 'hidden',
+            'ais-SearchBox-reset': 'hidden',
+          }"
+          :show-loading-indicator="false"
+        />
+      </div>
+      <AisStats class="stats text-sm tracking-[-0.28px] text-text-muted">
         <template v-slot="{ nbHits, processingTimeMS }">
           <span class="flex items-center gap-2">
             <SearchStatsStars /> Found {{ nbHits.toLocaleString() }} recipes out

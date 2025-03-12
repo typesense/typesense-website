@@ -1,7 +1,7 @@
 <template>
-  <div class="p-x-6 relative w-full">
+  <div class="p-x-6 relative w-full overflow-x-hidden">
     <Navbar />
-    <main class="flex flex-col px-16">
+    <main class="flex flex-col sm:px-6">
       <slot />
     </main>
     <Footer />

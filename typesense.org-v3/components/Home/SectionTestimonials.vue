@@ -1,6 +1,6 @@
 <template>
   <section class="mt-[200px] flex flex-col items-end gap-4">
-    <div class="flex gap-10">
+    <div class="flex w-full justify-between gap-10">
       <div>
         <Badge>Testimonials</Badge>
         <h2>

@@ -12,7 +12,7 @@ const navLinks = ref([
 </script>
 <template>
   <div
-    class="fixed left-36 right-36 top-0 z-10 overflow-hidden rounded-3xl pt-4 backdrop-blur-md"
+    class="header fixed top-0 z-10 overflow-hidden rounded-3xl pt-4 backdrop-blur-md"
   >
     <nav
       class="flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted"
@@ -41,3 +41,11 @@ const navLinks = ref([
     </nav>
   </div>
 </template>
+
+<style scoped>
+.header {
+  --margin: calc(var(--site-margin) + 24px);
+  left: var(--margin);
+  right: var(--margin);
+}
+</style>

@@ -5,14 +5,18 @@ import BackgroundIllustration from "@/assets/images/background-illustration.svg"
 <template>
   <div class="relative min-h-[414px]">
     <BackgroundIllustration
-      class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%]"
+      class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%] max-sm:hidden"
     />
-    <div class="relative w-[784px] p-2">
+    <div
+      class="relative w-[784px] rounded-xl p-2 max-sm:w-full max-sm:overflow-hidden max-sm:p-1"
+    >
       <div class="background"></div>
-      <div class="gradient-secondary"></div>
+      <div class="gradient-secondary max-sm:hidden"></div>
       <div class="gradient"></div>
       <SearchDemo
         :class-names="{
+          searchBarWrapper:
+            'max-sm:flex-col max-sm:items-start max-sm:[&_.input-wrapper]:border-b-2 max-sm:[&_.input-wrapper]:border-bg-gray-1 max-sm:[&_.stats]:py-2',
           hitItem: '[&_a]:!text-text-muted',
         }"
       />
