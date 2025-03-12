@@ -66,16 +66,20 @@ const userLogos = [
 
 <template>
   <section class="mt-[200px]">
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
       <div class="flex h-max flex-col justify-between gap-6">
-        <div>
+        <div class="flex flex-col max-sm:items-center max-sm:text-center">
           <Badge>You'll be in good company</Badge>
-          <h2>
+          <h2 class="max-sm:hidden">
             From <strong>Scrappy</strong> Startups to
             <strong>Household</strong> Names
           </h2>
+          <h2 class="hidden max-sm:block">
+            Trusted <strong>by Teams</strong><br />
+            of all Sizes
+          </h2>
         </div>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4 max-sm:hidden">
           <Card
             class="h-[140px]"
             v-for="userLogo in userLogos.slice(0, 2)"
@@ -91,7 +95,7 @@ const userLogos = [
           </Card>
         </div>
       </div>
-      <div class="relative mt-3.5 overflow-hidden">
+      <div class="relative mt-3.5 overflow-hidden max-sm:h-[208px]">
         <img
           class="absolute h-full w-full rounded-3xl object-cover"
           src="@/assets/images/typesense-on-nasdaq.jpeg"
@@ -99,15 +103,15 @@ const userLogos = [
         />
       </div>
     </div>
-    <div class="mt-4 grid grid-cols-4 gap-4">
+    <div class="user-list card-list mt-4 max-sm:mt-2.5">
       <Card
-        class="h-[140px]"
-        v-for="userLogo in userLogos.slice(2)"
+        class="card h-[140px]"
+        v-for="userLogo in userLogos"
         :key="userLogo.href"
       >
         <a :key="userLogo.href" :href="userLogo.href" target="_blank">
           <img
-            class=""
+            class="max-sm:scale-75"
             :src="userLogo.imgPath"
             :alt="userLogo.alt"
             :style="`height:${userLogo.height}px !important;`"
@@ -117,3 +121,10 @@ const userLogos = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.user-list .card:first-child,
+.user-list .card:nth-child(2) {
+  @apply sm:hidden;
+}
+</style>
