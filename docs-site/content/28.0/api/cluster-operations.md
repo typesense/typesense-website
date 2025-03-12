@@ -480,3 +480,44 @@ set to either `OUT_OF_DISK` or `OUT_OF_MEMORY`.
 #### Definition
 `GET ${TYPESENSE_HOST}/health`
 
+## Debug
+
+Get debugging information about a Typesense node.
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/debug" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "state": 1,
+  "version": "28.0"
+}
+```
+
+  </template>
+</Tabs>
+
+`version` is the version of Typesense you're running.
+
+You can determine whether a node is a leader or follower by the value of the `state` field:
+
+| State | Role     |
+|-------|----------|
+| 1     | LEADER   |
+| 4     | FOLLOWER |
+
+#### Definition
+`GET ${TYPESENSE_HOST}/debug`
+
