@@ -88,20 +88,30 @@ const features = [
 </script>
 
 <template>
-  <section class="mt-[200px] grid grid-cols-4 grid-rows-4 gap-4">
-    <div class="col-span-2 mb-3.5">
-      <Badge>Neatly WRAPPED in a RESTful API</Badge>
+  <section class="card-list mt-[200px]">
+    <div
+      class="col-span-2 mb-3.5 flex flex-col items-center max-sm:mb-5 max-sm:text-center"
+    >
+      <Badge
+        ><span class="max-sm:hidden">Neatly WRAPPED in a RESTful API</span>
+        <span class="show-sm">Typesense</span></Badge
+      >
       <h2>
         Features <strong>you&rsquo;ll <br />Love</strong>, minus the<br />
         complexity
       </h2>
     </div>
 
-    <Card class="p-4" v-for="item in features">
+    <Card
+      class="p-4 max-sm:bg-bg max-sm:p-0.5 max-sm:pb-2.5 max-sm:shadow-[-4px_4px_16px_0px_rgba(0,_0,_0,_0.07)]"
+      v-for="item in features"
+    >
       <div class="flex h-full w-full flex-col">
-        <div class="relative aspect-[40/17] overflow-hidden">
+        <div
+          class="relative aspect-[40/17] overflow-hidden max-sm:aspect-auto max-sm:h-[108px]"
+        >
           <img
-            class="absolute w-full rounded-2xl"
+            class="absolute w-full rounded-2xl max-sm:min-w-[145%] max-sm:rounded-md"
             :src="item.image"
             :alt="item.name"
           />
@@ -111,15 +121,17 @@ const features = [
             <img :src="item.icon" alt="" />
           </div>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 max-sm:mx-1.5 max-sm:mt-2.5">
           <h3>{{ item.name }}</h3>
-          <p class="subtext !text-[14px]">{{ item.description }}</p>
+          <p class="subtext !text-[14px]">
+            {{ item.description }}
+          </p>
         </div>
       </div>
     </Card>
-    <div id="empty"></div>
+    <div id="empty" class="max-sm:hidden"></div>
 
-    <div class="relative rounded-2xl bg-secondary p-4">
+    <div class="relative rounded-2xl bg-secondary p-4 max-sm:hidden">
       <h3 class="!text-2xl !tracking-[-0.72px]">Typesense <br />Features</h3>
       <img
         class="absolute bottom-0 right-0"

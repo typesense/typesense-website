@@ -75,9 +75,11 @@ const usecases = [
         v-for="usecase in usecases"
         :key="usecase.title"
       >
-        <div class="relative flex-1 overflow-hidden max-sm:min-h-[108px]">
+        <div
+          class="relative flex-1 overflow-hidden max-sm:min-h-[108px] max-sm:rounded-t-md"
+        >
           <img
-            class="absolute top-0 w-full rounded-xl max-sm:min-w-[150%] max-sm:rounded-md"
+            class="absolute top-0 w-full rounded-xl max-sm:min-w-[150%] max-sm:rounded-md max-sm:rounded-none"
             :src="usecase.image"
             alt="usecase.title"
           />
