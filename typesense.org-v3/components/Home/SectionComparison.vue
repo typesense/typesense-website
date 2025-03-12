@@ -14,13 +14,20 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       vs Meilisearch vs
       <strong>Typesense</strong>
     </h2>
-    <p class="subtext mb-[55px] mt-2 !text-text-primary">
-      We&rsquo;ve compiled a side-by-side chart from each engine&rsquo;s
-      official docs - no spin, just the raw data.
+    <p class="subtext mb-[55px] mt-2 !text-text-primary max-sm:mb-6">
+      <span class="max-sm:hidden">
+        We&rsquo;ve compiled a side-by-side chart from each engine&rsquo;s
+        official docs - no spin, just the raw data.
+      </span>
+      <span class="hidden max-sm:block"
+        >This table is meant to give you an objective side-by-side comparison of
+        key features in each search engine and is based on each search engine's
+        documentation.</span
+      >
     </p>
     <Button type="white">See More <ArrowRight /></Button>
     <div
-      class="card relative mb-[-6px] mt-6 w-[832px] rounded-t-3xl bg-bg-gray-2 px-4 pt-4"
+      class="card relative mb-[-6px] mt-6 w-[832px] rounded-t-3xl bg-bg-gray-2 px-4 pt-4 max-sm:w-full"
     >
       <Dots />
       <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
@@ -29,8 +36,8 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
             <th class="rounded-l-xl py-3 pl-4 text-left">Features</th>
             <th>Typesense</th>
             <th>Algolia</th>
-            <th>ElasticSearch</th>
-            <th class="rounded-r-xl py-3">Meilisearch</th>
+            <th class="py-3">ElasticSearch</th>
+            <th class="rounded-r-xl">Meilisearch</th>
           </tr>
         </thead>
         <tbody>
@@ -166,5 +173,24 @@ tbody tr td:first-child {
 }
 tbody tr td:last-child {
   @apply rounded-r-xl;
+}
+@media not all and (min-width: 640px) {
+  td:nth-child(1),
+  th:nth-child(1),
+  td:last-child,
+  th:last-child {
+    display: none;
+  }
+  td:nth-child(2),
+  th:nth-child(2) {
+    @apply rounded-l-xl;
+  }
+  td:nth-child(4),
+  th:nth-child(4) {
+    @apply rounded-r-xl;
+  }
+  td {
+    @apply py-5;
+  }
 }
 </style>
