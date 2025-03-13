@@ -2,7 +2,9 @@
 import ArrowRight from "@/assets/icons/arrow-right.svg";
 </script>
 <template>
-  <section class="flex w-full flex-col items-center pt-32 text-center">
+  <section
+    class="mt-32 flex w-full flex-col items-center text-center max-md:mt-20"
+  >
     <Badge>NO PHD REQUIRED</Badge>
     <h1>Lightning Fast, <br /><strong>Open Source </strong>Search</h1>
     <p class="subtext max-sm:hidden">

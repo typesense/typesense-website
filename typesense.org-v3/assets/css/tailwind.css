@@ -11,6 +11,9 @@
     line-height: 1.8;
   }
 
+  .show-md {
+    @apply hidden max-md:block;
+  }
   .show-sm {
     @apply hidden max-sm:block;
   }
