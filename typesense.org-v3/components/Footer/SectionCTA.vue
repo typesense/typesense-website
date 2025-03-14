@@ -4,7 +4,7 @@ import Dots from "@/assets/images/dots.svg";
 </script>
 <template>
   <section
-    class="footer-cta relative mt-[200px] flex h-[500px] justify-between gap-[100px] overflow-hidden bg-secondary-bg pl-16 pt-20 max-md:flex-col max-md:gap-[52px] max-md:px-4 max-md:pt-8"
+    class="footer-cta relative mt-[var(--section-gap)] flex h-[500px] justify-between gap-[100px] overflow-hidden bg-secondary-bg pl-16 pt-20 max-md:flex-col max-md:gap-[52px] max-md:px-4 max-md:pt-8"
   >
     <div class="flex-col items-center max-md:flex">
       <Badge>NO PHD REQUIRED</Badge>

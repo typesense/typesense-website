@@ -2,7 +2,7 @@
 const typesenseLatestVersion = "28.0";
 </script>
 <template>
-  <section class="mt-[200px] flex w-full flex-col gap-6">
+  <section class="flex w-full flex-col gap-6">
     <div class="ctn">
       <div class="guide">
         <div class="max-md:mb-8 max-md:text-center">

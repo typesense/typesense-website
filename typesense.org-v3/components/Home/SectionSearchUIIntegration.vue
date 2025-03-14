@@ -22,7 +22,7 @@ const integrations = [
 </script>
 
 <template>
-  <section class="mt-[200px]">
+  <section>
     <div class="mb-7 text-center">
       <h2>
         Build <strong>Powerful</strong><br />

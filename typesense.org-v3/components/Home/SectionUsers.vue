@@ -65,7 +65,7 @@ const userLogos = [
 </script>
 
 <template>
-  <section class="mt-[200px]">
+  <section>
     <div class="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
       <div class="flex h-max flex-col justify-between gap-6">
         <div class="flex flex-col max-sm:items-center max-sm:text-center">

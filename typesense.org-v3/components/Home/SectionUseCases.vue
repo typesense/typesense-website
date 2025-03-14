@@ -45,7 +45,7 @@ const usecases = [
 </script>
 
 <template>
-  <section class="mb-[200px] mt-[186px] flex flex-col items-center text-center">
+  <section class="flex flex-col items-center text-center">
     <Badge>Search meets 2025</Badge>
     <h2 class="max-sm:hidden">
       Meticulously Engineered For <br />

@@ -1,5 +1,5 @@
 <template>
-  <section class="flex w-full flex-col items-center pt-32 text-center">
+  <section class="flex w-full flex-col items-center text-center">
     <h2 class="mb-2 mt-4">
       The <strong>Open Source Alternative</strong> to Algolia
     </h2>

@@ -64,7 +64,7 @@ const libraries = [
 ];
 </script>
 <template>
-  <section class="mt-[194px]">
+  <section>
     <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
       <div class="max-sm:text-center">
         <h2>

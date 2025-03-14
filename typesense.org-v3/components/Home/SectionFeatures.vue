@@ -88,9 +88,9 @@ const features = [
 </script>
 
 <template>
-  <section class="card-list mt-[200px]">
+  <section class="card-list">
     <div
-      class="col-span-2 mb-3.5 flex flex-col items-center max-sm:mb-5 max-sm:text-center"
+      class="col-span-2 mb-3.5 flex flex-col max-md:items-center max-sm:mb-5 max-sm:text-center"
     >
       <Badge
         ><span class="max-sm:hidden">Neatly WRAPPED in a RESTful API</span>

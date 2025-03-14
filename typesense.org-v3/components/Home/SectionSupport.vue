@@ -3,9 +3,7 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
 import Dots from "@/assets/images/dots.svg";
 </script>
 <template>
-  <section
-    class="mt-[200px] flex items-end justify-between gap-6 max-md:flex-col"
-  >
+  <section class="flex items-end justify-between gap-6 max-md:flex-col">
     <div
       class="flex-col items-center max-md:flex max-md:w-full max-md:text-center"
     >

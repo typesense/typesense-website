@@ -9,9 +9,7 @@ import Keyboard from "@/assets/icons/keyboard.svg";
 import Box from "@/assets/icons/box.svg";
 </script>
 <template>
-  <section
-    class="mt-[200px] grid grid-cols-4 gap-4 max-md:gap-2 max-sm:grid-cols-1"
-  >
+  <section class="grid grid-cols-4 gap-4 max-md:gap-2 max-sm:grid-cols-1">
     <div class="flex-col items-center max-md:flex max-md:text-center">
       <Badge>Live</Badge>
       <h2>Showcase</h2>
@@ -105,7 +103,7 @@ import Box from "@/assets/icons/box.svg";
       />
     </div>
   </section>
-  <section class="beyond-search mt-[200px]">
+  <section class="beyond-search">
     <div class="flex flex-col items-center text-center">
       <Badge>Beyond Search</Badge>
       <h2>
