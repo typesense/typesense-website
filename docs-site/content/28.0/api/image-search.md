@@ -52,7 +52,7 @@ Notice the new data type called `type: image` for the field named `image`, which
 
 The `store: false` property in the field definition tells Typesense to use the field only for generating the embeddings, and to then discard the image from the document and not store it on disk. 
 
-You can also combine text and image embeddings with a collection schema like the following:
+You can also combine text and image into a single embedding with a collection schema like the following:
 
 ```json{8-12,16-22}
 {
