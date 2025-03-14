@@ -52,6 +52,38 @@ Notice the new data type called `type: image` for the field named `image`, which
 
 The `store: false` property in the field definition tells Typesense to use the field only for generating the embeddings, and to then discard the image from the document and not store it on disk. 
 
+You can also combine text and image embeddings with a collection schema like the following:
+
+```json{8-12,16-22}
+{
+  "name": "images",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "image",
+      "type": "image",
+      "store": false
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "name",
+          "image"
+        ],
+        "model_config": {
+          "model_name": "ts/clip-vit-b-p32"
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Index documents with images
 
 Here's an example of how your JSON document that you [import](./documents.md#index-multiple-documents) into Typesense might look:
