@@ -69,23 +69,23 @@ const usecases = [
     <Button type="white" class="hidden max-sm:flex"
       >Our Mission <ArrowRight
     /></Button>
-    <div class="card-list mt-8 grid-rows-3 max-sm:grid-rows-5">
+    <div class="card-list mt-8 grid-rows-3 text-left max-sm:grid-rows-5">
       <div
         class="card flex flex-col"
         v-for="usecase in usecases"
         :key="usecase.title"
       >
         <div
-          class="relative flex-1 overflow-hidden max-sm:min-h-[108px] max-sm:rounded-t-md"
+          class="relative min-h-[104px] flex-1 overflow-hidden max-sm:rounded-t-md"
         >
           <img
-            class="absolute top-0 w-full rounded-xl max-sm:min-w-[150%] max-sm:rounded-md max-sm:rounded-none"
+            class="absolute top-0 w-full rounded-xl max-sm:min-w-[150%] max-sm:rounded-none"
             :src="usecase.image"
             alt="usecase.title"
           />
         </div>
         <h3
-          class="mt-[17px] font-heading text-lg font-medium leading-[1.2] tracking-[-0.54px] max-sm:mt-2.5 max-sm:text-sm"
+          class="mt-[17px] text-lg leading-[1.2] tracking-[-0.54px] max-md:px-1.5 max-sm:my-2.5 max-sm:!text-[14px]"
         >
           {{ usecase.title }}
         </h3>
@@ -112,7 +112,7 @@ const usecases = [
 
 <style scoped>
 .card {
-  @apply rounded-2xl p-4 max-sm:rounded-lg max-sm:p-0.5 max-sm:pb-2.5;
+  @apply rounded-2xl p-4 max-sm:rounded-lg max-sm:p-0.5 max-sm:pb-0;
   box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
 }
 @media (min-width: 640px) {

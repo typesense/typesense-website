@@ -123,7 +123,7 @@ const features = [
         </div>
         <div class="mt-4 max-sm:mx-1.5 max-sm:mt-2.5">
           <h3>{{ item.name }}</h3>
-          <p class="subtext !text-[14px]">
+          <p class="subtext !text-[14px] max-sm:mt-1 max-sm:!text-[12px]">
             {{ item.description }}
           </p>
         </div>
@@ -149,6 +149,6 @@ const features = [
 }
 
 h3 {
-  @apply font-heading text-lg !leading-[1.2] tracking-[-0.54px];
+  @apply tracking-[-0.54px] max-sm:!text-[14px];
 }
 </style>
