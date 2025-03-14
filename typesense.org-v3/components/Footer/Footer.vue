@@ -50,7 +50,7 @@ const supportLinks = [
 <template>
   <FooterSectionCTA />
   <footer
-    class="w-full bg-bg px-16 py-[67px] text-sm text-text-muted max-md:px-10 max-md:py-8"
+    class="w-full bg-bg px-16 pt-[67px] text-sm text-text-muted max-md:px-10 max-md:pt-8"
   >
     <div class="mb-14 flex gap-24 max-md:mb-8 max-md:flex-col max-md:gap-10">
       <div class="flex flex-col justify-between gap-10">
@@ -128,7 +128,7 @@ const supportLinks = [
     </div>
 
     <div
-      class="flex items-center justify-between gap-8 border-t-2 border-t-muted py-[20px] max-md:flex-col-reverse"
+      class="flex items-center justify-between gap-8 border-t-2 border-t-muted py-5 max-md:flex-col-reverse"
     >
       <div
         class="flex items-center gap-12 text-sm max-md:flex-col max-md:gap-2 max-md:text-center"
