@@ -49,17 +49,14 @@ const supportLinks = [
 
 <template>
   <FooterSectionCTA />
-  <footer class="w-full bg-bg px-16 py-[67px] text-sm text-text-muted">
-    <div class="mb-14 flex gap-24">
-      <div class="flex flex-col justify-between">
+  <footer
+    class="w-full bg-bg px-16 py-[67px] text-sm text-text-muted max-md:px-10 max-md:py-8"
+  >
+    <div class="mb-14 flex gap-24 max-md:mb-8 max-md:flex-col max-md:gap-10">
+      <div class="flex flex-col justify-between gap-10">
         <div>
-          <div class="mb-6 flex items-center text-xl text-text-primary">
-            <img
-              src="/typesense-icon-black.svg"
-              alt="Typesense"
-              class="mr-2 inline-block h-8 w-8"
-            />
-            <img src="/typesense-logo-black.svg" alt="" />
+          <div class="mb-6 max-md:mb-4">
+            <Logo />
           </div>
           <div>
             Fast, open source, typo-tolerant <br />
@@ -73,14 +70,23 @@ const supportLinks = [
           </div>
         </div>
       </div>
-      <div class="flex w-full justify-evenly gap-20">
+      <div
+        class="flex w-full justify-evenly gap-20 max-md:flex-col max-md:gap-10"
+      >
         <div>
           <h5>Page</h5>
-          <ul>
-            <li v-for="page in pages" :key="page.name">
-              <NuxtLink :to="page.link">{{ page.name }}</NuxtLink>
-            </li>
-          </ul>
+          <div class="gap-6 max-md:flex">
+            <ul>
+              <li v-for="page in pages.slice(0, 3)" :key="page.name">
+                <NuxtLink :to="page.link">{{ page.name }}</NuxtLink>
+              </li>
+            </ul>
+            <ul class="md:mt-3">
+              <li v-for="page in pages.slice(3, undefined)" :key="page.name">
+                <NuxtLink :to="page.link">{{ page.name }}</NuxtLink>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="col-span-2">
           <h5>Libraries</h5>
@@ -122,9 +128,11 @@ const supportLinks = [
     </div>
 
     <div
-      class="flex items-center justify-between border-t-2 border-t-muted py-[20px]"
+      class="flex items-center justify-between gap-8 border-t-2 border-t-muted py-[20px] max-md:flex-col-reverse"
     >
-      <div class="flex gap-12 text-sm">
+      <div
+        class="flex items-center gap-12 text-sm max-md:flex-col max-md:gap-2 max-md:text-center"
+      >
         <div>Terms & Conditions</div>
         <div>Typesense® is a registered trademark of Typesense, Inc.</div>
       </div>
@@ -149,9 +157,12 @@ const supportLinks = [
 
 <style scoped>
 h5 {
-  @apply mb-4 text-base font-medium text-text-primary;
+  @apply mb-4 text-base font-medium text-text-primary max-md:mb-3;
+}
+ul {
+  @apply flex flex-col gap-3;
 }
 li {
-  @apply mb-3;
+  min-width: 14ch;
 }
 </style>

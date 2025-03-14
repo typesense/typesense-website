@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],

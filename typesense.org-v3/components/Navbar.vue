@@ -61,7 +61,7 @@ const toggle = () => {
 
 <style scoped>
 .dropdown {
-  transition: clip-path 0.5s cubic-bezier(0.83, 0, 0.17, 1);
+  transition: clip-path 0.5s cubic-bezier(0.65, 0.72, 0, 1);
 }
 .dropdown.active {
   clip-path: inset(0% 0% 0% 0%);
