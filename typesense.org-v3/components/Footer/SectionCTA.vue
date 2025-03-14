@@ -4,15 +4,16 @@ import Dots from "@/assets/images/dots.svg";
 </script>
 <template>
   <section
-    class="footer-cta relative mt-[200px] flex h-[500px] justify-between gap-[100px] overflow-hidden bg-secondary-bg pl-16 pt-20"
+    class="footer-cta relative mt-[200px] flex h-[500px] justify-between gap-[100px] overflow-hidden bg-secondary-bg pl-16 pt-20 max-md:flex-col max-md:gap-[52px] max-md:px-4 max-md:pt-8"
   >
-    <div>
+    <div class="flex-col items-center max-md:flex">
       <Badge>NO PHD REQUIRED</Badge>
-      <h1 class="font-heading text-[56px] leading-[1.2]">
-        Lightning-Fast <br /><strong>Open Source </strong>Search
+      <h1 class="max-md:text-center max-md:!text-[32px]">
+        Lightning-Fast <br class="max-md:hidden" /><strong>Open Source </strong
+        >Search
       </h1>
 
-      <div class="mt-10 flex items-center gap-3">
+      <div class="mt-10 flex items-center gap-3 max-md:mt-6">
         <Button type="primary">
           Try For Free
           <ArrowRight class="text-text-inverted" />
@@ -20,7 +21,7 @@ import Dots from "@/assets/images/dots.svg";
         <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
       </div>
     </div>
-    <div class="relative bottom-[-12px]">
+    <div class="relative bottom-[-12px] max-md:bottom-0 max-md:left-3">
       <div
         class="flex h-full w-[860px] flex-col gap-4 rounded-tl-3xl bg-bg-gray-2 px-4 pt-4 shadow-[-5px_4px_34px_0px_rgba(0,0,0,0.10)]"
       >
