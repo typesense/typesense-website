@@ -149,6 +149,6 @@ const features = [
 }
 
 h3 {
-  @apply tracking-[-0.54px] max-sm:!text-[14px];
+  @apply text-[18px] tracking-[-0.54px] max-sm:!text-[14px];
 }
 </style>

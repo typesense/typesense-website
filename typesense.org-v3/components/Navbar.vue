@@ -9,8 +9,11 @@ const navLinks = ref([
   { name: "About", link: "/about" },
   { name: "Docs", link: "/docs" },
   { name: "Downloads", link: "/downloads" },
-  { name: "Roadmap", link: "/roadmap" },
-  { name: "Typesense Cloud", link: "/cloud" },
+  { name: "Roadmap", link: "https://github.com/orgs/typesense/projects/1" },
+  {
+    name: "Typesense Cloud",
+    link: "https://cloud.typesense.org/",
+  },
   { name: "Blog", link: "/blog" },
   { name: "Support", link: "/support" },
 ]);
@@ -42,7 +45,7 @@ const toggle = () => {
           class="flex items-center gap-8 max-md:flex-col max-md:items-start max-md:gap-4"
         >
           <li v-for="item in navLinks" :key="item.link">
-            <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+            <CustomLink :to="item.link">{{ item.name }}</CustomLink>
           </li>
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
