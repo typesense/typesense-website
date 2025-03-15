@@ -103,7 +103,7 @@ const features = [
     </div>
 
     <Card
-      class="p-4 max-sm:bg-bg max-sm:p-0.5 max-sm:pb-2.5 max-sm:shadow-[-4px_4px_16px_0px_rgba(0,_0,_0,_0.07)]"
+      class="!h-auto p-4 max-sm:bg-bg max-sm:p-0.5 max-sm:pb-2.5 max-sm:shadow-[-4px_4px_16px_0px_rgba(0,_0,_0,_0.07)]"
       v-for="item in features"
     >
       <div class="flex h-full w-full flex-col">

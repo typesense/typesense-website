@@ -39,7 +39,7 @@ const integrations = [
         target="_blank"
         rel="noopener"
       >
-        <Card class="h-[140px]">
+        <Card>
           <img :width="item.width" :src="item.img" :alt="item.name" /> </Card
       ></a>
     </div>

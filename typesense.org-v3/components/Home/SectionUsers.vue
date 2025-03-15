@@ -80,11 +80,7 @@ const userLogos = [
           </h2>
         </div>
         <div class="grid grid-cols-2 gap-4 max-sm:hidden">
-          <Card
-            class="h-[140px]"
-            v-for="userLogo in userLogos.slice(0, 2)"
-            :key="userLogo.href"
-          >
+          <Card v-for="userLogo in userLogos.slice(0, 2)" :key="userLogo.href">
             <a :key="userLogo.href" :href="userLogo.href" target="_blank">
               <img
                 :src="userLogo.imgPath"
@@ -104,11 +100,7 @@ const userLogos = [
       </div>
     </div>
     <div class="user-list card-list mt-4 max-sm:mt-2.5">
-      <Card
-        class="card h-[140px]"
-        v-for="userLogo in userLogos"
-        :key="userLogo.href"
-      >
+      <Card class="card" v-for="userLogo in userLogos" :key="userLogo.href">
         <a :key="userLogo.href" :href="userLogo.href" target="_blank">
           <img
             class="max-sm:scale-75"

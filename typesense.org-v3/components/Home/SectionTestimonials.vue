@@ -31,8 +31,6 @@ const initEmbla = async () => {
   emblaApi.value.on("select", () => {
     current.value = emblaApi.value?.selectedScrollSnap() || 0;
   });
-
-  console.log(emblaApi.value);
 };
 
 function onDotClick(index: number) {

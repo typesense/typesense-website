@@ -86,7 +86,7 @@ const libraries = [
           target="_blank"
           rel="noopener"
         >
-          <Card class="h-[140px]"
+          <Card
             ><img
               :width="library.width"
               :src="library.image"
@@ -103,7 +103,7 @@ const libraries = [
         target="_blank"
         rel="noopener"
       >
-        <Card class="h-[140px]"
+        <Card
           ><img :width="library.width" :src="library.image" :alt="library.name"
         /></Card>
       </a>
