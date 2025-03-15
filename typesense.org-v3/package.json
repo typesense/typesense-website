@@ -13,6 +13,8 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@pinia/nuxt": "^0.10.1",
+    "embla-carousel": "^8.5.2",
+    "embla-carousel-vue": "^8.5.2",
     "lodash.startcase": "^4.4.0",
     "nuxt": "^3.13.1",
     "prism-themes": "^1.9.0",
