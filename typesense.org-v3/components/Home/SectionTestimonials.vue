@@ -89,7 +89,7 @@ onUnmounted(() => {
           <img
             class="self-end"
             width="73.5"
-            src="/images/user_logos/kick-logo.svg"
+            src="/images/user-logos/kick-logo.svg"
             alt="Kick"
           />
         </div>
@@ -101,7 +101,7 @@ onUnmounted(() => {
             customization options within the Cloud Dashboard have been the real
             highlights so far.
           </p>
-          <img class="self-end" src="/images/user_logos/n8n.svg" alt="n8n" />
+          <img class="self-end" src="/images/user-logos/n8n.svg" alt="n8n" />
         </div>
         <div class="card">
           <p class="subtext !mt-0">
