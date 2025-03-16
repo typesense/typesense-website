@@ -22,7 +22,9 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
         </p>
         <div class="flex items-center gap-3">
           <Button> Try For Free <ArrowRight /> </Button>
-          <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
+          <Button :link="LINK_TYPESENSE_CLOUD" type="white">
+            Typesense Cloud <ArrowRight />
+          </Button>
         </div>
       </div>
       <HomeSectionSearch />

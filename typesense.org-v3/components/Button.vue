@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 interface Props {
   type?: "primary" | "secondary" | "white" | "primary-white-shadow";
+  link?: string;
+  class?: string;
 }
 
-const { type = "secondary" } = defineProps<Props>();
+const {
+  type = "secondary",
+  link = "/",
+  class: className = "",
+} = defineProps<Props>();
 
 let classes = "";
 switch (type) {
@@ -19,9 +25,11 @@ switch (type) {
 }
 </script>
 <template>
-  <button
-    :class="`flex items-center gap-2 rounded-full px-6 py-2 text-base font-semibold tracking-[-0.32px] shadow-[-4px_4px_0px_0px] shadow-dark-bg max-md:px-4 max-md:py-2.5 max-sm:text-sm ${classes}`"
-  >
-    <slot></slot>
-  </button>
+  <CustomLink :to="link">
+    <button
+      :class="`flex items-center gap-2 rounded-full px-6 py-2 text-base font-semibold tracking-[-0.32px] shadow-[-4px_4px_0px_0px] shadow-dark-bg max-md:px-4 max-md:py-2.5 max-sm:text-sm ${classes} ${className}`"
+    >
+      <slot></slot>
+    </button>
+  </CustomLink>
 </template>

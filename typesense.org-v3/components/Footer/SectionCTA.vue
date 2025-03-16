@@ -18,7 +18,9 @@ import Dots from "@/assets/images/dots.svg";
           Try For Free
           <ArrowRight class="text-text-inverted" />
         </Button>
-        <Button type="white"> Typesense Cloud <ArrowRight /> </Button>
+        <Button :link="LINK_TYPESENSE_CLOUD" type="white">
+          Typesense Cloud <ArrowRight />
+        </Button>
       </div>
     </div>
     <div class="relative bottom-[-12px] max-md:bottom-0 max-md:left-3">

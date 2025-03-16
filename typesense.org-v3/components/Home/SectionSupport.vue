@@ -1,6 +1,10 @@
 <script setup>
 import ArrowRight from "@/assets/icons/arrow-right.svg";
 import Dots from "@/assets/images/dots.svg";
+
+const GITHUB = "https://github.com/typesense/typesense/issues";
+const PRIORITY = "/support";
+const SLACK = "https://typesense.link/slack-community";
 </script>
 <template>
   <section class="flex items-end justify-between gap-6 max-md:flex-col">
@@ -40,7 +44,9 @@ import Dots from "@/assets/images/dots.svg";
           </div>
           <div class="heading-cta">
             <h4>Priority Support</h4>
-            <Button type="white">Learn More <ArrowRight /></Button>
+            <Button :link="PRIORITY" type="white"
+              >Learn More <ArrowRight
+            /></Button>
           </div>
         </div>
         <div class="card">
@@ -55,7 +61,9 @@ import Dots from "@/assets/images/dots.svg";
           </div>
           <div class="heading-cta">
             <h4>Github</h4>
-            <Button type="white">Learn More <ArrowRight /></Button>
+            <Button :link="GITHUB" type="white"
+              >Learn More <ArrowRight
+            /></Button>
           </div>
         </div>
         <div class="card !bg-primary">
@@ -70,7 +78,7 @@ import Dots from "@/assets/images/dots.svg";
           </div>
           <div class="heading-cta">
             <h4 class="text-text-inverted">Slack</h4>
-            <Button>Learn More <ArrowRight /></Button>
+            <Button :link="SLACK">Learn More <ArrowRight /></Button>
           </div>
         </div>
       </div>

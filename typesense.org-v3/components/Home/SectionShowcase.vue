@@ -17,91 +17,111 @@ import Box from "@/assets/icons/box.svg";
         Live Demos, with Full Source.<br />
         Fork Away.
       </p>
-      <Button class="mt-8 max-md:my-6">See More<ArrowRight /></Button>
+      <Button
+        link="https://github.com/typesense/typesense/blob/master/SHOWCASE.md"
+        class="mt-8 max-md:my-6"
+        >See More<ArrowRight
+      /></Button>
     </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top">
-          <span>Instant Search</span>
-          <div class="icon-list"><Flash /> <Search /><Music /></div>
+    <CustomLink to="https://songs-search.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top">
+            <span>Instant Search</span>
+            <div class="icon-list"><Flash /> <Search /><Music /></div>
+          </div>
+          <h5>32 Million Songs</h5>
         </div>
-        <h5>32 Million Songs</h5>
+        <HomeSearchPaneIllustration
+          searchPlaceHolder="Type in a Song, Artist, Album"
+          :autocompleteItems="['Annie’s song Denver', 'Wonderwall Oasis']"
+        />
       </div>
-      <HomeSearchPaneIllustration
-        searchPlaceHolder="Type in a Song, Artist, Album"
-        :autocompleteItems="['Annie’s song Denver', 'Wonderwall Oasis']"
-      />
-    </div>
-    <div class="card !bg-secondary-bg">
-      <div class="top-container">
-        <div class="top">
-          <span>Instant Search</span>
-          <div class="icon-list"><Flash /> <Search /><CopyThin /></div>
+    </CustomLink>
+    <CustomLink to="https://books-search.typesense.org/">
+      <div class="card !bg-secondary-bg">
+        <div class="top-container">
+          <div class="top">
+            <span>Instant Search</span>
+            <div class="icon-list"><Flash /> <Search /><CopyThin /></div>
+          </div>
+          <h5>28 Million Books</h5>
         </div>
-        <h5>28 Million Books</h5>
+        <HomeSearchPaneIllustration
+          searchPlaceHolder="Type in a book title or author"
+          :autocompleteItems="['Dale Carnegie', 'Shoe Dog']"
+        />
       </div>
-      <HomeSearchPaneIllustration
-        searchPlaceHolder="Type in a book title or author"
-        :autocompleteItems="['Dale Carnegie', 'Shoe Dog']"
-      />
-    </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top">
-          <span>Instant Search</span>
-          <div class="icon-list"><Flash /> <Search /><Coffee /></div>
+    </CustomLink>
+    <CustomLink to="https://recipe-search.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top">
+            <span>Instant Search</span>
+            <div class="icon-list"><Flash /> <Search /><Coffee /></div>
+          </div>
+          <h5>2 Million Recipes</h5>
         </div>
-        <h5>2 Million Recipes</h5>
+        <HomeSearchPaneIllustration
+          searchPlaceHolder="Type in a recipe title"
+          :autocompleteItems="['Pineapple', 'Oregano']"
+        />
       </div>
-      <HomeSearchPaneIllustration
-        searchPlaceHolder="Type in a recipe title"
-        :autocompleteItems="['Pineapple', 'Oregano']"
-      />
-    </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top">
-          <span>Instant Search</span>
-          <div class="icon-list"><Flash /> <Search /><Keyboard /></div>
+    </CustomLink>
+    <CustomLink to="https://linux-commits-search.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top">
+            <span>Instant Search</span>
+            <div class="icon-list"><Flash /> <Search /><Keyboard /></div>
+          </div>
+          <h5>
+            1 Million Linux <br />
+            Commits
+          </h5>
         </div>
-        <h5>
-          1 Million Linux <br />
-          Commits
-        </h5>
+        <HomeSearchPaneIllustration :autocompleteItems="['Noise', 'Cheese']" />
       </div>
-      <HomeSearchPaneIllustration :autocompleteItems="['Noise', 'Cheese']" />
-    </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top">
-          <span>Spell Checker With</span>
-          <div class="icon-list"><Flash /> <Search /><Keyboard /></div>
+    </CustomLink>
+    <CustomLink to="https://spellcheck.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top">
+            <span>Spell Checker With</span>
+            <div class="icon-list"><Flash /> <Search /><Keyboard /></div>
+          </div>
+          <h5>Auto complete & auto correct</h5>
         </div>
-        <h5>Auto complete & auto correct</h5>
+        <HomeSearchPaneIllustration
+          searchPlaceHolder="Try typing something..."
+        />
       </div>
-      <HomeSearchPaneIllustration searchPlaceHolder="Try typing something..." />
-    </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top !items-start">
-          <h5>Federated Search Experiences</h5>
-          <div class="icon-list"><Flash /> <Search /><Flash /></div>
+    </CustomLink>
+    <CustomLink to="https://federated-search.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top !items-start">
+            <h5>Federated Search Experiences</h5>
+            <div class="icon-list"><Flash /> <Search /><Flash /></div>
+          </div>
         </div>
+        <HomeSearchPaneIllustration :autocompleteItems="['Moen', 'John']" />
       </div>
-      <HomeSearchPaneIllustration :autocompleteItems="['Moen', 'John']" />
-    </div>
-    <div class="card">
-      <div class="top-container">
-        <div class="top !items-start">
-          <h5>Semantic Search Experiences</h5>
-          <div class="icon-list"><Flash /> <Search /><Box /></div>
+    </CustomLink>
+    <CustomLink to="https://hn-comments-search.typesense.org/">
+      <div class="card">
+        <div class="top-container">
+          <div class="top !items-start">
+            <h5>Semantic Search Experiences</h5>
+            <div class="icon-list"><Flash /> <Search /><Box /></div>
+          </div>
         </div>
+        <HomeSearchPaneIllustration
+          searchPlaceHolder="Type in a term, or click on one of the exaples below"
+          :autocompleteItems="['Cinema', 'Beethoven']"
+        />
       </div>
-      <HomeSearchPaneIllustration
-        searchPlaceHolder="Type in a term, or click on one of the exaples below"
-        :autocompleteItems="['Cinema', 'Beethoven']"
-      />
-    </div>
+    </CustomLink>
   </section>
   <section class="beyond-search">
     <div class="flex flex-col items-center text-center">
@@ -117,119 +137,133 @@ import Box from "@/assets/icons/box.svg";
     </div>
 
     <div class="grid grid-cols-4 gap-4 max-md:grid-cols-1 max-md:gap-2">
-      <div class="card">
-        <div class="title">
-          <div class="icon-list">
-            <span class="icon-wrapper">
-              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/search-bold.svg" alt="Search" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/box-bold.svg" alt="Box" />
-            </span>
+      <CustomLink to="https://ecommerce-store.typesense.org/">
+        <div class="card">
+          <div class="title">
+            <div class="icon-list">
+              <span class="icon-wrapper">
+                <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/search-bold.svg" alt="Search" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/box-bold.svg" alt="Box" />
+              </span>
+            </div>
+            <h5>E-Commerce Storefront Browsing Experiences</h5>
           </div>
-          <h5>E-Commerce Storefront Browsing Experiences</h5>
-        </div>
-        <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
-          <li
-            v-for="item in [
-              'Samsung',
-              'Go phone',
-              'Mobile Phone',
-              'Charger',
-              'Case',
-              'Mobile Phone',
-            ]"
-            class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
-            :key="item"
+          <ul
+            class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3"
           >
-            <span class="rounded-full bg-bg p-[5px]"
-              ><img src="/images/showcase/phone.svg" alt="Phone icon"
-            /></span>
-            {{ item }}
-          </li>
-        </ul>
-      </div>
-      <div class="card !bg-secondary-bg">
-        <div class="title">
-          <div class="icon-list">
-            <span class="icon-wrapper">
-              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/keyboard-bold.svg" alt="Keyboard" />
-            </span>
+            <li
+              v-for="item in [
+                'Samsung',
+                'Go phone',
+                'Mobile Phone',
+                'Charger',
+                'Case',
+                'Mobile Phone',
+              ]"
+              class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
+              :key="item"
+            >
+              <span class="rounded-full bg-bg p-[5px]"
+                ><img src="/images/showcase/phone.svg" alt="Phone icon"
+              /></span>
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </CustomLink>
+      <CustomLink to="https://findxkcd.com/">
+        <div class="card !bg-secondary-bg">
+          <div class="title">
+            <div class="icon-list">
+              <span class="icon-wrapper">
+                <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/keyboard-bold.svg" alt="Keyboard" />
+              </span>
+            </div>
+            <h5>
+              Browse & Find xkcd Comics by
+              Topic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+            </h5>
           </div>
-          <h5>
-            Browse & Find xkcd Comics by
-            Topic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-          </h5>
-        </div>
-        <div class="illustration-panel flex gap-6 p-3.5">
-          <img src="/images/showcase/xkcd-1.png" alt="Xkcd comic 1" />
-          <img src="/images/showcase/xkcd-2.png" alt="Xkcd comic 2" />
-        </div>
-      </div>
-      <div class="card">
-        <div class="title">
-          <div class="icon-list">
-            <span class="icon-wrapper">
-              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/search-bold.svg" alt="Search" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/box-bold.svg" alt="Box" />
-            </span>
+          <div class="illustration-panel flex gap-6 p-3.5">
+            <img src="/images/showcase/xkcd-1.png" alt="Xkcd comic 1" />
+            <img src="/images/showcase/xkcd-2.png" alt="Xkcd comic 2" />
           </div>
-          <h5>E-Commerce Storefront with Next.js + Typesense</h5>
         </div>
-        <ul class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3">
-          <li
-            v-for="item in [
-              'Samsung',
-              'Go phone',
-              'Mobile Phone',
-              'Charger',
-              'Case',
-              'Mobile Phone',
-            ]"
-            class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
-            :key="item"
+      </CustomLink>
+      <CustomLink
+        to="https://showcase-nextjs-typesense-ecommerce-store.vercel.app/"
+      >
+        <div class="card">
+          <div class="title">
+            <div class="icon-list">
+              <span class="icon-wrapper">
+                <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/search-bold.svg" alt="Search" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/box-bold.svg" alt="Box" />
+              </span>
+            </div>
+            <h5>E-Commerce Storefront with Next.js + Typesense</h5>
+          </div>
+          <ul
+            class="illustration-panel grid grid-cols-2 grid-rows-4 gap-1.5 p-3"
           >
-            <span class="rounded-full bg-bg p-[5px]"
-              ><img src="/images/showcase/phone.svg" alt="Phone icon"
-            /></span>
-            {{ item }}
-          </li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="title">
-          <div class="icon-list">
-            <span class="icon-wrapper">
-              <img src="/images/showcase/flash-bold.svg" alt="Flash" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/search-bold.svg" alt="Search" />
-            </span>
-            <span class="icon-wrapper">
-              <img src="/images/showcase/global-bold.svg" alt="Global" />
-            </span>
+            <li
+              v-for="item in [
+                'Samsung',
+                'Go phone',
+                'Mobile Phone',
+                'Charger',
+                'Case',
+                'Mobile Phone',
+              ]"
+              class="flex items-center gap-3 text-nowrap rounded-xl bg-bg-gray-2 px-7 py-4 text-sm tracking-tight text-text-muted"
+              :key="item"
+            >
+              <span class="rounded-full bg-bg p-[5px]"
+                ><img src="/images/showcase/phone.svg" alt="Phone icon"
+              /></span>
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </CustomLink>
+      <CustomLink to="https://airbnb-geosearch.typesense.org/">
+        <div class="card">
+          <div class="title">
+            <div class="icon-list">
+              <span class="icon-wrapper">
+                <img src="/images/showcase/flash-bold.svg" alt="Flash" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/search-bold.svg" alt="Search" />
+              </span>
+              <span class="icon-wrapper">
+                <img src="/images/showcase/global-bold.svg" alt="Global" />
+              </span>
+            </div>
+            <h5>AirBnB Browsing Experience with 1M listings</h5>
           </div>
-          <h5>AirBnB Browsing Experience with 1M listings</h5>
+          <div class="illustration-panel p-2">
+            <img
+              class="h-full w-full rounded-2xl object-cover"
+              src="/images/showcase/map.png"
+              alt="AirBnB search"
+            />
+          </div>
         </div>
-        <div class="illustration-panel p-2">
-          <img
-            class="h-full w-full rounded-2xl object-cover"
-            src="/images/showcase/map.png"
-            alt="AirBnB search"
-          />
-        </div>
-      </div>
+      </CustomLink>
     </div>
   </section>
 </template>
