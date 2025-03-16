@@ -2,7 +2,7 @@
 import { ref, computed, nextTick, onMounted } from "vue";
 import Prism from "prismjs";
 import "prismjs/components/prism-markup-templating";
-import "prism-themes/themes/prism-atom-dark.css";
+import "prism-themes/themes/prism-night-owl.css";
 import "prismjs/components/prism-ruby";
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-php";
@@ -174,12 +174,13 @@ onBeforeUnmount(() => {
 pre {
   @apply p-6;
   flex: 1;
-  background-color: #151228;
+  /* background-color: #151228 !important; */
   overflow: auto;
   margin: 0;
   border-radius: 0 !important;
 }
 pre > * {
   font-family: "Fira Code", "Inter", sans-serif !important;
+  /* background-color: #151228 !important; */
 }
 </style>
