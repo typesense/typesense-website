@@ -77,13 +77,6 @@ const serverRootMixin = ref(
 const { instantsearch } = serverRootMixin.value.data();
 provide("$_ais_ssrInstantSearchInstance", instantsearch);
 
-onBeforeMount(() => {
-  // Use data loaded on the server
-  if (algoliaState.value) {
-    instantsearch.hydrate(algoliaState.value);
-  }
-});
-
 const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
   return instantsearch.findResultsState({
     // IMPORTANT: a component with access to `this.instantsearch` to be used by the createServerRootMixin code
@@ -94,6 +87,7 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
           AisConfigure,
           AisRefinementList,
           AisHits,
+          AisStats,
         },
         data() {
           return {
@@ -114,6 +108,13 @@ const { data: algoliaState } = await useAsyncData("algolia-state", async () => {
     },
     renderToString,
   });
+});
+
+onBeforeMount(() => {
+  // Use data loaded on the server
+  if (algoliaState.value) {
+    instantsearch.hydrate(algoliaState.value);
+  }
 });
 
 const transformItems = (items: { link: string }[]) =>
@@ -156,9 +157,16 @@ const transformItems = (items: { link: string }[]) =>
       <AisStats class="stats text-sm tracking-[-0.28px] text-text-muted">
         <template v-slot="{ nbHits, processingTimeMS }">
           <span class="flex items-center gap-2">
-            <SearchStatsStars /> Found {{ nbHits.toLocaleString() }} recipes out
-            of 2,231,142 in
-            {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}ms
+            <SearchStatsStars />
+            <span>
+              Found {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
+              <!-- To avoid hydration mismatch -->
+              <ClientOnly fallback="...">
+                {{
+                  parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS
+                }} </ClientOnly
+              >ms
+            </span>
           </span>
         </template>
       </AisStats>
@@ -212,7 +220,10 @@ const transformItems = (items: { link: string }[]) =>
             <template v-slot="{ nbHits, processingTimeMS }">
               Found
               {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
-              {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}ms
+              <ClientOnly>
+                {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}
+              </ClientOnly>
+              ms
             </template>
           </AisStats>
         </div>
