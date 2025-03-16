@@ -66,8 +66,10 @@ const userLogos = [
 
 <template>
   <section>
-    <div class="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
-      <div class="flex h-max flex-col justify-between gap-6">
+    <div
+      class="grid grid-cols-2 gap-4 max-md:gap-6 max-sm:flex max-sm:flex-col"
+    >
+      <div class="flex h-max flex-col justify-between gap-10">
         <div class="flex flex-col max-sm:items-center max-sm:text-center">
           <Badge>You'll be in good company</Badge>
           <h2 class="max-sm:hidden">
@@ -91,7 +93,7 @@ const userLogos = [
           </Card>
         </div>
       </div>
-      <div class="relative mt-3.5 overflow-hidden max-sm:h-[208px]">
+      <div class="relative mt-3.5 overflow-hidden max-md:mt-0 max-sm:h-[208px]">
         <img
           class="absolute h-full w-full rounded-3xl object-cover"
           src="@/assets/images/typesense-on-nasdaq.jpeg"
