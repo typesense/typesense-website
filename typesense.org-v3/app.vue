@@ -6,12 +6,12 @@
 
 <style>
 :root {
-  --site-margin: 8.421vw;
+  --site-padding: calc(8.421vw + 24px);
   --section-gap: 200px;
 }
 @media not all and (min-width: 768px) {
   :root {
-    --site-margin: 16px;
+    --site-padding: 16px;
     --section-gap: 120px;
   }
 }
@@ -54,7 +54,7 @@ h2 strong {
 }
 
 .site-padding {
-  margin: 0 var(--site-margin);
+  padding: 0 var(--site-padding);
   display: flex;
   flex-direction: column;
   gap: var(--section-gap);
