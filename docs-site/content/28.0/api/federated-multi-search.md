@@ -323,8 +323,7 @@ as the queries you send in the `searches` array in your request.
 The search results returned by each of the search queries in a `multi_search` request can be merged into a
 single ordered set of hits via the `union` option.
 
-In the following example, we are making two different search requests to the same collection. Each search query
-is filtering the `posts` collection by two different usernames.
+In the following example, we are making two different search requests to the same collection (although different collections can also be mentioned). Each search query is filtering the `posts` collection by two different usernames.
 
 Since the `union` property is set to `true`, the response from each of these two search queries will be merged
 into a single ordered set of hits.
@@ -401,6 +400,29 @@ curl 'http://localhost:8108/multi_search?page=1&per_page=2' -X POST \
 ```
   </template>
 </Tabs>
+
+Unlike SQL, results of any search requests can be merged regardless of the type or count of fields mentioned in `query_by`, `include_fields`, `exclude_fields`, etc.
+Since the results of each search are merged into one final result, union differs from `multi_search` in the following ways:
+* The pagination parameters (`page`, `per_page`, `offset`, `limit`, and `limit_hits`) of individual searches are ignored. Only global pagination parameters passed as query parameters are considered.
+* Sorting requires the type, count, and order of the sorting fields of every search request to be the same. For example:
+```bash
+{
+  "union": true,
+  "searches": [
+    {
+      ...
+      "sort_by": "user_name:asc"
+      ...
+    },
+    {
+      ...
+      "sort_by": "rating:asc"
+      ...
+    }
+  ]
+}
+```
+will return an error since the types (`user_name: string`, `rating: float`) are different.
 
 ## `multi_search` Parameters
 
