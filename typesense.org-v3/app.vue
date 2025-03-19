@@ -59,4 +59,10 @@ h2 strong {
   flex-direction: column;
   gap: var(--section-gap);
 }
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
 </style>

@@ -15,16 +15,19 @@ import "prismjs/plugins/autolinker/prism-autolinker.css";
 import startCase from "lodash.startcase";
 import CopyIcon from "@/assets/icons/copy.svg";
 
-const props = defineProps({
-  stateId: {
-    type: String,
-    default: "code-block",
+const { displayStyle, ...props } = withDefaults(
+  defineProps<{
+    displayStyle?: "overflow" | "border";
+    stateId?: string;
+    underlineLinks?: boolean;
+  }>(),
+  {
+    displayStyle: "overflow",
+    stateId: "code-block",
+    underlineLinks: false,
   },
-  underlineLinks: {
-    type: Boolean,
-    default: false,
-  },
-});
+);
+const isStyleBorder = displayStyle == "border";
 
 const activeTabStore = useState(props.stateId, () => "");
 const slots = useSlots();
@@ -120,14 +123,22 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <div class="flex flex-col gap-1.5 rounded-tl-3xl bg-[#f1f1f1] px-4 pt-1.5">
+  <div
+    class="flex flex-col gap-1.5 rounded-tl-3xl bg-[#f1f1f1] px-4 pt-1.5"
+    :class="{
+      'relative rounded-3xl !p-4 max-md:rounded-xl max-md:!p-2': isStyleBorder,
+    }"
+  >
     <div class="flex justify-between">
-      <div class="flex gap-2">
+      <div class="scrollbar-hidden flex gap-2 overflow-x-scroll">
         <button
           v-for="tab in tabs"
           :key="tab.displayLanguage"
           class="tab-button"
-          :class="{ active: activeTab === tab.displayLanguage }"
+          :class="{
+            active: activeTab === tab.displayLanguage,
+            invisible: tab.displayLanguage == 'NONE',
+          }"
           @click="setCodeLanguage(tab.displayLanguage)"
         >
           {{ tab.displayLanguage }}
@@ -135,6 +146,10 @@ onBeforeUnmount(() => {
       </div>
       <button
         class="tab-button copy-btn flex gap-2.5 tracking-[-0.56px] !text-text-primary"
+        :class="{
+          '!absolute !bottom-7 !right-7 max-md:!bottom-4 max-md:!right-4':
+            isStyleBorder,
+        }"
         @click="copyToClipboard"
       >
         {{ copyStatus || "Copy Code" }}<CopyIcon v-if="!copyStatus" />
@@ -144,7 +159,10 @@ onBeforeUnmount(() => {
       v-for="tab in tabs"
       :key="tab.displayLanguage"
       class="tab-pane hidden overflow-auto rounded-t-xl"
-      :class="{ active: activeTab === tab.displayLanguage }"
+      :class="{
+        active: activeTab === tab.displayLanguage,
+        'rounded-xl': isStyleBorder,
+      }"
     >
       <pre><code
           :class="[`language-${tab.language}`, underlineLinks ? 'underline-links' : '']"
@@ -155,7 +173,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .tab-button {
-  @apply cursor-pointer rounded-lg bg-bg px-2.5 py-1.5 text-sm leading-[1.1] text-text-muted;
+  @apply cursor-pointer rounded-lg bg-bg px-2.5 py-1.5 text-sm leading-[1.1] tracking-tight text-text-muted;
 }
 .copy-btn {
   @apply bottom-4 right-4 max-md:absolute;
@@ -182,5 +200,16 @@ pre {
 pre > * {
   font-family: "Fira Code", "Inter", sans-serif !important;
   /* background-color: #151228 !important; */
+}
+</style>
+
+<style>
+pre[class*="language-"] .url-link {
+  color: #a1a6ff;
+  text-decoration: none;
+}
+
+code.underline-links .url-link {
+  border-bottom: #a1a6ff 1px dotted;
 }
 </style>
