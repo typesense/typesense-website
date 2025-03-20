@@ -1,7 +1,10 @@
 <template>
   <!-- Adapted from AlgoliaSearchBox 🙏 -->
   <form id="search-form" class="typesense-search-wrapper search-box" role="search">
-    <input id="typesense-search-input" class="search-query" :placeholder="placeholder" />
+    <div class="search-container">
+      <input id="typesense-search-input" class="search-query" :placeholder="placeholder" />
+      <kbd class="shortcut-indicator"> <span class="shortcut-key">⌘</span>K </kbd>
+    </div>
   </form>
 </template>
 
@@ -37,6 +40,12 @@ export default {
   mounted() {
     this.initialize(this.options, this.$lang)
     this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
+    document.addEventListener('keydown', this.handleKeyDown)
+  },
+
+  beforeDestroy() {
+    // Clean up the event listener when component is destroyed
+    document.removeEventListener('keydown', this.handleKeyDown)
   },
 
   methods: {
@@ -82,8 +91,24 @@ export default {
     },
 
     update(options, lang) {
-      this.$el.innerHTML = '<input id="typesense-search-input" class="search-query">'
+      this.$el.innerHTML = `
+        <div class="search-container">
+          <input id="typesense-search-input" class="search-query">
+          <kbd class="shortcut-indicator"><span class="shortcut-key">⌘</span>K</kbd>
+        </div>
+      `
       this.initialize(options, lang)
+    },
+
+    handleKeyDown(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault()
+
+        const searchInput = document.getElementById('typesense-search-input')
+        if (searchInput) {
+          searchInput.focus()
+        }
+      }
     },
   },
 }
@@ -92,6 +117,40 @@ export default {
 <style lang="stylus">
 .typesense-search-wrapper
   margin-right 0
+
+  .search-container
+    position relative
+    display flex
+    align-items center
+    width 100%
+
+  .search-query
+    padding-right 40px 
+
+  .shortcut-indicator
+    position absolute
+    right 8px
+    top 50%
+    transform translateY(-50%)
+    display inline-flex
+    align-items center
+    gap 1px
+    height 14px
+    border 1px solid rgba(0, 0, 0, 0.1)
+    border-radius 7px
+    padding 0 4px
+    font-size 9px
+    font-family monospace
+    font-weight 500
+    color #666
+    background-color #f5f5f5
+    pointer-events none
+    user-select none
+
+    .shortcut-key
+      font-size 11px
+      margin-right 1px
+
   span.typesense-docsearch-suggestion--highlight
     color unset !important
     border-bottom 2px solid $accentColor2 !important
