@@ -22,6 +22,10 @@ let isActive = ref(false);
 const toggle = () => {
   isActive.value = !isActive.value;
 };
+const hideNav = () => {
+  console.log("clicked");
+  isActive.value = false;
+};
 </script>
 <template>
   <div
@@ -44,7 +48,7 @@ const toggle = () => {
         <ul
           class="flex items-center gap-8 max-md:flex-col max-md:items-start max-md:gap-4"
         >
-          <li v-for="item in navLinks" :key="item.link">
+          <li @click="hideNav" v-for="item in navLinks" :key="item.link">
             <CustomLink :to="item.link">{{ item.name }}</CustomLink>
           </li>
         </ul>
