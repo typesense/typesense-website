@@ -2,7 +2,7 @@
   <NuxtLink to="/" class="text-black"
     ><div class="flex items-center">
       <svg
-        class="mr-2 inline-block h-8 w-8"
+        class="logo-icon mr-2 inline-block h-8 w-8"
         xmlns="http://www.w3.org/2000/svg"
         width="30"
         height="30"
@@ -477,6 +477,7 @@
         </defs>
       </svg>
       <svg
+        class="logo-text"
         xmlns="http://www.w3.org/2000/svg"
         width="98"
         height="24"

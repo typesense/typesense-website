@@ -15,7 +15,7 @@ import "prismjs/plugins/autolinker/prism-autolinker.css";
 import startCase from "lodash.startcase";
 import CopyIcon from "@/assets/icons/copy.svg";
 
-const { displayStyle, ...props } = withDefaults(
+const props = withDefaults(
   defineProps<{
     displayStyle?: "overflow" | "border";
     stateId?: string;
@@ -27,6 +27,7 @@ const { displayStyle, ...props } = withDefaults(
     underlineLinks: false,
   },
 );
+const displayStyle = props.displayStyle;
 const isStyleBorder = displayStyle == "border";
 
 const activeTabStore = useState(props.stateId, () => "");

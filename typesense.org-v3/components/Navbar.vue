@@ -23,7 +23,6 @@ const toggle = () => {
   isActive.value = !isActive.value;
 };
 const hideNav = () => {
-  console.log("clicked");
   isActive.value = false;
 };
 </script>
