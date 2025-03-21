@@ -56,7 +56,7 @@
       <Badge>Timeline</Badge>
       <h2 class="mb-14 text-center max-md:mb-8">
         Typesense<br class="show-md" />
-        <strong>Journey</strong>
+        <strong> Journey</strong>
       </h2>
       <div class="flex w-full flex-col gap-3 tracking-[-0.42px]">
         <div
@@ -110,47 +110,59 @@
         </div>
       </div>
     </section>
-    <section class="s-p">
-      <h2 class="mb-12 max-md:mb-6">Try <strong>Typesense</strong></h2>
-      <div
-        class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:size-[200px] max-md:[&_img]:size-[120px]"
-      >
-        <CustomLink
-          to="/docs/guide"
-          class="flex justify-between gap-6 rounded-3xl bg-secondary-bg p-6 max-md:p-4"
+    <section class="site-padding w-full">
+      <div class="flex w-full flex-col items-center">
+        <h2 class="mb-12 max-md:mb-6">Try <strong>Typesense</strong></h2>
+        <div
+          class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:size-[200px] max-md:[&_img]:size-[120px]"
         >
-          <div class="flex h-full flex-col justify-between">
-            <ExternalArrow />
-            <div>
-              <div class="mb-3 tracking-tighter max-md:mb-2 max-md:text-[14px]">
-                Start Building with
+          <CustomLink
+            to="/docs/guide"
+            class="flex justify-between gap-6 rounded-3xl bg-secondary-bg p-6 max-md:p-4"
+          >
+            <div class="flex h-full flex-col justify-between">
+              <ExternalArrow />
+              <div>
+                <div
+                  class="mb-3 tracking-tighter max-md:mb-2 max-md:text-[14px]"
+                >
+                  Start Building with
+                </div>
+                <h3>
+                  Typesense<br />
+                  Open Source
+                </h3>
               </div>
-              <h3>
-                Typesense<br />
-                Open Source
-              </h3>
             </div>
-          </div>
-          <img src="/images/illustrations/tasks.svg" alt="Typesense Features" />
-        </CustomLink>
-        <CustomLink
-          :to="LINK_TYPESENSE_CLOUD"
-          class="flex justify-between gap-6 rounded-3xl bg-bg-gray-2 p-6 max-md:p-4"
-        >
-          <div class="flex h-full flex-col justify-between">
-            <ExternalArrow />
-            <div>
-              <div class="mb-3 tracking-tighter max-md:mb-2 max-md:text-[14px]">
-                Deploy on
+            <img
+              src="/images/illustrations/tasks.svg"
+              alt="Typesense Features"
+            />
+          </CustomLink>
+          <CustomLink
+            :to="LINK_TYPESENSE_CLOUD"
+            class="flex justify-between gap-6 rounded-3xl bg-bg-gray-2 p-6 max-md:p-4"
+          >
+            <div class="flex h-full flex-col justify-between">
+              <ExternalArrow />
+              <div>
+                <div
+                  class="mb-3 tracking-tighter max-md:mb-2 max-md:text-[14px]"
+                >
+                  Deploy on
+                </div>
+                <h3>
+                  Typesense<br />
+                  Cloud
+                </h3>
               </div>
-              <h3>
-                Typesense<br />
-                Cloud
-              </h3>
             </div>
-          </div>
-          <img src="/images/illustrations/cloud.svg" alt="Typesense Features" />
-        </CustomLink>
+            <img
+              src="/images/illustrations/cloud.svg"
+              alt="Typesense Features"
+            />
+          </CustomLink>
+        </div>
       </div>
     </section>
     <img

@@ -6,7 +6,7 @@
 
 <style>
 :root {
-  --site-padding: calc(8.421vw + 24px);
+  --site-padding: calc(128px + 24px);
   --section-gap: 200px;
 }
 @media not all and (min-width: 768px) {
