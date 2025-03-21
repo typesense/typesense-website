@@ -273,6 +273,15 @@ section {
 </style>
 
 <script lang="ts" setup>
+useSeoMeta({
+  title: "Downloads | Typesense",
+  ogTitle: "Downloads | Typesense",
+  description:
+    "Run on Typesense Cloud, or download DEB, RPM and binary packages.",
+  ogDescription:
+    "Run on Typesense Cloud, or download DEB, RPM and binary packages.",
+});
+
 import FlashFill from "@/assets/icons/flash-fill.svg";
 import SearchFill from "@/assets/icons/search-fill.svg";
 const typesenseLatestVersion = "28.0";

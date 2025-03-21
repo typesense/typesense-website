@@ -181,6 +181,15 @@ section {
 }
 </style>
 <script lang="ts" setup>
+useSeoMeta({
+  title: "About Us | Typesense",
+  ogTitle: "About Us | Typesense",
+  description:
+    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+  ogDescription:
+    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+});
+
 import ExternalArrow from "@/assets/icons/external-arrow.svg";
 import FlashFill from "@/assets/icons/flash-fill.svg";
 import SearchFill from "@/assets/icons/search-fill.svg";

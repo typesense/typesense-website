@@ -341,6 +341,14 @@ tbody tr:last-of-type td:last-child {
 </style>
 
 <script lang="ts" setup>
+useSeoMeta({
+  title: "Support | Typesense",
+  ogTitle: "Support | Typesense",
+  description:
+    "Need help building with Typesense? We've got your covered. GitHub issues, Slack community, Email, Phone Calls.",
+  ogDescription:
+    "Need help building with Typesense? We've got your covered. GitHub issues, Slack community, Email, Phone Calls.",
+});
 import FlashFill from "@/assets/icons/flash-fill.svg";
 import SearchFill from "@/assets/icons/search-fill.svg";
 </script>
