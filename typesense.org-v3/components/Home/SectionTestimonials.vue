@@ -77,7 +77,7 @@ onUnmounted(() => {
       <div
         class="flex flex-1 flex-col items-end justify-between gap-4 max-md:flex-row max-md:items-stretch max-md:gap-2"
       >
-        <div class="card mr-[-80px] mt-24 h-min flex-1 max-md:mr-0 max-md:mt-0">
+        <div class="card flex-1 md:mr-[-80px] md:mt-24">
           <p class="subtext !mt-0">
             We made the switch to Typesense from Algolia and never looked back.
             As our business was scaling incredibly fast, Typesense was able to
@@ -85,14 +85,15 @@ onUnmounted(() => {
             us to take one large feature off our plates while focusing on other
             core business functionalities.
           </p>
-          <img
-            class="self-end"
-            width="73.5"
-            src="/images/user-logos/kick-logo.svg"
-            alt="Kick"
-          />
+          <CustomLink to="https://kick.com/" class="self-end">
+            <img
+              width="73.5"
+              src="/images/user-logos/kick-logo.svg"
+              alt="Kick"
+            />
+          </CustomLink>
         </div>
-        <div class="card relative right-24 !bg-secondary-bg max-md:right-0">
+        <div class="card !bg-secondary-bg md:relative md:right-24">
           <p class="subtext !mt-0 opacity-75">
             We switched from our in-house search solution to Typesense Cloud in
             a matter of days, and it has been working reliably for months now.
@@ -100,15 +101,33 @@ onUnmounted(() => {
             customization options within the Cloud Dashboard have been the real
             highlights so far.
           </p>
-          <img class="self-end" src="/images/user-logos/n8n.svg" alt="n8n" />
+          <CustomLink to="https://n8n.io/" class="self-end">
+            <img src="/images/user-logos/n8n.svg" alt="n8n" />
+          </CustomLink>
         </div>
         <div class="card">
-          <p class="subtext !mt-0">
-            Switched from elasticsearch to @typesense and I think these results
-            speak for themselves. The best part? The ranking is better too! ...
-            This is what I like to call "brick-shittingly good improvement"
-          </p>
-          <span class="subtext !mt-0 self-end">- @nucknyan on twitter</span>
+          <div class="flex justify-between gap-5 max-md:flex-col">
+            <p class="subtext !mt-0">
+              Switched from elasticsearch to @typesense and I think these
+              results speak for themselves. The best part? The ranking is better
+              too! ... This is what I like to call "brick-shittingly good
+              improvement"
+            </p>
+            <img
+              class="m-auto max-w-[200px] rounded-xl"
+              src="/images/tweet-testimonial.png"
+              alt="Switched from elasticsearch to @typesense"
+            />
+          </div>
+          <CustomLink
+            to="https://x.com/nucknyan/status/1700673403970326989"
+            class="self-end"
+          >
+            -
+            <span class="subtext !mt-0 self-end underline underline-offset-2"
+              >@nucknyan on twitter</span
+            >
+          </CustomLink>
         </div>
       </div>
       <div class="mt-6 flex justify-center gap-1 md:hidden">
@@ -132,6 +151,6 @@ onUnmounted(() => {
 
 <style scoped>
 .card {
-  @apply flex min-h-[200px] min-w-[726px] max-w-[726px] flex-col justify-between gap-5 rounded-2xl bg-bg-gray-2 px-6 py-4 max-md:min-w-0 max-md:flex-[0_0_90%] max-md:p-4;
+  @apply flex min-h-[200px] min-w-[680px] max-w-[680px] flex-col justify-between gap-5 rounded-2xl bg-bg-gray-2 px-6 py-4 max-md:min-w-0 max-md:flex-[0_0_90%] max-md:p-4;
 }
 </style>
