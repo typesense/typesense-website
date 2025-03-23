@@ -3,6 +3,16 @@ import Hamburger from "@/assets/icons/hamburger.svg";
 import CloseSquare from "@/assets/icons/close-square.svg";
 import Illustration from "@/assets/images/mobile-nav-background.svg";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const isActivePage = (path) => {
+  if (path === "/") {
+    return route.path === "/";
+  }
+  return route.path.startsWith(path);
+};
 
 const navLinks = ref([
   { name: "Home", link: "/" },
@@ -47,7 +57,15 @@ const hideNav = () => {
         <ul
           class="flex items-center gap-8 max-md:flex-col max-md:items-start max-md:gap-4"
         >
-          <li @click="hideNav" v-for="item in navLinks" :key="item.link">
+          <li
+            :class="[
+              'transition-colors hover:text-secondary',
+              { 'text-secondary': isActivePage(item.link) },
+            ]"
+            @click="hideNav"
+            v-for="item in navLinks"
+            :key="item.link"
+          >
             <CustomLink :to="item.link">{{ item.name }}</CustomLink>
           </li>
         </ul>
