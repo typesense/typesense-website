@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { type EmblaCarouselType } from "embla-carousel";
-import { watchOnce } from "@vueuse/core";
 
 const emblaApi = ref<EmblaCarouselType | null>(null);
 const mediaQuery = ref<MediaQueryList | null>(null);

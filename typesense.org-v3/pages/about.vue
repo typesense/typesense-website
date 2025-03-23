@@ -81,34 +81,6 @@
           ></div>
         </div>
       </div>
-      <div class="site-padding w-full">
-        <div
-          class="mt-[100px] grid w-full grid-cols-4 gap-4 max-md:grid-cols-1"
-        >
-          <div v-for="item in people" :key="item.img">
-            <div
-              class="relative overflow-hidden rounded-2xl bg-bg-gray-2 max-md:aspect-[3/2]"
-            >
-              <img
-                class="absolute h-full w-full"
-                src="/images/backgrounds/people-bg-gradient.svg"
-                alt="Gradient background"
-              />
-              <img
-                class="relative z-10 h-full w-full object-contain"
-                :src="item.img"
-                :alt="`${item.name}-${item.role}`"
-              />
-            </div>
-            <h3 class="mb-1 mt-4 !text-[20px] !tracking-[-0.6px]">
-              {{ item.name }}
-            </h3>
-            <div class="text-sm leading-[1.2] tracking-[-0.42px] text-primary">
-              {{ item.role }}
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
     <section class="site-padding w-full">
       <div class="flex w-full flex-col items-center">
@@ -218,33 +190,6 @@ const timeline = [
     year: 2024,
     achievement: "10 Billion Searches per\nmonth on Typesense Cloud",
     width: 80,
-  },
-  {
-    year: 2025,
-    achievement: "20 Billion Searches per\nmonth on Typesense Cloud",
-    width: 92,
-  },
-];
-const people = [
-  {
-    name: "Tom Holand",
-    role: "Founder",
-    img: "/images/people/placeholder.png",
-  },
-  {
-    name: "Tom Holand",
-    role: "Founder",
-    img: "/images/people/placeholder.png",
-  },
-  {
-    name: "Tom Holand",
-    role: "Founder",
-    img: "/images/people/placeholder.png",
-  },
-  {
-    name: "Tom Holand",
-    role: "Founder",
-    img: "/images/people/placeholder.png",
   },
 ];
 </script>
