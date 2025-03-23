@@ -38,7 +38,7 @@ const hideNav = () => {
 </script>
 <template>
   <div
-    class="header fixed top-0 z-50 overflow-hidden rounded-3xl pt-4 backdrop-blur-md max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0"
+    class="header fixed top-0 z-50 overflow-hidden rounded-b-3xl pt-4 backdrop-blur-md max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0"
   >
     <nav
       class="flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4"
@@ -91,7 +91,8 @@ const hideNav = () => {
   clip-path: inset(0% 0% 0% 0%);
 }
 .header {
-  left: var(--site-padding);
-  right: var(--site-padding);
+  --padding: calc((100vw - 1440px) / 2 + var(--site-padding) - 8px);
+  left: var(--padding);
+  right: var(--padding);
 }
 </style>
