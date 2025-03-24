@@ -83,7 +83,7 @@ const supportLinks = [
   { name: "Prioritized Support", link: "/support" },
   {
     name: "Algolia vs Elasticsearch vs Typesense",
-    link: "https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
+    link: "/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
   },
   { name: "Slack Community", link: "https://typesense.link/slack-community" },
   { name: "Community Threads ", link: "https://threads.typesense.org/" },
