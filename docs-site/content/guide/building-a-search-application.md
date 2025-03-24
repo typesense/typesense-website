@@ -355,7 +355,7 @@ with open('/tmp/books.jsonl') as jsonl_file:
 
 ```rb
 books_data = File.read('/tmp/books.jsonl')
-collections['books'].documents.import(books_data)
+client.collections['books'].documents.import(books_data)
 ```
 
   </template>
