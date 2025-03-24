@@ -182,11 +182,8 @@ const supportLinks = [
     <div
       class="flex items-center justify-between gap-8 border-t-2 border-t-muted py-5 max-md:flex-col-reverse"
     >
-      <div
-        class="flex items-center gap-12 text-sm max-md:flex-col max-md:gap-2 max-md:text-center"
-      >
-        <div>Terms & Conditions</div>
-        <div>Typesense® is a registered trademark of Typesense, Inc.</div>
+      <div class="text-sm max-md:text-center">
+        Typesense® is a registered trademark of Typesense, Inc.
       </div>
 
       <div class="mr-2.5 flex gap-2.5">
