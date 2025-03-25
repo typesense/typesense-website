@@ -7,14 +7,12 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
   >
     <Badge>NO PHD REQUIRED</Badge>
     <h1>Lightning Fast, <br /><strong>Open Source </strong>Search</h1>
-    <p class="subtext max-sm:hidden">
+    <p class="subtext max-md:hidden">
       Cutting-edge, in-memory search engine for mere mortals. Knowledge of
       rocket science optional.
     </p>
 
-    <div
-      class="mt-[60px] flex flex-col gap-14 max-sm:mt-7 max-sm:flex-col-reverse max-sm:gap-8"
-    >
+    <div class="mt-[60px] flex flex-col gap-14 max-md:mt-7 max-md:gap-10">
       <div class="flex flex-col items-center">
         <p class="subtext !mt-0 mb-6 text-base sm:hidden">
           Typesense is a lightning-fast, open-source search engine designed to
