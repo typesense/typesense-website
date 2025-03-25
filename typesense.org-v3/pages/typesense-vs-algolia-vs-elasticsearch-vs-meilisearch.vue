@@ -36,8 +36,7 @@
         <h3>Overview</h3>
         <div class="table-wrapper">
           <div class="card">
-            <Dots />
-            <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
+            <table class="w-full text-sm leading-[1.1] tracking-tight">
               <thead class="bg-blue-in-green text-text-inverted">
                 <tr>
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
@@ -119,8 +118,7 @@
         <h3>Deployment</h3>
         <div class="table-wrapper">
           <div class="card">
-            <Dots />
-            <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
+            <table class="w-full text-sm leading-[1.1] tracking-tight">
               <thead class="bg-blue-in-green text-text-inverted">
                 <tr>
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
@@ -248,8 +246,7 @@
         <h3>Features</h3>
         <div class="table-wrapper">
           <div class="card">
-            <Dots />
-            <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
+            <table class="w-full text-sm leading-[1.1] tracking-tight">
               <thead class="bg-blue-in-green text-text-inverted">
                 <tr>
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
@@ -740,8 +737,7 @@
         <h3>Limits</h3>
         <div class="table-wrapper">
           <div class="card">
-            <Dots />
-            <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
+            <table class="w-full text-sm leading-[1.1] tracking-tight">
               <thead class="bg-blue-in-green text-text-inverted">
                 <tr>
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
@@ -813,8 +809,7 @@
         <h3>Support</h3>
         <div class="table-wrapper">
           <div class="card">
-            <Dots />
-            <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
+            <table class="w-full text-sm leading-[1.1] tracking-tight">
               <thead class="bg-blue-in-green text-text-inverted">
                 <tr>
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
