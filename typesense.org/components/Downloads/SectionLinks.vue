@@ -44,7 +44,7 @@ curl -O https://dl.typesense.org/releases/{{
             <pre data-language="bash" data-display-language="RPM (arm64)">
 curl -O https://dl.typesense.org/releases/{{
                 typesenseLatestVersion
-              }}/typesense-server-{{ typesenseLatestVersion }}-1.arm64.rpm
+              }}/typesense-server-{{ typesenseLatestVersion }}-1.aarch64.rpm
             </pre>
 
             <pre data-language="bash" data-display-language="Binary (arm64)">
