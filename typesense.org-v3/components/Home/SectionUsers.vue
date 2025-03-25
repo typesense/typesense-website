@@ -3,122 +3,178 @@ const userLogos = [
   {
     href: "https://codecademy.com",
     imgPath: "/images/user-logos/codecademy-logo.svg",
-    height: 26 * 1.2,
+    height: 24,
     alt: "Codecademy",
   },
   {
     href: "https://www.logitech.com",
     imgPath: "/images/user-logos/logitech_logo.svg",
-    height: 25 * 1.2,
+    height: 24,
     alt: "Logitech",
   },
   {
     href: "https://www.bbcmaestro.com",
     imgPath: "/images/user-logos/bbc-maestro-logo.svg",
-    height: 17 * 1.2,
+    height: 15.5,
     alt: "Soundsnap",
   },
   {
     href: "https://kick.com",
     imgPath: "/images/user-logos/kick-logo.svg",
-    height: 15 * 1.2,
+    height: 17,
     alt: "Kick.com",
   },
   {
     href: "https://lonelyplanet.com",
     imgPath: "/images/user-logos/lonely-planet-logo.svg",
-    height: 19 * 1.2,
+    height: 19,
     alt: "Lonely Planet",
   },
   {
     href: "https://changelog.com",
     imgPath: "/images/user-logos/changelog.svg",
-    height: 34 * 1.2,
+    height: 34,
     alt: "Changelog",
   },
   {
     href: "https://eats.oddle.me",
     imgPath: "/images/user-logos/oddle_eats.svg",
-    height: 15 * 1.2,
+    height: 16,
     alt: "Oddle Eats",
   },
   {
     href: "https://macrofactorapp.com",
     imgPath: "/images/user-logos/macro-factor.svg",
-    height: 18 * 1.2,
+    height: 20,
     alt: "Macro Factor",
     noref: true,
   },
   {
     href: "https://poorvika.com",
     imgPath: "/images/user-logos/poorvika-logo.svg",
-    height: 24 * 1.2,
+    height: 26,
     alt: "Poorvika Mobiles",
   },
   {
     href: "https://elevenlabs.io",
     imgPath: "/images/user-logos/eleven-labs.svg",
-    height: 14 * 1.2,
+    height: 15,
     alt: "ElevenLabs",
+  },
+];
+
+const asSeenAs = [
+  {
+    href: "https://twitter.com/jasonbosco/status/1565073075040882688",
+    imgPath: "/images/user-logos/nasdaq.svg",
+    height: 35,
+    alt: "Typesense on Nasdaq billboard",
+  },
+  {
+    href: "https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s",
+    imgPath: "/images/user-logos/google-io.svg",
+    height: 57,
+    alt: "Typesense at Google I/O",
+  },
+  {
+    href: "https://www.thoughtworks.com/en-us/radar/tools?blipid=202203031",
+    imgPath: "/images/user-logos/thoughtworks.svg",
+    height: 44,
+    alt: "Typesense on ThoughtWorks Technology Radar",
   },
 ];
 </script>
 
 <template>
-  <section>
-    <div
-      class="grid grid-cols-2 gap-4 max-md:gap-6 max-sm:flex max-sm:flex-col"
-    >
-      <div class="flex h-max flex-col justify-between gap-10">
-        <div class="flex flex-col max-sm:items-center max-sm:text-center">
-          <Badge>You'll be in good company</Badge>
-          <h2 class="max-sm:hidden">
-            From <strong>Scrappy</strong> Startups to
-            <strong>Household</strong> Names
-          </h2>
-          <h2 class="hidden max-sm:block">
-            Trusted <strong>by Teams</strong><br />
-            of all Sizes
-          </h2>
+  <div>
+    <section>
+      <div class="grid grid-cols-2 gap-4 max-md:gap-6 max-sm:grid-cols-1">
+        <div class="max-sm:text-center">
+          <div
+            class="flex flex-col max-sm:items-center max-sm:text-center md:mb-10"
+          >
+            <Badge>You'll be in good company</Badge>
+            <h2 class="max-sm:hidden">
+              From <strong>Scrappy</strong> Startups to
+              <strong>Household</strong> Names
+            </h2>
+            <h2 class="hidden max-sm:block">
+              Trusted <strong>by Teams</strong><br />
+              of all Sizes
+            </h2>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-4 max-sm:hidden">
-          <Card v-for="userLogo in userLogos.slice(0, 2)" :key="userLogo.href">
-            <a :key="userLogo.href" :href="userLogo.href" target="_blank">
+        <div class="grid grid-cols-2 items-end gap-4">
+          <CustomLink
+            v-for="userLogo in userLogos.slice(0, 2)"
+            :key="userLogo.href + '123'"
+            :to="userLogo.href"
+          >
+            <Card>
               <img
+                class="max-md:scale-[0.75]"
                 :src="userLogo.imgPath"
                 :alt="userLogo.alt"
                 :style="`height:${userLogo.height}px !important;`"
               />
-            </a>
-          </Card>
+            </Card>
+          </CustomLink>
         </div>
       </div>
-      <div class="relative mt-3.5 overflow-hidden max-md:mt-0 max-sm:h-[208px]">
-        <img
-          class="absolute h-full w-full rounded-3xl object-cover"
-          src="@/assets/images/typesense-on-nasdaq.jpeg"
-          alt="Typesense on Nasdaq billboard in New York City"
-        />
+      <div class="card-list mt-4 max-sm:mt-3">
+        <CustomLink
+          v-for="userLogo in userLogos.slice(2)"
+          :key="userLogo.href + '123'"
+          :to="userLogo.href"
+        >
+          <Card>
+            <img
+              class="max-md:scale-[0.75]"
+              :src="userLogo.imgPath"
+              :alt="userLogo.alt"
+              :style="`height:${userLogo.height}px !important;`"
+            />
+          </Card>
+        </CustomLink>
       </div>
-    </div>
-    <div class="user-list card-list mt-4 max-sm:mt-2.5">
-      <Card class="card" v-for="userLogo in userLogos" :key="userLogo.href">
-        <a :key="userLogo.href" :href="userLogo.href" target="_blank">
+    </section>
+    <section class="mt-[100px]">
+      <h2 class="mb-[30px] max-md:mb-6">As seen at</h2>
+      <div
+        class="grid grid-cols-4 justify-between gap-4 max-md:flex max-md:flex-col max-md:gap-3"
+      >
+        <CustomLink
+          to="https://x.com/jasonbosco/status/1565073075040882688"
+          class="relative col-span-3 mr-28 overflow-hidden max-md:m-0 max-md:mt-0 max-md:w-full max-sm:h-[208px]"
+        >
           <img
-            class="max-sm:scale-75"
-            :src="userLogo.imgPath"
-            :alt="userLogo.alt"
-            :style="`height:${userLogo.height}px !important;`"
+            class="absolute h-full w-full rounded-3xl object-cover"
+            src="@/assets/images/typesense-on-nasdaq.jpeg"
+            alt="Typesense on Nasdaq billboard in New York City"
           />
-        </a>
-      </Card>
-    </div>
-  </section>
+        </CustomLink>
+        <div
+          class="flex justify-center gap-4 max-md:flex-wrap max-md:gap-2 md:flex-col"
+        >
+          <CustomLink
+            class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
+            v-for="item in asSeenAs"
+            :key="item.href"
+            :to="item.href"
+          >
+            <Card>
+              <img
+                class="max-md:scale-[0.75]"
+                :src="item.imgPath"
+                :alt="item.alt"
+                :style="`height:${item.height}px !important;`"
+              />
+            </Card>
+          </CustomLink>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
-<style scoped>
-.user-list .card:first-child,
-.user-list .card:nth-child(2) {
-  @apply sm:hidden;
-}
-</style>
+<style scoped></style>
