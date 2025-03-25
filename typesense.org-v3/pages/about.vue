@@ -112,7 +112,7 @@
             />
           </CustomLink>
           <CustomLink
-            :to="LINK_TYPESENSE_CLOUD"
+            :to="STATIC.link_typesense_cloud"
             class="flex justify-between gap-6 rounded-3xl bg-bg-gray-2 p-6 max-md:p-4"
           >
             <div class="flex h-full flex-col justify-between">

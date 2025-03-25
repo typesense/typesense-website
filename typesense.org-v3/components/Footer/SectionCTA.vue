@@ -14,11 +14,11 @@ import Dots from "@/assets/images/dots.svg";
       </h1>
 
       <div class="mt-10 flex items-center gap-3 max-md:mt-6">
-        <Button type="primary">
+        <Button :link="STATIC.link_try_for_free" type="primary">
           Try For Free
           <ArrowRight class="text-text-inverted" />
         </Button>
-        <Button :link="LINK_TYPESENSE_CLOUD" type="white">
+        <Button :link="STATIC.link_typesense_cloud" type="white">
           Typesense Cloud <ArrowRight />
         </Button>
       </div>

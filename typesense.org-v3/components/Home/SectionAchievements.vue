@@ -11,15 +11,15 @@
       class="mt-40 grid w-full grid-cols-3 gap-4 max-sm:mt-8 max-sm:grid-cols-1"
     >
       <div class="card">
-        <strong>14M</strong>
+        <strong>{{ STATIC.dockerPulls }}</strong>
         <h3>Docker<br />Pulls</h3>
       </div>
       <div class="card !bg-secondary-bg">
-        <strong>5B</strong>
+        <strong>{{ STATIC.cloudSearchesPerMonth }}</strong>
         <h3>Typesense Cloud <br />Searches per Month</h3>
       </div>
       <div class="card">
-        <strong>22K</strong>
+        <strong>{{ STATIC.githubStars }}</strong>
         <h3>Github<br />Stars</h3>
       </div>
     </div>
@@ -32,12 +32,12 @@
   aspect-ratio: 184/133;
 }
 .card strong {
-  @apply text-right max-sm:!text-[64px] max-sm:!tracking-[-2.56px];
+  @apply text-right font-medium max-sm:!text-[64px] max-sm:!tracking-[-2.56px];
   font-size: 100px;
   letter-spacing: -4px;
 }
 .card h3 {
-  @apply mt-16 font-heading text-2xl max-sm:mt-0 max-sm:!text-[20px];
+  @apply mt-10 font-heading text-2xl max-sm:mt-0 max-sm:!text-[20px];
   line-height: 1.2;
 }
 </style>

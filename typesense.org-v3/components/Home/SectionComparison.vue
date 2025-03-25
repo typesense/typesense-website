@@ -25,7 +25,11 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
         documentation.</span
       >
     </p>
-    <Button type="white">See More <ArrowRight /></Button>
+    <Button
+      link="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+      type="white"
+      >See More <ArrowRight
+    /></Button>
     <div
       class="card relative mb-[-6px] mt-6 w-[832px] rounded-t-3xl bg-bg-gray-2 px-4 pt-4 max-sm:w-full"
     >

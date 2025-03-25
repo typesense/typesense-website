@@ -1,6 +1,3 @@
-<script lang="ts" setup>
-const typesenseLatestVersion = "28.0";
-</script>
 <template>
   <section class="flex w-full flex-col gap-6 md:px-6">
     <div class="ctn">
@@ -25,34 +22,44 @@ const typesenseLatestVersion = "28.0";
         <pre data-language="bash" data-display-language="Docker">
 docker run \
     -p 8108:8108 -v/tmp:/data \
-    typesense/typesense:{{ typesenseLatestVersion }} \
+    typesense/typesense:{{ STATIC.typesenseLatestVersion }} \
       --data-dir /data --api-key=xyz</pre
         >
         <pre data-language="bash" data-display-language="DEB">
 curl -O https://dl.typesense.org/releases/{{
-            typesenseLatestVersion
-          }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
+            STATIC.typesenseLatestVersion
+          }}/typesense-server-{{ STATIC.typesenseLatestVersion }}-amd64.deb
 
-apt install ./typesense-server-{{ typesenseLatestVersion }}-amd64.deb</pre
+apt install ./typesense-server-{{
+            STATIC.typesenseLatestVersion
+          }}-amd64.deb</pre
         >
         <pre data-language="bash" data-display-language="RPM">
 curl -O https://dl.typesense.org/releases/{{
-            typesenseLatestVersion
-          }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
+            STATIC.typesenseLatestVersion
+          }}/typesense-server-{{ STATIC.typesenseLatestVersion }}-1.x86_64.rpm
 
-yum install ./typesense-server-{{ typesenseLatestVersion }}.x86_64.rpm</pre
+yum install ./typesense-server-{{
+            STATIC.typesenseLatestVersion
+          }}.x86_64.rpm</pre
         >
         <pre data-language="bash" data-display-language="Linux">
 curl -O https://dl.typesense.org/releases/{{
-            typesenseLatestVersion
-          }}/typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
+            STATIC.typesenseLatestVersion
+          }}/typesense-server-{{
+            STATIC.typesenseLatestVersion
+          }}-linux-amd64.tar.gz
 
-tar xvzf ./typesense-server-{{ typesenseLatestVersion }}-linux-amd64.tar.gz
+tar xvzf ./typesense-server-{{
+            STATIC.typesenseLatestVersion
+          }}-linux-amd64.tar.gz
 
 ./typesense-server --data-dir /tmp --api-key=xyz</pre
         >
         <pre data-language="bash" data-display-language="macOS">
-brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}</pre
+brew install typesense/tap/typesense-server@{{
+            STATIC.typesenseLatestVersion
+          }}</pre
         >
       </CodeBlockTabbed>
     </div>

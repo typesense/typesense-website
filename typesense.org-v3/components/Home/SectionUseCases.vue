@@ -66,7 +66,7 @@ const usecases = [
       algorithms that take advantage of the latest advances in Hardware
       Capabilities & Machine Learning.
     </p>
-    <Button type="white" class="hidden max-sm:flex"
+    <Button link="/about" type="white" class="hidden max-sm:flex"
       >Our Mission <ArrowRight
     /></Button>
     <div class="card-list mt-8 grid-rows-3 text-left max-sm:grid-rows-5">
@@ -99,12 +99,14 @@ const usecases = [
           from today&rsquo;s modern hardware and machine learning advances.
         </p>
         <div class="flex gap-4">
-          <Button>Typesense&rsquo;s use cases <ArrowRight /></Button>
-          <Button type="white">Our Mission <ArrowRight /></Button>
+          <Button :link="STATIC.link_use_cases"
+            >Typesense&rsquo;s use cases <ArrowRight
+          /></Button>
+          <Button link="/about" type="white">Our Mission <ArrowRight /></Button>
         </div>
       </div>
     </div>
-    <Button class="mt-8 hidden max-sm:flex"
+    <Button :link="STATIC.link_use_cases" class="mt-8 hidden max-sm:flex"
       >Typesense&rsquo;s use cases <ArrowRight
     /></Button>
   </section>

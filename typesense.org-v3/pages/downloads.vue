@@ -61,7 +61,7 @@
               class="code"
             >
               <pre data-language="bash" data-display-language="Docker">
-docker pull typesense/typesense:{{ typesenseLatestVersion }}</pre
+docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}</pre
               >
             </CodeBlockTabbed>
           </div>
@@ -88,41 +88,49 @@ docker pull typesense/typesense:{{ typesenseLatestVersion }}</pre
             >
               <pre data-language="bash" data-display-language="DEB (x64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
-                }}/typesense-server-{{ typesenseLatestVersion }}-amd64.deb
+                  STATIC.typesenseLatestVersion
+                }}/typesense-server-{{
+                  STATIC.typesenseLatestVersion
+                }}-amd64.deb
       </pre
               >
               <pre data-language="bash" data-display-language="RPM (x64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
-                }}/typesense-server-{{ typesenseLatestVersion }}-1.x86_64.rpm
+                  STATIC.typesenseLatestVersion
+                }}/typesense-server-{{
+                  STATIC.typesenseLatestVersion
+                }}-1.x86_64.rpm
       </pre
               >
               <pre data-language="bash" data-display-language="Binary (x64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}/typesense-server-{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}-linux-amd64.tar.gz
       </pre
               >
               <pre data-language="bash" data-display-language="DEB (arm64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
-                }}/typesense-server-{{ typesenseLatestVersion }}-arm64.deb
+                  STATIC.typesenseLatestVersion
+                }}/typesense-server-{{
+                  STATIC.typesenseLatestVersion
+                }}-arm64.deb
       </pre
               >
               <pre data-language="bash" data-display-language="RPM (arm64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
-                }}/typesense-server-{{ typesenseLatestVersion }}-1.arm64.rpm
+                  STATIC.typesenseLatestVersion
+                }}/typesense-server-{{
+                  STATIC.typesenseLatestVersion
+                }}-1.arm64.rpm
       </pre
               >
               <pre data-language="bash" data-display-language="Binary (arm64)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}/typesense-server-{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}-linux-arm64.tar.gz
       </pre
               >
@@ -147,7 +155,7 @@ curl -O https://dl.typesense.org/releases/{{
               class="code"
             >
               <pre data-language="bash" data-display-language="Homebrew">
-brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}
+brew install typesense/tap/typesense-server@{{ STATIC.typesenseLatestVersion }}
       </pre
               >
               <pre
@@ -155,17 +163,17 @@ brew install typesense/tap/typesense-server@{{ typesenseLatestVersion }}
                 data-display-language="Binary (Apple Silicon)"
               >
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}/typesense-server-{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}-darwin-arm64.tar.gz
       </pre
               >
               <pre data-language="bash" data-display-language="Binary (Intel)">
 curl -O https://dl.typesense.org/releases/{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}/typesense-server-{{
-                  typesenseLatestVersion
+                  STATIC.typesenseLatestVersion
                 }}-darwin-amd64.tar.gz
       </pre
               >
@@ -189,7 +197,7 @@ curl -O https://dl.typesense.org/releases/{{
               class="code"
             >
               <pre data-language="powershell" data-display-language="Docker">
-docker pull typesense/typesense:{{ typesenseLatestVersion }}
+docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}
               </pre>
             </CodeBlockTabbed>
           </div>
@@ -284,5 +292,4 @@ useSeoMeta({
 
 import FlashFill from "@/assets/icons/flash-fill.svg";
 import SearchFill from "@/assets/icons/search-fill.svg";
-const typesenseLatestVersion = "28.0";
 </script>

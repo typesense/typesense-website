@@ -21,8 +21,10 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
           deliver instant, relevant search results.
         </p>
         <div class="flex items-center gap-3">
-          <Button> Try For Free <ArrowRight /> </Button>
-          <Button :link="LINK_TYPESENSE_CLOUD" type="white">
+          <Button :link="STATIC.link_try_for_free">
+            Try For Free <ArrowRight />
+          </Button>
+          <Button :link="STATIC.link_typesense_cloud" type="white">
             Typesense Cloud <ArrowRight />
           </Button>
         </div>
