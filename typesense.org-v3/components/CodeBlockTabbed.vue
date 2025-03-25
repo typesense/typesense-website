@@ -197,10 +197,11 @@ pre {
   overflow: auto;
   margin: 0;
   border-radius: 0 !important;
+  line-height: 1.2;
 }
 pre > * {
   font-family: "Fira Code", "Inter", sans-serif !important;
-  /* background-color: #151228 !important; */
+  font-size: 13px !important;
 }
 </style>
 
