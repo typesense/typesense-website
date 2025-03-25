@@ -523,7 +523,7 @@ curl "http://localhost:8108/collections/territories/documents" -X POST \
      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
      -d '{
        "name": "square",
-       "area": "0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0"
+       "area": [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0]
      }'
 ```
 
