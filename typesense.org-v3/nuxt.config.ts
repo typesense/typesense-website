@@ -1,3 +1,5 @@
+import svgLoader from "vite-svg-loader";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-01-20",
@@ -12,13 +14,11 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
-          hid: "description",
           name: "description",
           content:
             "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
         },
         {
-          hid: "keywords",
           name: "keywords",
           content:
             "typesense, search engine, fuzzy search, typo tolerance, faceting, filtering, app search, site search, search bar, algolia, elasticsearch",
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [require("vite-svg-loader")()],
+    plugins: [svgLoader()],
     optimizeDeps: {
       include: ["typesense-instantsearch-adapter"],
     },

@@ -20,8 +20,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-html {
+html,
+body {
   font-family: "Inter", sans-serif;
+  font-weight: 300;
 }
 h1,
 h2,
@@ -51,6 +53,9 @@ h1 strong,
 h2 strong {
   @apply text-primary;
   font-weight: inherit;
+}
+b {
+  font-weight: 500;
 }
 
 .site-padding {
