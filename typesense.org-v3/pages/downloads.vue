@@ -123,7 +123,7 @@ curl -O https://dl.typesense.org/releases/{{
                   STATIC.typesenseLatestVersion
                 }}/typesense-server-{{
                   STATIC.typesenseLatestVersion
-                }}-1.arm64.rpm
+                }}-1.aarch64.rpm
       </pre
               >
               <pre data-language="bash" data-display-language="Binary (arm64)">
