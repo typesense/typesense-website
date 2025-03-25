@@ -1,5 +1,17 @@
 <script async setup lang="ts">
 import BackgroundIllustration from "@/assets/images/background-illustration.svg";
+
+onMounted(() => {
+  const input = document.querySelector(
+    "#section-search-focus .ais-SearchBox input[type=search]",
+  ) as HTMLInputElement;
+  if (input) {
+    input?.focus();
+    var val = input?.value;
+    input.value = "";
+    input.value = val;
+  }
+});
 </script>
 
 <template>
@@ -8,6 +20,7 @@ import BackgroundIllustration from "@/assets/images/background-illustration.svg"
       class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%] max-sm:hidden"
     />
     <div
+      id="section-search-focus"
       class="relative w-[784px] rounded-xl p-2 max-sm:w-full max-sm:overflow-hidden max-sm:p-1"
     >
       <div class="background"></div>
