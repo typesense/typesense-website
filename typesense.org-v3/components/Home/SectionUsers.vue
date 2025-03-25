@@ -104,7 +104,7 @@ const asSeenAs = [
             </h2>
           </div>
         </div>
-        <div class="grid grid-cols-2 items-end gap-4">
+        <div class="grid grid-cols-2 items-end gap-4 max-md:gap-3">
           <CustomLink
             v-for="userLogo in userLogos.slice(0, 2)"
             :key="userLogo.href + '123'"
