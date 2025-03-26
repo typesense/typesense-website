@@ -593,3 +593,31 @@ export TYPESENSE_HOST='https://xxx.a1.typesense.net'
 </Tabs>
 
 Here `xxx.a1.typesense.net` is a Load Balanced endpoint.
+
+## Node Recovery
+
+### Recovering a Single Failed Node
+
+When running a highly available Typesense cluster and one of your nodes goes down, the recovery process is straightforward:
+
+1. Clear the data directory on the failed node
+2. Start the Typesense service back up on that node
+
+The node will automatically synchronize all necessary data from the other healthy nodes in the cluster. The system's built-in replication mechanism will ensure that your recovered node catches up with the current state of your data.
+
+:::tip
+There's no need to perform any manual snapshot operations or restore backups for this scenario. Letting Typesense handle the synchronization is both faster and more reliable.
+:::
+
+### When to Use Snapshot Restore
+
+Snapshot restoration becomes valuable primarily during major disaster recovery scenarios. For example, if all three nodes in your cluster fail simultaneously and all data is lost across the entire cluster, you'll need to rely on your backups.
+
+In this disaster recovery scenario, follow these steps:
+
+1. Take your most recent snapshot backup
+2. Start a single Typesense node using this snapshot
+3. Once the first node is up and stable, add a second node with an empty data directory and let it fully synchronize from the first node
+4. Finally, start a third node and let it synchronize from the existing nodes to re-establish your complete cluster
+
+This phased approach ensures proper data consistency as you rebuild your cluster from backup.
