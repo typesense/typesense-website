@@ -283,6 +283,7 @@ let config = {
           children: [
             ['/cloud-management-api/v1/cluster-management', 'Cluster Management'],
             ['/cloud-management-api/v1/cluster-configuration-changes', 'Cluster Configuration Changes'],
+            ['/cloud-management-api/v1/cluster-cloning', 'Cluster Cloning'],
           ],
         },
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],

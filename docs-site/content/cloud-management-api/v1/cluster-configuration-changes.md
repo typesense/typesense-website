@@ -187,7 +187,7 @@ The `status` field can be any of the following values:
 This endpoint can be used to list all configuration changes for a cluster.
 
 ```shell
-curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/configuration-changes?per_page=1 \
+curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/configuration-changes?per_page=1" \
     -H "Accept: application/json" \
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
 ```
