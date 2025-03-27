@@ -500,6 +500,22 @@ Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (whic
 | effective_to_ts       | no                                                          | A Unix timestamp that indicates the date/time until which the override will be active. You can use this to create override rules that stop applying after a period of time.                                                                                                                                  |
 | stop_processing       | no                                                          | When set to `true`, override processing will stop at the first matching rule. When set to `false` override processing will continue and multiple override actions will be triggered in sequence. <br/><br/> Overrides are processed in the lexical sort order of their `id` field.<br/><br/>Default: `true`. |
 
+### Using overrides with scoped API keys
+
+When working with scoped API keys that have filter conditions, you can configure override rules to work with those filtered queries. To do this, you need to ensure your override's `rule.filter_by` exactly matches the final filter string that Typesense constructs.
+
+When a scoped API key with a filter condition is used along with a search query that has its own filter, Typesense combines them in this format:
+
+```
+(request_filter) && (scoped_api_key_filter)
+```
+
+For example:
+
+1. If your scoped API key has this condition: `{"filter_by":"country: AU"}`
+2. And your search request includes: `filter_by=title:hold`
+3. The final filter string becomes: `(title:hold) && (country: AU)`
+
 ## List all overrides
 Listing all overrides associated with a given collection.
 
