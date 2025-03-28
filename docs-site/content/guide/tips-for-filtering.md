@@ -95,11 +95,11 @@ This matches items with prices:
 
 ## Filtering for Empty Fields
 
-You may want to filter for records where a specific field is empty. Since Typesense doesn't allow an entirely empty filter value, you can use placeholders instead.
+You may want to filter for records where a specific field is empty or null. 
 
-### Using Alphanumeric Placeholders
+Since Typesense doesn't allow an entirely empty filter value in `filter_by`, you can use placeholders instead.
 
-One approach is to use an alphanumeric placeholder (like "~~") when you want to find empty fields:
+One approach is to use an alphanumeric placeholder (like `~~`) when you want to find empty fields:
 
 ```json
 {
@@ -108,12 +108,12 @@ One approach is to use an alphanumeric placeholder (like "~~") when you want to 
 }
 ```
 
-When indexing your data, you would need to:
+To do this though, when indexing your data, you would need to:
 
-1. Identify fields that might be empty
-2. Replace empty values with your chosen placeholder (e.g., "~~")
+1. Add your placeholder characters to the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`symbols_to_index`</RouterLink> parameter in the collection schema.
+2. When adding documents, identify fields that might be empty and replace the empty or null values with your chosen placeholder (e.g., `~~`)
 
-```javascript
+```js{4}
 // Example preprocessing before indexing
 const document = {
   title: "Product name",
@@ -125,17 +125,18 @@ const document = {
 Then, to filter for records with empty descriptions:
 
 ```shell
-description:=~~
+filter_by = description:=~~
 ```
 
-However, symbols are not indexed by default. To make this work, you need to:
+:::warning IMPORTANT Note about Placeholder Symbols
 
-1. Configure the `symbols_to_index` parameter for the specific field in your collection schema
-2. Use consistent symbol placeholders for empty values
+Symbols are not indexed by default in Typesense. 
+
+So to make the above technique work, you would need to configure the `symbols_to_index` parameter for the specific field in your collection schema.
 
 Here's how to set up your schema with `symbols_to_index`:
 
-```json
+```json{5}
 {
   "name": "products",
   "fields": [
@@ -148,8 +149,6 @@ Here's how to set up your schema with `symbols_to_index`:
 
 By including the desired symbol in `symbols_to_index`, Typesense will properly index and allow filtering on that symbol. You can then use it as a placeholder for empty fields:
 
-:::tip
-Choose placeholders that won't appear naturally in your data to avoid false matches.
 :::
 
 ## Prefix Filtering
