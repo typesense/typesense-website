@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .s-p {
+    @apply px-[var(--site-padding)];
+  }
+  .card-list {
+    @apply grid grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-3;
+  }
+  .subtext {
+    @apply mt-2 text-base tracking-tighter text-text-muted max-sm:text-[14px];
+    line-height: 1.8;
+  }
+
+  .show-md {
+    @apply hidden max-md:block;
+  }
+  .show-sm {
+    @apply hidden max-sm:block;
+  }
+}
