@@ -502,7 +502,7 @@ Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (whic
 
 ### Using overrides with scoped API keys
 
-When working with scoped API keys that have filter conditions, you can configure override rules to work with those filtered queries. To do this, you need to ensure your override's `rule.filter_by` exactly matches the final filter string that Typesense constructs.
+When working with [Scoped API keys](./api-keys.md#generate-scoped-search-key) that have filter conditions embedded in them, you can configure override rules to work with those filtered queries. To do this, you need to ensure your override's `rule.filter_by` exactly matches the final filter string that Typesense constructs.
 
 When a scoped API key with a filter condition is used along with a search query that has its own filter, Typesense combines them in this format:
 
@@ -510,11 +510,15 @@ When a scoped API key with a filter condition is used along with a search query 
 (request_filter) && (scoped_api_key_filter)
 ```
 
+Notice specifically the parentheses and the &&-ing of the filters with spaces.
+
 For example:
 
-1. If your scoped API key has this condition: `{"filter_by":"country: AU"}`
+1. If your scoped API key has this condition embedded: `{"filter_by":"country: AU"}`
 2. And your search request includes: `filter_by=title:hold`
 3. The final filter string becomes: `(title:hold) && (country: AU)`
+
+The `rule.filter_by` field in your override definition should exactly be the string in #3 above for the curation rule to be triggered for the given filter and Scoped API key. 
 
 ## List all overrides
 Listing all overrides associated with a given collection.
