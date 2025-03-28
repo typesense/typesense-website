@@ -22,7 +22,7 @@ When you flip the setting ON when launching a cluster, you'll see a special Load
 Requests sent to the Load-Balanced endpoint are distributed between all the 3 nodes in the cluster.
 If a particular node has an infrastructure issue, or is inaccessible for any reason, it is automatically quarantined and traffic is re-routed to the other healthy nodes.
 
-::: warning \*Note
+::: warning Note
 
 You will only see the Load Balanced endpoint for HA clusters provisioned after **June 16, 2022**.
 
@@ -183,6 +183,21 @@ If you see `state: 1` on more than one node, that indicates that the cluster was
 
 If you see a value other than `state: 4` or `state: 1` that indicates an error. Check the Typesense logs (usually in `/var/log/typesense/typesense.log`) for more diagnostic information.
 
+### Recovering a single failed node
+
+When running a highly available Typesense cluster and one of your nodes goes down, the recovery process is straightforward:
+
+1. Stop the Typesense process if it's still running
+2. Clear the data directory on the failed node
+3. Start the Typesense service back up on that node
+
+The node will automatically synchronize all necessary data from the other healthy nodes in the cluster. 
+Typesense's built-in replication mechanism will ensure that your recovered node catches up with the current state of your data.
+
+:::tip
+There's no need to perform any manual snapshot operations or restore backups for this scenario. Letting Typesense handle the synchronization is both faster and more reliable.
+:::
+
 ### Recovering a cluster that has lost quorum
 
 A Typesense cluster with N nodes can tolerate a failure of at most `(N-1)/2` nodes without affecting reads or writes.
@@ -212,6 +227,23 @@ To recover a cluster that has lost quorum:
    At this stage, both the 1st and 2nd nodes should be healthy.
 
 6. Repeat steps 3-5 for each additional node, by adding each new node's IP address to the nodes files of all the nodes (existing ones and the new one you're about to add), and start the new node up.
+
+### When to use Snapshot Restore
+
+<p>
+<RouterLink :to="`/${this.$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#create-snapshot-for-backups`">Snapshot</RouterLink> restoration becomes valuable primarily during major disaster recovery scenarios.
+</p>
+
+For example, if for some reason all three nodes in your cluster fail simultaneously due to some freak incident and all data is lost across the entire cluster, you'll need to rely on your backups.
+
+In this disaster recovery scenario, follow these steps:
+
+1. Take your most recent snapshot backup.
+2. Start a single Typesense node using this snapshot.
+3. Once the first node is up and stable, add a second node with an empty data directory (by adding it's IP to the nodes file of the first node and this new node) and let it fully synchronize from the first node
+4. Finally, start a third node (and adds its IP to all 3 nodes' nodes file) and let it synchronize from the existing nodes to re-establish your complete cluster
+
+This phased approach ensures proper data consistency as you rebuild your cluster from backup.
 
 ## Client Configuration
 
@@ -593,31 +625,3 @@ export TYPESENSE_HOST='https://xxx.a1.typesense.net'
 </Tabs>
 
 Here `xxx.a1.typesense.net` is a Load Balanced endpoint.
-
-## Node Recovery
-
-### Recovering a Single Failed Node
-
-When running a highly available Typesense cluster and one of your nodes goes down, the recovery process is straightforward:
-
-1. Clear the data directory on the failed node
-2. Start the Typesense service back up on that node
-
-The node will automatically synchronize all necessary data from the other healthy nodes in the cluster. The system's built-in replication mechanism will ensure that your recovered node catches up with the current state of your data.
-
-:::tip
-There's no need to perform any manual snapshot operations or restore backups for this scenario. Letting Typesense handle the synchronization is both faster and more reliable.
-:::
-
-### When to Use Snapshot Restore
-
-Snapshot restoration becomes valuable primarily during major disaster recovery scenarios. For example, if all three nodes in your cluster fail simultaneously and all data is lost across the entire cluster, you'll need to rely on your backups.
-
-In this disaster recovery scenario, follow these steps:
-
-1. Take your most recent snapshot backup
-2. Start a single Typesense node using this snapshot
-3. Once the first node is up and stable, add a second node with an empty data directory and let it fully synchronize from the first node
-4. Finally, start a third node and let it synchronize from the existing nodes to re-establish your complete cluster
-
-This phased approach ensures proper data consistency as you rebuild your cluster from backup.
