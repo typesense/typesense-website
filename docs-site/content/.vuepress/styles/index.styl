@@ -1,0 +1,47 @@
+/**
+ * Custom Styles here.
+ *
+ * ref：https://v1.vuepress.vuejs.org/config/#index-styl
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+body
+  font-family 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+// https://github.com/vuejs/vuepress/issues/703#issuecomment-484790660
+.theme-default-content pre[class*=language-]
+  overflow-y hidden
+
+
+ul, ol
+  margin-left 1em
+
+.theme-default-content code
+  color $inlineCodeColor
+  padding 0.1rem 0.25rem
+
+.custom-block
+  &.tip
+    //border-color #92DCE5
+    border-color #6BAB90
+
+a code
+  text-decoration underline
+  text-decoration-color $accentColorLight
+
+  &:hover
+    text-decoration-color $accentColor
+
+div[class*="language-"]
+  .highlight-lines
+    .highlighted
+      background-color rgba(84, 92, 102, 66%)
+
+figure
+  display flex
+  flex-direction column
+  align-items center
+
+  figcaption
+    text-align center
+

@@ -1,0 +1,43 @@
+{
+  "name": "typesense-docs",
+  "description": "Documentation for Typesense Search",
+  "private": true,
+  "license": "GPL-3.0",
+  "scripts": {
+    "check-md": "NODE_OPTIONS=--openssl-legacy-provider vuepress check-md ./content",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev content",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build content --no-cache",
+    "deploy": "yarn build && aws s3 cp --recursive ./content/.vuepress/dist s3://typesense.org/docs/ --profile typesense && yarn clearCDNCache && yarn scrapeAndIndexDocs",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/docs*\" --profile typesense",
+    "scrapeAndIndexDocs": "aws ecs run-task --no-cli-pager --task-definition=scrape-index-docs --launch-type=FARGATE --cluster=typesense-docsearch-scraper --overrides=\"{\\\"containerOverrides\\\":[ { \\\"name\\\": \\\"typesense-docsearch-scraper\\\", \\\"environment\\\": [ { \\\"name\\\": \\\"CONFIG\\\", \\\"value\\\": $(node docsearch.config.js | jq -aR .)}] }]}\" --network-configuration='{\"awsvpcConfiguration\": {\"subnets\": [\"subnet-a3816afe\"], \"securityGroups\": [\"sg-07b87fb405e2f1f8f\"], \"assignPublicIp\": \"ENABLED\"}}' --profile=typesense",
+    "lint": "NODE_OPTIONS=--openssl-legacy-provider eslint --ext .js,.vue content/.vuepress",
+    "lint:fix": "NODE_OPTIONS=--openssl-legacy-provider yarn lint --fix",
+    "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.22.1 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.6.0",
+    "esm": "^3.2.25",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
+    "vuepress-plugin-check-md": "^0.0.2",
+    "vuepress-plugin-sitemap": "jasonbosco/vuepress-plugin-sitemap",
+    "watchpack": "1.6.1"
+  },
+  "dependencies": {
+    "@dovyp/vuepress-plugin-clipboard-copy": "^1.0.0-alpha.7",
+    "@vuepress/plugin-last-updated": "^1.9.7",
+    "@vuepress/plugin-medium-zoom": "^1.9.7",
+    "markdown-it-attrs": "^4.1.4",
+    "prismjs": "^1.29.0",
+    "vue-gtag": "^1.16.1",
+    "vue-prism-component": "^2.0.0",
+    "vuepress": "1.9.7",
+    "vuex": "^3.6.2"
+  }
+}

@@ -1,0 +1,22 @@
+@import 'vars';
+@import 'bootstrap';
+@import 'footer';
+@import 'transitions';
+
+.marker-highlight {
+  margin: 0 -0.05em;
+  padding: 0.1em 0.4em;
+  border-radius: 0.8em 0.3em;
+  background: transparent linear-gradient(
+      to right,
+      rgba(255, 225, 0, 0.1),
+      rgba(255, 225, 0, 0.3) 4%,
+      rgba(255, 225, 0, 0.2)
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+//* {
+//  border: 1px solid red;
+//}

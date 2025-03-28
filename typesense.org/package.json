@@ -1,0 +1,49 @@
+{
+  "name": "typesense.org",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "deploy": "yarn generate && rm -rf ./dist/docs && aws s3 cp --recursive ./dist s3://typesense.org/ --profile typesense && yarn clearCDNCache",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/*\" --profile typesense",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "yarn lint:js"
+  },
+  "dependencies": {
+    "@nuxtjs/google-gtag": "^1.0.4",
+    "@nuxtjs/gtm": "^2.4.0",
+    "@nuxtjs/redirect-module": "^0.3.1",
+    "@nuxtjs/robots": "^3.0.0",
+    "@nuxtjs/sitemap": "^2.4.0",
+    "aos": "^2.3.4",
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
+    "clipboard": "^2.0.11",
+    "lodash.startcase": "^4.4.0",
+    "markdown-it-attrs": "^4.1.6",
+    "nuxt": "^2.17.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
+    "typesense": "^1.7.1",
+    "typesense-instantsearch-adapter": "^2.7.1",
+    "vue-instantsearch": "^4.10.9"
+  },
+  "devDependencies": {
+    "@nuxt/types": "~2.17.1",
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.5.0",
+    "prettier": "^2.2.1",
+    "sass": "^1.66.1",
+    "sass-loader": "10"
+  }
+}

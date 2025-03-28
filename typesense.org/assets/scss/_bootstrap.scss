@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&display=swap');
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+body {
+  letter-spacing: 0.01rem;
+}
+
+.display-1, .display-2, .display-3, .display-4 {
+  font-family: 'Catamaran', sans-serif;
+}
+
+.text-serif-2 {
+  font-family: 'Catamaran', sans-serif;
+}
+
+.text-display-font {
+  font-family: 'Gabarito', sans-serif;
+}
+
+.border-short {
+  max-width: 20%;
+  border-width: 2px;
+}
+
+.border-primary-dark {
+  border-color: $primary-dark-1 !important;
+}
+
+.bg-gradient-1 {
+  @media(max-width: map-get($grid-breakpoints, 'sm')) {
+    background: linear-gradient(darken($secondary-dark-2, 15%) 8%, #350019 20%, darken($secondary-dark-2, 15%) 40%, #000000 80%);
+  }
+
+  @media(min-width: map-get($grid-breakpoints, 'sm')) {
+    background: linear-gradient(173deg, #000000 0%, darken($secondary-dark-2, 15%) 28%, #350019 43%, darken($secondary-dark-2, 15%) 56%, #000000 78%, #FFFFFF calc(78% + 1px));
+  }
+
+  @media(min-width: map-get($grid-breakpoints, 'xxl')) {
+    background: linear-gradient(darken($secondary-dark-2, 15%) 22%, #350019 46%, darken($secondary-dark-2, 15%) 72%, #000000 100%);
+  }
+}
+
+.bg-gradient-2 {
+  background: linear-gradient(#000000 0%, $secondary-dark-2 20%, #000000 65%);
+}
+
+.bg-gradient-3 {
+  background: linear-gradient(#000000 20%, $secondary-dark-2 50%, #000000 80%);
+}
+
+.bg-gradient-4 {
+  background: linear-gradient(#000000 0%, darken($secondary-dark-2, 10%) 70%, $secondary-dark-2 100%);
+}
+
+.bg-gradient-5 {
+  background: linear-gradient($black 0%, #470022 0%, $black 75%);
+}
+
+.bg-gradient-6 {
+  background: linear-gradient($black 0%, #250012 0%, $black 85%);
+}
+
+.bg-light-2 {
+  background-color: $primary-light-1 !important;
+}
+
+// Source: https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in-css--cms-32535
+.bg-frosted-glass {
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+  position: relative;
+  z-index: 1;
+  background: inherit;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .11);
+    filter: blur(10px);
+    margin: -20px;
+  }
+}
+
+.text-gradient-1 {
+  background: linear-gradient(90deg, $secondary 40%, darken($secondary, 30%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-2 {
+  background: linear-gradient(270deg, $secondary 40%, darken($secondary, 30%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gray-200 {
+  color: $gray-200;
+}
+
+.text-dark-brown {
+  color: $dark-brown;
+}
+
+strong {
+  font-weight: bold;
+}
+
+a {
+  color: $body-color;
+
+  text-decoration: underline;
+  text-decoration-color: $primary;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+
+  &:hover {
+    text-decoration-color: darken($primary, 5%);
+  }
+}
+
+mark {
+  background-color: rgb(255 243 101 / 25%);
+  color: white;
+}
+
+.text-shadow-primary-1 {
+  text-shadow: 0px 0px 14px #710029;
+}
+
+.text-shadow-primary-2 {
+  text-shadow: 0px 0px 10px #c1004533;
+}
+
+.btn.btn-primary {
+  box-shadow: 0px 0px 10px 0px #ffdd1785;
+}
+
+.nav-link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    text-decoration-color: darken($primary, 5%);
+  }
+}
