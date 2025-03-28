@@ -93,6 +93,64 @@ This matches items with prices:
 - Between 15 and 50
 - Exactly 800
 
+## Filtering for Empty Fields
+
+You may want to filter for records where a specific field is empty or null. 
+
+Since Typesense doesn't allow an entirely empty filter value in `filter_by`, you can use placeholders instead.
+
+One approach is to use an alphanumeric placeholder (like `~~`) when you want to find empty fields:
+
+```json
+{
+  "q": "*",
+  "filter_by": "optional_field:=~~"
+}
+```
+
+To do this though, when indexing your data, you would need to:
+
+1. Add your placeholder characters to the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html#schema-parameters`">`symbols_to_index`</RouterLink> parameter in the collection schema.
+2. When adding documents, identify fields that might be empty and replace the empty or null values with your chosen placeholder (e.g., `~~`)
+
+```js{4}
+// Example preprocessing before indexing
+const document = {
+  title: "Product name",
+  description: "~~", // Empty field
+  category: "Electronics"
+};
+```
+
+Then, to filter for records with empty descriptions:
+
+```shell
+filter_by = description:=~~
+```
+
+:::warning IMPORTANT Note about Placeholder Symbols
+
+Symbols are not indexed by default in Typesense. 
+
+So to make the above technique work, you would need to configure the `symbols_to_index` parameter for the specific field in your collection schema.
+
+Here's how to set up your schema with `symbols_to_index`:
+
+```json{5}
+{
+  "name": "products",
+  "fields": [
+    {"name": "title", "type": "string"},
+    {"name": "description", "type": "string", "symbols_to_index": ["~"]},
+    {"name": "category", "type": "string"}
+  ]
+}
+```
+
+By including the desired symbol in `symbols_to_index`, Typesense will properly index and allow filtering on that symbol. You can then use it as a placeholder for empty fields:
+
+:::
+
 ## Prefix Filtering
 
 > This feature is only available as of Typesense Server v27.0
