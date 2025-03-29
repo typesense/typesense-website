@@ -26,6 +26,18 @@ export default defineNuxtConfig({
 
         // Open Graph
         {
+          property: "og:title",
+          content: "Typesense | Open Source Alternative to Algolia + Pinecone",
+        },
+        {
+          property: "og:description",
+          content:
+            "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://typesense.org" },
+
+        {
           property: "og:image",
           content: "/opengraph.png",
         },
