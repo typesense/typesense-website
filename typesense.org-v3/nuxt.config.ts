@@ -24,7 +24,7 @@ export default defineNuxtConfig({
             "typesense, search engine, fuzzy search, typo tolerance, faceting, filtering, app search, site search, search bar, algolia, elasticsearch",
         },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.svg" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
     },
   },
   css: ["~/assets/css/fonts.css"],
