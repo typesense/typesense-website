@@ -23,6 +23,26 @@ export default defineNuxtConfig({
           content:
             "typesense, search engine, fuzzy search, typo tolerance, faceting, filtering, app search, site search, search bar, algolia, elasticsearch",
         },
+
+        // Open Graph
+        {
+          property: "og:image",
+          content: "/opengraph.png",
+        },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        {
+          property: "og:image:alt",
+          content:
+            "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
+        },
+
+        // Twitter
+        { name: "twitter:card", content: "summary_large_image" },
+        {
+          name: "twitter:image",
+          content: "/opengraph.png",
+        },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
     },
