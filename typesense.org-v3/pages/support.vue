@@ -35,8 +35,15 @@
             class="table-head mb-2 grid w-full grid-cols-3 items-center rounded-xl bg-bg text-text-primary max-md:px-0.5 max-md:shadow-[-3px_2px_30px_0px_rgba(0,0,0,0.10)] max-md:[&>div]:!pl-2.5"
           >
             <div>
-              <Logo
-                class="[&_.logo-icon]:h-[29px] max-md:[&_.logo-icon]:hidden max-md:[&_.logo-text]:h-[18px] max-md:[&_.logo-text]:w-[83px]"
+              <img
+                src="/typesense-logo.svg"
+                class="h-[29px] max-md:hidden"
+                alt="Typesense logo"
+              />
+              <img
+                src="/typesense-logo-text.svg"
+                class="show-md h-5"
+                alt="Typesense logo"
               />
             </div>
             <div>Typesense Cloud</div>
