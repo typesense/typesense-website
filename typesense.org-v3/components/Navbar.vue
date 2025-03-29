@@ -41,15 +41,16 @@ const hideNav = () => {
     class="header fixed top-0 z-50 overflow-hidden rounded-b-3xl pt-4 backdrop-blur-md max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0"
   >
     <nav
-      class="flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4"
+      class="group flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4"
     >
-      <Logo class="md:text-white" />
+      <Logo class="max-md:hidden" dark />
+      <Logo class="show-md" />
       <div
         :class="{ active: isActive }"
-        class="dropdown inset-0 text-sm text-text-inverted max-md:fixed max-md:h-screen max-md:bg-primary max-md:px-4 max-md:text-base max-md:[clip-path:inset(0%_0%_0%_100%)]"
+        class="slide inset-0 text-sm text-text-inverted max-md:fixed max-md:h-screen max-md:bg-primary max-md:px-4 max-md:text-base max-md:[clip-path:inset(0%_0%_0%_100%)]"
       >
         <div class="mb-8 hidden h-14 items-center justify-between max-md:flex">
-          <Logo class="text-white" />
+          <Logo dark />
           <button @click="toggle">
             <CloseSquare />
           </button>
@@ -71,11 +72,11 @@ const hideNav = () => {
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
       </div>
-      <CustomLink :to="STATIC.link_try_for_free">
+      <CustomLink :to="STATIC.link_craft_your_search">
         <button
           class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg max-md:hidden"
         >
-          Try For Free
+          Craft Your Search
         </button>
       </CustomLink>
       <button class="show-md" @click="toggle">
@@ -86,10 +87,10 @@ const hideNav = () => {
 </template>
 
 <style scoped>
-.dropdown {
+.slide {
   transition: clip-path 0.5s cubic-bezier(0.65, 0.72, 0, 1);
 }
-.dropdown.active {
+.slide.active {
   clip-path: inset(0% 0% 0% 0%);
 }
 .header {
