@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
         {
           property: "og:image",
-          content: "/opengraph.png",
+          content: "https://typesense.org/opengraph.png",
         },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
@@ -53,7 +53,7 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: "summary_large_image" },
         {
           name: "twitter:image",
-          content: "/opengraph.png",
+          content: "https://typesense.org/opengraph.png",
         },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
