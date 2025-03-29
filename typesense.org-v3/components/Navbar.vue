@@ -72,11 +72,11 @@ const hideNav = () => {
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
       </div>
-      <CustomLink :to="STATIC.link_try_for_free">
+      <CustomLink :to="STATIC.link_craft_your_search">
         <button
           class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg max-md:hidden"
         >
-          Try For Free
+          Craft Your Search
         </button>
       </CustomLink>
       <button class="show-md" @click="toggle">

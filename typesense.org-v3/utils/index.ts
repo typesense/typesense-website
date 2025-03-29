@@ -6,5 +6,5 @@ export const STATIC = {
 
   link_typesense_cloud: "https://cloud.typesense.org/",
   link_use_cases: "https://typesense.org/docs/overview/use-cases.html",
-  link_try_for_free: "https://typesense.org/docs/guide/#quick-start",
+  link_craft_your_search: "https://typesense.org/docs/guide/#quick-start",
 };
