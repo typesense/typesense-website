@@ -1,5 +1,6 @@
+import * as version from "../../typesenseVersions";
 export const STATIC = {
-  typesenseLatestVersion: "28.0",
+  typesenseLatestVersion: version.typesenseLatestVersion,
   githubStars: "22K",
   dockerPulls: "18M",
   cloudSearchesPerMonth: "10B",

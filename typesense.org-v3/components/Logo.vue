@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { dark = false } = defineProps<{
-  dark: boolean;
+  dark?: boolean;
 }>();
 </script>
 <template>
