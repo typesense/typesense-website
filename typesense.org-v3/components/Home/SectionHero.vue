@@ -1,6 +1,3 @@
-<script setup lang="ts">
-import ArrowRight from "@/assets/icons/arrow-right.svg";
-</script>
 <template>
   <section
     class="mt-32 flex w-full flex-col items-center text-center max-md:mt-20"
@@ -19,11 +16,11 @@ import ArrowRight from "@/assets/icons/arrow-right.svg";
           deliver instant, relevant search results.
         </p>
         <div class="flex items-center gap-3">
-          <Button :link="STATIC.link_try_for_free">
-            Try For Free <ArrowRight />
+          <Button :link="STATIC.link_craft_your_search" with-arrow>
+            Craft Your Search
           </Button>
-          <Button :link="STATIC.link_typesense_cloud" type="white">
-            Typesense Cloud <ArrowRight />
+          <Button :link="STATIC.link_typesense_cloud" type="white" with-arrow>
+            Typesense Cloud
           </Button>
         </div>
       </div>

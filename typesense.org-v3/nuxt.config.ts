@@ -23,8 +23,40 @@ export default defineNuxtConfig({
           content:
             "typesense, search engine, fuzzy search, typo tolerance, faceting, filtering, app search, site search, search bar, algolia, elasticsearch",
         },
+
+        // Open Graph
+        {
+          property: "og:title",
+          content: "Typesense | Open Source Alternative to Algolia + Pinecone",
+        },
+        {
+          property: "og:description",
+          content:
+            "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://typesense.org" },
+
+        {
+          property: "og:image",
+          content: "https://typesense.org/opengraph.png",
+        },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        {
+          property: "og:image:alt",
+          content:
+            "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
+        },
+
+        // Twitter
+        { name: "twitter:card", content: "summary_large_image" },
+        {
+          name: "twitter:image",
+          content: "https://typesense.org/opengraph.png",
+        },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.svg" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
     },
   },
   css: ["~/assets/css/fonts.css"],
