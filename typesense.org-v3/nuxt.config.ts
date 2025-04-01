@@ -84,6 +84,8 @@ export default defineNuxtConfig({
   },
   gtm: {
     id: 'GTM-NDZ9CJJ',
+    enableRouterSync: true,
+    trackViewEventProperty: 'nuxtRoute'
   },
   // For sitemap generation
   site: { url: 'https://typesense.org' },
