@@ -261,7 +261,7 @@
           >
             Have Any <span class="text-secondary">Questions?</span>
           </h3>
-          <Button link="/docs" with-arrow>Read the Guide</Button>
+          <Button link="https://typesense.org/docs" with-arrow>Read the Guide</Button>
         </div>
       </section>
     </div>

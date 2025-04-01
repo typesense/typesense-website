@@ -17,14 +17,14 @@ const isActivePage = (path) => {
 const navLinks = ref([
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
-  { name: "Docs", link: "/docs" },
+  { name: "Docs", link: "https://typesense.org/docs" },
   { name: "Downloads", link: "/downloads" },
   { name: "Roadmap", link: "https://github.com/orgs/typesense/projects/1" },
   {
     name: "Typesense Cloud",
     link: "https://cloud.typesense.org/",
   },
-  { name: "Blog", link: "/blog" },
+  { name: "Blog", link: "https://typesense.org/blog" },
   { name: "Support", link: "/support" },
 ]);
 

@@ -24,7 +24,7 @@
           hosted version of Typesense called
           <CustomLink
             class="text-primary underline underline-offset-4"
-            to="https://typesense.org/blog/why-we-are-not-raising-funds/"
+            to="https://cloud.typesense.org/"
             >Typesense Cloud</CustomLink
           >.
           <br />
@@ -37,7 +37,7 @@
           Once you’ve downloaded Typesense, read the documentation to
           <CustomLink
             class="text-primary underline underline-offset-4"
-            to="https://typesense.org/blog/why-we-are-not-raising-funds/"
+            to="https://typesense.org/docs/guide/#quick-start"
             >Get Started</CustomLink
           >.
         </p>
@@ -245,7 +245,7 @@ docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}
               downloading <br class="show-md" />
               Typesense
             </h3>
-            <Button link="/docs" with-arrow>Read the Guide</Button>
+            <Button link="https://typesense.org/docs/guide" with-arrow>Read the Guide</Button>
           </div>
         </div>
       </section>

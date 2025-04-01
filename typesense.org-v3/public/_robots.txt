@@ -1,5 +1,4 @@
 User-agent: *
-Disallow:
 Allow: /
 Sitemap: https://typesense.org/sitemap.xml
 Sitemap: https://typesense.org/docs/sitemap.xml

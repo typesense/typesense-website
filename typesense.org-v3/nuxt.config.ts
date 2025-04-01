@@ -72,6 +72,14 @@ export default defineNuxtConfig({
   gtm: {
     id: 'GTM-NDZ9CJJ',
   },
+  // For sitemap generation
+  site: { url: 'https://typesense.org' },
+  sitemap: {
+    discoverImages: false,
+    defaults: {
+      lastmod: new Date().toISOString(),
+    },
+  },
   tailwindcss: {
     exposeConfig: true,
     viewer: true,

@@ -55,7 +55,7 @@
     <section>
       <Badge>Timeline</Badge>
       <h2 class="mb-14 text-center max-md:mb-8">
-        Typesense<br class="show-md" />
+        The Typesense<br class="show-md" />
         <strong> Journey</strong>
       </h2>
       <div class="flex w-full flex-col gap-3 tracking-[-0.42px]">
@@ -84,12 +84,12 @@
     </section>
     <section class="site-padding w-full">
       <div class="flex w-full flex-col items-center">
-        <h2 class="mb-12 max-md:mb-6">Try <strong>Typesense</strong></h2>
+        <h3 class="mb-12 max-md:mb-6">Craft your search with <strong>Typesense</strong></h3>
         <div
           class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:size-[200px] max-md:[&_img]:size-[120px]"
         >
           <CustomLink
-            to="/docs/guide"
+            to="https://typesense.org/docs/guide"
             class="flex justify-between gap-6 rounded-3xl bg-secondary-bg p-6 max-md:p-4"
           >
             <div class="flex h-full flex-col justify-between">
@@ -169,27 +169,32 @@ const timeline = [
   {
     year: 2015,
     achievement: "The idea for\nTypesense is born",
-    width: 30,
+    width: 20,
   },
   {
     year: 2018,
     achievement: "First open source\nrelease of Typesense",
-    width: 40,
+    width: 30,
   },
   {
     year: 2020,
     achievement: "Typesense Cloud\nlaunches",
-    width: 50,
+    width: 40,
   },
   {
     year: 2023,
     achievement: "1 Billion Searches per\nmonth on Typesense Cloud",
-    width: 65,
+    width: 55,
   },
   {
     year: 2024,
     achievement: "10 Billion Searches per\nmonth on Typesense Cloud",
-    width: 80,
+    width: 70,
+  },
+  {
+    year: new Date().getFullYear(),
+    achievement: "Building, Shipping and Scaling",
+    width: 85,
   },
 ];
 </script>
