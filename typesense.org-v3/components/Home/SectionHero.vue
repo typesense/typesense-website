@@ -16,8 +16,8 @@
           deliver instant, relevant search results.
         </p>
         <div class="flex items-center gap-3">
-          <Button :link="STATIC.link_craft_your_search" with-arrow>
-            Craft Your Search
+          <Button :link="STATIC.link_get_started" with-arrow>
+            Quick Start
           </Button>
           <Button :link="STATIC.link_typesense_cloud" type="white" with-arrow>
             Typesense Cloud

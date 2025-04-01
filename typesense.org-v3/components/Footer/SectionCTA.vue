@@ -14,8 +14,8 @@ import Dots from "@/assets/images/dots.svg";
       </h1>
 
       <div class="mt-10 flex items-center gap-3 max-md:mt-6">
-        <Button :link="STATIC.link_craft_your_search" type="primary">
-          Craft Your Search
+        <Button :link="STATIC.link_get_started" type="primary">
+          Quick Start
           <ArrowRight class="text-text-inverted" />
         </Button>
         <Button :link="STATIC.link_typesense_cloud" type="white">

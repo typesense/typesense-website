@@ -7,7 +7,7 @@ const { dark = false } = defineProps<{
   <NuxtLink to="/">
     <img
       :src="dark ? '/typesense-logo-dark.svg' : '/typesense-logo.svg'"
-      class="w-[138px]"
+      class="w-[165px]"
       alt="Typesense logo"
     />
   </NuxtLink>
