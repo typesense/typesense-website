@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],
@@ -68,6 +68,9 @@ export default defineNuxtConfig({
     },
     display: "swap",
     preconnect: true,
+  },
+  gtm: {
+    id: 'GTM-NDZ9CJJ',
   },
   tailwindcss: {
     exposeConfig: true,

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://typesense.org/sitemap.xml
+Sitemap: https://typesense.org/docs/sitemap.xml
+Sitemap: https://typesense.org/learn/sitemap.xml
+Sitemap: https://typesense.org/blog/sitemap.xml
