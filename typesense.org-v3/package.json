@@ -20,6 +20,7 @@
     "embla-carousel-vue": "^8.5.2",
     "lodash.startcase": "^4.4.0",
     "nuxt": "^3.13.1",
+    "nuxt-gtag": "^3.0.2",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
     "typesense-instantsearch-adapter": "^2.8.0",

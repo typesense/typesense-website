@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm", "nuxt-gtag"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],
@@ -68,6 +68,19 @@ export default defineNuxtConfig({
     },
     display: "swap",
     preconnect: true,
+  },
+  gtag: {
+    id: 'UA-116415641-1',
+    config: {
+      anonymize_ip: true, // anonymize IP
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: [
+          'typesense.org',
+          'cloud.typesense.org',
+        ],
+      },
+    },
   },
   gtm: {
     id: 'GTM-NDZ9CJJ',
