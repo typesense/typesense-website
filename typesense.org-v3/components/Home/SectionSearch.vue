@@ -19,6 +19,9 @@ onMounted(() => {
     <BackgroundIllustration
       class="pointer-events-none absolute left-1/2 top-1/2 z-[-4] -translate-x-1/2 -translate-y-[42.5%] max-sm:hidden"
     />
+    <div class="mb-1 text-sm text-text-muted/50 tracking-[-0.72px]">
+      Try searching for a recipe ↴
+    </div>
     <div
       id="section-search-focus"
       class="relative w-[784px] rounded-xl p-2 max-sm:w-full max-sm:overflow-hidden max-sm:p-1"

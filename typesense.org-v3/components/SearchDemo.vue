@@ -1,5 +1,5 @@
 <script async setup lang="ts">
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import {
   AisInstantSearchSsr,
   AisSearchBox,
@@ -20,13 +20,16 @@ import ExternalLinkIcon from "@/assets/icons/external-link.svg";
 import NoResultsFound from "@/assets/images/no-results-found.svg";
 import type { BaseAdapterOptions } from "typesense-instantsearch-adapter";
 
-const props = defineProps<{
-  classNames?: {
-    searchBarWrapper?: string;
-    hitList?: string;
-    hitItem?: string;
-  };
-}>();
+const props = defineProps({
+  classNames: {
+    type: Object as () => {
+      searchBarWrapper?: string;
+      hitList?: string;
+      hitItem?: string;
+    },
+    default: () => ({})
+  }
+});
 
 const config = useRuntimeConfig();
 const hitsPerPage = 6;
@@ -41,7 +44,8 @@ const serverConfig: BaseAdapterOptions["server"] = {
       protocol: config.public.typesenseProtocol,
     };
   }),
-  connectionTimeoutSeconds: 1,
+  connectionTimeoutSeconds: 2,
+  useServerSideSearchCache: false,
 };
 if (config.public.typesenseHostNearest) {
   serverConfig.nearestNode = {
@@ -51,13 +55,45 @@ if (config.public.typesenseHostNearest) {
   };
 }
 
-const searchClient = new TypesenseInstantSearchAdapter.default({
+// Create the base Typesense client adapter
+const typesenseAdapter = new TypesenseInstantSearchAdapter.default({
   server: serverConfig,
   additionalSearchParameters: {
     query_by: "title",
     prioritize_exact_match: false,
+    stopwords: 'recipe-search',
   },
-}).searchClient;
+});
+
+// Create a proxy search client to prevent empty searches
+const searchClient = {
+  ...typesenseAdapter.searchClient,
+  search(requests: any[]) {
+    // If there's an empty query, return empty results
+    if (requests.every(({ params }: { params: any }) => !params.query)) {
+      // Return a resolved promise with empty results when query is empty
+      return Promise.resolve({
+        results: requests.map(() => ({
+          hits: [],
+          nbHits: 0,
+          nbPages: 0,
+          page: 0,
+          processingTimeMS: 0,
+          hitsPerPage: 0,
+          exhaustiveNbHits: false,
+          query: '',
+          params: '',
+        })),
+      });
+    }
+
+    // Otherwise, perform the search as usual
+    return typesenseAdapter.searchClient.search(requests);
+  },
+};
+
+// Initial search term
+const initialQuery = "pineapple pizza";
 
 // https://algolia.nuxtjs.org/advanced/vue-instantsearch/
 const serverRootMixin = ref(
@@ -69,7 +105,7 @@ const serverRootMixin = ref(
     },
     initialUiState: {
       r: {
-        query: "steamed",
+        query: initialQuery, // Set initial query
       },
     },
   }),
@@ -137,47 +173,50 @@ const transformItems = (items: { link: string }[]) =>
   >
     <ais-configure :hitsPerPage="hitsPerPage" />
 
-    <div
-      :class="`mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5 ${props.classNames?.searchBarWrapper || ''}`"
-    >
-      <div class="input-wrapper flex w-full flex-1 items-center">
-        <SearchIcon class="mr-3 size-5 text-primary" />
-        <AisSearchBox
-          placeholder="Search for recipes..."
-          class="flex-1 tracking-[-0.32px] text-primary"
-          :class-names="{
-            'ais-SearchBox-input':
-              'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
-            'ais-SearchBox-submit': 'hidden',
-            'ais-SearchBox-reset': 'hidden',
-          }"
-          :show-loading-indicator="false"
-        />
-      </div>
-      <AisStats class="stats text-sm tracking-[-0.28px] text-text-muted">
-        <template v-slot="{ nbHits, processingTimeMS }">
-          <span class="flex items-center gap-2">
-            <SearchStatsStars />
-            <span>
-              Found {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
-              <!-- To avoid hydration mismatch -->
-              <ClientOnly fallback="...">
-                {{
-                  parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS
-                }} </ClientOnly
-              >ms
+    <div class="search-bar-container relative">
+      <div
+        :class="`mb-1 flex w-full items-center overflow-hidden rounded-xl bg-bg px-5 ${props.classNames?.searchBarWrapper || ''} relative z-10`"
+      >
+        <div class="input-wrapper flex w-full flex-1 items-center">
+          <SearchIcon class="mr-3 size-5 text-primary" />
+          <AisSearchBox
+            placeholder="Search for recipes..."
+            class="flex-1 tracking-[-0.32px] text-primary"
+            :class-names="{
+              'ais-SearchBox-input':
+                'w-full h-[60px] focus:outline-none focus:ring-0 bg-bg placeholder:font-thin',
+              'ais-SearchBox-submit': 'hidden',
+              'ais-SearchBox-reset': 'hidden',
+            }"
+            :show-loading-indicator="false"
+          />
+        </div>
+        <AisStats class="stats text-sm tracking-[-0.28px] text-text-muted">
+          <template v-slot="{ nbHits, processingTimeMS }">
+            <span class="flex items-center gap-2">
+              <SearchStatsStars />
+              <span>
+                Found {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
+                <!-- To avoid hydration mismatch -->
+                <ClientOnly fallback="...">
+                  {{
+                    parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS
+                  }} </ClientOnly
+                >ms
+              </span>
             </span>
-          </span>
-        </template>
-      </AisStats>
+          </template>
+        </AisStats>
+      </div>
+      <div class="glow-border"></div>
     </div>
 
     <AisStateResults
       class="flex overflow-hidden rounded-xl bg-bg text-left text-sm tracking-tight text-[#2D2D45]"
     >
-      <template v-slot="{ results: { hits } }">
+      <template v-slot="{ results }">
         <AisHits
-          v-show="hits.length > 0"
+          v-show="results.hits.length > 0"
           :class-names="{
             'ais-Hits': 'flex-1',
             'ais-Hits-list': `flex flex-col gap-0.5 ${props.classNames?.hitList || ''}`,
@@ -206,26 +245,42 @@ const transformItems = (items: { link: string }[]) =>
         </AisHits>
         <div
           class="flex min-h-[334px] flex-1 flex-col items-center justify-center self-center"
-          v-show="hits.length === 0"
+          v-show="results.hits.length === 0"
         >
-          <NoResultsFound />
-          <h3
-            class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
-          >
-            No Results Found
-          </h3>
-          <AisStats
-            class="no-result-stats text-sm tracking-[-0.28px] text-text-muted"
-          >
-            <template v-slot="{ nbHits, processingTimeMS }">
-              Found
-              {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
-              <ClientOnly>
-                {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}
-              </ClientOnly>
-              ms
-            </template>
-          </AisStats>
+          <!-- If the query is empty, show "Search for a recipe" -->
+          <template v-if="!results.query">
+            <NoResultsFound />
+            <h3
+              class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
+            >
+              Search for a recipe
+            </h3>
+            <p class="text-sm tracking-[-0.28px] text-text-muted">
+              Type in the search box above to find recipes
+            </p>
+          </template>
+          
+          <!-- If there's a query but no results, show "No Results Found" -->
+          <template v-else>
+            <NoResultsFound />
+            <h3
+              class="mb-2 mt-6 font-heading text-lg leading-[1.3] tracking-tighter"
+            >
+              No Results Found
+            </h3>
+            <AisStats
+              class="no-result-stats text-sm tracking-[-0.28px] text-text-muted"
+            >
+              <template v-slot="{ nbHits, processingTimeMS }">
+                Found
+                {{ nbHits.toLocaleString() }} recipes out of 2,231,142 in
+                <ClientOnly>
+                  {{ parseInt(processingTimeMS) === 0 ? 1 : processingTimeMS }}
+                </ClientOnly>
+                ms
+              </template>
+            </AisStats>
+          </template>
         </div>
       </template>
     </AisStateResults>
@@ -236,5 +291,47 @@ const transformItems = (items: { link: string }[]) =>
 .ais-SearchBox-input[type="search"]::-webkit-search-cancel-button {
   display: none;
   -webkit-appearance: none;
+}
+
+.search-bar-container {
+  position: relative;
+}
+
+.glow-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0.75rem;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  box-shadow: 0 0 0 1px rgba(150, 230, 80, 0.6), 0 0 4px 0 rgba(150, 230, 80, 0.3), inset 0 0 2px 0 rgba(150, 230, 80, 0.3);
+  animation: pulseBorder 1.25s ease-in-out infinite;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(150, 230, 80, 0.8);
+  border-radius: 0.75rem;
+  filter: blur(1px);
+}
+
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 1px rgba(150, 230, 80, 0.4), 0 0 6px 0 rgba(150, 230, 80, 0.3), inset 0 0 4px 0 rgba(150, 230, 80, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(150, 230, 80, 0.7), 0 0 10px 1px rgba(150, 230, 80, 0.4), inset 0 0 4px 0 rgba(150, 230, 80, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 1px rgba(150, 230, 80, 0.4), 0 0 6px 0 rgba(150, 230, 80, 0.3), inset 0 0 4px 0 rgba(150, 230, 80, 0.3);
+  }
 }
 </style>
