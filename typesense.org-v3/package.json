@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "npm run generate && rm -rf ./dist/docs && aws s3 cp --recursive ./dist s3://typesense.org/ --profile typesense && npm run clearCDNCache",
+    "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/*\" --profile typesense"
   },
   "dependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
