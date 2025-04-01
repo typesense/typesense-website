@@ -1,6 +1,8 @@
-import * as version from "../../typesenseVersions";
+// import * as version from "../../typesenseVersions";
 export const STATIC = {
-  typesenseLatestVersion: version.typesenseLatestVersion,
+  // TODO: this results in null values being displayed.
+  // typesenseLatestVersion: version.typesenseLatestVersion,
+  typesenseLatestVersion: '28.0',
   githubStars: "22K",
   dockerPulls: "18M",
   cloudSearchesPerMonth: "10B",
