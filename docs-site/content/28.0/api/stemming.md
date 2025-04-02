@@ -120,7 +120,7 @@ When configuring a field for stemming:
 
 1. Using `"stem": true` alone applies the default Porter stemmer algorithm
 1. Using `"stem_dictionary": "dictionary_name"` automatically enables stemming functionality (`"stem": true` is implied)
-1. When explicitly configuring both options on the same field, dictionary stemming takes precedence for words found in the dictionary, while the Porter algorithm handles words not in the dictionary
+1. When explicitly configuring both options on the same field, dictionary stemming takes precedence
 
 When you specify only `stem_dictionary` in your configuration, you'll notice `"stem": true` appears automatically in your schema because the system enables basic stemming by default when dictionary stemming is configured.
 :::
