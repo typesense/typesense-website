@@ -238,7 +238,9 @@
                     Replace binary, restart process. Re-indexing required if
                     upgrading more than 1 major version.
                   </td>
-                  <td>Create a dump, replace binary, load the dump.</td>
+                  <td>
+                    Replace binary, restart process with upgrade option. No re-indexing required.
+                  </td>
                 </tr>
               </tbody>
             </table>
