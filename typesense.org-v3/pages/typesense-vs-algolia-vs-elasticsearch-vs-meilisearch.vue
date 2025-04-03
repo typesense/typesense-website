@@ -533,7 +533,7 @@
                   <td><Check /></td>
                   <td><Check /></td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td><Check /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
