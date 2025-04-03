@@ -577,7 +577,7 @@
                   <td><Check /><br /><br />Built-in integration with CLIP</td>
                   <td><Cross /></td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />Can be implemented using Semantic Search</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Voice Search</td>
