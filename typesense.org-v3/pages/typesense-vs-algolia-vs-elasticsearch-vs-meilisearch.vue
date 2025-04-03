@@ -892,7 +892,10 @@
                   <td>
                     GitHub issues<br />
                     Email<br />
-                    Public Discord Community
+                    Public Discord Community<br />
+                    Phone<br />
+                    Private Slack<br />
+                    Paid Prioritized Support
                   </td>
                 </tr>
                 <tr>
