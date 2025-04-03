@@ -916,7 +916,7 @@
                   <td><Check /></td>
                   <td><Check /></td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />Through Paid Support</td>
                 </tr>
               </tbody>
             </table>
