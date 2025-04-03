@@ -606,7 +606,7 @@
                 <tr>
                   <td class="font-weight-bold">Recommendations</td>
                   <td>
-                    <br /><br />Not out-of-the-box, but can be
+                    <Check /><br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/recommendations.html"
                       target="_blank"
@@ -617,10 +617,19 @@
                   </td>
                   <td><Check /></td>
                   <td>
-                    <br /><br />Not out-of-the-box, but can be implemented using
+                    <Check /><br /><br />Not out-of-the-box, but can be implemented using
                     Vector Search
                   </td>
-                  <td><Cross /></td>
+                  <td>
+                    <Check /><br /><br />Not out-of-the-box, but can be
+                    <a
+                      href="https://www.meilisearch.com/blog/personalization-recommendations"
+                      target="_blank"
+                    >
+                        implemented
+                    </a>
+                    using Vector Search
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
