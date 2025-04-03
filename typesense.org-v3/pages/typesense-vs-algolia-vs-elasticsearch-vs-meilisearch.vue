@@ -164,7 +164,10 @@
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td>
+                    <Check /><br /><br />Can optionally use a GPU when
+                    available.
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
