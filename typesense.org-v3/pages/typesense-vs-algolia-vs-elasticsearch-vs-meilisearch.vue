@@ -586,7 +586,7 @@
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />Can be implemented using Semantic Search</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Conversational Q&A Search</td>
