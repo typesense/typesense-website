@@ -820,10 +820,10 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
-                  <td>No limitations, only constrained by available RAM</td>
+                  <td>No limitation, only constrained by available RAM</td>
                   <td>128 GB</td>
                   <td>No limitation</td>
-                  <td>500GB</td>
+                  <td>No limitation, only constrained by available disk</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Words per field</td>
