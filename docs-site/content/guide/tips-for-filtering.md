@@ -23,6 +23,50 @@ a **`:`** after it.
 - :white_check_mark: Correct: `price:>=100`
 - :x: Incorrect: `price>=100`
 
+## Understanding Search Results With Filters
+
+### Why Filters Can Sometimes Return More Results
+
+You might encounter a situation where adding a filter to your search query actually returns **more** results than a search without any filters. This behavior is related to how Typesense handles typo tolerance and candidate matching when filters are applied.
+
+#### How It Works
+
+When you search with a keyword (e.g., "_shoes_"):
+ 
+1. **Without filters**: Typesense finds exact matches for "_shoes_" first, resulting in X matches.
+
+2. **With filters**: If some or all documents containing "_shoes_" don't match your filter criteria, Typesense will automatically look for typo variations or prefix matches (e.g., "_shoe_") to return relevant results that do satisfy your filter.
+
+This means that a filtered search might return a completely different set of documents than an unfiltered search, and the count could be either higher or lower depending on how many alternative matches are found.
+
+```json
+// This might return X results
+{
+  "q": "shoes",
+}
+
+// This might return Y results (where Y could be > X)
+{
+  "q": "shoes",
+  "filter_by": "category:=Athletic"
+}
+```
+
+#### Controlling This Behavior
+
+If you want more consistent results when applying filters:
+
+* Increase the `max_candidates` parameter to allow Typesense to consider more potential matches upfront
+* Be aware that even with increased `max_candidates`, the behavior can't be entirely eliminated. It's part of how Typesense optimizes for relevance while respecting filter constraints
+
+```json
+{
+  "q": "shoes",
+  "filter_by": "category:=Athletic",
+  "max_candidates": 100 // default is 4 for normal search and 10,000 if `exhaustive_search` is enabled
+}
+```
+
 ## Available Operators
 
 | Operator  | Description              | Available types                             | Example                      |
