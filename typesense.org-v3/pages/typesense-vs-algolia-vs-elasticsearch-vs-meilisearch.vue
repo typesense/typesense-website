@@ -486,7 +486,10 @@
                   </td>
                   <td>Client-side and Server-side</td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td>
+                    <Check /><br /><br />
+                    Only through the cloud offering
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Record Schema Validations</td>
