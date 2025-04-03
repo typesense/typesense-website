@@ -909,10 +909,7 @@
                     24 x 7 x 365 <br />for Platinum and Enterprise Prioritized
                     Support
                   </td>
-                  <td>
-                    8am - 10pm (Paris Time), <br />Mon - Thu<br />
-                    for Enterprise customers
-                  </td>
+                  <td>24 x 7 x 365 <br />for Paid Prioritized Support</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Expert Onboarding & Training</td>
