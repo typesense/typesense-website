@@ -94,7 +94,7 @@
                     Instant Search-as-you-type Experiences for use cases that
                     don't require a highly-available fault-tolerant setup.
                     <a
-                      href="https://www.meilisearch.com/docs/learn/advanced/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
                       target="_blank"
                       >Recommends</a
                     >
@@ -164,7 +164,10 @@
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td>
+                    <Check /><br /><br />Can optionally use a GPU when
+                    available.
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -228,14 +231,14 @@
                 <tr>
                   <td class="font-weight-bold">Upgrade Path</td>
                   <td>
-                    Replace binary, restart process. No re-indexing required.
+                    Replace binary, restart process.
                   </td>
                   <td>Managed SaaS service, doesn't require upgrades.</td>
                   <td>
                     Replace binary, restart process. Re-indexing required if
                     upgrading more than 1 major version.
                   </td>
-                  <td>Create a dump, replace binary, load the dump.</td>
+                  <td>Replace binary, restart process with upgrade option.</td>
                 </tr>
               </tbody>
             </table>
@@ -283,9 +286,15 @@
                     Query Field Weights &<br />Boosting
                   </td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td>
+                    🔶<br /><br />
+                    Partially through ranking rules reordering, numeric weights are not supported
+                  </td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td>
+                    🔶<br /><br />
+                    Partially sypported through ranking rules reordering, numeric weights are not supported
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -428,10 +437,10 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
+                  <td><Check /><br /><br />Supports multiple geopoints and geo-polygons</td>
+                  <td><Check /> <br /><br />Limited to one geo point per document</td>
                   <td><Check /></td>
-                  <td>🔶 <br /><br />Limited to one geo point</td>
-                  <td><Check /></td>
-                  <td>🔶 <br /><br />Limited to one geo point</td>
+                  <td><Check /> <br /><br />Limited to one geo point per document</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -470,7 +479,8 @@
                   </td>
                   <td>Client-side and Server-side</td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />
+                    Only through the cloud offering</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Record Schema Validations</td>
@@ -514,7 +524,7 @@
                   <td><Check /></td>
                   <td><Check /></td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td><Check /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
@@ -533,29 +543,25 @@
                   <td><Check /></td>
                   <td><Cross /></td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td><Check /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Semantic Search</td>
                   <td><Check /></td>
                   <td><Check /> <br /><br />Called NeuralSearch</td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td><Check /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Similarity Search</td>
-                  <td>
-                    <Check /><br /><br />Can be implemented using Vector Search
-                  </td>
+                  <td><Check /></td>
                   <td><Cross /></td>
-                  <td>
-                    <Check /><br /><br />Can be implemented using Vector Search
-                  </td>
-                  <td><Cross /></td>
+                  <td><Check /></td>
+                  <td><Check /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Image Search</td>
-                  <td><Check /><br /><br />Built-in integration with CLIP</td>
+                  <td><Check /><br /><br />Built-in integration with CLIP for object detection</td>
                   <td><Cross /></td>
                   <td><Cross /></td>
                   <td><Cross /></td>
@@ -563,7 +569,7 @@
                 <tr>
                   <td class="font-weight-bold">Voice Search</td>
                   <td>
-                    <Check /><br /><br />Built-in integration with Whisper
+                    <Check /><br /><br />Built-in integration with Whisper for audio clip transcription
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
@@ -573,7 +579,7 @@
                   <td class="font-weight-bold">Conversational Q&A Search</td>
                   <td>
                     <Check /><br /><br />Built-in RAG pipeline and integration
-                    with OpenAI and Cloudflare LLMs
+                    with OpenAI and Cloudflare-hosted LLMs
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
@@ -582,6 +588,7 @@
                 <tr>
                   <td class="font-weight-bold">Recommendations</td>
                   <td>
+                    <Cross />
                     <br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/recommendations.html"
@@ -593,16 +600,22 @@
                   </td>
                   <td><Check /></td>
                   <td>
+                    <Cross />
                     <br /><br />Not out-of-the-box, but can be implemented using
                     Vector Search
                   </td>
-                  <td><Cross /></td>
+                  <td>
+                    <Cross />
+                    <br /><br />Not out-of-the-box, but can be implemented using
+                    Vector Search
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     User-level Search Personalization
                   </td>
                   <td>
+                    <Cross />
                     <br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/personalization.html"
@@ -617,7 +630,11 @@
                     Premium Tier
                   </td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td>
+                    <Cross />
+                    <br /><br />Not out-of-the-box, but can be implemented using
+                    Vector Search
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Collection Aliases</td>
@@ -636,6 +653,7 @@
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
+                    <Cross />
                     <br /><br />
                     <a
                       href="https://typesense.org/docs/guide/ab-testing.html"
@@ -649,8 +667,14 @@
                     <Check /><br /><br />
                     Premium Tier
                   </td>
-                  <td><Cross /></td>
                   <td>
+                    <Cross />
+                    <br /><br />
+                    Can be implemented by swapping collections and search
+                    parameters based on AB Test Bucket
+                  </td>
+                  <td>
+                    <Cross />
                     <br /><br />
                     Can be implemented by swapping collections and search
                     parameters based on AB Test Bucket
@@ -667,8 +691,8 @@
                   <td class="font-weight-bold">Visual Dashboard</td>
                   <td><Check /><br /><br />In Typesense Cloud</td>
                   <td><Check /></td>
-                  <td><br /><br />3rd party plugins</td>
-                  <td><Check /><br /><br />Search only</td>
+                  <td><Check /><br /><br />3rd party plugins</td>
+                  <td><Check /><br /><br />Search only in OSS and more features on Meilisearch Cloud</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Site Crawler</td>
@@ -758,7 +782,7 @@
                   <td>
                     No limitation, constrained by available disk space and
                     <a
-                      href="https://docs.meilisearch.com/learn/advanced/storage.html#:~:text=it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk,%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
                       target="_blank"
                     >
                       performance is constrained by available RAM</a
@@ -770,14 +794,14 @@
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
-                  <td>200 for Linux/MacOS, 20 for Windows</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
-                  <td>No limitations, only constrained by available RAM</td>
+                  <td>No limitation, only constrained by available RAM</td>
                   <td>128 GB</td>
                   <td>No limitation</td>
-                  <td>500GB</td>
+                  <td>No limitation, only constrained by available disk</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Words per field</td>
@@ -791,7 +815,7 @@
                   <td>No limitation</td>
                   <td>10KB</td>
                   <td>No limitation</td>
-                  <td>2GB</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Number of API Keys</td>
@@ -846,31 +870,34 @@
                   <td>
                     GitHub issues<br />
                     Email<br />
-                    Public Discord Community
+                    Public Discord Community<br />
+                    Phone<br />
+                    Private Slack<br />
+                    Paid Prioritized Support
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Support Hours</td>
                   <td>24 x 7 x 365 <br />for Paid Prioritized Support</td>
                   <td>
-                    Mon - Fri; Business Hours<br />
-                    9am - 5pm in user timezone<br />for Paid Prioritized Support
+                    Mon-Fri; Business Hours<br />
+                    9am-5pm in user timezone<br />for Paid Prioritized Support
                   </td>
                   <td>
                     24 x 7 x 365 <br />for Platinum and Enterprise Prioritized
                     Support
                   </td>
                   <td>
-                    8am - 10pm (Paris Time), <br />Mon - Thu<br />
-                    for Enterprise customers
+                    Standard: Mon-Thu; 8am - 10pm Paris Time.<br />
+                    Paid Prioritized Support: 24 x 7 x 365
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Expert Onboarding & Training</td>
+                  <td><Check /><br /><br />Through Paid Support</td>
                   <td><Check /></td>
                   <td><Check /></td>
-                  <td><Check /></td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />Through Paid Support</td>
                 </tr>
               </tbody>
             </table>
