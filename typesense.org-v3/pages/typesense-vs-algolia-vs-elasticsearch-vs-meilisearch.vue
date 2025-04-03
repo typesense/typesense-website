@@ -150,7 +150,7 @@
                   <td><Check /><br /><br />RAFT-based multi-node clustering</td>
                   <td><Check /><br /><br />RAFT-based multi-node clustering</td>
                   <td><Check /><br /><br />Active-passive replication</td>
-                  <td class="!text-[#DC3545]">
+                  <td>
                     <Cross /><br /><br />Only supports a single-node setup,
                     which creates a single point of failure and so is not fault
                     tolerant / production-ready.
