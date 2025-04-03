@@ -714,7 +714,7 @@
                   <td><Check /><br /><br />In Typesense Cloud</td>
                   <td><Check /></td>
                   <td><br /><br />3rd party plugins</td>
-                  <td><Check /><br /><br />Search only</td>
+                  <td><Check /><br /><br />Search only in OSS and more features on Meilisearch Cloud</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Site Crawler</td>
