@@ -596,7 +596,12 @@
                   </td>
                   <td><Cross /></td>
                   <td><Cross /></td>
-                  <td><Cross /></td>
+                  <td>🔸<br /><br />
+                  <a
+                    href="https://www.meilisearch.com/blog/how-to-build-rag"
+                    target="_blank"
+                    >Can be implemented using Semantic Search</a
+                  ></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Recommendations</td>
