@@ -247,7 +247,8 @@ You can exclude conversation history from the search API response by setting `ex
 :::tip Multi-Search
 When using the `multi_search` endpoint with the Conversations feature, the `q` parameter has to be set as a query parameter and not as a body parameter inside a particular search.
 
-You can search multiple collections within the multi_search endpoint, and Typesense will use the top results from each collection when communicating with the LLM. 
+You can search multiple collections within the `multi_search` endpoint, and Typesense will use the top results from each collection when communicating with the LLM.
+If your `multi_search` request includes multiple searches with `conversation=true` (either through the common query parameters or within individual searches), only a single conversation object will be returned in the response. Typesense will use results from all searches in the `multi_search` to generate one answer based on data from multiple collections.
 :::
 
 :::tip Auto-Embedding Model
