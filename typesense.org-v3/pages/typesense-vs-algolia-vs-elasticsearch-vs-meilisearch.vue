@@ -837,7 +837,7 @@
                   <td>No limitation</td>
                   <td>10KB</td>
                   <td>No limitation</td>
-                  <td>2GB</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Number of API Keys</td>
