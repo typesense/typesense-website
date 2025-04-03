@@ -678,7 +678,7 @@
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
-                    <br /><br />
+                    🔸<br /><br />
                     <a
                       href="https://typesense.org/docs/guide/ab-testing.html"
                       target="_blank"
@@ -691,9 +691,13 @@
                     <Check /><br /><br />
                     Premium Tier
                   </td>
-                  <td><Cross /></td>
                   <td>
-                    <br /><br />
+                    🔸<br /><br />
+                    Can be implemented by swapping collections and search
+                    parameters based on AB Test Bucket
+                  </td>
+                  <td>
+                    🔸<br /><br />
                     Can be implemented by swapping collections and search
                     parameters based on AB Test Bucket
                   </td>
