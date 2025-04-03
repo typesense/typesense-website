@@ -816,7 +816,7 @@
                   <td>No limitation</td>
                   <td>No limitation</td>
                   <td>No limitation</td>
-                  <td>200 for Linux/MacOS, 20 for Windows</td>
+                  <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
