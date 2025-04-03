@@ -445,9 +445,9 @@
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
                   <td><Check /></td>
-                  <td>🔶 <br /><br />Limited to one geo point</td>
+                  <td><Check /><br /><br />Limited to one geo point</td>
                   <td><Check /></td>
-                  <td>🔶 <br /><br />Limited to one geo point</td>
+                  <td><Check /><br /><br />Limited to one geo point</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
