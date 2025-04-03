@@ -570,7 +570,7 @@
                   <td>
                     <Check /><br /><br />Can be implemented using Vector Search
                   </td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />Dedicated route</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Image Search</td>
