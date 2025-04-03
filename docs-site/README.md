@@ -18,9 +18,9 @@ As you write content in the content folder, the page should live reload.
 
 ### Adding images
 
-Place images in [content/.vuepress/public/images](content/.vuepress/public/images). Prefer using SVGs. 
+Place images in [content/.vuepress/public/images](content/.vuepress/public/images). Prefer using SVGs.
 
-Reference images in markdown files like this: 
+Reference images in markdown files like this:
 
 ```
 ![Typesense DynamoDB Integration Chart](~@images/typesense-dynamodb.svg)
@@ -33,7 +33,7 @@ where `typesense-dynamodb.svg` is located at `./content/.vuepress/public/images/
 These variables can be used in markdown files as `{{ variableName }}` or in Vue components.
 
 | Variable                            | Definition                                                                                                            |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | $page.typesenseVersion              | The current Typesense version that the user is looking at docs for. Will be `null` for non-versioned top level files. |
 | $site.themeConfig.typesenseVersions | List of all Typesense versions                                                                                        |
 
@@ -42,7 +42,7 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 
 ### Authoring a new version
 
-1. Add version number to `../typesenseVersions.js`
+1. Add version number to `../typesenseVersions.json`
 1. Clone the latest version directory and make edits to it.
 1. Update sitemap priority for old version:
    ```bash
