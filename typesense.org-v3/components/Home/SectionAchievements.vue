@@ -1,7 +1,10 @@
 <template>
   <section class="flex w-full flex-col items-center text-center">
-    <h2 class="mb-2 mt-4">
+    <h2 class="mt-4">
       The <strong>Open Source Alternative</strong> to Algolia
+    </h2>
+    <h2 class="mt-2 mb-2">
+      The <strong>Easier-to-Use Alternative</strong> to Elasticsearch
     </h2>
     <p class="subtext">
       It&rsquo;s like Algolia and Pinecone had a baby… that&rsquo;s way easier
