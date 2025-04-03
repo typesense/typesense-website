@@ -400,7 +400,12 @@
                     <Check /><br /><br />
                     Available only in closed-source version
                   </td>
-                  <td><Cross /></td>
+                  <td><Check /><br /><br />
+                    <a
+                        href="https://www.meilisearch.com/blog/document-boosting"
+                        target="_blank"
+                        >Through a second index</a>
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Synonyms</td>
