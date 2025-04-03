@@ -231,7 +231,7 @@
                 <tr>
                   <td class="font-weight-bold">Upgrade Path</td>
                   <td>
-                    Replace binary, restart process. No re-indexing required.
+                    Replace binary, restart process. Documents are available for search after the re-indexing is finished.
                   </td>
                   <td>Managed SaaS service, doesn't require upgrades.</td>
                   <td>
