@@ -288,9 +288,15 @@
                     Query Field Weights &<br />Boosting
                   </td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td>
+                    🔶<br /><br />
+                    Through ranking rules reordering
+                  </td>
                   <td><Check /></td>
-                  <td><Cross /></td>
+                  <td>
+                    🔶<br /><br />
+                    Through ranking rules reordering
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
