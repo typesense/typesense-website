@@ -49,22 +49,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
             <td>REST API</td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
           </tr>
@@ -72,22 +72,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
             <td>Scoped API Keys & Multi-tenant indices</td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
           </tr>
@@ -95,22 +95,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
             <td>Query Field Weights & Boosting</td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
           </tr>
@@ -118,22 +118,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
             <td>JOINs across multiple indices</td>
             <td>
               <div class="grid place-items-center">
-                <Check />
+                <Check class="text-green-700" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
             <td>
               <div class="grid place-items-center">
-                <Cross />
+                <Cross class="text-red-50" />
               </div>
             </td>
           </tr>
