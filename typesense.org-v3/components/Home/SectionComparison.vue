@@ -189,14 +189,6 @@ tbody tr td:last-child {
   @apply rounded-r-xl;
 }
 @media not all and (min-width: 640px) {
-  td:nth-child(2),
-  th:nth-child(2) {
-    @apply rounded-l-xl;
-  }
-  td:nth-child(4),
-  th:nth-child(4) {
-    @apply rounded-r-xl;
-  }
   td {
     @apply py-5;
   }
