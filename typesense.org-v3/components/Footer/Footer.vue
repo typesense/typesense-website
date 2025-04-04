@@ -98,7 +98,7 @@ const supportLinks = [
     <div class="mb-14 flex gap-24 max-md:mb-8 max-md:flex-col max-md:gap-10">
       <div class="flex flex-col justify-between gap-10">
         <div>
-          <div class="mb-6 max-md:mb-4">
+          <div class="mb-3 max-md:mb-4">
             <Logo />
           </div>
           <div>
@@ -113,10 +113,14 @@ const supportLinks = [
               href="https://twitter.com/typesense"
               target="_blank"
               rel="noopener noreferrer"
+              class="transition-colors duration-200 hover:text-text-primary"
               >@typesense</a
             >
             |
-            <a href="mailto:contact@typesense.org" target="_blank"
+            <a
+              href="mailto:contact@typesense.org"
+              target="_blank"
+              class="transition-colors duration-200 hover:text-text-primary"
               >contact@typesense.org</a
             >
           </div>
@@ -130,12 +134,20 @@ const supportLinks = [
           <div class="gap-6 max-md:flex">
             <ul>
               <li v-for="page in pages.slice(0, 3)" :key="page.name">
-                <CustomLink :to="page.link">{{ page.name }}</CustomLink>
+                <CustomLink
+                  :to="page.link"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
+                  >{{ page.name }}</CustomLink
+                >
               </li>
             </ul>
             <ul class="md:mt-3">
               <li v-for="page in pages.slice(3, undefined)" :key="page.name">
-                <CustomLink :to="page.link">{{ page.name }}</CustomLink>
+                <CustomLink
+                  :to="page.link"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
+                  >{{ page.name }}</CustomLink
+                >
               </li>
             </ul>
           </div>
@@ -152,6 +164,7 @@ const supportLinks = [
                   :href="item.link"
                   target="_blank"
                   rel="noopener noreferrer"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   >{{ item.name }}</a
                 >
               </li>
@@ -161,6 +174,7 @@ const supportLinks = [
                 <a
                   :href="item.link"
                   target="_blank"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   rel="noopener noreferrer"
                   >{{ item.name }}</a
                 >
@@ -172,7 +186,11 @@ const supportLinks = [
           <h5>Support</h5>
           <ul>
             <li v-for="item in supportLinks" :key="item.name">
-              <CustomLink :to="item.link">{{ item.name }}</CustomLink>
+              <CustomLink
+                :to="item.link"
+                class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
+                >{{ item.name }}</CustomLink
+              >
             </li>
           </ul>
         </div>
