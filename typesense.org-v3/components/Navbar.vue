@@ -41,7 +41,7 @@ const hideNav = () => {
     class="fixed top-0 z-50 w-screen overflow-hidden rounded-b-3xl pt-4 max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0 md:pb-8"
   >
     <nav
-      class="group flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4"
+      class="group container mx-auto flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4 md:w-[95%] md:shadow-lg md:shadow-black/20 xl:max-w-6xl"
     >
       <Logo class="w-[12.5%] max-md:hidden" dark />
       <Logo class="show-md" />
