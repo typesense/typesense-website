@@ -113,10 +113,14 @@ const supportLinks = [
               href="https://twitter.com/typesense"
               target="_blank"
               rel="noopener noreferrer"
+              class="transition-colors duration-200 hover:text-text-primary"
               >@typesense</a
             >
             |
-            <a href="mailto:contact@typesense.org" target="_blank"
+            <a
+              href="mailto:contact@typesense.org"
+              target="_blank"
+              class="transition-colors duration-200 hover:text-text-primary"
               >contact@typesense.org</a
             >
           </div>
