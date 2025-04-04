@@ -131,36 +131,36 @@
               <tbody>
                 <tr>
                   <td class="font-weight-bold">Self-Hosted Option</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">SaaS Option</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     High Availability / <br />Fault Tolerance
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />RAFT-based
+                    <Check class="text-[#263311]" /><br /><br />RAFT-based
                     multi-node clustering
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />RAFT-based
+                    <Check class="text-[#263311]" /><br /><br />RAFT-based
                     multi-node clustering
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Active-passive
+                    <Check class="text-[#263311]" /><br /><br />Active-passive
                     replication
                   </td>
                   <td class="!text-[#DC3545]">
-                    <Cross class="text-red-50" /><br /><br />Only supports a
+                    <Cross class="text-[#490F0F]" /><br /><br />Only supports a
                     single-node setup, which creates a single point of failure
                     and so is not fault tolerant / production-ready.
                   </td>
@@ -168,13 +168,13 @@
                 <tr>
                   <td class="font-weight-bold">GPU Acceleration Support</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Can optionally
+                    <Check class="text-[#263311]" /><br /><br />Can optionally
                     use a GPU when available.
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Can optionally
+                    <Check class="text-[#263311]" /><br /><br />Can optionally
                     use a GPU when available.
                   </td>
                 </tr>
@@ -183,18 +183,18 @@
                     CDN-like Geo-Distributed clusters
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Supported in
+                    <Check class="text-[#263311]" /><br /><br />Supported in
                     self-hosted and SaaS options, called Search Delivery Network
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Available in
+                    <Check class="text-[#263311]" /><br /><br />Available in
                     Premium tier, called Distributed Search Network
                   </td>
                   <td>
-                    <Cross class="text-red-50" /><br /><br />Not available as
+                    <Cross class="text-[#490F0F]" /><br /><br />Not available as
                     part of hosted offering
                   </td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Runtime Dependencies</td>
@@ -220,7 +220,7 @@
                 <tr>
                   <td class="font-weight-bold">Index Backward Compatibility</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Fully backward compatible
                   </td>
                   <td>
@@ -229,11 +229,11 @@
                     end users.
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Backward compatible up to 1 major version.
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Fully backward compatible
                   </td>
                 </tr>
@@ -269,36 +269,36 @@
               <tbody>
                 <tr>
                   <td class="font-weight-bold">REST API</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Typo Tolerance</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />But slow and
+                    <Check class="text-[#263311]" /><br /><br />But slow and
                     <a
                       href="https://www.algolia.com/blog/engineering/algolia-v-elasticsearch-relevance/"
                       target="_blank"
                       >affects relevance</a
                     >
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     Query Field Weights &<br />Boosting
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
                     🔶<br /><br />
                     Partially through ranking rules reordering, numeric weights
                     are not supported
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
                     🔶<br /><br />
                     Partially sypported through ranking rules reordering,
@@ -309,26 +309,26 @@
                   <td class="font-weight-bold">
                     Scoped API Keys &<br />Multi-tenant indices
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Federated Multi-Index Search</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Grouping / Distinct</td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Upto one distinct field
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
                     🔶<br /><br />
                     Upto one distinct field, no support for grouping
@@ -338,15 +338,15 @@
                   <td class="font-weight-bold">
                     JOINs across multiple indices
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Dynamic Sorting</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Sort fields can
+                    <Check class="text-[#263311]" /><br /><br />Sort fields can
                     be defined at query time using a single index
                   </td>
                   <td>
@@ -365,70 +365,70 @@
                     >.
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Sort fields can
+                    <Check class="text-[#263311]" /><br /><br />Sort fields can
                     be defined at query time using a single index
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Sort fields need
+                    <Check class="text-[#263311]" /><br /><br />Sort fields need
                     to be defined upfront, but can be changed at query time,
                     using a single index.
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Faceting & Filtering</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Ranking on Filter Scores</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Facet Value Searches</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     Result Pinning / Merchandising
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Upto 10 results
+                    <Check class="text-[#263311]" /><br /><br />Upto 10 results
                     in Free Tier, Upto 10,000 results in Premium Tier
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Available only in closed-source version
                   </td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Synonyms</td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Upto 10,000 per
+                    <Check class="text-[#263311]" /><br /><br />Upto 10,000 per
                     index
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Dynamic Synonym Suggestions</td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Available in
+                    <Check class="text-[#263311]" /><br /><br />Available in
                     Premium Tier
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Language support</td>
@@ -439,31 +439,31 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stop words</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Stemming</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Geo Search</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Supports
+                    <Check class="text-[#263311]" /><br /><br />Supports
                     multiple geopoints and geo-polygons
                   </td>
                   <td>
-                    <Check class="text-green-700" /> <br /><br />Limited to one
+                    <Check class="text-[#263311]" /> <br /><br />Limited to one
                     geo point per document
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /> <br /><br />Limited to one
+                    <Check class="text-[#263311]" /> <br /><br />Limited to one
                     geo point per document
                   </td>
                 </tr>
@@ -471,30 +471,30 @@
                   <td class="font-weight-bold">
                     Automatic Record ID generation
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Cross class="text-red-50" /><br /><br />IDs needs to be
+                    <Cross class="text-[#490F0F]" /><br /><br />IDs needs to be
                     pre-generated
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Sort by String field</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Up to 3 tie-breaking sort fields per search query
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />But
+                    <Check class="text-[#263311]" /><br /><br />But
                     <a
                       href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-an-index-alphabetically/"
                       target="_blank"
                       >not recommended</a
                     >
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search Analytics</td>
@@ -506,26 +506,26 @@
                     >
                   </td>
                   <td>Client-side and Server-side</td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Only through the cloud offering
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Record Schema Validations</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     with coerced mapping
                   </td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Schemaless</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     <a
                       href="https://typesense.org/docs/0.24.0/api/collections.html#with-auto-schema-detection"
                       target="_blank"
@@ -533,100 +533,100 @@
                     >
                     needs to be enabled.
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     with coerced mapping
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Custom Ranking Rules</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     Negative Keyword Search <br />(<code>-query</code>)
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     Phrase Search <br />(<code>"some query"</code>)
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
                     Vector Search <br />
                     (Nearest-Neighbor Search)
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Semantic Search</td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /> <br /><br />Called
+                    <Check class="text-[#263311]" /> <br /><br />Called
                     NeuralSearch
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Similarity Search</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Image Search</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Built-in
+                    <Check class="text-[#263311]" /><br /><br />Built-in
                     integration with CLIP for object detection
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Voice Search</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Built-in
+                    <Check class="text-[#263311]" /><br /><br />Built-in
                     integration with Whisper for audio clip transcription
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Conversational Q&A Search</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Built-in RAG
+                    <Check class="text-[#263311]" /><br /><br />Built-in RAG
                     pipeline and integration with OpenAI and Cloudflare-hosted
                     LLMs
                   </td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Recommendations</td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/recommendations.html"
@@ -636,14 +636,14 @@
                     >
                     using Vector Search
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />Not out-of-the-box, but can be implemented using
                     Vector Search
                   </td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />Not out-of-the-box, but can be implemented using
                     Vector Search
                   </td>
@@ -653,7 +653,7 @@
                     User-level Search Personalization
                   </td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />Not out-of-the-box, but can be
                     <a
                       href="https://typesense.org/docs/guide/personalization.html"
@@ -664,34 +664,34 @@
                     using Vector Search.
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Premium Tier
                   </td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />Not out-of-the-box, but can be implemented using
                     Vector Search
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Collection Aliases</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Collection Swapping</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">A/B Testing Results</td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />
                     <a
                       href="https://typesense.org/docs/guide/ab-testing.html"
@@ -702,17 +702,17 @@
                     Test Bucket
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     Premium Tier
                   </td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />
                     Can be implemented by swapping collections and search
                     parameters based on AB Test Bucket
                   </td>
                   <td>
-                    <Cross class="text-red-50" />
+                    <Cross class="text-[#490F0F]" />
                     <br /><br />
                     Can be implemented by swapping collections and search
                     parameters based on AB Test Bucket
@@ -720,31 +720,31 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Query Suggestions</td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Cross class="text-red-50" /></td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Visual Dashboard</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />In Typesense
+                    <Check class="text-[#263311]" /><br /><br />In Typesense
                     Cloud
                   </td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />3rd party
+                    <Check class="text-[#263311]" /><br /><br />3rd party
                     plugins
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Search only in
+                    <Check class="text-[#263311]" /><br /><br />Search only in
                     OSS and more features on Meilisearch Cloud
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Site Crawler</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     <a
                       href="https://typesense.org/docs/guide/docsearch.html"
                       target="_blank"
@@ -753,38 +753,38 @@
                     for docs sites.
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />
+                    <Check class="text-[#263311]" /><br /><br />
                     DocSearch crawler for docs sites.<br />
                     General site crawler is part of Premium Tier.
                   </td>
-                  <td><Cross class="text-red-50" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />DocSearch
+                    <Check class="text-[#263311]" /><br /><br />DocSearch
                     crawler for docs sites.
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Supports
+                    <Check class="text-[#263311]" /><br /><br />Supports
                     InstantSearch.js
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />InstantSearch.js
+                    <Check class="text-[#263311]" /><br /><br />InstantSearch.js
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Search UI,
+                    <Check class="text-[#263311]" /><br /><br />Search UI,
                     requires hosted search
                   </td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Forked version
+                    <Check class="text-[#263311]" /><br /><br />Forked version
                     of InstantSearch.js
                   </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Privacy Friendliness</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Does NOT collect
+                    <Check class="text-[#263311]" /><br /><br />Does NOT collect
                     usage analytics or personal data in both Self-Hosted and
                     SaaS options.
                   </td>
@@ -951,13 +951,13 @@
                 <tr>
                   <td class="font-weight-bold">Expert Onboarding & Training</td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Through Paid
+                    <Check class="text-[#263311]" /><br /><br />Through Paid
                     Support
                   </td>
-                  <td><Check class="text-green-700" /></td>
-                  <td><Check class="text-green-700" /></td>
+                  <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-green-700" /><br /><br />Through Paid
+                    <Check class="text-[#263311]" /><br /><br />Through Paid
                     Support
                   </td>
                 </tr>

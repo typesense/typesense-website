@@ -52,22 +52,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               <td class="text-xs md:text-sm lg:text-base">REST API</td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
             </tr>
@@ -77,22 +77,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
             </tr>
@@ -102,22 +102,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
             </tr>
@@ -127,22 +127,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Check class="text-green-700" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-red-50" />
+                  <Cross class="text-[#490F0F]" />
                 </div>
               </td>
             </tr>
