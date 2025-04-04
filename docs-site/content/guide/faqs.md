@@ -252,6 +252,24 @@ You could also do "starts with" matching using filter_by. For eg, say we want to
 }
 ```
 
+### Why do I sometimes get more results when adding filters?
+
+You might notice that adding a filter to your search query sometimes returns **more** results than the same search without filters. This is related to how Typesense handles typo tolerance and candidate matching when filters are applied.
+
+When you search with a keyword (e.g., "_shoes_") without filters, Typesense finds exact matches first. But when you add a filter, if the documents containing "_shoes_" don't match your filter criteria, Typesense will automatically look for typo variations or prefix matches (e.g., "_shoe_") to return relevant results that do satisfy your filter.
+
+You can control this behavior by increasing the `max_candidates` parameter:
+
+```json
+{
+  "q": "shoes",
+  "filter_by": "category:=Athletic",
+  "max_candidates": 100  // default is 4
+}
+```
+
+For a detailed explanation, see the <RouterLink :to="`/guide/tips-for-filtering.html#why-filters-can-sometimes-return-more-results`">Tips for Filtering</RouterLink> documentation.
+
 
 ## Semantic Search
 
