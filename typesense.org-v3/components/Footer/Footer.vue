@@ -136,7 +136,7 @@ const supportLinks = [
               <li v-for="page in pages.slice(0, 3)" :key="page.name">
                 <CustomLink
                   :to="page.link"
-                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   >{{ page.name }}</CustomLink
                 >
               </li>
@@ -145,7 +145,7 @@ const supportLinks = [
               <li v-for="page in pages.slice(3, undefined)" :key="page.name">
                 <CustomLink
                   :to="page.link"
-                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   >{{ page.name }}</CustomLink
                 >
               </li>
@@ -164,7 +164,7 @@ const supportLinks = [
                   :href="item.link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   >{{ item.name }}</a
                 >
               </li>
@@ -174,7 +174,7 @@ const supportLinks = [
                 <a
                   :href="item.link"
                   target="_blank"
-                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                   rel="noopener noreferrer"
                   >{{ item.name }}</a
                 >
@@ -188,7 +188,7 @@ const supportLinks = [
             <li v-for="item in supportLinks" :key="item.name">
               <CustomLink
                 :to="item.link"
-                class="transition-all duration-200 hover:text-text-primary hover:underline"
+                class="relative after:absolute after:bottom-[-1px] after:left-0 after:h-[3px] after:w-0 after:bg-secondary after:transition-all after:duration-200 hover:text-text-primary hover:after:w-full"
                 >{{ item.name }}</CustomLink
               >
             </li>
