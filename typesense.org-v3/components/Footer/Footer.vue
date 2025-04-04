@@ -134,12 +134,20 @@ const supportLinks = [
           <div class="gap-6 max-md:flex">
             <ul>
               <li v-for="page in pages.slice(0, 3)" :key="page.name">
-                <CustomLink :to="page.link">{{ page.name }}</CustomLink>
+                <CustomLink
+                  :to="page.link"
+                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  >{{ page.name }}</CustomLink
+                >
               </li>
             </ul>
             <ul class="md:mt-3">
               <li v-for="page in pages.slice(3, undefined)" :key="page.name">
-                <CustomLink :to="page.link">{{ page.name }}</CustomLink>
+                <CustomLink
+                  :to="page.link"
+                  class="transition-all duration-200 hover:text-text-primary hover:underline"
+                  >{{ page.name }}</CustomLink
+                >
               </li>
             </ul>
           </div>
@@ -156,6 +164,7 @@ const supportLinks = [
                   :href="item.link"
                   target="_blank"
                   rel="noopener noreferrer"
+                  class="transition-all duration-200 hover:text-text-primary hover:underline"
                   >{{ item.name }}</a
                 >
               </li>
@@ -165,6 +174,7 @@ const supportLinks = [
                 <a
                   :href="item.link"
                   target="_blank"
+                  class="transition-all duration-200 hover:text-text-primary hover:underline"
                   rel="noopener noreferrer"
                   >{{ item.name }}</a
                 >
@@ -176,7 +186,11 @@ const supportLinks = [
           <h5>Support</h5>
           <ul>
             <li v-for="item in supportLinks" :key="item.name">
-              <CustomLink :to="item.link">{{ item.name }}</CustomLink>
+              <CustomLink
+                :to="item.link"
+                class="transition-all duration-200 hover:text-text-primary hover:underline"
+                >{{ item.name }}</CustomLink
+              >
             </li>
           </ul>
         </div>
