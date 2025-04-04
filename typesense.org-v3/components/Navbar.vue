@@ -74,7 +74,10 @@ const hideNav = () => {
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
       </div>
-      <CustomLink :to="STATIC.link_get_started">
+      <CustomLink
+        :to="STATIC.link_get_started"
+        class="flex h-full items-center justify-end md:w-[12.5%]"
+      >
         <button
           class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden lg:px-4 lg:text-sm"
         >
