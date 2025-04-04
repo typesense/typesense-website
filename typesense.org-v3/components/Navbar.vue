@@ -79,7 +79,7 @@ const hideNav = () => {
         class="flex h-full items-center justify-end lg:w-[15%]"
       >
         <button
-          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-lg:hidden lg:px-4 lg:text-sm whitespace-nowrap"
+          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-lg:hidden lg:px-4 lg:text-sm whitespace-nowrap shadow-[-4px_2px_0px_0px] shadow-bg"
         >
           Quick Start
         </button>
