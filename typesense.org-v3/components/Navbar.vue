@@ -56,7 +56,7 @@ const hideNav = () => {
           </button>
         </div>
         <ul
-          class="flex items-center gap-8 max-md:flex-col max-md:items-start max-md:gap-4"
+          class="flex items-center gap-4 max-md:flex-col max-md:items-start xl:gap-8"
         >
           <li
             :class="[
