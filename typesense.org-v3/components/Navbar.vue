@@ -76,7 +76,7 @@ const hideNav = () => {
       </div>
       <CustomLink :to="STATIC.link_get_started">
         <button
-          class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden"
+          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden lg:px-4 lg:text-sm"
         >
           Quick Start
         </button>
