@@ -98,7 +98,7 @@ const supportLinks = [
     <div class="mb-14 flex gap-24 max-md:mb-8 max-md:flex-col max-md:gap-10">
       <div class="flex flex-col justify-between gap-10">
         <div>
-          <div class="mb-6 max-md:mb-4">
+          <div class="mb-3 max-md:mb-4">
             <Logo />
           </div>
           <div>
