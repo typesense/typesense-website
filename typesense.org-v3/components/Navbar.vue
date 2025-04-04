@@ -38,53 +38,53 @@ const hideNav = () => {
 </script>
 <template>
   <div
-    class="fixed top-0 z-50 w-screen overflow-hidden rounded-b-3xl pt-4 max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0 md:pb-8"
+    class="fixed top-0 z-50 w-screen overflow-hidden rounded-b-3xl pt-4 max-lg:!left-0 max-lg:!right-0 max-lg:overflow-visible max-lg:rounded-none max-lg:p-0 lg:pb-8"
   >
     <nav
-      class="group container mx-auto flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4 md:w-[95%] md:shadow-lg md:shadow-black/20 xl:max-w-6xl"
+      class="group container mx-auto flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-lg:rounded-none max-lg:bg-bg max-lg:px-4 lg:w-[95%] lg:shadow-lg lg:shadow-black/20 xl:max-w-6xl"
     >
-      <Logo class="w-[12.5%] max-md:hidden" dark />
-      <Logo class="show-md" />
+      <Logo class="w-[30%] max-lg:hidden" dark />
+      <Logo class="show-lg" />
       <div
         :class="{ active: isActive }"
-        class="slide inset-0 text-sm text-text-inverted max-md:fixed max-md:h-screen max-md:bg-primary max-md:px-4 max-md:text-base max-md:[clip-path:inset(0%_0%_0%_100%)]"
+        class="slide inset-0 text-sm text-text-inverted max-lg:fixed max-lg:h-screen max-lg:bg-primary max-lg:px-4 max-lg:text-base max-lg:[clip-path:inset(0%_0%_0%_100%)]"
       >
-        <div class="mb-8 hidden h-14 items-center justify-between max-md:flex">
+        <div class="mb-8 hidden h-14 items-center justify-between max-lg:flex">
           <Logo dark />
           <button @click="toggle">
             <CloseSquare />
           </button>
         </div>
         <ul
-          class="flex items-center gap-4 max-md:flex-col max-md:items-start xl:gap-8"
+          class="flex items-center gap-4 max-lg:flex-col max-lg:items-start xl:gap-8 md:mr-8"
         >
           <li
             :class="[
-              'transition-colors hover:text-secondary',
+              'transition-colors hover:text-secondary whitespace-nowrap',
               { 'text-secondary': isActivePage(item.link) },
             ]"
             @click="hideNav"
             v-for="item in navLinks"
             :key="item.link"
           >
-            <CustomLink :to="item.link" class="text-xs lg:text-base">
+            <CustomLink :to="item.link" class="text-sm">
               {{ item.name }}
             </CustomLink>
           </li>
         </ul>
-        <Illustration class="show-md absolute bottom-0 right-0" />
+        <Illustration class="max-lg:block hidden absolute bottom-0 right-0" />
       </div>
       <CustomLink
         :to="STATIC.link_get_started"
-        class="flex h-full items-center justify-end md:w-[12.5%]"
+        class="flex h-full items-center justify-end lg:w-[15%]"
       >
         <button
-          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden lg:px-4 lg:text-sm"
+          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-xs font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-lg:hidden lg:px-4 lg:text-sm whitespace-nowrap"
         >
           Quick Start
         </button>
       </CustomLink>
-      <button class="show-md" @click="toggle">
+      <button class="show-lg" @click="toggle">
         <Hamburger />
       </button>
     </nav>
