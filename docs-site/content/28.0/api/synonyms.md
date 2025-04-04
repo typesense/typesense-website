@@ -21,6 +21,12 @@ When using Synonyms and [Overrides](./curation.md) together, Overrides are handl
 When a synonym has a `locale` specified, it will only be applied when searching fields with a matching locale. If no locale is specified for a synonym, it will be applied globally. This helps manage cases where the same word has different meanings across languages.
 :::
 
+:::tip Synonyms and Exact Match Queries / Filtering
+Quoted Searches: Synonyms do not work when the search query is wrapped in double quotes (e.g., "Sre" will not return results containing "Site Reliability Engineer" even if they are defined as multi-way synonyms).
+
+Filtering: Synonyms are not applied when using filter_by. For example, if you define a multi-way synonym for "abc <> xyz" and use filter_by: "title:=abc", it will only match documents where title="abc", not title="xyz".
+:::
+
 ## Create or update a synonym
 
 ### Multi-way synonym
