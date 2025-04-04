@@ -34,111 +34,121 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       class="card relative mb-[-6px] mt-6 w-[832px] rounded-t-3xl bg-bg-gray-2 px-4 pt-4 max-sm:w-full"
     >
       <Dots />
-      <table class="mt-2.5 w-full text-sm leading-[1.1] tracking-tight">
-        <thead class="bg-blue-in-green text-text-inverted">
-          <tr>
-            <th class="rounded-l-xl py-3 pl-4 text-left">Features</th>
-            <th>Typesense</th>
-            <th>Algolia</th>
-            <th class="py-3">ElasticSearch</th>
-            <th class="rounded-r-xl">Meilisearch</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>REST API</td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Scoped API Keys & Multi-tenant indices</td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Query Field Weights & Boosting</td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>JOINs across multiple indices</td>
-            <td>
-              <div class="grid place-items-center">
-                <Check />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-            <td>
-              <div class="grid place-items-center">
-                <Cross />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="w-full overflow-x-auto overflow-y-hidden">
+        <table
+          class="relative mt-2.5 w-full min-w-[520px] text-sm leading-[1.1] tracking-tight"
+        >
+          <thead class="bg-blue-in-green text-text-inverted">
+            <tr>
+              <th class="rounded-l-xl py-3 pl-4 text-left">Features</th>
+              <th>Typesense</th>
+              <th>Algolia</th>
+              <th class="py-3">ElasticSearch</th>
+              <th class="rounded-r-xl">Meilisearch</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-xs md:text-sm lg:text-base">REST API</td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-xs md:text-sm lg:text-base">
+                Scoped API Keys & Multi-tenant indices
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-xs md:text-sm lg:text-base">
+                Query Field Weights & Boosting
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-xs md:text-sm lg:text-base">
+                JOINs across multiple indices
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Check class="text-[#263311]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
+                  <Cross class="text-[#490F0F]" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <BlankTableIllustration
         class="absolute bottom-[-4%] left-[-26%] z-[-1] rotate-[-3.185deg] scale-x-[-1]"
       />
@@ -179,12 +189,6 @@ tbody tr td:last-child {
   @apply rounded-r-xl;
 }
 @media not all and (min-width: 640px) {
-  td:nth-child(1),
-  th:nth-child(1),
-  td:last-child,
-  th:last-child {
-    display: none;
-  }
   td:nth-child(2),
   th:nth-child(2) {
     @apply rounded-l-xl;
