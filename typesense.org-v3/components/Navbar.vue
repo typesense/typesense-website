@@ -67,14 +67,16 @@ const hideNav = () => {
             v-for="item in navLinks"
             :key="item.link"
           >
-            <CustomLink :to="item.link">{{ item.name }}</CustomLink>
+            <CustomLink :to="item.link" class="text-xs lg:text-base">
+              {{ item.name }}
+            </CustomLink>
           </li>
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
       </div>
       <CustomLink :to="STATIC.link_get_started">
         <button
-          class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg max-md:hidden"
+          class="flex items-center gap-2 rounded-full bg-primary px-4 py-[10px] text-sm font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden"
         >
           Quick Start
         </button>
