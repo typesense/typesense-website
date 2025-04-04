@@ -38,12 +38,12 @@ const hideNav = () => {
 </script>
 <template>
   <div
-    class="header fixed top-0 z-50 overflow-hidden rounded-b-3xl pt-4 backdrop-blur-md max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0"
+    class="fixed top-0 z-50 w-screen overflow-hidden rounded-b-3xl px-4 pt-4 backdrop-blur-md max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0"
   >
     <nav
       class="group flex h-14 w-full items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4"
     >
-      <Logo class="max-md:hidden" dark />
+      <Logo class="w-[12.5%] max-md:hidden" dark />
       <Logo class="show-md" />
       <div
         :class="{ active: isActive }"
