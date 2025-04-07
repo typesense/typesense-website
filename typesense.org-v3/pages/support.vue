@@ -208,6 +208,7 @@
                 <td>
                   <div class="content">
                     <Button
+                      class="m-auto"
                       link="https://cloud.typesense.org/support-plans"
                       with-arrow
                       >Cloud Support Plans</Button
@@ -217,6 +218,7 @@
                 <td>
                   <div class="content">
                     <Button
+                      class="m-auto"
                       link="https://typesense.link/slack-community"
                       with-arrow
                       >Public Slack Community</Button
@@ -261,7 +263,9 @@
           >
             Have Any <span class="text-secondary">Questions?</span>
           </h3>
-          <Button link="https://typesense.org/docs" with-arrow>Read the Guide</Button>
+          <Button link="https://typesense.org/docs" with-arrow
+            >Read the Guide</Button
+          >
         </div>
       </section>
     </div>
