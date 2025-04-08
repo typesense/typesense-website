@@ -82,7 +82,7 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-[#490F0F]" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
@@ -92,7 +92,7 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-[#490F0F]" />
+                  <Check class="text-[#263311]" />
                 </div>
               </td>
             </tr>
@@ -107,17 +107,19 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
               </td>
               <td>
                 <div class="grid place-items-center">
+                  🔶<br /><br />
+                  Numeric weights not supported
+                </div>
+              </td>
+              <td>
+                <div class="grid place-items-center">
                   <Check class="text-[#263311]" />
                 </div>
               </td>
               <td>
                 <div class="grid place-items-center">
-                  <Cross class="text-[#490F0F]" />
-                </div>
-              </td>
-              <td>
-                <div class="grid place-items-center">
-                  <Check class="text-[#263311]" />
+                  🔶<br /><br />
+                  Numeric weights not supported
                 </div>
               </td>
             </tr>
