@@ -258,13 +258,15 @@ You might notice that adding a filter to your search query sometimes returns **m
 
 When you search with a keyword (e.g., "_shoes_") without filters, Typesense finds exact matches first. But when you add a filter, if the documents containing "_shoes_" don't match your filter criteria, Typesense will automatically look for typo variations or prefix matches (e.g., "_shoe_") to return relevant results that do satisfy your filter.
 
-You can control this behavior by increasing the `max_candidates` parameter:
+You can control this behavior by increasing the `max_candidates` parameter, and/or increasing the `drop_tokens_threshold` or the `typo_tokens_threshold` parameters as needed:
 
 ```json
 {
   "q": "shoes",
   "filter_by": "category:=Athletic",
-  "max_candidates": 100  // default is 4
+  "max_candidates": 100, 
+  "drop_tokens_threshold": 1000,
+  "typo_tokens_threshold": 1000
 }
 ```
 
