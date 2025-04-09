@@ -254,24 +254,32 @@ You could also do "starts with" matching using filter_by. For eg, say we want to
 
 ### Why do I sometimes get more results when adding filters?
 
-You might notice that adding a filter to your search query sometimes returns **more** results than the same search without filters. This is related to how Typesense handles typo tolerance and candidate matching when filters are applied.
+You might encounter a situation where adding a filter to your search query actually returns **more** results than the same search keyword without any filters.
 
-When you search with a keyword (e.g., "_shoes_") without filters, Typesense finds exact matches first. But when you add a filter, if the documents containing "_shoes_" don't match your filter criteria, Typesense will automatically look for typo variations or prefix matches (e.g., "_shoe_") to return relevant results that do satisfy your filter.
+This sounds counter-intuitive at first, because you'd typically expect adding a filter to _reduce_ the number of results, compared to the result count without any filters.
 
-You can control this behavior by increasing the `max_candidates` parameter, and/or increasing the `drop_tokens_threshold` or the `typo_tokens_threshold` parameters as needed:
+However, this behavior is related to how Typesense handles typo tolerance and candidate matching, when there are several possible matches for a given keyword.
+
+Let's say you run a clothing store, and there are thousands of products with the name "shoe" in the product title. 
+When you search for `q: shoe` without any filters, if there are several possible matches for that prefix, by default Typesense limits the number of prefix matches to the top 4 prefixes for performance reasons. 
+This value of 4 is configurable using the `max_candidates` search parameter, documented <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#ranking-and-sorting-parameters`">here</RouterLink>.
+
+But when you add a filter of say brand, color, size, availability, etc, the search space for `q: shoe` now gets reduced and Typesense is able to do more exhaustive searching efficiently to return relevant results that satisfy your filter.
+
+In short, the more generic a search term is and the more matches it has (without filters), Typesense tries to prune the search space strategically to keep the performance of search-as-you-type experience snappy. 
+Typically, users tend to add more keywords and/or apply more filters for generic search terms, which then fetches more granular results.    
+
+You can control this behavior by increasing the `max_candidates` parameter, which will then cause Typesense to look at more prefix matches when no filters are applied. 
 
 ```json
 {
   "q": "shoes",
   "filter_by": "category:=Athletic",
-  "max_candidates": 100, 
-  "drop_tokens_threshold": 1000,
-  "typo_tokens_threshold": 1000
+  "max_candidates": 100
 }
 ```
 
-For a detailed explanation, see the <RouterLink :to="`/guide/tips-for-filtering.html#why-filters-can-sometimes-return-more-results`">Tips for Filtering</RouterLink> documentation.
-
+The tradeoff here is performance, as you increase `max_candidates`. So you want to experiment with the ideal value and keep an eye on the `search_time_ms` field in the search API response to see what works best for your use-case.
 
 ## Semantic Search
 
