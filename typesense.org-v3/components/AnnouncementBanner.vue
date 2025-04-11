@@ -1,5 +1,36 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const opacity = ref(1);
+
+const handleScroll = () => {
+  const scrollPosition = window.scrollY;
+  const fadeStart = 0;
+  const fadeEnd = 200;
+  
+  if (scrollPosition <= fadeStart) {
+    opacity.value = 1;
+  } else if (scrollPosition >= fadeEnd) {
+    opacity.value = 0;
+  } else {
+    opacity.value = 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+</script>
+
 <template>
-  <div class="fixed top-[72px] left-0 right-0 z-[100] max-md:top-[56px]">
+  <div 
+    class="fixed top-[72px] left-0 right-0 z-[100] max-md:top-[56px] transition-opacity duration-500"
+    :style="{ opacity }"
+  >
     <div class="container mx-auto flex justify-center px-4 md:w-[95%] xl:max-w-6xl max-md:px-0">
       <a 
         href="https://x.com/typesense/status/1910474969772876185" 
