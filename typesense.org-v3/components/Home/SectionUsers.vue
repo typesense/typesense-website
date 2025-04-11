@@ -63,7 +63,7 @@ const userLogos = [
   },
 ];
 
-const asSeenAs = [
+const asSeenAt = [
   {
     href: "https://twitter.com/jasonbosco/status/1565073075040882688",
     imgPath: "/images/user-logos/nasdaq.svg",
@@ -143,22 +143,51 @@ const asSeenAs = [
       <div
         class="grid grid-cols-4 justify-between gap-4 max-md:flex max-md:flex-col max-md:gap-3"
       >
-        <CustomLink
-          to="https://x.com/jasonbosco/status/1565073075040882688"
-          class="relative col-span-3 mr-28 overflow-hidden max-md:m-0 max-md:mt-0 max-md:w-full max-sm:h-[208px]"
-        >
-          <img
-            class="absolute h-full w-full rounded-3xl object-cover"
-            src="@/assets/images/typesense-on-nasdaq.jpeg"
-            alt="Typesense on Nasdaq billboard in New York City"
-          />
-        </CustomLink>
+        <div class="col-span-3 mr-28 grid grid-cols-2 gap-4 max-md:m-0 max-md:grid-cols-1 max-md:gap-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between px-4">
+              <p class="text-sm text-gray-500">The iconic Nasdaq billboard in New York</p>
+              <a href="https://x.com/jasonbosco/status/1565073075040882688" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+            </div>
+            <CustomLink
+              to="https://x.com/jasonbosco/status/1565073075040882688"
+              class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
+            >
+              <div class="relative h-full w-full">
+                <img
+                  class="h-full w-full rounded-3xl object-cover object-[center_20%]"
+                  src="@/assets/images/typesense-on-nasdaq.jpeg"
+                  alt="Typesense on the Nasdaq billboard in New York City"
+                />
+              </div>
+            </CustomLink>
+          </div>
+
+          <div class="space-y-3 max-md:mt-8">
+            <div class="flex items-center justify-between px-4">
+              <p class="text-sm text-gray-500">Hundreds of San Francisco billboards</p>
+              <a href="https://x.com/typesense/status/1910474969772876185" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+            </div>
+            <CustomLink
+              to="https://x.com/typesense/status/1910474969772876185"
+              class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
+            >
+              <div class="relative h-full w-full">
+                <img
+                  class="h-full w-full rounded-3xl object-cover object-[center_20%]"
+                  src="@/assets/images/typesense-at-sf-1.jpg"
+                  alt="Typesense in San Francisco"
+                />
+              </div>
+            </CustomLink>
+          </div>
+        </div>
         <div
           class="flex justify-center gap-4 max-md:flex-wrap max-md:gap-2 md:flex-col"
         >
           <CustomLink
             class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
-            v-for="item in asSeenAs"
+            v-for="item in asSeenAt"
             :key="item.href"
             :to="item.href"
           >
