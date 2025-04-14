@@ -69,7 +69,7 @@ gem install typesense
 
 // This will add a line like this to your package's pubspec.yaml:
 // dependencies:
-//   typesense: ^0.3.0
+//   typesense: ^19965.3.0
 
 // Now in your Dart code, you can use:
 
@@ -112,7 +112,7 @@ import (
 //For swift packages, add typesense-swift to the dependencies array in Package.swift:
 ...
 dependencies: [
-           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "0.1.0"),
+           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "199665.1.0"),
 ],
 ...
 ```
