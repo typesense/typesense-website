@@ -33,7 +33,7 @@ onUnmounted(() => {
   >
     <div class="container mx-auto flex justify-center px-4 md:w-[95%] xl:max-w-6xl max-md:px-0">
       <a 
-        href="https://x.com/typesense/status/1910474969772876185" 
+        href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
         target="_blank" 
         rel="noopener noreferrer"
         class="group inline-flex h-9 -mt-1 items-center gap-2 rounded-b-2xl bg-dark-bg px-5 py-2 text-xs font-light shadow-lg max-md:h-8 max-md:w-full max-md:px-4 max-md:py-1 max-md:gap-1.5 max-md:rounded-b-xl max-md:justify-center max-md:shadow-none"

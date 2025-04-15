@@ -147,10 +147,10 @@ const asSeenAt = [
           <div class="space-y-3">
             <div class="flex items-center justify-between px-4">
               <p class="text-sm text-gray-500">The iconic Nasdaq billboard in New York</p>
-              <a href="https://x.com/jasonbosco/status/1565073075040882688" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+              <a href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
             </div>
             <CustomLink
-              to="https://x.com/jasonbosco/status/1565073075040882688"
+              to="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
               class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
             >
               <div class="relative h-full w-full">
@@ -166,10 +166,10 @@ const asSeenAt = [
           <div class="space-y-3 max-md:mt-8">
             <div class="flex items-center justify-between px-4">
               <p class="text-sm text-gray-500">Hundreds of San Francisco billboards</p>
-              <a href="https://x.com/typesense/status/1910474969772876185" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+              <a href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
             </div>
             <CustomLink
-              to="https://x.com/typesense/status/1910474969772876185"
+              to="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
               class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
             >
               <div class="relative h-full w-full">
