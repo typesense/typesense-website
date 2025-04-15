@@ -42,14 +42,14 @@ onUnmounted(() => {
         <img src="/icons/promo.svg" alt="New announcement" />
         <span class="whitespace-nowrap text-text-inverted">
           <span class="max-md:hidden"
-            >Check out our billboards live in San Francisco</span
+            >Check out our billboards now live in San Francisco</span
           >
           <span class="hidden max-md:inline"
             >Check out our billboards live in SF</span
           >
         </span>
         <span
-          class="inline-flex items-center gap-1 rounded font-normal tracking-tight text-secondary underline underline-offset-[3px] transition-colors group-hover:text-secondary/85 md:ml-1"
+          class="inline-flex items-center gap-1 rounded font-normal tracking-tight text-secondary underline underline-offset-[3px] transition-colors group-hover:text-secondary/85 md:ml-1 whitespace-nowrap"
         >
           View Photos <ArrowRight class="stroke-[1.75px]" />
         </span>
