@@ -5,7 +5,7 @@
     alt="background"
   />
   <div class="relative flex flex-col gap-[150px] max-md:gap-[120px]">
-    <div class="site-padding mt-[120px] max-md:mt-24">
+    <div class="site-padding">
       <section>
         <div class="mb-4 flex gap-4 max-md:mb-2">
           <FlashFill /> <SearchFill />
@@ -84,7 +84,9 @@
     </section>
     <section class="site-padding w-full">
       <div class="flex w-full flex-col items-center">
-        <h3 class="mb-12 max-md:mb-6">Craft your search with <strong>Typesense</strong></h3>
+        <h3 class="mb-12 max-md:mb-6">
+          Craft your search with <strong>Typesense</strong>
+        </h3>
         <div
           class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:size-[200px] max-md:[&_img]:size-[120px]"
         >

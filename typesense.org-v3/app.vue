@@ -8,11 +8,13 @@
 :root {
   --site-padding: calc(128px + 24px);
   --section-gap: 200px;
+  --site-top-padding: calc(100px + 72px);
 }
 @media not all and (min-width: 768px) {
   :root {
     --site-padding: 16px;
     --section-gap: 120px;
+    --site-top-padding: calc(72px + 56px);
   }
 }
 * {
@@ -63,6 +65,9 @@ b {
   display: flex;
   flex-direction: column;
   gap: var(--section-gap);
+}
+.site-top-padding {
+  margin-top: var(--site-top-padding);
 }
 .scrollbar-hidden {
   scrollbar-width: none; /* Firefox */

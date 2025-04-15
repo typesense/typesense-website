@@ -8,7 +8,9 @@ const props = defineProps({
 
 <template>
   <NuxtLayout name="default">
-    <div class="site-padding flex h-[80vh] flex-col justify-center">
+    <div
+      class="site-padding flex h-[calc(100vh-var(--site-top-padding)-200px)] flex-col justify-center"
+    >
       <div>
         <h2>We couldn't find that page</h2>
         <NuxtLink class="underline underline-offset-2" to="/">Go home</NuxtLink>

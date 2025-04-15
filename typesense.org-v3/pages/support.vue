@@ -5,7 +5,7 @@
     alt="background"
   />
   <div class="relative">
-    <div class="site-padding mt-[120px] !gap-14 max-md:mt-24 max-md:!gap-10">
+    <div class="site-padding !gap-14 max-md:!gap-10">
       <section class="text-center">
         <div class="mb-4 flex gap-4 max-md:mb-2">
           <FlashFill /> <SearchFill />

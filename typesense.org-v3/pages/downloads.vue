@@ -5,9 +5,7 @@
     alt="background"
   />
   <div class="relative flex flex-col gap-[150px] max-md:gap-[120px]">
-    <div
-      class="site-padding mt-[120px] !gap-[150px] max-md:mt-24 max-md:!gap-[80px]"
-    >
+    <div class="site-padding !gap-[150px] max-md:!gap-[80px]">
       <section>
         <div class="mb-4 flex gap-4 max-md:mb-2">
           <FlashFill /> <SearchFill />
@@ -245,7 +243,9 @@ docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}
               downloading <br class="show-md" />
               Typesense
             </h3>
-            <Button link="https://typesense.org/docs/guide" with-arrow>Read the Guide</Button>
+            <Button link="https://typesense.org/docs/guide" with-arrow
+              >Read the Guide</Button
+            >
           </div>
         </div>
       </section>
