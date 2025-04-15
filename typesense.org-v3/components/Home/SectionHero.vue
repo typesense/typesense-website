@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="mt-32 flex w-full flex-col items-center text-center max-md:mt-20"
-  >
+  <section class="flex w-full flex-col items-center text-center">
     <Badge>NO PHD REQUIRED</Badge>
     <h1>Lightning Fast, <br /><strong>Open Source </strong>Search</h1>
     <p class="subtext max-md:hidden">
