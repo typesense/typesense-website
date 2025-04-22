@@ -6,15 +6,20 @@
 
 <style>
 :root {
-  --site-padding: calc(128px + 24px);
+  --site-padding: 32px;
   --section-gap: 200px;
   --site-top-padding: calc(100px + 72px);
+  --content-max-width: calc(1440px - 2 * (152px - var(--site-padding)));
 }
 @media not all and (min-width: 768px) {
   :root {
-    --site-padding: 16px;
     --section-gap: 120px;
     --site-top-padding: calc(72px + 56px);
+  }
+}
+@media not all and (min-width: 640px) {
+  :root {
+    --site-padding: 16px;
   }
 }
 * {
@@ -61,11 +66,14 @@ b {
 }
 
 .site-padding {
+  max-width: min(100%, calc(1440px - 2 * (152px - var(--site-padding))));
+  margin: 0 auto;
   padding: 0 var(--site-padding);
   display: flex;
   flex-direction: column;
   gap: var(--section-gap);
 }
+
 .site-top-padding {
   margin-top: var(--site-top-padding);
 }
