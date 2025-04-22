@@ -94,26 +94,26 @@ This buffer-based approach provides several benefits:
 
 ### Using Sequin
 
-[Sequin](https://sequinstream.com) streams data from your Postgres database to TypeSense in real-time. Any change to your database (whether from your application, an internal tool, or another process) will be immediately reflected in TypeSense.
+[Sequin](https://sequinstream.com) streams data from your Postgres database to Typesense in real-time. Any change to your database (whether from your application, an internal tool, or another process) will be immediately reflected in Typesense.
 
 This approach comes with several benefits:
 
 - Sequin uses logical replication, which adds virtually no overhead to your database (unlike polling and triggers)
-- The direct integration with TypeSense leverages the bulk API to efficiently load every create and update. It also supports deletes out of the box.
+- The direct integration with Typesense leverages the bulk import API to efficiently load every create and update. It also supports deletes out of the box.
 - You can tune Sequin's batching behavior to your real-time requirements
-- Sequin comes with transforms, backfills, filtering, and built-in retries to ensure your Postgres tables are perfectly replicated into TypeSense.
+- Sequin comes with transforms, backfills, filtering, and built-in retries to ensure your Postgres tables are perfectly replicated into Typesense.
 
 #### Setup overview
 
 :::tip
-Read Sequin's TypeSense [Quickstart](https://sequinstream.com/docs/quickstart/typesense) for a step-by-step guide.
+Read Sequin's Typesense [Quickstart](https://sequinstream.com/docs/quickstart/typesense) for a step-by-step guide.
 :::
 
 1. Setup Sequin locally or create a cloud account.
 2. Connect your Postgres database to Sequin.
-3. Create a TypeSense sink for each table you want to replicate to a TypeSense collection.
+3. Create a Typesense sink for each table you want to replicate to a Typesense collection.
 
-Here's an [example `Sequin.yaml`](https://sequinstream.com/docs/reference/sequin-yaml#typesense-sink) showing how to sink a `products` table to TypeSense:
+Here's an [example `Sequin.yaml`](https://sequinstream.com/docs/reference/sequin-yaml#typesense-sink) showing how to sink a `products` table to Typesense:
 
 ```yaml
 databases:
