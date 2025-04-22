@@ -17,6 +17,7 @@ Even though DocSearch was originally built for documentation sites, it can actua
 
 First, we need to set up the scraper to point to your documentation site. Running the scraper will generate an index for each word on your website, and then upload it to your Typesense server. That's what makes your website searchable!
 
+
 ### Create a DocSearch Scraper Config File
 
 Follow one of the templates below to create your own `config.json` file, pointing to your documentation site:
@@ -268,6 +269,38 @@ The scraper Docker container is stateless and so can be run on any platform that
 - Railway
 
 And many more. We recommend running the scraper in CI so that your search index will always stay up-to-date (as opposed to e.g. a cron job that runs every day).
+
+### Prerequisites for Docusaurus sites
+
+When setting up the DocSearch scraper for a Docusaurus site, please note:
+
+1. A `sitemap.xml` file is required for the scraper to work properly. To generate this:
+   - Install the sitemap plugin: 
+      ```bash
+      npm install @docusaurus/plugin-sitemap --save
+      ```
+   - Add it to your `docusaurus.config.js`:
+     ```js
+     plugins: [
+       [
+         '@docusaurus/plugin-sitemap',
+         {
+           // plugin options
+         },
+       ],
+     ],
+     ```
+   - Generate the sitemap:
+     ```bash
+     npm run build
+     ```
+
+1. When testing locally, serve your site:
+      ```bash
+      npm run serve
+      ```
+
+1. Make sure your Typesense server is running before running the scraper
 
 ## Step 2: Add a Search Bar to your Documentation Site 
 
