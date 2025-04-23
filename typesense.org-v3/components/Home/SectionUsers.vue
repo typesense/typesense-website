@@ -158,10 +158,10 @@ const asSeenAt = [
     <section class="mt-[100px]">
       <h2 class="mb-[30px] max-md:mb-6">As seen at</h2>
       <div
-        class="grid grid-cols-4 justify-between gap-4 max-md:flex max-md:flex-col max-md:gap-3"
+        class="grid grid-cols-4 justify-between gap-4 max-lg:flex max-lg:flex-col max-md:gap-3"
       >
         <div
-          class="col-span-3 mr-28 grid grid-cols-2 gap-4 max-md:m-0 max-md:grid-cols-1 max-md:gap-6"
+          class="col-span-3 grid grid-cols-[360px_360px] gap-4 max-[1050px]:grid-cols-2 max-md:m-0 max-md:grid-cols-1 max-md:gap-6"
         >
           <div class="space-y-3">
             <div class="flex items-center justify-between px-4">
@@ -216,7 +216,7 @@ const asSeenAt = [
           </div>
         </div>
         <div
-          class="flex justify-center gap-4 max-md:flex-wrap max-md:gap-2 md:flex-col"
+          class="flex justify-center gap-4 max-lg:grid max-lg:grid-cols-3 max-md:flex max-md:flex-wrap max-md:gap-2 md:flex-col"
         >
           <CustomLink
             class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
