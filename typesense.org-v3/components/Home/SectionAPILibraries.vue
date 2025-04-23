@@ -64,11 +64,11 @@ const libraries = [
 ];
 </script>
 <template>
-  <section>
-    <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-      <div class="max-sm:text-center">
+  <section class="max-sm:[&_img]:scale-[80%]">
+    <div class="grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-sm:grid-cols-1">
+      <div class="max-sm:text-center sm:col-span-2">
         <h2>
-          <strong>API Libraries</strong> In Your<br />
+          <strong>API Libraries</strong> In Your<br class="show-sm" />
           Favorite Languages
         </h2>
         <p class="subtext mb-7 max-sm:mb-6">
@@ -78,13 +78,18 @@ const libraries = [
           collab on one
         </p>
       </div>
-      <div class="grid grid-cols-2 items-end gap-4">
+      <div
+        class="grid grid-cols-2 items-end gap-4 max-lg:grid-cols-1 max-sm:grid-cols-2 lg:col-span-2"
+      >
         <a
-          v-for="library in libraries.slice(0, 2)"
+          v-for="(library, i) in libraries.slice(0, 2)"
           :key="library.name"
           :href="library.link"
           target="_blank"
           rel="noopener"
+          :class="{
+            'max-lg:hidden max-sm:block': i == 1,
+          }"
         >
           <Card
             ><img
@@ -95,9 +100,11 @@ const libraries = [
         </a>
       </div>
     </div>
-    <div class="card-list mt-4 max-sm:mt-3">
+    <div
+      class="card-list mt-4 max-sm:mt-3 [&>:first-child]:hidden max-lg:[&>:first-child]:block max-sm:[&>:first-child]:hidden"
+    >
       <a
-        v-for="library in libraries.slice(2)"
+        v-for="library in libraries.slice(1)"
         :key="library.name"
         :href="library.link"
         target="_blank"
