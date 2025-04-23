@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import ArrowRight from "@/assets/icons/arrow-right.svg";
 const usecases = [
   {
     title: "Search As You Type",
@@ -66,10 +65,10 @@ const usecases = [
       algorithms that take advantage of the latest advances in Hardware
       Capabilities & Machine Learning.
     </p>
-    <Button link="/about" type="white" class="hidden max-sm:flex"
-      >Our Mission <ArrowRight
-    /></Button>
-    <div class="card-list mt-8 grid-rows-3 text-left max-sm:grid-rows-5">
+    <Button with-arrow link="/about" type="white" class="hidden max-sm:flex"
+      >Our Mission
+    </Button>
+    <div class="card-list mt-8 text-left max-md:!grid-cols-2">
       <div
         class="card flex flex-col"
         v-for="usecase in usecases"
@@ -85,12 +84,12 @@ const usecases = [
           />
         </div>
         <h3
-          class="mt-[17px] text-lg leading-[1.2] tracking-[-0.54px] max-md:px-1.5 max-sm:my-2.5 max-sm:!text-[14px]"
+          class="mt-[17px] text-lg leading-[1.2] tracking-[-0.54px] max-md:px-1.5 max-md:!text-[18px] max-sm:my-2.5 max-sm:!text-[14px]"
         >
           {{ usecase.title }}
         </h3>
       </div>
-      <div class="card col-span-2 text-left max-sm:hidden">
+      <div class="card col-span-2 !min-h-0 text-left max-sm:hidden">
         <p class="mb-3 text-sm leading-[1.8] tracking-tight text-text-muted">
           <span class="text-text-primary"
             ><b class="font-semibold">Typesense</b> is a modern</span
@@ -99,28 +98,35 @@ const usecases = [
           from today&rsquo;s modern hardware and machine learning advances.
         </p>
         <div class="flex gap-4">
-          <Button :link="STATIC.link_use_cases"
-            >Typesense&rsquo;s use cases <ArrowRight
-          /></Button>
-          <Button link="/about" type="white">Our Mission <ArrowRight /></Button>
+          <Button with-arrow :link="STATIC.link_use_cases"
+            >Typesense&rsquo;s use cases</Button
+          >
+          <Button with-arrow link="/about" type="white">Our Mission </Button>
         </div>
       </div>
     </div>
-    <Button :link="STATIC.link_use_cases" class="mt-8 hidden max-sm:flex"
-      >Typesense&rsquo;s use cases <ArrowRight
-    /></Button>
+    <Button
+      with-arrow
+      :link="STATIC.link_use_cases"
+      class="mt-8 hidden max-sm:flex"
+      >Typesense&rsquo;s use cases</Button
+    >
   </section>
 </template>
 
 <style scoped>
 .card {
-  @apply rounded-2xl p-4 max-sm:rounded-lg max-sm:p-0.5 max-sm:pb-0;
+  @apply rounded-2xl p-4 max-md:min-h-52 max-sm:min-h-0 max-sm:rounded-lg max-sm:p-0.5 max-sm:pb-0;
   box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
 }
-@media (min-width: 640px) {
-  .card:last-child {
-    grid-column: 2 / span 2; /* Start at column 2 and span 2 columns */
+
+@media (min-width: 768px) {
+  .card:nth-child(10) {
+    grid-row: 4;
+    grid-column: 3;
   }
+}
+@media (min-width: 1024px) {
   .card:nth-child(10) {
     grid-row: 3;
     grid-column: 4;
