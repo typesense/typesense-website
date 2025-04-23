@@ -64,7 +64,7 @@ const libraries = [
 ];
 </script>
 <template>
-  <section class="max-sm:[&_img]:scale-[80%]">
+  <section class="max-sm:[&_img]:scale-[0.8]">
     <div class="grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-sm:grid-cols-1">
       <div class="max-sm:text-center sm:col-span-2">
         <h2>

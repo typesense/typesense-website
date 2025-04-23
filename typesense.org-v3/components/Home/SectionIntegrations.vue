@@ -87,7 +87,7 @@ const platforms = [
         >
       </p>
     </div>
-    <div class="card-list mt-4 max-md:mt-8">
+    <div class="card-list mt-4 max-md:mt-8 max-sm:[&_img]:scale-[0.8]">
       <a
         v-for="item in platforms"
         :key="item.name"
