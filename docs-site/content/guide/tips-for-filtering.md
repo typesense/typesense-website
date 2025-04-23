@@ -35,7 +35,7 @@ a **`:`** after it.
 | `<=`      | Less than or equal to    | `int32`, `int64`, `float`                   | `price:<=100`                |
 | `>=`      | Greater than or equal to | `int32`, `int64`, `float`                   | `price:>=100`                |
 | `[]`      | Is one of                | `string`, `int32`, `int64`, `float`, `bool` | `country:[USA, UK, Canada]`  |
-| `!=[]`    | Is not any of            | `string`, `int32`, `int64`, `float`, `bool` | `country:!=[USA, UK, Canada]`|
+| `![]`    | Is not any of             | `string`, `int32`, `int64`, `float`, `bool` | `country:![USA, UK, Canada]` |
 | `[..]`    | Range                    | `int32`, `int64`, `float`                   | `price:[100..200]`           |
 
 ### Non-exact Operator for String Types
