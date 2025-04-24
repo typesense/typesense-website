@@ -1037,6 +1037,10 @@ parallel --block -5 -a documents.jsonl --tmpdir /tmp --pipepart --cat 'curl -H "
 
 <br/>
 
+:::warning 
+**Important Note**: Typesense limits individual import requests to a maximum of 10GB. For larger files, you should split them into smaller chunks and import them individually.
+:::
+
 ### Import a JSON file
 
 If you have a file in JSON format, you can convert it into JSONL format using [`jq`](https://github.com/stedolan/jq):
