@@ -7,14 +7,14 @@ const PRIORITY = "/support";
 const SLACK = "https://typesense.link/slack-community";
 </script>
 <template>
-  <section class="flex items-end justify-between gap-6 max-md:flex-col">
+  <section class="flex items-end justify-between gap-6 max-lg:flex-col">
     <div
-      class="flex-col items-center max-md:flex max-md:w-full max-md:text-center"
+      class="flex-col items-center max-lg:flex max-lg:w-full max-lg:text-center"
     >
       <Badge>We've got your back</Badge>
       <h2>
         Backed by<br />
-        <strong>responsive</strong><br class="max-md:hidden" />
+        <strong>responsive</strong><br class="max-lg:hidden" />
         support
       </h2>
       <p class="subtext">
