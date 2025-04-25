@@ -9,7 +9,9 @@ import Keyboard from "@/assets/icons/keyboard.svg";
 import Box from "@/assets/icons/box.svg";
 </script>
 <template>
-  <section class="grid grid-cols-4 gap-4 max-md:gap-2 max-sm:grid-cols-1">
+  <section
+    class="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:gap-2 max-sm:grid-cols-1"
+  >
     <div class="flex-col items-center max-md:flex max-md:text-center">
       <Badge>Live</Badge>
       <h2>Showcase</h2>
@@ -136,7 +138,9 @@ import Box from "@/assets/icons/box.svg";
       </p>
     </div>
 
-    <div class="grid grid-cols-4 gap-4 max-md:grid-cols-1 max-md:gap-2">
+    <div
+      class="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1 max-md:gap-2"
+    >
       <CustomLink to="https://ecommerce-store.typesense.org/">
         <div class="card">
           <div class="title">
