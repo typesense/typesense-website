@@ -56,11 +56,11 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <section class="flex justify-between gap-10 max-md:flex-col">
-    <div class="flex flex-col justify-between">
+  <section class="flex justify-between gap-10 max-[1180px]:flex-col">
+    <div class="flex flex-1 flex-col justify-between">
       <div class="flex-col items-center max-md:flex">
         <Badge>Testimonials</Badge>
-        <h2>
+        <h2 class="text-nowrap">
           What <strong>People</strong> Say<br />
           about Typesense
         </h2>
@@ -68,7 +68,7 @@ onUnmounted(() => {
       </div>
       <img
         width="135"
-        class="mb-6 select-none max-md:hidden"
+        class="mb-6 select-none max-[1180px]:hidden"
         src="/images/backgrounds/quote.svg"
         alt="quote"
       />
@@ -77,7 +77,7 @@ onUnmounted(() => {
       <div
         class="flex flex-1 flex-col items-end justify-between gap-4 max-md:flex-row max-md:items-stretch max-md:gap-2"
       >
-        <div class="card flex-1 md:mr-[-80px] md:mt-24">
+        <div class="card flex-1 min-[1180px]:mt-24 min-[1360px]:mr-[-80px]">
           <p class="subtext !mt-0">
             We made the switch to Typesense from Algolia and never looked back.
             As our business was scaling incredibly fast, Typesense was able to
@@ -151,6 +151,6 @@ onUnmounted(() => {
 
 <style scoped>
 .card {
-  @apply flex min-h-[200px] min-w-[680px] max-w-[680px] flex-col justify-between gap-5 rounded-2xl bg-bg-gray-2 px-6 py-4 max-md:min-w-0 max-md:flex-[0_0_90%] max-md:p-4;
+  @apply flex min-h-[200px] w-full max-w-[680px] flex-col justify-between gap-5 rounded-2xl bg-bg-gray-2 px-6 py-4 max-lg:max-w-[min(680px,85%)] max-md:min-w-0 max-md:flex-[0_0_90%] max-md:p-4;
 }
 </style>
