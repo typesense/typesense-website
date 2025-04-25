@@ -30,7 +30,7 @@ const integrations = [
       </h2>
       <p class="subtext">Pre-built Search UI integrations</p>
     </div>
-    <div class="flex flex-wrap justify-center gap-4 max-sm:gap-2">
+    <div class="flex flex-wrap justify-center gap-4 max-md:gap-2">
       <a
         class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
         v-for="item in integrations"
