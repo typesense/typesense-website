@@ -9,7 +9,10 @@
   --site-padding: 32px;
   --section-gap: 200px;
   --site-top-padding: calc(100px + 72px);
-  --content-max-width: calc(1440px - 2 * (152px - var(--site-padding)));
+  --content-max-width: min(
+    100%,
+    calc(1440px - 2 * (152px - var(--site-padding)))
+  );
 }
 @media not all and (min-width: 768px) {
   :root {
