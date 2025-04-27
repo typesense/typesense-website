@@ -40,7 +40,7 @@
           >.
         </p>
       </section>
-      <section class="gap-20 px-12 max-md:gap-14 max-md:px-0">
+      <section class="gap-20 px-12 max-lg:px-0 max-md:gap-14">
         <div class="flex w-full flex-col gap-12 text-nowrap">
           <div class="install-option">
             <div class="platform">
@@ -227,7 +227,7 @@ docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}
             </CodeBlockTabbed>
           </div>
         </div>
-        <div class="w-full px-9 max-md:px-0">
+        <div class="w-full px-9 max-lg:px-5 max-md:px-0">
           <div
             class="relative isolate flex w-full items-center justify-between gap-6 overflow-hidden rounded-2xl bg-primary px-8 py-6 max-md:flex-col max-md:items-end max-md:p-4"
           >
@@ -251,7 +251,7 @@ docker pull typesense/typesense:{{ STATIC.typesenseLatestVersion }}
       </section>
     </div>
     <img
-      class="absolute bottom-[-1000px] left-1/2 z-[-1] w-max -translate-x-1/2 scale-x-110 max-md:bottom-[-220px] max-md:scale-[2]"
+      class="absolute bottom-[-1000px] left-1/2 z-[-1] w-max -translate-x-1/2 scale-x-110 max-lg:-bottom-[550px] max-md:bottom-[-220px] max-md:scale-[2]"
       src="/images/backgrounds/tunnels-bottom.svg"
       alt="background"
     />
