@@ -128,6 +128,12 @@ Then, to filter for records with empty descriptions:
 filter_by = description:=~~
 ```
 
+Similarly, to filter for records with non-empty descriptions, you can use the `!` operator:
+
+```shell
+filter_by = description:!~~
+```
+
 :::warning IMPORTANT Note about Placeholder Symbols
 
 Symbols are not indexed by default in Typesense. 
