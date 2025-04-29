@@ -31,6 +31,7 @@ onUnmounted(() => {
   <div
     class="fixed left-0 right-0 top-24 z-30 transition-opacity duration-500 max-md:top-16"
     :style="{ opacity }"
+    :class="{ 'pointer-events-none': opacity === 0 }"
   >
     <div class="container mx-auto flex justify-center px-4">
       <a
@@ -49,7 +50,7 @@ onUnmounted(() => {
           >
         </span>
         <span
-          class="inline-flex items-center gap-1 rounded font-normal tracking-tight text-secondary underline underline-offset-[3px] transition-colors group-hover:text-secondary/85 md:ml-1 whitespace-nowrap"
+          class="inline-flex items-center gap-1 whitespace-nowrap rounded font-normal tracking-tight text-secondary underline underline-offset-[3px] transition-colors group-hover:text-secondary/85 md:ml-1"
         >
           View Photos <ArrowRight class="stroke-[1.75px]" />
         </span>
