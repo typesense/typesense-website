@@ -151,7 +151,7 @@ const features = [
 
     <CustomLink
       to="https://typesense.org/docs/overview/features.html"
-      class="relative rounded-2xl bg-secondary p-4 max-sm:hidden"
+      class="relative rounded-2xl bg-secondary p-4 max-lg:hidden"
     >
       <h3 class="!text-2xl !tracking-[-0.72px]">Typesense <br />Features</h3>
       <img

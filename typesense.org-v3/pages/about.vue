@@ -88,13 +88,13 @@
           Craft your search with <strong>Typesense</strong>
         </h3>
         <div
-          class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:size-[200px] max-md:[&_img]:size-[120px]"
+          class="grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-2 [&_>_a]:aspect-[28/15] [&_>_a]:items-end max-md:[&_>_a]:aspect-[17/10] max-md:[&_>_a]:items-start [&_img]:w-[min(40%,200px)] max-sm:[&_img]:w-[32.5%]"
         >
           <CustomLink
             to="https://typesense.org/docs/guide"
-            class="flex justify-between gap-6 rounded-3xl bg-secondary-bg p-6 max-md:p-4"
+            class="flex justify-between gap-4 rounded-3xl bg-secondary-bg p-6 max-md:p-4"
           >
-            <div class="flex h-full flex-col justify-between">
+            <div class="flex min-h-full flex-col justify-between">
               <ExternalArrow />
               <div>
                 <div
@@ -102,7 +102,7 @@
                 >
                   Start Building with
                 </div>
-                <h3>
+                <h3 class="text-nowrap">
                   Typesense<br />
                   Open Source
                 </h3>
@@ -115,9 +115,9 @@
           </CustomLink>
           <CustomLink
             :to="STATIC.link_typesense_cloud"
-            class="flex justify-between gap-6 rounded-3xl bg-bg-gray-2 p-6 max-md:p-4"
+            class="flex justify-between gap-4 rounded-3xl bg-bg-gray-2 p-6 max-md:p-4"
           >
-            <div class="flex h-full flex-col justify-between">
+            <div class="flex min-h-full flex-col justify-between">
               <ExternalArrow />
               <div>
                 <div

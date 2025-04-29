@@ -7,7 +7,9 @@
       rocket science optional.
     </p>
 
-    <div class="mt-[60px] flex flex-col gap-14 max-md:mt-7 max-md:gap-10">
+    <div
+      class="mt-[60px] flex w-full flex-col items-center gap-14 max-md:mt-7 max-md:gap-10"
+    >
       <div class="flex flex-col items-center">
         <p class="subtext !mt-0 mb-6 text-base sm:hidden">
           Typesense is a lightning-fast, open-source search engine designed to

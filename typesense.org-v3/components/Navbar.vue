@@ -41,13 +41,13 @@ const hideNav = () => {
     class="fixed top-0 z-50 w-screen overflow-hidden rounded-b-3xl pt-4 max-md:!left-0 max-md:!right-0 max-md:overflow-visible max-md:rounded-none max-md:p-0 md:pb-8"
   >
     <nav
-      class="group container mx-auto flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-4 md:w-[95%] md:shadow-lg md:shadow-black/20 xl:max-w-6xl"
+      class="group mx-auto flex h-14 items-center justify-between rounded-[64px] bg-dark-bg pl-8 pr-[10px] font-light text-text-inverted max-md:rounded-none max-md:bg-bg max-md:px-[--site-padding] md:w-[95%] md:shadow-lg md:shadow-black/20 lg:max-w-6xl"
     >
-      <Logo class="md:w-[15%] md:mr-4 max-md:hidden" dark />
+      <Logo class="max-md:hidden md:mr-4 md:w-[15%]" dark />
       <Logo class="show-md" />
       <div
         :class="{ active: isActive }"
-        class="slide inset-0 text-sm text-text-inverted max-md:fixed max-md:h-screen max-md:bg-primary max-md:px-4 max-md:text-base max-md:[clip-path:inset(0%_0%_0%_100%)]"
+        class="slide inset-0 text-sm text-text-inverted max-md:fixed max-md:h-screen max-md:bg-primary max-md:px-[--site-padding] max-md:text-base max-md:[clip-path:inset(0%_0%_0%_100%)]"
       >
         <div class="mb-8 hidden h-14 items-center justify-between max-md:flex">
           <Logo dark />
@@ -56,7 +56,7 @@ const hideNav = () => {
           </button>
         </div>
         <ul
-          class="flex items-center gap-4 max-md:flex-col max-md:items-start xl:gap-8"
+          class="flex items-center gap-4 max-[886px]:gap-3.5 max-md:flex-col max-md:items-start xl:gap-8"
         >
           <li
             :class="[
@@ -67,7 +67,10 @@ const hideNav = () => {
             v-for="item in navLinks"
             :key="item.link"
           >
-            <CustomLink :to="item.link" class="text-sm whitespace-nowrap">
+            <CustomLink
+              :to="item.link"
+              class="whitespace-nowrap text-sm max-[886px]:text-xs"
+            >
               {{ item.name }}
             </CustomLink>
           </li>
@@ -79,7 +82,7 @@ const hideNav = () => {
         class="flex h-full items-center justify-end md:w-[12.5%]"
       >
         <button
-          class="flex items-center gap-2 rounded-full bg-primary px-2 py-2 text-sm font-normal tracking-[-0.32px] text-white transition-colors hover:bg-primary/80 max-md:hidden lg:px-4 lg:text-sm whitespace-nowrap shadow-[-4px_2px_0px_0px] shadow-bg"
+          class="flex items-center gap-2 whitespace-nowrap rounded-full bg-primary px-2 py-2 text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg transition-colors hover:bg-primary/80 max-[886px]:!text-xs max-md:hidden lg:px-4 lg:text-sm"
         >
           Quick Start
         </button>
@@ -97,10 +100,5 @@ const hideNav = () => {
 }
 .slide.active {
   clip-path: inset(0% 0% 0% 0%);
-}
-.header {
-  --padding: calc((100vw - 1440px) / 2 + var(--site-padding) - 8px);
-  left: var(--padding);
-  right: var(--padding);
 }
 </style>

@@ -14,12 +14,12 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       vs Meilisearch vs
       <strong>Typesense</strong>
     </h2>
-    <p class="subtext mb-[55px] mt-2 text-base !text-text-primary max-sm:mb-6">
+    <p class="subtext mb-[55px] mt-2 text-base !text-text-primary max-md:mb-6">
       <span class="max-sm:hidden">
         We&rsquo;ve compiled a side-by-side chart from each engine&rsquo;s
         official docs - no spin, just the raw data.
       </span>
-      <span class="hidden max-sm:block"
+      <span class="show-sm"
         >This table is meant to give you an objective side-by-side comparison of
         key features in each search engine and is based on each search engine's
         documentation.</span
@@ -31,7 +31,7 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       >See More <ArrowRight
     /></Button>
     <div
-      class="card relative mb-[-6px] mt-6 w-[832px] rounded-t-3xl bg-bg-gray-2 px-4 pt-4 max-sm:w-full"
+      class="card relative mb-[-6px] mt-6 w-[min(100%,832px)] rounded-t-3xl bg-bg-gray-2 px-4 pt-4"
     >
       <Dots />
       <div class="w-full overflow-x-auto overflow-y-hidden">

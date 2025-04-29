@@ -7,13 +7,16 @@
     @apply px-[var(--site-padding)];
   }
   .card-list {
-    @apply grid grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-3;
+    @apply grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-sm:grid-cols-2 max-sm:gap-3;
   }
   .subtext {
     @apply mt-2 text-base tracking-tighter text-text-muted max-sm:text-[14px];
     line-height: 1.8;
   }
 
+  .show-lg {
+    @apply hidden max-lg:block;
+  }
   .show-md {
     @apply hidden max-md:block;
   }

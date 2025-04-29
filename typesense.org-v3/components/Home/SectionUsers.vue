@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const userLogos = [
+const users = [
   {
     href: "https://codecademy.com",
     imgPath: "/images/user-logos/codecademy-logo.svg",
@@ -88,8 +88,10 @@ const asSeenAt = [
 <template>
   <div>
     <section>
-      <div class="grid grid-cols-2 gap-4 max-md:gap-6 max-sm:grid-cols-1">
-        <div class="max-sm:text-center">
+      <div
+        class="grid grid-cols-2 gap-4 max-lg:grid-cols-3 max-md:gap-6 max-sm:grid-cols-1"
+      >
+        <div class="max-lg:col-span-2 max-sm:col-span-1 max-sm:text-center">
           <div
             class="flex flex-col max-sm:items-center max-sm:text-center md:mb-10"
           >
@@ -104,18 +106,20 @@ const asSeenAt = [
             </h2>
           </div>
         </div>
-        <div class="grid grid-cols-2 items-end gap-4 max-md:gap-3">
+        <div
+          class="grid grid-cols-2 items-end gap-4 max-lg:grid-cols-1 max-md:gap-3 max-sm:grid-cols-2 max-lg:[&>*:nth-child(2)]:hidden max-sm:[&>*:nth-child(2)]:block"
+        >
           <CustomLink
-            v-for="userLogo in userLogos.slice(0, 2)"
-            :key="userLogo.href + '123'"
-            :to="userLogo.href"
+            v-for="user in users.slice(0, 2)"
+            :key="user.href + '123'"
+            :to="user.href"
           >
             <Card>
               <img
                 class="max-md:scale-[0.75]"
-                :src="userLogo.imgPath"
-                :alt="userLogo.alt"
-                :style="`height:${userLogo.height}px !important;`"
+                :src="user.imgPath"
+                :alt="user.alt"
+                :style="`height:${user.height}px !important;`"
               />
             </Card>
           </CustomLink>
@@ -123,16 +127,29 @@ const asSeenAt = [
       </div>
       <div class="card-list mt-4 max-sm:mt-3">
         <CustomLink
-          v-for="userLogo in userLogos.slice(2)"
-          :key="userLogo.href + '123'"
-          :to="userLogo.href"
+          class="hidden max-lg:block max-sm:hidden"
+          :to="users[1].href"
         >
           <Card>
             <img
               class="max-md:scale-[0.75]"
-              :src="userLogo.imgPath"
-              :alt="userLogo.alt"
-              :style="`height:${userLogo.height}px !important;`"
+              :src="users[1].imgPath"
+              :alt="users[1].alt"
+              :style="`height:${users[1].height}px !important;`"
+            />
+          </Card>
+        </CustomLink>
+        <CustomLink
+          v-for="user in users.slice(2)"
+          :key="user.href + '123'"
+          :to="user.href"
+        >
+          <Card>
+            <img
+              class="max-md:scale-[0.75]"
+              :src="user.imgPath"
+              :alt="user.alt"
+              :style="`height:${user.height}px !important;`"
             />
           </Card>
         </CustomLink>
@@ -141,17 +158,26 @@ const asSeenAt = [
     <section class="mt-[100px]">
       <h2 class="mb-[30px] max-md:mb-6">As seen at</h2>
       <div
-        class="grid grid-cols-4 justify-between gap-4 max-md:flex max-md:flex-col max-md:gap-3"
+        class="grid grid-cols-4 justify-between gap-4 max-lg:flex max-lg:flex-col max-md:gap-3"
       >
-        <div class="col-span-3 mr-28 grid grid-cols-2 gap-4 max-md:m-0 max-md:grid-cols-1 max-md:gap-6">
+        <div
+          class="col-span-3 grid grid-cols-[360px_360px] gap-4 max-[1050px]:grid-cols-2 max-md:m-0 max-md:grid-cols-1 max-md:gap-6"
+        >
           <div class="space-y-3">
             <div class="flex items-center justify-between px-4">
-              <p class="text-sm text-gray-500">The iconic Nasdaq billboard in New York</p>
-              <a href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+              <p class="text-sm text-gray-500">
+                The iconic Nasdaq billboard in New York
+              </p>
+              <a
+                href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
+                target="_blank"
+                class="text-sm text-primary hover:text-primary/80"
+                >View ›</a
+              >
             </div>
             <CustomLink
               to="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
-              class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
+              class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
             >
               <div class="relative h-full w-full">
                 <img
@@ -165,12 +191,19 @@ const asSeenAt = [
 
           <div class="space-y-3 max-md:mt-8">
             <div class="flex items-center justify-between px-4">
-              <p class="text-sm text-gray-500">Hundreds of San Francisco billboards</p>
-              <a href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/" target="_blank" class="text-sm text-primary hover:text-primary/80">View ›</a>
+              <p class="text-sm text-gray-500">
+                Hundreds of San Francisco billboards
+              </p>
+              <a
+                href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
+                target="_blank"
+                class="text-sm text-primary hover:text-primary/80"
+                >View ›</a
+              >
             </div>
             <CustomLink
               to="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
-              class="relative block h-[500px] overflow-hidden max-md:w-full max-sm:h-[400px] transition-transform hover:scale-[1.02]"
+              class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
             >
               <div class="relative h-full w-full">
                 <img
@@ -183,7 +216,7 @@ const asSeenAt = [
           </div>
         </div>
         <div
-          class="flex justify-center gap-4 max-md:flex-wrap max-md:gap-2 md:flex-col"
+          class="flex justify-center gap-4 max-lg:grid max-lg:grid-cols-3 max-md:flex max-md:flex-wrap max-md:gap-2 md:flex-col"
         >
           <CustomLink
             class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"

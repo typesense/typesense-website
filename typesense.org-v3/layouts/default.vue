@@ -1,5 +1,5 @@
 <template>
-  <div class="p-x-6 relative w-full overflow-x-hidden">
+  <div class="relative w-full overflow-x-hidden">
     <Navbar />
     <AnnouncementBanner />
     <main

@@ -1,8 +1,8 @@
 <template>
-  <section class="flex w-full flex-col gap-6 md:px-6">
+  <section class="flex w-full flex-col gap-6 md:px-[--site-padding]">
     <div class="ctn">
       <div class="guide">
-        <div class="max-md:mb-8 max-md:text-center">
+        <div class="max-lg:mb-8 max-lg:text-center">
           <h3>
             Batteries-Included <br />
             Developer Experience
@@ -263,18 +263,29 @@ puts client.collections['books'].documents.search({
 
 <style scoped>
 .ctn {
-  @apply relative flex h-[650px] justify-between gap-24 overflow-hidden rounded-[32px] bg-secondary-bg pl-32 max-md:h-auto max-md:flex-col max-md:gap-8 max-md:rounded-b-none max-md:rounded-t-3xl max-md:px-4;
+  @apply relative flex h-[650px] justify-between gap-24 overflow-hidden rounded-[32px] bg-secondary-bg max-lg:h-auto max-lg:flex-col max-lg:gap-8 max-lg:rounded-t-3xl max-lg:px-4 max-md:rounded-b-none;
 }
 .guide {
-  @apply flex flex-col justify-between py-14 max-md:pb-0 max-md:pt-8;
+  @apply mx-auto flex w-full flex-col justify-between px-[--site-padding] py-14 max-lg:px-4 max-lg:pb-0 max-lg:pt-8;
+  max-width: var(--content-max-width);
+}
+
+@media (min-width: 1024px) {
+  .guide > * {
+    max-width: calc(
+      100% - min((100vw - var(--site-padding) * 2) * 60 / 100, 801px) +
+        var(--site-padding)
+    );
+  }
 }
 .step {
   @apply mb-3 text-sm tracking-tight;
   opacity: 0.7;
 }
 .code {
-  @apply mt-[142px] min-h-[350px] flex-1 max-md:mt-0 max-md:max-h-[350px] max-md:!min-w-[calc(100%+48px)];
-  max-width: 801px;
-  min-width: 801px;
+  @apply mt-[142px] h-full max-h-[78%] w-full flex-1 max-lg:mt-0 max-lg:max-h-[507px] max-lg:min-h-[350px] max-lg:!min-w-[calc(100%+16px)] max-md:!min-w-[calc(100%+48px)] lg:absolute;
+  max-width: min(60%, 801px);
+  bottom: 0;
+  right: 0;
 }
 </style>
