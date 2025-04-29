@@ -8,10 +8,11 @@
 :root {
   --site-padding: 32px;
   --section-gap: 200px;
-  --site-top-padding: calc(100px + 72px);
+  --site-top-padding: calc(100px + 72px); /* 100px + header height */
   --content-max-width: min(
     100%,
     calc(1440px - 2 * (152px - var(--site-padding)))
+      /* max width - 2 * (margin - applied padding)  */
   );
 }
 @media not all and (min-width: 768px) {
@@ -69,7 +70,7 @@ b {
 }
 
 .site-padding {
-  max-width: min(100%, calc(1440px - 2 * (152px - var(--site-padding))));
+  max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 var(--site-padding);
   display: flex;
