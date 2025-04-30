@@ -32,7 +32,7 @@ const integrations = [
     </div>
     <div class="flex flex-wrap justify-center gap-4 max-md:gap-2">
       <a
-        class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
+        class="basis-[calc(25%-10.67px)] max-lg:basis-[calc((100%-32px)/3)] max-md:basis-[calc(50%-6px)]"
         v-for="item in integrations"
         :key="item.name"
         :href="item.link"
