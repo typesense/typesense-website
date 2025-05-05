@@ -62,9 +62,10 @@ docker-compose up
 
 ### Kubernetes
 
-There are a couple of **community supported** contributions for deploying on Kubernetes:
+There are a few **community supported** contributions for deploying on Kubernetes:
 
-- via [Kubernetes Operator](https://github.com/sai3010/Typesense-Kubernetes-Operator)
+- via [Kubernetes Operator by sai3010](https://github.com/sai3010/Typesense-Kubernetes-Operator)
+- via [Kubernetes Operator by akyriako](https://github.com/akyriako/typesense-operator)
 - via [Kompose](https://github.com/typesense/typesense-kubernetes)
 
 ### Mac via Homebrew
