@@ -492,6 +492,9 @@ the type of the reference field would have to be an array as well.
   ]
 }
 ```
+:::warning
+For references inside nested objects, the `async_reference` parameter is not supported. These references must be resolved at indexing time.
+:::
 
 ## Using aliases with Joins
 
