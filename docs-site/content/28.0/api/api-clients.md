@@ -172,7 +172,7 @@ We also have the following framework integrations:
   - [PaLM API](./vector-search.md#using-google-palm-api)
   - [Vertex AI](./vector-search.md#using-gcp-vertex-ai-api)
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
-- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/TypesenseDemo.ipynb)
+- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/TypesenseDemo.ipynb)
 
 ## Ecommerce
 
