@@ -150,6 +150,7 @@ We also have the following framework integrations:
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
 - [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/TypesenseDemo.ipynb)
+- [Django](https://github.com/Siege-Software/django-typesense) provides faster django admin
 
 ## UI Components
 
