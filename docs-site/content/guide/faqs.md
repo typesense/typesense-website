@@ -156,7 +156,8 @@ There are usually a few reasons for this:
 
 ### How do I search multiple collections and combine the results in a single ranked list?
 
-### Using Union Search
+**Using Union Search**
+
 As of `v28.0`, Typesense provides a `union` feature that allows you to merge search results from multiple collections into a single, ordered set of hits. This is the recommended approach for implementing federated search across collections.
 
 ```bash
@@ -184,7 +185,7 @@ When using the `union` feature:
 - Pagination works correctly without any client-side processing
 - Sorting must use fields of the same type across all collections
 
-### Alternative Approaches
+**Alternative Approaches**
 
 If you prefer not to use the `union` feature, or are using an older version of Typesense, you can still implement federated search using the following approaches:
 
