@@ -93,16 +93,19 @@ const supportLinks = [
 <template>
   <FooterSectionCTA />
   <footer
-    class="w-full bg-bg px-16 pt-[67px] text-sm text-text-muted max-md:px-10 max-md:pt-8"
+    class="w-full bg-bg px-16 pt-[67px] text-sm text-text-muted max-[1200px]:px-[--site-padding] max-lg:pt-10 max-md:px-10 max-md:pt-8"
   >
-    <div class="mb-14 flex gap-24 max-md:mb-8 max-md:flex-col max-md:gap-10">
+    <div
+      class="mb-14 flex justify-between gap-24 max-[1230px]:gap-12 max-lg:mb-12 max-lg:flex-col max-lg:gap-20 max-md:mb-8 max-md:gap-10"
+    >
       <div class="flex flex-col justify-between gap-10">
         <div>
-          <div class="mb-3 max-md:mb-4">
+          <div class="mb-3 max-lg:mb-4">
             <Logo />
           </div>
           <div>
-            Fast, open source, typo-tolerant <br />
+            Fast, open source, typo-tolerant
+            <br class="max-lg:hidden max-sm:block" />
             search engine
           </div>
         </div>
@@ -127,11 +130,11 @@ const supportLinks = [
         </div>
       </div>
       <div
-        class="flex w-full justify-evenly gap-20 max-md:flex-col max-md:gap-10"
+        class="flex w-full justify-evenly gap-20 max-[1230px]:gap-10 max-lg:justify-between max-md:flex-col"
       >
         <div>
           <h5>Page</h5>
-          <div class="gap-6 max-md:flex">
+          <div class="gap-6 max-md:flex max-md:gap-12 max-sm:gap-6">
             <ul>
               <li v-for="page in pages.slice(0, 3)" :key="page.name">
                 <CustomLink
@@ -154,7 +157,9 @@ const supportLinks = [
         </div>
         <div class="col-span-2">
           <h5>Libraries</h5>
-          <div class="flex gap-6 text-nowrap">
+          <div
+            class="flex gap-6 text-nowrap max-[1230px]:gap-2.5 max-lg:gap-6 max-md:gap-12 max-sm:gap-6"
+          >
             <ul>
               <li
                 v-for="item in libraries.slice(undefined, 9)"
