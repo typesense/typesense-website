@@ -43,7 +43,7 @@ import Dots from "@/assets/images/dots.svg";
     </div>
 
     <div
-      class="absolute bottom-0 left-0 right-0 h-[93px] bg-[linear-gradient(180deg,rgba(231,231,231,0)_0%,#818181_100%)] opacity-15 max-md:hidden"
+      class="pointer-events-none absolute bottom-0 left-0 right-0 h-[93px] bg-[linear-gradient(180deg,rgba(231,231,231,0)_0%,#818181_100%)] opacity-15 max-md:hidden"
     ></div>
   </section>
 </template>
