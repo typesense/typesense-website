@@ -154,7 +154,40 @@ There are usually a few reasons for this:
    So if the search query is `hello world`, and none of the records have all keywords, then Typesense will drop `world` and repeat the search for `hello`.
    Now, if the search query is `wordl hello`, and none of the records have all keywords, then Typesense will drop `hello` this time and repeat the search, which will produce different results compared to the previous time.
 
-### How do I do search multiple collections and combine the results in a single ranked list?
+### How do I search multiple collections and combine the results in a single ranked list?
+
+**Using Union Search**
+
+As of `v28.0`, Typesense provides a `union` feature that allows you to merge search results from multiple collections into a single, ordered set of hits. This is the recommended approach for implementing federated search across collections.
+
+```bash
+curl 'http://localhost:8108/multi_search?page=1&per_page=10' -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
+{
+  "union": true,
+  "searches": [
+    {
+      "collection": "products",
+      "q": "wireless headphones",
+      "query_by": "name,description"
+    },
+    {
+      "collection": "articles",
+      "q": "wireless headphones",
+      "query_by": "title,content"
+    }
+  ]
+}'
+```
+
+When using the `union` feature:
+- Results from all collections are merged into a single ranked list
+- Pagination works correctly without any client-side processing
+- Sorting must use fields of the same type across all collections
+
+**Alternative Approaches**
+
+If you prefer not to use the `union` feature, or are using an older version of Typesense, you can still implement federated search using the following approaches:
 
 When doing federated / multi search, the `text_match` score returned by Typesense with every hit can be used to compare documents' relevance from different collections, and aggregate the results client-side.
 However, pagination might become tricky with this client-side aggregation approach.
