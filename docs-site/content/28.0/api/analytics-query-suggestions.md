@@ -49,7 +49,7 @@ This collection is just like any other Typesense collection, except that it is a
 
 The `q` and `count` fields are mandatory.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -103,6 +103,22 @@ client.Collections().Create(context.Background(), schema)
 ```
 
   </template>
+  
+  <template v-slot:Python>
+
+```python
+let schema = {
+  "name": "product_queries",
+  "fields": [
+    {"name": "q", "type": "string" },
+    {"name": "count", "type": "int32" }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -128,7 +144,7 @@ curl -k "http://localhost:8108/collections" \
 We can now create a `popular_queries` analytics rule that stores the most frequently occurring search queries
 in the collection we created above. We limit the popular queries to the top 1000 queries via the `limit` parameter.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -193,6 +209,29 @@ ruleConfiguration := &api.AnalyticsRuleUpsertSchema{
 }
 
 client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+```
+
+  </template>
+  
+  <template v-slot:Python>
+
+```python
+let ruleName =  'product_queries_aggregation'
+let ruleConfiguration = {
+  "type": "popular_queries",
+  "params": {
+    "source": {
+      "collections": ["products"]
+    },
+    "destination": {
+      "collection": "product_queries"
+    },
+    "expand_query": False,
+    "limit": 1000
+  }
+}
+
+client.analytics.rules.upsert(ruleName, ruleConfiguration)
 ```
 
   </template>
@@ -296,7 +335,7 @@ You can now use the data in this collection just like any other Typesense collec
 
 You can also send queries to your main indices in parallel to show both query suggestions and actual results side-by-side, using [multi_search](federated-multi-search.md).
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -365,6 +404,29 @@ client.MultiSearch.Perform(context.Background(), &api.MultiSearchParams{}, searc
 ```
 
   </template>
+  
+  <template v-slot:Python>
+
+```python
+let searchRequests = {
+  'searches': [
+    {
+      'collection': 'product_queries',
+      'q': 'shoe',
+      'query_by': 'q'
+    },
+    {
+      'collection': 'products',
+      'q': 'shoe',
+      'query_by': 'product_name'
+    }
+  ]
+}
+
+client.multi_search.perform(searchRequests, {})
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -419,7 +481,7 @@ no-hits search queries.
 
 The `q` and `count` fields are mandatory.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -473,6 +535,21 @@ client.Collections().Create(context.Background(), schema)
 ```
 
   </template>
+    <template v-slot:Python>
+
+```python
+let schema = {
+  "name": "no_hits_queries",
+  "fields": [
+    {"name": "q", "type": "string" },
+    {"name": "count", "type": "int32" }
+  ]
+}
+
+client.collections.create(schema)
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -498,7 +575,7 @@ curl -k "http://localhost:8108/collections" \
 We will track the most `1000` frequently occurring queries that don't produce a hit when the `products` collection is searched. These queries are then
 aggregated in `no_hits_queries` collection.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -564,6 +641,27 @@ client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfigurat
 ```
 
   </template>
+    <template v-slot:Python>
+
+```python
+let ruleName =  'product_no_hits'
+let ruleConfiguration = {
+  "type": "nohits_queries",
+  "params": {
+    "source": {
+      "collections": ["products"]
+    },
+    "destination": {
+      "collection": "no_hits_queries"
+    },
+    "limit": 1000
+  }
+}
+
+client.analytics.rules.upsert(ruleName, ruleConfiguration)
+```
+
+  </template>
 
   <template v-slot:Shell>
 
@@ -615,7 +713,7 @@ increment the value of this field based on user interactions.
 
 Let's define a `counter` analytics rule that will increment this field whenever a click event happens.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
@@ -691,6 +789,30 @@ ruleConfiguration := &api.AnalyticsRuleUpsertSchema{
 }
 
 client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+```
+
+  </template>
+  <template v-slot:Python>
+
+```python
+let ruleName =  'product_clicks'
+let ruleConfiguration = {
+    "type": "counter",
+    "params": {
+        "source": {
+            "collections": ["products"],
+            "events":  [
+              {"type": "click", "weight": 1, "name": "products_click_event"}
+            ]
+        },
+        "destination": {
+            "collection": "products",
+            "counter_field": "popularity"
+        }
+    }
+}
+
+client.analytics.rules.upsert(ruleName, ruleConfiguration)
 ```
 
   </template>
@@ -818,7 +940,7 @@ collection will be incremented by `2` for every conversion event.
 
 The listing API allows you to list all the analytics rules stored in your Typesense cluster.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
 
 
   <template v-slot:JavaScript>
@@ -845,6 +967,15 @@ client.Analytics().Rules().Retrieve(context.Background())
 
   </template>
 
+  <template v-slot:Python>
+
+```python
+client.analytics.rules.retrieve()
+```
+
+  </template>
+
+
   <template v-slot:Shell>
 
 ```bash
@@ -861,7 +992,7 @@ curl -k "http://localhost:8108/analytics/rules" \
 
 Removing an analytics rule will stop aggregation of new queries, but the already aggregated queries will still be present in the destination collection.
 
-<Tabs :tabs="['JavaScript','Ruby','Go','Shell']">
+<Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
 
 
   <template v-slot:JavaScript>
@@ -884,6 +1015,15 @@ typesense.analytics.rules['product_queries_aggregation'].delete
 
 ```go
 client.Analytics().Rule("product_queries_aggregation").Delete(context.Background())
+```
+
+  </template>
+
+
+  <template v-slot:Python>
+
+```python
+client.analytics.rules('product_queries_aggregation').delete()
 ```
 
   </template>
