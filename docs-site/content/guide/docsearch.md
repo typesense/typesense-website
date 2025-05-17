@@ -168,7 +168,7 @@ docker run -it \
 
 #### Set environment variables on the command line, rather than using a .env file
 
-I you don't want to use a `.env` file or cannot use one in your setup, you can also pass all variables on the command line:
+If you don't want to use a `.env` file or cannot use one in your setup, you can also pass all variables on the command line:
 
 ```bash
 docker run -it \
