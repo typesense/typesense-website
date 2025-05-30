@@ -22,7 +22,9 @@ module.exports = (options, context) => ({
 
     // Set canonical links pointing to the latest version, for versioned pages
     if ($page.typesenseVersion) {
-      $page.frontmatter.canonicalUrl = $page.path.replace($page.typesenseVersion, typesenseLatestVersion)
+      const basePath = context.siteConfig.base || '/'
+      const canonicalPath = $page.path.replace($page.typesenseVersion, typesenseLatestVersion)
+      $page.frontmatter.canonicalUrl = basePath === '/' ? canonicalPath : basePath + canonicalPath.slice(1)
     }
 
     // Set dynamic nav links
