@@ -65,12 +65,6 @@ const users = [
 
 const asSeenAt = [
   {
-    href: "https://twitter.com/jasonbosco/status/1565073075040882688",
-    imgPath: "/images/user-logos/nasdaq.svg",
-    height: 35,
-    alt: "Typesense on Nasdaq billboard",
-  },
-  {
     href: "https://www.youtube.com/watch?v=qBkyU1TJKDg&t=2404s",
     imgPath: "/images/user-logos/google-io.svg",
     height: 57,
