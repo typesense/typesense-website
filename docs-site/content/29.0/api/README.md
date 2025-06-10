@@ -19,19 +19,54 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-
+- **Natural Language Search:** Added support for converting natural language queries into structured search filters using LLMs. 
+  This allows queries like `A Honda or BMW with at least 200 hp` to be understood and executed by Typesense ([PR#2357])(https://github.com/typesense/typesense/pull/2357)
+- **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering.
+  This enables query-dependent sorting of results through override rules (#2386).
+- **Filter for two properties within a nested object array**: added ability to scope filter expressions to a specific 
+  nested object within an array field ([PR#2268])(https://github.com/typesense/typesense/pull/2268).
+- **Improved group-by performance:** especially when high cardinality fields (like `productId`) are used for grouping.
+- **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([PR#2246](https://github.com/typesense/typesense/pull/2246)).
+- **Support adding meta fields to query analytics documents**: You can now pass `filter_by` and `analytics_tag` fields along ([PR#2204])(https://github.com/typesense/typesense/pull/2204).
 
 ### Enhancements
 
-
+- Support fetching reference fields in the GET document API ([PR#2379])(https://github.com/typesense/typesense/pull/2379)
+- Return uniform API response structure when `union: true` is set, regardless of number of collections queried.
+- Optimization that speed up numeric range queries.
+- Tweak rank computation for fusion scoring: Two keyword search results with same text match score should have the same keyword search rank  ([PR#2185](https://github.com/typesense/typesense/pull/2185)).
+- Configurable RocksDB parameters: customize RocksDB parameters like write buffer sizes for better performance.
+- Add support for filtering with nested object fields in collection overrides ([PR#2353](https://github.com/typesense/typesense/pull/2353)).
+- Add Azure OpenAI support for conversation models ([PR#2336](https://github.com/typesense/typesense/pull/2336)).
+- Add GCP support for conversation models ([PR#2297](https://github.com/typesense/typesense/pull/2297)).
+- Add task type support for GCP embedding models ([PR#2301](https://github.com/typesense/typesense/pull/2301)).
+- Support query by image ([PR#2307](https://github.com/typesense/typesense/pull/2307)).
+- Support for custom OpenAI conversation model path ([PR#2281](https://github.com/typesense/typesense/pull/2281)).
+- Make `group_limit` configurable: a new server-side parameter called `max-group-limit` that allows customization of the maximum value that can be used in the group_limit search parameter ([PR#2275](https://github.com/typesense/typesense/pull/2275)).
+- Support caching for remote query embeddings ([PR#2260](https://github.com/typesense/typesense/pull/2260)).
+- Support multiple matches in collection joins for sorting ([PR#2258](https://github.com/typesense/typesense/pull/2258)).
+- Add bucketing support for sorting by vector distance ([PR#2255](https://github.com/typesense/typesense/pull/2255)).
+- Parameterize OpenAI embedding path ([PR#2251](https://github.com/typesense/typesense/pull/2251)).
+- Support custom OpenAI compatible servers for conversation models ([PR#2239](https://github.com/typesense/typesense/pull/2239)).
+- Add dimension truncation support for GCP models ([PR#2235](https://github.com/typesense/typesense/pull/2235)).
+- Add support for Azure OpenAI for embedding generation ([PR#2176](https://github.com/typesense/typesense/pull/2176)).
 
 ### Bug Fixes
 
+- Fixed phrase search queries being stemmed.
+- Respect field-level tokenization config in filters ([PR#2292](https://github.com/typesense/typesense/pull/2292)).
+- Fixed facet sum being wrong when negative values are added.
+- Fixed vector query parsing with backticks escaping special characters. 
+- Improve reliability of joins during imports.
+- Fixed broken `cache-num-entries` server side parameter.
+- Fixed import of large stemming dictionaries.
+- Fixed auth token refreshing problem for GCP-based embedding generation.
 
 
 ### Deprecations / behavior changes
 
-
+-  For `group_by` queries, the `found` value returned in the response is no longer an exact number. It's an 
+   approximation of the number of groups found, and is guaranteed to be within 2% of the actual number of groups found.
 
 ## Upgrading
 
