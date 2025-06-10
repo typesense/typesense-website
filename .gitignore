@@ -8,3 +8,4 @@ typesense.org/.sass-cache
 .yarn/
 yarn.lock
 .yarn-integrity
+node_modules
