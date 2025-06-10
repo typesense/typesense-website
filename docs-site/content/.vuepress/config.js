@@ -291,6 +291,39 @@ let config = {
         ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
       ],
 
+      //For 29.0
+      '/29.0/api/': [
+        ['/29.0/api/', 'Introduction'],
+        ['/29.0/api/server-configuration', 'Server Configuration'],
+        ['/29.0/api/api-clients', 'API Clients'],
+        ['/29.0/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/29.0/api/collections', 'Collections'],
+            ['/29.0/api/documents', 'Documents'],
+            ['/29.0/api/search', 'Search'],
+            ['/29.0/api/geosearch', 'GeoSearch'],
+            ['/29.0/api/vector-search', 'Vector Search'],
+            ['/29.0/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/29.0/api/voice-search-query', 'Voice Query'],
+            ['/29.0/api/image-search', 'Image Search'],
+            ['/29.0/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/29.0/api/joins', 'JOINs'],
+            ['/29.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
+            ['/29.0/api/api-keys', 'API Keys'],
+            ['/29.0/api/curation', 'Curation'],
+            ['/29.0/api/collection-alias', 'Collection Alias'],
+            ['/29.0/api/synonyms', 'Synonyms'],
+            ['/29.0/api/stemming', 'Stemming'],
+            ['/29.0/api/stopwords', 'Stopwords'],
+            ['/29.0/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/29.0/api/api-errors', 'API Errors'],
+      ],
+
       //For 28.0
       '/28.0/api/': [
         ['/28.0/api/', 'Introduction'],
