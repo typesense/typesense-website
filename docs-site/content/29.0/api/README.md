@@ -50,9 +50,12 @@ This release contains important new features, performance improvements and bug f
 - Support custom OpenAI compatible servers for conversation models ([PR#2239](https://github.com/typesense/typesense/pull/2239)).
 - Add dimension truncation support for GCP models ([PR#2235](https://github.com/typesense/typesense/pull/2235)).
 - Add support for Azure OpenAI for embedding generation ([PR#2176](https://github.com/typesense/typesense/pull/2176)).
+- Improved synonym matching when multiple synonym definitions match a given search query. 
+- Cache hit/miss statistics (`cache_hit_count`, `cache_miss_count`, `cache_hit_ratio`) are now exposed in `metrics.json`
 
 ### Bug Fixes
 
+- Fixed a few bugs related to updates of deeply nested field values.
 - Fixed phrase search queries being stemmed.
 - Respect field-level tokenization config in filters ([PR#2292](https://github.com/typesense/typesense/pull/2292)).
 - Fixed facet sum being wrong when negative values are added.
@@ -61,7 +64,9 @@ This release contains important new features, performance improvements and bug f
 - Fixed broken `cache-num-entries` server side parameter.
 - Fixed import of large stemming dictionaries.
 - Fixed auth token refreshing problem for GCP-based embedding generation.
-
+- Fixed vector search not working reliably with 3 `sort_by` fields.
+- Fixed a bug caused by using `flat_search_cutoff` along with filtering for vector search.
+- Improved reliability of CLIP embeddings under high concurrency.
 
 ### Deprecations / behavior changes
 
