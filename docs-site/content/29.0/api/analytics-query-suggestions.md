@@ -468,6 +468,97 @@ When testing locally, please be mindful of this 4-second pause and also the `ana
 If you send a lot of queries to the source collection in a short period of time, search terms might not appear in the destination collection right away.
 :::
 
+### Query Analytics with Meta Fields
+
+Typesense supports tracking additional metadata along with search queries for analytics purposes. Currently, this is limited to `filter_by` and `analytics_tag` fields.
+
+#### Setting up Meta Fields Analytics
+
+First, create a collection to store the queries with meta fields. The schema should include fields for the meta data you want to track:
+
+```json
+{
+  "name": "top_queries",
+  "fields": [
+    { "name": "q", "type": "string" },
+    { "name": "filter_by", "type": "string" },
+    { "name": "analytics_tag", "type": "string" },
+    { "name": "count", "type": "int32" }
+  ]
+}
+```
+
+Then, create an analytics rule that specifies which meta fields to track:
+
+```json
+{
+  "name": "top_search_queries",
+  "type": "popular_queries",
+  "params": {
+    "limit": 100,
+    "expand_query": true,
+    "meta_fields": ["analytics_tag", "filter_by"],
+    "source": {
+      "collections": ["hnstories"]
+    },
+    "destination": {
+      "collection": "top_queries"
+    }
+  }
+}
+```
+
+The `meta_fields` array in the analytics rule specifies which meta fields should be tracked and stored in the destination collection.
+
+#### Using Meta Fields in Search
+
+When making search requests, you can include the meta fields as query parameters:
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+     "http://localhost:8108/collections/hnstories/documents/search?q=iron&query_by=title&filter_by=points:>100&analytics_tag=oxford"
+```
+
+Typesense will aggregate these queries along with their meta fields in the destination collection. The aggregated data will look like this:
+
+```json
+{
+  "facet_counts": [],
+  "found": 1,
+  "hits": [
+    {
+      "document": {
+        "count": 1,
+        "analytics_tag": "oxford",
+        "filter_by": "points:>100",
+        "id": "9677940243608161791",
+        "q": "iron"
+      },
+      "highlight": {},
+      "highlights": []
+    }
+  ],
+  "out_of": 1,
+  "page": 1,
+  "request_params": {
+    "collection_name": "top_queries",
+    "first_q": "*",
+    "per_page": 10,
+    "q": "*"
+  },
+  "search_cutoff": false,
+  "search_time_ms": 0
+}
+```
+
+:::warning
+To use meta fields analytics:
+
+1. The destination collection must have the corresponding meta fields in its schema (e.g., `filter_by` and `analytics_tag`)
+2. The analytics rule must include these fields in the `meta_fields` array
+3. If either of these conditions is not met, the meta fields will not be stored
+:::
+
 ## No hits queries
 
 Like popular queries, you can track queries that produced no hits as well. You can use these queries to identify gaps in your content.
