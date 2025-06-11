@@ -20,18 +20,18 @@ This release contains important new features, performance improvements and bug f
 ### New Features
 
 - **Natural Language Search:** Added support for converting natural language queries into structured search filters using LLMs. 
-  This allows queries like `A Honda or BMW with at least 200 hp` to be understood and executed by Typesense ([PR#2357])(https://github.com/typesense/typesense/pull/2357)
+  This allows queries like `A Honda or BMW with at least 200 hp` to be understood and executed by Typesense ([PR#2357](https://github.com/typesense/typesense/pull/2357))
 - **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering.
-  This enables query-dependent sorting of results through override rules (#2386).
+  This enables query-dependent sorting of results through override rules ([#2386](https://github.com/typesense/typesense/pull/2386)).
 - **Filter for two properties within a nested object array**: added ability to scope filter expressions to a specific 
-  nested object within an array field ([PR#2268])(https://github.com/typesense/typesense/pull/2268).
+  nested object within an array field ([PR#2268](https://github.com/typesense/typesense/pull/2268)).
 - **Improved group-by performance:** especially when high cardinality fields (like `productId`) are used for grouping.
 - **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([PR#2246](https://github.com/typesense/typesense/pull/2246)).
-- **Support adding meta fields to query analytics documents**: You can now pass `filter_by` and `analytics_tag` fields along ([PR#2204])(https://github.com/typesense/typesense/pull/2204).
+- **Support adding meta fields to query analytics documents**: You can now pass `filter_by` and `analytics_tag` fields along ([PR#2204](https://github.com/typesense/typesense/pull/2204)).
 
 ### Enhancements
 
-- Support fetching reference fields in the GET document API ([PR#2379])(https://github.com/typesense/typesense/pull/2379)
+- Support fetching reference fields in the GET document API ([PR#2379](https://github.com/typesense/typesense/pull/2379))
 - Return uniform API response structure when `union: true` is set, regardless of number of collections queried.
 - Optimization that speed up numeric range queries.
 - Tweak rank computation for fusion scoring: Two keyword search results with same text match score should have the same keyword search rank  ([PR#2185](https://github.com/typesense/typesense/pull/2185)).
