@@ -9,6 +9,7 @@ We have client libraries for:
 
 We also have the following community-maintained client libraries:
 
+- [TypeScript](https://github.com/tharropoulos/typesense-ts)
 - [Go](https://github.com/typesense/typesense-go)
 - [.Net](https://github.com/DAXGRID/typesense-dotnet)
 - [Java](https://github.com/typesense/typesense-java)
