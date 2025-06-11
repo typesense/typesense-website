@@ -61,12 +61,13 @@ Once we've created the conversation history collection above, we can then create
 Typesense currently supports the following LLM platforms:
 
 - [OpenAI](https://platform.openai.com/docs/models/models-overview)
-- [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/#text-generation) 
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models)
+- [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/#text-generation)
 - [vLLM](https://github.com/vllm-project/vllm) (useful when running local LLMs)
 
 Here's how to use each of these platforms to create a Conversational Model. (Use the tabs in the code snippet below to navigate between each platform).
 
-<Tabs :tabs="['OpenAI', 'Cloudflare', 'vLLM']">
+<Tabs :tabs="['OpenAI', 'Azure', 'Cloudflare', 'vLLM']">
 
 <template v-slot:OpenAI>
 
@@ -80,7 +81,27 @@ curl 'http://localhost:8108/conversations/models' \
         "model_name": "openai/gpt-3.5-turbo",
         "history_collection": "conversation_store",
         "api_key": "OPENAI_API_KEY",
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",        
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
+        "max_bytes": 16384
+      }'
+```
+
+</template>
+
+<template v-slot:Azure>
+
+```shell
+curl 'http://localhost:8108/conversations/models' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "id": "conv-model-1",
+        "model_name": "azure/gpt-35-turbo",
+        "history_collection": "conversation_store",
+        "api_key": "AZURE_OPENAI_API_KEY",
+        "url": "https://your_resource.openai.azure.com/openai/deployments/your_deployment/chat/completions?api-version=2024-02-15-preview",
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
         "max_bytes": 16384
       }'
 ```
@@ -130,11 +151,12 @@ curl 'http://localhost:8108/conversations/models' \
 #### Parameters
 
 | Parameter          | Description                                                                                                                                               |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| model_name         | Name of the LLM model offered by OpenAI, Cloudflare or vLLM                                                                                               |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| model_name         | Name of the LLM model offered by OpenAI, Azure OpenAI, Cloudflare or vLLM                                                                                 |
 | api_key            | The LLM service's API Key                                                                                                                                 |
 | history_collection | Typesense collection that stores the historical conversations                                                                                             |
 | account_id         | LLM service's account ID (only applicable for Cloudflare)                                                                                                 |
+| url                | The Azure OpenAI endpoint URL (only applicable for Azure OpenAI)                                                                                          |
 | system_prompt      | The system prompt that contains special instructions to the LLM                                                                                           |
 | ttl                | Time interval in seconds after which the messages would be deleted. Default: `86400` (24 hours)                                                           |
 | max_bytes          | The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. |
