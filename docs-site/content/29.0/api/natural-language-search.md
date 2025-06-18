@@ -50,19 +50,19 @@ Let's see how we can set this up.
 
 ## Create a Natural Language Search Model
 
-First, you need to configure a model that will process natural language queries:
+First, let's configure a model that will process natural language queries:
 
 ```bash
 curl -X POST http://localhost:8108/nl_search_models \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       -H "Content-Type: application/json" \
       -d '{
-        "id": "gpt4o-model"
-        "model_name": "openai/gpt-4o",
-        "api_key": "YOUR_OPENAI_TYPESENSE_API_KEY",
-        "max_bytes": 16000,
-        "temperature": 0.0
-      }'
+            "id": "gemini-model",
+            "model_name": "google/gemini-2.5-flash",
+            "api_key": "YOUR_GOOGLE_AI_STUDIO_API_KEY",
+            "max_bytes": 16000,
+            "temperature": 0.0
+          }'
 ```
 
 `id` can be any string you choose. You'll be using this same `id` to reference this model later in a search request.
@@ -104,6 +104,28 @@ curl -X POST http://localhost:8108/nl_search_models \
    }
    ```
 
+4. **Google Gemini Models**:
+   ```json{3}
+   {
+     "id": "gemini-flash",
+     "model_name": "google/gemini-2.5-flash",
+     "api_key": "YOUR_GOOGLE_API_KEY_FROM_AI_STUDIO",
+     "max_bytes": 16000,
+     "temperature": 0.0,
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
+   }
+   ```
+   
+   Optional Google-specific parameters:
+   - `top_p`: Nucleus sampling parameter (0.0-1.0)
+   - `top_k`: Top-k sampling parameter
+   - `stop_sequences`: Array of strings that stop generation
+   - `api_version`: API version to use (defaults to "v1beta")
+   
+   :::tip
+   Get your Google Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+   :::
+
 ## Perform a Natural Language Search Query
 
 Once you've set up a model, you can use natural language queries in your search requests:
@@ -117,10 +139,10 @@ curl "http://localhost:8108/collections/products/documents/search" \
       --data-urlencode "q=show me red shirts under 50" \
       --data-urlencode "nl_query=true" \
       --data-urlencode "query_by=name,description,color,category" \
-      --data-urlencode "nl_model_id=gpt4o-model"
+      --data-urlencode "nl_model_id=gemini-model"
 ```
 
-`gpt4o-model` is the `id` of the model you created in the step above when you created the NL Search Model. 
+`gemini-model` is the `id` of the model you created in the step above when you created the NL Search Model. 
 
 You can combine natural language queries with traditional search parameters:
 
@@ -132,7 +154,7 @@ curl "http://localhost:8108/collections/products/documents/search" \
       --data-urlencode "nl_query=true" \
       --data-urlencode "query_by=name,description,color,category" \
       --data-urlencode "filter_by=in_stock:true" \
-      --data-urlencode "nl_model_id=gpt4o-model"
+      --data-urlencode "nl_model_id=gemini-model"
 ```
 
 The LLM-generated filter (e.g., `color:red && category:shirt && price:<50`) will be combined with your explicit filter (`in_stock:true`) using the AND operator, resulting in `in_stock:true && color:red && category:shirt && price:<50` as the final filter that gets applied to the search.
@@ -153,14 +175,14 @@ curl -X POST "http://localhost:8108/multi_search" \
       "q": "affordable red shirts",
       "nl_query": true,
       "query_by": "name,description,color,category",
-      "nl_model_id": "gpt4o-model"
+      "nl_model_id": "gemini-model"
     },
     {
       "collection": "products",
       "q": "blue jeans on sale",
       "nl_query": true,
       "query_by": "name,description,color,category",
-      "nl_model_id": "gpt4o-model"
+      "nl_model_id": "gemini-model"
     }
   ]
 }'
@@ -410,7 +432,7 @@ curl "http://localhost:8108/collections/products/documents/search" \
       --data-urlencode "nl_query=true" \
       --data-urlencode "query_by=name,description,color,category" \
       --data-urlencode "nl_query_debug=true" \
-      --data-urlencode "nl_model_id=gpt4o-model"
+      --data-urlencode "nl_model_id=gemini-model"
 ```
 
 This will return the following additional response structure:
