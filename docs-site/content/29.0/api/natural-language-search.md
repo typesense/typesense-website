@@ -77,7 +77,7 @@ curl -X POST http://localhost:8108/nl_search_models \
      "api_key": "YOUR_OPENAI_API_KEY",
      "max_bytes": 16000,
      "temperature": 0.0,
-     "system_prompt": "Optional custom system prompt to override default"
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
    }
    ```
 
@@ -88,7 +88,8 @@ curl -X POST http://localhost:8108/nl_search_models \
      "model_name": "cloudflare/@cf/meta/llama-2-7b-chat-int8",
      "api_key": "YOUR_CLOUDFLARE_API_KEY",
      "account_id": "YOUR_CLOUDFLARE_ACCOUNT_ID",
-     "max_bytes": 16000
+     "max_bytes": 16000,
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
    }
    ```
 
@@ -98,7 +99,8 @@ curl -X POST http://localhost:8108/nl_search_models \
      "model_name": "vllm/mistral-7b-instruct",
      "api_url": "http://your-vllm-server:8000/generate",
      "max_bytes": 16000,
-     "temperature": 0.0
+     "temperature": 0.0,
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
    }
    ```
 
@@ -396,6 +398,8 @@ If natural language processing fails (e.g., due to API errors or timeouts), Type
 2. Using any explicitly provided search parameters (`filter_by`, `sort_by`, etc.)
 3. Including an `error` field in the response with details about the failure
 
+### Debug Mode
+
 In development, use the `nl_query_debug=true` parameter to see the raw LLM responses.
 
 ```bash{7}
@@ -435,3 +439,18 @@ This will return the following additional response structure:
 ```
 
 Use custom system prompts to tune the behavior for specific collections or use cases, or provide more domain knowledge about terminology in your dataset to the LLM.
+
+### Schema Prompt Cache
+
+Typesense caches the schema prompts used for natural language processing to improve performance. You can control the cache TTL (time-to-live) with the `nl_query_prompt_cache_ttl` parameter:
+
+```bash
+curl "http://localhost:8108/collections/products/documents/search" \
+-H "X-TYPESENSE-API-KEY: ${API_KEY}" \
+--data-urlencode "q=red shirts" \
+--data-urlencode "nl_query=true" \
+--data-urlencode "query_by=name,description,color,category" \
+--data-urlencode "nl_query_prompt_cache_ttl=60"
+```
+
+The default `value nl_query_prompt_cache_ttl` is 86400, or 24 hours. You can set it to `0` to disable the schema cache temporarily.
