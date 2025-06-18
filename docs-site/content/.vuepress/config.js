@@ -314,6 +314,7 @@ let config = {
             ['/29.0/api/voice-search-query', 'Voice Query'],
             ['/29.0/api/image-search', 'Image Search'],
             ['/29.0/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/29.0/api/natural-language-search', 'Natural Language Search'],
             ['/29.0/api/joins', 'JOINs'],
             ['/29.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
             ['/29.0/api/api-keys', 'API Keys'],
