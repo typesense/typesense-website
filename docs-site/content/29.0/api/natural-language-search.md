@@ -126,6 +126,41 @@ curl -X POST http://localhost:8108/nl_search_models \
    Get your Google Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
    :::
 
+5. **GCP Vertex AI Models**:
+   ```json{3}
+   {
+     "id": "gcp-gemini",
+     "model_name": "gcp/gemini-2.5-flash",
+     "project_id": "your-gcp-project-id",
+     "access_token": "initial-access-token",
+     "refresh_token": "your-refresh-token",
+     "client_id": "your-oauth-client-id",
+     "client_secret": "your-oauth-client-secret",
+     "max_bytes": 16000,
+     "temperature": 0.0,
+     "region": "us-central1",
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
+   }
+   ```
+   
+   Required OAuth2 credentials:
+   - `project_id`: Your GCP project ID
+   - `access_token`: Initial access token (will be refreshed automatically)
+   - `refresh_token`: OAuth2 refresh token
+   - `client_id`: OAuth2 client ID
+   - `client_secret`: OAuth2 client secret
+   
+   Optional parameters:
+   - `region`: GCP region (defaults to "us-central1")
+   - `temperature`: Controls randomness (0.0-2.0)
+   - `top_p`: Nucleus sampling parameter (0.0-1.0)
+   - `top_k`: Top-k sampling parameter
+   - `max_output_tokens`: Maximum response length
+   
+   :::tip
+   Follow [Google's OAuth2 guide](https://developers.google.com/identity/protocols/oauth2) to get the above credentials.
+   :::
+
 ## Perform a Natural Language Search Query
 
 Once you've set up a model, you can use natural language queries in your search requests:
