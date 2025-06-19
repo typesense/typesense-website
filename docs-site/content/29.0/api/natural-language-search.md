@@ -34,7 +34,6 @@ Here's a sample record from this dataset for context:
 
 Using Typesense's built-in Natural Language Search feature, your users can now query this dataset using natural language queries like this:
 
-
 ```markdown
 - A honda or BMW with at least 200hp, rear-wheel drive, from 20K to 50K
 - Show me the most powerful car you have
@@ -45,6 +44,10 @@ Using Typesense's built-in Natural Language Search feature, your users can now q
 Notice how in some queries there might be multiple criteria mentioned, and in some cases the keyword itself might not be present in the dataset.
 
 Typesense will automatically use an LLM to parse the natural language queries into filters, sorts and/or text-based queries, and execute the search for you using those parameters.
+
+:::tip Under the hood
+Read more about how this works under the hood in [this guide article](../../guide/natural-language-search.md#data-flow).
+:::
 
 Let's see how we can set this up.
 
