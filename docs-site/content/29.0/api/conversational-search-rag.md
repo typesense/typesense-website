@@ -171,7 +171,7 @@ curl 'http://localhost:8108/conversations/models' \
 #### Parameters
 
 | Parameter          | Description                                                                                                                                               |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | model_name         | Name of the LLM model offered by OpenAI, Azure OpenAI, Cloudflare or vLLM                                                                                 |
 | api_key            | The LLM service's API Key                                                                                                                                 |
 | history_collection | Typesense collection that stores the historical conversations                                                                                             |
@@ -181,6 +181,8 @@ curl 'http://localhost:8108/conversations/models' \
 | ttl                | Time interval in seconds after which the messages would be deleted. Default: `86400` (24 hours)                                                           |
 | max_bytes          | The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. |
 | vllm_url           | URL of vLLM service                                                                                                                                       |
+| openai_url         | Base URL of OpenAI API endpoint (only applicable for OpenAI)                                                                                              |
+| openai_path        | URL path of OpenAI API endpoint (only applicable for OpenAI)                                                                                              |
 
 **Response:**
 
