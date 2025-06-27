@@ -630,3 +630,16 @@ Following the `$JoinedCollectionName( $NestedJoinedCollectionName(...))` convent
   "sort_by": "$JoinedCollectionName( $NestedJoinedCollectionName(field_name:desc))"
 }
 ```
+
+## Reference fields in document retrieval
+
+You can include reference fields when retrieving individual documents using the GET document API. 
+
+For example, if you have a `books` collection with references to an `authors` collection:
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
+      "http://localhost:8108/collections/books/documents/1?include_fields=\$authors(name)"
+```
+
+This will return the book document along with the author's name from the referenced `authors` collection.
