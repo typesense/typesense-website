@@ -3621,6 +3621,20 @@ You can use this with both cosine similarity and inner product distance metrics.
 
 This helps filter out less relevant results while still allowing other sort conditions to take effect.
 
+## Vector Distance Bucketing
+
+Similar to [Text Match Score Bucketing](./search.md#text-match-score-bucketing), you can also use the same bucketing concept explained in the previous link to bucket on the vector distance like this:
+
+```json
+{
+  "sort_by": "_vector_distance(bucket_size: 10), popularity:desc"
+}
+```
+
+This will cause the ranked result set to be divided into buckets with 10 results each, then a tie is forced inside each bucket and the popularity score is used to break that tie. 
+
+This effectively mixes your custom score (`popularity` in the example above) with vector similarity.
+
 ## Vector Search Parameters
 
 Here are all the possible parameters you can use inside the `vector_query` search parameter, that we've covered in the various sections above:
