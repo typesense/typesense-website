@@ -291,6 +291,38 @@ Similarly, to specify an `_eval` operation using the joined collection's field:
 }
 ```
 
+### Sorting on one-to-many JOINs
+
+When you have a one-to-many relationship and want to sort the main collection based on values from the joined collection, you can use the following syntax to select the appropriate value from the JOINed collection, to use as the representative sort value:
+
+For example, if you have a `products` collection joined with a `product_prices` collection where each product can have multiple prices:
+
+```json{4}
+{
+  "collection": "products",
+  "q": "*",
+  "sort_by": "$product_prices(price_net:asc)"
+}
+```
+
+This syntax will:
+1. Sort the prices within each product in ascending order
+2. Use the lowest price (first value after sorting) to determine the product's position in the search results
+
+Similarly, for descending order:
+
+```json
+{
+  "collection": "products", 
+  "q": "*",
+  "sort_by": "$product_prices(price_net:desc)"
+}
+```
+
+This will use the highest price (first value after descending sort) for sorting the products.
+
+Without using this syntax, you will this error when sorting on many-to-one JOINs: `Multiple references found to sort by on product_prices.price_net`
+
 ## Merging / nesting joined fields
 
 By default, when we join on a collection, the collection's fields are returned as a nested document.
