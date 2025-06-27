@@ -19,46 +19,41 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- **Natural Language Search:** Added support for converting natural language queries into structured search filters using LLMs. 
-  This allows queries like `A Honda or BMW with at least 200 hp` to be understood and executed by Typesense ([PR#2357](https://github.com/typesense/typesense/pull/2357))
-- **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering.
-  This enables query-dependent sorting of results through override rules ([#2386](https://github.com/typesense/typesense/pull/2386)).
-- **Filter for two properties within a nested object array**: added ability to scope filter expressions to a specific 
-  nested object within an array field ([PR#2268](https://github.com/typesense/typesense/pull/2268)).
-- **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([PR#2246](https://github.com/typesense/typesense/pull/2246)).
-- **Support adding meta fields to query analytics documents**: You can now pass `filter_by` and `analytics_tag` fields along ([PR#2204](https://github.com/typesense/typesense/pull/2204)).
+- **Natural Language Search:** Typesense can now convert natural language queries into structured search queries for you, using LLMs. 
+  This allows a user query like `q: A Honda or BMW with at least 200 hp` to be understood and executed by Typesense as `filter_by: make:[Honda, BMW] && engine_hp:>=200` automatically. ([Docs](./natural-language-search.md))
+- **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering. 
+  This enables query-dependent sorting of results through override rules ([Docs](./curation.md#dynamic-sorting)).
+- **Filter for two properties within a nested array of objects**: You can now scope filter expressions to a specific nested object within an array field ([Docs](./../../guide/tips-for-filtering.md#filtering-nested-array-objects)).
+- **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([Docs](./conversational-search-rag.md#streaming-conversations)).
+- **Support adding meta fields to query analytics documents**: You can now pass the `filter_by` search parameter and a new `analytics_tag` search parameter that you can set to any string you need, to be stored with your popular and no-hits queries. This gives you additional context around the search. ([Docs](./analytics-query-suggestions.md#query-analytics-with-meta-fields)).
+- You can now fetch JOIN reference fields in the GET document API ([Docs](./joins.md#reference-fields-in-document-retrieval))
 
 ### Enhancements
 
 - Improved group-by performance and resource usage, especially when high cardinality fields (like `productId`) are used for grouping.
-- Support fetching reference fields in the GET document API ([PR#2379](https://github.com/typesense/typesense/pull/2379))
+- Improved performance of numeric range queries.
 - Return uniform API response structure when `union: true` is set, regardless of number of collections queried.
-- Optimization that speed up numeric range queries.
-- Tweak rank computation for fusion scoring: Two keyword search results with same text match score should have the same keyword search rank  ([PR#2185](https://github.com/typesense/typesense/pull/2185)).
-- Configurable RocksDB parameters: customize RocksDB parameters like write buffer sizes for better performance.
-- Add support for filtering with nested object fields in collection overrides ([PR#2353](https://github.com/typesense/typesense/pull/2353)).
-- Add Azure OpenAI and Gemini support for conversation models ([PR#2336](https://github.com/typesense/typesense/pull/2336)).
-- Add GCP support for conversation models ([PR#2297](https://github.com/typesense/typesense/pull/2297)).
-- Add task type support for GCP embedding models ([PR#2301](https://github.com/typesense/typesense/pull/2301)).
-- Support query by image ([PR#2307](https://github.com/typesense/typesense/pull/2307)).
-- Support for custom OpenAI conversation model path ([PR#2281](https://github.com/typesense/typesense/pull/2281)).
-- Make `group_limit` configurable: a new server-side parameter called `max-group-limit` that allows customization of the maximum value that can be used in the group_limit search parameter ([PR#2275](https://github.com/typesense/typesense/pull/2275)).
-- Support caching for remote query embeddings ([PR#2260](https://github.com/typesense/typesense/pull/2260)).
-- Support multiple matches in collection joins for sorting ([PR#2258](https://github.com/typesense/typesense/pull/2258)).
-- Add bucketing support for sorting by vector distance ([PR#2255](https://github.com/typesense/typesense/pull/2255)).
-- Parameterize OpenAI embedding path ([PR#2251](https://github.com/typesense/typesense/pull/2251)).
-- Support custom OpenAI compatible servers for conversation models ([PR#2239](https://github.com/typesense/typesense/pull/2239)).
-- Add dimension truncation support for GCP models ([PR#2235](https://github.com/typesense/typesense/pull/2235)).
-- Add support for Azure OpenAI for embedding generation ([PR#2176](https://github.com/typesense/typesense/pull/2176)).
+- Ability to customize RocksDB parameters like write buffer sizes for better performance. ([Docs](./server-configuration.md#on-disk-db-fine-tuning)).
+- Support for filtering with nested object fields in overrides.
+- Ability to do image search using user-uploaded images at runtime ([Docs](./image-search.md#search-for-similar-images-with-dynamic-image)).
+- Support for configuring the max `group_limit` via a new server-side parameter called `max-group-limit` ([Docs](./server-configuration.md#search-limits)).
+- Support caching for remote query embeddings via `embedding-cache-num-entries` server-side parameter ([Docs](./server-configuration.md#resource-usage)).
+- Support for sorting when doing a one-to-many JOIN ([Docs](./joins.md#sorting-on-one-to-many-joins)).
+- Support for bucketing on vector distance ([Docs](./vector-search.md#vector-distance-bucketing)).
 - Improved synonym matching when multiple synonym definitions match a given search query. 
-- Cache hit/miss statistics (`cache_hit_count`, `cache_miss_count`, `cache_hit_ratio`) are now exposed in `metrics.json`
+- New Cache hit/miss statistics (`cache_hit_count`, `cache_miss_count`, `cache_hit_ratio`) are now exposed in `stats.json`
+- Support for Azure OpenAI and Google Gemini in conversation models.
+- Support dimension truncation for GCP text embedding models, by setting `num_dim`.
+- Add support for Azure OpenAI for embedding generation.
+- Support for `document_task` and `query_task` support for GCP text embedding models.
+- Support for OpenAI compatible conversation models using the `openai_url` (base) and `openai_path` parameters.
 - The region parameter is now configurable for GCP models for text embedding.
 
 ### Bug Fixes
 
 - Fixed a few bugs related to updates of deeply nested field values.
 - Fixed phrase search queries being stemmed.
-- Respect field-level tokenization config in filters ([PR#2292](https://github.com/typesense/typesense/pull/2292)).
+- Respect field-level tokenization config in filters.
 - Fixed facet sum being wrong when negative values are added.
 - Fixed vector query parsing with backticks escaping special characters. 
 - Improve reliability of joins during imports.
@@ -68,6 +63,7 @@ This release contains important new features, performance improvements and bug f
 - Fixed auth token refreshing problem for GCP-based embedding generation.
 - Fixed vector search not working reliably with 3 `sort_by` fields.
 - Fixed a bug caused by using `flat_search_cutoff` along with filtering for vector search.
+- Tweak rank computation for fusion scoring - two keyword search results with same text match score should have the same keyword search rank.
 - Improved reliability of CLIP embeddings under high concurrency.
 - Fixed a bug with collection truncation, requiring unnecessary parameters. 
 - Fixed a bug where the alter operations endpoint was returning the incorrect document counter.
