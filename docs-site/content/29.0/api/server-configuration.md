@@ -86,6 +86,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--num-collections-parallel-load` | false    | Number of collections that are loaded in parallel during start up. Default: `NUM_CORES * 4`.                                                                                                                                                                                         |
 | `--num-documents-parallel-load`   | false    | Number of documents per collection that are indexed in parallel during start up. Default: `1000`.                                                                                                                                                                                    |
 | `--cache-num-entries`             | false    | Number of entries to be stored in the LRU cache used for storing search query responses. Default: `1000`.                                                                                                                                                                            |
+| `--embedding-cache-num-entries`   | false    | Number of entries to be stored in the LRU cache used for storing text embeddings returned by remote embedders. Default: `1000`.                                                                                                                                                      |
 | `--disk-used-max-percentage`      | false    | Reject writes when used disk space exceeds this percentage. Default: `100` (never reject).                                                                                                                                                                                           |
 | `--memory-used-max-percentage`    | false    | Reject writes when used memory usage exceeds this percentage. Default: `100` (never reject).                                                                                                                                                                                         |
 | `--healthy-read-lag`              | false    | Reads are rejected if the updates lag behind this threshold. Default: `1000`.                                                                                                                                                                                                        |
@@ -93,8 +94,14 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--snapshot-interval-seconds`     | false    | Frequency of replication log snapshots. Default: `3600` follower recovery.<br><br>**NOTE**: Frequent snapshotting helps in faster recovery from a cold start. However, if this value is too low for a large dataset, repeated snapshotting can actually slow down follower recovery. |
 | `--db-compaction-interval`        | false    | Frequency of automatic on-disk [database compaction](./cluster-operations.md#compacting-the-on-disk-database). Default: `604,800` (7 days)<br><br> If you do frequent collection drops and recreates, you want to considering setting this to say 24 hours.                          |
 | `--skip-writes`                   | false    | Starts Typesense in a mode that does not read writes from the Raft log. This is useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.                                                                                             |
-| `--filter-by-max-ops`             | false    | Maximum number of operators permitted in `filter_by` clause. Default: `100`                                                                                                                                                                                                          |
-| `--max-per-page`                  | false    | Max number of hits permitted per page. Default: `250`                                                                                                                                                                                                                                |
+
+### Search Limits
+
+| Parameter             | Required | Description                                                                 |
+|-----------------------|----------|-----------------------------------------------------------------------------|
+| `--filter-by-max-ops` | false    | Maximum number of operators permitted in `filter_by` clause. Default: `100` |
+| `--max-per-page`      | false    | Max number of hits permitted per page. Default: `250`                       |
+| `--max-group-limit`   | false    | Max value of `group_limit` permitted when using `group_by`. Default: `99`   |
 
 ### On-Disk DB Fine Tuning
 
