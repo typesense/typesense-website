@@ -25,19 +25,19 @@ This release contains important new features, performance improvements and bug f
   This enables query-dependent sorting of results through override rules ([#2386](https://github.com/typesense/typesense/pull/2386)).
 - **Filter for two properties within a nested object array**: added ability to scope filter expressions to a specific 
   nested object within an array field ([PR#2268](https://github.com/typesense/typesense/pull/2268)).
-- **Improved group-by performance:** especially when high cardinality fields (like `productId`) are used for grouping.
 - **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([PR#2246](https://github.com/typesense/typesense/pull/2246)).
 - **Support adding meta fields to query analytics documents**: You can now pass `filter_by` and `analytics_tag` fields along ([PR#2204](https://github.com/typesense/typesense/pull/2204)).
 
 ### Enhancements
 
+- Improved group-by performance and resource usage, especially when high cardinality fields (like `productId`) are used for grouping.
 - Support fetching reference fields in the GET document API ([PR#2379](https://github.com/typesense/typesense/pull/2379))
 - Return uniform API response structure when `union: true` is set, regardless of number of collections queried.
 - Optimization that speed up numeric range queries.
 - Tweak rank computation for fusion scoring: Two keyword search results with same text match score should have the same keyword search rank  ([PR#2185](https://github.com/typesense/typesense/pull/2185)).
 - Configurable RocksDB parameters: customize RocksDB parameters like write buffer sizes for better performance.
 - Add support for filtering with nested object fields in collection overrides ([PR#2353](https://github.com/typesense/typesense/pull/2353)).
-- Add Azure OpenAI support for conversation models ([PR#2336](https://github.com/typesense/typesense/pull/2336)).
+- Add Azure OpenAI and Gemini support for conversation models ([PR#2336](https://github.com/typesense/typesense/pull/2336)).
 - Add GCP support for conversation models ([PR#2297](https://github.com/typesense/typesense/pull/2297)).
 - Add task type support for GCP embedding models ([PR#2301](https://github.com/typesense/typesense/pull/2301)).
 - Support query by image ([PR#2307](https://github.com/typesense/typesense/pull/2307)).
@@ -52,6 +52,7 @@ This release contains important new features, performance improvements and bug f
 - Add support for Azure OpenAI for embedding generation ([PR#2176](https://github.com/typesense/typesense/pull/2176)).
 - Improved synonym matching when multiple synonym definitions match a given search query. 
 - Cache hit/miss statistics (`cache_hit_count`, `cache_miss_count`, `cache_hit_ratio`) are now exposed in `metrics.json`
+- The region parameter is now configurable for GCP models for text embedding.
 
 ### Bug Fixes
 
@@ -62,11 +63,14 @@ This release contains important new features, performance improvements and bug f
 - Fixed vector query parsing with backticks escaping special characters. 
 - Improve reliability of joins during imports.
 - Fixed broken `cache-num-entries` server side parameter.
+- Exclude x-typesense-user-id from cache key to make cache global. 
 - Fixed import of large stemming dictionaries.
 - Fixed auth token refreshing problem for GCP-based embedding generation.
 - Fixed vector search not working reliably with 3 `sort_by` fields.
 - Fixed a bug caused by using `flat_search_cutoff` along with filtering for vector search.
 - Improved reliability of CLIP embeddings under high concurrency.
+- Fixed a bug with collection truncation, requiring unnecessary parameters. 
+- Fixed a bug where the alter operations endpoint was returning the incorrect document counter.
 
 ### Deprecations / behavior changes
 
