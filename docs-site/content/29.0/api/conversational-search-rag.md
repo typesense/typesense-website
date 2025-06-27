@@ -62,12 +62,13 @@ Typesense currently supports the following LLM platforms:
 
 - [OpenAI](https://platform.openai.com/docs/models/models-overview)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models)
+- [Google](https://ai.google.dev/gemini-api/docs/text-generation)
 - [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/#text-generation)
 - [vLLM](https://github.com/vllm-project/vllm) (useful when running local LLMs)
 
 Here's how to use each of these platforms to create a Conversational Model. (Use the tabs in the code snippet below to navigate between each platform).
 
-<Tabs :tabs="['OpenAI', 'Azure', 'Cloudflare', 'vLLM']">
+<Tabs :tabs="['OpenAI', 'Azure', 'Google', 'Cloudflare', 'vLLM']">
 
 <template v-slot:OpenAI>
 
@@ -101,6 +102,25 @@ curl 'http://localhost:8108/conversations/models' \
         "history_collection": "conversation_store",
         "api_key": "AZURE_OPENAI_API_KEY",
         "url": "https://your_resource.openai.azure.com/openai/deployments/your_deployment/chat/completions?api-version=2024-02-15-preview",
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
+        "max_bytes": 16384
+      }'
+```
+
+</template>
+
+<template v-slot:Google>
+
+```shell
+curl 'http://localhost:8108/conversations/models' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "id": "conv-model-1",
+        "model_name": "google/gemini-2.0-flash",
+        "history_collection": "conversation_store",
+        "api_key": "GEMINI_API_KEY",
         "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
         "max_bytes": 16384
       }'
