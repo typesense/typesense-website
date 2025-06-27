@@ -327,7 +327,7 @@ For example, consider a menu collection with the following schema:
 
 And these sample records:
 
-```json
+```json lines
 { 
   "name": "Pasta",
   "ingredients": [
