@@ -96,6 +96,17 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--filter-by-max-ops`             | false    | Maximum number of operators permitted in `filter_by` clause. Default: `100`                                                                                                                                                                                                          |
 | `--max-per-page`                  | false    | Max number of hits permitted per page. Default: `250`                                                                                                                                                                                                                                |
 
+### On-Disk DB Fine Tuning
+
+Typesense uses RocksDB to store your documents on disk. The following parameters help fine-tune some of these parameters for improved write performance in [some circumstances](https://github.com/typesense/typesense/issues/2312). 
+
+| Parameter                      | Required | Description                                                                            |
+|--------------------------------|----------|----------------------------------------------------------------------------------------|
+| `--db-write-buffer-size`       | false    | Maximum size of the write buffer for a column family                                   |
+| `--db-max-write-buffer-number` | false    | Maximum number of memtables that can be held in memory before they are flushed to disk |
+| `--db-max-log-file-size`       | false    | Maximum size of a single RocksDB log file                                              |
+| `--db-keep-log-file-num`       | false    | Number of RocksDB log files that should be retained in the log directory               |
+| `--max-indexing-concurrency`   | false    | Concurrency level for indexing docs into RocksDB                                       |
 
 ## Using a Configuration File
 
