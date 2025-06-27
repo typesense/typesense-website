@@ -95,7 +95,7 @@ Here's an example of how your JSON document that you [import](./documents.md#ind
 }
 ```
 
-## Search for images using semantic search
+## Search for images using text
 
 Now let's search for all images that have animals in them:
 
@@ -117,7 +117,7 @@ curl "http://localhost:8108/multi_search" \
 
 Behind the scenes, Typesense uses the value of the `q` parameter to generate an embedding using the same CLIP model, does a nearest-neighbor search with those vectors and returns the closest results. 
 
-## Search for similar images
+## Search for similar images within dataset
 
 To search for similar images, given a particular image in our dataset, we can use a search query like this:
 
@@ -138,3 +138,25 @@ curl "http://localhost:8108/multi_search" \
 ```
 
 This will return all images similar to the image in the document `id: 123`, as determined by the CLIP model.
+
+## Search for similar images with dynamic image
+
+We can also search for similar images using a user-uploaded image dynamically like this:
+
+```bash
+curl "http://localhost:8108/multi_search" \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{
+          "searches": [
+            {
+              "collection": "images",
+              "q": "*",
+              "vector_query": "embedding:([], image:BASE64_REPRESENTATION_OF_IMAGE)"
+            }
+          ]
+        }'
+```
+
+Behind the scenes, Typesense will use the CLIP model to generate an embedding for your image mentioned in the `vector_query`, do a nearest neighbor search and return the results ordered by closeness. 
