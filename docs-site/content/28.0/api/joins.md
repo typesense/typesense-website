@@ -523,6 +523,27 @@ By default, Typesense performs inner join. To perform left join,
 ```
 can be specified. `id:*` matches all documents of the collection being searched. So the result will include the referenced documents if a reference exists otherwise the document will be returned as is.
 
+### Filtering on null values in left joins
+
+You can also filter for documents where the joined collection does not have matching records (equivalent to filtering on null values in SQL). This is done by using the `!` (not operator) at the beginning of the `filter_by` clause:
+
+```json
+{
+  "searches": [
+    {
+      "collection": "items",
+      "q": "*",
+      "filter_by": "!$deny_list(user_id:=u11)",
+      "exclude_fields": "$deny_list(*)"
+    }
+  ]
+}
+```
+
+This query returns all items that are NOT in the deny_list for user `u11`.
+
+**Note:** The `exclude_fields` parameter is important to prevent the deny list data from appearing in the search API response.
+
 ## Nested Joins
 
 Typesense supports nesting joins for queries involving multiple data retrieval and filtering levels. Suppose we are managing the inventory of multiple retailers where a particular product can have many variants. The data could be modeled like this:
