@@ -7,7 +7,11 @@ So we recommend testing version upgrades in a staging environment, before updati
 
 We'd also recommend having a set of test search terms and expected results that you can use to verify behavior changes between versions. 
 
+[[toc]]
+
 ## Typesense Cloud
+
+### Upgrade Steps
 
 If you're running Typesense on Typesense Cloud: 
 
