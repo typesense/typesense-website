@@ -9,7 +9,7 @@ This section of the documentation details all the API Endpoints available in Typ
 
 Use the links on the side navigation bar to get to the appropriate section you're looking for.
 
-To learn how to install and run Typesense, see the [Guide section](/guide/README.md) instead.
+To learn how to install and run Typesense, see the [Guide section](https://typesense.org/docs/guide/) instead.
 
 <br/>
 
@@ -20,26 +20,26 @@ This release contains important new features, performance improvements and bug f
 ### New Features
 
 - **Natural Language Search:** Typesense can now convert natural language queries into structured search queries for you, using LLMs. 
-  This allows a user query like `q: A Honda or BMW with at least 200 hp` to be understood and executed by Typesense as `filter_by: make:[Honda, BMW] && engine_hp:>=200` automatically. ([Docs](./natural-language-search.md))
-- **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering. 
-  This enables query-dependent sorting of results through override rules ([Docs](./curation.md#dynamic-sorting)).
-- **Filter for two properties within a nested array of objects**: You can now scope filter expressions to a specific nested object within an array field ([Docs](./../../guide/tips-for-filtering.md#filtering-nested-array-objects)).
-- **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([Docs](./conversational-search-rag.md#streaming-conversations)).
-- **Support adding meta fields to query analytics documents**: You can now pass the `filter_by` search parameter and a new `analytics_tag` search parameter that you can set to any string you need, to be stored with your popular and no-hits queries. This gives you additional context around the search. ([Docs](./analytics-query-suggestions.md#query-analytics-with-meta-fields)).
-- You can now fetch JOIN reference fields in the GET document API ([Docs](./joins.md#reference-fields-in-document-retrieval))
+  This allows a user query like `q: A Honda or BMW with at least 200 hp` to be understood and executed by Typesense as `filter_by: make:[Honda, BMW] && engine_hp:>=200` automatically. ([Docs](https://typesense.org/docs/29.0/api/natural-language-search.html))
+- **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering.
+  This enables query-dependent sorting of results through override rules ([Docs](https://typesense.org/docs/29.0/api/curation.html#dynamic-sorting)).
+- **Filter for two properties within a nested array of objects**: You can now scope filter expressions to a specific nested object within an array field ([Docs](https://typesense.org/docs/guide/tips-for-filtering.html#filtering-nested-array-objects)).
+- **Streaming support for conversations:** responses from LLM APIs are now directly streamed, allowing you to build interactive chat experiences. ([Docs](https://typesense.org/docs/29.0/api/conversational-search-rag.html#streaming-conversations)).
+- **Support adding meta fields to query analytics documents**: You can now pass the `filter_by` search parameter and a new `analytics_tag` search parameter that you can set to any string you need, to be stored with your popular and no-hits queries. This gives you additional context around the search. ([Docs](https://typesense.org/docs/29.0/api/analytics-query-suggestions.html#query-analytics-with-meta-fields)).
+- You can now fetch JOIN reference fields in the GET document API ([Docs](https://typesense.org/docs/29.0/api/joins.html#reference-fields-in-document-retrieval))
 
 ### Enhancements
 
 - Improved group-by performance and resource usage, especially when high cardinality fields (like `productId`) are used for grouping.
 - Improved performance of numeric range queries.
 - Return uniform API response structure when `union: true` is set, regardless of number of collections queried.
-- Ability to customize RocksDB parameters like write buffer sizes for better performance. ([Docs](./server-configuration.md#on-disk-db-fine-tuning)).
+- Ability to customize RocksDB parameters like write buffer sizes for better performance. ([Docs](https://typesense.org/docs/29.0/api/server-configuration.html#on-disk-db-fine-tuning)).
 - Support for filtering with nested object fields in overrides.
-- Ability to do image search using user-uploaded images at runtime ([Docs](./image-search.md#search-for-similar-images-with-dynamic-image)).
-- Support for configuring the max `group_limit` via a new server-side parameter called `max-group-limit` ([Docs](./server-configuration.md#search-limits)).
-- Support caching for remote query embeddings via `embedding-cache-num-entries` server-side parameter ([Docs](./server-configuration.md#resource-usage)).
-- Support for sorting when doing a one-to-many JOIN ([Docs](./joins.md#sorting-on-one-to-many-joins)).
-- Support for bucketing on vector distance ([Docs](./vector-search.md#vector-distance-bucketing)).
+- Ability to do image search using user-uploaded images at runtime ([Docs](https://typesense.org/docs/29.0/api/image-search.html#search-for-similar-images-with-dynamic-image)).
+- Support for configuring the max `group_limit` via a new server-side parameter called `max-group-limit` ([Docs](https://typesense.org/docs/29.0/api/server-configuration.html#search-limits)).
+- Support caching for remote query embeddings via `embedding-cache-num-entries` server-side parameter ([Docs](https://typesense.org/docs/29.0/api/server-configuration.html#resource-usage)).
+- Support for sorting when doing a one-to-many JOIN ([Docs](https://typesense.org/docs/29.0/api/joins.html#sorting-on-one-to-many-joins)).
+- Support for bucketing on vector distance ([Docs](https://typesense.org/docs/29.0/api/vector-search.html#vector-distance-bucketing)).
 - Improved synonym matching when multiple synonym definitions match a given search query. 
 - New Cache hit/miss statistics (`cache_hit_count`, `cache_miss_count`, `cache_hit_ratio`) are now exposed in `stats.json`
 - Support for Azure OpenAI and Google Gemini in conversation models.
@@ -81,54 +81,12 @@ changes above to prepare your application for the upgrade.
 
 We'd recommend testing on your development / staging environments before upgrading. 
 
-### Typesense Cloud
-
-If you're on Typesense Cloud:
-
-1. Go to [https://cloud.typesense.org/clusters](https://cloud.typesense.org/clusters).
-2. Click on your cluster
-3. Click on "Cluster Configuration" on the left-side pane, and then click on "Modify"
-4. Select a new Typesense Server version in the dropdown
-5. Schedule a time for the upgrade.
-
-### Self Hosted
-
-If you're self-hosting Typesense, here's how to upgrade:
-
-#### Single node deployment
-
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/28.0/api/cluster-operations.html#create-snapshot-for-backups) of your data, for safety purposes.
-2. Stop Typesense server.
-3. Replace the binary via the tar package or via the DEB/RPM installer. 
-4. Start Typesense server back again.
-
-#### Multi-node deployment
-
-To upgrade a multi-node cluster, we will be proceeding node by node to ensure the cluster remains healthy during the rolling upgrade.
-
-**NOTE:** During the upgrade, we have to ensure that the leader of the cluster is using the **older** Typesense version. 
-So we will upgrade the leader last. You can determine whether a node is a leader or follower by the value of the `state` 
-field in the `/debug` end-point response.
-
-| State | Role     |
-|-------|----------|
-| 1     | LEADER   |
-| 4     | FOLLOWER |
-
-1. Trigger a snapshot to [create a backup](https://typesense.org/docs/28.0/api/cluster-operations.html#create-snapshot-for-backups) of your data 
-   on the leader node.
-2. On any follower, stop Typesense and replace the binary via the tar package or via the DEB/RPM installer.
-3. Start Typesense server back again and wait for node to rejoin the cluster as a follower and catch-up (`/health` should return healthy). 
-4. Repeat steps 2 and 3 for the other _followers_, leaving the leader node uninterrupted for now.
-5. Once all followers have been upgraded to v{{ $page.typesenseVersion }}, stop Typesense on the leader.
-6. The other nodes will elect a new leader and keep working. 
-7. Replace the binary on the old leader and start the Typesense server back again. 
-8. This node will re-join the cluster as a follower, and we are done.
+Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment. 
 
 
 ## Downgrading
 
-If you wish to downgrade back to an earlier version of Typesense server, you can safely downgrade to `v27`.
+If you wish to downgrade back to an earlier version of Typesense server, you can safely downgrade to `v28` of `v27`.
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
