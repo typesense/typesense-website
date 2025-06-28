@@ -514,3 +514,8 @@ curl "http://localhost:8108/collections/products/documents/search" \
 ```
 
 The default `value nl_query_prompt_cache_ttl` is 86400, or 24 hours. You can set it to `0` to disable the schema cache temporarily.
+
+:::tip First Request Latency
+For large datasets, generating the initial prompt based on your collection schema, requires doing a series of `facet_by` queries on your dataset.
+Depending on the size of your dataset, this can take several seconds. But once it's generated it's [cached](#schema-prompt-cache) and re-used for subsequent requests.
+:::
