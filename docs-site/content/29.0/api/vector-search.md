@@ -1815,7 +1815,8 @@ schema = {
           "client_secret": "your_gcp_client_secret",
           "project_id": "your_gcp_project_id",
           "document_task": "DOCUMENT",
-          "query_task": "QUERY"
+          "query_task": "QUERY",
+          "region": "us-central1"
         }
       }
     }
@@ -1852,7 +1853,8 @@ $schema = [
           "client_secret" => "your_gcp_client_secret",
           "project_id" => "your_gcp_project_id",
           "document_task" => "DOCUMENT",
-          "query_task" => "QUERY"
+          "query_task" => "QUERY",
+          "region": "us-central1"
         ]
       }
     ]
@@ -1889,7 +1891,8 @@ schema = {
           "client_secret": "your_gcp_client_secret",
           "project_id": "your_gcp_project_id",
           "document_task": "DOCUMENT",
-          "query_task": "QUERY"
+          "query_task": "QUERY",
+          "region": "us-central1"
         }
       }
     }
@@ -1925,7 +1928,8 @@ schema = {
           "client_secret" => "your_gcp_client_secret",
           "project_id" => "your_gcp_project_id",
           "document_task" => "DOCUMENT",
-          "query_task" => "QUERY"
+          "query_task" => "QUERY",
+          "region": "us-central1"
         }
       }
     }
@@ -1954,7 +1958,8 @@ collectionschema.name("products")
                       .clientId("your_gcp_app_client_id")
                       .clientSecret("your_gcp_client_secret").projectId("your_gcp_project_id")
                       .documentTask("DOCUMENT")
-                      .queryTask("QUERY")))
+                      .queryTask("QUERY")
+                      .region("us-central1"))
                 ));
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
@@ -2009,6 +2014,7 @@ schema := &api.CollectionSchema{
           ProjectId:    pointer.Any("your_gcp_project_id"),
           DocumentTask: pointer.Any("DOCUMENT"),
           QueryTask:    pointer.Any("QUERY"),
+          Region:       pointer.Any("us-central1"),
         },
       }},
   },
@@ -2046,7 +2052,8 @@ curl 'http://localhost:8108/collections' \
                 "client_secret": "your_gcp_client_secret",
                 "project_id": "your_gcp_project_id",
                 "document_task": "DOCUMENT",
-                "query_task": "QUERY"
+                "query_task": "QUERY",
+                "region": "us-central1"
               }
             }
           }
