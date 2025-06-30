@@ -105,35 +105,51 @@ The macOS native binary only works with macOS Ventura (13.x) or above.
 For older versions of macOS, please use the [Docker](#docker) or [Docker Compose](#docker-compose) installation method above.   
 :::
 
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
+<Tabs :tabs="['Apple-Silicon', 'Intel']">
+  <template v-slot:Apple-Silicon>
     <div class="manual-highlight">
-      <pre class="language-bash"><code># Apple Silicon CPU
+      <pre class="language-bash"><code># Download Typesense
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
 <br>
-# Intel CPUs
+# Start Typesense
+export TYPESENSE_API_KEY=xyz
+mkdir "$(pwd)"/typesense-data
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
+</code></pre>
+    </div>
+  </template>
+  <template v-slot:Intel>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code># Download Typesense
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 <br>
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
 mkdir "$(pwd)"/typesense-data
-./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
+</code></pre>
     </div>
   </template>
 </Tabs>
 
 ### DEB package on Ubuntu/Debian
 
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
+<Tabs :tabs="['x64', 'arm64']">
+  <template v-slot:x64>
     <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
+      <pre class="language-bash"><code># Download & Install
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 <br>
-# arm64
+# Start Typesense
+sudo systemctl start typesense-server.service</code></pre>
+    </div>
+  </template>
+<template v-slot:arm64>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code># Download & Install
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 <br>
@@ -149,20 +165,26 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v26.0 of Typesense Server requires Ubuntu 20 or later.
+v26.0+ of Typesense Server requires Ubuntu 20 or later.
 :::
 
 ### RPM package on CentOS/RHEL
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
+<Tabs :tabs="['x64', 'aarch64']">
+  <template v-slot:x64>
     <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
+      <pre class="language-bash"><code># Download & Install
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 <br>
-# arm64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
-sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
+# Start Typesense
+sudo systemctl start typesense-server.service</code></pre>
+    </div>
+  </template>
+  <template v-slot:aarch64>
+    <div class="manual-highlight">
+      <pre class="language-bash"><code># Download & Install
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
+sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
 <br>
 # Start Typesense
 sudo systemctl start typesense-server.service</code></pre>
@@ -176,19 +198,27 @@ sudo systemctl start typesense-server.service</code></pre>
 - Data dir is under `/var/lib/typesense/`
 
 :::warning Compatibility
-v26.0 of Typesense Server requires recent versions of the Linux kernel.
+v26.0+ of Typesense Server requires recent versions of the Linux kernel.
 :::
 
 ### Linux Binary
 
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
+<Tabs :tabs="['x64', 'arm64']">
+  <template v-slot:x64>
     <div class="manual-highlight">
-    <pre class="language-bash"><code># x64
+    <pre class="language-bash"><code># Download
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 <br>
-# arm64
+# Start Typesense
+export TYPESENSE_API_KEY=xyz
+mkdir "$(pwd)"/typesense-data # Use a directory like /var/lib/typesense in production
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
+    </div>
+  </template>
+  <template v-slot:arm64>
+    <div class="manual-highlight">
+    <pre class="language-bash"><code># Download
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
 <br>
@@ -201,7 +231,7 @@ mkdir "$(pwd)"/typesense-data # Use a directory like /var/lib/typesense in produ
 </Tabs>
 
 :::warning Compatibility
-v26.0 of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
+v26.0+ of Typesense Server requires Ubuntu 20 or later or recent versions of the Linux kernel.
 :::
 
 ### Windows [(WSL)](https://docs.microsoft.com/en-us/windows/wsl/install)
@@ -259,21 +289,84 @@ You would have to install the following additional dependencies, after which Typ
 
 4. Install the Typesense GPU dependencies package:
 
-<Tabs :tabs="['Shell']">
-  <template v-slot:Shell>
+    <Tabs :tabs="['DEB', 'RPM', 'Linux-Binary']">
+      <template v-slot:DEB>
+        <div class="manual-highlight">
+          <pre class="language-bash"><code># x64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+   sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+   <br>
+   # arm64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+   sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
+          </code></pre>
+        </div>
+      </template>
+      <template v-slot:RPM>
+        <div class="manual-highlight">
+          <pre class="language-bash"><code># x64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+   sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+   <br>
+   # arm64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
+   sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
+          </code></pre>
+        </div>
+      </template>
+      <template v-slot:Linux-Binary>
+        <div class="manual-highlight">
+          <pre class="language-bash"><code># x64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+   sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+   <br>
+   # arm64
+   curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
+   tar -xzf typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion}}-linux-arm64.tar.gz
+          </code></pre>
+        </div>
+      </template>
+    </Tabs>
+
+### Large Page Size Build
+
+Some operating systems / runtimes running on ARM, use a larger 16K system page size than the default one we compile Typesense with (4K). 
+For these environments, we now publish a separate "lg-pg-size" build. 
+
+<Tabs :tabs="['Typesense-Server', 'Typesense-GPU-Deps']">
+  <template v-slot:Typesense-Server>
     <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
+      <pre class="language-bash"><code># Linux Binary
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64-lg-page16.tar.gz
+tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64-lg-page16.tar.gz
 <br>
-# arm64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-      </code></pre>
+# DEB
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64-lg-page16.deb
+sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64-lg-page16.deb
+<br>
+# RPM
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
+sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
+</code></pre>
+        </div>
+      </template>
+      <template v-slot:Typesense-GPU-Deps>
+        <div class="manual-highlight">
+          <pre class="language-bash"><code># Linux Binary
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64-lg-page16.tar.gz
+tar -xzf typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion}}-linux-arm64-lg-page16.tar.gz
+<br>
+# DEB
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64-lg-page16.deb
+sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64-lg-page16.deb
+<br>
+# RPM
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
+sudo yum install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
+</code></pre>
     </div>
   </template>
 </Tabs>
-
 
 ## 🆗 Health Check
 
