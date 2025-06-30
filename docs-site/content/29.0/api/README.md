@@ -19,7 +19,7 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-- **Natural Language Search:** Typesense can now convert natural language queries into structured search queries for you, using LLMs. 
+- **Natural Language Search:** Typesense can now detect user intent in natural language queries and convert them into structured search queries using LLMs. 
   This allows a user query like `q: A Honda or BMW with at least 200 hp` to be understood and executed by Typesense as `filter_by: make:[Honda, BMW] && engine_hp:>=200` automatically. ([Docs](https://typesense.org/docs/29.0/api/natural-language-search.html))
 - **Dynamic Sorting in Overrides:** Typesense now supports dynamic sorting rules within override definitions, similar to dynamic filtering.
   This enables query-dependent sorting of results through override rules ([Docs](https://typesense.org/docs/29.0/api/curation.html#dynamic-sorting)).
