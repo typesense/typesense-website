@@ -347,6 +347,9 @@ sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion 
 # RPM
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.lg.page16.aarch64.rpm
+<br>
+# Docker
+docker pull typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }}-arm64-lg-page16
 </code></pre>
         </div>
       </template>
@@ -372,10 +375,31 @@ sudo yum install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersio
 
 You can use the `/health` API end-point to verify that the server is ready to accept requests.
 
-```bash
-curl http://localhost:8108/health
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+    <div class="manual-highlight">
+    <pre class="language-bash"><code>curl http://localhost:8108/health
 {"ok":true}
-```
+</code></pre>
+    </div>
+  </template>
+</Tabs>
+
+
+You can use the `/debug` API end-point to verify the version of Typesense running.
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+    <div class="manual-highlight">
+    <pre class="language-bash"><code>curl http://localhost:8108/debug
+{
+  "state": 1,
+  "version": "{{ $site.themeConfig.typesenseLatestVersion }}"
+}
+</code></pre>
+    </div>
+  </template>
+</Tabs>
 
 ## ⚙️ Configure Typesense
 
