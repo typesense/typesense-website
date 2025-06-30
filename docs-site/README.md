@@ -56,6 +56,11 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 - Custom components go in `content/.vuepress/components/` and can be referenced in any markdown files
 - Vuepress configuration goes in `content/.vuepress/config.js`
 
+## Content Guidelines
+
+- In the main version changelog, always use links to internal docs pages, instead of links to PR, so it's easy for users to navigate to the docs for a particular feature.
+- In code blocks, use the following syntax to highlight relevant lines of the snippet, so it's easy for users to read the snippet. For eg: `json{2-3,5}` highlights lines 2 and 3 and 5.
+
 ## Deployment
 
 ```shell

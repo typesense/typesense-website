@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Vector Search
@@ -591,10 +591,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -605,10 +607,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -855,10 +859,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -869,10 +875,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1120,10 +1128,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1134,10 +1144,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1366,10 +1378,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1380,10 +1394,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1649,10 +1665,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1663,10 +1681,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1793,7 +1813,9 @@ schema = {
           "refresh_token": "your_gcp_refresh_token",
           "client_id": "your_gcp_app_client_id",
           "client_secret": "your_gcp_client_secret",
-          "project_id": "your_gcp_project_id"
+          "project_id": "your_gcp_project_id",
+          "document_task": "DOCUMENT",
+          "query_task": "QUERY"
         }
       }
     }
@@ -1828,7 +1850,9 @@ $schema = [
           "refresh_token" => "your_gcp_refresh_token",
           "client_id" => "your_gcp_app_client_id",
           "client_secret" => "your_gcp_client_secret",
-          "project_id" => "your_gcp_project_id"
+          "project_id" => "your_gcp_project_id",
+          "document_task" => "DOCUMENT",
+          "query_task" => "QUERY"
         ]
       }
     ]
@@ -1863,7 +1887,9 @@ schema = {
           "refresh_token": "your_gcp_refresh_token",
           "client_id": "your_gcp_app_client_id",
           "client_secret": "your_gcp_client_secret",
-          "project_id": "your_gcp_project_id"
+          "project_id": "your_gcp_project_id",
+          "document_task": "DOCUMENT",
+          "query_task": "QUERY"
         }
       }
     }
@@ -1897,7 +1923,9 @@ schema = {
           "refresh_token" => "your_gcp_refresh_token",
           "client_id" => "your_gcp_app_client_id",
           "client_secret" => "your_gcp_client_secret",
-          "project_id" => "your_gcp_project_id"
+          "project_id" => "your_gcp_project_id",
+          "document_task" => "DOCUMENT",
+          "query_task" => "QUERY"
         }
       }
     }
@@ -1924,7 +1952,9 @@ collectionschema.name("products")
                       .accessToken("your_gcp_access_token")
                       .refreshToken("your_gcp_refresh_token")
                       .clientId("your_gcp_app_client_id")
-                      .clientSecret("your_gcp_client_secret").projectId("your_gcp_project_id")))
+                      .clientSecret("your_gcp_client_secret").projectId("your_gcp_project_id")
+                      .documentTask("DOCUMENT")
+                      .queryTask("QUERY")))
                 ));
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
 ```
@@ -1946,10 +1976,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1960,10 +1992,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1973,6 +2007,8 @@ schema := &api.CollectionSchema{
           ClientId:     pointer.Any("your_gcp_app_client_id"),
           ClientSecret: pointer.Any("your_gcp_client_secret"),
           ProjectId:    pointer.Any("your_gcp_project_id"),
+          DocumentTask: pointer.Any("DOCUMENT"),
+          QueryTask:    pointer.Any("QUERY"),
         },
       }},
   },
@@ -2008,7 +2044,9 @@ curl 'http://localhost:8108/collections' \
                 "refresh_token": "your_gcp_refresh_token",
                 "client_id": "your_gcp_app_client_id",
                 "client_secret": "your_gcp_client_secret",
-                "project_id": "your_gcp_project_id"
+                "project_id": "your_gcp_project_id",
+                "document_task": "DOCUMENT",
+                "query_task": "QUERY"
               }
             }
           }
@@ -2423,10 +2461,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -2437,10 +2477,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -2650,10 +2692,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -2664,10 +2708,12 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
+          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
+          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -3574,6 +3620,20 @@ You can use this with both cosine similarity and inner product distance metrics.
 ```
 
 This helps filter out less relevant results while still allowing other sort conditions to take effect.
+
+## Vector Distance Bucketing
+
+Similar to [Text Match Score Bucketing](./search.md#text-match-score-bucketing), you can also use the same bucketing concept explained in the previous link to bucket on the vector distance like this:
+
+```json
+{
+  "sort_by": "_vector_distance(bucket_size: 10), popularity:desc"
+}
+```
+
+This will cause the ranked result set to be divided into buckets with 10 results each, then a tie is forced inside each bucket and the popularity score is used to break that tie. 
+
+This effectively mixes your custom score (`popularity` in the example above) with vector similarity.
 
 ## Vector Search Parameters
 

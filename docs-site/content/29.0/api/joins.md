@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # JOINs
@@ -18,7 +18,7 @@ via the `reference` property.
 For example, we could connect a `books` collection to an `authors` collection by using the `id` field of the `authors` 
 collection as a reference:
 
-```json
+```json{5}
 {
   "name":  "books",
   "fields": [
@@ -30,24 +30,24 @@ collection as a reference:
 
 When we search the `books` collection, we can fetch author fields from the `authors` collection via `include_fields`.
 
-```bash
+```bash{7}
 curl "http://localhost:8108/multi_search" -X POST \
         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
         -d '{
-          "searches": [
-            {
-              "collection": "books",
-              "include_fields": "$authors(first_name,last_name)",
-              "q": "famous"
-            }
-          ]
-        }'
+              "searches": [
+                {
+                  "collection": "books",
+                  "include_fields": "$authors(first_name,last_name)",
+                  "q": "famous"
+                }
+              ]
+            }'
 ```
 
 By requesting the `first_name` and `last_name` via `$authors(first_name,last_name)`, the response contains an
 `authors` object with the corresponding author information:
 
-```json
+```json{6-9}
 {
   "document": {
     "id": "0",
@@ -63,7 +63,7 @@ By requesting the `first_name` and `last_name` via `$authors(first_name,last_nam
 
 To include all fields in the collection we should use an asterisk `*`:
 
-```json
+```json{3}
 {
   "collection": "books",
   "include_fields": "$authors(*)",
@@ -73,7 +73,7 @@ To include all fields in the collection we should use an asterisk `*`:
 
 Let's say we want to query the `authors` collection and get the related books of all the authors that match the query. Since `books` collection has the reference field and we're searching on `authors` collection, we cannot simply specify `include_fields: $books(*)` to join the related documents. To achieve this we'll have to specify `filter_by` clause to join on a collection like this:
 
-```json
+```json{4}
 {
   "collection": "authors",
   "q": "query",
@@ -111,7 +111,7 @@ The schema of the `customers` collection will look like this
 Let's create a `orders` collection that stores a order's details, and it will
 also reference the corresponding user that placed it in the user collection.
 
-```json
+```json{8}
 {
   "name":  "orders",
   "fields": [
@@ -175,7 +175,7 @@ The schema of the `products` collection will look like this
 Let's create a `customer_product_prices` collection that stores a custom price for each customer, and it will
 also reference the corresponding document in the product collection.
 
-```json
+```json{6}
 {
   "name":  "customer_product_prices",
   "fields": [
@@ -222,17 +222,16 @@ many users and a given user can access many documents.
 
 To do this, we can create three collections: `documents`, `users` and `user_doc_access` with the following schemas:
 
-```json lines
+```json{20-21}
 
 {
   "name":  "documents",
   "fields": [
     {"name": "id", "type": "string"},
-    {"name": "title", "type": "string"}
+    {"name": "title", "type": "string"},
     {"name": "content", "type": "string"}
   ]
 }
-
 {
   "name":  "users",
   "fields": [
@@ -240,7 +239,6 @@ To do this, we can create three collections: `documents`, `users` and `user_doc_
     {"name": "username", "type": "string"}
   ]
 }
-
 {
   "name":  "user_doc_access",
   "fields": [
@@ -290,6 +288,38 @@ Similarly, to specify an `_eval` operation using the joined collection's field:
   "sort_by": "$JoinedCollectionName( _eval(field_name:foo):desc )"
 }
 ```
+
+### Sorting on one-to-many JOINs
+
+When you have a one-to-many relationship and want to sort the main collection based on values from the joined collection, you can use the following syntax to select the appropriate value from the JOINed collection, to use as the representative sort value:
+
+For example, if you have a `products` collection joined with a `product_prices` collection where each product can have multiple prices:
+
+```json{4}
+{
+  "collection": "products",
+  "q": "*",
+  "sort_by": "$product_prices(price_net:asc)"
+}
+```
+
+This syntax will:
+1. Sort the prices within each product in ascending order
+2. Use the lowest price (first value after sorting) to determine the product's position in the search results
+
+Similarly, for descending order:
+
+```json{4}
+{
+  "collection": "products", 
+  "q": "*",
+  "sort_by": "$product_prices(price_net:desc)"
+}
+```
+
+This will use the highest price (first value after descending sort) for sorting the products.
+
+Without using this syntax, you will this error when sorting on many-to-one JOINs: `Multiple references found to sort by on product_prices.price_net`
 
 ## Merging / nesting joined fields
 
@@ -449,11 +479,17 @@ This will always return an array of objects for the fields of `books` collection
 
 You can use the `async_reference` option when creating reference fields. This allows documents to be indexed successfully even when the referenced document doesn't exist yet.
 
-```json
+```json{9}
 {
   "name": "orders",
   "fields": [
-    {"name": "product_id", "type": "string", "reference": "products.product_id", "optional": true, "async_reference": true}
+    {
+      "name": "product_id",
+      "type": "string",
+      "reference": "products.product_id",
+      "optional": true,
+      "async_reference": true
+    }
   ]
 }
 ```
@@ -630,3 +666,16 @@ Following the `$JoinedCollectionName( $NestedJoinedCollectionName(...))` convent
   "sort_by": "$JoinedCollectionName( $NestedJoinedCollectionName(field_name:desc))"
 }
 ```
+
+## Reference fields in document retrieval
+
+You can include reference fields when retrieving individual documents using the GET document API. 
+
+For example, if you have a `books` collection with references to an `authors` collection:
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
+      "http://localhost:8108/collections/books/documents/1?include_fields=\$authors(name)"
+```
+
+This will return the book document along with the author's name from the referenced `authors` collection.

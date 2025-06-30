@@ -306,6 +306,77 @@ You can filter by the customer's name like:
 customer.name:=John Doe
 ```
 
+## Filtering Nested Array Objects
+
+When filtering on fields inside nested array objects, you need to use a special syntax to ensure the filters are applied to the same object within the array. The syntax is: `<nested_field_parent>.{<filter_conditions>}`.
+
+For example, consider a menu collection with the following schema:
+
+```json
+{
+  "name": "menu",
+  "fields": [
+    {"name": "name", "type": "string"},
+    {"name": "ingredients", "type": "object[]"},
+    {"name": "ingredients.name", "type": "string"},
+    {"name": "ingredients.concentration", "type": "int32"}
+  ],
+  "enable_nested_fields": true
+}
+```
+
+And these sample records:
+
+```json lines
+{ 
+  "name": "Pasta",
+  "ingredients": [
+    {"name": "cheese", "concentration": 40},
+    {"name": "spinach", "concentration": 10},
+    {"name": "jalepeno", "concentration": 20}
+  ]
+}
+{
+  "name": "Pizza",
+  "ingredients": [
+    {"name": "cheese", "concentration": 30},
+    {"name": "pizza sauce", "concentration": 30},
+    {"name": "olives", "concentration": 30}
+  ]
+}
+{
+  "name": "Lasagna",
+  "ingredients": [
+    {"name": "cheese", "concentration": 60},
+    {"name": "jalepeno", "concentration": 20},
+    {"name": "olives", "concentration": 20}
+  ]
+}
+```
+
+To filter for dishes that have cheese with concentration less than 50, use:
+
+```shell
+filter_by=ingredients.{name:=cheese && concentration:<50}
+```
+
+This will return only Pasta and Pizza, because it matches objects within the ingredients array where both conditions are true for the same object.
+
+:::warning Important Note
+The traditional filter syntax `ingredients.name:=cheese && ingredients.concentration:<50` would match all three records because it doesn't ensure the conditions apply to the same object in the array. Always use the `{...}` syntax when filtering on multiple fields within nested array objects.
+:::
+
+You can use any valid filter operators inside the `{...}` block.
+
+For example:
+```shell
+# Find dishes with either high cheese concentration or jalepeno
+filter_by=ingredients.{name:=cheese && concentration:>50} || ingredients.{name:=jalepeno}
+
+# Find dishes with cheese concentration between 30 and 50
+filter_by=ingredients.{name:=cheese && concentration:[30..50]}
+```
+
 ## Filtering Joined Collections
 
 When filtering for joined collection, you use the `$CollectionName(<filter>)` syntax.

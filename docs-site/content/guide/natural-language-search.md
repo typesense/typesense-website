@@ -52,6 +52,13 @@ We're essentially doing something similar to Text-to-SQL, except that we're now 
 This seemingly simple concept helps build powerful natural language search experiences.
 The trick though with LLMs is to [refine the prompt](#writing-the-prompt) well-enough that it consistently produces a good translation of the text into valid Typesense syntax.
 
+:::tip Natural Language Search is now built-in to Typesense <Badge text="v29.0+"/>
+As of v29.0 of Typesense, the Natural Language Search feature is now built-in to Typesense, where you provide just your LLM API Keys and Typesense will take care of all the necessary orchestration described above to convert users' queries into structured Typesense queries.
+<RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/natural-language-search.html#create-a-natural-language-search-model`">Read the docs</RouterLink> on how to use this built-in feature.
+
+The rest of this guide talks about how to build something similar outside of Typesense, which used to be the older way of implementing Natural Language Search, before this feature was built-in in v29.0.
+:::
+
 ## Live Demo
 
 Here's a video of what we'll be building in this guide:
@@ -479,3 +486,8 @@ That's it! Our users can now use natural language to search for cars and the int
 Keep in mind that LLMs may occasionally misunderstand queries or generate Typesense queries that are invalid. In such cases, tweaking the prompt to handle specific edge cases or incorporating fallback logic can ensure better results over time.
 
 You can find the [full source code](https://github.com/typesense/showcase-generation-augmented-retrieval-genkit) of the demo application on GitHub and a live demo [here](https://natural-language-search-cars-genkit.typesense.org/).
+
+:::tip Natural Language Search is now built-in to Typesense <Badge text="v29.0+"/>
+As of v29.0 of Typesense, the Natural Language Search feature is now built-in to Typesense, where you provide just your LLM API Keys and Typesense will take care of all the necessary orchestration described above to convert users' queries into structured Typesense queries.
+<RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/natural-language-search.html#create-a-natural-language-search-model`">Read the docs</RouterLink> on how to use this built-in feature.
+:::

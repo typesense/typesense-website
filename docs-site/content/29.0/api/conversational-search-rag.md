@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Conversational Search (RAG)
@@ -61,12 +61,14 @@ Once we've created the conversation history collection above, we can then create
 Typesense currently supports the following LLM platforms:
 
 - [OpenAI](https://platform.openai.com/docs/models/models-overview)
-- [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/#text-generation) 
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models)
+- [Google](https://ai.google.dev/gemini-api/docs/text-generation)
+- [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/#text-generation)
 - [vLLM](https://github.com/vllm-project/vllm) (useful when running local LLMs)
 
 Here's how to use each of these platforms to create a Conversational Model. (Use the tabs in the code snippet below to navigate between each platform).
 
-<Tabs :tabs="['OpenAI', 'Cloudflare', 'vLLM']">
+<Tabs :tabs="['OpenAI', 'Azure', 'Google', 'Cloudflare', 'vLLM']">
 
 <template v-slot:OpenAI>
 
@@ -80,7 +82,46 @@ curl 'http://localhost:8108/conversations/models' \
         "model_name": "openai/gpt-3.5-turbo",
         "history_collection": "conversation_store",
         "api_key": "OPENAI_API_KEY",
-        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",        
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
+        "max_bytes": 16384
+      }'
+```
+
+</template>
+
+<template v-slot:Azure>
+
+```shell
+curl 'http://localhost:8108/conversations/models' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "id": "conv-model-1",
+        "model_name": "azure/gpt-35-turbo",
+        "history_collection": "conversation_store",
+        "api_key": "AZURE_OPENAI_API_KEY",
+        "url": "https://your_resource.openai.azure.com/openai/deployments/your_deployment/chat/completions?api-version=2024-02-15-preview",
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
+        "max_bytes": 16384
+      }'
+```
+
+</template>
+
+<template v-slot:Google>
+
+```shell
+curl 'http://localhost:8108/conversations/models' \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{
+        "id": "conv-model-1",
+        "model_name": "google/gemini-2.0-flash",
+        "history_collection": "conversation_store",
+        "api_key": "GEMINI_API_KEY",
+        "system_prompt": "You are an assistant for question-answering. You can only make conversations based on the provided context. If a response cannot be formed strictly using the provided context, politely say you do not have knowledge about that topic.",
         "max_bytes": 16384
       }'
 ```
@@ -131,14 +172,17 @@ curl 'http://localhost:8108/conversations/models' \
 
 | Parameter          | Description                                                                                                                                               |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| model_name         | Name of the LLM model offered by OpenAI, Cloudflare or vLLM                                                                                               |
+| model_name         | Name of the LLM model offered by OpenAI, Azure OpenAI, Cloudflare or vLLM                                                                                 |
 | api_key            | The LLM service's API Key                                                                                                                                 |
 | history_collection | Typesense collection that stores the historical conversations                                                                                             |
 | account_id         | LLM service's account ID (only applicable for Cloudflare)                                                                                                 |
+| url                | The Azure OpenAI endpoint URL (only applicable for Azure OpenAI)                                                                                          |
 | system_prompt      | The system prompt that contains special instructions to the LLM                                                                                           |
 | ttl                | Time interval in seconds after which the messages would be deleted. Default: `86400` (24 hours)                                                           |
 | max_bytes          | The maximum number of bytes to send to the LLM in every API call. Consult the LLM's documentation on the number of bytes supported in the context window. |
 | vllm_url           | URL of vLLM service                                                                                                                                       |
+| openai_url         | Base URL of OpenAI API endpoint (only applicable for OpenAI)                                                                                              |
+| openai_path        | URL path of OpenAI API endpoint (only applicable for OpenAI)                                                                                              |
 
 **Response:**
 
@@ -253,6 +297,123 @@ If your `multi_search` request includes multiple searches with `conversation=tru
 
 :::tip Auto-Embedding Model
 In our experience, we've found that models that are specifically meant for Q&A use-cases (like the `ts/all-MiniLM-L12-v2` S-BERT model) perform well for conversations. You can also use OpenAI's text embedding models.
+:::
+
+## Streaming Conversations
+
+You can enable streaming responses from the LLM by setting `conversation_stream=true` as a query parameter. This allows you to build interactive chat experiences where responses appear gradually as they are generated.
+
+Here's an example of how to use streaming:
+
+```shell
+curl 'http://localhost:8108/multi_search?q=can+you+suggest+an+action+series&conversation=true&conversation_model_id=conv-model-1&conversation_stream=true' \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+        -d '{
+              "searches": [
+                {
+                  "collection": "tv_shows",
+                  "query_by": "embedding",
+                  "exclude_fields": "embedding"
+                }
+              ]
+            }'
+```
+
+When streaming is enabled, the response will be sent as a Server-Sent Events (SSE) stream. Each event will contain a chunk of the response as it's being generated by the LLM. The events will have the following format:
+
+```
+data: {"conversation": {"message": "I would suggest", "conversation_id": "771aa307-b445-4987-b100-090c00a13f1b"}}
+
+data: {"conversation": {"message": " \"Starship Salvage\"", "conversation_id": "771aa307-b445-4987-b100-090c00a13f1b"}}
+
+data: {"conversation": {"message": ", a sci-fi action series", "conversation_id": "771aa307-b445-4987-b100-090c00a13f1b"}}
+
+...
+
+data: [DONE]
+```
+
+Each event contains:
+
+- `message`: A piece of the response being streamed.
+- `conversation_id`: The ID of the conversation, which you can use for follow-up questions.
+
+The final response will still include the complete conversation object with the full answer and conversation history, just like in non-streaming mode.
+
+:::tip
+If you're using the [TypeScript client](https://github.com/typesense/typesense-js), you can use the `streamConfig` parameter to handle streaming events:
+
+```typescript
+const searchParameters = {
+  q: 'can you suggest an action series',
+  conversation: true,
+  conversation_model_id: 'conv-model-1',
+  conversation_stream: true,
+  streamConfig: {
+    onChunk: chunk => {
+      // Handle each chunk of the response
+      console.log(chunk.conversation.message)
+    },
+    onError: error => {
+      // Handle any errors
+      console.error(error)
+    },
+    onComplete: response => {
+      // Handle the complete response
+      console.log(response)
+    },
+  },
+}
+```
+
+For multisearch requests, the `streamConfig` parameter is part of the `commonParams` object:
+
+```typescript
+type Product = {
+  id: string
+  title: string
+  description: string
+}
+
+type Store = {
+  id: string
+  name: string
+}
+
+await test.multiSearch.perform<[Product, Store]>(
+  {
+    searches: [
+      {
+        collection: 'products',
+        query_by: 'title',
+      },
+      {
+        collection: 'stores',
+        query_by: 'name',
+      },
+    ],
+  },
+  {
+    per_page: 10,
+    q: 'Raisin',
+    conversation: true,
+    conversation_stream: true,
+    conversation_model_id: 'conv-model-1',
+    streamConfig: {
+      onChunk: result => {
+        console.log(result)
+      },
+      onComplete: results => {
+        console.log(results.results[0].hits) // SearchResponseHit<Product>[] | undefined
+        console.log(results.results[1].hits) // SearchResponseHit<Store>[] | undefined
+      },
+    },
+  },
+)
+```
+
 :::
 
 ## Follow-up Questions

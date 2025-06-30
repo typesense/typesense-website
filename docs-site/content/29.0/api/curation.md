@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 sitemap:
-  priority: 0.3
+  priority: 0.7
 ---
 
 # Curation
@@ -475,6 +475,311 @@ positions 1 and 2, with the remaining records below them:
 ```
 
 Document `CVB333` "slides up" to position 2, to take the place of `DEF456` (which has been filtered out).
+
+### Dynamic sorting
+
+Like [dynamic filtering](#dynamic-filtering), Typesense supports dynamic sorting with overrides.
+
+Consider the following schema:
+
+```json
+{
+  "name": "products",
+  "fields": [
+    {"name": "title", "type": "string"},
+    {"name": "store", "type": "string[]"},
+    {"name": "sales", "type": "object"},
+    {"name": "sales.store01", "type": "int32"},
+    {"name": "sales.store02", "type": "int32"},
+    {"name": "inventory", "type": "object"},
+    {"name": "inventory.store01", "type": "int32"},
+    {"name": "inventory.store02", "type": "int32"}
+  ],
+  "enable_nested_fields": true
+}
+```
+
+You can create an override that dynamically sorts results based on the query:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+override = {
+  "rule": {
+    "query": "{store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}
+
+// Creates/updates an override called `dynamic-sort` in the `products` collection
+client.collections('products').overrides().upsert('dynamic-sort', override)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$override = [
+  "rule" => [
+    "query" => "{store}",
+    "match" => "exact"
+  ],
+  "remove_matched_tokens" => true,
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+];
+
+# Creates/updates an override called `dynamic-sort` in the `products` collection
+$client->collections['products']->overrides->upsert('dynamic-sort', $override);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+override = {
+  "rule": {
+    "query": "{store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": True,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}
+
+# Creates/updates an override called `dynamic-sort` in the `products` collection
+client.collections('products').overrides.upsert('dynamic-sort', override)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+override = {
+  "rule": {
+    "query" => "{store}",
+    "match" => "exact"
+  },
+  "remove_matched_tokens" => true,
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+}
+
+# Creates/updates an override called `dynamic-sort` in the `products` collection
+client.collections('products').overrides.upsert('dynamic-sort', override)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final override = {
+  "rule": {
+    "query": "{store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+};
+
+// Creates/updates an override called `dynamic-sort` in the `products` collection
+await client.collection('products').overrides.upsert('dynamic-sort', override);
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
+
+searchOverrideSchema.rule(new SearchOverrideRule().query("{store}")
+                    .match(SearchOverrideRule.MatchEnum.EXACT))
+                    .removeMatchedTokens(true)
+                    .sortBy("sales.{store}:desc, inventory.{store}:desc");
+
+// Creates/updates an override called `dynamic-sort` in the `products` collection
+SearchOverride searchOverride = client.collections("products").overrides().upsert("dynamic-sort", searchOverrideSchema);
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+override := &api.SearchOverrideSchema{
+  Rule: api.SearchOverrideRule{
+    Query: pointer.String("{store}"),
+    Match: pointer.Any(api.Exact),
+  },
+  RemoveMatchedTokens: pointer.True(),
+  SortBy:             pointer.String("sales.{store}:desc, inventory.{store}:desc"),
+}
+
+// Creates/updates an override called `dynamic-sort` in the `products` collection
+client.Collection("products").Overrides().Upsert(context.Background(), "dynamic-sort", override)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/products/overrides/dynamic-sort" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+  "rule": {
+    "query": "{store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}'
+```
+
+  </template>
+</Tabs>
+
+With this override in effect, when someone searches for a store (e.g., "store01"), the results will be sorted by that store's sales in descending order, and then by its inventory in descending order.
+
+You can also use dynamic sorting with filter-based rules:
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+override = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}
+
+// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+client.collections('products').overrides().upsert('dynamic-sort-filter', override)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$override = [
+  "rule" => [
+    "filter_by" => "store:={store}",
+    "match" => "exact"
+  ],
+  "remove_matched_tokens" => true,
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+];
+
+# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+$client->collections['products']->overrides->upsert('dynamic-sort-filter', $override);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+override = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": True,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}
+
+# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+client.collections('products').overrides.upsert('dynamic-sort-filter', override)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+override = {
+  "rule": {
+    "filter_by" => "store:={store}",
+    "match" => "exact"
+  },
+  "remove_matched_tokens" => true,
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+}
+
+# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+client.collections('products').overrides.upsert('dynamic-sort-filter', override)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final override = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+};
+
+// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+await client.collection('products').overrides.upsert('dynamic-sort-filter', override);
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
+
+searchOverrideSchema.rule(new SearchOverrideRule().filterBy("store:={store}")
+                    .match(SearchOverrideRule.MatchEnum.EXACT))
+                    .removeMatchedTokens(true)
+                    .sortBy("sales.{store}:desc, inventory.{store}:desc");
+
+// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+SearchOverride searchOverride = client.collections("products").overrides().upsert("dynamic-sort-filter", searchOverrideSchema);
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+override := &api.SearchOverrideSchema{
+  Rule: api.SearchOverrideRule{
+    FilterBy: pointer.String("store:={store}"),
+    Match:    pointer.Any(api.Exact),
+  },
+  RemoveMatchedTokens: pointer.True(),
+  SortBy:             pointer.String("sales.{store}:desc, inventory.{store}:desc"),
+}
+
+// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
+client.Collection("products").Overrides().Upsert(context.Background(), "dynamic-sort-filter", override)
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/products/overrides/dynamic-sort-filter" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+}'
+```
+
+  </template>
+</Tabs>
+
+This override will apply the same dynamic sorting when a filter condition matches the store name.
 
 ### Override parameters
 
