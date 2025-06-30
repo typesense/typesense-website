@@ -1227,9 +1227,9 @@ let schema = {
           "product_name"
         ],
         "model_config": {
-          "model_name": "openai/text-embedding-ada-002",
+          "model_name": "azure/text-embedding-ada-002",
           "api_key": "your_api_key_as_required_by_the_custom_provider",
-          "url": "https://your-custom-openai-compatible-api.domain.com"
+          "url": "https://example.openai.azure.com/openai/deployments/text-embedding-3-large/embeddings?api-version=2023-05-15"
         }
       }
     }
