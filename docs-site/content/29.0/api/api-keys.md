@@ -475,31 +475,11 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `nl_search_models:upsert`        | Update NL search model (PUT /nl_search_models/:id)                                |
 | `nl_search_models:delete`        | Delete NL search model (DELETE /nl_search_models/:id)                             |
 
-#### Rate Limiting Operations
-
-| Action                           | Description                                                                        |
-|:---------------------------------|:-----------------------------------------------------------------------------------|
-| `limits:get`                     | Get rate limits (GET /limits)                                                     |
-| `limits:create`                  | Create rate limit (POST /limits)                                                  |
-| `limits:upsert`                  | Update rate limit (PUT /limits/:id)                                               |
-| `limits:delete`                  | Delete rate limit (DELETE /limits/:id)                                            |
-| `limits/active:get`              | Get active throttles (GET /limits/active)                                         |
-| `limits/active:delete`           | Delete active throttle (DELETE /limits/active/:id)                                |
-| `limits/exceeds:get`             | Get limit exceed counts (GET /limits/exceeds)                                     |
-| `limits/exceeds:delete`          | Delete limit exceed (DELETE /limits/exceeds/:id)                                  |
-
 #### Configuration Operations
 
 | Action           | Description                                    |
 |:-----------------|:-----------------------------------------------|
 | `config:create`  | Update configuration (POST /config)             |
-
-#### Proxy Operations
-
-| Action           | Description                                    |
-|:-----------------|:-----------------------------------------------|
-| `proxy:create`   | Proxy request (POST /proxy)                     |
-| `proxy_sse:create` | Proxy SSE request (POST /proxy_sse)             |
 
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
