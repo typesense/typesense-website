@@ -416,6 +416,91 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `debug:list`         | Allows access to the `/debug` endpoint.           |
 | `*`                  | Allows all operations.                            |
 
+#### Preset Operations
+
+| Action           | Description                                    |
+|:-----------------|:-----------------------------------------------|
+| `presets:get`    | Get preset (GET /presets/:name)                |
+| `presets:list`   | List presets (GET /presets)                    |
+| `presets:upsert` | Create/update preset (PUT /presets/:name)      |
+| `presets:delete` | Delete preset (DELETE /presets/:name)          |
+
+#### Stemming Dictionary Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `stemming/dictionaries:get`      | Get stemming dictionary (GET /stemming/dictionaries/:id)                          |
+| `stemming/dictionaries:list`     | List stemming dictionaries (GET /stemming/dictionaries)                           |
+| `stemming/dictionaries:create`   | Import stemming dictionary (POST /stemming/dictionaries/import)                   |
+| `stemming/dictionaries:delete`   | Delete stemming dictionary (DELETE /stemming/dictionaries/:id)                    |
+
+#### Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `operations/snapshot:create`     | Create snapshot (POST /operations/snapshot)                                       |
+| `operations/vote:create`         | Vote operation (POST /operations/vote)                                            |
+| `operations/cache/clear:create`  | Clear cache (POST /operations/cache/clear)                                        |
+| `operations/db/compact:create`   | Compact database (POST /operations/db/compact)                                    |
+| `operations/reset_peers:create`  | Reset peers (POST /operations/reset_peers)                                        |
+| `operations/schema_changes:get`  | Get schema changes (GET /operations/schema_changes)                               |
+
+#### Conversation Model Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `conversations/models:create`    | Create conversation model (POST /conversations/models)                            |
+| `conversations/models:get`       | Get conversation model (GET /conversations/models/:id)                            |
+| `conversations/models:list`      | List conversation models (GET /conversations/models)                              |
+| `conversations/models:upsert`    | Update conversation model (PUT /conversations/models/:id)                         |
+| `conversations/models:delete`    | Delete conversation model (DELETE /conversations/models/:id)                      |
+
+#### Personalization Model Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `personalization/models:create`  | Create personalization model (POST /personalization/models)                       |
+| `personalization/models:get`     | Get personalization model (GET /personalization/models/:id)                       |
+| `personalization/models:list`    | List personalization models (GET /personalization/models)                         |
+| `personalization/models:upsert`  | Update personalization model (PUT /personalization/models/:id)                    |
+| `personalization/models:delete`  | Delete personalization model (DELETE /personalization/models/:id)                 |
+
+#### Natural Language Search Model Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `nl_search_models:create`        | Create NL search model (POST /nl_search_models)                                   |
+| `nl_search_models:get`           | Get NL search model (GET /nl_search_models/:id)                                   |
+| `nl_search_models:list`          | List NL search models (GET /nl_search_models)                                     |
+| `nl_search_models:upsert`        | Update NL search model (PUT /nl_search_models/:id)                                |
+| `nl_search_models:delete`        | Delete NL search model (DELETE /nl_search_models/:id)                             |
+
+#### Rate Limiting Operations
+
+| Action                           | Description                                                                        |
+|:---------------------------------|:-----------------------------------------------------------------------------------|
+| `limits:get`                     | Get rate limits (GET /limits)                                                     |
+| `limits:create`                  | Create rate limit (POST /limits)                                                  |
+| `limits:upsert`                  | Update rate limit (PUT /limits/:id)                                               |
+| `limits:delete`                  | Delete rate limit (DELETE /limits/:id)                                            |
+| `limits/active:get`              | Get active throttles (GET /limits/active)                                         |
+| `limits/active:delete`           | Delete active throttle (DELETE /limits/active/:id)                                |
+| `limits/exceeds:get`             | Get limit exceed counts (GET /limits/exceeds)                                     |
+| `limits/exceeds:delete`          | Delete limit exceed (DELETE /limits/exceeds/:id)                                  |
+
+#### Configuration Operations
+
+| Action           | Description                                    |
+|:-----------------|:-----------------------------------------------|
+| `config:create`  | Update configuration (POST /config)             |
+
+#### Proxy Operations
+
+| Action           | Description                                    |
+|:-----------------|:-----------------------------------------------|
+| `proxy:create`   | Proxy request (POST /proxy)                     |
+| `proxy_sse:create` | Proxy SSE request (POST /proxy_sse)             |
+
 ## Retrieve an API Key
 Retrieve (metadata about) a key.
 
