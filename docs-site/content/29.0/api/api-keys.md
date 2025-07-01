@@ -455,16 +455,6 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `conversations/models:upsert`    | Update conversation model (PUT /conversations/models/:id)                         |
 | `conversations/models:delete`    | Delete conversation model (DELETE /conversations/models/:id)                      |
 
-#### Personalization Model Operations
-
-| Action                           | Description                                                                        |
-|:---------------------------------|:-----------------------------------------------------------------------------------|
-| `personalization/models:create`  | Create personalization model (POST /personalization/models)                       |
-| `personalization/models:get`     | Get personalization model (GET /personalization/models/:id)                       |
-| `personalization/models:list`    | List personalization models (GET /personalization/models)                         |
-| `personalization/models:upsert`  | Update personalization model (PUT /personalization/models/:id)                    |
-| `personalization/models:delete`  | Delete personalization model (DELETE /personalization/models/:id)                 |
-
 #### Natural Language Search Model Operations
 
 | Action                           | Description                                                                        |
