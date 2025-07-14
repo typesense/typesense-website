@@ -3305,7 +3305,8 @@ During hybrid search, the `_text_match` clause in `sort_by` will refer to the co
 :::
 
 If you are populating the embedding field externally, without using auto-embedding, you can still do a hybrid
-search by passing the embedding of the query string manually via the `vector_query` parameter.
+search by passing the embedding of the query string manually via the `vector_query` parameter and omitting the 
+embedding field from `query_by`.
 
 ```shell
 curl 'http://localhost:8108/multi_search' \
@@ -3315,7 +3316,7 @@ curl 'http://localhost:8108/multi_search' \
           "searches": [
             {
               "q": "chair",
-              "query_by": "product_name,embedding",
+              "query_by": "product_name",
               "vector_query": "embedding:([0.2, 0.4, 0.1])",
               "sort_by": "_text_match:desc"
             }
