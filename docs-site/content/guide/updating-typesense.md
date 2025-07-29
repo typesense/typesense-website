@@ -105,8 +105,8 @@ curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVe
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 <br>
 # arm64
-curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
-sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.arm64.rpm
+curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
+sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
 <br>
 # Start Typesense
 sudo systemctl restart typesense-server.service</code></pre>
