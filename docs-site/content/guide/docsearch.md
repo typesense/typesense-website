@@ -51,7 +51,10 @@ If you are running Typesense on `localhost` and you're using Docker to run the s
 On `start_urls` and `sitemap_urls`, you will need to target the `host.docker.internal` URL, to ensure that will find the right site in your host machine, instead
 of trying to find it inside the container.
 
-You will need to run your site at port `:80`, because the scraper can present a not expected behavior if has hosted in another port.
+Ideally, you will need to run your site at port `:80`, because the scraper can present a not expected behavior if has hosted in another port.
+However, there is an option to scrape your site at port other than `:80` by specifying `"allowed_domains": ["localhost"]` in yours scraper configuration. 
+Then it is possible to write `"start_urls": ["http://localhost:<your-port>"]`.
+More detailed example of the configuration can be found [here](https://github.com/meilisearch/docs-scraper/issues/103#issuecomment-810736674)
 :::
 
 :::tip
