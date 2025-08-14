@@ -1202,10 +1202,40 @@ curl 'http://localhost:8108/collections' \
 When you create the collection above, we will call the OpenAI API to create embeddings from the `product_name` field and store them in the `embedding` field every time you index a document.
 
 You have to provide a valid OpenAI API key in `model_config` to use this feature.
+###  Using Azure OpenAI API
+You can use an [Azure](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings?tabs=console) OpenAI model to generate embedings:
+
+```js
+let schema = {
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": [
+          "product_name"
+        ],
+        "model_config": {
+          "model_name": "azure/text-embedding-ada-002",
+          "api_key": "your_api_key_as_required_by_the_custom_provider",
+          "url": "https://example.openai.azure.com/openai/deployments/text-embedding-3-large/embeddings?api-version=2023-05-15"
+        }
+      }
+    }
+  ]
+};
+
+client.collections('products').create(schema);
+```
 
 ### Using OpenAI-compatible APIs
 
-You can also use OpenAI-API-compatible API providers like Azure, by customizing the base URL in the `model_config`:
+You can also use other OpenAI-API-compatible API providers, by customizing the base URL in the `model_config`:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
 
