@@ -61,7 +61,7 @@ jobs:
       matrix:
         # versions are wrapped in quotes to preserve the exact versions
         # especially numbers that has "0" on right-most side (e.g. 26.0)
-        typesense-version: ['0.25.2', '26.0']
+        typesense-version: ['28.0', '29.0']
         typesense-port: ['8108:8108']
 
     services:
@@ -71,17 +71,38 @@ jobs:
     steps:
       - name: Start Typesense
         run: |
-          docker run -d \
-          -p ${{ matrix.typesense-port }} \
+          docker run -id \
+          -p 8108:8108 \
           --name typesense \
-          -v /tmp/typesense:/data \
+          -v /tmp/typesense-data:/data \
+          -v /tmp/typesense-analytics-data:/analytics-data \
           typesense/typesense:${{ matrix.typesense-version}} \
           --api-key=xyz \
-          --data-dir /data \
+          --data-dir=/data \
+          --enable-search-analytics=true \
+          --analytics-dir=/analytics-data  \
+          --analytics-flush-interval=60 \
+          --analytics-minute-rate-limit=100 \
           --enable-cors
 
-      - name: Curl Typesense
-        run: sleep 1 && curl http://localhost:8108/health
+      - name: Wait for Typesense to be healthy
+        shell: bash
+        run: |
+          start_time=$(date +%s)
+          timeout=30
+          counter=0
+          echo "Waiting for Typesense to be healthy..."
+          until curl -s http://localhost:8108/health | grep -q '"ok":true'; do
+            if [ $counter -eq $timeout ]; then
+              echo "Timed out waiting for Typesense to be healthy"
+              exit 1
+            fi  
+            sleep 1
+            counter=$((counter + 1))
+          done
+          end_time=$(date +%s)
+          elapsed=$((end_time - start_time))
+          echo "Typesense healthcheck elapsed: ${elapsed}s"
 ```
 
 A full example file can be found here: [jaeyson/ex_typesense](https://github.com/jaeyson/ex_typesense/blob/main/.github/workflows/ci.yml).
