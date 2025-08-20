@@ -204,6 +204,38 @@ You want to set `drop_tokens_threshold: 0` as a search parameter.
 
 For more context on how this works, please read this section below: [The `q` search parameter](#the-q-search-parameter)
 
+### Why does Typesense limit typo tolerance to 2 typos?
+
+Typesense limits typo tolerance to a maximum of 2 typos by default for two reasons:
+
+#### 1. Performance Considerations
+
+The computational complexity of typo tolerance grows with the number of allowed typos. For a single word, allowing 3 typos instead of 2 can increase the search space by several orders of magnitude, significantly impacting search performance and memory usage.
+
+#### 2. User Experience and Search Quality
+
+Beyond 2 typos, auto-corrections often become confusing and counterproductive for users. Here are some examples:
+
+**Good corrections (1-2 typos):**
+- `restrant` → `restaurant` (1 typo: missing letter)
+- `teh quick` → `the quick` (1 typo: letter swap)
+- `restaraunt` → `restaurant` (2 typos: extra + wrong letter)
+
+**Problematic corrections (3+ typos):**
+- `cat` with 3 typos could match `elephant`, `restaurant`, `computer`, etc.
+- `john` with 3 typos could match `phone`, `table`, `house`, etc.
+- `bike` with 3 typos could match `coffee`, `laptop`, `garden`, etc.
+
+When a user searches for "cat" but meant "car", they expect to see car-related results. However, if the system auto-corrects "cat" to "elephant" or "restaurant", it creates a confusing experience where the user can't understand why they're seeing those results.
+
+**The Sweet Spot:**
+
+Two typos strikes the right balance by:
+- Catching most genuine typing errors (fat-fingering, missing letters, letter swaps)
+- Avoiding nonsensical matches that confuse users
+- Maintaining fast search performance
+- Preserving search intent and context
+
 ### Can I implement Boolean Search with Typesense?
 
 Yes, but with some caveats, that require additional consideration.
