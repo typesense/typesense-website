@@ -71,8 +71,8 @@ jobs:
     steps:
       - name: Start Typesense
         run: |
-          docker run -id \
-          -p 8108:8108 \
+          docker run -d \
+          -p ${{ matrix.typesense-port }}
           --name typesense \
           -v /tmp/typesense-data:/data \
           -v /tmp/typesense-analytics-data:/analytics-data \
