@@ -387,11 +387,12 @@ You can use the `/health` API end-point to verify that the server is ready to ac
 
 
 You can use the `/debug` API end-point to verify the version of Typesense running.
+See [Managing Access to Data](./data-access-control.md) for more information about using API keys.
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
     <div class="manual-highlight">
-    <pre class="language-bash"><code>curl http://localhost:8108/debug
+    <pre class="language-bash"><code>curl -H 'X-TYPESENSE-API-KEY: xyz' http://localhost:8108/debug
 {
   "state": 1,
   "version": "{{ $site.themeConfig.typesenseLatestVersion }}"
