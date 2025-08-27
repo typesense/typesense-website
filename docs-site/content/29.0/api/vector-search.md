@@ -3071,6 +3071,40 @@ would return all documents whose `embedding` value is closest to the `foobar` do
 The `foobar` document itself will not be returned in the results.
 :::
 
+## Using Auto-generated vs Manual Embeddings
+
+When querying vector fields, you can choose between auto-generated embeddings (where Typesense converts your text query to vectors) or manual embeddings (where you provide pre-computed vectors).
+
+### Auto-generated Embeddings
+
+For auto-embedding fields, use an empty array `[]` in `vector_query` to let Typesense automatically generate embeddings from your `q` parameter:
+
+```json
+{
+  "q": "comfortable office chair",
+  "query_by": "embedding",
+  "vector_query": "embedding:([], k:100, distance_threshold:0.30)"
+}
+```
+
+This approach automatically:
+
+- Converts your text query to an embedding using the same model used for indexing
+- Applies vector search parameters like `k`, `distance_threshold`, etc.
+
+### Manual Embeddings
+
+For manual control, provide your own pre-computed embedding vector:
+
+```json
+{
+  "q": "*",
+  "vector_query": "embedding:([0.2, 0.4, 0.1, ...], k:100, distance_threshold:0.30)"
+}
+```
+
+This gives you full control over the query vector while still applying all vector search parameters.
+
 ## Semantic Search
 
 When using [auto-embedding](#option-b-auto-embedding-generation-within-typesense), you can directly set `query_by` to the auto-embedding field to do a semantic search on this field.
