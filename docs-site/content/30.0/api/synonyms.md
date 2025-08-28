@@ -7,7 +7,7 @@ sitemap:
 # Synonym Sets
 
 :::warning Breaking Change in v30
-The old synonyms API has been deprecated and replaced with the new **synonym sets** API. All existing synonyms have been automatically migrated to the new synonym sets format. This is a breaking change that requires updating your code to use the new API endpoints.
+When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new synonym sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the synonym definitions.
 :::
 
 The synonym sets feature allows you to define search terms that should be considered equivalent. For example: when you define a synonym for `sneaker` as `shoe`, searching for `sneaker` will now return all records with the word `shoe` in them, in addition to records with the word `sneaker`.
