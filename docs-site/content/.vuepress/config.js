@@ -317,7 +317,7 @@ let config = {
             ['/30.0/api/conversational-search-rag', 'Conversational Search (RAG)'],
             ['/30.0/api/natural-language-search', 'Natural Language Search'],
             ['/30.0/api/joins', 'JOINs'],
-            ['/30.0/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
+            ['/30.0/api/analytics', 'Analytics'],
             ['/30.0/api/api-keys', 'API Keys'],
             ['/30.0/api/curation', 'Curation'],
             ['/30.0/api/collection-alias', 'Collection Alias'],
