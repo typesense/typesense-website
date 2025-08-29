@@ -4,17 +4,22 @@ sitemap:
   priority: 0.7
 ---
 
-# Synonyms
-The synonyms feature allows you to define search terms that should be considered equivalent. For eg: when you define a synonym for `sneaker` as `shoe`, searching for `sneaker` will now return all records with the word `shoe` in them, in addition to records with the word `sneaker`.
+# Synonym Sets
 
-Typesense supports two types of synonyms:
+:::warning Breaking Change in v30
+When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new synonym sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the synonym definitions.
+:::
+
+The synonym sets feature allows you to define search terms that should be considered equivalent. For example: when you define a synonym for `sneaker` as `shoe`, searching for `sneaker` will now return all records with the word `shoe` in them, in addition to records with the word `sneaker`.
+
+Typesense supports two types of synonyms within synonym sets:
 
 1. **One-way synonyms**: Defining the words `iphone` and `android` as one-way synonyms of `smart phone` will cause searches for `smart phone` to return documents containing `iphone` or `android` or both.
 
 2. **Multi-way synonyms**: Defining the words `blazer`, `coat` and `jacket` as multi-way synonyms will cause searches for any one of those words (eg: `coat`) to return documents containing at least one of the words in the synonym set (eg: records with `blazer` or `coat` or `jacket` are returned).
 
 :::tip Precedence
-When using Synonyms and [Overrides](./curation.md) together, Overrides are handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
+When using Synonym Sets and [Overrides](./curation.md) together, Overrides are handled first since the rules can contain instructions to replace the query. Synonym Sets will then work on the modified query.
 :::
 
 :::tip Locale-specific synonyms
@@ -29,20 +34,25 @@ So for eg, `"Site Reliability"` will not return results containing `Infrastructu
 Also, synonyms are only applied to the tokens in the `q` search parameter, and not to any tokens in the `filter_by` parameter. For eg, if you define a multi-way synonym for `abc <> xyz` and use `filter_by: title:=abc`, it will only match documents where `title=abc`, not `title=xyz`, because filtering is designed to be similar to a SQL `WHERE` condition to do a structured query and synonyms don't apply to filters.
 :::
 
-## Create or update a synonym
+## Create or update a synonym set
 
 ### Multi-way synonym
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-synonym = {
-  "synonyms": ["blazer", "coat", "jacket"]
+synonymSet = {
+  items: [
+    {
+      id: 'coat-synonyms',
+      synonyms: ['blazer', 'coat', 'jacket'],
+    },
+  ],
 }
 
-// Creates/updates a synonym called `coat-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('coat-synonyms', synonym)
+// Creates/updates a synonym set called `clothing-synonyms`
+client.synonymSets('clothing-synonyms').upsert(synonymSet)
 ```
 
   </template>
@@ -50,91 +60,98 @@ client.collections('products').synonyms().upsert('coat-synonyms', synonym)
   <template v-slot:PHP>
 
 ```php
-$synonym = [
-  "synonyms" => ["blazer", "coat", "jacket"]
+$synonymSet = [
+  "items" => [
+    [
+      "id" => "coat-synonyms",
+      "synonyms" => ["blazer", "coat", "jacket"]
+    ]
+  ]
 ];
 
-# Creates/updates a synonym called `coat-synonyms` in the `products` collection
-$client->collections['products']->synonyms->upsert('coat-synonyms', $synonym);
+# Creates/updates a synonym set called `clothing-synonyms`
+$client->synonymSets['clothing-synonyms']->upsert($synonymSet);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-synonym = {
-  "synonyms": ["blazer", "coat", "jacket"]
+synonym_set = {
+  "items": [
+    {
+      "id": "coat-synonyms",
+      "synonyms": ["blazer", "coat", "jacket"]
+    }
+  ]
 }
 
-# Creates/updates a synonym called `coat-synonyms` in the `products` collection
-client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
+# Creates/updates a synonym set called `clothing-synonyms`
+client.synonym_sets["clothing-synonyms"].upsert(synonym_set)
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-synonym = {
-  "synonyms" => ["blazer", "coat", "jacket"]
+synonym_set = {
+  "items" => [
+    {
+      "id" => "coat-synonyms",
+      "synonyms" => ["blazer", "coat", "jacket"]
+    }
+  ]
 }
 
-# Creates/updates a synonym called `coat-synonyms` in the `products` collection
-client.collections['products'].synonyms.upsert('coat-synonyms', synonym)
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-final synonym = {
-  "synonyms": ["blazer", "coat", "jacket"]
-};
-
-// Creates/updates a synonym called `coat-synonyms` in the `products` collection
-await client.collection('products').synonyms.upsert('coat-synonyms', synonym);
+# Creates/updates a synonym set called `clothing-synonyms`
+client.synonym_sets["clothing-synonyms"].upsert(synonym_set)
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-SearchSynonymSchema synonym = new SearchSynonymSchema();
-synonym.addSynonymsItem("blazer").addSynonymsItem("coat").addSynonymsItem("jacket");
+SynonymItemSchema synonymItem = new SynonymItemSchema();
+synonymItem.setId("coat-synonyms");
+synonymItem.addSynonymsItem("blazer").addSynonymsItem("coat").addSynonymsItem("jacket");
 
-// Creates/updates a synonym called `coat-synonyms` in the `products` collection
-client.collections("products").synonyms().upsert("coat-synonyms", synonym);
+SynonymSetCreateSchema synonymSet = new SynonymSetCreateSchema();
+synonymSet.addItemsItem(synonymItem);
+
+// Creates/updates a synonym set called `clothing-synonyms`
+client.synonymSets("clothing-synonyms").upsert(synonymSet);
 ```
 
   </template>
   <template v-slot:Go>
 
 ```go
-synonym := &api.SearchSynonymSchema{
+synonymItem := &api.SynonymItemSchema{
+  ID:       "coat-synonyms",
   Synonyms: []string{"blazer", "coat", "jacket"},
 }
 
-// Creates/updates a synonym called `coat-synonyms` in the `products` collection
-client.Collection("products").Synonyms().Upsert(context.Background(), "coat-synonyms", synonym)
-```
+synonymSet := &api.SynonymSetCreateSchema{
+  Items: []*api.SynonymItemSchema{synonymItem},
+}
 
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let synonymSchema = SearchSynonymSchema(synonyms: ["blazer", "coat", "jacket"])
-
-// Creates/updates a synonym called `coat-synonyms` in the `products` collection
-let (searchSynonym, response) = try await client.collection(name: "products").synonyms().upsert(id: "coat-synonyms", synonymSchema)
+// Creates/updates a synonym set called `clothing-synonyms`
+client.SynonymSets("clothing-synonyms").Upsert(context.Background(), synonymSet)
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT \
+curl "http://localhost:8108/synonym_sets/clothing-synonyms" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-  "synonyms": ["blazer", "coat", "jacket"]
+  "items": [
+    {
+      "id": "coat-synonyms",
+      "synonyms": ["blazer", "coat", "jacket"]
+    }
+  ]
 }'
 ```
 
@@ -148,8 +165,13 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ```json
 {
-  "id": "coat-synonyms",
-  "synonyms": ["blazer", "coat", "jacket"]
+  "name": "clothing-synonyms",
+  "items": [
+    {
+      "id": "coat-synonyms",
+      "synonyms": ["blazer", "coat", "jacket"]
+    }
+  ]
 }
 ```
 
@@ -158,17 +180,22 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X PUT 
 
 ### One-way synonym
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-synonym = {
-  "root": "smart phone",
-  "synonyms": ["iphone", "android"]
+synonymSet = {
+  items: [
+    {
+      id: 'smart-phone-synonyms',
+      root: 'smart phone',
+      synonyms: ['iphone', 'android'],
+    },
+  ],
 }
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym)
+// Creates/updates a synonym set called `tech-synonyms`
+client.synonymSets('tech-synonyms').upsert(synonymSet)
 ```
 
   </template>
@@ -176,101 +203,104 @@ client.collections('products').synonyms().upsert('smart-phone-synonyms', synonym
   <template v-slot:PHP>
 
 ```php
-$synonym = [
-  'root' => 'smart phone',
-  'synonyms' => ['iphone', 'android'],
+$synonymSet = [
+  "items" => [
+    [
+      "id" => "smart-phone-synonyms",
+      "root" => "smart phone",
+      "synonyms" => ["iphone", "android"]
+    ]
+  ]
 ];
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-$client->collections['products']->synonyms->upsert('smart-phone-synonyms', $synonym);
+# Creates/updates a synonym set called `tech-synonyms`
+$client->synonymSets['tech-synonyms']->upsert($synonymSet);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-synonym = {
-  "root": "smart phone",
-  "synonyms": ["iphone", "android"]
+synonym_set = {
+  "items": [
+    {
+      "id": "smart-phone-synonyms",
+      "root": "smart phone",
+      "synonyms": ["iphone", "android"]
+    }
+  ]
 }
 
-# Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections('products').synonyms.upsert('smart-phone-synonyms', synonym)
+# Creates/updates a synonym set called `tech-synonyms`
+client.synonym_sets["tech-synonyms"].upsert(synonym_set)
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-synonym = {
-  "root": "smart phone",
-  "synonyms": ["iphone", "android"]
+synonym_set = {
+  "items" => [
+    {
+      "id" => "smart-phone-synonyms",
+      "root" => "smart phone",
+      "synonyms" => ["iphone", "android"]
+    }
+  ]
 }
 
-# Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections('products').synonyms.upsert('smart-phone-synonyms', synonym)
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-final synonym = {
-  "root": "smart phone",
-  "synonyms": ["iphone", "android"]
-};
-
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-await client.collection('products').synonyms.upsert('smart-phone-synonyms', synonym);
+# Creates/updates a synonym set called `tech-synonyms`
+client.synonym_sets["tech-synonyms"].upsert(synonym_set)
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-SearchSynonymSchema synonym = new SearchSynonymSchema();
-synonym.addSynonymsItem("iphone").addSynonymsItem("android");
-synonym.root("smart phone");
+SynonymItemSchema synonymItem = new SynonymItemSchema();
+synonymItem.setId("smart-phone-synonyms");
+synonymItem.addSynonymsItem("iphone").addSynonymsItem("android");
+synonymItem.setRoot("smart phone");
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.collections("products").synonyms().upsert("smart-phone-synonyms", synonym);
+SynonymSetCreateSchema synonymSet = new SynonymSetCreateSchema();
+synonymSet.addItemsItem(synonymItem);
+
+// Creates/updates a synonym set called `tech-synonyms`
+client.synonymSets("tech-synonyms").upsert(synonymSet);
 ```
 
   </template>
   <template v-slot:Go>
 
 ```go
-synonym := &api.SearchSynonymSchema{
+synonymItem := &api.SynonymItemSchema{
+  ID:       "smart-phone-synonyms",
   Root:     pointer.String("smart phone"),
   Synonyms: []string{"iphone", "android"},
 }
 
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-client.Collection("products").Synonyms().Upsert(context.Background(), "smart-phone-synonyms", synonym)
-```
+synonymSet := &api.SynonymSetCreateSchema{
+  Items: []*api.SynonymItemSchema{synonymItem},
+}
 
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let synonymSchema = SearchSynonymSchema(
-  root: "smart phone",
-  synonyms: ["iphone", "android"]
-)
-
-// Creates/updates a synonym called `smart-phone-synonyms` in the `products` collection
-let (searchSynonym, response) = try await client.collection(name: "products").synonyms().upsert(id: "smart-phone-synonyms", synonymSchema)
+// Creates/updates a synonym set called `tech-synonyms`
+client.SynonymSets("tech-synonyms").Upsert(context.Background(), synonymSet)
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" -X PUT \
+curl "http://localhost:8108/synonym_sets/tech-synonyms" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-    "root": "smart phone",
-    "synonyms": ["iphone", "android"]
+  "items": [
+    {
+      "id": "smart-phone-synonyms",
+      "root": "smart phone",
+      "synonyms": ["iphone", "android"]
+    }
+  ]
 }'
 ```
 
@@ -284,11 +314,14 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 
 ```json
 {
-  "id":"smart-phone-synonyms",
-  "root":"smart phone",
-  "synonyms": ["iphone", "android"],
-  "locale": "",
-  "symbols_to_index": []
+  "name": "tech-synonyms",
+  "items": [
+    {
+      "id": "smart-phone-synonyms",
+      "root": "smart phone",
+      "synonyms": ["iphone", "android"]
+    }
+  ]
 }
 ```
 
@@ -296,24 +329,29 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 </Tabs>
 
 #### Definition
-`PUT ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
+
+`PUT ${TYPESENSE_HOST}/synonym_sets/:synonymSetName`
 
 ### Arguments
-| Parameter        | Required | Description                                                                                                                                                                       |
-|------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| synonyms         | yes      | Array of words that should be considered as synonyms.                                                                                                                             |
-| root             | no       | For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.                                                                                          |
-| locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when searching a field that has a matching locale. If not specified, the synonym will be applied globally. |
-| symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is.                                         |
 
-## Retrieve a synonym
-We can retrieve a single synonym.
+| Parameter              | Required | Description                                                                                                                                                                       |
+| ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| items                  | yes      | Array of synonym items, where each item contains the synonym definitions.                                                                                                         |
+| items.id               | yes      | Unique identifier for the synonym item.                                                                                                                                           |
+| items.synonyms         | yes      | Array of words that should be considered as synonyms.                                                                                                                             |
+| items.root             | no       | For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.                                                                                          |
+| items.locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when searching a field that has a matching locale. If not specified, the synonym will be applied globally. |
+| items.symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is.                                         |
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
+## Retrieve a synonym set
+
+We can retrieve a single synonym set.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-client.collections('products').synonyms('coat-synonyms').retrieve()
+client.synonymSets('clothing-synonyms').retrieve()
 ```
 
   </template>
@@ -321,141 +359,35 @@ client.collections('products').synonyms('coat-synonyms').retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->collections['products']->synonyms['coat-synonyms']->retrieve();
+$client->synonymSets['clothing-synonyms']->retrieve();
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-client.collections('products').synonyms['coat-synonyms'].retrieve
+client.synonym_sets["clothing-synonyms"].retrieve()
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-client.collections('products').synonyms['coat-synonyms'].retrieve
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-await client.collection('products').synonym('coat-synonyms').retrieve();
+client.synonym_sets["clothing-synonyms"].retrieve()
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-SearchSynonym searchSynonym = client.collections("products").synonyms("coat-synonyms").retrieve();
+SynonymSet synonymSet = client.synonymSets("clothing-synonyms").retrieve();
 ```
 
   </template>
   <template v-slot:Go>
 
 ```go
-client.Collection("products").Synonym("coat-synonyms").Retrieve(context.Background())
-```
-
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let (searchSynonym, response) = try await client.collection(name: "products").synonyms().retrieve(id: "coat-synonyms")
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" "http://localhost:8108/collections/products/synonyms"
-```
-
-  </template>
-</Tabs>
-
-#### Sample Response
-
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
-
-```json
-{
-  "id": "coat-synonyms",
-  "root":"",
-  "synonyms": ["blazer", "coat", "jacket"]
-}
-```
-
-  </template>
-</Tabs>
-
-#### Definition
-`GET ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
-
-## List all synonyms
-List all synonyms associated with a given collection.
-
-NOTE: By default, ALL synonyms are returned, but you can use the `offset` and `limit` parameters to
-paginate on the listing.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-client.collections('products').synonyms().retrieve()
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$client->collections['products']->synonyms->retrieve();
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-client.collections['products'].synonyms.retrieve()
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-client.collections['products'].synonyms.retrieve
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-await client.collection('products').synonyms.retrieve();
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchSynonymsResponse searchSynonymsResponse =  client.collections("products").synonyms().retrieve();
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-client.Collection("products").Synonyms().Retrieve(context.Background())
-```
-
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let (searchSynonyms, response) = try await client.collection(name: "products").synonyms().retrieve()
+client.SynonymSets("clothing-synonyms").Retrieve(context.Background())
 ```
 
   </template>
@@ -463,7 +395,7 @@ let (searchSynonyms, response) = try await client.collection(name: "products").s
 
 ```bash
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/products/synonyms"
+"http://localhost:8108/synonym_sets/clothing-synonyms"
 ```
 
   </template>
@@ -476,10 +408,10 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
 ```json
 {
-  "synonyms": [
+  "name": "clothing-synonyms",
+  "items": [
     {
       "id": "coat-synonyms",
-      "root": "",
       "synonyms": ["blazer", "coat", "jacket"]
     }
   ]
@@ -490,16 +422,18 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 </Tabs>
 
 #### Definition
-`GET ${TYPESENSE_HOST}/collections/:collection/synonyms`
 
-## Delete a synonym
-Delete a synonym associated with a collection.
+`GET ${TYPESENSE_HOST}/synonym_sets/:synonymSetName`
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Swift','Shell']">
+## List all synonym sets
+
+List all synonym sets.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-client.collections('products').synonyms('coat-synonyms').delete()
+client.synonymSets().retrieve()
 ```
 
   </template>
@@ -507,56 +441,126 @@ client.collections('products').synonyms('coat-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-$client->collections['products']->synonyms['coat-synonyms']->delete();
+$client->synonymSets->retrieve();
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-client.collections['products'].synonyms['coat-synonyms'].delete()
+client.synonym_sets.retrieve()
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-client.collections['products'].synonyms['coat-synonyms'].delete
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-await client.collection('products').synonym('coat-synonyms').delete();
+client.synonym_sets.retrieve()
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-SearchSynonym searchSynonym = client.collections("products").synonyms("coat-synonyms").delete();
+List<SynonymSetSchema> synonymSets = client.synonymSets().retrieve();
 ```
 
   </template>
   <template v-slot:Go>
 
 ```go
-client.Collection("products").Synonym("coat-synonyms").Delete(context.Background())
-```
-
-  </template>
-  <template v-slot:Swift>
-
-```swift
-let (searchSynonym, response) = try await client.collection(name: "products").synonyms().delete(id: "coat-synonyms")
+client.SynonymSets().Retrieve(context.Background())
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X DELETE \
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/synonym_sets"
+```
+
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+[
+  {
+    "name": "clothing-synonyms",
+    "items": [
+      {
+        "id": "coat-synonyms",
+        "synonyms": ["blazer", "coat", "jacket"]
+      }
+    ]
+  }
+]
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+
+`GET ${TYPESENSE_HOST}/synonym_sets`
+
+## Delete a synonym set
+
+Delete a synonym set.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.synonymSets('clothing-synonyms').delete()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->synonymSets['clothing-synonyms']->delete();
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.synonym_sets["clothing-synonyms"].delete()
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.synonym_sets["clothing-synonyms"].delete()
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SynonymSetDeleteSchema result = client.synonymSets("clothing-synonyms").delete();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.SynonymSets("clothing-synonyms").Delete(context.Background())
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/synonym_sets/clothing-synonyms" -X DELETE \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -570,7 +574,7 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X DELE
 
 ```json
 {
-  "id": "coat-synonyms"
+  "name": "clothing-synonyms"
 }
 ```
 
@@ -578,4 +582,102 @@ curl "http://localhost:8108/collections/products/synonyms/coat-synonyms" -X DELE
 </Tabs>
 
 #### Definition
-`DELETE ${TYPESENSE_HOST}/collections/:collection/synonyms/:id`
+
+`DELETE ${TYPESENSE_HOST}/synonym_sets/:synonymSetName`
+
+## Linking synonym sets with collections
+
+### While creating the collection
+
+```json
+{
+  "name": "products",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    }
+  ],
+  "synonym_sets": ["clothing-synonyms", "tech-synonyms"]
+}
+```
+
+### Altering an existing collection
+
+```shell
+curl "http://localhost:8108/collections/products" -X PATCH \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+-d '{
+    "synonym_sets": ["clothing-synonyms", "tech-synonyms"]
+}'
+```
+
+## Using synonym sets in search
+
+Synonym sets can be used in search parameters dynamically. The search operation will look for synonyms in:
+
+1. The synonym sets specified in the search parameters
+2. The synonym sets linked to the collection
+
+For example, if the collection `products` is linked to `clothing-synonyms` synonym set, the following search request will use synonyms from `clothing-synonyms`, `tech-synonyms`, and `electronics-synonyms`:
+
+```shell
+curl "http://localhost:8108/collections/products/documents/search?q=controller&query_by=name&synonym_sets=tech-synonyms,electronics-synonyms" -X GET \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+## Migration from old synonyms API
+
+:::tip Automatic Migration
+All existing synonyms from previous versions have been automatically migrated to the new synonym sets format. Each collection's synonyms are now stored in a synonym set with the same name as the collection, postfixed by `*_synonyms_index` (e.g. `products_synonyms_index`).
+:::
+
+### Key differences:
+
+1. **API Endpoints**:
+
+   - Old: `/collections/{collection}/synonyms/*`
+   - New: `/synonym_sets/*`
+
+2. **Data Structure**:
+
+   - Old: Direct synonym objects
+   - New: Synonym sets containing arrays of synonym items
+
+3. **Collection Association**:
+
+   - Old: Synonyms were directly associated with collections
+   - New: Synonym sets are linked to collections via the `synonym_sets` field
+
+4. **Search Usage**:
+   - Old: Synonyms were automatically applied based on collection association
+   - New: Synonym sets can be dynamically specified in search parameters in addition to collection-linked sets
+
+### Example of migrated data:
+
+**Before (v29 and earlier):**
+
+```json
+{
+  "id": "coat-synonyms",
+  "synonyms": ["blazer", "coat", "jacket"]
+}
+```
+
+**After (v30):**
+
+```json
+{
+  "name": "products",
+  "items": [
+    {
+      "id": "coat-synonyms",
+      "synonyms": ["blazer", "coat", "jacket"]
+    }
+  ]
+}
+```
+
+The new API provides better organization, reusability across collections, and more flexible search-time synonym application.
