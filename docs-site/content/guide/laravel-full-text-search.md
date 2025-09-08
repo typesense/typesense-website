@@ -4,9 +4,19 @@
 
 Laravel Scout has native support for Typesense and this guide will focus on how to add the Laravel Scout Typesense Driver to an existing Laravel project in order to add full-text search to your Laravel application.
 
+## Video Walk-through
+
 If you're interested in a video walk-through, here's one put together by [Aaron Francis](https://x.com/aarondfrancis): 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/bDLVeJQei_Q?si=3aQLOLn4GEwJy1ok" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Here's another one by [Jeffrey Way](https://x.com/jeffrey_way) from Laracasts:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ufYFZICt-nY?si=MG_e2F7R27HT4G2y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Laracasts Course
+
+There's also a free multi-episode course on Typesense from Laracasts available called [Supercharged Search with Typesense](https://laracasts.com/series/supercharged-search-with-typesense), which is an excellent resource for going in-depth.
 
 ## Prerequisites
 
