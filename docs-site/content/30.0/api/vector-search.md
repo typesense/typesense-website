@@ -1203,9 +1203,40 @@ When you create the collection above, we will call the OpenAI API to create embe
 
 You have to provide a valid OpenAI API key in `model_config` to use this feature.
 
+###  Using Azure OpenAI API
+You can use an [Azure](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings?tabs=console) OpenAI model to generate embedings:
+
+```js
+let schema = {
+    "name": "products",
+    "fields": [
+        {
+            "name": "product_name",
+            "type": "string"
+        },
+        {
+            "name": "embedding",
+            "type": "float[]",
+            "embed": {
+                "from": [
+                    "product_name"
+                ],
+                "model_config": {
+                    "model_name": "azure/text-embedding-ada-002",
+                    "api_key": "your_api_key_as_required_by_the_custom_provider",
+                    "url": "https://example.openai.azure.com/openai/deployments/text-embedding-3-large/embeddings?api-version=2023-05-15"
+                }
+            }
+        }
+    ]
+};
+
+client.collections('products').create(schema);
+```
+
 ### Using OpenAI-compatible APIs
 
-You can also use OpenAI-API-compatible API providers like Azure, by customizing the base URL in the `model_config`:
+You can also use other OpenAI-API-compatible API providers, by customizing the base URL in the `model_config`:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
 
@@ -3070,6 +3101,36 @@ would return all documents whose `embedding` value is closest to the `foobar` do
 :::tip
 The `foobar` document itself will not be returned in the results.
 :::
+
+### Auto-generated Embeddings
+
+For auto-embedding fields, use an empty array `[]` in `vector_query` to let Typesense automatically generate embeddings from your `q` parameter:
+
+```json
+{
+  "q": "comfortable office chair",
+  "query_by": "embedding",
+  "vector_query": "embedding:([], k:100, distance_threshold:0.30)"
+}
+```
+
+This approach automatically:
+
+- Converts your text query to an embedding using the same model used for indexing
+- Applies vector search parameters like `k`, `distance_threshold`, etc.
+
+### Manual Embeddings
+
+For manual control, provide your own pre-computed embedding vector:
+
+```json
+{
+  "q": "*",
+  "vector_query": "embedding:([0.2, 0.4, 0.1, ...], k:100, distance_threshold:0.30)"
+}
+```
+
+This gives you full control over the query vector while still applying all vector search parameters.
 
 ## Semantic Search
 

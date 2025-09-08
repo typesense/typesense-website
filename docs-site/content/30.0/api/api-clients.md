@@ -157,6 +157,7 @@ We also have the following framework integrations:
 - [InstantSearch](https://github.com/typesense/typesense-instantsearch-adapter)
 - [Typesense-MiniBar](https://github.com/jquery/typesense-minibar)
 - [Autocomplete.js](/guide/reference-implementations/typesense-autocomplete-js.md)
+- [AnnexUI - Typesense UI Library](https://github.com/AnnexLabs/AnnexUI)
 
 ## Documentation Search
 
