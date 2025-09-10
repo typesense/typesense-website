@@ -13,10 +13,15 @@
         v{{ version }}
       </option>
     </select>
-    <div class="old-version-warning" v-show="showOldVersionWarning">
-      You are viewing docs for an old version. Switch to latest
-      <RouterLink :to="getVersionedPath(latestVersion)"> v{{ latestVersion }}</RouterLink
-      >.
+    <div class="old-version-warning" v-show="showVersionWarning">
+      <template v-if="isOlderThanLatest">
+        You are viewing docs for an old version. Switch to latest
+        <RouterLink :to="getVersionedPath(latestVersion)"> v{{ latestVersion }}</RouterLink>.
+      </template>
+      <template v-else-if="isNewerThanLatest">
+        You are viewing docs for an RC version, switch to GA version
+        <RouterLink :to="getVersionedPath(latestVersion)"> v{{ latestVersion }}</RouterLink>.
+      </template>
     </div>
   </div>
 </template>
@@ -41,8 +46,18 @@ export default {
     latestVersion() {
       return this.$site.themeConfig.typesenseLatestVersion
     },
-    showOldVersionWarning() {
-      return this.currentVersion && this.currentVersion !== '' && this.currentVersion !== this.latestVersion
+    showVersionWarning() {
+      return (
+        this.currentVersion &&
+        this.currentVersion !== '' &&
+        this.currentVersion !== this.latestVersion
+      )
+    },
+    isOlderThanLatest() {
+      return this.compareVersions(this.currentVersion, this.latestVersion) < 0
+    },
+    isNewerThanLatest() {
+      return this.compareVersions(this.currentVersion, this.latestVersion) > 0
     },
     currentPath() {
       const fullPath = this.$route.path
@@ -54,6 +69,26 @@ export default {
     },
   },
   methods: {
+    compareVersions(a, b) {
+      if (!a || !b) return 0
+      const aParts = String(a).split('.')
+      const bParts = String(b).split('.')
+      const len = Math.max(aParts.length, bParts.length)
+      for (let i = 0; i < len; i++) {
+        const aNum = parseInt(aParts[i] || '0', 10)
+        const bNum = parseInt(bParts[i] || '0', 10)
+        if (Number.isNaN(aNum) || Number.isNaN(bNum)) {
+          // Fallback to string compare if non-numeric segments appear
+          const aSeg = aParts[i] || ''
+          const bSeg = bParts[i] || ''
+          if (aSeg === bSeg) continue
+          return aSeg > bSeg ? 1 : -1
+        }
+        if (aNum > bNum) return 1
+        if (aNum < bNum) return -1
+      }
+      return 0
+    },
     getVersionedPath(version) {
       const versionParts = version.split('.')
       const majorVersion = parseInt(versionParts[0], 10)
