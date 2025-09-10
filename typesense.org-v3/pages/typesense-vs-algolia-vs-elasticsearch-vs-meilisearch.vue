@@ -51,8 +51,8 @@
                   <td>Source Code</td>
                   <td>Fully open source</td>
                   <td>Proprietary closed source</td>
-                  <td>Source-available, licensed under SSPL</td>
-                  <td>Fully open source</td>
+                  <td>Free Edition is open source and AGPLv3 licensed, other editions are source-available licensed under Elastic License 2.0</td>
+                  <td>Community Edition is open source and MIT-licensed, <br>Enterprise Edition is source-available licensed under Business Source License (BUSL)</td>
                 </tr>
                 <tr>
                   <td>First Commit</td>
@@ -301,7 +301,7 @@
                   <td><Check class="text-[#263311]" /></td>
                   <td>
                     🔶<br /><br />
-                    Partially sypported through ranking rules reordering,
+                    Partially supported through ranking rules reordering,
                     numeric weights are not supported
                   </td>
                 </tr>
