@@ -17,7 +17,7 @@ Typesense can aggregate search queries and track user interaction events (clicks
   - `log`: Log raw analytics events for downstream processing. Log-type rules are used for personalization model training and also consulted during inference.
 
 - **Supported event types (`event_type`)**:
-  - `query`: A search query event (optionally with metadata like `filter_by`, `analytics_tag`).
+  - `search`: A search event (optionally with metadata like `filter_by`, `analytics_tag`).
   - `click`: A user clicked a document returned in search results.
   - `conversion`: A user completed a conversion action (e.g. purchase) for a document.
   - `visit`: A page/document view event, useful for recommendations.
@@ -64,7 +64,7 @@ const rule = {
   name: 'homepage_popular_queries',
   type: 'popular_queries',
   collection: 'products',
-  event_type: 'query',
+  event_type: 'search',
   rule_tag: 'homepage',
   params: {
     destination_collection: 'product_queries',
@@ -85,7 +85,7 @@ rule = {
   'name' => 'homepage_popular_queries',
   'type' => 'popular_queries',
   'collection' => 'products',
-  'event_type' => 'query',
+  'event_type' => 'search',
   'rule_tag' => 'homepage',
   'params' => {
     'destination_collection' => 'product_queries',
@@ -106,7 +106,7 @@ rule := map[string]interface{}{
   "name":       "homepage_popular_queries",
   "type":       "popular_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "rule_tag":   "homepage",
   "params": map[string]interface{}{
     "destination_collection":  "product_queries",
@@ -128,7 +128,7 @@ rule = {
     "name": "homepage_popular_queries",
     "type": "popular_queries",
     "collection": "products",
-    "event_type": "query",
+    "event_type": "search",
     "rule_tag": "homepage",
     "params": {
         "destination_collection": "product_queries",
@@ -153,7 +153,7 @@ curl -k "http://localhost:8108/analytics/rules" \
         "name": "homepage_popular_queries",
         "type": "popular_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "rule_tag": "homepage",
         "params": {
           "destination_collection": "product_queries",
@@ -177,7 +177,7 @@ const rules = [
     name: 'homepage_popular_queries',
     type: 'popular_queries',
     collection: 'products',
-    event_type: 'query',
+    event_type: 'search',
     rule_tag: 'homepage',
     params: { destination_collection: 'product_queries', limit: 100, capture_search_requests: true },
   },
@@ -185,7 +185,7 @@ const rules = [
     name: 'homepage_nohits_queries',
     type: 'nohits_queries',
     collection: 'products',
-    event_type: 'query',
+    event_type: 'search',
     rule_tag: 'homepage',
     params: { destination_collection: 'no_hits_queries', limit: 100 },
   },
@@ -204,7 +204,7 @@ rules = [
     'name' => 'homepage_popular_queries',
     'type' => 'popular_queries',
     'collection' => 'products',
-    'event_type' => 'query',
+    'event_type' => 'search',
     'rule_tag' => 'homepage',
     'params' => { 'destination_collection' => 'product_queries', 'limit' => 100, 'capture_search_requests' => true }
   },
@@ -212,7 +212,7 @@ rules = [
     'name' => 'homepage_nohits_queries',
     'type' => 'nohits_queries',
     'collection' => 'products',
-    'event_type' => 'query',
+    'event_type' => 'search',
     'rule_tag' => 'homepage',
     'params' => { 'destination_collection' => 'no_hits_queries', 'limit' => 100 }
   }
@@ -231,7 +231,7 @@ rules := []map[string]interface{}{
     "name":       "homepage_popular_queries",
     "type":       "popular_queries",
     "collection": "products",
-    "event_type": "query",
+    "event_type": "search",
     "rule_tag":   "homepage",
     "params": map[string]interface{}{
       "destination_collection":  "product_queries",
@@ -243,7 +243,7 @@ rules := []map[string]interface{}{
     "name":       "homepage_nohits_queries",
     "type":       "nohits_queries",
     "collection": "products",
-    "event_type": "query",
+    "event_type": "search",
     "rule_tag":   "homepage",
     "params": map[string]interface{}{
       "destination_collection": "no_hits_queries",
@@ -266,7 +266,7 @@ rules = [
         "name": "homepage_popular_queries",
         "type": "popular_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "rule_tag": "homepage",
         "params": {"destination_collection": "product_queries", "limit": 100, "capture_search_requests": True},
     },
@@ -274,7 +274,7 @@ rules = [
         "name": "homepage_nohits_queries",
         "type": "nohits_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "rule_tag": "homepage",
         "params": {"destination_collection": "no_hits_queries", "limit": 100},
     },
@@ -297,7 +297,7 @@ curl -k "http://localhost:8108/analytics/rules" \
           "name": "homepage_popular_queries",
           "type": "popular_queries",
           "collection": "products",
-          "event_type": "query",
+          "event_type": "search",
           "rule_tag": "homepage",
           "params": {"destination_collection": "product_queries", "limit": 100, "capture_search_requests": true}
         },
@@ -305,7 +305,7 @@ curl -k "http://localhost:8108/analytics/rules" \
           "name": "homepage_nohits_queries",
           "type": "nohits_queries",
           "collection": "products",
-          "event_type": "query",
+          "event_type": "search",
           "rule_tag": "homepage",
           "params": {"destination_collection": "no_hits_queries", "limit": 100}
         }
@@ -432,7 +432,7 @@ let ruleConfiguration = {
   "name": ruleName,
   "type": "popular_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "params": {
     "destination_collection": "product_queries",
     "expand_query": false,
@@ -454,7 +454,7 @@ rule_configuration = {
   'name' => rule_name,
   'type' => 'popular_queries',
   'collection' => 'products',
-  'event_type' => 'query',
+  'event_type' => 'search',
   'params' => {
     'destination_collection' => 'product_queries',
     'expand_query' => false,
@@ -476,7 +476,7 @@ ruleConfiguration := map[string]interface{}{
   "name":        ruleName,
   "type":        "popular_queries",
   "collection":  "products",
-  "event_type":  "query",
+  "event_type":  "search",
   "params": map[string]interface{}{
     "destination_collection":   "product_queries",
     "expand_query":             false,
@@ -498,7 +498,7 @@ ruleConfiguration = {
   "name": ruleName,
   "type": "popular_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "params": {
     "destination_collection": "product_queries",
     "expand_query": False,
@@ -523,7 +523,7 @@ curl -k "http://localhost:8108/analytics/rules" \
         "name": "product_queries_aggregation",
         "type": "popular_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "params": {
             "destination_collection": "product_queries",
             "expand_query": false,
@@ -569,7 +569,7 @@ const rule = {
   name: 'product_queries_aggregation',
   type: 'popular_queries',
   collection: 'products',
-  event_type: 'query',
+  event_type: 'search',
   params: {
     destination_collection: 'product_queries',
     limit: 1000,
@@ -589,7 +589,7 @@ rule = {
   'name' => 'product_queries_aggregation',
   'type' => 'popular_queries',
   'collection' => 'products',
-  'event_type' => 'query',
+  'event_type' => 'search',
   'params' => {
     'destination_collection' => 'product_queries',
     'limit' => 1000,
@@ -609,7 +609,7 @@ rule := map[string]interface{}{
   "name":       "product_queries_aggregation",
   "type":       "popular_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "params": map[string]interface{}{
     "destination_collection":  "product_queries",
     "limit":                   1000,
@@ -630,7 +630,7 @@ rule = {
     "name": "product_queries_aggregation",
     "type": "popular_queries",
     "collection": "products",
-    "event_type": "query",
+    "event_type": "search",
     "params": {
         "destination_collection": "product_queries",
         "limit": 1000,
@@ -654,7 +654,7 @@ curl -k "http://localhost:8108/analytics/rules" \
         "name": "product_queries_aggregation",
         "type": "popular_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "params": {
           "destination_collection": "product_queries",
           "limit": 1000,
@@ -666,7 +666,7 @@ curl -k "http://localhost:8108/analytics/rules" \
   </template>
 </Tabs>
 
-With this rule in place, you can now directly send the queries as `query` events, via the API.
+With this rule in place, you can now directly send the queries as `search` events, via the API.
 
 <Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
@@ -674,7 +674,7 @@ With this rule in place, you can now directly send the queries as `query` events
 ```js
 const event = {
   name: "product_queries_aggregation",
-  event_type: "query",
+  event_type: "search",
   data: {
     q: "running shoes",
     user_id: "1234",
@@ -691,7 +691,7 @@ client.analytics.events().create(event)
 ```rb
 event = {
   "name" => "product_queries_aggregation",
-  "event_type" => "query",
+  "event_type" => "search",
   "data" => {
     "q" => "running shoes",
     "user_id" => "1234",
@@ -708,7 +708,7 @@ typesense.analytics.events.create(event)
 ```go
 event := map[string]interface{}{
   "name":       "product_queries_aggregation",
-  "event_type": "query",
+  "event_type": "search",
   "data": map[string]interface{}{
     "q":       "running shoes",
     "user_id": "1234",
@@ -725,7 +725,7 @@ client.Analytics().Events().Create(context.Background(), event)
 ```python
 event = {
     "name": "product_queries_aggregation",
-    "event_type": "query",
+    "event_type": "search",
     "data": {
         "q": "running shoes",
         "user_id": "1234",
@@ -742,7 +742,7 @@ resp = client.analytics.events.create(event)
 curl "http://localhost:8108/analytics/events" -X POST \
      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
      -d '{
-            "event_type": "query",
+            "event_type": "search",
             "name": "product_queries_aggregation",
             "data": {
                   "q": "running shoes",
@@ -896,7 +896,7 @@ When testing locally, please be mindful of this 4-second pause and also the `ana
 If you send a lot of queries to the source collection in a short period of time, search terms might not appear in the destination collection right away.
 :::
 
-### Query Analytics with Meta Fields
+### Search Analytics with Meta Fields
 
 Typesense supports tracking additional metadata along with search queries for analytics purposes. Currently, this is limited to `filter_by` and `analytics_tag` fields.
 
@@ -923,7 +923,7 @@ Then, create an analytics rule that specifies which meta fields to track:
   "name": "top_search_queries",
   "type": "popular_queries",
   "collection": "hnstories",
-  "event_type": "query",
+  "event_type": "search",
   "params": {
     "limit": 100,
     "expand_query": true,
@@ -1100,7 +1100,7 @@ let ruleConfiguration = {
   "name": ruleName,
   "type": "nohits_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "params": {
     "destination_collection": "no_hits_queries",
     "limit": 1000
@@ -1120,7 +1120,7 @@ rule_configuration = {
   'name' => rule_name,
   'type' => 'nohits_queries',
   'collection' => 'products',
-  'event_type' => 'query',
+  'event_type' => 'search',
   'params' => {
     'destination_collection' => 'no_hits_queries',
     'limit' => 1000
@@ -1140,7 +1140,7 @@ ruleConfiguration := map[string]interface{}{
   "name":        ruleName,
   "type":        "nohits_queries",
   "collection":  "products",
-  "event_type":  "query",
+  "event_type":  "search",
   "params": map[string]interface{}{
     "destination_collection": "no_hits_queries",
     "limit": 1000,
@@ -1159,7 +1159,7 @@ ruleConfiguration = {
   "name": ruleName,
   "type": "nohits_queries",
   "collection": "products",
-  "event_type": "query",
+  "event_type": "search",
   "params": {
     "destination_collection": "no_hits_queries",
     "limit": 1000
@@ -1182,7 +1182,7 @@ curl -k "http://localhost:8108/analytics/rules" \
         "name": "product_no_hits",
         "type": "nohits_queries",
         "collection": "products",
-        "event_type": "query",
+        "event_type": "search",
         "params": {
             "destination_collection": "no_hits_queries",
             "limit": 1000
@@ -2139,3 +2139,136 @@ curl -k "http://localhost:8108/analytics/events?user_id=1234&name=product_querie
 
   </template>
 </Tabs>
+
+## Migrating from v29 to v30+
+Your existing analytics rules are migrated automatically when you upgrade to v30+. They remain fully backward compatible and will continue to work as-is.
+
+### How v29 rules translate to v30
+
+Below are concise examples of how v29 rule schemas map to v30+.
+
+#### Popular queries (auto-capture from search requests)
+
+v29:
+
+```json
+{
+  "name": "product_queries_aggregation",
+  "type": "popular_queries",
+  "params": {
+    "source": { "collections": ["products"] },
+    "destination": { "collection": "product_queries" },
+    "expand_query": false,
+    "limit": 1000
+  }
+}
+```
+
+v30+:
+
+```json
+{
+  "name": "product_queries_aggregation",
+  "type": "popular_queries",
+  "collection": "products",
+  "event_type": "search",
+  "rule_tag": "product_queries_aggregation",
+  "params": {
+    "destination_collection": "product_queries",
+    "expand_query": false,
+    "limit": 1000,
+    "capture_search_requests": true
+  }
+}
+```
+
+#### Popular queries (API events only)
+
+v29:
+
+```json
+{
+  "name": "product_queries_aggregation",
+  "type": "popular_queries",
+  "params": {
+    "source": {
+      "collections": ["products"],
+      "enable_auto_aggregation": false,
+      "events": [{ "type": "search", "name": "products_search_event" }]
+    },
+    "destination": { "collection": "product_queries" },
+    "limit": 1000
+  }
+}
+```
+
+v30+:
+
+```json
+{
+  "name": "product_queries_aggregation",
+  "type": "popular_queries",
+  "collection": "products",
+  "event_type": "search",
+  "rule_tag": "product_queries_aggregation",
+  "params": {
+    "destination_collection": "product_queries",
+    "limit": 1000,
+    "capture_search_requests": false
+  }
+}
+```
+
+#### Counter rule (multiple events ➜ multiple rules)
+
+v29:
+
+```json
+{
+  "name": "products_popularity",
+  "type": "counter",
+  "params": {
+    "source": {
+      "collections": ["products"],
+      "events": [
+        { "type": "click", "weight": 1, "name": "products_click_event" },
+        { "type": "conversion", "weight": 2, "name": "products_purchase_event" }
+      ]
+    },
+    "destination": { "collection": "products", "counter_field": "popularity" }
+  }
+}
+```
+
+v30+ (one rule per event type):
+
+```json
+[
+  {
+    "name": "products_click_event",
+    "type": "counter",
+    "collection": "products",
+    "event_type": "click",
+    "rule_tag": "products_popularity",
+    "params": {
+      "destination_collection": "products",
+      "counter_field": "popularity",
+      "weight": 1
+    }
+  },
+  {
+    "name": "products_purchase_event",
+    "type": "counter",
+    "collection": "products",
+    "event_type": "conversion",
+    "rule_tag": "products_popularity",
+    "params": {
+      "destination_collection": "products",
+      "counter_field": "popularity",
+      "weight": 2
+    }
+  }
+]
+```
+
+Note: Event names you used in v29 continue to work when sending events in v30+.
