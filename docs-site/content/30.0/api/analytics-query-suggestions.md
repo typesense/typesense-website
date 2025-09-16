@@ -2145,7 +2145,7 @@ Your existing analytics rules are migrated automatically when you upgrade to v30
 
 ### How v29 rules translate to v30
 
-Below are concise examples of how v29 rule schemas map to v30.
+Below are concise examples of how v29 rule schemas map to v30+.
 
 #### Popular queries (auto-capture from search requests)
 
@@ -2271,4 +2271,4 @@ v30+ (one rule per event type):
 ]
 ```
 
-Note: Event names you used in v29 continue to work when sending events in v30; send them with the appropriate `event_type`.
+Note: Event names you used in v29 continue to work when sending events in v30+.
