@@ -367,7 +367,7 @@ The traditional filter syntax `ingredients.name:=cheese && ingredients.concentra
 :::
 
 :::warning Important Note
-Fields inside object[] fields automatically become arrays, that is the reason that ingredients.name and ingredients.concentration are arrays, despite being single fields.
+Fields inside `object[]` fields automatically become arrays. So we have to mark `ingredients.name` and `ingredients.concentration` as array fields, despite being single valued.
 :::
 
 You can use any valid filter operators inside the `{...}` block.
