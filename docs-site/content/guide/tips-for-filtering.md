@@ -310,7 +310,7 @@ customer.name:=John Doe
 
 When filtering on fields inside nested array objects, you need to use a special syntax to ensure the filters are applied to the same object within the array. The syntax is: `<nested_field_parent>.{<filter_conditions>}`.
 
-For example, consider a menu collection with the following schema:
+For example, consider a menu collection with the following schema*:
 
 ```json
 {
@@ -318,8 +318,8 @@ For example, consider a menu collection with the following schema:
   "fields": [
     {"name": "name", "type": "string"},
     {"name": "ingredients", "type": "object[]"},
-    {"name": "ingredients.name", "type": "string"},
-    {"name": "ingredients.concentration", "type": "int32"}
+    {"name": "ingredients.name", "type": "string[]"},
+    {"name": "ingredients.concentration", "type": "int32[]"}
   ],
   "enable_nested_fields": true
 }
@@ -328,28 +328,28 @@ For example, consider a menu collection with the following schema:
 And these sample records:
 
 ```json lines
-{ 
+{
   "name": "Pasta",
   "ingredients": [
-    {"name": "cheese", "concentration": 40},
-    {"name": "spinach", "concentration": 10},
-    {"name": "jalepeno", "concentration": 20}
+    {"name": ["cheese"], "concentration": [40]},
+    {"name": ["spinach"], "concentration": [10]},
+    {"name": ["jalepeno"], "concentration": [20]}
   ]
 }
 {
   "name": "Pizza",
   "ingredients": [
-    {"name": "cheese", "concentration": 30},
-    {"name": "pizza sauce", "concentration": 30},
-    {"name": "olives", "concentration": 30}
+    {"name": ["cheese"], "concentration": [30]},
+    {"name": ["pizza sauce"], "concentration": [30]},
+    {"name": ["olives"], "concentration": [30]}
   ]
 }
 {
   "name": "Lasagna",
   "ingredients": [
-    {"name": "cheese", "concentration": 60},
-    {"name": "jalepeno", "concentration": 20},
-    {"name": "olives", "concentration": 20}
+    {"name": ["cheese"], "concentration": [60]},
+    {"name": ["jalepeno"], "concentration": [20]},
+    {"name": ["olives"], "concentration": [20]}
   ]
 }
 ```
@@ -364,6 +364,10 @@ This will return only Pasta and Pizza, because it matches objects within the ing
 
 :::warning Important Note
 The traditional filter syntax `ingredients.name:=cheese && ingredients.concentration:<50` would match all three records because it doesn't ensure the conditions apply to the same object in the array. Always use the `{...}` syntax when filtering on multiple fields within nested array objects.
+:::
+
+:::warning Important Note
+Fields inside object[] fields automatically become arrays, that is the reason that ingredients.name and ingredients.concentration are arrays, despite being single fields.
 :::
 
 You can use any valid filter operators inside the `{...}` block.
