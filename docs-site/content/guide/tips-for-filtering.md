@@ -331,25 +331,25 @@ And these sample records:
 {
   "name": "Pasta",
   "ingredients": [
-    {"name": ["cheese"], "concentration": [40]},
-    {"name": ["spinach"], "concentration": [10]},
-    {"name": ["jalepeno"], "concentration": [20]}
+    {"name": "cheese", "concentration": 40},
+    {"name": "spinach", "concentration": 10},
+    {"name": "jalepeno", "concentration": 20}
   ]
 }
 {
   "name": "Pizza",
   "ingredients": [
-    {"name": ["cheese"], "concentration": [30]},
-    {"name": ["pizza sauce"], "concentration": [30]},
-    {"name": ["olives"], "concentration": [30]}
+    {"name": "cheese", "concentration": 30},
+    {"name": "pizza sauce", "concentration": 30},
+    {"name": "olives", "concentration": 30}
   ]
 }
 {
   "name": "Lasagna",
   "ingredients": [
-    {"name": ["cheese"], "concentration": [60]},
-    {"name": ["jalepeno"], "concentration": [20]},
-    {"name": ["olives"], "concentration": [20]}
+    {"name": "cheese", "concentration": 60},
+    {"name": "jalepeno", "concentration": 20},
+    {"name": "olives", "concentration": 20}
   ]
 }
 ```
