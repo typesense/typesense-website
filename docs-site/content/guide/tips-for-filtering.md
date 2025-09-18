@@ -318,8 +318,8 @@ For example, consider a menu collection with the following schema:
   "fields": [
     {"name": "name", "type": "string"},
     {"name": "ingredients", "type": "object[]"},
-    {"name": "ingredients.name", "type": "string"},
-    {"name": "ingredients.concentration", "type": "int32"}
+    {"name": "ingredients.name", "type": "string[]"},
+    {"name": "ingredients.concentration", "type": "int32[]"}
   ],
   "enable_nested_fields": true
 }
@@ -364,6 +364,10 @@ This will return only Pasta and Pizza, because it matches objects within the ing
 
 :::warning Important Note
 The traditional filter syntax `ingredients.name:=cheese && ingredients.concentration:<50` would match all three records because it doesn't ensure the conditions apply to the same object in the array. Always use the `{...}` syntax when filtering on multiple fields within nested array objects.
+:::
+
+:::warning Important Note
+Fields inside `object[]` fields automatically become arrays. So we have to mark `ingredients.name` and `ingredients.concentration` as array fields, despite being single valued.
 :::
 
 You can use any valid filter operators inside the `{...}` block.
