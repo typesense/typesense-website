@@ -5,15 +5,175 @@ sitemap:
 ---
 
 # Curation
-While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
 
-Using overrides, you can include or exclude specific documents for a given query.
-
-:::tip Precedence
-When using [Synonyms](./synonyms.md) and Overrides together, Overrides are handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
+:::warning Breaking Change in v30
+When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions.
 :::
 
-## Create or update an override
+While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
+
+Using curation, you can include or exclude specific documents for a given query.
+
+:::tip Precedence
+When using [Synonyms](./synonyms.md) and Curation together, Curation is handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
+:::
+
+## Create or update an curation set
+
+You can define a comprehensive set of curation rules that specify how search results should be modified for specific queries or filter conditions, and then attach this rule set to a collection. These rules allow you to customize search behavior by promoting certain documents, hiding others, applying additional filters, or modifying sorting behavior when specific conditions are met.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
+}
+
+// Creates/updates an curation_set called `curate_products`.
+client.curationSets().upsert('curate_products', curation_set)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$curation_set = [
+  "items" => [
+    "id" => "customize-apple"
+    "rule" => [
+    "query" => "apple",
+    "match" => "exact"
+    ],
+    "includes" => [
+      ["id" => "422", "position" => 1],
+      ["id" => "54", "position" => 2]
+    ],
+    "excludes" => [
+      ["id" => "287"]
+    ]
+  ]
+];
+
+# Creates/updates an override called `customize-apple` in the `companies` collection
+$client->curationSets->upsert('curate_products', $curation_set);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
+}
+
+# Creates/updates an override called `customize-apple` in the `companies` collection
+client.curation_sets.upsert('curate_products', curation_set)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+curation_set = {
+  "items" => [{
+    "id" => "customize-apple"
+    "rule" => {
+      "query" => "apple",
+      "match" => "exact"
+    },
+    "includes" => [
+      {"id" => "422", "position" => 1},
+      {"id" => "54", "position" => 2}
+    ],
+    "excludes" => [
+      {"id" => "287"}
+    ]
+  }]
+}
+
+# Creates/updates an override called `customize-apple` in the `companies` collection
+client.curation_sets.upsert('curate_products', curation_set)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
+};
+
+// Creates/updates an override called `customize-apple` in the `companies` collection
+await client.curation_sets.upsert('curate_products', curation_set);
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+    "query": "apple",
+    "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
+}'
+```
+
+  </template>
+</Tabs>
 
 ### Including or excluding documents
 
@@ -28,26 +188,29 @@ Typesense allows you to use both `includes` and `excludes` or just one of them f
 Note how we are applying these overrides to an `exact` match of the query `apple`. Instead, if we want to match all
 queries containing the word `apple`, we will use the `contains` match instead.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-override = {
-  "rule": {
-    "query": "apple",
-    "match": "exact"
-  },
-  "includes": [
-    {"id": "422", "position": 1},
-    {"id": "54", "position": 2}
-  ],
-  "excludes": [
-    {"id": "287"}
-  ]
+curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
 }
 
-// Creates/updates an override called `customize-apple` in the `companies` collection
-client.collections('companies').overrides().upsert('customize-apple', override)
+// Creates/updates an curation_set called `curate_products`.
+client.curationSets().upsert('curate_products', curation_set)
 ```
 
   </template>
@@ -55,142 +218,123 @@ client.collections('companies').overrides().upsert('customize-apple', override)
   <template v-slot:PHP>
 
 ```php
-$override = [
-  "rule" => [
+$curation_set = [
+  "items" => [[
+    "id" => "customize-apple"
+    "rule" => [
     "query" => "apple",
     "match" => "exact"
-  ],
-  "includes" => [
-    ["id" => "422", "position" => 1],
-    ["id" => "54", "position" => 2]
-  ],
-  "excludes" => [
-    ["id" => "287"]
-  ]
+    ],
+    "includes" => [
+      ["id" => "422", "position" => 1],
+      ["id" => "54", "position" => 2]
+    ],
+    "excludes" => [
+      ["id" => "287"]
+    ]
+  ]]
 ];
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-$client->collections['companies']->overrides->upsert('customize-apple', $override);
+$client->curationSets->upsert('curate_products', $curation_set);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-override = {
-  "rule": {
-    "query": "apple",
-    "match": "exact"
-  },
-  "includes": [
-    {"id": "422", "position": 1},
-    {"id": "54", "position": 2}
-  ],
-  "excludes": [
-    {"id": "287"}
-  ]
+curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
 }
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-client.collections['companies'].overrides.upsert('customize-apple', override)
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-override = {
-  "rule" => {
-    "query" => "apple",
-    "match" => "exact"
-  },
-  "includes" => [
-    {"id" => "422", "position" => 1},
-    {"id" => "54", "position" => 2}
-  ],
-  "excludes" => [
-    {"id" => "287"}
-  ]
+curation_set = {
+  "items" => [{
+    "id" => "customize-apple"
+    "rule" => {
+      "query" => "apple",
+      "match" => "exact"
+    },
+    "includes" => [
+      {"id" => "422", "position" => 1},
+      {"id" => "54", "position" => 2}
+    ],
+    "excludes" => [
+      {"id" => "287"}
+    ]
+  }]
 }
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-client.collections['companies'].overrides.upsert('customize-apple', override)
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Dart>
 
 ```dart
-final override = {
-  "rule": {"query": "apple", "match": "exact"},
-  "includes": [
-    {"id": "422", "position": 1},
-    {"id": "54", "position": 2}
-  ],
-  "excludes": [
-    {"id": "287"}
-  ]
+final curation_set = {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
 };
 
 // Creates/updates an override called `customize-apple` in the `companies` collection
-await client.collection('companies').overrides.upsert('customize-apple', override);
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
-
-searchOverrideSchema.addIncludesItem(new SearchOverrideInclude().id("422").position(1))
-                    .addIncludesItem(new SearchOverrideInclude().id("54").position(2))
-                    .addExcludesItem(new SearchOverrideExclude().id("287"))
-                    .rule(new SearchOverrideRule().query("apple").match(SearchOverrideRule.MatchEnum.EXACT))
-
-// Creates/updates an override called `customize-apple` in the `companies` collection
-SearchOverride searchOverride = client.collections("companies").overrides().upsert("customize-apple", searchOverrideSchema);
-
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-override := &api.SearchOverrideSchema{
-  Rule: api.SearchOverrideRule{
-    Query: pointer.String("apple"),
-    Match: pointer.Any(api.Exact),
-  },
-  Includes: &[]api.SearchOverrideInclude{
-    {Id: "422", Position: 1},
-    {Id: "54", Position: 2},
-  },
-  Excludes: &[]api.SearchOverrideExclude{
-    {Id: "287"},
-  },
-}
-// Creates/updates an override called `customize-apple` in the `companies` collection
-client.Collection("companies").Overrides().Upsert(context.Background(), "customize-apple", override)
+await client.curation_sets.upsert('curate_products', curation_set);
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X PUT \
+curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-  "rule": {
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
     "query": "apple",
     "match": "exact"
-  },
-  "includes": [
-    {"id": "422", "position": 1},
-    {"id": "54", "position": 2}
-  ],
-  "excludes": [
-    {"id": "287"}
-  ]
+    },
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
 }'
 ```
 
@@ -204,90 +348,91 @@ curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X 
 
 ```json
 {
-  "id": "customize-apple",
-  "excludes": [
-    {
-      "id": "287"
-    }
-  ],
-  "includes": [
-    {
-      "id": "422",
-      "position": 1
+  "name": "curate_products",
+  "items": [{
+    "id": "customize-apple"
+    "rule": {
+      "query": "apple",
+      "match": "exact"
     },
-    {
-      "id": "54",
-      "position": 2
-    }
-  ],
-  "rule": {
-    "match": "exact",
-    "query": "apple"
-  }
+    "includes": [
+      {"id": "422", "position": 1},
+      {"id": "54", "position": 2}
+    ],
+    "excludes": [
+      {"id": "287"}
+    ]
+  }]
 }
 ```
 
   </template>
 </Tabs>
 
-### Add tags to rules
+### Add tags to curation items
 
 You can add tags to override rules and then trigger curation by referring to the rule by the tag name directly.
 
 ```json
 {
-    "overrides": [
-        {
-            "id": "tagging-example",
-            "includes": [{"id": "1348","position": 1}],
-            "rule": {
-                "match": "exact",
-                "query": "iphone pro",
-                "tags": ["apple", "iphone"]
-            }
-        }
-    ]
+    "items": [
+    {
+      "id": "tagging-example",
+      "rule": {
+        "query": "iphone pro",
+        "match": "exact"
+      },
+      "tags": ["apple", "iphone"],
+      "includes": [{"id": "1348","position": 1}],
+      "excludes": [
+        {"id": "287"}
+      ]
+    }
+  ]
 }
 ```
-Now, when we search the collection, we can pass one or more tags via the `override_tags` parameter to directly
+Now, when we search the collection, we can pass one or more tags via the `curation_tags` parameter to directly
 trigger the curations rules that match the tags:
 
 ```json
 {
-   "override_tags": "apple,iphone"
+   "curation_tags": "apple,iphone"
 }
 ```
 
 **Additional notes on how rule tagging works**
 
-If `override1` is tagged with `tagA,tagB`, and `override2` is tagged with just `tagA` and `override3` is not tagged:
+If `item1` is tagged with `tagA,tagB`, and `item2` is tagged with just `tagA` and `item3` is not tagged:
 
-1. If a search sets `override_tags` to `tagA`, we only consider overrides that contain `tagA` (`override1` and `override2`)
+1. If a search sets `curation_tags` to `tagA`, we only consider curation items that contain `tagA` (`item1` and `item2`)
    with the usual logic -- in alphabetic order of override name and then process both if stop rule processing is false.
-2. If a search sets `override_tags` to `tagA,tagB`, we evaluate any rules that contain both `tagA` and tagB first,
+2. If a search sets `curation_tags` to `tagA,tagB`, we evaluate any rules that contain both `tagA` and tagB first,
    then rules with either `tagA` or `tagB`, but not overrides that contain no tags. Within each group, we evaluate
    in alphabetic order of override name and process multiple rules if `stop_processing` is `false`.
-3. If a search sets no `override_tags`, we only consider rules that have no tags associated with them.
+3. If a search sets no `curation_tags`, we only consider rules that have no tags associated with them.
 
 ### Dynamic filtering
 
 In the following example, we will apply a filter dynamically to a query that matches a rule.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-override = {
-  "rule": {
+curation_set = {
+  "items": [{
+    "id": "brand-filter"
+    "rule": {
     "query": "{brand} phone",
     "match": "contains"
-  },
-  "filter_by": "brand:={brand}",
-  "remove_matched_tokens": true
+    },
+    "filter_by": "brand:={brand}",
+    "remove_matched_tokens": true
+  }]
 }
 
-// Creates/updates an override called `brand-filter` in the `companies` collection
-client.collections('companies').overrides().upsert('brand-filter', override)
+// Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+client.curationSets().upsert('curate_products', curation_set)
 ```
 
   </template>
@@ -295,121 +440,109 @@ client.collections('companies').overrides().upsert('brand-filter', override)
   <template v-slot:PHP>
 
 ```php
-$override = [
-  "rule" => [
+$curation_set = [
+  "items" => [
+    "id" => "brand-filter"
+    "rule" => [
     "query" => "{brand} phone",
     "match" => "contains"
-  ],
-  "filter_by" => "brand:={brand}",
-  "remove_matched_tokens" => true
-];
+    ],
+    "filter_by" => "brand:={brand}",
+    "remove_matched_tokens" => true
+  ]
+]
 
-# Creates/updates an override called `brand-filter` in the `companies` collection
-$client->collections['companies']->overrides->upsert('brand-filter', $override);
+# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+$client->curationSets->upsert('curate_products', $curation_set);
+```
+
+  </template>
+  <template v-slot:Python>
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-override = {
-  "rule": {
+curation_set = {
+  "items": [{
+    "id": "brand-filter"
+    "rule": {
     "query": "{brand} phone",
     "match": "contains"
-  },
-  "filter_by": "brand:={brand}",
-  "remove_matched_tokens": True
+    },
+    "filter_by": "brand:={brand}",
+    "remove_matched_tokens": true
+  }]
 }
 
-# Creates/updates an override called `brand-filter` in the `companies` collection
-client.collections['companies'].overrides.upsert('brand-filter', override)
+# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-override = {
-  "rule": {
+curation_set = {
+  "items": [{
+    "id": "brand-filter"
+    "rule": {
     "query": "{brand} phone",
     "match": "contains"
-  },
-  "filter_by": "brand:={brand}",
-  "remove_matched_tokens": true
+    },
+    "filter_by": "brand:={brand}",
+    "remove_matched_tokens": true
+  }]
 }
 
-# Creates/updates an override called `brand-filter` in the `companies` collection
-client.collections['companies'].overrides.upsert('brand-filter', override)
+# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Dart>
 
 ```dart
-final override = {
-  "rule": {
+final curation_set = {
+  "items": [{
+    "id": "brand-filter"
+    "rule": {
     "query": "{brand} phone",
     "match": "contains"
-  },
-  "filter_by": "brand:={brand}",
-  "remove_matched_tokens": true
-};
-
-// Creates/updates an override called `brand-filter` in the `companies` collection
-await client.collection('companies').overrides.upsert('brand-filter', override);
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
-
-searchOverrideSchema.rule(new SearchOverrideRule().query("{brand} phone")
-                    .match(SearchOverrideRule.MatchEnum.CONTAINS))
-
-// Creates/updates an override called `customize-apple` in the `companies` collection
-SearchOverride searchOverride = client.collections("companies").overrides().upsert("brand-filter", searchOverrideSchema);
-
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-override := &api.SearchOverrideSchema{
-  Rule: api.SearchOverrideRule{
-    Query: pointer.String("{brand} phone"),
-    Match: pointer.Any(api.Contains),
-  },
-  FilterBy:            pointer.String("brand:={brand}"),
-  RemoveMatchedTokens: pointer.True(),
+    },
+    "filter_by": "brand:={brand}",
+    "remove_matched_tokens": true
+  }]
 }
 
-// Creates/updates an override called `brand-filter` in the `companies` collection
-client.Collection("companies").Overrides().Upsert(context.Background(), "brand-filter", override)
+# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/companies/overrides/brand-filter" -X PUT \
+curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-  "rule": {
+  "items": [{
+    "id": "brand-filter"
+    "rule": {
     "query": "{brand} phone",
     "match": "contains"
-  },
-  "filter_by": "brand:={brand}",
-  "remove_matched_tokens": true
+    },
+    "filter_by": "brand:={brand}",
+    "remove_matched_tokens": true
+  }]
 }'
 ```
 
   </template>
 </Tabs>
 
-With this override in effect, any query that contains a brand will automatically be filtered on the matching brand
+With this curation_set item in effect, any query that contains a brand will automatically be filtered on the matching brand
 directly. In addition, the brand will also be removed from the original query tokens, so that the search is made
 only on the remaining tokens.
 
@@ -501,21 +634,24 @@ Consider the following schema:
 
 You can create an override that dynamically sorts results based on the query:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-override = {
-  "rule": {
+curation_set = {
+  "items": [{
+    "id": "dynamic-sort"
+    "rule": {
     "query": "{store}",
     "match": "exact"
-  },
-  "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+    },
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  }];
 }
 
-// Creates/updates an override called `dynamic-sort` in the `products` collection
-client.collections('products').overrides().upsert('dynamic-sort', override)
+// Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+client.curationSets().upsert('curate_products', curation_set)
 ```
 
   </template>
@@ -523,51 +659,60 @@ client.collections('products').overrides().upsert('dynamic-sort', override)
   <template v-slot:PHP>
 
 ```php
-$override = [
-  "rule" => [
+$curation_set = [
+  "items" => [[
+    "id" => "dynamic-sort"
+    "rule" => [
     "query" => "{store}",
     "match" => "exact"
-  ],
+    ],
   "remove_matched_tokens" => true,
   "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+  ]]
 ];
 
-# Creates/updates an override called `dynamic-sort` in the `products` collection
-$client->collections['products']->overrides->upsert('dynamic-sort', $override);
+# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+$client->curationSets->upsert('curate_products', $curation_set);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-override = {
-  "rule": {
-    "query": "{store}",
-    "match": "exact"
-  },
+curation_set = {
+  "items": [{
+    "id": "dynamic-sort"
+    "rule": {
+      "query": "{store}",
+      "match": "exact"
+    },
   "remove_matched_tokens": True,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }
 
-# Creates/updates an override called `dynamic-sort` in the `products` collection
-client.collections('products').overrides.upsert('dynamic-sort', override)
+# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Ruby>
 
 ```rb
-override = {
-  "rule": {
-    "query" => "{store}",
-    "match" => "exact"
-  },
+curation_set = {
+  "items": [{
+    "id": "dynamic-sort"
+    "rule": {
+      "query" => "{store}",
+      "match" => "exact"
+    },
   "remove_matched_tokens" => true,
-  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }
 
-# Creates/updates an override called `dynamic-sort` in the `products` collection
-client.collections('products').overrides.upsert('dynamic-sort', override)
+# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
@@ -575,63 +720,37 @@ client.collections('products').overrides.upsert('dynamic-sort', override)
 
 ```dart
 final override = {
-  "rule": {
-    "query": "{store}",
-    "match": "exact"
-  },
+  "items": [{
+    "id": "dynamic-sort"
+      "rule": {
+      "query": "{store}",
+      "match": "exact"
+    },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 };
 
-// Creates/updates an override called `dynamic-sort` in the `products` collection
-await client.collection('products').overrides.upsert('dynamic-sort', override);
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
-
-searchOverrideSchema.rule(new SearchOverrideRule().query("{store}")
-                    .match(SearchOverrideRule.MatchEnum.EXACT))
-                    .removeMatchedTokens(true)
-                    .sortBy("sales.{store}:desc, inventory.{store}:desc");
-
-// Creates/updates an override called `dynamic-sort` in the `products` collection
-SearchOverride searchOverride = client.collections("products").overrides().upsert("dynamic-sort", searchOverrideSchema);
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-override := &api.SearchOverrideSchema{
-  Rule: api.SearchOverrideRule{
-    Query: pointer.String("{store}"),
-    Match: pointer.Any(api.Exact),
-  },
-  RemoveMatchedTokens: pointer.True(),
-  SortBy:             pointer.String("sales.{store}:desc, inventory.{store}:desc"),
-}
-
-// Creates/updates an override called `dynamic-sort` in the `products` collection
-client.Collection("products").Overrides().Upsert(context.Background(), "dynamic-sort", override)
+# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+await client.curation_sets.upsert('curate_products', curation_set);
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/overrides/dynamic-sort" -X PUT \
+curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
-  "rule": {
-    "query": "{store}",
-    "match": "exact"
-  },
+  "items": [{
+    "id": "dynamic-sort"
+    "rule": {
+      "query": "{store}",
+      "match": "exact"
+    },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }'
 ```
 
@@ -642,21 +761,24 @@ With this override in effect, when someone searches for a store (e.g., "store01"
 
 You can also use dynamic sorting with filter-based rules:
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-override = {
-  "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
-  },
+curation_set = {
+  "items": [{
+    "id": "dynamic-sort-filter"
+    "rule": {
+      "filter_by": "store:={store}",
+      "match": "exact"
+    },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }
 
-// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-client.collections('products').overrides().upsert('dynamic-sort-filter', override)
+// Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
+client.curation_sets().upsert('curate_products', curation_set)
 ```
 
   </template>
@@ -664,107 +786,400 @@ client.collections('products').overrides().upsert('dynamic-sort-filter', overrid
   <template v-slot:PHP>
 
 ```php
-$override = [
-  "rule" => [
-    "filter_by" => "store:={store}",
-    "match" => "exact"
-  ],
-  "remove_matched_tokens" => true,
-  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+$curation_set = [
+  "items" => [[
+    "id" => "dynamic-sort-filter"
+    "rule" => [
+      "filter_by" => "store:={store}",
+      "match" => "exact"
+    ],
+    "remove_matched_tokens" => true,
+    "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+  ]]
 ];
 
-# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-$client->collections['products']->overrides->upsert('dynamic-sort-filter', $override);
+// Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
+$client->curationSets->upsert('curate_products', $curation_set);
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-override = {
-  "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
-  },
-  "remove_matched_tokens": True,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+curation_set = {
+  "items": [{
+    "id" => "dynamic-sort-filter"
+    "rule": {
+      "filter_by": "store:={store}",
+      "match": "exact"
+    },
+    "remove_matched_tokens": True,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }
 
-# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-client.collections('products').overrides.upsert('dynamic-sort-filter', override)
+# Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
-
   </template>
   <template v-slot:Ruby>
 
 ```rb
-override = {
-  "rule": {
-    "filter_by" => "store:={store}",
-    "match" => "exact"
-  },
-  "remove_matched_tokens" => true,
-  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+curation_set = {
+  "items": [{
+    "id" => "dynamic-sort-filter"
+    "rule": {
+      "filter_by" => "store:={store}",
+      "match" => "exact"
+    },
+    "remove_matched_tokens" => true,
+    "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
+  }]
 }
 
-# Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-client.collections('products').overrides.upsert('dynamic-sort-filter', override)
+# Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
+client.curation_sets.upsert('curate_products', curation_set)
 ```
 
   </template>
   <template v-slot:Dart>
 
 ```dart
-final override = {
-  "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
-  },
+final curation_set = {
+  "items": [{
+    "id" => "dynamic-sort-filter"
+    "rule": {
+      "filter_by": "store:={store}",
+      "match": "exact"
+    },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
 };
 
-// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-await client.collection('products').overrides.upsert('dynamic-sort-filter', override);
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverrideSchema searchOverrideSchema = new SearchOverrideSchema();
-
-searchOverrideSchema.rule(new SearchOverrideRule().filterBy("store:={store}")
-                    .match(SearchOverrideRule.MatchEnum.EXACT))
-                    .removeMatchedTokens(true)
-                    .sortBy("sales.{store}:desc, inventory.{store}:desc");
-
-// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-SearchOverride searchOverride = client.collections("products").overrides().upsert("dynamic-sort-filter", searchOverrideSchema);
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-override := &api.SearchOverrideSchema{
-  Rule: api.SearchOverrideRule{
-    FilterBy: pointer.String("store:={store}"),
-    Match:    pointer.Any(api.Exact),
-  },
-  RemoveMatchedTokens: pointer.True(),
-  SortBy:             pointer.String("sales.{store}:desc, inventory.{store}:desc"),
-}
-
-// Creates/updates an override called `dynamic-sort-filter` in the `products` collection
-client.Collection("products").Overrides().Upsert(context.Background(), "dynamic-sort-filter", override)
+// Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
+await client.curation_sets.upsert('curate_products', curation_set);
 ```
 
   </template>
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/products/overrides/dynamic-sort-filter" -X PUT \
+curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+  "items": [{
+    "id": "dynamic-sort-filter"
+    "rule": {
+      "filter_by": "store:={store}",
+      "match": "exact"
+    },
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  }]
+}'
+```
+
+  </template>
+</Tabs>
+
+This curation will apply the same dynamic sorting when a filter condition matches the store name.
+
+## Retrieve a curation set
+
+Retrieving a curation set associated with a given collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.curationSets('curate_products').retrieve()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->curationSets['curate_products']->retrieve();
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+client.curation_sets['curate_products'].retrieve()
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+client.curation_sets['curate_products'].retrieve
+```
+
+  </template>
+
+  <template v-slot:Dart>
+
+```dart
+await client.curation_sets.retrieve('curate_products');
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/curation_sets/curate_products" -X GET \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`GET ${TYPESENSE_HOST}/curation_sets/:name`
+
+
+## List all curation sets
+
+Listing all curation sets associated with a given collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.curationSets().retrieve()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->curationSets->retrieve();
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+client.curation_sets.retrieve()
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+client.curation_sets.retrieve
+```
+
+  </template>
+
+  <template v-slot:Dart>
+
+```dart
+await client.curation_sets.retrieve();
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/curation_sets" -X GET \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`GET ${TYPESENSE_HOST}/curation_sets`
+
+## Delete a curation set
+
+Deleting a curation set associated with a given collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.curationSets('curate_products').delete()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->curationSets['curate_products']->delete();
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+client.curation_sets['curate_products'].delete()
+```
+
+  </template>
+  
+  <template v-slot:Ruby>
+
+```rb
+client.curation_sets['curate_products'].delete
+```
+
+  </template>
+
+  <template v-slot:Dart>
+
+```dart
+await client.curation_sets.delete('curate_products');
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/curation_sets/curate_products" -X DELETE \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`DELETE ${TYPESENSE_HOST}/curation_sets/:name`
+
+## Linking synonym sets with collections
+
+### While creating the collection
+
+```json
+{
+  "name": "products",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    }
+  ],
+  "curation_sets": ["clothing_curation", "tech_curation"]
+}
+```
+
+### Altering an existing collection
+
+```shell
+curl "http://localhost:8108/collections/products" -X PATCH \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+-d '{
+    "curation_sets": ["clothing_curation", "tech_curation"]
+}'
+```
+
+## Upsert a curation set item
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+const curation_set_item = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+}
+
+client.curationSets('curate_products').items('dynamic-sort-filter').upsert(curation_set_item)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$curation_set_item = [
+  "rule" => [
+    "filter_by" => "store:={store}",
+    "match" => "exact"
+  ],
+  "remove_matched_tokens" => true,
+  "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
+];
+
+$client->curationSets['curate_products']->items['dynamic-sort-filter']->upsert($curation_set_item);
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+curation_set_item = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+}
+
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item)
+```
+
+  </template>
+  
+  <template v-slot:Ruby>
+
+```rb
+curation_set_item = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+}
+
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item)
+```
+
+  </template>
+
+  <template v-slot:Dart>
+
+```dart
+final curation_set_item = {
+  "rule": {
+    "filter_by": "store:={store}",
+    "match": "exact"
+  },
+  "remove_matched_tokens": true,
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+}
+
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item)
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "rule": {
@@ -772,19 +1187,19 @@ curl "http://localhost:8108/collections/products/overrides/dynamic-sort-filter" 
     "match": "exact"
   },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
 }'
 ```
 
   </template>
 </Tabs>
 
-This override will apply the same dynamic sorting when a filter condition matches the store name.
-
-### Override parameters
-
 #### Definition
-`PUT ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
+`PUT ${TYPESENSE_HOST}/curation_sets/:name/items/:id`
+
+### Curation `item` parameters
+
+
 
 #### Parameters
 | Parameter             | Required                                                    | Description                                                                                                                                                                                                                                                                                                  |
@@ -825,16 +1240,15 @@ For example:
 
 The `rule.filter_by` field in your override definition should exactly be the string in #3 above for the curation rule to be triggered for the given filter and Scoped API key. 
 
-## List all overrides
-Listing all overrides associated with a given collection.
+## Retrieve a curation set item
 
-NOTE: By default, ALL overrides are returned, but you can use the `offset` and `limit` parameters to paginate on the listing.
+Retrieving a curation set item associated with a given collection.
 
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
 
 ```js
-client.collections('companies').overrides().retrieve()
+client.curationSets('curate_products').items('dynamic-sort-filter').retrieve()
 ```
 
   </template>
@@ -842,274 +1256,243 @@ client.collections('companies').overrides().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->collections['companies']->overrides->retrieve();
+$client->curationSets['curate_products']->items['dynamic-sort-filter']->retrieve();
 ```
 
   </template>
+
   <template v-slot:Python>
 
 ```py
-client.collections['companies'].overrides.retrieve()
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].retrieve()
 ```
 
   </template>
+
   <template v-slot:Ruby>
 
 ```rb
-client.collections['companies'].overrides.retrieve
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].retrieve
 ```
 
   </template>
+
   <template v-slot:Dart>
 
 ```dart
-await client.collection('companies').overrides.retrieve();
+await client.curation_sets.retrieve('curate_products');
 ```
 
   </template>
-  <template v-slot:Java>
 
-```java
-SearchOverridesResponse searchOverridesResponse = client.collections("companies").overrides().retrieve();
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-client.Collection("companies").Overrides().Retrieve(context.Background())
-```
-
-  </template>
   <template v-slot:Shell>
 
 ```bash
-curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-"http://localhost:8108/collections/companies/overrides"
+curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X GET \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
   </template>
 </Tabs>
 
-#### Sample Response
+#### Definition
+`GET ${TYPESENSE_HOST}/curation_sets/:name/items/:id`
 
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
+## List all curation set items
 
+Listing all curation set items associated with a given curation_set.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.curationSets('curate_products').items().retrieve()
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->curationSets['curate_products']->items()->retrieve();
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+client.curation_sets['curate_products'].items().retrieve()
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+client.curation_sets['curate_products'].items().retrieve
+```
+
+  </template>
+
+  <template v-slot:Dart>
+
+```dart
+await client.curation_sets.retrieve('curate_products');
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/collections/curation_sets/curate_products/items" -X GET \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`GET ${TYPESENSE_HOST}/curation_sets/:name/items`
+
+
+## Delete a curation set item
+
+Deleting a curation set item associated with a given collection.
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.curationSets('curate_products').items('dynamic-sort-filter').delete()
+```
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$client->curationSets['curate_products']->items['dynamic-sort-filter']->delete();
+```
+
+  </template>
+  <template v-slot:Python>
+  
+```py
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete()
+```
+
+  </template>
+  <template v-slot:Ruby>
+  
+```rb
+client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete
+```
+
+  </template>
+  <template v-slot:Dart>
+  
+```dart
+await client.curation_sets.delete('curate_products');
+```
+
+  </template>
+  <template v-slot:Shell>
+  
+```bash
+curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X DELETE \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+`DELETE ${TYPESENSE_HOST}/curation_sets/:name/items/:id`
+
+## Migration from old overrides API
+
+:::tip Automatic Migration
+All existing override rules from previous versions have been automatically migrated to the new curation sets format. Each collection's override rules are now stored in a curation set with the same name as the collection, postfixed by `*_curations_index` (e.g. `products_curations_index`).
+:::
+
+### Key differences
+
+1. **API Endpoints**:
+
+   - Old: `/collections/{collection}/overrides/*`
+   - New: `/curation_sets/*`
+
+2. **Data Structure**:
+
+   - Old: Direct override objects
+   - New: Curation sets containing arrays of curation items
+
+3. **Collection Association**:
+
+   - Old: Overrides were directly associated with collections
+   - New: Curation sets are linked to collections via the `curation_sets` field
+
+4. **Search Usage**:
+   - Old: Overrides were automatically applied based on collection association
+   - New: Curation sets can be dynamically specified in search parameters in addition to collection-linked sets
+
+### Example of migrated data
+
+**Before (v29 and earlier):**
 ```json
 {
-  "overrides":[
+  "id": "customize-apple",
+  "excludes": [
     {
-      "id":"customize-apple",
-      "excludes":[
+      "id": "287"
+    }
+  ],
+  "includes": [
+    {
+      "id": "422",
+      "position": 1
+    },
+    {
+      "id": "54",
+      "position": 2
+    }
+  ],
+  "rule": {
+    "match": "exact",
+    "query": "apple"
+  }
+}
+```
+
+**After (v30):**
+```json
+{
+  "name": "curated_products",
+  "items": [
+    {
+      "id": "customize-apple",
+      "excludes": [
         {
-          "id":"287"
+          "id": "287"
         }
       ],
-      "includes":[
+      "includes": [
         {
-          "id":"422",
-          "position":1
+          "id": "422",
+          "position": 1
         },
         {
-          "id":"54",
-          "position":2
-        }
+          "id": "54",
+          "position": 2
+        },
       ],
-      "rule":{
-        "match":"exact",
-        "query":"apple"
+      "rule": {
+        "match": "exact",
+        "query": "apple"
       }
     }
   ]
 }
 ```
-
-  </template>
-</Tabs>
-
-#### Definition
-`GET ${TYPESENSE_HOST}/collections/:collection/overrides`
-
-
-## Retrieve an override
-Fetch an individual override associated with a collection.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-client.collections('companies').overrides('customize-apple').retrieve()
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$client->collections['companies']->overrides['customize-apple']->retrieve();
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-client.collections['companies'].overrides['customize-apple'].retrieve()
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-client.collections['companies'].overrides['customize-apple'].retrieve
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-await client.collection('companies').override('customize-apple').retrieve();
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverride searchOverride = client.collections("companies").overrides("customize-apple").retrieve();
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-client.Collection("companies").Override("customize-apple").Retrieve(context.Background())
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X GET \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
-
-  </template>
-</Tabs>
-
-#### Sample Response
-
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
-
-```json
-{
-  "id":"customize-apple",
-  "excludes":[
-    {
-      "id":"287"
-    }
-  ],
-  "includes":[
-    {
-      "id":"422",
-      "position":1
-    },
-    {
-      "id":"54",
-      "position":2
-    }
-  ],
-  "rule":{
-    "match":"exact",
-    "query":"apple"
-  }
-}
-```
-
-  </template>
-</Tabs>
-
-#### Definition
-`GET ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
-
-
-## Delete an override
-Deleting an override associated with a collection.
-
-<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
-  <template v-slot:JavaScript>
-
-```js
-client.collections('companies').overrides('customize-apple').delete()
-```
-
-  </template>
-
-  <template v-slot:PHP>
-
-```php
-$client->collections['companies']->overrides['customize-apple']->delete();
-```
-
-  </template>
-  <template v-slot:Python>
-
-```py
-client.collections['companies'].overrides['customize-apple'].delete()
-```
-
-  </template>
-  <template v-slot:Ruby>
-
-```rb
-client.collections['companies'].overrides['customize-apple'].delete
-```
-
-  </template>
-  <template v-slot:Dart>
-
-```dart
-await client.collection('companies').override('customize-apple').delete();
-```
-
-  </template>
-  <template v-slot:Java>
-
-```java
-SearchOverride searchOverride = client.collections("companies").overrides("customize-apple").delete();
-```
-
-  </template>
-  <template v-slot:Go>
-
-```go
-client.Collection("companies").Override("customize-apple").Delete(context.Background())
-```
-
-  </template>
-  <template v-slot:Shell>
-
-```bash
-curl "http://localhost:8108/collections/companies/overrides/customize-apple" -X DELETE \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
-```
-
-  </template>
-</Tabs>
-
-#### Sample Response
-
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
-
-```json
-{
-  "id": "customize-apple"
-}
-```
-
-  </template>
-</Tabs>
-
-#### Definition
-`DELETE ${TYPESENSE_HOST}/collections/:collection/overrides/:id`
+The new API provides better organization, reusability across collections, and more flexible search-time curation application.
