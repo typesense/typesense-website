@@ -628,6 +628,296 @@ curl "http://localhost:8108/collections/products/documents/search?q=controller&q
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
+## Upsert a synonym set item
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+synonymSetItem = {
+  root: 'smart phone',
+  synonyms: ['iphone', 'android'],
+}
+
+// Creates/updates a synonym set called `tech-synonyms`
+client.synonymSets('tech-synonyms').items('smart-phone-synonyms').upsert(synonymSetItem)
+
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$synonymSetItem = [
+  'root' => 'smart phone',
+  'synonyms' => ['iphone', 'android'],
+];
+
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->upsert($synonymSetItem);
+```
+
+  </template>
+
+  <template v-slot:Python>
+
+```py
+synonymSetItem = {
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"],
+}
+
+# Creates/updates a synonym set called `tech-synonyms`
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].upsert(synonymSetItem)
+```
+
+  </template>
+
+  <template v-slot:Ruby>
+
+```rb
+synonymSetItem = {
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"],
+}
+
+# Creates/updates a synonym set called `tech-synonyms`
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].upsert(synonymSetItem)
+```
+
+  </template>
+
+  <template v-slot:Java>
+
+```java
+SynonymItemSchema synonymSetItem = new SynonymItemSchema();
+synonymSetItem.setId("smart-phone-synonyms");
+synonymSetItem.addSynonymsItem("iphone").addSynonymsItem("android");
+synonymSetItem.setRoot("smart phone");
+
+client.synonymSets('tech-synonyms').items('smart-phone-synonyms').upsert(synonymSetItem);
+```
+
+  </template>
+
+  <template v-slot:Go>
+
+```go
+synonymItem := &api.SynonymItemSchema{
+  ID:       "smart-phone-synonyms",
+  Root:     pointer.String("smart phone"),
+  Synonyms: []string{"iphone", "android"},
+}
+
+// Creates/updates a synonym set called `tech-synonyms`
+client.SynonymSets("tech-synonyms").Items("smart-phone-synonyms").Upsert(context.Background(), synonymItem)
+
+```
+
+  </template>
+
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/synonym_sets/tech-synonyms/items/smart-phone-synonyms" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
+  "root": "smart phone",
+  "synonyms": ["iphone", "android"]
+}'
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+
+`PUT ${TYPESENSE_HOST}/synonym_sets/:synonymSetName/items/:id`
+
+
+
+## Retrieve a synonym set item
+
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.synonymSets('tech-synonyms').items('smart-phone-synonyms').retrieve()
+```
+
+  </template>
+  <template v-slot:PHP>
+
+```php
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->retrieve();
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].retrieve()
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].retrieve()
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SynonymItemSchema synonymItem = client.synonymSets("tech-synonyms").items("smart-phone-synonyms").retrieve();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+synonymItem, err := client.SynonymSets("tech-synonyms").Items("smart-phone-synonyms").Retrieve(context.Background())
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/synonym_sets/tech-synonyms/items/smart-phone-synonyms"
+```
+
+  </template>
+</Tabs> 
+
+#### Definition
+
+`GET ${TYPESENSE_HOST}/synonym_sets/:synonymSetName/items/:id`
+
+
+
+## List all synonym set items
+
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.synonymSets('tech-synonyms').items().retrieve()
+```
+
+  </template>
+  <template v-slot:PHP>
+
+```php
+$client->synonymSets['tech-synonyms']->items()->retrieve();
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.synonym_sets['tech-synonyms'].items().retrieve()
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.synonym_sets['tech-synonyms'].items().retrieve()
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+SynonymItemSchema synonymItem = client.synonymSets("tech-synonyms").items().retrieve();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+synonymItem, err := client.SynonymSets("tech-synonyms").Items().Retrieve(context.Background())
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/synonym_sets/tech-synonyms/items"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+
+`GET ${TYPESENSE_HOST}/synonym_sets/:name/items`
+
+## Delete a synonym set item
+
+
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+client.synonymSets('tech-synonyms').items('smart-phone-synonyms').delete()
+```
+
+  </template>
+  <template v-slot:PHP>
+
+```php
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->delete();
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].delete()
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].delete()
+```
+
+  </template>
+  <template v-slot:Java>
+
+```java
+client.synonymSets("tech-synonyms").items("smart-phone-synonyms").delete();
+```
+
+  </template>
+  <template v-slot:Go>
+
+```go
+client.SynonymSets("tech-synonyms").Items("smart-phone-synonyms").Delete(context.Background())
+```
+
+  </template>
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/synonym_sets/tech-synonyms/items/smart-phone-synonyms" -X DELETE \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Definition
+
+`DELETE ${TYPESENSE_HOST}/synonym_sets/:synonymSetName/items/:id`
+
 ## Migration from old synonyms API
 
 :::tip Automatic Migration
