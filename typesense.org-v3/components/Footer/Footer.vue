@@ -17,6 +17,10 @@ const pages = [
   { name: "Pricing", link: "https://cloud.typesense.org/pricing" },
   { name: "Typesense Cloud", link: "https://cloud.typesense.org/" },
   { name: "Blog", link: `${runtimeConfig.public.baseUrl}/blog` },
+  {
+    name: "Algolia vs Elasticsearch vs Typesense",
+    link: "/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
+  }
 ];
 const libraries = [
   {
@@ -79,14 +83,10 @@ const libraries = [
 ];
 
 const supportLinks = [
-  { name: "Contact Us", link: "/support" },
   { name: "Prioritized Support", link: "/support" },
-  {
-    name: "Algolia vs Elasticsearch vs Typesense",
-    link: "/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
-  },
   { name: "Slack Community", link: "https://typesense.link/slack-community" },
-  { name: "Community Threads ", link: "https://threads.typesense.org/" },
+  { name: "Community Archive", link: "https://threads.typesense.org/" },
+  { name: "GitHub Issue Tracker", link: "https://github.com/search?q=org%3Atypesense++issues&type=issues" },
 ];
 </script>
 
@@ -112,14 +112,7 @@ const supportLinks = [
         <div>
           <h5>Typesense, Inc.</h5>
           <div class="text-nowrap leading-[1.6]">
-            Houston, TX <br /><a
-              href="https://twitter.com/typesense"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="transition-colors duration-200 hover:text-text-primary"
-              >@typesense</a
-            >
-            |
+            Houston, TX <br />
             <a
               href="mailto:contact@typesense.org"
               target="_blank"
@@ -133,7 +126,7 @@ const supportLinks = [
         class="flex w-full justify-evenly gap-20 max-[1230px]:gap-10 max-lg:justify-between max-md:flex-col"
       >
         <div>
-          <h5>Page</h5>
+          <h5>Pages</h5>
           <div class="gap-6 max-md:flex max-md:gap-12 max-sm:gap-6">
             <ul>
               <li v-for="page in pages.slice(0, 3)" :key="page.name">
@@ -213,14 +206,14 @@ const supportLinks = [
         <SocialLink :link-to="GITHUB_LINK">
           <Github />
         </SocialLink>
-        <SocialLink :accent="true" :link-to="SLACK_LINK">
-          <Slack />
-        </SocialLink>
         <SocialLink :link-to="LINKEDIN_LINK">
           <Linkedin />
         </SocialLink>
         <SocialLink :link-to="X_LINK">
           <X />
+        </SocialLink>
+        <SocialLink :accent="true" :link-to="SLACK_LINK">
+          <Slack />
         </SocialLink>
       </div>
     </div>
