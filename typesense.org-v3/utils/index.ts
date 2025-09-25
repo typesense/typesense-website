@@ -1,8 +1,8 @@
 import { typesenseLatestVersion } from "../../typesenseVersions.json";
 export const STATIC = {
   typesenseLatestVersion,
-  githubStars: "22K",
-  dockerPulls: "18M",
+  githubStars: "24K",
+  dockerPulls: "20M",
   cloudSearchesPerMonth: "10B",
 
   link_typesense_cloud: "https://cloud.typesense.org/",
