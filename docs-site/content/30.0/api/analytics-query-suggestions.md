@@ -6,6 +6,10 @@ priority: 0.7
 
 # Analytics
 
+:::warning Breaking Change in v30
+When you upgrade to v30, all existing collection-specific analytics rules will be automatically migrated to the new analytics rules format. You have to use the new API and client methods for reading and updating analytics rules. Your analytics rules will continue working without any hiccups.
+:::
+
 Typesense can aggregate search queries and track user interaction events (clicks, conversions, visits) for query suggestions, document popularity scoring, and personalization.
 
 ### Analytics rule types and event types
