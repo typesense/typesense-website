@@ -7,5 +7,4 @@ If you run into any issues or have general questions, here are a couple of ways 
 - Browse and search through [past conversations](https://threads.typesense.org/) in our Slack community. 
 - Open a [GitHub issue](https://github.com/typesense/typesense/issues) with any questions or bug reports.
 - Join our public [Slack community](https://typesense.link/slack-community) to discuss general questions and/or issues.
-- Schedule a call with a member of the core Typesense team, by [sponsoring Typesense on GitHub](https://github.com/sponsors/typesense?frequency=one-time) and picking the appropriate one-time sponsorship tier, and email us at contact at typesense dot org
 - We also offer prioritized paid support, with private Slack, email & phone-based support with guaranteed SLAs on Typesense Cloud. Learn more [here](https://cloud.typesense.org/support-plans).
