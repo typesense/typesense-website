@@ -103,10 +103,16 @@ const supportLinks = [
           <div class="mb-3 max-lg:mb-4">
             <Logo />
           </div>
-          <div>
-            Fast, open source, typo-tolerant
+          <div class="text-right">
+            Open Source Search.
             <br class="max-lg:hidden max-sm:block" />
-            search engine
+            Blazing Fast,
+            <br class="max-lg:hidden max-sm:block" />
+            Developer Friendly,
+            <br class="max-lg:hidden max-sm:block" />
+            Batteries Included,
+            <br class="max-lg:hidden max-sm:block" />
+            With a Dash of AI.
           </div>
         </div>
         <div>
