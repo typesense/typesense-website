@@ -13,14 +13,16 @@ const X_LINK = "https://x.com/typesense";
 const pages = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
+  { name: "Downloads", link: "/downloads" },
   { name: "Documentation", link: `${runtimeConfig.public.baseUrl}/docs` },
+  { name: "Roadmap", link: `https://github.com/orgs/typesense/projects/1` },
   { name: "Pricing", link: "https://cloud.typesense.org/pricing" },
-  { name: "Typesense Cloud", link: "https://cloud.typesense.org/" },
   { name: "Blog", link: `${runtimeConfig.public.baseUrl}/blog` },
   {
     name: "Algolia vs Elasticsearch vs Typesense",
     link: "/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
-  }
+  },
+  { name: "Typesense Cloud", link: "https://cloud.typesense.org/" },
 ];
 const libraries = [
   {
@@ -84,6 +86,7 @@ const libraries = [
 
 const supportLinks = [
   { name: "Prioritized Support", link: "/support" },
+  { name: "FAQs", link: "https://typesense.org/docs/guide/faqs.html" },
   { name: "Slack Community", link: "https://typesense.link/slack-community" },
   { name: "Community Archive", link: "https://threads.typesense.org/" },
   { name: "GitHub Issue Tracker", link: "https://github.com/search?q=org%3Atypesense++issues&type=issues" },
@@ -115,7 +118,7 @@ const supportLinks = [
             With a Dash of AI.
           </div>
         </div>
-        <div>
+        <div class="text-right">
           <h5>Typesense, Inc.</h5>
           <div class="text-nowrap leading-[1.6]">
             Houston, TX <br />
