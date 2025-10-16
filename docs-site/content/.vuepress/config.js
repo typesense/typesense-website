@@ -288,6 +288,7 @@ let config = {
               '/cloud-management-api/v1/typesense-server-configuration-parameters',
               'Typesense Configuration Parameters',
             ],
+            ['/cloud-management-api/v1/invoices', 'Invoices'],
           ],
         },
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],
