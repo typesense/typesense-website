@@ -97,12 +97,12 @@ The easiest way to run the scraper is using Docker.
 1. [Install `jq`.](https://stedolan.github.io/jq/download/)
 1. [Make sure your Typesense server is operational.](./install-typesense.md)
 1. Create a `.env` file with the following contents, replacing them with the correct values for your particular situation:
-    ```shell
-    TYPESENSE_API_KEY=xyz
-    TYPESENSE_HOST=xxx.a1.typesense.net
-    TYPESENSE_PORT=443
-    TYPESENSE_PROTOCOL=https
-    ```
+   ```shell
+   TYPESENSE_API_KEY=xyz
+   TYPESENSE_HOST=xxx.a1.typesense.net
+   TYPESENSE_PORT=443
+   TYPESENSE_PROTOCOL=https
+   ```
    ::: tip
    If you are self-hosting Typesense, then you can usually find your API key and port number in the `/etc/typesense/typesense-server.ini` file.
 
@@ -112,12 +112,12 @@ The easiest way to run the scraper is using Docker.
    :::
 
    ::: tip
-   If you are running Typesense on `localhost` and you're using Docker to run the scraper,  using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
+   If you are running Typesense on `localhost` and you're using Docker to run the scraper, using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
    :::
 1. Run the scraper:
-    ```bash
-    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.11.0
-    ```
+   ```bash
+   docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.11.0
+   ```
 
 This will scrape your documentation site and index it into Typesense.
 
@@ -276,9 +276,9 @@ When setting up the DocSearch scraper for a Docusaurus site, please note:
 
 1. A `sitemap.xml` file is required for the scraper to work properly. To generate this:
    - Install the sitemap plugin:
-      ```bash
-      npm install @docusaurus/plugin-sitemap --save
-      ```
+     ```bash
+     npm install @docusaurus/plugin-sitemap --save
+     ```
    - Add it to your `docusaurus.config.js`:
      ```js
      plugins: [
@@ -296,9 +296,9 @@ When setting up the DocSearch scraper for a Docusaurus site, please note:
      ```
 
 1. When testing locally, serve your site:
-      ```bash
-      npm run serve
-      ```
+   ```bash
+   npm run serve
+   ```
 
 1. Make sure your Typesense server is running before running the scraper
 
@@ -441,9 +441,9 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
     typesenseCollectionName: 'docs', // Should match the collection name you mention in the docsearch scraper config.js
     typesenseServerConfig: {
       nodes: [{
-        host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
-        port: '8108',      // For Typesense Cloud use 443
-        protocol: 'http'   // For Typesense Cloud use https
+          host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+          port: '8108',      // For Typesense Cloud use 443
+          protocol: 'http'   // For Typesense Cloud use https
       }],
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
@@ -465,7 +465,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
 <!-- Somewhere in your doc site's navigation -->
-<input type="search" id="searchbar">
+<input type="search" id="searchbar" />
 
 <!-- Before the closing head -->
 <link
@@ -482,9 +482,9 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
     typesenseCollectionName: 'docs', // Should match the collection name you mention in the docsearch scraper config.js
     typesenseServerConfig: {
       nodes: [{
-        host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
-        port: '8108',      // For Typesense Cloud use 443
-        protocol: 'http'   // For Typesense Cloud use https
+          host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+          port: '8108',      // For Typesense Cloud use 443
+          protocol: 'http'   // For Typesense Cloud use https
       }],
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
@@ -563,21 +563,40 @@ import starlightDocSearchTypesense from 'starlight-docsearch-typesense'
 
 export default defineConfig({
   integrations: [
-     starlight({
-       title: 'My Docs',
-       plugins: [
-         starlightDocSearchTypesense({
-           typesenseCollectionName: 'docs',
-           typesenseServerConfig: {
-             nodes: [{ url: 'http://localhost:8108' }],
-             apiKey: '<SEARCH_API_KEY>',
-           },
-         }),
-       ],
+    starlight({
+      title: 'My Docs',
+      plugins: [
+        starlightDocSearchTypesense({
+          // Replace this with the name of your index/collection.
+          // It should match the "index_name" entry in the scraper's "config.json" file.
+          typesenseCollectionName: 'docs',
+          typesenseServerConfig: {
+            nodes: [
+              {
+                host: 'xxx-1.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+              {
+                host: 'xxx-2.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+              {
+                host: 'xxx-3.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+            ],
+            apiKey: '<SEARCH_API_KEY>',
+          },
+        }),
+      ],
     }),
   ],
 })
 ```
+
 For additional configuration options, live demo, and instructions on integrating with `typesense-docsearch-scraper`, see the [Starlight DocSearch Typesense Documentation](https://starlight-docsearch.typesense.org/getting-started/).
 
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
@@ -649,13 +668,13 @@ If you have custom tags, you can edit the schema above to include those custom f
 
 ```js
 docsearch({
-    //... Other parameters as described above
+  //... Other parameters as described above
     typesenseSearchParameters: { // In some docsearch plugins (see above), this might be called `typesenseSearchParams`
-      // ...
+      // ... 
       query_by:
         'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
       vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)' // Optional vector search fine-tuning
-    },
+  },
   });
 ```
 
