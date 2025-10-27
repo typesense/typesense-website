@@ -84,7 +84,21 @@ curl -X POST http://localhost:8108/nl_search_models \
    }
    ```
 
-2. **Cloudflare Workers AI**:
+2. **Azure OpenAI Models**:
+
+   ```json{3}
+   {
+     "id": "model-test",
+     "model_name": "azure/gpt-35-turbo",
+     "api_key": "YOUR_AZURE_OPENAI_API_KEY",
+     "url": "https://myresource.openai.azure.com/openai/deployments/mygpt35deployment/chat/completions?api-version=2024-02-15-preview",
+     "max_bytes": 16000,
+     "temperature": 0.0,
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
+   }
+   ```
+
+3. **Cloudflare Workers AI**:
    ```json{3}
    {
      "id": "You-can-either-specify-a-custom-id-or-have-one-auto-generated-for-you-by-leaving-out-the-id-field",

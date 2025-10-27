@@ -24,6 +24,7 @@ This release contains important new features, performance improvements and bug f
 ### Enhancements
 - Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
 - Support `!` as standalone negation operator in filters, allowing `field:![value]` syntax as alternative to `field:!=[value]`.
+- Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
