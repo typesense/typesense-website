@@ -25,8 +25,7 @@ This release contains important new features, performance improvements and bug f
 - Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
 
 ### Bug Fixes
-
-
+- Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
 
 ### Deprecations / behavior changes
 
