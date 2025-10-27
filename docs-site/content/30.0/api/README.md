@@ -26,6 +26,7 @@ This release contains important new features, performance improvements and bug f
 - Support `!` as standalone negation operator in filters, allowing `field:![value]` syntax as alternative to `field:!=[value]`.
 - Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
+- Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
