@@ -18,7 +18,11 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 This release contains important new features, performance improvements and bug fixes.
 
 ### New Features
-
+- Support faceting on joined reference field ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing)
+- Show related_docs count for a document in joined collection with `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
+- Make facet sampling dynamic by adding `facet_sample_slope` param ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
+- Support sorting and limit on joined fields with include_fields param([Docs](https://typesense.org/docs/30.0/api/joins.html#Sorting-and-limiting-on-joined-collection-docs)
+- Support `group_by` for Union search ([Docs](https://typesense.org/docs/30.0/api/federated-multi-search.html#union-search)
 
 
 ### Enhancements
@@ -27,6 +31,11 @@ This release contains important new features, performance improvements and bug f
 - Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
 - Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
+- Use Transliterator objects pool [PR#2412] (https://github.com/typesense/typesense/pull/2412)
+- Support dynamic `facet_return_parent` fields ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
+- Support `pinned_hits` with union search [PR#2422] (https://github.com/typesense/typesense/pull/2422)
+- Support altering reference fields [PR#2445] (https://github.com/typesense/typesense/pull/2445)
+- Filter our duplicates when using `Union` search with flag `remove_duplicates`. Defaulted to true.
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
@@ -40,6 +49,9 @@ This release contains important new features, performance improvements and bug f
 - Set user agent when initializing HTTP client for external API calls.
 - Fix hyphen handling in negation searches to only apply special treatment when token starts with `-`.
 - Fix query sub-tokenization to respect field-level `symbols_to_index` and `token_separators` configuration.
+- Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
+- Fix sort using `_eval()` for `id` fields
+- Fix logging of async reference missing doc value
 
 ### Deprecations / behavior changes
 

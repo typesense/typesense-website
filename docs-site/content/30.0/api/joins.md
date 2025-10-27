@@ -676,3 +676,31 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -X GET \
 ```
 
 This will return the book document along with the author's name from the referenced `authors` collection.
+
+## Sorting and limiting on joined collection docs
+
+You can sort and limit the joined collection docs using `sort_by` and `limit` param in `include_fields`.
+
+For example, if you're searching in `authors` collection and including fields from `books` collection, you can sort the docs by `id` like below,
+
+```json
+{
+  "collection": "authors",
+  "q": "*",
+  "filter_by": "$books(id:*)",
+  "include_fields": "$books(*, sort_by: id: desc)"
+}
+```
+Here, the docs will be sorted by their `id` in `desc` order.
+
+Similarly, if you want to limit the docs in referenced collection then you can do it like follwing,
+
+```json
+{
+  "collection": "authors",
+  "q": "*",
+  "filter_by": "$books(id:*)",
+  "include_fields": "$books(*, limit:5)"
+}
+```
+Which will limit the doc count by 5.
