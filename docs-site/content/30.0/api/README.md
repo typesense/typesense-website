@@ -35,6 +35,7 @@ This release contains important new features, performance improvements and bug f
 - Return `201` status code when creating conversational models, personalization models, or natural language search models to follow REST conventions.
 - Fix custom OpenAI-compatible endpoint URLs not being used for auto-embedding.
 - Fix schema updates with embedding fields incorrectly requiring `api_key` validation for local models.
+- Fix console logging to output info messages to stdout and warnings/errors to stderr instead of all to stderr.
 
 ### Deprecations / behavior changes
 
