@@ -37,6 +37,7 @@ This release contains important new features, performance improvements and bug f
 - Fix schema updates with embedding fields incorrectly requiring `api_key` validation for local models.
 - Fix console logging to output info messages to stdout and warnings/errors to stderr instead of all to stderr.
 - Fix phrase query highlighting to highlight only exact phrase matches instead of every individual keyword occurrence.
+- Set user agent when initializing HTTP client for external API calls.
 
 ### Deprecations / behavior changes
 
