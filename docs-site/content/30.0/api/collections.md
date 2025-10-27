@@ -499,6 +499,19 @@ so this is primarily useful for creating new collections from an existing refere
 Cloning a collection this way, does **not** copy the data.
 :::
 
+#### Clone collection with documents
+
+If you want to clone a collection along with its documents, you can use the `copy_documents` parameter:
+
+```shell
+curl -X POST 'http://localhost:8108/collections?src_name=source_collection&copy_documents=true' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{"name": "new_collection_with_docs"}'
+```
+
+This will create a new collection called `new_collection_with_docs` that contains the schema, overrides, synonyms **and documents** from `source_collection`.
+
 ### Adding metadata to schema
 
 If you wish, you could populate a `metadata` object to the schema while creating a collection to add

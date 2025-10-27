@@ -22,7 +22,7 @@ This release contains important new features, performance improvements and bug f
 
 
 ### Enhancements
-
+- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
 
 ### Bug Fixes
 
