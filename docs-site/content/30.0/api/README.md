@@ -31,6 +31,7 @@ This release contains important new features, performance improvements and bug f
 - Ensure unique analytics IDs are generated when queries differ by `filter_by` or `analytics_tag` metadata to prevent aggregation issues.
 - Fix search highlighting to use field-specific token separators instead of collection-level ones for consistent behavior.
 - Return `201` status code when creating conversational models, personalization models, or natural language search models to follow REST conventions.
+- Fix custom OpenAI-compatible endpoint URLs not being used for auto-embedding.
 
 ### Deprecations / behavior changes
 
