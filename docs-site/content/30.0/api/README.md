@@ -22,11 +22,24 @@ This release contains important new features, performance improvements and bug f
 
 
 ### Enhancements
-
+- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
+- Support `!` as standalone negation operator in filters, allowing `field:![value]` syntax as alternative to `field:!=[value]`.
+- Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
+- Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
+- Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
 
 ### Bug Fixes
-
-
+- Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
+- Ensure unique analytics IDs are generated when queries differ by `filter_by` or `analytics_tag` metadata to prevent aggregation issues.
+- Fix search highlighting to use field-specific token separators instead of collection-level ones for consistent behavior.
+- Return `201` status code when creating conversational models, personalization models, or natural language search models to follow REST conventions.
+- Fix custom OpenAI-compatible endpoint URLs not being used for auto-embedding.
+- Fix schema updates with embedding fields incorrectly requiring `api_key` validation for local models.
+- Fix console logging to output info messages to stdout and warnings/errors to stderr instead of all to stderr.
+- Fix phrase query highlighting to highlight only exact phrase matches instead of every individual keyword occurrence.
+- Set user agent when initializing HTTP client for external API calls.
+- Fix hyphen handling in negation searches to only apply special treatment when token starts with `-`.
+- Fix query sub-tokenization to respect field-level `symbols_to_index` and `token_separators` configuration.
 
 ### Deprecations / behavior changes
 
