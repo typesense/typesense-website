@@ -32,6 +32,7 @@ This release contains important new features, performance improvements and bug f
 - Fix search highlighting to use field-specific token separators instead of collection-level ones for consistent behavior.
 - Return `201` status code when creating conversational models, personalization models, or natural language search models to follow REST conventions.
 - Fix custom OpenAI-compatible endpoint URLs not being used for auto-embedding.
+- Fix schema updates with embedding fields incorrectly requiring `api_key` validation for local models.
 
 ### Deprecations / behavior changes
 
