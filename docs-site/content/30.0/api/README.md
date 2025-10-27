@@ -26,6 +26,7 @@ This release contains important new features, performance improvements and bug f
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
+- Ensure unique analytics IDs are generated when queries differ by `filter_by` or `analytics_tag` metadata to prevent aggregation issues.
 
 ### Deprecations / behavior changes
 
