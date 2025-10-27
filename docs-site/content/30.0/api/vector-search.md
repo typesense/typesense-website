@@ -1809,6 +1809,12 @@ Note: All fields parameters (`name`, `embed.from`, and `model_config` parameters
 
 This API also provided by Google under the Google Cloud Platform (GCP) umbrella.
 
+Typesense supports two authentication methods for GCP Vertex AI:
+
+1. **OAuth Authentication** - Using access tokens and refresh tokens
+2. **Service Account Authentication** - Using service account credentials
+
+#### OAuth Authentication
 You would need the following authentication information to use this method:
 
 - GCP access token (must be valid while creating the field)
@@ -2095,6 +2101,42 @@ curl 'http://localhost:8108/collections' \
 
 </Tabs>
 
+#### Service Account Authentication
+
+Alternatively, you can use GCP service account credentials for authentication. This method is more secure for server-side applications and doesn't require managing refresh tokens.
+
+You would need the following authentication information:
+
+- GCP project ID
+- Service account client email
+- Service account private key
+
+```json
+{
+  "name": "products",
+  "fields": [
+    {
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "name": "embedding",
+      "type": "float[]",
+      "embed": {
+        "from": ["product_name"],
+        "model_config": {
+          "model_name": "gcp/gemini-embedding-001",
+          "project_id": "your-gcp-project-id",
+          "service_account": {
+            "client_email": "your-service-account@your-project.iam.gserviceaccount.com",
+            "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+          }
+        }
+      }
+    }
+  ]
+}
+```
 ### Remote Embedding API parameters
 
 You can use any of the following parameters to fine-tune how API calls are made to remote embedding services:

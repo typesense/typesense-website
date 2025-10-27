@@ -454,6 +454,7 @@ string, then the next document that contains the field named `title` will be exp
 | reference   | no       | Name of a field in another collection that should be linked to this collection so that it can be joined during query.                      |
 | range_index | no       | Enables an index optimized for range filtering on numerical fields (e.g. `rating:>3.5`). Default: `false`.                                 |
 | stem        | no       | Values are stemmed before indexing in-memory. Default: `false`.                                                                            |
+| truncate    | no       | Maximum number of characters to index per token for string fields.Default: `100`.                                                          |
 
 ### Field types
 
@@ -498,6 +499,19 @@ so this is primarily useful for creating new collections from an existing refere
 :::tip
 Cloning a collection this way, does **not** copy the data.
 :::
+
+#### Clone collection with documents
+
+If you want to clone a collection along with its documents, you can use the `copy_documents` parameter:
+
+```shell
+curl -X POST 'http://localhost:8108/collections?src_name=source_collection&copy_documents=true' \
+  -H 'Content-Type: application/json' \
+  -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+  -d '{"name": "new_collection_with_docs"}'
+```
+
+This will create a new collection called `new_collection_with_docs` that contains the schema, overrides, synonyms **and documents** from `source_collection`.
 
 ### Adding metadata to schema
 
