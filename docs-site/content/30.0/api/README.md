@@ -39,6 +39,7 @@ This release contains important new features, performance improvements and bug f
 - Fix phrase query highlighting to highlight only exact phrase matches instead of every individual keyword occurrence.
 - Set user agent when initializing HTTP client for external API calls.
 - Fix hyphen handling in negation searches to only apply special treatment when token starts with `-`.
+- Fix query sub-tokenization to respect field-level `symbols_to_index` and `token_separators` configuration.
 
 ### Deprecations / behavior changes
 
