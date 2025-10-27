@@ -36,6 +36,7 @@ This release contains important new features, performance improvements and bug f
 - Fix custom OpenAI-compatible endpoint URLs not being used for auto-embedding.
 - Fix schema updates with embedding fields incorrectly requiring `api_key` validation for local models.
 - Fix console logging to output info messages to stdout and warnings/errors to stderr instead of all to stderr.
+- Fix phrase query highlighting to highlight only exact phrase matches instead of every individual keyword occurrence.
 
 ### Deprecations / behavior changes
 
