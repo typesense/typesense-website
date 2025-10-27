@@ -38,6 +38,7 @@ This release contains important new features, performance improvements and bug f
 - Fix console logging to output info messages to stdout and warnings/errors to stderr instead of all to stderr.
 - Fix phrase query highlighting to highlight only exact phrase matches instead of every individual keyword occurrence.
 - Set user agent when initializing HTTP client for external API calls.
+- Fix hyphen handling in negation searches to only apply special treatment when token starts with `-`.
 
 ### Deprecations / behavior changes
 
