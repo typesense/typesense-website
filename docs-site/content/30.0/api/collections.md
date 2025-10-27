@@ -454,6 +454,7 @@ string, then the next document that contains the field named `title` will be exp
 | reference   | no       | Name of a field in another collection that should be linked to this collection so that it can be joined during query.                      |
 | range_index | no       | Enables an index optimized for range filtering on numerical fields (e.g. `rating:>3.5`). Default: `false`.                                 |
 | stem        | no       | Values are stemmed before indexing in-memory. Default: `false`.                                                                            |
+| truncate    | no       | Maximum number of characters to index per token for string fields.Default: `100`.                                                          |
 
 ### Field types
 
