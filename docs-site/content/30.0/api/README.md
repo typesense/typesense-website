@@ -19,14 +19,15 @@ This release contains important new features, performance improvements and bug f
 
 ### New Features
 
-
+- **IPv6 Support:** Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
 
 ### Enhancements
-- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
+- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)).
 - Support `!` as standalone negation operator in filters, allowing `field:![value]` syntax as alternative to `field:!=[value]`.
 - Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
 - Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
+- Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
@@ -43,15 +44,25 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
+- `/collections/:collection/synonyms` are now moved to `/synonym_sets` ([Docs](https://typesense.org/docs/30.0/api/synonyms))
+- `/collection/:collection/overrides` are now movied to `/curation_sets` ([Docs](https://typesense.org/docs/30.0/api/curation))
+- The analytics rule format has changed. Find out more, ([Docs](https://typesense.org/docs/30.0/api/analytics-query-suggestions))
+
+:::warning Breaking Changes
+
+The three changes listed above are **breaking changes**.
+Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes **before upgrading your Typesense server**.
+
+:::
 
 ## Upgrading
 
 Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
 changes above to prepare your application for the upgrade.
 
-We'd recommend testing on your development / staging environments before upgrading. 
+We'd recommend testing on your development / staging environments before upgrading.
 
-Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment. 
+Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment.
 
 
 ## Downgrading
