@@ -18,6 +18,7 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 This release contains important new features, performance improvements and bug fixes.
 
 ### New Features
+- **Diversify search results**: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [PR#2572](https://github.com/typesense/typesense/pull/2572)
 
 
 
@@ -27,6 +28,10 @@ This release contains important new features, performance improvements and bug f
 - Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
 - Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
+- Return an error message when a field is declared that references another field of the same collection. [PR#2456](https://github.com/typesense/typesense/pull/2456)
+- Add `cascade_delete: false` parameter for a `reference` field to override the default behavior of document being cascade deleted in case all the documents it references are deleted. It requires `async_reference` parameter to be `true`. [PR#2582](https://github.com/typesense/typesense/pull/2582)
+- Add `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [PR#2599](https://github.com/typesense/typesense/pull/2599)
+- Allow non-indexed nested fields to still be required. [PR#2603](https://github.com/typesense/typesense/pull/2603)
 
 ### Bug Fixes
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
@@ -40,8 +45,14 @@ This release contains important new features, performance improvements and bug f
 - Set user agent when initializing HTTP client for external API calls.
 - Fix hyphen handling in negation searches to only apply special treatment when token starts with `-`.
 - Fix query sub-tokenization to respect field-level `symbols_to_index` and `token_separators` configuration.
+- Fix union search pagination bug where global pagination parameters were not passed to individual queries. [PR#2428](https://github.com/typesense/typesense/pull/2428)
+- Fix missing groups in case of high cardinality fields. [PR#2436](https://github.com/typesense/typesense/pull/2436)
+- Fix various deadlock scenarios related to async reference fields.
+- Fix an edge case in group_by query along with infix search. [PR#2517](https://github.com/typesense/typesense/pull/2517)
+- Fix a crash while searching when updates are happening in parallel.
 
 ### Deprecations / behavior changes
+- The export endpoint now doesn't stop streaming the response if an error is encounterd while loading a document from disk. The error is logged and is also returned in the response stream.
 
 
 ## Upgrading
