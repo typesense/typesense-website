@@ -423,6 +423,35 @@ Since the results of each search are merged into one final result, union differs
 }
 ```
 will return an error since the types (`user_name: string`, `rating: float`) are different.
+<br><br>
+Union search removes duplicates by default. Which can be turned off using flag `remove_duplicates: false`
+
+### Grouping with Union
+Union supports `group_by` operations with flag `group_by` params in searches like below,
+
+```curl
+curl 'http://localhost:8108/multi_search?page=1&per_page=2' -X POST \
+     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
+{
+  "union": true,
+  "searches": [
+    {
+      "collection": "posts",
+      "q": "*",
+      "filter_by": "user_name:stark_industry",
+      "group_by": "content",
+      "group_limit": 2
+    },
+    {
+      "collection": "comments",
+      "q": "*",
+      "filter_by": "user_name:rogers_steve",
+      "group_by": "content"
+    }
+  ]
+}'
+```
+**NOTE**: Union searches with grouping should be uniform in shape. i.e either all searches should contain grouping params or none of them.
 
 ## `multi_search` Parameters
 
