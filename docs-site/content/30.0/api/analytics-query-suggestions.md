@@ -7,7 +7,7 @@ priority: 0.7
 # Analytics
 
 :::warning Breaking Change in v30
-When you upgrade to v30, all existing collection-specific analytics rules will be automatically migrated to the new analytics rules format. You have to use the new API and client methods for reading and updating analytics rules. Your analytics rules will continue working without any hiccups.
+When you upgrade to v30, all existing analytics rules will be automatically migrated to the new analytics rules format. You have to use the new API and client methods for reading and updating analytics rules. Your analytics rules will continue working without any hiccups.
 :::
 
 Typesense can aggregate search queries and track user interaction events (clicks, conversions, visits) for query suggestions, document popularity scoring, and personalization.
@@ -124,7 +124,7 @@ _ = err
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -261,7 +261,7 @@ _ = err
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -386,7 +386,7 @@ client.Collections().Create(context.Background(), schema)
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -493,7 +493,7 @@ client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfigurat
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -626,7 +626,7 @@ _ = err
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -723,7 +723,7 @@ client.Analytics().Events().Create(context.Background(), event)
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -836,7 +836,7 @@ client.MultiSearch.Perform(context.Background(), &api.MultiSearchParams{}, searc
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -1390,7 +1390,7 @@ client.Analytics().Events().Create(context.Background(), event)
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -1546,7 +1546,7 @@ _ = err
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -1833,7 +1833,7 @@ client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfigurat
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
@@ -2124,7 +2124,7 @@ events, err := client.Analytics().Events().Retrieve(context.Background(), "1234"
 ```
 
   </template>
-  
+
   <template v-slot:Python>
 
 ```python
