@@ -20,10 +20,16 @@ This release contains important new features, performance improvements and bug f
 ### New Features
 - **Diversify search results**: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [PR#2572](https://github.com/typesense/typesense/pull/2572)
 
-
+- IPv6 Support: Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
+- Support faceting on joined reference field ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing))
+- Show related_docs count for a document in joined collection with `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
+- Make facet sampling dynamic by adding `facet_sample_slope` param ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
+- Support sorting and limit on joined fields with include_fields param([Docs](https://typesense.org/docs/30.0/api/joins.html#Sorting-and-limiting-on-joined-collection-docs))
+- Support `group_by` for Union search ([Docs](https://typesense.org/docs/30.0/api/federated-multi-search.html#union-search))
 
 ### Enhancements
-- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)). 
+
+- Add support for optional document copying when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)).
 - Support `!` as standalone negation operator in filters, allowing `field:![value]` syntax as alternative to `field:!=[value]`.
 - Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
@@ -32,8 +38,15 @@ This release contains important new features, performance improvements and bug f
 - Add `cascade_delete: false` parameter for a `reference` field to override the default behavior of document being cascade deleted in case all the documents it references are deleted. It requires `async_reference` parameter to be `true`. [PR#2582](https://github.com/typesense/typesense/pull/2582)
 - Add `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [PR#2599](https://github.com/typesense/typesense/pull/2599)
 - Allow non-indexed nested fields to still be required. [PR#2603](https://github.com/typesense/typesense/pull/2603)
+- Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
+- Use Transliterator objects pool to enhance tokenization performance of cyrilic and chinese langauges [PR#2412] (https://github.com/typesense/typesense/pull/2412)
+- Support dynamic `facet_return_parent` fields ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
+- Support `pinned_hits` with union search [PR#2422] (https://github.com/typesense/typesense/pull/2422)
+- Support altering reference fields [PR#2445] (https://github.com/typesense/typesense/pull/2445)
+- Filter out duplicates when using `Union` search with flag `remove_duplicates`. Defaults to `true`.
 
 ### Bug Fixes
+
 - Fix parsing of `_eval()` expressions when backticks are used to wrap strings containing parentheses.
 - Ensure unique analytics IDs are generated when queries differ by `filter_by` or `analytics_tag` metadata to prevent aggregation issues.
 - Fix search highlighting to use field-specific token separators instead of collection-level ones for consistent behavior.
@@ -50,19 +63,31 @@ This release contains important new features, performance improvements and bug f
 - Fix various deadlock scenarios related to async reference fields.
 - Fix an edge case in group_by query along with infix search. [PR#2517](https://github.com/typesense/typesense/pull/2517)
 - Fix a crash while searching when updates are happening in parallel.
+- Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
+- Fix sort using `_eval()` for `id` fields
 
 ### Deprecations / behavior changes
 - The export endpoint now doesn't stop streaming the response if an error is encounterd while loading a document from disk. The error is logged and is also returned in the response stream.
 
+- `/collections/:collection/synonyms` are now moved to `/synonym_sets` ([Docs](https://typesense.org/docs/30.0/api/synonyms))
+- `/collection/:collection/overrides` are now movied to `/curation_sets` ([Docs](https://typesense.org/docs/30.0/api/curation))
+- The analytics rule format has changed. Find out more, ([Docs](https://typesense.org/docs/30.0/api/analytics-query-suggestions))
+
+:::warning Breaking Changes
+
+The three changes listed above are **breaking changes**.
+Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes **before upgrading your Typesense server**.
+
+:::
 
 ## Upgrading
 
 Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
 changes above to prepare your application for the upgrade.
 
-We'd recommend testing on your development / staging environments before upgrading. 
+We'd recommend testing on your development / staging environments before upgrading.
 
-Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment. 
+Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment.
 
 
 ## Downgrading
