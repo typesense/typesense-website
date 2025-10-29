@@ -18,8 +18,8 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 This release contains important new features, performance improvements and bug fixes.
 
 ### New Features
-- **Diversify search results**: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [PR#2572](https://github.com/typesense/typesense/pull/2572)
 
+- Diversify search results: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [PR#2572](https://github.com/typesense/typesense/pull/2572)
 - IPv6 Support: Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
 - Support faceting on joined reference field ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing))
 - Show related_docs count for a document in joined collection with `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
