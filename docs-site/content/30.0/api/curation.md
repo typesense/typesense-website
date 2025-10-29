@@ -20,7 +20,7 @@ When using [Synonyms](./synonyms.md) and Curation together, Curation is handled 
 
 ## Create or update an curation set
 
-You can define a comprehensive set of curation rules that specify how search results should be modified for specific queries or filter conditions, and then attach this rule set to a collection. These rules allow you to customize search behavior by promoting certain documents, hiding others, applying additional filters, or modifying sorting behavior when specific conditions are met.
+You can define a comprehensive set of curation rules that specify how search results should be modified for specific queries or filter conditions, and then attach this rule set to a collection. These rules allow you to customize search behavior by promoting certain documents, hiding others, applying additional filters, modifying sorting behavior, or diversify the results when specific conditions are met.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
   <template v-slot:JavaScript>
@@ -885,6 +885,71 @@ curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 
 This curation will apply the same dynamic sorting when a filter condition matches the store name.
 
+
+### Diversify results
+
+Maximum Marginal Relevance (MMR) algorithm is used to diversify the top 250 hits.
+
+$$
+\text{MMR} = \arg\max_{D_i \in R \setminus S} 
+\Big[
+    \lambda \ \text{Sim}_{1}(D_i, Q)
+    - (1 - \lambda) \ \max_{D_j \in S} \text{Sim}_{2}(D_i, D_j)
+\Big]
+$$
+$$
+\begin{align*} 
+& \text{R : Set of all the documents that matched the query.} \\
+& \text{S : Diversified result set.} \\
+& D_i\text{ : Current document that is present in R but not yet in S.} \\
+& \text{λ : Controls the balance between relevance to the query and diversity of results. When 1, the results will have no diversity and when 0, the results will have maximum diversity.} \\
+& \text{Sim}_{1}(D_i, Q)\text{ : Relevance of the current document with respect to the query.} \\
+& \max_{D_j \in S} \text{Sim}_{2}(D_i, D_j)\text{ : Maximum similarity value between the current document and all the documents of S.}
+\end{align*}
+$$
+
+We can define an override with `diversity` parameter like:
+```json
+{
+  "id": "override_id",
+  "rule": {
+    "tags": [
+      "screen_pattern_rule"
+    ]
+  },
+  "diversity": {
+    "similarity_metric": [
+      {
+        "field": "tags",
+        "method": "jaccard",
+        "weight": 0.7
+      },
+      {
+        "field": "app_id",
+        "method": "equality",
+        "weight": 0.3
+      }
+    ]
+  }
+}
+```
+
+**Sim<sub>1</sub>**, i.e. relevance to the query is calculated by default for every document. `similarity_metric` is used to calculate **Sim<sub>2</sub>**, i.e. similarity of two documents. For the above example, we will calculate similarity using [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) on the `tags` field and using equality (1 if the values are same, 0 otherwise) on the `app_id` field.
+
+The `λ` of the MMR equation can be customized by sending `diversity_lambda` along with the query like:
+
+```json
+{
+  "q": "*",
+  "override_tags": "screen_pattern_rule"
+  "diversity_lambda": 0.75
+}
+```
+Its default value is `0.5`.
+
+
+Instead of using `override_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
+
 ## Retrieve a curation set
 
 Retrieving a curation set associated with a given collection.
@@ -1219,6 +1284,11 @@ curl "http://localhost:8108/collections/curation_sets/curate_products/items/dyna
 | effective_from_ts     | no                                                          | A Unix timestamp that indicates the date/time from which the override will be active. You can use this to create override rules that start applying from a future point in time.                                                                                                                             |
 | effective_to_ts       | no                                                          | A Unix timestamp that indicates the date/time until which the override will be active. You can use this to create override rules that stop applying after a period of time.                                                                                                                                  |
 | stop_processing       | no                                                          | When set to `true`, override processing will stop at the first matching rule. When set to `false` override processing will continue and multiple override actions will be triggered in sequence. <br/><br/> Overrides are processed in the lexical sort order of their `id` field.<br/><br/>Default: `true`. |
+| diversity             | no                                                          | Uses Maximum Marginal Relevance(MMR), diversifies the top 250 hits based on pre-defined similarity metric |
+|diversity.similarity_metric| yes                                                     | List of metric objects containing details of the `field`, `method` and the `weight` to be used to calculate the similiarity value of two documents.
+|diversity.similarity_metric.field| yes                                               | Name of the field. The field must be defined with `facet: true` for an array type or `sort: true` otherwise.
+|diversity.similarity_metric.method| yes                                              | Method to be used to calculate the similarity of the documents. `equality` checks for an exact match of the field value(s) and `jaccard` computes the [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) using the values of the field. `equality` can be used for both array and single type fields but `jacaard` can only be used with an array type field.
+|diversity.similarity_metric.weight| yes                                              | Weight of this field in calculating the total similarity value.
 
 ### Using overrides with scoped API keys
 
