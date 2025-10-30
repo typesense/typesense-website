@@ -18,8 +18,7 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 This release contains important new features, performance improvements and bug fixes.
 
 ### New Features
-
-- Diversify search results: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [PR#2572](https://github.com/typesense/typesense/pull/2572)
+- Diversify search results: Using Maximum Marginal Relevance(MMR), the top 250 hits can be diversified based on pre-defined similarity metric. [Docs](https://typesense.org/docs/29.0/api/curation.html#diversify-results)
 - IPv6 Support: Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
 - Support faceting on joined reference field ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing))
 - Show related_docs count for a document in joined collection with `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
@@ -64,7 +63,7 @@ This release contains important new features, performance improvements and bug f
 - Fix an edge case in group_by query along with infix search. [PR#2517](https://github.com/typesense/typesense/pull/2517)
 - Fix a crash while searching when updates are happening in parallel.
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
-- Fix sort using `_eval()` for `id` fields
+- Fix sort using `_eval()` for `id` fields.
 
 ### Deprecations / behavior changes
 - The export endpoint now doesn't stop streaming the response if an error is encounterd while loading a document from disk. The error is logged and is also returned in the response stream.
