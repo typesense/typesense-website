@@ -704,3 +704,6 @@ Similarly, if you want to limit the docs in referenced collection then you can d
 }
 ```
 Which will limit the doc count by 5.
+
+## Cascade delete
+By default Typesense cascade deletes a document when all of its referenced documents get deleted. To override this behavior, a reference field can be declared with `cascade_delete: false`. It requires `async_reference` parameter to be `true`.

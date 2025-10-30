@@ -305,6 +305,7 @@ When a `string[]` field is queried, the `highlights` structure will include the 
 | group_limit          | no       | Maximum number of hits to be returned for every group. If the `group_limit` is set as `K` then only the top K hits in each group are returned in the response.<br><br>Default: `3`                                                                                                                       |
 | group_missing_values | no       | Setting this parameter to `true` will place all documents that have a `null` value in the `group_by` field, into a single group. Setting this parameter to `false`, will cause each document with a `null` value in the `group_by` field to not be grouped with other documents. <br><br>Default: `true` |
 | validate_field_names | no       | Controls whether Typesense should validate if the grouped fields exist in the schema. When set to false, Typesense will not throw an error if a grouped field is missing. This is useful for programmatic grouping where not all fields may exist. <br><br>Default: `true`                               |
+| group_max_candidates | no       | Overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value.
 
 ### Results parameters
 
