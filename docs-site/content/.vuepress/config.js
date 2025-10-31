@@ -1039,6 +1039,7 @@ let config = {
     ],
     '@vuepress/last-updated',
     'check-md', // To check for deadlinks: https://www.npmjs.com/package/vuepress-plugin-check-md
+    'latex', // LaTeX math rendering with KaTeX
   ],
   configureWebpack: {
     // devtool: 'source-map',

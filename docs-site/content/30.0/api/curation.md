@@ -888,27 +888,28 @@ This curation will apply the same dynamic sorting when a filter condition matche
 
 ### Diversify results
 
-Maximum Marginal Relevance (MMR) algorithm is used to diversify the top 250 hits.
+You can diversify the top 250 results using the Maximum Marginal Relevance (MMR) algorithm, so that a variety of results are shown to users, while still balancing relevance.
+You can read more about MMR in [this article](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf). 
+
+Here's the formula that MMR uses:
 
 $$
-\text{MMR} = \arg\max_{D_i \in R \setminus S} 
+\text{MMR} = \arg\max_{D_i \in R \setminus S}
 \Big[
     \lambda \ \text{Sim}_{1}(D_i, Q)
     - (1 - \lambda) \ \max_{D_j \in S} \text{Sim}_{2}(D_i, D_j)
 \Big]
 $$
-$$
-\begin{align*} 
-& \text{R : Set of all the documents that matched the query.} \\
-& \text{S : Diversified result set.} \\
-& D_i\text{ : Current document that is present in R but not yet in S.} \\
-& \text{λ : Controls the balance between relevance to the query and diversity of results. When 1, the results will have no diversity and when 0, the results will have maximum diversity.} \\
-& \text{Sim}_{1}(D_i, Q)\text{ : Relevance of the current document with respect to the query.} \\
-& \max_{D_j \in S} \text{Sim}_{2}(D_i, D_j)\text{ : Maximum similarity value between the current document and all the documents of S.}
-\end{align*}
-$$
 
-We can define an override with `diversity` parameter like:
+**Where:**
+- $R$ : Set of all the documents that matched the query.
+- $S$ : Diversified result set.
+- $D_i$ : Current document that is present in R but not yet in S.
+- $\lambda$ : Controls the balance between relevance to the query and diversity of results. When 1, the results will have no diversity and when 0, the results will have maximum diversity.
+- $\text{Sim}_{1}(D_i, Q)$ : Relevance of the current document with respect to the query.
+- $\max_{D_j \in S} \text{Sim}_{2}(D_i, D_j)$ : Maximum similarity value between the current document and all the documents of S.
+
+We can define an override with a `diversity` parameter like:
 ```json
 {
   "id": "override_id",
@@ -941,7 +942,7 @@ The `λ` of the MMR equation can be customized by sending `diversity_lambda` alo
 ```json
 {
   "q": "*",
-  "override_tags": "screen_pattern_rule"
+  "override_tags": "screen_pattern_rule",
   "diversity_lambda": 0.75
 }
 ```
