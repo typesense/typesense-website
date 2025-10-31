@@ -51,6 +51,8 @@ This release contains important new features, performance improvements and bug f
 - Support dynamic `facet_return_parent` fields ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters)).
 - Support altering reference fields in collection schema.
 - Filter out duplicates when using `Union` search with flag `remove_duplicates`. Defaults to `true`.
+- Support sending an empty array to avoid embedding generation for an optional auto embedding field when indexing a document.
+- Highlight the actual search query when augmenting the search query by Natural Language search.
 
 ### Bug Fixes
 
@@ -72,6 +74,16 @@ This release contains important new features, performance improvements and bug f
 - Fix a crash while searching when updates are happening in parallel.
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
 - Fix sort using `_eval()` for `id` fields.
+- Fix missing vector distance in results when doing hybrid search with union search.
+- Fix missing results when querying a stemmbed field `drop_tokens_threshold` set.
+- Fix an edge case where field name can be empty.
+- Fix synonym resolution when `synonym_prefix` is disabled.
+- Fix allowing to add the same field twice or more when altering the collection.
+- Fix an edge case that enables using resolved synonyms as prefixes when prefix search is enabled.
+- Fix adding the field to schema despite the error when sorting is enabled for a field that `auto` as type.
+- Fix `max_bytes` parameters usage for the o-series and GPT-5 models.
+- Prevent usage of `temperature` parameter for the o-series and GPT-5 models since it is not supported.
+- Fix curation rule matching when doing semantic search with embedding generation.
 
 ### Deprecations / behavior changes
 
