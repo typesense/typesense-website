@@ -429,7 +429,7 @@ Union search removes duplicates by default. Which can be turned off using flag `
 ### Grouping with Union
 Union supports `group_by` operations with flag `group_by` params in searches like below,
 
-```curl
+```bash
 curl 'http://localhost:8108/multi_search?page=1&per_page=2' -X POST \
      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '
 {
