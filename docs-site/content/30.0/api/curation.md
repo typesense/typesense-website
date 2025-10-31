@@ -175,6 +175,8 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
   </template>
 </Tabs>
 
+After creating a curation set, make sure to link it to a collection.You can read more about it in the [documentation on linking curation sets with collections](https://typesense.org/docs/30.0/api/curation.html#linking-curation-sets-with-collections).
+
 ### Including or excluding documents
 
 In the following example, we will:
@@ -889,7 +891,7 @@ This curation will apply the same dynamic sorting when a filter condition matche
 ### Diversify results
 
 You can diversify the top 250 results using the Maximum Marginal Relevance (MMR) algorithm, so that a variety of results are shown to users, while still balancing relevance.
-You can read more about MMR in [this article](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf). 
+You can read more about MMR in [this article](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf).
 
 Here's the formula that MMR uses:
 
@@ -1096,7 +1098,7 @@ client.curation_sets['curate_products'].delete()
 ```
 
   </template>
-  
+
   <template v-slot:Ruby>
 
 ```rb
@@ -1207,7 +1209,7 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(cura
 ```
 
   </template>
-  
+
   <template v-slot:Ruby>
 
 ```rb
@@ -1309,7 +1311,7 @@ For example:
 2. And your search request includes: `filter_by=title:hold`
 3. The final filter string becomes: `(title:hold) && (country: AU)`
 
-The `rule.filter_by` field in your override definition should exactly be the string in #3 above for the curation rule to be triggered for the given filter and Scoped API key. 
+The `rule.filter_by` field in your override definition should exactly be the string in #3 above for the curation rule to be triggered for the given filter and Scoped API key.
 
 ## Retrieve a curation set item
 
@@ -1448,28 +1450,28 @@ $client->curationSets['curate_products']->items['dynamic-sort-filter']->delete()
 
   </template>
   <template v-slot:Python>
-  
+
 ```py
 client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete()
 ```
 
   </template>
   <template v-slot:Ruby>
-  
+
 ```rb
 client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete
 ```
 
   </template>
   <template v-slot:Dart>
-  
+
 ```dart
 await client.curation_sets.delete('curate_products');
 ```
 
   </template>
   <template v-slot:Shell>
-  
+
 ```bash
 curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X DELETE \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
