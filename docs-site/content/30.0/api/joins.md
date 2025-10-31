@@ -476,7 +476,8 @@ This will always return an array of objects for the fields of `books` collection
 ```
 
 #### Get number of related documents
-`related_docs_count` parameter can be used to get the count of related documents of a particular document like,
+
+The `related_docs_count` parameter can be used to get the count of related documents of a particular document like this:
 
 ```json
 {
@@ -487,7 +488,7 @@ This will always return an array of objects for the fields of `books` collection
 }
 ```
 
-The value of the `related_docs_count` becomes a field name in the document containing the number of related documents like,
+The value of the `related_docs_count` becomes a field name in the document containing the number of related documents like this:
 
 ```json
 [
@@ -732,11 +733,11 @@ This will return the book document along with the author's name from the referen
 
 ## Sorting and limiting on joined collection docs
 
-You can sort and limit the joined collection docs using `sort_by` and `limit` param in `include_fields`.
+You can sort and limit the joined collection docs using the `sort_by` and `limit` params in `include_fields`.
 
-For example, if you're searching in `authors` collection and including fields from `books` collection, you can sort the docs by `id` like below,
+For example, if you're searching in the `authors` collection and including fields from the `books` collection, you can sort the docs by `id` like this:
 
-```json
+```json{5}
 {
   "collection": "authors",
   "q": "*",
@@ -744,9 +745,10 @@ For example, if you're searching in `authors` collection and including fields fr
   "include_fields": "$books(*, sort_by: id: desc)"
 }
 ```
-Here, the docs will be sorted by their `id` in `desc` order.
 
-Similarly, if you want to limit the docs in referenced collection then you can do it like follwing,
+The docs will now be sorted by their `id` in `desc` order.
+
+Similarly, if you want to limit the docs in the referenced collection, you can do this:
 
 ```json
 {
@@ -756,7 +758,9 @@ Similarly, if you want to limit the docs in referenced collection then you can d
   "include_fields": "$books(*, limit:5)"
 }
 ```
-Which will limit the doc count by 5.
 
-## Cascade delete
-By default Typesense cascade deletes a document when all of its referenced documents get deleted. To override this behavior, a reference field can be declared with `cascade_delete: false`. It requires `async_reference` parameter to be `true`.
+which will only fetch a maximum of 5 books. 
+
+## Cascade Delete
+
+By default, Typesense cascade deletes a document when all of its referenced documents get deleted. To override this behavior, a reference field can be declared with `cascade_delete: false`. It requires `async_reference` parameter to also be `true`.
