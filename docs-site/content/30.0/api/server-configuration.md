@@ -11,7 +11,7 @@ These parameters control and fine-tune various default server-settings in Typese
 [[toc]]
 
 :::tip Typesense Cloud
-We manage the following server parameters for you in Typesense Cloud automatically. But if you need to customize any of them, please email us at support at typesense dot org with a brief description of your use-case that requires the change, and we can do the change for you from our side. 
+We manage the following server parameters for you in Typesense Cloud automatically. But if you need to customize any of them, please email us at support at typesense dot org with a brief description of your use-case that requires the change, and we can do the change for you from our side.
 :::
 
 ## Using Command Line Arguments
@@ -21,7 +21,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 ### Common Parameters
 
 | Parameter    | Required | Description                                                                                                                                                                                                                                                                                                                            |
-|--------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
+|--------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `--config`   | false    | Path to the [configuration file](#using-a-configuration-file). If you use this argument, you can define all of the other command line arguments in a configuration file.                                                                                                                                                               |
 | `--api-key`  | true     | A bootstrap admin API key that allows all operations. Be sure to create additional keys with specific ACLs using the [key management API](../api/api-keys.md). <br><br>**NOTE**: Don't expose this admin API key to your browser JS client: use the [key management API](../api/api-keys.md) to create search-only or scoped API keys. |
 | `--data-dir` | true     | Path to the directory where data will be stored on disk.                                                                                                                                                                                                                                                                               |
@@ -45,7 +45,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 ### Logging
 
 | Parameter                     | Required | Description                                                                                                                                                                                                                                                               |
-|-------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
+|-------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `--log-dir`                   | false    | By default, Typesense logs to stdout and stderr. To enable logging to a file, provide a path to a logging directory. Logs are written to a file called `typesense.log` inside this directory.                                                                             |
 | `--enable-access-logging`     | false    | Logs the API requests and corresponding IP addresses to a file called `typesense-access.log` inside `log-dir`. Default: `false`                                                                                                                                           |
 | `--enable-search-logging`     | false    | Logs the search API request + payload right at the start of search request lifecycle to a file called `typesense.log` inside `log-dir`. Default: `false`                                                                                                                  |
@@ -56,11 +56,11 @@ Command line arguments can be passed to the server as `--parameter=value`.
 
 | Parameter           | Required | Description                                                                                                                                                      |
 |---------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--api-address`     | false    | Address to which Typesense API service binds. Default: `0.0.0.0`                                                                                                 |
+| `--api-address`     | false    | Address to which Typesense API service binds. Default: `0.0.0.0`.  <br><br> You can also use an ipv6 address here. e.g., `::` or `fd00:1234:5678:1::2`                                                                                                |
 | `--api-port`        | false    | Port on which Typesense API service listens. Default: `8108`                                                                                                     |
-| `--peering-address` | false    | Internal IP address to which Typesense peering service binds. If this parameter is not specified, Typesense will attempt to use the first available internal IP. |
+| `--peering-address` | false    | Internal IP address to which Typesense peering service binds. If this parameter is not specified, Typesense will attempt to use the first available internal IP.  <br><br> You can also use an ipv6 address here. e.g., `fd00:1234:5678:1::3` |
 | `--peering-port`    | false    | Port on which Typesense peering service listens. Default: `8107`                                                                                                 |
-| `--peering-subnet`  | false    | Internal subnet that Typesense should use for peering, e.g. `192.160.1.0/24`.                                                                                    |
+| `--peering-subnet`  | false    | Internal subnet that Typesense should use for peering, e.g. `192.160.1.0/24`.  <br><br> You can also a ipv6 address here. e.g., `fd00:1234:5678:1::/64`                                                                                    |
 
 ### SSL / HTTPS
 
@@ -105,7 +105,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 
 ### On-Disk DB Fine Tuning
 
-Typesense uses RocksDB to store your documents on disk. The following parameters help fine-tune some of these parameters for improved write performance in [some circumstances](https://github.com/typesense/typesense/issues/2312). 
+Typesense uses RocksDB to store your documents on disk. The following parameters help fine-tune some of these parameters for improved write performance in [some circumstances](https://github.com/typesense/typesense/issues/2312).
 
 | Parameter                      | Required | Description                                                                                       |
 |--------------------------------|----------|----------------------------------------------------------------------------------------           |
