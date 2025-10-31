@@ -175,7 +175,7 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
   </template>
 </Tabs>
 
-After creating a curation set, make sure to link it to a collection. You can read more about linking curation sets with collections in the [documentation on linking curation sets with collections](https://typesense.org/docs/30.0/api/curation.html#linking-curation-sets-with-collections).
+After creating a curation set, make sure to link it to a collection.You can read more about it in the [documentation on linking curation sets with collections](https://typesense.org/docs/30.0/api/curation.html#linking-curation-sets-with-collections).
 
 ### Including or excluding documents
 
