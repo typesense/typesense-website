@@ -29,7 +29,7 @@ This release contains important new features, performance improvements and bug f
 - **Diversify Search Results**: Using Maximum Marginal Relevance (MMR), you can now diversify the top 250 hits on a pre-defined similarity metric. [Docs](https://typesense.org/docs/30.0/api/curation.html#diversify-results)
 - **IPv6 Support**: Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
 - `facet_by` now supports JOINed reference fields ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing))
-- Fetch related docs count for a document in a joined collection with the `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
+- Fetch related docs count for a document in a joined collection with the `include_fields` param [Docs](https://typesense.org/docs/30.0/api/joins.html#get-number-of-related-documents)
 - Make facet sampling dynamic using the new `facet_sample_slope` search parameter ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
 - Support sorting and limit on joined fields with `include_fields` parameter ([Docs](https://typesense.org/docs/30.0/api/joins.html#Sorting-and-limiting-on-joined-collection-docs))
 - Support `group_by` with Union search ([Docs](https://typesense.org/docs/30.0/api/federated-multi-search.html#grouping-with-union))
@@ -43,8 +43,8 @@ This release contains important new features, performance improvements and bug f
 - Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
 - Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
 - Return an error message when a field is declared that references another field of the same collection.
-- Add `cascade_delete: false` parameter for a `reference` field to override the default behavior of document being cascade deleted in case all the documents it references are deleted. It requires `async_reference` parameter to be `true`. [PR#2582](https://github.com/typesense/typesense/pull/2582)
-- Add `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [PR#2599](https://github.com/typesense/typesense/pull/2599)
+- Add `cascade_delete: false` parameter for a `reference` field to override the default behavior of document being cascade deleted in case all the documents it references are deleted. It requires `async_reference` parameter to be `true`. [Docs](https://typesense.org/docs/30.0/api/joins.html#cascade-delete)
+- Add `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [Docs](https://typesense.org/docs/30.0/api/search.html#grouping-parameters)
 - Allow non-indexed nested fields to still be required.
 - Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
 - Use Transliterator objects pool to enhance tokenization performance of Cyrillic and Chinese languages.

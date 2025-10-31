@@ -475,6 +475,59 @@ This will always return an array of objects for the fields of `books` collection
 ]
 ```
 
+#### Get number of related documents
+`related_docs_count` parameter can be used to get the count of related documents of a particular document like,
+
+```json
+{
+  "collection": "authors",
+  "q": "*",
+  "filter_by": "$books(id:*)",
+  "include_fields": "$books(*, related_docs_count: foo_related_count)"
+}
+```
+
+The value of the `related_docs_count` becomes a field name in the document containing the number of related documents like,
+
+```json
+[
+  {
+    "document": {
+      "id": "1",
+      "first_name": "JK",
+      "last_name": "Rowling",
+      "books": {
+        "author_id": "1",
+        "id": "2",
+        "title": "Harry Potter"
+      },
+      "foo_related_count": 1
+    }
+  },
+  {
+    "document": {
+      "id": "0",
+      "first_name": "Enid",
+      "last_name": "Blyton",
+      "books": [
+        {
+          "author_id": "0",
+          "id": "0",
+          "title": "Famous Five"
+        },
+        {
+          "author_id": "0",
+          "id": "1",
+          "title": "Secret Seven"
+        }
+      ],
+      "foo_related_count": 2
+    }
+  }
+]
+```
+
+
 ## Asynchronous references
 
 You can use the `async_reference` option when creating reference fields. This allows documents to be indexed successfully even when the referenced document doesn't exist yet.
