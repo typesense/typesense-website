@@ -343,6 +343,8 @@ curl "http://localhost:8108/synonym_sets/tech-synonyms" -X PUT \
 | items.locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when searching a field that has a matching locale. If not specified, the synonym will be applied globally. |
 | items.symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is.                                         |
 
+After creating a synonym set, be sure to link it to a collection. Read more in the [documentation on linking synonym sets with collections](https://typesense.org/docs/30.0/api/synonyms.html#linking-synonym-sets-with-collections).
+
 ## Retrieve a synonym set
 
 We can retrieve a single synonym set.
@@ -790,7 +792,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 ```
 
   </template>
-</Tabs> 
+</Tabs>
 
 #### Definition
 
