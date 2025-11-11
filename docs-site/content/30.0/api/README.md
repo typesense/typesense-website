@@ -28,8 +28,8 @@ This release contains new features, enhancements, performance improvements, bug 
 ### New Features
 
 - **Diversify Search Results**: Using Maximum Marginal Relevance (MMR), you can now diversify the top 250 hits on a pre-defined similarity metric. [(Docs)](https://typesense.org/docs/30.0/api/curation.html#diversify-results)
-- **Global Synonyms**: Synonyms are now top-level resources, and can be shared between collections. [(Docs)](https://typesense.org/docs/30.0/api/synonyms)
-- **Global Curation Rules**: Curations are also top-level resources now, and can be shared between multiple collections. [(Docs)](https://typesense.org/docs/30.0/api/curation)
+- **Global Synonyms**: Synonyms are now top-level resources, and can be shared between collections. [(Docs)](https://typesense.org/docs/30.0/api/synonyms.html)
+- **Global Curation Rules**: Curations are also top-level resources now, and can be shared between multiple collections. [(Docs)](https://typesense.org/docs/30.0/api/curation.html)
 - **New features in JOINs**:
   - `facet_by` now supports JOINed reference fields. [(Docs)](https://typesense.org/docs/30.0/api/search.html#facet-referencing)
   - Fetch related docs count for a document in a joined collection with the `include_fields` param. [(Docs)](https://typesense.org/docs/30.0/api/joins.html#get-number-of-related-documents)
@@ -93,9 +93,9 @@ This release contains new features, enhancements, performance improvements, bug 
 
 ### Deprecations / behavior changes
 
-- ⚠️ **Synonyms** are no longer nested under Collections. We now have a top-level resource called a "**Synonym Set**" which is a list of synonyms that can be attached to one or more collections, or can be dynamically sent as a search parameter. Existing synonyms will be auto-migrated to synonym sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/synonyms)
-- ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collection. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collection, or can be dynamically sent as a search parameter.  Existing overrides will be auto-migrated to curation sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/curation)
-- ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.0/api/analytics-query-suggestions)
+- ⚠️ **Synonyms** are no longer nested under Collections. We now have a top-level resource called a "**Synonym Set**" which is a list of synonyms that can be attached to one or more collections, or can be dynamically sent as a search parameter. Existing synonyms will be auto-migrated to synonym sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/synonyms.html)
+- ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collection. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collection, or can be dynamically sent as a search parameter.  Existing overrides will be auto-migrated to curation sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/curation.html)
+- ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.0/api/analytics-query-suggestions.html)
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
 
 :::warning ⚠️ Breaking Changes
