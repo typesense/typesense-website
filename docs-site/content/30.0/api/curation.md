@@ -7,7 +7,7 @@ sitemap:
 # Curation
 
 :::warning Breaking Change in v30
-When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions.
+When you upgrade to v30, all existing collection-specific override definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions.
 :::
 
 While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
