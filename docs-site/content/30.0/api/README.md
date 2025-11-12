@@ -97,6 +97,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collection. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collection, or can be dynamically sent as a search parameter.  Existing overrides will be auto-migrated to curation sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/curation)
 - ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.0/api/analytics-query-suggestions)
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
+- Collections having references to each other are not allowed. If mutual reference is detected, the reference field will not be indexed.
 
 :::warning ⚠️ Breaking Changes
 Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version.
