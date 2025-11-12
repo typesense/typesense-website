@@ -413,12 +413,12 @@ unless you've explicitly configured otherwise.
 ### Facet Referencing
 For faceting on referenced joined collection, you can pass it via `facet_by` param like below,
 
-```curl
+```shell
 $<collection>(<facet_field1>, <facet_field2>, ...)
 ```
 For example, for searching in `products` collection and referencing facet field in `customers` collection, we can pass the search query like following,
 
-```curl
+```shell
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"\
 "http://localhost:8108/collections/products/documents/search\
 ?q=*&filter_by=$Customers(customer_id: customer_a)&facet_by=$Customers(product_price)"
