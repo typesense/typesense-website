@@ -269,6 +269,7 @@ let config = {
               'Conversational Search with Paul Graham Essays',
             ],
             ['/guide/reference-implementations/ai-image-search.md', 'AI Image Search'],
+            ['/guide/reference-implementations/nl-search-restaurants.md', 'Natural Language Search Restaurants'],
           ],
         },
         ['/guide/faqs', 'Frequently Asked Questions'],
