@@ -95,7 +95,7 @@ curation_set = {
 }
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets["curate_products"].upsert(curation_set)
 ```
 
   </template>
@@ -810,7 +810,7 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id" => "dynamic-sort-filter"
+    "id": "dynamic-sort-filter"
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
