@@ -6,6 +6,6 @@ This demo shows you one way to implement Boolean search logic in Typesense while
 
 ### Key Highlights
 
-- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/5fa513a79868d40243ccf36843b792cac8f20fba/index.js#L118-L207) how to parse an search response for differnt field matches and construct a list of possible tag matchings.
-- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/5fa513a79868d40243ccf36843b792cac8f20fba/index.js#L875-L884) how to use Union search to combine multi-search responses client side, and remove duplicates.
-- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/5fa513a79868d40243ccf36843b792cac8f20fba/index.js#L502-L528) how to use construct a filer_by query that uses custom Boolean search logic.
+- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/9542c12f9d574e5258c293b1a2c1eb63c9987b06/ui-handlers.js#L270C1-L359) how to parse a search response for differnt field matches and construct a list of possible tag matchings.
+- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/9542c12f9d574e5258c293b1a2c1eb63c9987b06/ui-handlers.js#L216-L225) how to use Union search to combine multi-search responses client side, and remove duplicates.
+- [Here's](https://github.com/typesense/showcase-boolean-search-games/blob/9542c12f9d574e5258c293b1a2c1eb63c9987b06/typesense-queries.js#L163-L189) how to construct a filer_by query that uses custom Boolean Search logic.
