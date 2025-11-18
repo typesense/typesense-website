@@ -23,36 +23,42 @@ Most RC builds are stable to run in production, since we fix any reported issues
 But as with any version, we recommend that you test RC versions in your staging / dev environment before upgrading production.
 :::
 
-This release contains important new features, performance improvements and bug fixes.
+This release contains new features, enhancements, performance improvements, bug fixes and important API changes for synonyms, curation rules and analytics rules.
 
 ### New Features
-- **Diversify Search Results**: Using Maximum Marginal Relevance (MMR), you can now diversify the top 250 hits on a pre-defined similarity metric. [Docs](https://typesense.org/docs/30.0/api/curation.html#diversify-results)
+
+- **Diversify Search Results**: Using Maximum Marginal Relevance (MMR), you can now diversify the top 250 hits on a pre-defined similarity metric. [(Docs)](https://typesense.org/docs/30.0/api/curation.html#diversify-results)
+- **Global Synonyms**: Synonyms are now top-level resources, and can be shared between collections. [(Docs)](https://typesense.org/docs/30.0/api/synonyms)
+- **Global Curation Rules**: Curations are also top-level resources now, and can be shared between multiple collections. [(Docs)](https://typesense.org/docs/30.0/api/curation)
+- **New features in JOINs**:
+  - `facet_by` now supports JOINed reference fields. [(Docs)](https://typesense.org/docs/30.0/api/search.html#facet-referencing)
+  - Fetch related docs count for a document in a joined collection with the `include_fields` param. [(Docs)](https://typesense.org/docs/30.0/api/joins.html#get-number-of-related-documents)
+  - Support sorting and limit on joined fields with `include_fields` parameter. [(Docs)](https://typesense.org/docs/30.0/api/joins.html#Sorting-and-limiting-on-joined-collection-docs)
+  - Support for altering reference fields in the collection schema.
+  - New `cascade_delete: false` JOIN parameter for a `reference` field, to override the default behavior of document being cascade deleted in case all the documents it references are deleted.
+    Requires `async_reference` parameter to be `true`. [(Docs)](https://typesense.org/docs/30.0/api/joins.html#cascade-delete)
+- **New features in Union Search**:
+  - Support for `group_by` with Union search. [(Docs)](https://typesense.org/docs/30.0/api/federated-multi-search.html#grouping-with-union)
+  - Support for the `pinned_hits` search parameter in Union search.
+  - Support for filtering out duplicates when using Union search with a new flag called `remove_duplicates`. [(Docs)](https://typesense.org/docs/30.0/api/federated-multi-search.html#removing-duplicates-in-union-search)
+- **Facet Sampling**: Make facet sampling dynamic using the new `facet_sample_slope` search parameter. [(Docs)](https://typesense.org/docs/30.0/api/search.html#faceting-parameters)
 - **IPv6 Support**: Typesense now supports binding to and serving requests over IPv6 addresses, enabling seamless integration and connectivity in modern IPv6-only or dual-stack networks.
-- `facet_by` now supports JOINed reference fields ([Docs](https://typesense.org/docs/30.0/api/search.html#facet-referencing))
-- Fetch related docs count for a document in a joined collection with the `include_fields` param [PR#2461] (https://github.com/typesense/typesense/pull/2461)
-- Make facet sampling dynamic using the new `facet_sample_slope` search parameter ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters))
-- Support sorting and limit on joined fields with `include_fields` parameter ([Docs](https://typesense.org/docs/30.0/api/joins.html#Sorting-and-limiting-on-joined-collection-docs))
-- Support `group_by` with Union search ([Docs](https://typesense.org/docs/30.0/api/federated-multi-search.html#grouping-with-union))
-- Support `pinned_hits` with Union search
 
 ### Enhancements
 
-- Add support for optionally copying documents when cloning collections ([Docs](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)).
-- Support `!` as a standalone negation operator in filters, allowing `field:![value]` syntax as an alternative to `field:!=[value]`.
-- Add support for Azure OpenAI models in Natural Language Search ([Docs](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)).
-- Add GCP service account authentication for auto-embedding with GCP models ([Docs](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)).
-- Add configurable token truncation for string fields to improve exact match filtering on long strings ([Docs](https://typesense.org/docs/30.0/api/collections.html#field-parameters)).
+- Support for (optionally) copying documents when cloning collections. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)
+- Support for `!` as a standalone negation operator in filters, allowing `field:![value]` syntax as an alternative to `field:!=[value]`.
+- Support for Azure OpenAI models in Natural Language Search. [(Docs)](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)
+- Support for GCP service account authentication for auto-embedding with GCP models. [(Docs)](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)
+- Configurable token truncation for string fields to improve exact match filtering on long strings, using the new `truncate` parameter in the collection schema. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#field-parameters)
 - Return an error message when a field is declared that references another field of the same collection.
-- Add `cascade_delete: false` parameter for a `reference` field to override the default behavior of document being cascade deleted in case all the documents it references are deleted. It requires `async_reference` parameter to be `true`. [PR#2582](https://github.com/typesense/typesense/pull/2582)
-- Add `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [PR#2599](https://github.com/typesense/typesense/pull/2599)
-- Allow non-indexed nested fields to still be required.
+- New `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [(Docs)](https://typesense.org/docs/30.0/api/search.html#grouping-parameters)
+- Allow non-indexed nested fields to still be marked as required.
 - Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
 - Use Transliterator objects pool to enhance tokenization performance of Cyrillic and Chinese languages.
-- Support dynamic `facet_return_parent` fields ([Docs](https://typesense.org/docs/30.0/api/search.html#faceting-parameters)).
-- Support altering reference fields in collection schema.
-- Filter out duplicates when using `Union` search with flag `remove_duplicates`. Defaults to `true`.
-- Support sending an empty array to avoid embedding generation for an optional auto embedding field when indexing a document.
-- Highlight the actual search query when augmenting the search query by Natural Language search.
+- Support for dynamic `facet_return_parent` fields. [(Docs)](https://typesense.org/docs/30.0/api/search.html#faceting-parameters).
+- Support for sending an empty array to avoid embedding generation for an optional auto embedding field when indexing a document.
+- Highlight the actual search query when augmenting the search query with Natural Language search.
 
 ### Bug Fixes
 
@@ -75,22 +81,23 @@ This release contains important new features, performance improvements and bug f
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
 - Fix sort using `_eval()` for `id` fields.
 - Fix missing vector distance in results when doing hybrid search with union search.
-- Fix missing results when querying a stemmbed field `drop_tokens_threshold` set.
+- Fix missing results when querying a stemmed field with `drop_tokens_threshold` set.
 - Fix an edge case where field name can be empty.
 - Fix synonym resolution when `synonym_prefix` is disabled.
-- Fix allowing to add the same field twice or more when altering the collection.
+- Fix allowing the addition of the same field multiple times when altering the collection.
 - Fix an edge case that enables using resolved synonyms as prefixes when prefix search is enabled.
-- Fix adding the field to schema despite the error when sorting is enabled for a field that `auto` as type.
-- Fix `max_bytes` parameters usage for the o-series and GPT-5 models.
+- Fix adding the field to schema despite an error, when sorting is enabled for a field that has `auto` as its type.
+- Fix `max_bytes` parameters usage for the OpenAI's o-series and GPT-5 models.
 - Prevent usage of `temperature` parameter for the o-series and GPT-5 models since it is not supported.
 - Fix curation rule matching when doing semantic search with embedding generation.
 
 ### Deprecations / behavior changes
 
-- ⚠️ **Synonyms** are no longer nested under Collections. We now have a top-level resource called a "**Synonym Set**" which is a list of synonyms that can be attached to one or more collections, or can be dynamically sent as a search parameter. Existing synonyms will be auto-migrated to synonym sets automatically on upgrading. ([Docs](https://typesense.org/docs/30.0/api/synonyms))
-- ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collection. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collection, or can be dynamically sent as a search parameter.  Existing overrides will be auto-migrated to curation sets automatically on upgrading. ([Docs](https://typesense.org/docs/30.0/api/curation))
-- ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here: ([Docs](https://typesense.org/docs/30.0/api/analytics-query-suggestions)).
+- ⚠️ **Synonyms** are no longer nested under Collections. We now have a top-level resource called a "**Synonym Set**" which is a list of synonyms that can be attached to one or more collections, or can be dynamically sent as a search parameter. Existing synonyms will be auto-migrated to synonym sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/synonyms)
+- ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collection. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collection, or can be dynamically sent as a search parameter.  Existing overrides will be auto-migrated to curation sets automatically on upgrading. [(Docs)](https://typesense.org/docs/30.0/api/curation)
+- ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.0/api/analytics-query-suggestions)
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
+- Collections having references to each other are not allowed. If mutual reference is detected, the reference field will not be indexed.
 
 :::warning ⚠️ Breaking Changes
 Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version.

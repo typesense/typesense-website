@@ -423,8 +423,10 @@ Since the results of each search are merged into one final result, union differs
 }
 ```
 will return an error since the types (`user_name: string`, `rating: float`) are different.
-<br><br>
-Union search removes duplicates by default. Which can be turned off using flag `remove_duplicates: false`
+
+### Removing Duplicates in Union Search
+
+Union search removes duplicates by default. Which can be turned off using the `remove_duplicates: false` flag.
 
 ### Grouping with Union
 Union supports `group_by` operations with flag `group_by` params in searches like below,
