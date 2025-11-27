@@ -1,10 +1,44 @@
 <template>
   <div class="theme-default-content copy-markdown-button-wrapper">
-    <button class="copy-markdown-button" @click="copyMarkdown" :class="{ copied: isCopied }" :title="buttonTitle">
-      <div class="icon-container">
+    <div class="button-group">
+      <button class="copy-markdown-button" @click="copyMarkdown" :class="{ copied: isCopied }" :title="buttonTitle">
+        <div class="icon-container">
+          <svg
+            class="copy-icon"
+            :class="{ hidden: isCopied }"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <svg
+            class="check-icon"
+            :class="{ visible: isCopied }"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <span>{{ buttonText }}</span>
+      </button>
+      <a v-if="markdownUrl" :href="markdownUrl" class="view-markdown-button" title="View raw markdown" target="_blank">
         <svg
-          class="copy-icon"
-          :class="{ hidden: isCopied }"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -15,27 +49,12 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
         </svg>
-        <svg
-          class="check-icon"
-          :class="{ visible: isCopied }"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <span>{{ buttonText }}</span>
-    </button>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -55,6 +74,9 @@ export default {
     },
     buttonTitle() {
       return this.isCopied ? 'Markdown copied to clipboard' : 'Copy markdown source to clipboard'
+    },
+    markdownUrl() {
+      return this.$page && this.$page.markdownUrl
     },
   },
   watch: {
@@ -81,26 +103,11 @@ export default {
 
       try {
         const page = this.$page
-        if (!page || !page.relativePath) {
-          throw new Error('Page path not found')
+        if (!page || !page.markdown) {
+          throw new Error('Markdown content not available')
         }
 
-        const docsRepo = this.$site.themeConfig.docsRepo || 'typesense/typesense-website'
-        const docsDir = this.$site.themeConfig.docsDir || 'docs-site/content'
-        const docsBranch = this.$site.themeConfig.docsBranch || 'master'
-
-        const githubRawUrl = `https://raw.githubusercontent.com/${docsRepo}/${docsBranch}/${docsDir}/${page.relativePath}`
-
-        const response = await fetch(githubRawUrl)
-        if (!response.ok) {
-          throw new Error('Failed to fetch markdown from GitHub')
-        }
-
-        let markdown = await response.text()
-
-        markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
-
-        await navigator.clipboard.writeText(markdown)
+        await navigator.clipboard.writeText(page.markdown)
 
         this.copyTimeout = setTimeout(() => {
           this.isCopied = false
@@ -119,15 +126,25 @@ export default {
 <style lang="stylus">
 .copy-markdown-button-wrapper
   margin-bottom -6.5rem !important
+  display flex
+  justify-content flex-end
+
+.button-group
+  display flex
+  align-items stretch
+  border 1px solid #ddd
+  border-radius 4px
+  overflow hidden
+  background-color #f8f8f8
 
 .copy-markdown-button
   display inline-flex
   align-items center
   gap 0.5rem
   padding 0.5rem 1rem
-  background-color #f8f8f8
-  border 1px solid #ddd
-  border-radius 4px
+  background-color transparent
+  border none
+  border-right 1px solid #ddd
   color #2c3e50
   font-size 0.875rem
   font-weight 500
@@ -135,15 +152,13 @@ export default {
   transition all 0.2s ease
 
   &:hover
-    background-color #eee
-    border-color #ccc
+    background-color rgba(0, 0, 0, 0.04)
 
   &:active
-    transform scale(0.98)
+    background-color rgba(0, 0, 0, 0.08)
 
   &.copied
     background-color #d4edda
-    border-color #c3e6cb
     color #155724
 
   .icon-container
@@ -175,6 +190,27 @@ export default {
     &.visible
       transform scale(1) rotate(0deg)
       opacity 1
+
+.view-markdown-button
+  display inline-flex
+  align-items center
+  justify-content center
+  padding 0.5rem
+  background-color transparent
+  border none
+  color #2c3e50
+  cursor pointer
+  transition all 0.2s ease
+  text-decoration none
+
+  &:hover
+    background-color rgba(0, 0, 0, 0.04)
+
+  &:active
+    background-color rgba(0, 0, 0, 0.08)
+
+  svg
+    flex-shrink 0
 
 @media (max-width: 719px)
   .copy-markdown-button

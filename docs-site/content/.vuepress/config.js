@@ -1031,6 +1031,7 @@ let config = {
     '@vuepress/plugin-medium-zoom',
     ['@dovyp/vuepress-plugin-clipboard-copy', true],
     require('./plugins/typesense-enhancements'),
+    require('./plugins/embed-markdown'),
     [
       'vuepress-plugin-sitemap',
       {
