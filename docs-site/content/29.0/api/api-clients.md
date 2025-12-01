@@ -191,14 +191,14 @@ We also have the following framework integrations:
 ## CMS
 
 - [WordPress](https://wordpress.org/plugins/search-with-typesense/?ref=typesense) by Codemanas
-  - [Vector Search add-on for WordPress](https://wordpress.org/plugins/typesense-wp-vector/) by Knowhalim
+- [Vector Search add-on for WordPress](https://wordpress.org/plugins/typesense-wp-vector/) by Knowhalim
 - [Craft CMS](https://plugins.craftcms.com/typesense) by Percipio
 - [Prepr Headless CMS](https://docs.prepr.io/integrations/typesense#introduction)
 - [Plone CMS](https://pypi.org/project/zopyx.typesense/)
 - [Drupal](https://www.drupal.org/project/search_api_typesense)
 - [Silverstripe CMS](https://codeberg.org/0x/silverstripe-typesense)
 - [Ghost](https://github.com/magicpages/ghost-typesense) by MagicPages
-- [Payload CMS](https://typesense.org/docs/29.0/api/api-clients.html#cms) by Rubix Studios
+- [Payload CMS](https://github.com/rubix-studios-pty-ltd/payload-typesense) by Rubix Studios
 
 ## Utilities
 
