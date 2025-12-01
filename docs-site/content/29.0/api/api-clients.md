@@ -198,6 +198,7 @@ We also have the following framework integrations:
 - [Drupal](https://www.drupal.org/project/search_api_typesense)
 - [Silverstripe CMS](https://codeberg.org/0x/silverstripe-typesense)
 - [Ghost](https://github.com/magicpages/ghost-typesense) by MagicPages
+- [Payload CMS](https://typesense.org/docs/29.0/api/api-clients.html#cms) by Rubix Studios
 
 ## Utilities
 
