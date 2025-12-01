@@ -944,14 +944,14 @@ The `λ` of the MMR equation can be customized by sending `diversity_lambda` alo
 ```json
 {
   "q": "*",
-  "override_tags": "screen_pattern_rule",
+  "curation_tags": "screen_pattern_rule",
   "diversity_lambda": 0.75
 }
 ```
 Its default value is `0.5`.
 
 
-Instead of using `override_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
+Instead of using `curation_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
 
 ## Retrieve a curation set
 
