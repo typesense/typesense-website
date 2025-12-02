@@ -90,6 +90,8 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix `max_bytes` parameters usage for the OpenAI's o-series and GPT-5 models.
 - Prevent usage of `temperature` parameter for the o-series and GPT-5 models since it is not supported.
 - Fix curation rule matching when doing semantic search with embedding generation.
+- Fix rocksdb params assignment
+- Fix missing joined collection fields in pinned hits
 
 ### Deprecations / behavior changes
 
@@ -97,6 +99,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - ⚠️ **Overrides** (aka Curation Rules) are no longer nested under Collections. Similar to synonym sets, we now have a top-level resource called a "**Curation Set**" that can be attached to one or more collections, or can be dynamically sent as a search parameter. Existing overrides will be auto-migrated to curation sets automatically on upgrading. The [`override_tags`](https://typesense.org/docs/29.0/api/search.html#ranking-and-sorting-parameters) parameter has also been renamed to `curation_tags`. [(Docs)](https://typesense.org/docs/30.0/api/curation.html)
 - ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.0/api/analytics-query-suggestions.html)
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
+- Collections having references to each other are not allowed. If mutual reference is detected, the reference field will not be indexed.
 
 :::warning ⚠️ Breaking Changes
 Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
