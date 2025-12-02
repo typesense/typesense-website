@@ -10,7 +10,7 @@ Typesense's customized version of DocSearch is made up of two components:
 1. [typesense-docsearch.js](https://github.com/typesense/typesense-docsearch.js) - A JavaScript library that adds a search bar to your documentation site. When end-users start typing into the search bar, it queries the content index built by the DocSearch scraper.
 
 :::tip TIP: Usage on Non-Documentation Sites
-Even though DocSearch was originally built for documentation sites, it can actually be used for any site that has structured, hierarchical, and consistent HTML markup across pages.  
+Even though DocSearch was originally built for documentation sites, it can actually be used for any site that has structured, hierarchical, and consistent HTML markup across pages.
 :::
 
 ## Step 1: Set up DocSearch Scraper
@@ -76,9 +76,9 @@ The scraper automatically extracts information from the DocSearch meta tags and 
 <meta name="docsearch:{$NAME}_tag" content="{$CONTENT}" />
 ```
 
-Example: If you have the following markup across a certain set of pages: 
+Example: If you have the following markup across a certain set of pages:
 
-```html 
+```html
 <meta name="docsearch:language_tag" content="en" />
 <meta name="docsearch:version_tag" content="1.2.4" />
 ```
@@ -97,12 +97,12 @@ The easiest way to run the scraper is using Docker.
 1. [Install `jq`.](https://stedolan.github.io/jq/download/)
 1. [Make sure your Typesense server is operational.](./install-typesense.md)
 1. Create a `.env` file with the following contents, replacing them with the correct values for your particular situation:
-    ```shell
-    TYPESENSE_API_KEY=xyz
-    TYPESENSE_HOST=xxx.a1.typesense.net
-    TYPESENSE_PORT=443
-    TYPESENSE_PROTOCOL=https
-    ```
+   ```shell
+   TYPESENSE_API_KEY=xyz
+   TYPESENSE_HOST=xxx.a1.typesense.net
+   TYPESENSE_PORT=443
+   TYPESENSE_PROTOCOL=https
+   ```
    ::: tip
    If you are self-hosting Typesense, then you can usually find your API key and port number in the `/etc/typesense/typesense-server.ini` file.
 
@@ -112,12 +112,12 @@ The easiest way to run the scraper is using Docker.
    :::
 
    ::: tip
-   If you are running Typesense on `localhost` and you're using Docker to run the scraper,  using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
+   If you are running Typesense on `localhost` and you're using Docker to run the scraper, using `TYPESENSE_HOST=localhost` will not work because localhost in this context refers to localhost within the container. Instead you want the scraper running inside the Docker container to be able to connect to Typesense running outside the docker container on your host. Follow the instructions [here](https://stackoverflow.com/a/43541732/123545) to use the appropriate hostname to refer to your Docker host. For example, on macOS you want to use: `TYPESENSE_HOST=host.docker.internal`
    :::
 1. Run the scraper:
-    ```bash
-    docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.11.0
-    ```
+   ```bash
+   docker run -it --env-file=/path/to/your/.env -e "CONFIG=$(cat config.json | jq -r tostring)" typesense/docsearch-scraper:0.11.0
+   ```
 
 This will scrape your documentation site and index it into Typesense.
 
@@ -275,10 +275,10 @@ And many more. We recommend running the scraper in CI so that your search index 
 When setting up the DocSearch scraper for a Docusaurus site, please note:
 
 1. A `sitemap.xml` file is required for the scraper to work properly. To generate this:
-   - Install the sitemap plugin: 
-      ```bash
-      npm install @docusaurus/plugin-sitemap --save
-      ```
+   - Install the sitemap plugin:
+     ```bash
+     npm install @docusaurus/plugin-sitemap --save
+     ```
    - Add it to your `docusaurus.config.js`:
      ```js
      plugins: [
@@ -296,13 +296,13 @@ When setting up the DocSearch scraper for a Docusaurus site, please note:
      ```
 
 1. When testing locally, serve your site:
-      ```bash
-      npm run serve
-      ```
+   ```bash
+   npm run serve
+   ```
 
 1. Make sure your Typesense server is running before running the scraper
 
-## Step 2: Add a Search Bar to your Documentation Site 
+## Step 2: Add a Search Bar to your Documentation Site
 
 ### Option A: Docusaurus-powered sites
 
@@ -366,7 +366,7 @@ Style your search component following [these instructions](https://docusaurus.io
 
 ### Option B: Vuepress-powered sites
 
-If you use [Vuepress](https://vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site), 
+If you use [Vuepress](https://vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site),
 here's a [Vue Component](https://github.com/typesense/typesense-website/blob/master/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) you can use.
 
 Copy that component into `.vuepress/components/TypesenseSearchBox.vue` and edit it as needed.
@@ -439,11 +439,11 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
   docsearch({
     container: '#searchbar',
     typesenseCollectionName: 'docs', // Should match the collection name you mention in the docsearch scraper config.js
-    typesenseServerConfig: { 
+    typesenseServerConfig: {
       nodes: [{
-        host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
-        port: '8108',      // For Typesense Cloud use 443
-        protocol: 'http'   // For Typesense Cloud use https
+          host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+          port: '8108',      // For Typesense Cloud use 443
+          protocol: 'http'   // For Typesense Cloud use https
       }],
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
@@ -465,7 +465,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 
 ```html
 <!-- Somewhere in your doc site's navigation -->
-<input type="search" id="searchbar">
+<input type="search" id="searchbar" />
 
 <!-- Before the closing head -->
 <link
@@ -480,11 +480,11 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
   docsearch({
     inputSelector: '#searchbar',
     typesenseCollectionName: 'docs', // Should match the collection name you mention in the docsearch scraper config.js
-    typesenseServerConfig: { 
+    typesenseServerConfig: {
       nodes: [{
-        host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
-        port: '8108',      // For Typesense Cloud use 443
-        protocol: 'http'   // For Typesense Cloud use https
+          host: 'localhost', // For Typesense Cloud use xxx.a1.typesense.net
+          port: '8108',      // For Typesense Cloud use 443
+          protocol: 'http'   // For Typesense Cloud use https
       }],
       apiKey: '<SEARCH_API_KEY>', // Use API Key with only Search permissions
     },
@@ -500,7 +500,7 @@ Add the Following DocSearch.JS Snippet to all your Documentation Pages:
 - Read the [Search Parameters Section](../latest/api/search.md#search-parameters) for all possible options under the `typesenseSearchParams` key.
 - Read the official [DocSearch documentation](https://docsearch.algolia.com/docs/legacy/dropdown) for information about additional options.
 
-#### Styling 
+#### Styling
 
 You can override the following styles as needed:
 
@@ -544,6 +544,60 @@ In order to inspect and debug your CSS without having the searchbar close when y
 ### Option E: Sphinx Documentation Generator
 
 [Here's](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/) a guide written by a Typesense user on how to integrate [Sphinx](https://www.sphinx-doc.org/en/master/) with Typesense DocSearch.
+
+
+### Option F: Astro Starlight
+
+If you're using [Starlight](https://starlight.astro.build/) as your documentation framework, you can add a search bar powered by Typesense using the [Starlight DocSearch Typesense](https://github.com/typesense/starlight-docsearch-typesense) plugin.
+
+```shellsession
+$ npm install starlight-docsearch-typesense
+```
+
+Then, configure the plugin in your `astro.config.mjs` file:
+
+```javascript
+import starlight from '@astrojs/starlight'
+import { defineConfig } from 'astro/config'
+import starlightDocSearchTypesense from 'starlight-docsearch-typesense'
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      title: 'My Docs',
+      plugins: [
+        starlightDocSearchTypesense({
+          // Replace this with the name of your index/collection.
+          // It should match the "index_name" entry in the scraper's "config.json" file.
+          typesenseCollectionName: 'docs',
+          typesenseServerConfig: {
+            nodes: [
+              {
+                host: 'xxx-1.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+              {
+                host: 'xxx-2.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+              {
+                host: 'xxx-3.a1.typesense.net',
+                port: 443,
+                protocol: 'https',
+              },
+            ],
+            apiKey: '<SEARCH_API_KEY>',
+          },
+        }),
+      ],
+    }),
+  ],
+})
+```
+
+For additional configuration options, live demo, and instructions on integrating with `typesense-docsearch-scraper`, see the [Starlight DocSearch Typesense Documentation](https://starlight-docsearch.typesense.org/getting-started/).
 
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
 
@@ -606,7 +660,7 @@ For eg, if a user searches for "hard disk" and you documentation contains "hard 
 
 This instructs Typesense to automatically generate an
 <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#what-is-an-embedding`">`embedding`</RouterLink> field
-using the contents of the `content`, `hierarchy.*` and `tags` fields. 
+using the contents of the `content`, `hierarchy.*` and `tags` fields.
 
 If you have custom tags, you can edit the schema above to include those custom fields in `embed.from`.
 
@@ -614,19 +668,19 @@ If you have custom tags, you can edit the schema above to include those custom f
 
 ```js
 docsearch({
-    //... Other parameters as described above 
-    typesenseSearchParameters: { // In some docsearch plugins (see above), this might be called `typesenseSearchParams` 
+  //... Other parameters as described above
+    typesenseSearchParameters: { // In some docsearch plugins (see above), this might be called `typesenseSearchParams`
       // ... 
       query_by:
         'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
       vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)' // Optional vector search fine-tuning
-    },
+  },
   });
 ```
 
 And that's it!
 
-You now have semantic search enabled DocSearch. 
+You now have semantic search enabled DocSearch.
 
 
 :::tip Tip: ML Model options

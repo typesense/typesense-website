@@ -256,12 +256,15 @@ deparment_prices:[20..80]
 
 ## Escaping special characters
 
-If you want to filter for a value that includes special characters, such as a comma (`,`), you can use
+If you want to filter for a field _value_ that includes special characters, such as a `&&`, `||`, `(`, `)`, `,`, `[`, `]`, you can use
 backticks around your filter value:
 
 ```shell
 country:=`United States, Minor Outlying Islands`
+country:=[`United States (USA) [Country]`, `Canada (CA) [Country]`]
 ```
+
+Typesense does not allow special characters in field _names_, only field _values_ can be escaped using backticks. 
 
 ## Filtering Geopoints
 

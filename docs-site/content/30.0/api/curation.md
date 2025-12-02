@@ -7,7 +7,7 @@ sitemap:
 # Curation
 
 :::warning Breaking Change in v30
-When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions.
+When you upgrade to v30, all existing collection-specific override definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
 :::
 
 While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
@@ -95,7 +95,7 @@ curation_set = {
 }
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets["curate_products"].upsert(curation_set)
 ```
 
   </template>
@@ -810,7 +810,7 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id" => "dynamic-sort-filter"
+    "id": "dynamic-sort-filter"
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
@@ -944,14 +944,14 @@ The `λ` of the MMR equation can be customized by sending `diversity_lambda` alo
 ```json
 {
   "q": "*",
-  "override_tags": "screen_pattern_rule",
+  "curation_tags": "screen_pattern_rule",
   "diversity_lambda": 0.75
 }
 ```
 Its default value is `0.5`.
 
 
-Instead of using `override_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
+Instead of using `curation_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
 
 ## Retrieve a curation set
 
