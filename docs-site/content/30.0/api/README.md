@@ -99,7 +99,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
 
 :::warning ⚠️ Breaking Changes
-Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version.
+Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
 :::
 
 ## Upgrading
