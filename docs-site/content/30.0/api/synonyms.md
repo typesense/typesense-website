@@ -284,7 +284,7 @@ synonymSet := &api.SynonymSetCreateSchema{
 }
 
 // Creates/updates a synonym set called `tech-synonyms`
-client.SynonymSets("tech-synonyms").Upsert(context.Background(), synonymSet)
+_, _ = client.SynonymSets("tech-synonyms").Upsert(context.Background(), synonymSet)
 ```
 
   </template>
@@ -609,7 +609,7 @@ curl "http://localhost:8108/synonym_sets/clothing-synonyms" -X DELETE \
 ```shell
 curl "http://localhost:8108/collections/products" -X PATCH \
 -H "Content-Type: application/json" \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 -d '{
     "synonym_sets": ["clothing-synonyms", "tech-synonyms"]
 }'
@@ -679,8 +679,8 @@ client.synonym_sets['tech-synonyms'].items['smart-phone-synonyms'].upsert(synony
 
 ```rb
 synonymSetItem = {
-  "root": "smart phone",
-  "synonyms": ["iphone", "android"],
+  "root" => "smart phone",
+  "synonyms" => ["iphone", "android"],
 }
 
 # Creates/updates a synonym set called `tech-synonyms`
@@ -697,7 +697,7 @@ synonymSetItem.setId("smart-phone-synonyms");
 synonymSetItem.addSynonymsItem("iphone").addSynonymsItem("android");
 synonymSetItem.setRoot("smart phone");
 
-client.synonymSets('tech-synonyms').items('smart-phone-synonyms').upsert(synonymSetItem);
+client.synonymSets("tech-synonyms").items("smart-phone-synonyms").upsert(synonymSetItem);
 ```
 
   </template>

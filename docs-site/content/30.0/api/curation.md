@@ -18,7 +18,7 @@ Using curation, you can include or exclude specific documents for a given query.
 When using [Synonyms](./synonyms.md) and Curation together, Curation is handled first since the rules can contain instructions to replace the query. Synonyms will then work on the modified query.
 :::
 
-## Create or update an curation set
+## Create or update a curation set
 
 You can define a comprehensive set of curation rules that specify how search results should be modified for specific queries or filter conditions, and then attach this rule set to a collection. These rules allow you to customize search behavior by promoting certain documents, hiding others, applying additional filters, modifying sorting behavior, or diversify the results when specific conditions are met.
 
@@ -28,7 +28,7 @@ You can define a comprehensive set of curation rules that specify how search res
 ```js
 curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -54,10 +54,10 @@ client.curationSets().upsert('curate_products', curation_set)
 ```php
 $curation_set = [
   "items" => [
-    "id" => "customize-apple"
+    "id" => "customize-apple",
     "rule" => [
-    "query" => "apple",
-    "match" => "exact"
+      "query" => "apple",
+      "match" => "exact"
     ],
     "includes" => [
       ["id" => "422", "position" => 1],
@@ -79,7 +79,7 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -104,7 +104,7 @@ client.curation_sets["curate_products"].upsert(curation_set)
 ```rb
 curation_set = {
   "items" => [{
-    "id" => "customize-apple"
+    "id" => "customize-apple",
     "rule" => {
       "query" => "apple",
       "match" => "exact"
@@ -129,7 +129,7 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```dart
 final curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -156,10 +156,10 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
-    "query": "apple",
-    "match": "exact"
+      "query": "apple",
+      "match": "exact"
     },
     "includes": [
       {"id": "422", "position": 1},
@@ -196,7 +196,7 @@ queries containing the word `apple`, we will use the `contains` match instead.
 ```js
 curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -222,10 +222,10 @@ client.curationSets().upsert('curate_products', curation_set)
 ```php
 $curation_set = [
   "items" => [[
-    "id" => "customize-apple"
+    "id" => "customize-apple",
     "rule" => [
-    "query" => "apple",
-    "match" => "exact"
+      "query" => "apple",
+      "match" => "exact"
     ],
     "includes" => [
       ["id" => "422", "position" => 1],
@@ -247,7 +247,7 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -272,7 +272,7 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```rb
 curation_set = {
   "items" => [{
-    "id" => "customize-apple"
+    "id" => "customize-apple",
     "rule" => {
       "query" => "apple",
       "match" => "exact"
@@ -297,7 +297,7 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```dart
 final curation_set = {
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -324,10 +324,10 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
-    "query": "apple",
-    "match": "exact"
+      "query": "apple",
+      "match": "exact"
     },
     "includes": [
       {"id": "422", "position": 1},
@@ -352,7 +352,7 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 {
   "name": "curate_products",
   "items": [{
-    "id": "customize-apple"
+    "id": "customize-apple",
     "rule": {
       "query": "apple",
       "match": "exact"
@@ -423,10 +423,10 @@ In the following example, we will apply a filter dynamically to a query that mat
 ```js
 curation_set = {
   "items": [{
-    "id": "brand-filter"
+    "id": "brand-filter",
     "rule": {
-    "query": "{brand} phone",
-    "match": "contains"
+      "query": "{brand} phone",
+      "match": "contains"
     },
     "filter_by": "brand:={brand}",
     "remove_matched_tokens": true
@@ -444,22 +444,20 @@ client.curationSets().upsert('curate_products', curation_set)
 ```php
 $curation_set = [
   "items" => [
-    "id" => "brand-filter"
-    "rule" => [
-    "query" => "{brand} phone",
-    "match" => "contains"
-    ],
-    "filter_by" => "brand:={brand}",
-    "remove_matched_tokens" => true
+    [
+      "id" => "brand-filter",
+      "rule" => [
+        "query" => "{brand} phone",
+        "match" => "contains"
+      ],
+      "filter_by" => "brand:={brand}",
+      "remove_matched_tokens" => true
+    ]
   ]
-]
+];
 
 # Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
 $client->curationSets->upsert('curate_products', $curation_set);
-```
-
-  </template>
-  <template v-slot:Python>
 ```
 
   </template>
@@ -468,10 +466,10 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id": "brand-filter"
+    "id": "brand-filter",
     "rule": {
-    "query": "{brand} phone",
-    "match": "contains"
+      "query": "{brand} phone",
+      "match": "contains"
     },
     "filter_by": "brand:={brand}",
     "remove_matched_tokens": true
@@ -488,10 +486,10 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```rb
 curation_set = {
   "items": [{
-    "id": "brand-filter"
+    "id": "brand-filter",
     "rule": {
-    "query": "{brand} phone",
-    "match": "contains"
+      "query": "{brand} phone",
+      "match": "contains"
     },
     "filter_by": "brand:={brand}",
     "remove_matched_tokens": true
@@ -508,18 +506,18 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```dart
 final curation_set = {
   "items": [{
-    "id": "brand-filter"
+    "id": "brand-filter",
     "rule": {
-    "query": "{brand} phone",
-    "match": "contains"
+      "query": "{brand} phone",
+      "match": "contains"
     },
     "filter_by": "brand:={brand}",
     "remove_matched_tokens": true
   }]
-}
+};
 
-# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+// Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
+await client.curation_sets.upsert('curate_products', curation_set);
 ```
 
   </template>
@@ -530,10 +528,10 @@ curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
-    "id": "brand-filter"
+    "id": "brand-filter",
     "rule": {
-    "query": "{brand} phone",
-    "match": "contains"
+      "query": "{brand} phone",
+      "match": "contains"
     },
     "filter_by": "brand:={brand}",
     "remove_matched_tokens": true
@@ -642,14 +640,14 @@ You can create an override that dynamically sorts results based on the query:
 ```js
 curation_set = {
   "items": [{
-    "id": "dynamic-sort"
+    "id": "dynamic-sort",
     "rule": {
-    "query": "{store}",
-    "match": "exact"
+      "query": "{store}",
+      "match": "exact"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc"
-  }];
+  }]
 }
 
 // Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
@@ -663,13 +661,13 @@ client.curationSets().upsert('curate_products', curation_set)
 ```php
 $curation_set = [
   "items" => [[
-    "id" => "dynamic-sort"
+    "id" => "dynamic-sort",
     "rule" => [
-    "query" => "{store}",
-    "match" => "exact"
+      "query" => "{store}",
+      "match" => "exact"
     ],
-  "remove_matched_tokens" => true,
-  "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
+    "remove_matched_tokens" => true,
+    "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
   ]]
 ];
 
@@ -683,13 +681,13 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id": "dynamic-sort"
+    "id": "dynamic-sort",
     "rule": {
       "query": "{store}",
       "match": "exact"
     },
-  "remove_matched_tokens": True,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens": True,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
   }]
 }
 
@@ -702,14 +700,14 @@ client.curation_sets.upsert('curate_products', curation_set)
 
 ```rb
 curation_set = {
-  "items": [{
-    "id": "dynamic-sort"
-    "rule": {
+  "items" => [{
+    "id" => "dynamic-sort",
+    "rule" => {
       "query" => "{store}",
       "match" => "exact"
     },
-  "remove_matched_tokens" => true,
-  "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens" => true,
+    "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
   }]
 }
 
@@ -721,19 +719,19 @@ client.curation_sets.upsert('curate_products', curation_set)
   <template v-slot:Dart>
 
 ```dart
-final override = {
+final curation_set = {
   "items": [{
-    "id": "dynamic-sort"
-      "rule": {
+    "id": "dynamic-sort",
+    "rule": {
       "query": "{store}",
       "match": "exact"
     },
-  "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
   }]
 };
 
-# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
+// Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
 await client.curation_sets.upsert('curate_products', curation_set);
 ```
 
@@ -745,13 +743,13 @@ curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
-    "id": "dynamic-sort"
+    "id": "dynamic-sort",
     "rule": {
       "query": "{store}",
       "match": "exact"
     },
-  "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
   }]
 }'
 ```
@@ -769,13 +767,13 @@ You can also use dynamic sorting with filter-based rules:
 ```js
 curation_set = {
   "items": [{
-    "id": "dynamic-sort-filter"
+    "id": "dynamic-sort-filter",
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
     },
-  "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc",
   }]
 }
 
@@ -790,7 +788,7 @@ client.curation_sets().upsert('curate_products', curation_set)
 ```php
 $curation_set = [
   "items" => [[
-    "id" => "dynamic-sort-filter"
+    "id" => "dynamic-sort-filter",
     "rule" => [
       "filter_by" => "store:={store}",
       "match" => "exact"
@@ -810,7 +808,7 @@ $client->curationSets->upsert('curate_products', $curation_set);
 ```py
 curation_set = {
   "items": [{
-    "id": "dynamic-sort-filter"
+    "id": "dynamic-sort-filter",
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
@@ -828,8 +826,8 @@ client.curation_sets.upsert('curate_products', curation_set)
 
 ```rb
 curation_set = {
-  "items": [{
-    "id" => "dynamic-sort-filter"
+  "items" => [{
+    "id" => "dynamic-sort-filter",
     "rule": {
       "filter_by" => "store:={store}",
       "match" => "exact"
@@ -849,13 +847,13 @@ client.curation_sets.upsert('curate_products', curation_set)
 ```dart
 final curation_set = {
   "items": [{
-    "id" => "dynamic-sort-filter"
+    "id": "dynamic-sort-filter",
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
     },
-  "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "remove_matched_tokens": true,
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
   }]
 };
 
@@ -871,13 +869,13 @@ curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
-    "id": "dynamic-sort-filter"
+    "id": "dynamic-sort-filter",
     "rule": {
       "filter_by": "store:={store}",
       "match": "exact"
     },
     "remove_matched_tokens": true,
-    "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+    "sort_by": "sales.{store}:desc, inventory.{store}:desc"
   }]
 }'
 ```
@@ -1236,10 +1234,10 @@ final curation_set_item = {
     "match": "exact"
   },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
-}
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
+};
 
-client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item)
+await client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item);
 ```
 
   </template>
@@ -1255,7 +1253,7 @@ curl "http://localhost:8108/collections/curation_sets/curate_products/items/dyna
     "match": "exact"
   },
   "remove_matched_tokens": true,
-  "sort_by": "sales.{store}:desc, inventory.{store}:desc",
+  "sort_by": "sales.{store}:desc, inventory.{store}:desc"
 }'
 ```
 
@@ -1270,28 +1268,28 @@ curl "http://localhost:8108/collections/curation_sets/curate_products/items/dyna
 
 
 #### Parameters
-| Parameter             | Required                                                    | Description                                                                                                                                                                                                                                                                                                  |
-|-----------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| rule.query            | One of either `rule.query` or `rule.filter_by` is required. | Indicates what search queries should be overridden.                                                                                                                                                                                                                                                          |
-| rule.match            | no                                                          | Indicates whether the match on the query term should be `exact` or `contains`. Required when `rule.query` is set.                                                                                                                                                                                            |
-| rule.filter_by        | One of either `rule.query` or `rule.filter_by` is required. | Indicates that the override should apply when the `filter_by` parameter in a search query _exactly_ matches the string specified here (including backticks, spaces, brackets, etc).                                                                                                                          |
-| rule.tags             | no                                                          | List of tag values to associate with this override rule.                                                                                                                                                                                                                                                     |
-| excludes              | no                                                          | List of document `id`s that should be excluded from the search results.                                                                                                                                                                                                                                      |
-| includes              | no                                                          | List of document `id`s that should be included in the search results with their corresponding `positions`.                                                                                                                                                                                                   |
-| metadata              | no                                                          | Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered.                                                                                    |
-| filter_by             | no                                                          | A filter by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                       |
-| sort_by               | no                                                          | A sort by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                         |
-| replace_query         | no                                                          | Replaces the current search query with this value, when the search query matches the override rule.                                                                                                                                                                                                          |
-| remove_matched_tokens | no                                                          | Indicates whether search query tokens that exist in the override's rule should be removed from the search query. <br/><br/>Default: `true`.                                                                                                                                                                  |
-| filter_curated_hits   | no                                                          | When set to `true`, the filter conditions of the query is applied to the curated records as well. <br/><br/>Default: `false`.                                                                                                                                                                                |
-| effective_from_ts     | no                                                          | A Unix timestamp that indicates the date/time from which the override will be active. You can use this to create override rules that start applying from a future point in time.                                                                                                                             |
-| effective_to_ts       | no                                                          | A Unix timestamp that indicates the date/time until which the override will be active. You can use this to create override rules that stop applying after a period of time.                                                                                                                                  |
-| stop_processing       | no                                                          | When set to `true`, override processing will stop at the first matching rule. When set to `false` override processing will continue and multiple override actions will be triggered in sequence. <br/><br/> Overrides are processed in the lexical sort order of their `id` field.<br/><br/>Default: `true`. |
-| diversity             | no                                                          | Uses Maximum Marginal Relevance(MMR), diversifies the top 250 hits based on pre-defined similarity metric |
-|diversity.similarity_metric| yes                                                     | List of metric objects containing details of the `field`, `method` and the `weight` to be used to calculate the similiarity value of two documents.
-|diversity.similarity_metric.field| yes                                               | Name of the field. The field must be defined with `facet: true` for an array type or `sort: true` otherwise.
-|diversity.similarity_metric.method| yes                                              | Method to be used to calculate the similarity of the documents. `equality` checks for an exact match of the field value(s) and `jaccard` computes the [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) using the values of the field. `equality` can be used for both array and single type fields but `jacaard` can only be used with an array type field.
-|diversity.similarity_metric.weight| yes                                              | Weight of this field in calculating the total similarity value.
+| Parameter                          | Required                                                    | Description                                                                                                                                                                                                                                                                                                                                                             |
+|------------------------------------|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| rule.query                         | One of either `rule.query` or `rule.filter_by` is required. | Indicates what search queries should be overridden.                                                                                                                                                                                                                                                                                                                     |
+| rule.match                         | no                                                          | Indicates whether the match on the query term should be `exact` or `contains`. Required when `rule.query` is set.                                                                                                                                                                                                                                                       |
+| rule.filter_by                     | One of either `rule.query` or `rule.filter_by` is required. | Indicates that the override should apply when the `filter_by` parameter in a search query _exactly_ matches the string specified here (including backticks, spaces, brackets, etc).                                                                                                                                                                                     |
+| rule.tags                          | no                                                          | List of tag values to associate with this override rule.                                                                                                                                                                                                                                                                                                                |
+| excludes                           | no                                                          | List of document `id`s that should be excluded from the search results.                                                                                                                                                                                                                                                                                                 |
+| includes                           | no                                                          | List of document `id`s that should be included in the search results with their corresponding `positions`.                                                                                                                                                                                                                                                              |
+| metadata                           | no                                                          | Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered.                                                                                                                                               |
+| filter_by                          | no                                                          | A filter by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                                                                                  |
+| sort_by                            | no                                                          | A sort by clause that is applied to any search query that matches the override rule.                                                                                                                                                                                                                                                                                    |
+| replace_query                      | no                                                          | Replaces the current search query with this value, when the search query matches the override rule.                                                                                                                                                                                                                                                                     |
+| remove_matched_tokens              | no                                                          | Indicates whether search query tokens that exist in the override's rule should be removed from the search query. <br/><br/>Default: `true`.                                                                                                                                                                                                                             |
+| filter_curated_hits                | no                                                          | When set to `true`, the filter conditions of the query is applied to the curated records as well. <br/><br/>Default: `false`.                                                                                                                                                                                                                                           |
+| effective_from_ts                  | no                                                          | A Unix timestamp that indicates the date/time from which the override will be active. You can use this to create override rules that start applying from a future point in time.                                                                                                                                                                                        |
+| effective_to_ts                    | no                                                          | A Unix timestamp that indicates the date/time until which the override will be active. You can use this to create override rules that stop applying after a period of time.                                                                                                                                                                                             |
+| stop_processing                    | no                                                          | When set to `true`, override processing will stop at the first matching rule. When set to `false` override processing will continue and multiple override actions will be triggered in sequence. <br/><br/> Overrides are processed in the lexical sort order of their `id` field.<br/><br/>Default: `true`.                                                            |
+| diversity                          | no                                                          | Uses Maximum Marginal Relevance(MMR), diversifies the top 250 hits based on pre-defined similarity metric                                                                                                                                                                                                                                                               |
+| diversity.similarity_metric        | yes                                                         | List of metric objects containing details of the `field`, `method` and the `weight` to be used to calculate the similarity value of two documents.                                                                                                                                                                                                                      |
+| diversity.similarity_metric.field  | yes                                                         | Name of the field. The field must be defined with `facet: true` for an array type or `sort: true` otherwise.                                                                                                                                                                                                                                                            |
+| diversity.similarity_metric.method | yes                                                         | Method to be used to calculate the similarity of the documents. `equality` checks for an exact match of the field value(s) and `jaccard` computes the [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) using the values of the field. `equality` can be used for both array and single type fields but `jacaard` can only be used with an array type field. |
+| diversity.similarity_metric.weight | yes                                                         | Weight of this field in calculating the total similarity value.                                                                                                                                                                                                                                                                                                         |
 
 ### Using overrides with scoped API keys
 
@@ -1558,7 +1556,7 @@ All existing override rules from previous versions have been automatically migra
         {
           "id": "54",
           "position": 2
-        },
+        }
       ],
       "rule": {
         "match": "exact",
