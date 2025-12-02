@@ -90,6 +90,8 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix `max_bytes` parameters usage for the OpenAI's o-series and GPT-5 models.
 - Prevent usage of `temperature` parameter for the o-series and GPT-5 models since it is not supported.
 - Fix curation rule matching when doing semantic search with embedding generation.
+- Fix rocksdb params assignment
+- Fix missing joined collection fields in pinned hits
 
 ### Deprecations / behavior changes
 
