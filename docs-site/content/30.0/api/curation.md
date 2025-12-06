@@ -1148,7 +1148,7 @@ curl "http://localhost:8108/collections/curation_sets/curate_products" -X DELETE
 ```shell
 curl "http://localhost:8108/collections/products" -X PATCH \
 -H "Content-Type: application/json" \
--H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 -d '{
     "curation_sets": ["clothing_curation", "tech_curation"]
 }'
