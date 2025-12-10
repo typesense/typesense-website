@@ -1,6 +1,10 @@
-# Boolean Tag Search
+# Boolean Search with Tags
 
-A common use case for search engines is to filter datasets based on simple boolean logic. Typesense supports queries like this by allowing for boolean expressions in the `filter_by` property. However, since the `filter_by` property only supports exact matches, this can mean trading off some of the flexibility of full-text search. One natural way around this problem is to implement an experience called a tag search. This cookbook will demonstrate the use case for a tag-based search experience, and show you how to build one.
+A common ask we hear is to be able to search using boolean operators (AND, OR) in full text search. 
+Typesense supports boolean queries like this when filtering, using the `filter_by` property. 
+However, since the `filter_by` property only supports exact matches, unlike the `q` parameter which supports full-text search with typo tolerance, this can mean trading-off some of the flexibility of full-text search. 
+
+One natural way around this is to implement an experience called a tag search. This cookbook will demonstrate the use case for a tag-based search experience, and show you how to build one.
 
 ## Overview
 
@@ -10,19 +14,21 @@ An example of how a tag-based search can mitigate the trade-offs between boolean
 
 > "Find all games published by either 'Nintendo' or 'Sony', that are either 'Adventure' or 'Casual' games."
 
-We could represent this in a `filter_by` request like so:
+We could represent this in a `filter_by` request to Typesense like so:
 
 ```
-filter_by: (publisher:Nintendo OR publisher:Sony) AND (genre:Adventure OR genre:Casual)
+filter_by: (publisher:Nintendo || publisher:Sony) && (genre:Adventure || genre:Casual)
 ```
 
-However, if the user accidentally typed "Adventur" instead of "Adventure", or if Nintendo is actually stored in the database as "Nintendo Co.", those fields in the boolean expression would not match the user's intent.
+However, if the user accidentally typed "Adventur" instead of "Adventure", or if Nintendo is actually stored in the database as "Nintendo Co.", those fields in the boolean filter expression would not match the user's intent.
 
-A tag-based search interface can be used to mitigate this problem. Instead of asking for the whole query at once, the user is asked to add tags to a tag cloud first. The user has to search for tags using an autocompleting drop-down menu. This menu matches their user input to the closest tags in the database, using the fuzzy-matching features of `query_by` requests. After adding all the tags they want to use, we can generate the search request by constructing a `filter_by` with a template like this:
+A tag-based search interface can be used to mitigate this problem. Instead of asking for the whole query at once, the user is asked to add tags to a "tag cloud" first. The user has to search for tags using an autocompleting drop-down menu. This menu matches their user input to the closest tags in the database, using the fuzzy-matching features of the `q` and `query_by` parameters. 
+
+After adding all the tags they want to use, we can generate the search request by constructing a `filter_by` programmatically with a template like this:
 
 ```
-filter_by: (publisher:<1st publisher tag> OR publisher:<2nd publisher tag>... OR publisher:<nth publisher tag>) 
-       AND (genre:<1st genre tag>         OR genre:<2nd genre tag>...         OR genre:<nth genre tag>)
+filter_by: (publisher:<1st publisher tag> || publisher:<2nd publisher tag>... || publisher:<nth publisher tag>) 
+       AND (genre:<1st genre tag>         || genre:<2nd genre tag>...         || genre:<nth genre tag>)
 ```
 
 So in our previous scenario the user could add these tags:
@@ -35,7 +41,7 @@ So in our previous scenario the user could add these tags:
 And then we would generate the search request as:
 
 ```
-filter_by: (publisher:Nintendo Co. OR publisher:Sony Computer Entertainment) AND (genre:Adventure OR genre:Casual)
+filter_by: (publisher:Nintendo Co. || publisher:Sony Computer Entertainment) && (genre:Adventure || genre:Casual)
 ```
 
 Which would match the user's intent, even though their search input did not perfectly match the data in the database.
@@ -474,7 +480,7 @@ function buildQueryObject(queryString, filterBy, hasUndefinedQuery) {
 
 ### Execute Queries
 
-Finally, we'll execute the generated queries using Typesense's multiSearch API. This allows us to handle multiple queries and union the results together, which allows us to get OR logic when we have multiple "all fields" tags.
+Finally, we'll execute the generated queries using Typesense's `multi_search` API. This allows us to handle multiple queries and union the results together, which allows us to get OR logic when we have multiple "all fields" tags.
 
 ```javascript
 async function loadResults(page = 1) {
