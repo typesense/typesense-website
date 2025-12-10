@@ -238,7 +238,9 @@ Two typos strikes the right balance by:
 
 ### Can I implement Boolean Search with Typesense?
 
-Yes, but with some caveats, that require additional consideration.
+Yes, but with some caveats, that require additional consideration. 
+
+[Here's](../guide/boolean-tag-search.md) a cookbook that shows you how to build tag-based boolean search approach that leverages some of the techniques mentioned below.
 
 Let's start with some background context about the features that you can use to implement Boolean Search. 
 
