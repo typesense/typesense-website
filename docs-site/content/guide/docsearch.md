@@ -366,7 +366,9 @@ Style your search component following [these instructions](https://docusaurus.io
 
 ### Option B: Vuepress-powered sites
 
-If you use [Vuepress](https://vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site),
+#### VuePress v1
+
+If you use [VuePress v1](https://v1.vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site),
 here's a [Vue Component](https://github.com/typesense/typesense-website/blob/master/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) you can use.
 
 Copy that component into `.vuepress/components/TypesenseSearchBox.vue` and edit it as needed.
@@ -415,8 +417,117 @@ Then add a key called `typesenseDocsearch` to your `.vuepress/config.js` file wi
 ```
 
 :::tip Reference
-Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) we use for Typesense's own Vuepress-powered documentation site.
+Here's the [docsearch-scraper configuration](https://github.com/typesense/typesense-website/blob/master/docs-site/docsearch.config.js) we use for Typesense's own VuePress-powered documentation site.
 :::
+
+#### VuePress v2
+
+To add Typesense DocSearch to [VuePress v2](https://vuepress.vuejs.org/) sites, first install the dependencies:
+
+```shell
+npm i typesense-docsearch.js typesense-docsearch-css
+```
+
+After that, create a search component in `docs/.vuepress/components/TypesenseSearchBox.vue`:
+
+```vue
+<template>
+  <div id="typesense-search" role="search"></div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, watch, inject } from 'vue'
+import { useSiteLocaleData } from 'vuepress/client'
+import { DocSearchClientParams } from '../client'
+import 'typesense-docsearch-css'
+
+const siteLocale = useSiteLocaleData()
+const config: DocSearchClientParams = inject('typesenseConfig', {})
+
+const loadDocSearch = (newLang: string) =>
+  // @ts-ignore there is no type declaration for umd import
+  import('typesense-docsearch.js/dist/umd').then(docsearch => {
+    const { locales, ...rest } = config
+    docsearch.default(
+      Object.assign({}, rest, {
+        container: '#typesense-search',
+        translations: locales?.[newLang],
+      }),
+    )
+  })
+
+onMounted(() => loadDocSearch(siteLocale.value.lang))
+watch(
+  () => siteLocale.value.lang,
+  (newLang: string) => loadDocSearch(newLang),
+)
+</script>
+```
+
+Then in `docs/.vuepress/client.ts` add this following content:
+
+```typescript
+import { defineClientConfig } from 'vuepress/client'
+import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
+import type docsearch from 'typesense-docsearch.js'
+
+export type DocSearchClientParams = Partial<
+  Omit<Parameters<typeof docsearch>[0], 'container' | 'translations'> & DocSearchLocales
+>
+
+type DocSearchLocales = {
+  locales: {
+    [locale: string]: Parameters<typeof docsearch>[0]['translations']
+  }
+}
+
+export default defineClientConfig({
+  enhance({ app }) {
+    const config: DocSearchClientParams = {
+      typesenseCollectionName: 'YOUR_COLLECTION_NAME',
+      typesenseServerConfig: {/* Your config */},
+      locales: {
+        'vi-VN': {
+          button: {
+            buttonText: 'Tìm kiếm...',
+          },
+        },
+      },
+    }
+    app.provide('typesenseConfig', config)
+    app.component('SearchBox', TypesenseSearchBox)
+  },
+})
+```
+
+And that's it! A search modal should pop up when you click on the search bar.
+
+:::tip Reference
+Here's the `docsearch.config.json` template for VuePress v2.
+
+Note: In local development, the URL in `start_urls` must be the URL of your VuePress build preview, not the URL of the dev server.
+```json
+{
+  "index_name": "YOUR_COLLECTION_NAME",
+  "start_urls": [{"url": "YOUR_SITE_URL"}],
+  "selectors": {
+    "default": {
+      "lvl0": ".vp-sidebar-heading.active",
+      "lvl1": "[vp-content] h1",
+      "lvl2": "[vp-content] h2",
+      "lvl3": "[vp-content] h3",
+      "lvl4": "[vp-content] h4",
+      "lvl5": "[vp-content] h5",
+      "lvl6": "[vp-content] h6",
+      "text": "[vp-content] p, [vp-content] li"
+    }
+  },
+  "strip_chars": " .,;:#",
+  "scrape_start_urls": false
+}
+```
+:::
+
 
 ### Option C: Custom Docs Framework with DocSearch.js v3 (modal layout)
 
@@ -670,7 +781,7 @@ If you have custom tags, you can edit the schema above to include those custom f
 docsearch({
   //... Other parameters as described above
     typesenseSearchParameters: { // In some docsearch plugins (see above), this might be called `typesenseSearchParams`
-      // ... 
+      // ...
       query_by:
         'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
       vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)' // Optional vector search fine-tuning
