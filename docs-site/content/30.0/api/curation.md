@@ -951,6 +951,53 @@ Its default value is `0.5`.
 
 Instead of using `curation_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
 
+### Synonyms with Curations
+You can enable synonyms matching in curation rule by adding param `"synonyms" : true` while adding curation rule like:
+
+```json
+{
+        "id": "synonyms2",
+        "rule": {
+            "query": "credit card",
+            "match": "exact",
+            "synonyms" : true
+          },
+          "includes": [
+                {"id": "4", "position": 1}
+         ]
+}
+```
+With that enabled, if query tokens don't match any curation rule, it'll try to match rule using synonyms of query tokens.
+Suppose there is synonym added to collection,
+
+```json
+{
+        "id": "card-synonyms",
+        "synonyms": ["credit card", "payment card", "cc"]
+}
+```
+
+Now if we search the collection using query `payment card` or `cc`, it'll trigger the curation defined above as both are synonym of `credit card`.
+
+### Stemming with Curations
+Stemming can be enabled optionally for curations.
+To enable stemming with any curation rule, one need to set `"stem":true` like following,
+
+```json
+{      "id": "stemmer2",
+        "rule": {
+            "query": "People",
+            "match": "exact",
+            "stem" : true,
+            "stemming_dictionary": "set1"
+          },
+          "includes": [
+                {"id": "4", "position": 1}
+         ]
+ }
+```
+additionally, one can reference already added stemming dictionary with `stemming_dictionary` param.
+
 ## Retrieve a curation set
 
 Retrieving a curation set associated with a given collection.
