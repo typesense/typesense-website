@@ -968,7 +968,7 @@ You can enable synonyms matching in curation rule by adding param `"synonyms" : 
 }
 ```
 With that enabled, if query tokens don't match any curation rule, it'll try to match rule using synonyms of query tokens.
-Suppose there is synonym added to collection,
+Suppose there is a synonym added to collection,
 
 ```json
 {
