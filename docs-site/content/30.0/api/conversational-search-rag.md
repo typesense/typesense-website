@@ -507,10 +507,10 @@ Rewrite the follow-up question on top of a human-assistant conversation history 
 
 The generated standalone question will be used for semantic/hybrid search within the collection, and the results will then be forwarded to the LLM as context for answering the generated standalone question.
 
-:::tip Context Window Limits
-Although we retain the entire conversation history in Typesense, only the most recent 3000 tokens (approximately 1200 characters) of the conversation history will be sent for generating the standalone question due to the context limit.
+:::tip Context Window Limits 
+Although the entire conversation history is stored in Typesense, only the most recent messages that fit within the configured ```max_bytes``` window are sent when generating the standalone question. Before selecting messages, we subtract the number of bytes required by the system instructions; the remaining byte budget determines how many recent messages can be included.
 
-Similar to the conversation history, only the top search results, limited to 3000 tokens, will be sent along with the standalone question.
+Similarly, for retrieval, only the top search results whose combined size fits within the remaining ```max_bytes``` limit are included alongside the standalone question. 
 :::
 
 ## Managing Past Conversations
