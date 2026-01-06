@@ -981,7 +981,7 @@ Now if we search the collection using query `payment card` or `cc`, it'll trigge
 
 ### Stemming with Curations
 Stemming can be enabled optionally for curations.
-To enable stemming with any curation rule, one need to set `"stem":true` like following,
+To enable stemming with any curation rule, one needs to set `"stem":true` like following:
 
 ```json
 {      "id": "stemmer2",
@@ -996,7 +996,7 @@ To enable stemming with any curation rule, one need to set `"stem":true` like fo
          ]
  }
 ```
-additionally, one can reference already added stemming dictionary with `stemming_dictionary` param.
+Additionally, one can reference already added stemming dictionary with `stemming_dictionary` param.
 
 ## Retrieve a curation set
 
