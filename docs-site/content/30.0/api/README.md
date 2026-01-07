@@ -60,6 +60,8 @@ This release contains new features, enhancements, performance improvements, bug 
 - Support for sending an empty array to avoid embedding generation for an optional auto embedding field when indexing a document.
 - Highlight the actual search query when augmenting the search query with Natural Language search.
 - Enhance image embedding models support by adding CLIP Multilingual Model support
+- Support for synonym matching in curations [(Docs)](https://typesense.org/docs/30.0/api/curation.html#synonyms-with-curations).
+- Support stemming with curations [(Docs)](https://typesense.org/docs/30.0/api/curation.html#stemming-with-curations)
 
 ### Bug Fixes
 
@@ -95,6 +97,8 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix missing joined collection fields in pinned hits
 - Fix blocking indexing while generating embeddings.
 - Fix issues of using outdated schemas when altering operations is ongoing while indexing documents.
+- Fix curations with rerank_hybrid_matches
+- Fix uninitialized analytics manager crash
 
 ### Deprecations / behavior changes
 

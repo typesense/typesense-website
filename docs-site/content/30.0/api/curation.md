@@ -951,6 +951,53 @@ Its default value is `0.5`.
 
 Instead of using `curation_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
 
+### Synonyms with Curations
+You can enable synonyms matching in curation rule by adding param `"synonyms" : true` while adding curation rule like:
+
+```json
+{
+        "id": "synonyms2",
+        "rule": {
+            "query": "credit card",
+            "match": "exact",
+            "synonyms" : true
+          },
+          "includes": [
+                {"id": "4", "position": 1}
+         ]
+}
+```
+With that enabled, if query tokens don't match any curation rule, it'll try to match rule using synonyms of query tokens.
+Suppose there is a synonym added to collection,
+
+```json
+{
+        "id": "card-synonyms",
+        "synonyms": ["credit card", "payment card", "cc"]
+}
+```
+
+Now if we search the collection using query `payment card` or `cc`, it'll trigger the curation defined above as both are synonym of `credit card`.
+
+### Stemming with Curations
+Stemming can be enabled optionally for curations.
+To enable stemming with any curation rule, one needs to set `"stem":true` like following:
+
+```json
+{      "id": "stemmer2",
+        "rule": {
+            "query": "People",
+            "match": "exact",
+            "stem" : true,
+            "stemming_dictionary": "set1"
+          },
+          "includes": [
+                {"id": "4", "position": 1}
+         ]
+ }
+```
+Additionally, one can reference already added stemming dictionary with `stemming_dictionary` param.
+
 ## Retrieve a curation set
 
 Retrieving a curation set associated with a given collection.
@@ -1288,7 +1335,7 @@ curl "http://localhost:8108/collections/curation_sets/curate_products/items/dyna
 | diversity                          | no                                                          | Uses Maximum Marginal Relevance(MMR), diversifies the top 250 hits based on pre-defined similarity metric                                                                                                                                                                                                                                                               |
 | diversity.similarity_metric        | yes                                                         | List of metric objects containing details of the `field`, `method` and the `weight` to be used to calculate the similarity value of two documents.                                                                                                                                                                                                                      |
 | diversity.similarity_metric.field  | yes                                                         | Name of the field. The field must be defined with `facet: true` for an array type or `sort: true` otherwise.                                                                                                                                                                                                                                                            |
-| diversity.similarity_metric.method | yes                                                         | Method to be used to calculate the similarity of the documents. `equality` checks for an exact match of the field value(s) and `jaccard` computes the [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) using the values of the field. `equality` can be used for both array and single type fields but `jacaard` can only be used with an array type field. |
+| diversity.similarity_metric.method | yes                                                         | Method to be used to calculate the similarity of the documents. `equality` checks for an exact match of the field value(s) and `jaccard` computes the [Jaccard_index](https://en.wikipedia.org/wiki/Jaccard_index) using the values of the field. `equality` can be used for both array and single type fields but `jacaard` can only be used with an array type field. `vector_distance` computes similarity of two documents using the vector field. |
 | diversity.similarity_metric.weight | yes                                                         | Weight of this field in calculating the total similarity value.                                                                                                                                                                                                                                                                                                         |
 
 ### Using overrides with scoped API keys
