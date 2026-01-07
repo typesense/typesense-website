@@ -82,6 +82,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix various deadlock scenarios related to async reference fields.
 - Fix an edge case in `group_by` query along with `infix` search. 
 - Fix non-deterministic bucketing order when combining `group_by` with text match score bucketing, ensuring stable group pagination.
+- Support `id:![...]` negation syntax for id filters.
 - Fix a crash while searching when updates are happening in parallel.
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
 - Fix sort using `_eval()` for `id` fields.
