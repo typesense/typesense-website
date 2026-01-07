@@ -84,6 +84,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix non-deterministic bucketing order when combining `group_by` with text match score bucketing, ensuring stable group pagination.
 - Support `id:![...]` negation syntax for id filters.
 - Fix remote embedder cache key handling for matryoshka models with different `num_dim` values to prevent dimension mismatches.
+- Fix nested array highlights to respect `highlight_affix_num_tokens` for single-token matches.
 - Fix a crash while searching when updates are happening in parallel.
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
 - Fix sort using `_eval()` for `id` fields.
