@@ -49,6 +49,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Support for (optionally) copying documents when cloning collections. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)
 - Support for `!` as a standalone negation operator in filters, allowing `field:![value]` syntax as an alternative to `field:!=[value]`.
 - Support for Azure OpenAI models in Natural Language Search. [(Docs)](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)
+- Support for GCP service account authentication in Natural Language Search models. [(Docs)](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)
 - Support for GCP service account authentication for auto-embedding with GCP models. [(Docs)](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)
 - Configurable token truncation for string fields to improve exact match filtering on long strings, using the new `truncate` parameter in the collection schema. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#field-parameters)
 - Return an error message when a field is declared that references another field of the same collection.
