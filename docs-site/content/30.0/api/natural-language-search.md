@@ -457,6 +457,8 @@ curl -X PUT "http://localhost:8108/nl_search_models/{model_id}" \
 }'
 ```
 
+You can also update the `id` field. If the new `id` already exists, the API returns a `409` conflict error.
+
 ### Delete Model
 
 ```bash

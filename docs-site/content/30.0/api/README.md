@@ -99,6 +99,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix issues of using outdated schemas when altering operations is ongoing while indexing documents.
 - Fix curations with rerank_hybrid_matches
 - Fix uninitialized analytics manager crash
+- Fix conversation and natural language search model updates when the model ID changes, returning `409` on ID conflicts.
 
 ### Deprecations / behavior changes
 

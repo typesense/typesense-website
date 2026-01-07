@@ -562,6 +562,8 @@ curl 'http://localhost:8108/conversations/models/conv-model-1' \
       }'
 ```
 
+You can also update the `id` field. If the new `id` already exists, the API returns a `409` conflict error.
+
 ### Delete a model
 
 ```shell
