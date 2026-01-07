@@ -100,6 +100,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix curations with rerank_hybrid_matches
 - Fix uninitialized analytics manager crash
 - Validate that curation rules with `match` also include `query`, returning `400` otherwise.
+- Fix dropping nested object fields to only remove dot-delimited children, preserving similarly-prefixed top-level fields.
 - Fix conversation and natural language search model updates when the model ID changes, returning `409` on ID conflicts.
 
 ### Deprecations / behavior changes
