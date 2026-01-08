@@ -144,6 +144,22 @@ curl -X POST http://localhost:8108/nl_search_models \
    :::
 
 5. **GCP Vertex AI Models**:
+   Typesense supports two authentication methods for GCP Vertex AI:
+
+   1. **OAuth Authentication** - Using access tokens and refresh tokens
+   2. **Service Account Authentication** - Using service account credentials
+
+   #### OAuth Authentication
+   You would need the following authentication information to use this method:
+
+   - GCP access token (must be valid while creating the model)
+   - GCP refresh token
+   - GCP application client ID
+   - GCP application client secret
+   - GCP project ID
+
+   Please refer to the Vertex AI docs for more information on how to fetch these values.
+
    ```json{3}
    {
      "id": "gcp-gemini",
@@ -159,13 +175,43 @@ curl -X POST http://localhost:8108/nl_search_models \
      "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
    }
    ```
-   
+
    Required OAuth2 credentials:
    - `project_id`: Your GCP project ID
    - `access_token`: Initial access token (will be refreshed automatically)
    - `refresh_token`: OAuth2 refresh token
    - `client_id`: OAuth2 client ID
    - `client_secret`: OAuth2 client secret
+
+   :::tip
+   Follow [Google's OAuth2 guide](https://developers.google.com/identity/protocols/oauth2) to get the above credentials.
+   :::
+
+   #### Service Account Authentication
+   Alternatively, you can use GCP service account credentials for authentication. This method is more secure for
+   server-side applications and doesn't require managing refresh tokens.
+
+   ```json{3}
+   {
+     "id": "gcp-gemini",
+     "model_name": "gcp/gemini-2.5-flash",
+     "project_id": "your-gcp-project-id",
+     "service_account": {
+       "client_email": "service-account@your-project.iam.gserviceaccount.com",
+       "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+     },
+     "max_bytes": 16000,
+     "temperature": 0.0,
+     "region": "us-central1",
+     "system_prompt": "Optional custom system prompt to append to the one that Typesense generates based on your dataset"
+   }
+   ```
+
+   Required service account credentials:
+   - `project_id`: Your GCP project ID
+   - `service_account.client_email`: Service account email
+   - `service_account.private_key`: Service account private key (PEM string; `\n` is supported)
+   - `service_account.token_uri`: Optional token URI (defaults to `https://oauth2.googleapis.com/token`)
    
    Optional parameters:
    - `region`: GCP region (defaults to "us-central1")
@@ -173,10 +219,6 @@ curl -X POST http://localhost:8108/nl_search_models \
    - `top_p`: Nucleus sampling parameter (0.0-1.0)
    - `top_k`: Top-k sampling parameter
    - `max_output_tokens`: Maximum response length
-   
-   :::tip
-   Follow [Google's OAuth2 guide](https://developers.google.com/identity/protocols/oauth2) to get the above credentials.
-   :::
 
 ## Perform a Natural Language Search Query
 
@@ -456,6 +498,8 @@ curl -X PUT "http://localhost:8108/nl_search_models/{model_id}" \
   "system_prompt": "New system prompt instructions"
 }'
 ```
+
+You can also update the `id` field. If the new `id` already exists, the API returns a `409` conflict error.
 
 ### Delete Model
 

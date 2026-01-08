@@ -49,6 +49,7 @@ This release contains new features, enhancements, performance improvements, bug 
 - Support for (optionally) copying documents when cloning collections. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#clone-collection-with-documents)
 - Support for `!` as a standalone negation operator in filters, allowing `field:![value]` syntax as an alternative to `field:!=[value]`.
 - Support for Azure OpenAI models in Natural Language Search. [(Docs)](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)
+- Support for GCP service account authentication in Natural Language Search models. [(Docs)](https://typesense.org/docs/30.0/api/natural-language-search.html#supported-model-types)
 - Support for GCP service account authentication for auto-embedding with GCP models. [(Docs)](https://typesense.org/docs/30.0/api/vector-search.html#service-account-authentication)
 - Configurable token truncation for string fields to improve exact match filtering on long strings, using the new `truncate` parameter in the collection schema. [(Docs)](https://typesense.org/docs/30.0/api/collections.html#field-parameters)
 - Return an error message when a field is declared that references another field of the same collection.
@@ -80,6 +81,11 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix missing groups in case of high cardinality fields.
 - Fix various deadlock scenarios related to async reference fields.
 - Fix an edge case in `group_by` query along with `infix` search. 
+- Fix non-deterministic bucketing order when combining `group_by` with text match score bucketing, ensuring stable group pagination.
+- Support `id:![...]` negation syntax for id filters.
+- Fix remote embedder cache key handling for matryoshka models with different `num_dim` values to prevent dimension mismatches.
+- Fix nested array highlights to respect `highlight_affix_num_tokens` for single-token matches.
+- Fix phrase highlighting in nested array fields to return all matching snippets.
 - Fix a crash while searching when updates are happening in parallel.
 - Fixed the override matching for wildcard queries, dynamic filter, dynamic sort, and placeholders.
 - Fix sort using `_eval()` for `id` fields.
@@ -99,6 +105,9 @@ This release contains new features, enhancements, performance improvements, bug 
 - Fix issues of using outdated schemas when altering operations is ongoing while indexing documents.
 - Fix curations with rerank_hybrid_matches
 - Fix uninitialized analytics manager crash
+- Validate that curation rules with `match` also include `query`, returning `400` otherwise.
+- Fix dropping nested object fields to only remove dot-delimited children, preserving similarly-prefixed top-level fields.
+- Fix conversation and natural language search model updates when the model ID changes, returning `409` on ID conflicts.
 
 ### Deprecations / behavior changes
 
