@@ -1,44 +1,10 @@
 <template>
-  <div class="theme-default-content copy-markdown-button-wrapper">
-    <div class="button-group">
-      <button class="copy-markdown-button" @click="copyMarkdown" :class="{ copied: isCopied }" :title="buttonTitle">
-        <div class="icon-container">
-          <svg
-            class="copy-icon"
-            :class="{ hidden: isCopied }"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-          </svg>
-          <svg
-            class="check-icon"
-            :class="{ visible: isCopied }"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-        <span>{{ buttonText }}</span>
-      </button>
-      <a v-if="markdownUrl" :href="markdownUrl" class="view-markdown-button" title="View raw markdown" target="_blank">
+  <div class="markdown-actions">
+    <button class="copy-markdown-button" @click="copyMarkdown" :class="{ copied: isCopied }" :title="buttonTitle">
+      <div class="icon-container">
         <svg
+          class="copy-icon"
+          :class="{ hidden: isCopied }"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -49,22 +15,53 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-          <polyline points="15 3 21 3 21 9"></polyline>
-          <line x1="10" y1="14" x2="21" y2="3"></line>
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
-      </a>
-    </div>
+        <svg
+          class="check-icon"
+          :class="{ visible: isCopied }"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <span>{{ buttonText }}</span>
+    </button>
+    <a v-if="markdownUrl" :href="markdownUrl" class="view-markdown-button" title="View raw markdown" target="_blank">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+      </svg>
+    </a>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CopyMarkdownButton',
+  name: 'MarkdownActions',
   data() {
     return {
       isCopied: false,
-      markdownContent: '',
       copyTimeout: null,
     }
   },
@@ -124,12 +121,21 @@ export default {
 </script>
 
 <style lang="stylus">
-.copy-markdown-button-wrapper
-  margin-bottom -6.5rem !important
+.h1-with-actions
   display flex
-  justify-content flex-end
+  align-items baseline
+  justify-content space-between
+  gap 1rem
+  width 100%
 
-.button-group
+  h1
+    flex 1
+    margin 0
+
+.h1-actions-mount
+  flex-shrink 0
+
+.markdown-actions
   display flex
   align-items stretch
   border 1px solid #ddd
@@ -150,6 +156,7 @@ export default {
   font-weight 500
   cursor pointer
   transition all 0.2s ease
+  white-space nowrap
 
   &:hover
     background-color rgba(0, 0, 0, 0.04)
@@ -215,4 +222,16 @@ export default {
 @media (max-width: 719px)
   .copy-markdown-button
     font-size 0.8125rem
+    padding 0.5rem 0.75rem
+
+  .h1-with-actions
+    flex-direction column
+    align-items flex-start
+
+    h1
+      width 100%
+
+    .h1-actions-mount
+      width 100%
 </style>
+
