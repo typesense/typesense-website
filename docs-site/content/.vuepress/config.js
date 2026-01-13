@@ -1032,6 +1032,7 @@ let config = {
     ['@dovyp/vuepress-plugin-clipboard-copy', true],
     require('./plugins/typesense-enhancements'),
     require('./plugins/embed-markdown'),
+    require('./plugins/markdown-actions'),
     [
       'vuepress-plugin-sitemap',
       {
