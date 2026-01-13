@@ -86,7 +86,7 @@ Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.
 
 ## Downgrading
 
-If you wish to downgrade back to an earlier version of Typesense server, you can safely downgrade to `v28` of `v27`.
+If you wish to downgrade back to an earlier version of Typesense server, you can safely downgrade to `v28` or `v27`.
 
 :::tip
 This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
