@@ -135,6 +135,9 @@ export default {
 .h1-actions-mount
   flex-shrink 0
 
+.h1-with-actions > .markdown-actions
+  flex-shrink 0
+
 .markdown-actions
   display flex
   align-items stretch
