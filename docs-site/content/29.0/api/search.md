@@ -590,6 +590,22 @@ This feature is useful for:
 - Organizing numerical values around a target number
 - Creating "closer to" style sorting experiences
 
+### All sort_by available functions.
+
+Besides `_text_match` and `_eval`, here are all the currently available functions for the sort_by parameter:
+
+| Parameter | Description | Usage Example | Order | Notes |
+|-----------|-------------|---------------|-------|-------|
+| `_text_match` | Sorts by text match/relevance score. Higher scores indicate better matches. | `_text_match:desc` | `asc` or `desc` | Automatically added as first sort field for non-wildcard queries if not specified. Supports bucketing: `_text_match(buckets: 10):desc` or `_text_match(bucket_size: 3):desc` |
+| `_seq_id` | Sorts by document insertion order (sequence ID). Higher seq_id = more recently inserted. | `_seq_id:desc` | `asc` or `desc` | Used as final tie-breaker when no default sorting field is configured. Useful for "newest first" or "oldest first" sorting. |
+| `_eval` | Sorts by evaluation expression with conditional scoring. Allows you to assign scores based on field matches. | `_eval(field:value):desc`<br>`_eval([(field1:value1):3, (field2:value2):5]):desc` | `asc` or `desc` | Only one eval expression allowed per sort. Useful for boosting documents that match specific criteria. |
+| `_vector_distance` | Sorts by vector distance (for vector/semantic/hybrid search). Lower distance = more similar. | `_vector_distance:asc` | `asc` or `desc` | Only supported for vector queries, semantic search, and hybrid search. Supports bucketing: `_vector_distance(buckets: 10):asc` |
+| `_vector_query` | Sorts by vector query on a specific vector field. Requires providing the query vector. | `_vector_query(embedding:([0.1, 0.2, ...])):asc` | `asc` or `desc` | Requires a vector field name and query vector. Useful for finding similar vectors. |
+| `_rand` | Sorts results in random order. Useful for randomization or A/B testing. | `_rand:desc`<br>`_rand(12345):desc` | `asc` or `desc` | Can specify a seed for reproducible random order: `_rand(seed)` where seed is a positive integer. Without seed, uses time-based randomization. |
+| `_group_found` | Sorts by whether a group was found (for group_by queries). | `_group_found:desc` | `asc` or `desc` | Only works when `group_by` parameter is specified. Used to prioritize groups that contain matching documents. |
+| `_union_search_index` | Sorts by union search index (for union searches). Determines which sub-query a result came from. | `_union_search_index:asc` | `asc` or `desc` | Only for union searches. Automatically added in some cases. Lower index = results from earlier sub-queries. |
+
+
 ### Decay Function Sorting
 
 Decay functions allow you to score and sort results based on how far they are from a target value, with the score decreasing according to various mathematical functions. This is particularly useful for:
