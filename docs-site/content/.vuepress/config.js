@@ -5,6 +5,48 @@ const path = require('path')
 let config = {
   // The base URL the site will be deployed at
   base: '/docs/',
+  markdown: {
+    lineNumbers: false,
+    extendMarkdown: (md) => {
+      md.core.ruler.after('block', 'markdown-actions', (state) => {
+        const tokens = state.tokens
+
+        for (let i = 0; i < tokens.length; i += 1) {
+          const token = tokens[i]
+          if (token.type !== 'heading_open' || token.tag !== 'h1') {
+            continue
+          }
+
+          let closeIndex = -1
+          for (let j = i + 1; j < tokens.length; j += 1) {
+            const closeToken = tokens[j]
+            if (closeToken.type === 'heading_close' && closeToken.tag === 'h1') {
+              closeIndex = j
+              break
+            }
+          }
+
+          if (closeIndex === -1) {
+            return
+          }
+
+          const Token = state.Token
+          const openWrapper = new Token('html_block', '', 0)
+          openWrapper.content = '<div class="h1-with-actions">'
+
+          const actions = new Token('html_block', '', 0)
+          actions.content = '<MarkdownActions />'
+
+          const closeWrapper = new Token('html_block', '', 0)
+          closeWrapper.content = '</div>'
+
+          tokens.splice(i, 0, openWrapper)
+          tokens.splice(closeIndex + 2, 0, actions, closeWrapper)
+          return
+        }
+      })
+    },
+  },
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
