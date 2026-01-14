@@ -1,29 +1,29 @@
 # NextJS Full-Text Search
 
-Adding full-text search capabilities to your React/NextJs projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using NextJS and a few typesense libraries.
+Adding full-text search capabilities to your React/Next.js projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using Next.js and the Typesense ecosystem.
 
 ## Prerequisites
 
 This guide will use [NextJS](https://nextjs.org/), a [React](https://react.dev/) framework for building full-stack web applications.
 
-Please ensure that you have Docker installed on your machine before proceeding. You will need it to run a typesense server locally and load it with some data. This will be used as a backend for this project. You can install Docker by following the instructions on the [official Docker website](https://docs.docker.com/get-docker/)
+Please ensure you have Docker installed on your machine before proceeding. You will need it to run a typesense server locally and load it with some data. This will be used as a backend for this project. You can install Docker by following the instructions on the [official Docker website](https://docs.docker.com/get-docker/)
 
 This guide will use a Linux environment, but you can adapt the commands to your operating system.
 
 ### Step 1: Setup your Typesense server
 
-Once you have docker installed in your system, you can create a typesense container and run it in the background using this command
+Once Docker is installed, you can run a Typesense container in the background using the following commands:
 
-- Create a folder that will store all searchable data stored in typesense
+- Create a folder that will store all searchable data stored for Typesense
 
 ```shell
 mkdir "$(pwd)"/typesense-data
 ```
 
-- Run the docker container
+- Run the Docker container
 
 ```shell
-# Run typesense docker container on specified port
+# Run Typesense docker container on specified port
 # Previously created folder as volume
 # Cors mode enabled (for local)
 docker run -p 8108:8108 \
@@ -34,22 +34,22 @@ docker run -p 8108:8108 \
 -d
 ```
 
-- Verify if your docker container was created properly
+- Verify if your Docker container was created properly
 
 ```shell
 docker ps
 ```
 
-- You should see the typesense container running without any issues
+- You should see the Typesense container running without any issues
 
 ```shell
 CONTAINER ID   IMAGE                      COMMAND                  CREATED       STATUS       PORTS                                         NAMES
 82dd6bdfaf66   typesense/typesense:29.0   "/opt/typesense-serv…"   1 min ago   Up 1 minutes   0.0.0.0:8108->8108/tcp, [::]:8108->8108/tcp   nostalgic_babbage
 ```
 
-- That's it! You are now ready to create collections and load data into your typesense server
+- That's it! You are now ready to create collections and load data into your Typesense server
 
-### Step 2 - Create a new book collection and load sample dataset into typesense node
+### Step 2 - Create a new book collection and load sample dataset into Typesense node
 
 - Typesense needs you to create a collection in order to search through documents. A collection is a named container that defines a schema and stores indexed documents for search. Collection bundles three things together
 
@@ -78,7 +78,7 @@ curl "http://localhost:8108/collections" \
       }'
 ```
 
-- Now that we have our collection ready, we are ready to load the sample dataset. Use these commands to download and load the sample dataset.
+- Now that the collection is set up, we can load the sample dataset.
 
 1. Download the sample dataset
 
@@ -126,10 +126,11 @@ Let's go over these dependencies one by one
 
 - **typesense**
   - Official javascript client for typesense.
-  - It's not strictly required for the UI aspect but if you need to interact with the Typesense server directly from the NextJS API routes, it's needed.
+  - It isn’t required for the UI, but it is needed if you want to interact with the Typesense server from Next.js API routes.
 - **react-instantsearch**
   - A react library from Algolia that provides ready-to-use UI components for building search interfaces.
-  - Offers components like SearchBox, Hits, etc that helps with easily obtaining search results, abstracts state management, URL synchronization and other complex stuff.
+  - Offers components like SearchBox, Hits and others that make displaying search results easy.
+  - It also abstracts state management, URL synchronization and other complex stuff.
   - By itself, it's designed to work with Algolia's hosted search service and not typesense
 - **typesense-instantsearch-adapter**
   - This is the key library that acts as a bridge between the `react-instantsearch` and our self-hosted typesense server
@@ -212,8 +213,8 @@ export const SearchBar = () => {
 ```
 
 - The `SearchBox` component from `react-instantsearch` handles the search query internally through the InstantSearch [context](https://react.dev/learn/passing-data-deeply-with-context).
-- This component will be a child of the InstantSearch component and will automatically pass all the input query from the user to InstantSearch conext.
-- The beauty is that it handles all the input management, debouncing and state synchronization automatically. Easy!
+- This component will be a child of the InstantSearch component and automatically passes the user's search query to the InstantSearch context.
+- This approach automatically handles input management, debouncing, and state synchronization.
 
 ### components/BookList.tsx
 
@@ -247,7 +248,7 @@ export const BookList = () => {
 - This is a fairly simple component that will list all the search results obtained by the `useHits` hook.
 - The `useHits` hook automatically connects to the nearest parent InstantSearch context and is subscribed to the state changes.
 - It provides access to the current search results.
-- Along with the actual search results it also returns a lot of other metadata about the search state.
+- It also provides additional metadata about the current search state.
 
 ### components/BookCard.tsx
 
@@ -284,5 +285,7 @@ export default function Home() {
 }
 ```
 
-- This is the base component with all the required components. Notice that our `SearchBar` and `BookList` component are direct descendants of the `InstantSearch` component so that they have access it's context and vice-versa.
+- This is the main page that brings together all the required components.
+- Notice that our `SearchBar` and `BookList` component are direct descendants of the `InstantSearch` component so that they have access to the `InstantSearch` context and vice-versa.
 - Also notice that we pass the `typesenseInstantsearchAdapter` that we created in the lib directory as the `searchClient` to the `InstantSearch` component.
+- Feel free to explore the [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter) for more information on advanced usage.
