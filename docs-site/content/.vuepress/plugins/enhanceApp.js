@@ -101,7 +101,7 @@ export default ({
       const pagePath = siteData.base + to.fullPath.substring(1)
       const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
 
-      if(gtagPageViewDebounceTimerId) {
+      if (gtagPageViewDebounceTimerId) {
         clearTimeout(gtagPageViewDebounceTimerId)
       }
       gtagPageViewDebounceTimerId = setTimeout(() => {
