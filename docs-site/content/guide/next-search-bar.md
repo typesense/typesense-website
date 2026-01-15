@@ -27,7 +27,7 @@ mkdir "$(pwd)"/typesense-data
 # Previously created folder as volume
 # Cors mode enabled (for local)
 docker run -p 8108:8108 \
--v"$(pwd)"/typesense-data:/data typesense/typesense:29.0 \
+-v"$(pwd)"/typesense-data:/data typesense/typesense:latest \
 --data-dir /data \
 --api-key=$TYPESENSE_API_KEY \
 --enable-cors \
