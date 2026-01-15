@@ -142,10 +142,11 @@ Let's go over these dependencies one by one
 
 Let's create the project structure step by step. After each step, we'll show you how the directory structure evolves.
 
-1. After creating the basic Next.js app using their CLI, your project structure should look like this:
+1. After creating the basic Next.js app and installing the required dependencies, your project structure should look like this:
 
 ```
 typesense-next-search-bar/
+├── node_modules/
 ├── pages/
 │   └── index.tsx
 ├── public/
@@ -161,12 +162,6 @@ typesense-next-search-bar/
 ├── package-lock.json
 ├── package.json
 └── tsconfig.json
-```
-
-2. Install the required dependencies:
-
-```bash
-npm install typesense typesense-instantsearch-adapter react-instantsearch
 ```
 
 3. Create the `lib` directory and `instantSearchAdapter.ts` file:
