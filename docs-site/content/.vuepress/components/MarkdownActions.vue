@@ -123,7 +123,7 @@ export default {
 <style lang="stylus">
 .h1-with-actions
   display flex
-  align-items baseline
+  align-items center
   justify-content space-between
   gap 1rem
   width 100%
@@ -141,21 +141,21 @@ export default {
 .markdown-actions
   display flex
   align-items stretch
-  border 1px solid #ddd
-  border-radius 4px
+  border 1px solid #e1e1e1
+  border-radius 3px
   overflow hidden
   background-color #f8f8f8
 
 .copy-markdown-button
   display inline-flex
   align-items center
-  gap 0.5rem
-  padding 0.5rem 1rem
+  gap 0.35rem
+  padding 0.2rem 0.45rem
   background-color transparent
   border none
-  border-right 1px solid #ddd
+  border-right 1px solid #e1e1e1
   color #2c3e50
-  font-size 0.875rem
+  font-size 0.75rem
   font-weight 500
   cursor pointer
   transition all 0.2s ease
@@ -173,8 +173,8 @@ export default {
 
   .icon-container
     position relative
-    width 16px
-    height 16px
+    width 12px
+    height 12px
     display flex
     align-items center
     justify-content center
@@ -183,6 +183,8 @@ export default {
     flex-shrink 0
     position absolute
     transition all 0.3s ease-out
+    width 12px
+    height 12px
 
   .copy-icon
     transform scale(1) rotate(0deg)
@@ -202,6 +204,16 @@ export default {
       opacity 1
 
 .view-markdown-button
+  display inline-flex
+  align-items center
+  justify-content center
+  padding 0 0.45rem
+  color #2c3e50
+  line-height 1
+
+  svg
+    width 12px
+    height 12px
   display inline-flex
   align-items center
   justify-content center
@@ -237,4 +249,3 @@ export default {
     .h1-actions-mount
       width 100%
 </style>
-
