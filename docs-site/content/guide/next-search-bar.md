@@ -228,7 +228,7 @@ export const typesenseInstantSearchAdapter = new TypesenseInstantsearchAdapter({
 })
 ```
 
-- This config file creates a reusable adapter that connects your React application to your Typesense Backend. It can take in a bunch of additional search parameters like sort by, number of typos, etc.:
+- This config file creates a reusable adapter that connects your React application to your Typesense Backend. It can take in a bunch of additional search parameters like sort by, number of typos, etc.
 
 5. Create the components directory and files:
 
@@ -281,7 +281,7 @@ export const SearchBar = () => {
 }
 ```
 
-- The `SearchBox` component from `react-instantsearch` handles the search query internally through the InstantSearch [context](https://react.dev/learn/passing-data-deeply-with-context). This component will be a child of the InstantSearch component and automatically passes the user's search query to the InstantSearch context. This approach automatically handles input management, debouncing, and state synchronization
+- The `SearchBox` component from `react-instantsearch` handles the search query internally through the InstantSearch [context](https://react.dev/learn/passing-data-deeply-with-context). This component will be a child of the `InstantSearch` component and automatically passes the user's search query to the `InstantSearch` context. This approach automatically handles input management, debouncing, and state synchronization.
 
 7. Create the `BookList` component in `components/BookList.tsx`:
 
@@ -312,7 +312,7 @@ export const BookList = () => {
 }
 ```
 
-- This is a fairly simple component that will list all the search results obtained by the `useHits` hook. The `useHits` hook automatically connects to the nearest parent InstantSearch context and is subscribed to the state changes. It provides access to the current search results and additional metadata about the current search state
+- This is a fairly simple component that will list all the search results obtained by the `useHits` hook. The `useHits` hook automatically connects to the nearest parent `InstantSearch` context and is subscribed to the state changes. It provides access to the current search results and additional metadata about the current search state
 
 8. Create the `BookCard` component in `components/BookCard.tsx`:
 
@@ -398,24 +398,20 @@ import { BookList } from './components/BookList'
 
 export default function Home() {
   return (
-    <div className='min-h-screen bg-gray-50 py-8 px-4'>
-      <div className='max-w-7xl mx-auto'>
-        <InstantSearch
-          searchClient={typesenseInstantSearchAdapter.searchClient}
-          indexName={process.env.NEXT_PUBLIC_TYPESENSE_INDEX || 'books'}
-        >
-          <SearchBar />
-          <BookList />
-        </InstantSearch>
-      </div>
+    <div>
+      <InstantSearch
+        searchClient={typesenseInstantSearchAdapter.searchClient}
+        indexName={process.env.NEXT_PUBLIC_TYPESENSE_INDEX || 'books'}
+      >
+        <SearchBar />
+        <BookList />
+      </InstantSearch>
     </div>
   )
 }
 ```
 
 - This is the main page that brings together all the required components. Notice that our `SearchBar` and `BookList` component are direct descendants of the `InstantSearch` component so that they have access to the `InstantSearch` context and vice-versa. Also notice that we pass the `typesenseInstantsearchAdapter` that we created in the lib directory as the `searchClient` to the `InstantSearch` component.
-
-## Next Steps
 
 You've successfully built a search interface with Next.js and Typesense!
 
