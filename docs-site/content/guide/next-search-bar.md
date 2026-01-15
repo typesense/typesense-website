@@ -142,14 +142,7 @@ Let's go over these dependencies one by one
 
 Let's create the project structure step by step. After each step, we'll show you how the directory structure evolves.
 
-1. First, create the basic Next.js app using their CLI:
-
-```bash
-npx create-next-app@latest typesense-next-search-bar
-cd typesense-next-search-bar
-```
-
-Your project structure should now look like this:
+1. After creating the basic Next.js app using their CLI, your project structure should look like this:
 
 ```
 typesense-next-search-bar/
