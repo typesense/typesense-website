@@ -257,6 +257,7 @@ let config = {
             ['/guide/docsearch', 'Search for Documentation Sites'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
+            ['/guide/astro-search-bar', 'Astro Search Bar'],
           ],
         },
         {
