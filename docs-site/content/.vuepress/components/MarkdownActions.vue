@@ -73,7 +73,9 @@ export default {
       return this.isCopied ? 'Markdown copied to clipboard' : 'Copy markdown source to clipboard'
     },
     markdownUrl() {
-      return this.$page && this.$page.markdownUrl
+      const url = this.$page && this.$page.markdownUrl
+      if (!url) return null
+      return this.$withBase(url)
     },
   },
   watch: {

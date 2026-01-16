@@ -1,17 +1,34 @@
 const fs = require('fs')
 const path = require('path')
 
+function withBase(base, url) {
+  if (!url || /^https?:\/\//.test(url) || !base || base === '/') return url
+
+  const basePath = base.endsWith('/') ? base.slice(0, -1) : base
+  const normalizedUrl = url.startsWith('/') ? url : `/${url}`
+
+  if (normalizedUrl.startsWith(`${basePath}/`)) return normalizedUrl
+  return `${basePath}${normalizedUrl}`
+}
+
 module.exports = (options, context) => ({
   name: 'embed-markdown',
 
   beforeDevServer(app) {
     app.get('*.md', (req, res, next) => {
-      console.log('MD Request:', req.path)
+      const base = context.base || '/'
+      const basePath = base.endsWith('/') ? base.slice(0, -1) : base
+      let requestPath = req.path
+      if (basePath && basePath !== '/' && requestPath.startsWith(`${basePath}/`)) {
+        requestPath = requestPath.slice(basePath.length)
+      }
 
-      let htmlPath = req.path.replace(/\.md$/, '.html')
+      console.log('MD Request:', requestPath)
 
-      if (req.path.endsWith('/README.md')) {
-        htmlPath = req.path.replace('/README.md', '/')
+      let htmlPath = requestPath.replace(/\.md$/, '.html')
+
+      if (requestPath.endsWith('/README.md')) {
+        htmlPath = requestPath.replace('/README.md', '/')
       }
 
       console.log('Looking for HTML path:', htmlPath)
@@ -65,7 +82,7 @@ module.exports = (options, context) => ({
         {
           rel: 'alternate',
           type: 'text/markdown',
-          href: $page.markdownUrl,
+          href: withBase(context.base, $page.markdownUrl),
         },
       ])
     } catch (error) {
