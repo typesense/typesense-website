@@ -488,7 +488,7 @@ For example, with `--memory-used-max-percentage=90` on an 8GB system:
 
 When `--memory-used-max-percentage=100` (default), the resource check is skipped entirely and no memory-based rejection occurs.
 
-When this condition is met, Typesense will reject write operations to prevent system instability.
+If `--memory-used-max-percentage` is below 100 and the threshold is reached, Typesense will reject write operations to prevent system instability.
 
 #### Definition
 `GET ${TYPESENSE_HOST}/health`
