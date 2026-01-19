@@ -935,7 +935,32 @@ curl 'http://localhost:8108/collections' \
 
 When you create a collection with the schema above, the `all-MiniLM-L12-v2` model will be downloaded and your documents will be automatically embedded by this model and will be stored in the `embedding` field.
 
-See our [Hugging Face repo](https://huggingface.co/typesense/models/tree/main) for all officially supported models.
+#### Officially Supported Models
+
+| Model | Embedding Dimensions | Languages | Parameters |
+|---|---|---|---|
+| `all-MiniLM-L12-v2` | 384 | English | 33.4M |
+| `distilbert-base-uncased` | 768 | English | 66M |
+| `distiluse-base-multilingual-cased-v2` | 512 | 50+ | 135M |
+| `e5-large-v2` | 1024 | English | 335M |
+| `e5-large` | 1024 | English | 335M |
+| `e5-small-v2` | 384 | English | 33.4M |
+| `e5-small` | 384 | English | 33.4M |
+| `finbert` | 768 | English | 110M |
+| `GATE-AraBert-v1` | 768 | Arabic | 110M |
+| `gte-large` | 1024 | English | 335M |
+| `gte-small` | 384 | English | 34M |
+| `jina-embeddings-v2-base-en` | 768 | English | 137M |
+| `multilingual-e5-base` | 768 | 100+ | 278M |
+| `multilingual-e5-large` | 1024 | 100+ | 560M |
+| `multilingual-e5-small` | 384 | 100+ | 118M |
+| `nomic-embed-text-v1.5` | 768 | English | 137M |
+| `paraphrase-MiniLM-L6-v2` | 384 | English | 22.7M |
+| `paraphrase-multilingual-mpnet-base-v2` | 768 | 50+ | 278M |
+| `snowflake-arctic-embed-m` | 768 | English | 110M |
+
+
+See our [Hugging Face repo](https://huggingface.co/typesense/models/tree/main) for more details about the officially supported models.
 If you need support for additional publicly-available models, feel free to convert the model to ONNX format and send a PR to our [Hugging Face models repo](https://huggingface.co/typesense/models/tree/main).
 
 ### Using a GPU (optional)
