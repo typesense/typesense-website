@@ -52,11 +52,11 @@ CONTAINER ID   IMAGE                      COMMAND                  CREATED      
 
 ### Step 2 - Create a new books collection and load sample dataset into Typesense node
 
-- Typesense needs you to create a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">collection</RouterLink> in order to search through documents. A collection is a named container that defines a schema and stores indexed documents for search. Collection bundles three things together
+- Typesense needs you to create a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">collection</RouterLink> in order to search through documents. A collection is a named container that defines a schema and stores indexed documents for search. Collection bundles three things together:
 
-  1.  Schema
-  2.  Document
-  3.  Index
+  1. Schema
+  2. Document
+  3. Index
 
 - You can create the books collection for this project using this `curl` command:
 
@@ -96,7 +96,7 @@ curl -O https://dl.typesense.org/datasets/books.jsonl.gz
 gunzip books.jsonl.gz
 ```
 
-3. Load the dataset on to typesense node:
+3. Load the dataset on to Typesense node:
 
 ```shell
 curl "http://localhost:8108/collections/books/documents/import" \
@@ -123,18 +123,18 @@ npx create-next-app@latest typesense-next-search-bar
 npm i typesense typesense-instantsearch-adapter react-instantsearch
 ```
 
-Let's go over these dependencies one by one
+Let's go over these dependencies one by one:
 
 - **typesense**
-  - Official javascript client for typesense.
+  - Official javascript client for Typesense.
   - It isn’t required for the UI, but it is needed if you want to interact with the Typesense server from Next.js API routes.
 - **react-instantsearch**
   - A react library from Algolia that provides ready-to-use UI components for building search interfaces.
   - Offers components like SearchBox, Hits and others that make displaying search results easy.
   - It also abstracts state management, URL synchronization and other complex stuff.
-  - By itself, it's designed to work with Algolia's hosted search service and not typesense
+  - By itself, it's designed to work with Algolia's hosted search service and not Typesense.
 - **typesense-instantsearch-adapter**
-  - This is the key library that acts as a bridge between the `react-instantsearch` and our self-hosted typesense server
+  - This is the key library that acts as a bridge between the `react-instantsearch` and our self-hosted Typesense server.
   - This implements the `InstantSearch.js` adapter that `react-instantsearch` expects.
   - Translates the `InstantSearch.js` queries to Typesense API calls.
 
@@ -164,7 +164,7 @@ typesense-next-search-bar/
 └── tsconfig.json
 ```
 
-3. Create the `lib` directory and `instantSearchAdapter.ts` file:
+2. Create the `lib` directory and `instantSearchAdapter.ts` file:
 
 ```bash
 mkdir -p lib
@@ -194,7 +194,7 @@ typesense-next-search-bar/
 └── tsconfig.json
 ```
 
-4. Copy this code into `lib/instantSearchAdapter.ts`:
+3. Copy this code into `lib/instantSearchAdapter.ts`:
 
 ```typescript
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter'
@@ -218,13 +218,13 @@ export const typesenseInstantSearchAdapter = new TypesenseInstantsearchAdapter({
 
 - This config file creates a reusable adapter that connects your React application to your Typesense Backend. It can take in a bunch of additional search parameters like sort by, number of typos, etc.
 
-5. Create the components directory and files:
+4. Create the components directory and files:
 
 ```bash
 mkdir -p components
-touch components/SearchBar.tsx
-touch components/BookList.tsx
-touch components/BookCard.tsx
+touch components/SearchBar.tsx components/Searchbar.module.css
+touch components/BookList.tsx components/BookList.module.css
+touch components/BookCard.tsx components/BookCard.module.css
 ```
 
 Your project structure should now look like this:
@@ -234,7 +234,10 @@ typesense-next-search-bar/
 ├── components/
 │   ├── BookCard.tsx
 │   ├── BookList.tsx
-│   └── SearchBar.tsx
+│   ├── BookList.module.css
+│   ├── BookCard.module.css
+│   ├── SearchBar.tsx
+│   └── Searchbar.module.css
 ├── lib/
 │   └── instantSearchAdapter.ts
 ├── pages/
@@ -254,16 +257,57 @@ typesense-next-search-bar/
 └── tsconfig.json
 ```
 
-6. Let's create the `SearchBar` component. Add this to `components/SearchBar.tsx`:
+5. Let's create the `SearchBar` component. Add this to `components/SearchBar.tsx`:
+
+:::tip Note
+This walkthrough uses CSS Modules for styling. Since CSS is not the focus of this article, you can grab the complete stylesheets from the [source code](https://github.com/typesense/code-samples).
+:::
 
 ```typescript
 import { SearchBox } from 'react-instantsearch'
+import styles from './Searchbar.module.css'
 
 export const SearchBar = () => {
   return (
-    <div>
-      <h1>Book Search</h1>
-      <SearchBox placeholder='Search for books by title or author...' />
+    <div className={styles.searchContainer}>
+      <h1 className={styles.searchTitle}>Book Search</h1>
+      <SearchBox
+        placeholder='Search for books by title or author...'
+        classNames={{
+          form: styles.searchForm,
+          input: styles.searchInput,
+          submit: styles.searchButton,
+          reset: styles.resetButton,
+        }}
+        submitIconComponent={() => (
+          <svg
+            className={styles.searchIcon}
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+            />
+          </svg>
+        )}
+        resetIconComponent={() => (
+          <svg
+            className={styles.closeIcon}
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
+          </svg>
+        )}
+        loadingIconComponent={() => <div className={styles.loadingSpinner} />}
+      />
     </div>
   )
 }
@@ -271,7 +315,7 @@ export const SearchBar = () => {
 
 - The `SearchBox` component from `react-instantsearch` handles the search query internally through the InstantSearch [context](https://react.dev/learn/passing-data-deeply-with-context). This component will be a child of the `InstantSearch` component and automatically passes the user's search query to the `InstantSearch` context. This approach automatically handles input management, debouncing, and state synchronization.
 
-7. Create the `BookList` component in `components/BookList.tsx`:
+6. Create the `BookList` component in `components/BookList.tsx`:
 
 ```typescript
 import { useHits } from 'react-instantsearch'
@@ -300,29 +344,54 @@ export const BookList = () => {
 }
 ```
 
-- This is a fairly simple component that will list all the search results obtained by the `useHits` hook. The `useHits` hook automatically connects to the nearest parent `InstantSearch` context and is subscribed to the state changes. It provides access to the current search results and additional metadata about the current search state
+- This is a fairly simple component that will list all the search results obtained by the `useHits` hook. The `useHits` hook automatically connects to the nearest parent `InstantSearch` context and is subscribed to the state changes. It provides access to the current search results and additional metadata about the current search state.
 
-8. Create the `BookCard` component in `components/BookCard.tsx`:
+7. Create the `BookCard` component in `components/BookCard.tsx`:
 
 ```typescript
 import type { Book } from '../types/Book'
+import styles from './BookCard.module.css'
 
-export const BookCard = ({ book }: { book: Book }) => {
+interface BookCardProps {
+  book: Book
+}
+
+export const BookCard = ({ book }: BookCardProps) => {
+  const { title, authors, publication_year, image_url, average_rating, ratings_count } = book
+
   return (
-    <div className='book-card'>
-      <img src={book.image_url} alt={book.title} />
-      <h3>{book.title}</h3>
-      <p>By: {book.authors?.join(', ')}</p>
-      <p>Published: {book.publication_year}</p>
-      <p>
-        Rating: {book.average_rating} ({book.ratings_count} ratings)
-      </p>
+    <div className={styles.bookCard}>
+      <div className={styles.bookImageContainer}>
+        {image_url ? (
+          <img
+            src={image_url}
+            alt={title}
+            className={styles.bookImage}
+            onError={e => {
+              ;(e.target as HTMLImageElement).src = '/book-placeholder.png'
+            }}
+          />
+        ) : (
+          <div className={styles.noImage}>No Image</div>
+        )}
+      </div>
+      <div className={styles.bookInfo}>
+        <h3 className={styles.bookTitle}>{title}</h3>
+        <p className={styles.bookAuthor}>By: {authors?.join(', ')}</p>
+        {publication_year && <p className={styles.bookYear}>Published: {publication_year}</p>}
+        <div className={styles.ratingContainer}>
+          <div className={styles.starRating}>{'★'.repeat(Math.round(average_rating || 0))}</div>
+          <span className={styles.ratingText}>
+            {average_rating?.toFixed(1)} ({ratings_count?.toLocaleString()} ratings)
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
 ```
 
-9. Create the types directory and Book type:
+8. Create the types directory and Book type:
 
 ```bash
 mkdir -p types
@@ -349,8 +418,11 @@ Your final project structure should now look like this:
 typesense-next-search-bar/
 ├── components/
 │   ├── BookCard.tsx
+│   ├── BookCard.module.css
 │   ├── BookList.tsx
-│   └── SearchBar.tsx
+│   ├── BookList.module.css
+│   ├── SearchBar.tsx
+│   └── Searchbar.module.css
 ├── lib/
 │   └── instantSearchAdapter.ts
 ├── pages/
@@ -372,28 +444,32 @@ typesense-next-search-bar/
 └── tsconfig.json
 ```
 
-10. Finally, update your `pages/index.tsx` to use these components:
+9. Finally, update your `pages/index.tsx` to use these components:
 
 ```typescript
-'use client'
-
 import { InstantSearch } from 'react-instantsearch'
 import { typesenseInstantSearchAdapter } from '../lib/instantSearchAdapter'
 import { SearchBar } from '../components/SearchBar'
 import { BookList } from '../components/BookList'
-import { SearchBar } from './components/SearchBar'
-import { BookList } from './components/BookList'
+import Head from 'next/head'
 
 export default function Home() {
   return (
-    <div>
-      <InstantSearch
-        searchClient={typesenseInstantSearchAdapter.searchClient}
-        indexName={process.env.NEXT_PUBLIC_TYPESENSE_INDEX || 'books'}
-      >
-        <SearchBar />
-        <BookList />
-      </InstantSearch>
+    <div className='min-h-screen bg-gray-50 py-8 px-4'>
+      <Head>
+        <title>Book Search with TypeSense</title>
+        <meta name='description' content='Search through our collection of books' />
+      </Head>
+
+      <div className='max-w-7xl mx-auto'>
+        <InstantSearch
+          searchClient={typesenseInstantSearchAdapter.searchClient}
+          indexName={process.env.NEXT_PUBLIC_TYPESENSE_INDEX || 'books'}
+        >
+          <SearchBar />
+          <BookList />
+        </InstantSearch>
+      </div>
     </div>
   )
 }
@@ -403,10 +479,13 @@ export default function Home() {
 
 You've successfully built a search interface with Next.js and Typesense!
 
+### Final Output
+
+![NextJS Search Bar Final Output](~@images/next-search-bar/final-output.png)
+
 ### Source Code
 
-- [Complete Project on GitHub](https://github.com/typesense/typesense-nextjs-search)
-- [Typesense InstantSearch Adapter Documentation](https://github.com/typesense/typesense-instantsearch-adapter)
+- [Complete Project on GitHub](https://github.com/typesense/code-samples)
 
 ### Related Examples
 
@@ -414,5 +493,6 @@ You've successfully built a search interface with Next.js and Typesense!
 
 ### Need Help?
 
-- Check out the [Typesense documentation](https://typesense.org/docs/)
-- Open an issue on [GitHub](https://github.com/typesense/typesense/issues) if you encounter any problems
+#### I don't see my question answered here. What do I do?
+
+Read our [Help](/help.md) section for information on how to get additional help.
