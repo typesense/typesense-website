@@ -493,7 +493,7 @@ Here's how the final output should look like:
 
 Here's the complete source code for this project on GitHub:
 
-[https://github.com/typesense/code-samples/tree/feature/typesense-next-search-bar/typesense-next-search-bar](https://github.com/typesense/code-samples/tree/feature/typesense-next-search-bar/typesense-next-search-bar)
+[https://github.com/typesense/code-samples/tree/master/typesense-next-search-bar](https://github.com/typesense/code-samples/tree/master/typesense-next-search-bar)
 
 ## Related Examples
 
