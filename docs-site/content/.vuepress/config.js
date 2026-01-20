@@ -215,7 +215,7 @@ let config = {
             ['/guide/docsearch', 'Search for Documentation Sites'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
-            ['/guide/next-search-bar', 'NextJS Search Bar'],
+            ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
           ],
         },
         {
