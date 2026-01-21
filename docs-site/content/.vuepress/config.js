@@ -259,6 +259,7 @@ let config = {
             ['/guide/magento2-search', 'Search for Magento Sites'],
             ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
+            ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
           ],
         },
         {
