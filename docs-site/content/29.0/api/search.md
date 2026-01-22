@@ -554,9 +554,10 @@ You can combine random sorting with other sort fields:
 
 ### Sorting with a Pivot Value
 
-You can sort results relative to a specific pivot value using the `pivot` parameter in `sort_by`. This is particularly useful when you want to order items based on their distance from a reference point.
+:::warning DEPRECATED
+The `pivot` parameter is no longer supported from version 29.0 onwards. It has been replaced by the more powerful [Decay Function Sorting](#decay-function-sorting) feature.
 
-For example, if you have timestamps and want to sort based on proximity to a specific timestamp:
+To achieve similar functionality, use the decay function with `func: diff`. For example, instead of:
 
 ```json
 {
@@ -564,31 +565,16 @@ For example, if you have timestamps and want to sort based on proximity to a spe
 }
 ```
 
-This will sort results so that:
-- With `asc`: Values closest to the pivot value appear first, followed by values further away
-- With `desc`: Values furthest from the pivot value appear first, followed by values closer to it
-
-Example results when sorting in ascending order relative to pivot value 1728386250:
-```
-timestamp: 1728386250 (exact match to pivot)
-timestamp: 1728387250 (1000 away from pivot)
-timestamp: 1728385250 (1000 away from pivot)
-timestamp: 1728384250 (2000 away from pivot)
-timestamp: 1728383250 (3000 away from pivot)
-```
-
-You can combine pivot sorting with other sort fields:
+Use:
 
 ```json
 {
-  "sort_by": "timestamp(pivot: 1728386250):asc,popularity:desc"
+  "sort_by": "timestamp(origin: 1728386250, func: diff, scale: 1):desc"
 }
 ```
 
-This feature is useful for:
-- Sorting by proximity to a reference date/time
-- Organizing numerical values around a target number
-- Creating "closer to" style sorting experiences
+See the Decay Function Sorting section below for more details.
+:::
 
 ### Decay Function Sorting
 
