@@ -7,8 +7,8 @@ let config = {
   base: '/docs/',
   markdown: {
     lineNumbers: false,
-    extendMarkdown: (md) => {
-      md.core.ruler.after('block', 'markdown-actions', (state) => {
+    extendMarkdown: md => {
+      md.core.ruler.after('block', 'markdown-actions', state => {
         const tokens = state.tokens
 
         for (let i = 0; i < tokens.length; i += 1) {
@@ -258,6 +258,7 @@ let config = {
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
             ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
+            ['/guide/astro-search-bar', 'Search Bar in Astro'],
           ],
         },
         {
