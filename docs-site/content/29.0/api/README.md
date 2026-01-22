@@ -71,7 +71,8 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
--  For `group_by` queries, the `found` value returned in the response is no longer an exact number. It's an 
+- **Pivot sorting parameter deprecated:** The `pivot` parameter in `sort_by` has been deprecated and replaced by the more powerful [Decay Function Sorting](https://typesense.org/docs/29.0/api/search.html#decay-function-sorting) feature. Use the decay function with `func: diff` to achieve similar functionality.
+-  For `group_by` queries, the `found` value returned in the response is no longer an exact number. It's an
    approximation of the number of groups found, and is guaranteed to be within 2% of the actual number of groups found.
 
 ## Upgrading
