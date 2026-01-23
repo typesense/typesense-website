@@ -2,6 +2,20 @@
 
 You don't need a fancy framework to work with Typesense. This walkthrough will take you through all the steps required to build a simple book search application using Vanilla JavaScript and the Typesense ecosystem.
 
+## What is Typesense?
+
+Typesense is a fast, typo-tolerant search engine that you can use to add search functionality to your applications. Think of it like having your own mini Google, but for your data.
+
+Here's a simple example: imagine you're building a bookstore website with thousands of books. Without a search engine, users would have to scroll through endless pages to find what they want. With Typesense, they can simply type "hary poter" (yes, with typos!) and still find "Harry Potter" instantly.
+
+What makes Typesense special:
+
+- **Fast** - Returns results in milliseconds, even with millions of records
+- **Typo-tolerant** - Understands what users mean, even when they misspell words
+- **Easy to set up** - Get it running in minutes with Docker, unlike complex alternatives like Elasticsearch
+- **Free to self-host** - No licensing costs, unlike paid alternatives like Algolia
+- **Open source** - Free to use and self-host, or use [Typesense Cloud](https://cloud.typesense.org) for a managed experience
+
 ## Prerequisites
 
 This guide will use [Vite](https://vitejs.dev/), a modern build tool that provides a fast development experience for vanilla JavaScript projects.
@@ -376,7 +390,82 @@ Let's create the project structure step by step. After each step, we'll show you
     └── package.json
     ```
 
-You've successfully built a search interface with vanilla JavaScript and Typesense!
+7. Running the application using Vite:
+
+    ```shell
+    npm run dev
+    ```
+
+    This will start a development server and open the application in your default browser in [http://localhost:5173](http://localhost:5173).
+
+That's it! You've successfully built a search interface with vanilla JavaScript and Typesense!
+
+## What if I don't want to use build tools or package managers?
+
+If you prefer not to use Vite or npm/yarn, you can load the libraries directly from CDN and use plain HTML and JavaScript files. Here's a minimal working example:
+
+  ```html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Simple Typesense Search</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/algolia-min.css" />
+    </head>
+    <body>
+      <div id="searchbox"></div>
+      <div id="hits"></div>
+
+      <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.44.0"></script>
+      <script src="https://cdn.jsdelivr.net/npm/typesense-instantsearch-adapter@2/dist/typesense-instantsearch-adapter.min.js"></script>
+
+      <script>
+        const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+          server: {
+            apiKey: '1234',
+            nodes: [
+              {
+                host: 'localhost',
+                port: '8108',
+                protocol: 'http',
+              },
+            ],
+          },
+          additionalSearchParameters: {
+            queryBy: 'title,authors',
+          },
+        })
+
+        const searchClient = typesenseInstantsearchAdapter.searchClient
+
+        const search = instantsearch({
+          searchClient,
+          indexName: 'books',
+        })
+
+        search.addWidgets([
+          instantsearch.widgets.searchBox({
+            container: '#searchbox',
+          }),
+          instantsearch.widgets.hits({
+            container: '#hits',
+            templates: {
+              item: hit => `
+                <div>
+                  <h3>${hit.title}</h3>
+                  <p>${hit.authors?.join(', ')}</p>
+                </div>
+              `,
+            },
+          }),
+        ])
+
+        search.start()
+      </script>
+    </body>
+  </html>
+  ```
+
+Just save this as `index.html` and open it in your browser. It will work as long as you have a Typesense server running on `localhost:8108`.
 
 ## Final Output
 
