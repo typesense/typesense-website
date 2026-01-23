@@ -481,6 +481,14 @@ Let's create the project structure step by step. After each step, we'll show you
 
     This is the main page that brings together all the required components. Notice that our `SearchBar` and `BookList` component are direct descendants of the `InstantSearch` component so that they have access to the `InstantSearch` context and vice-versa. Also notice that we pass the `typesenseInstantsearchAdapter` that we created in the lib directory as the `searchClient` to the `InstantSearch` component.
 
+10. Run the application:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the development server and open your default browser to [http://localhost:3000](http://localhost:3000). You should see the search interface with the book search results.
+
 You've successfully built a search interface with Next.js and Typesense!
 
 ## Final Output
