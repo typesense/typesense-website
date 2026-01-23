@@ -442,8 +442,21 @@ curl "http://localhost:8108/health"
   </template>
 </Tabs>
 
-When a node is running out of memory / disk, the API response will have an additional `resource_error` field that's 
+When a node is running out of memory / disk, the API response will have an additional `resource_error` field that's
 set to either `OUT_OF_DISK` or `OUT_OF_MEMORY`.
+
+The `OUT_OF_MEMORY` error is triggered when the `--memory-used-max-percentage` server parameter is set to less than `100`
+and free memory falls below the calculated threshold. The threshold is determined as:
+`min(500MB, (100 - memory_used_max_percentage)% × total_memory)`.
+
+For example, with `--memory-used-max-percentage=90` on an 8GB system:
+- Percentage-based threshold: (100-90)% × 8GB = 800MB free memory required
+- Final threshold: min(500MB, 800MB) = 500MB
+- Writes are rejected when free memory drops below 500MB
+
+When `--memory-used-max-percentage=100` (default), the resource check is skipped entirely and no memory-based rejection occurs.
+
+If `--memory-used-max-percentage` is below 100 and the threshold is reached, Typesense will reject write operations to prevent system instability.
 
 #### Definition
 `GET ${TYPESENSE_HOST}/health`
