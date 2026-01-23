@@ -421,7 +421,7 @@ If you prefer not to use Vite or npm/yarn, you can load the libraries directly f
       <script>
         const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
           server: {
-            apiKey: '1234',
+            apiKey: 'xyz',
             nodes: [
               {
                 host: 'localhost',
