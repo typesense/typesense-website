@@ -45,6 +45,60 @@ let config = {
           return
         }
       })
+
+      md.use((md) => {
+        let currentHeading = null
+
+        // use default heading open rule if not overridden (some plugin may override this)
+        const defaultHeadingOpen =
+          md.renderer.rules.heading_open ||
+          function (tokens, idx, options, env, self) {
+            return self.renderToken(tokens, idx, options)
+          }
+
+        md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
+          currentHeading = null
+
+          const token = tokens[idx]
+          const level = parseInt(token.tag.charAt(1), 10)
+          if (level < 2 || level > 6) {
+            return defaultHeadingOpen(tokens, idx, options, env, self)
+          }
+
+          for (let i = idx + 1; i < tokens.length; i++) {
+            const nextToken = tokens[i]
+            if (nextToken.type === 'heading_close') break
+            if (nextToken.type === 'inline' && nextToken.content) {
+              currentHeading = { level, text: nextToken.content }
+              break
+            }
+          }
+
+          return defaultHeadingOpen(tokens, idx, options, env, self)
+        }
+
+        const defaultHeadingClose =
+          md.renderer.rules.heading_close ||
+          function (tokens, idx, options, env, self) {
+            return self.renderToken(tokens, idx, options)
+          }
+
+        md.renderer.rules.heading_close = function (tokens, idx, options, env, self) {
+          let result = ''
+
+          if (currentHeading && currentHeading.text) {
+            // escape the heading text 
+            const escapedText = currentHeading.text
+              .replace(/&/g, '&amp;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;')
+            result += `<CopySectionButton headingText="${escapedText}" :headingLevel="${currentHeading.level}" />`
+          }
+
+          currentHeading = null
+          return result + defaultHeadingClose(tokens, idx, options, env, self)
+        }
+      })
     },
   },
 
