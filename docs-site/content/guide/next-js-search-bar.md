@@ -2,6 +2,21 @@
 
 Adding full-text search capabilities to your React/Next.js projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using Next.js and the Typesense ecosystem.
 
+## What is Typesense?
+
+Typesense is a modern, open-source search engine designed to deliver fast and relevant search results. It's like having a smart search bar that knows what your users want, even when they don't type it perfectly.
+
+Picture this: you're running an e-commerce store selling electronic gadgets. A customer searches for "ipone 13 pro" (with a typo). Instead of showing "no results found" and losing a potential sale, Typesense understands they meant "iPhone 13 Pro" and shows them exactly what they're looking for. That's the power of intelligent search!
+
+What sets Typesense apart:
+
+- **Speed** - Delivers search results in under 50ms, keeping your users engaged.
+- **Typo tolerance** - Handles misspellings gracefully, so users always find what they need.
+- **Feature-Rich** - Full-text search, Synonyms, Curation Rules, Semantic Search, Hybrid search, Conversational Search (like ChatGPT for your data), RAG, Natural Language Search, Geo Search, Vector Search and much more wrapped in a single binary for a batteries-included developer experience.
+- **Simple setup** - Get started in minutes with Docker, no complex configuration needed like Elasticsearch.
+- **Cost-effective** - Self-host for free, unlike expensive alternatives like Algolia.
+- **Open source** - Full control over your search infrastructure, or use [Typesense Cloud](https://cloud.typesense.org) for hassle-free hosting.
+
 ## Prerequisites
 
 This guide will use [NextJS](https://nextjs.org/), a [React](https://react.dev/) framework for building full-stack web applications.
