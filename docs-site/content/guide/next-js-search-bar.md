@@ -12,6 +12,7 @@ What sets Typesense apart:
 
 - **Speed** - Delivers search results in under 50ms, keeping your users engaged.
 - **Typo tolerance** - Handles misspellings gracefully, so users always find what they need.
+- **Feature-Rich** - Full-text search, Synonyms, Curation Rules, Semantic Search, Hybrid search, Conversational Search (like ChatGPT for your data), RAG, Natural Language Search, Geo Search, Vector Search and much more wrapped in a single binary for a batteries-included developer experience.
 - **Simple setup** - Get started in minutes with Docker, no complex configuration needed like Elasticsearch.
 - **Cost-effective** - Self-host for free, unlike expensive alternatives like Algolia.
 - **Open source** - Full control over your search infrastructure, or use [Typesense Cloud](https://cloud.typesense.org) for hassle-free hosting.

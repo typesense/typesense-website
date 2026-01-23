@@ -10,11 +10,12 @@ Here's a simple example: imagine you're building a bookstore website with thousa
 
 What makes Typesense special:
 
-- **Fast** - Returns results in milliseconds, even with millions of records
-- **Typo-tolerant** - Understands what users mean, even when they misspell words
-- **Easy to set up** - Get it running in minutes with Docker, unlike complex alternatives like Elasticsearch
-- **Free to self-host** - No licensing costs, unlike paid alternatives like Algolia
-- **Open source** - Free to use and self-host, or use [Typesense Cloud](https://cloud.typesense.org) for a managed experience
+- **Fast** - Returns results in milliseconds, even with millions of records.
+- **Typo-tolerant** - Understands what users mean, even when they misspell words.
+- **Feature-Rich** - Full-text search, Synonyms, Curation Rules, Semantic Search, Hybrid search, Conversational Search (like ChatGPT for your data), RAG, Natural Language Search, Geo Search, Vector Search and much more wrapped in a single binary for a batteries-included developer experience.
+- **Easy to set up** - Get it running in minutes with Docker, unlike complex alternatives like Elasticsearch.
+- **Free to self-host** - No licensing costs, unlike paid alternatives like Algolia.
+- **Open source** - Free to use and self-host, or use [Typesense Cloud](https://cloud.typesense.org) for a managed experience.
 
 ## Prerequisites
 
