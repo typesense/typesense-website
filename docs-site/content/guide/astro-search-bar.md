@@ -2,6 +2,20 @@
 
 This guide walks you through building a full-text search interface in Astro using Typesense. You'll create a simple book search application that demonstrates how to integrate the Typesense ecosystem with your Astro projects.
 
+## What is Typesense?
+
+Typesense is a lightning-fast, typo-tolerant search engine that makes it easy to add powerful search to your applications. Think of it as your personal search assistant that understands what users are looking for, even when they make mistakes.
+
+Here's a real-world scenario: you're building an online recipe site with thousands of recipes. Without search, users would need to browse through categories and pages hoping to find what they need. With Typesense, they can type "choclate cake" (notice the typo?) and instantly get results for "chocolate cake" - no frustration, no lost users!
+
+Why developers choose Typesense:
+
+- **Blazing fast** - Search results appear in milliseconds, even across millions of documents.
+- **Typo-tolerant** - Automatically corrects spelling mistakes so users find what they need.
+- **Simple setup** - Get started in minutes with Docker, no complex configuration needed like Elasticsearch.
+- **Cost-effective** - Self-host for free, unlike expensive alternatives like Algolia.
+- **Open source** - Full control over your search infrastructure, or use [Typesense Cloud](https://cloud.typesense.org) for hassle-free hosting.
+
 ## Prerequisites
 
 This guide will use [Astro](https://astro.build/), a modern web framework for building fast, content-focused websites with any UI framework or none at all.
