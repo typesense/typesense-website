@@ -23,7 +23,6 @@ This release contains important new features, performance improvements and bug f
 - Dictionary based stemming: stemming is now configurable through an import of a custom dictionary that maps a word to a root form. ([PR#2062](https://github.com/typesense/typesense/pull/2062))
 - Allow search results to be randomized via `sort_by=_rand(seed)` clause. ([PR#1918](https://github.com/typesense/typesense/pull/1918))
 - Ability to re-rank hybrid search hits by augmenting their keyword / semantic match score when the hit was identified by only either keyword or vector search. ([PR#1968](https://github.com/typesense/typesense/pull/1968))
-- Sort hits based on a pivot value. ([PR#2003](https://github.com/typesense/typesense/pull/2003))
 - Support decay functions in `sort_by` to support gaussian, linear, and exponential decay of values. ([PR#2036](https://github.com/typesense/typesense/pull/2036))
 - Field level `token_separators` and `symbols_to_index` are now supported. ([PR#2118](https://github.com/typesense/typesense/pull/2118))
 - Support bucketing of text match scores based on `bucket_size` parameter. ([PR#2120](https://github.com/typesense/typesense/pull/2120))

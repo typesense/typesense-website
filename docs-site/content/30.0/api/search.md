@@ -577,44 +577,6 @@ You can combine random sorting with other sort fields:
 - Different seed values (or no seed) will produce different random orderings
 :::
 
-### Sorting with a Pivot Value
-
-You can sort results relative to a specific pivot value using the `pivot` parameter in `sort_by`. This is particularly useful when you want to order items based on their distance from a reference point.
-
-For example, if you have timestamps and want to sort based on proximity to a specific timestamp:
-
-```json
-{
-  "sort_by": "timestamp(pivot: 1728386250):asc"
-}
-```
-
-This will sort results so that:
-- With `asc`: Values closest to the pivot value appear first, followed by values further away
-- With `desc`: Values furthest from the pivot value appear first, followed by values closer to it
-
-Example results when sorting in ascending order relative to pivot value 1728386250:
-```
-timestamp: 1728386250 (exact match to pivot)
-timestamp: 1728387250 (1000 away from pivot)
-timestamp: 1728385250 (1000 away from pivot)
-timestamp: 1728384250 (2000 away from pivot)
-timestamp: 1728383250 (3000 away from pivot)
-```
-
-You can combine pivot sorting with other sort fields:
-
-```json
-{
-  "sort_by": "timestamp(pivot: 1728386250):asc,popularity:desc"
-}
-```
-
-This feature is useful for:
-- Sorting by proximity to a reference date/time
-- Organizing numerical values around a target number
-- Creating "closer to" style sorting experiences
-
 ### Decay Function Sorting
 
 Decay functions allow you to score and sort results based on how far they are from a target value, with the score decreasing according to various mathematical functions. This is particularly useful for:
@@ -681,6 +643,54 @@ The results would be ordered based on how close each timestamp is to the origin 
 - Use `gauss` for smooth falloff, `linear` for constant decrease, and `exp` for rapid decrease
 - `scale` determines the distance at which scores decay by the specified rate
 :::
+
+### Sorting with a Pivot Value
+
+You can sort results relative to a specific pivot value using the `diff` decay function with the `origin` parameter in `sort_by`. This is useful when you want to order items based on their distance from a reference point.
+
+For example, if you have timestamps and want to sort based on proximity to a specific timestamp:
+
+```json
+{
+  "sort_by": "timestamp(origin: 1728386250, func: diff):asc"
+}
+```
+
+This will sort results so that:
+- With `asc`: Values closest to the origin value appear first, followed by values further away
+- With `desc`: Values furthest from the origin value appear first, followed by values closer to it
+
+Example results when sorting in ascending order relative to origin value 1728386250:
+```
+timestamp: 1728386250 (exact match to origin)
+timestamp: 1728387250 (1000 away from origin)
+timestamp: 1728385250 (1000 away from origin)
+timestamp: 1728384250 (2000 away from origin)
+timestamp: 1728383250 (3000 away from origin)
+```
+
+You can combine pivot sorting with other sort fields:
+
+```json
+{
+  "sort_by": "timestamp(origin: 1728386250, func: diff):asc,popularity:desc"
+}
+```
+
+This feature is useful for:
+- Sorting by proximity to a reference date/time
+- Organizing numerical values around a target number
+- Creating "closer to" style sorting experiences
+
+Note: The `diff` function computes the absolute distance from the origin value. If you need to exclude values within a certain radius, you can use the `offset` parameter:
+
+```json
+{
+  "sort_by": "timestamp(origin: 1728386250, func: diff, offset: 1000):asc"
+}
+```
+
+This excludes values within 1000 units of the origin from the distance calculation.
 
 ## Text Match Score Bucketing
 
