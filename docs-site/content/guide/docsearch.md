@@ -710,6 +710,14 @@ export default defineConfig({
 
 For additional configuration options, live demo, and instructions on integrating with `typesense-docsearch-scraper`, see the [Starlight DocSearch Typesense Documentation](https://starlight-docsearch.typesense.org/getting-started/).
 
+### Option G: VitePress-powered sites
+
+If you're using [VitePress](https://vitepress.dev/), you can integrate search easily using the [vitepress-plugin-typesense](https://github.com/typesense/vitepress-plugin-typesense) plugin.
+
+This plugin includes built-in indexing that automatically syncs your documentation to Typesense every time you build your site, so you don't need to set up a separate scraper.
+
+For setup and configuration details, see the [VitePress Plugin Typesense documentation](https://vitepress-plugin.typesense.org/).
+
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
 
 Typesense supports built-in [Semantic Search](./semantic-search.md) as `v0.25.1` of Typesense Server and `v0.9.1` of the typesense-docsearch-scraper.
