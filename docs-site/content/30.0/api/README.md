@@ -15,14 +15,6 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 
 ## What's new
 
-::: warning RC Version
-This version is still in RC (Release Candidate) stages, which means that we're actively iterating on it. 
-The changelog below is a running list of changes, and we'll be updating it as we release new RC versions. 
-
-Most RC builds are stable to run in production, since we fix any reported issues quickly and/or deprecate RC versions that have known issues swiftly.
-But as with any version, we recommend that you test RC versions in your staging / dev environment before upgrading production.
-:::
-
 This release contains new features, enhancements, performance improvements, bug fixes and important API changes for synonyms, curation rules and analytics rules.
 
 ### New Features
@@ -57,11 +49,11 @@ This release contains new features, enhancements, performance improvements, bug 
 - Allow non-indexed nested fields to still be marked as required.
 - Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
 - Use Transliterator objects pool to enhance tokenization performance of Cyrillic and Chinese languages.
-- Support for dynamic `facet_return_parent` fields. [(Docs)](https://typesense.org/docs/30.0/api/search.html#faceting-parameters).
+- Support for dynamic `facet_return_parent` fields. [(Docs)](https://typesense.org/docs/30.0/api/search.html#faceting-parameters)
 - Support for sending an empty array to avoid embedding generation for an optional auto embedding field when indexing a document.
 - Highlight the actual search query when augmenting the search query with Natural Language search.
 - Enhance image embedding models support by adding CLIP Multilingual Model support
-- Support for synonym matching in curations [(Docs)](https://typesense.org/docs/30.0/api/curation.html#synonyms-with-curations).
+- Support for synonym matching in curations [(Docs)](https://typesense.org/docs/30.0/api/curation.html#synonyms-with-curations)
 - Support stemming with curations [(Docs)](https://typesense.org/docs/30.0/api/curation.html#stemming-with-curations)
 
 ### Bug Fixes
@@ -117,10 +109,6 @@ This release contains new features, enhancements, performance improvements, bug 
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
 - Collections having references to each other are not allowed. If mutual reference is detected, the reference field will not be indexed.
 
-:::warning ⚠️ Breaking Changes
-Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
-:::
-
 ## Upgrading
 
 Before upgrading your existing Typesense cluster to v{{ $page.typesenseVersion }}, please review the behavior
@@ -130,6 +118,9 @@ We'd recommend testing on your development / staging environments before upgradi
 
 Follow this [upgrade guide](https://typesense.org/docs/guide/updating-typesense.html), depending on your mode of deployment.
 
+:::warning ⚠️ Breaking Changes
+Please make sure to **update your client libraries** to the latest version, **review the specific documentation links provided above** and make any required changes to your code base if you programmatically create these resources using the API, before upgrading to this version. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
+:::
 
 ## Downgrading
 
