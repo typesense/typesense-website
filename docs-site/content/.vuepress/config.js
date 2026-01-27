@@ -260,6 +260,7 @@ let config = {
             ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
+            ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
           ],
         },
         {
