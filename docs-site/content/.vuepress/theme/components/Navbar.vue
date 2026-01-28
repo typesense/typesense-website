@@ -29,7 +29,7 @@
         <NavLinks class="can-hide" />
       </div>
     </div>
-    <div>
+    <div class="navbar-search-container">
       <VersionDropdown show-on-desktop-only v-if="showVersionDropdown" />
       <TypesenseSearchBox v-if="isTypesenseSearch" :options="typesense" />
       <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false" />
@@ -162,9 +162,12 @@ $navbar-horizontal-padding = 1.5rem
     right $navbar-horizontal-padding
     top $navbar-vertical-padding
     display flex
+  .navbar-search-container
+    display flex
+    align-items center
+    gap 0.5rem
   .search-box
     flex: 0 0 auto
-    vertical-align top
     margin-left 1.7rem
 
 @media (max-width: $MQMobile)
