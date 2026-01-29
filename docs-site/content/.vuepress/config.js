@@ -46,7 +46,7 @@ let config = {
         }
       })
 
-      md.use((md) => {
+      md.use(md => {
         let currentHeading = null
 
         // use default heading open rule if not overridden (some plugin may override this)
@@ -87,7 +87,7 @@ let config = {
           let result = ''
 
           if (currentHeading && currentHeading.text) {
-            // escape the heading text 
+            // escape the heading text
             const escapedText = currentHeading.text
               .replace(/&/g, '&amp;')
               .replace(/"/g, '&quot;')
@@ -396,6 +396,40 @@ let config = {
         ['/cloud-management-api/v1/response-codes', 'Response Codes'],
         ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
         ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
+      ],
+
+      //For 30.1
+      '/30.1/api/': [
+        ['/30.1/api/', 'Introduction'],
+        ['/30.1/api/server-configuration', 'Server Configuration'],
+        ['/30.1/api/api-clients', 'API Clients'],
+        ['/30.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/30.1/api/collections', 'Collections'],
+            ['/30.1/api/documents', 'Documents'],
+            ['/30.1/api/search', 'Search'],
+            ['/30.1/api/geosearch', 'GeoSearch'],
+            ['/30.1/api/vector-search', 'Vector Search'],
+            ['/30.1/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/30.1/api/voice-search-query', 'Voice Query'],
+            ['/30.1/api/image-search', 'Image Search'],
+            ['/30.1/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/30.1/api/natural-language-search', 'Natural Language Search'],
+            ['/30.1/api/joins', 'JOINs'],
+            ['/30.1/api/analytics-query-suggestions', 'Analytics'],
+            ['/30.1/api/api-keys', 'API Keys'],
+            ['/30.1/api/curation', 'Curation'],
+            ['/30.1/api/collection-alias', 'Collection Alias'],
+            ['/30.1/api/synonyms', 'Synonyms'],
+            ['/30.1/api/stemming', 'Stemming'],
+            ['/30.1/api/stopwords', 'Stopwords'],
+            ['/30.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/30.1/api/api-errors', 'API Errors'],
       ],
 
       //For 30.0
