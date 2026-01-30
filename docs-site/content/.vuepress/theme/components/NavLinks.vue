@@ -1,6 +1,6 @@
 <template>
   <nav class="nav-links">
-    <VersionDropdown class="nav-item" show-on-mobile-only />
+    <VersionDropdown class="nav-item" />
     <!-- user links -->
     <div v-for="item in userLinks" :key="item.link" class="nav-item">
       <DropdownLink v-if="item.type === 'links'" :item="item" />
@@ -113,12 +113,9 @@ export default {
   .nav-item
     position relative
     display inline-block
-    margin-left 1.5rem
     line-height 2rem
     &:first-child
       margin-left 0
-  .repo-link
-    margin-left 1.5rem
 
 @media (max-width: $MQMobile)
   .nav-links
