@@ -8,8 +8,7 @@
           class="logo"
           :src="$withBase($site.themeConfig.logo)"
           :alt="$siteTitle"
-          :width="$site.themeConfig.logoWidth"
-          :height="$site.themeConfig.logoHeight"
+          :style="logoStyles"
         />
         <span v-if="$siteTitle" ref="siteName" class="site-name" :class="{ 'can-hide': $site.themeConfig.logo }">{{
           $siteTitle
@@ -54,6 +53,20 @@ export default {
     showVersionDropdown() {
       return isSemVer(this.normalizedVersionStringForSemVer(this.$page.path.split('/')[1]))
     },
+
+    logoStyles() {
+      const toCssSize = value => {
+        if (value === undefined || value === null || value === '') return undefined
+        return typeof value === 'number' ? `${value}px` : value
+      }
+
+      return {
+        '--logo-width': toCssSize(this.$site.themeConfig.logoWidth),
+        '--logo-height': toCssSize(this.$site.themeConfig.logoHeight),
+        '--logo-width-mobile': toCssSize(this.$site.themeConfig.logoWidthMobile),
+        '--logo-height-mobile': toCssSize(this.$site.themeConfig.logoHeightMobile),
+      }
+    },
   },
 
   methods: {
@@ -95,11 +108,18 @@ $navbar-horizontal-padding = 1.5rem
     display inline-block
   .logo-and-links
     display flex
+    align-items center
+    min-width 0
+  .home-link
+    display flex
+    align-items center
   .logo
     height $navbarHeight - 1.4rem
     min-width $navbarHeight - 1.4rem
     margin-right 0.8rem
     vertical-align top
+    width var(--logo-width, auto)
+    height var(--logo-height, $navbarHeight - 1.4rem)
   .site-name
     font-size 1.3rem
     font-weight 600
