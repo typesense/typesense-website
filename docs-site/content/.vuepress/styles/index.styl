@@ -8,6 +8,20 @@
 body
   font-family 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
+@media (min-width: ($MQMobile + 1px))
+  .sidebar
+    .nav-links
+      display block !important
+      border-bottom 1px solid $borderColor
+      padding 0.5rem 0 0.75rem 0
+      a
+        font-weight 600
+      .nav-item, .repo-link
+        display block
+        line-height 1.25rem
+        font-size 1.1em
+        padding 0.5rem 0 0.5rem 1.5rem
+
 // https://github.com/vuejs/vuepress/issues/703#issuecomment-484790660
 .theme-default-content pre[class*=language-]
   overflow-y hidden
@@ -44,4 +58,3 @@ figure
 
   figcaption
     text-align center
-

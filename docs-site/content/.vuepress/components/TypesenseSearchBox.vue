@@ -124,9 +124,6 @@ export default {
     align-items center
     width 100%
 
-  .search-query
-    padding-right 40px 
-
   .shortcut-indicator
     position absolute
     right 8px
@@ -134,11 +131,11 @@ export default {
     transform translateY(-50%)
     display inline-flex
     align-items center
-    gap 1px
     height 14px
     border 1px solid rgba(0, 0, 0, 0.1)
     border-radius 7px
     padding 0 4px
+    z-index 99
     font-size 9px
     font-family monospace
     font-weight 500
@@ -237,6 +234,11 @@ export default {
 
 @media (max-width: $MQMobile)
   .typesense-search-wrapper
+    .search-container
+      width auto
+      justify-content flex-end
+    .shortcut-indicator
+      display none
     .ds-dropdown-menu
       min-width calc(100vw - 4rem) !important
       max-width calc(100vw - 4rem) !important
@@ -253,4 +255,25 @@ export default {
       width 5px
       margin -3px 3px 0
       vertical-align middle
+
+@media (max-width: $MQNarrow)
+  .typesense-search-wrapper.search-box
+    .search-container
+      &:not(:focus-within) .shortcut-indicator
+        display none
+      &:focus-within .shortcut-indicator
+        display inline-flex
+
+    .search-query
+      width 0 !important
+      border-color transparent !important
+      cursor pointer !important
+
+    .search-query:not(:focus)
+      margin-left 0 !important
+
+    .search-query:focus
+      width 7rem !important
+      cursor text !important
+      border-color $accentColor !important
 </style>
