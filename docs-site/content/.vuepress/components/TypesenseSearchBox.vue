@@ -258,6 +258,12 @@ export default {
 
 @media (max-width: $MQNarrow)
   .typesense-search-wrapper.search-box
+    .search-container
+      &:not(:focus-within) .shortcut-indicator
+        display none
+      &:focus-within .shortcut-indicator
+        display inline-flex
+
     .search-query
       width 0 !important
       border-color transparent !important
