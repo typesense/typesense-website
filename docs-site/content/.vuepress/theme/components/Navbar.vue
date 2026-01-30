@@ -86,11 +86,10 @@ export default {
 $navbar-vertical-padding = 0.7rem
 $navbar-horizontal-padding = 1.5rem
 
-.navbar
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding $navbar-vertical-padding $navbar-horizontal-padding
+  .navbar
+    display: flex;
+    align-items: center;
+    padding $navbar-vertical-padding $navbar-horizontal-padding
   line-height $navbarHeight - 1.4rem
   a, span, img
     display inline-block
@@ -106,17 +105,40 @@ $navbar-horizontal-padding = 1.5rem
     font-weight 600
     color $textColor
     position relative
+
+  .navbar-search-container
     display flex
+    align-items center
+    gap 0.5rem
+    margin-left auto
+    justify-content flex-end
+    flex 0 0 auto
+
   .search-box
     flex: 0 0 auto
-    vertical-align top
     margin-left 1.7rem
 
 @media (max-width: $MQMobile)
   .navbar
-    padding-left 4rem
+    padding-left $navbar-horizontal-padding
+    .sidebar-button
+      position static
+      top auto
+      left auto
+      display flex
+      align-items center
+      justify-content center
+      padding-left 0
+      padding-right 1rem
     .can-hide
       display none
+    .navbar-search-container
+      margin-left auto
+    .search-box
+      margin-left 0
+    .logo
+      width var(--logo-width-mobile, var(--logo-width, auto))
+      height var(--logo-height-mobile, var(--logo-height, $navbarHeight - 1.4rem))
     .site-name
       width calc(100vw - 9.4rem)
       overflow hidden
