@@ -17,6 +17,7 @@
 
 <script>
 import DropdownLink from '@theme/components/DropdownLink.vue'
+import VersionDropdown from '../../components/VersionDropdown'
 import { resolveNavLinkItem } from '@parent-theme/util'
 import NavLink from '@theme/components/NavLink.vue'
 
@@ -26,6 +27,7 @@ export default {
   components: {
     NavLink,
     DropdownLink,
+    VersionDropdown,
   },
 
   computed: {
