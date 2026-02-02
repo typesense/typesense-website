@@ -101,11 +101,13 @@ export default {
 
 .nav-container
   display flex
+  flex-wrap nowrap
   justify-content flex-start
   list-style none
   padding-left: 1.25rem
   padding-top: 1.25rem
   padding-bottom: 0.5rem
+  padding-right: 1.25rem
   border-bottom none
   border-top-left-radius 6px
   border-top-right-radius 6px
@@ -114,10 +116,14 @@ export default {
   color $white
   font-size 0.70rem
   margin-left 0
+  overflow-x auto
+  -webkit-overflow-scrolling touch
 
   .nav
     margin-right 1rem
     cursor pointer
+    flex-shrink 0
+    white-space nowrap
 
     .nav-title
       display inline-block
