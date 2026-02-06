@@ -10,6 +10,10 @@ sitemap:
 When you upgrade to v30, all existing collection-specific synonym definitions will be automatically migrated to the new synonym sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the synonym definitions. If self-hosting, [**perform a snapshot**](https://typesense.org/docs/30.0/api/cluster-operations.html#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
 :::
 
+:::warning API Key Actions Updated
+Since the synonym API route changed from `/collections/{collection}/synonyms` to `/synonym_sets`, API keys scoped to `synonyms:*` actions will **not** grant access to the new synonym set endpoints (resulting in `401 Unauthorized`). You need to create new API keys using `synonym_sets:*` actions instead. Since there is no update endpoint for API keys, you will need to create new keys and then delete the old ones. See the full list of [Synonym Set actions](./api-keys.html#synonym-set-actions).
+:::
+
 The synonym sets feature allows you to define search terms that should be considered equivalent. For example: when you define a synonym for `sneaker` as `shoe`, searching for `sneaker` will now return all records with the word `shoe` in them, in addition to records with the word `sneaker`.
 
 Typesense supports two types of synonyms within synonym sets:
