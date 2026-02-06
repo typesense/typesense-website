@@ -341,7 +341,27 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `aliases:delete`     | Allows the deletion of aliases.                   |
 | `aliases:*`          | Allows all alias operations.                      |
 
-#### Synonym actions
+#### Synonym Set actions
+
+:::warning Breaking Change in v30
+In v30, synonyms were moved from collection-specific routes (`/collections/{collection}/synonyms`) to standalone synonym sets (`/synonym_sets`). Since API key action scopes are derived from the API route, any API keys using `synonyms:*` actions will **not** grant access to the new `/synonym_sets` endpoints, resulting in `401 Unauthorized` errors.
+
+**To migrate:** Create new API keys using `synonym_sets:*` actions (listed below) to replace any existing keys that use `synonyms:*` actions. Since there is no update endpoint for API keys, you will need to create new keys and delete the old ones.
+
+The old `synonyms:*` actions (listed further below) still apply to collection-level synonym endpoints (`/collections/{collection}/synonyms`), which continue to work for backward compatibility.
+:::
+
+| Action                  | Description                                                               |
+|:------------------------|:--------------------------------------------------------------------------|
+| `synonym_sets:list`     | Allows all synonym sets to be fetched (GET /synonym_sets).                |
+| `synonym_sets:get`      | Allows a single synonym set to be retrieved (GET /synonym_sets/:name).    |
+| `synonym_sets:create`   | Allows the creation/update of synonym sets (PUT /synonym_sets/:name).     |
+| `synonym_sets:delete`   | Allows the deletion of synonym sets (DELETE /synonym_sets/:name).         |
+| `synonym_sets:*`        | Allows all synonym set operations.                                        |
+
+#### Synonym actions (Collection-level)
+
+These actions apply to the legacy collection-level synonym endpoints (`/collections/{collection}/synonyms`).
 
 | Action               | Description                                       |
 |:---------------------|:--------------------------------------------------|
