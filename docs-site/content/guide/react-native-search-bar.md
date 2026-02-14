@@ -141,8 +141,21 @@ npx create-expo-app@latest typesense-react-native-search-bar --template blank-ty
 
 This will scaffold a new React Native project with TypeScript support using Expo.
 
+Once your project scaffolding is ready, navigate to the project directory and install the required dependencies:
+
+```shell
+cd typesense-react-native-search-bar
+npm install
+npm i react-instantsearch-core typesense-instantsearch-adapter
+```
+
+Let's go over the key dependencies:
+
+- **react-instantsearch-core** - Provides InstantSearch hooks and components for React Native
+- **typesense-instantsearch-adapter** - Connects InstantSearch with Typesense
+
 :::tip Note
-Unlike web frameworks, React Native doesn't use the Typesense JavaScript client or InstantSearch.js directly. Instead, we'll make direct API calls to Typesense using the Fetch API, which is more suitable for mobile applications.
+React Native can use `react-instantsearch-core` with the `typesense-instantsearch-adapter`, just like web frameworks. This gives you access to powerful InstantSearch hooks and widgets. Alternatively, you can make direct API calls to Typesense using the Fetch API for a lighter implementation.
 :::
 
 ## Project Structure
@@ -233,10 +246,8 @@ Let's create the project structure step by step. After each step, we'll show you
      authors: string[];
      image_url: string;
      publication_year: number;
-   }
-
-   export interface Document {
-     document: Book;
+     average_rating?: number;
+     ratings_count?: number;
    }
    ```
 
@@ -265,31 +276,28 @@ Let's create the project structure step by step. After each step, we'll show you
    Add this to `utils/typesense.ts`:
 
    ```typescript
-   import { Document } from "../types/Book";
+   import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
-   export const search = async (searchQuery: string): Promise<Document[]> => {
-     const url = `${process.env.EXPO_PUBLIC_TYPESENSE_PROTOCOL}://${process.env.EXPO_PUBLIC_TYPESENSE_HOST}:${process.env.EXPO_PUBLIC_TYPESENSE_PORT}/collections/books/documents/search?q=${encodeURIComponent(
-       searchQuery,
-     )}&query_by=title,authors`;
+   const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+     server: {
+       apiKey: process.env.EXPO_PUBLIC_TYPESENSE_API_KEY || "xyz",
+       nodes: [
+         {
+           host: process.env.EXPO_PUBLIC_TYPESENSE_HOST || "localhost",
+           port: Number(process.env.EXPO_PUBLIC_TYPESENSE_PORT) || 8108,
+           protocol: process.env.EXPO_PUBLIC_TYPESENSE_PROTOCOL || "http",
+         },
+       ],
+     },
+     additionalSearchParameters: {
+       query_by: "title,authors",
+     },
+   });
 
-     const response = await fetch(url, {
-       method: "GET",
-       headers: {
-         "X-TYPESENSE-API-KEY": process.env.EXPO_PUBLIC_TYPESENSE_API_KEY || "xyz",
-         "Content-Type": "application/json",
-       },
-     });
-
-     if (!response.ok) {
-       throw new Error("Typesense search failed");
-     }
-
-     const data = await response.json();
-     return data?.hits || [];
-   };
+   export const searchClient = typesenseInstantsearchAdapter.searchClient;
    ```
 
-   This utility function makes a direct HTTP request to the Typesense server. Unlike web frameworks that use InstantSearch.js, React Native apps typically use the Fetch API for better performance and smaller bundle sizes on mobile devices. However, this also means that if you want advanced features like debouncing, you'll need to implement them manually.
+   This utility file creates the Typesense InstantSearch adapter, which bridges Typesense with InstantSearch. The adapter handles all the communication with Typesense and provides a search client that works seamlessly with `react-instantsearch-core` hooks.
 
 6. Create the component files:
 
@@ -324,25 +332,18 @@ Let's create the project structure step by step. After each step, we'll show you
    ```typescript
    import React from "react";
    import { StyleSheet, TextInput } from "react-native";
+   import { useSearchBox } from "react-instantsearch-core";
 
-   interface SearchInputProps {
-     value: string;
-     onChangeText: (text: string) => void;
-     placeholder?: string;
-   }
+   export const SearchInput = () => {
+     const { query, refine } = useSearchBox();
 
-   export const SearchInput = ({
-     value,
-     onChangeText,
-     placeholder,
-   }: SearchInputProps) => {
      return (
        <TextInput
          style={styles.searchInput}
-         placeholder={placeholder}
+         placeholder="Search books..."
          placeholderTextColor="#999"
-         value={value}
-         onChangeText={onChangeText}
+         value={query}
+         onChangeText={refine}
        />
      );
    };
@@ -361,7 +362,7 @@ Let's create the project structure step by step. After each step, we'll show you
    });
    ```
 
-   The `TextInput` component is React Native's equivalent of an HTML input field. The `onChangeText` prop automatically handles text changes, making it simpler than web's `onChange` event.
+   This component uses the `useSearchBox` hook from `react-instantsearch-core` to connect the search input to Typesense. The `query` value and `refine` function are provided by InstantSearch, which handles debouncing and search state management automatically.
 
 8. Create the `BookCard` component in `components/BookCard.tsx`:
 
@@ -434,69 +435,50 @@ Let's create the project structure step by step. After each step, we'll show you
 
     ```typescript
     import React from "react";
-    import { Document } from "../types/Book";
+    import { useHits } from "react-instantsearch-core";
     import { BookCard } from "./BookCard";
+    import { Book } from "../types/Book";
 
-    export const BookList = ({ books }: { books: Document[] }) => {
+    export const BookList = () => {
+      const { hits } = useHits<Book>();
+
       return (
         <>
-          {books.map((book) => (
-            <BookCard key={book.document.id} book={book.document} />
+          {hits.map((book) => (
+            <BookCard key={book.id} book={book} />
           ))}
         </>
       );
     };
     ```
 
-    This simple component maps over the search results and renders individual book cards.
+    This component uses the `useHits` hook from `react-instantsearch-core` to automatically receive search results from Typesense. The hook provides the `hits` array which updates in real-time as the user types in the search box.
 
 10. Finally, update your `App.tsx` to bring everything together:
 
     ```typescript
     import { StatusBar } from "expo-status-bar";
-    import { useEffect, useState } from "react";
     import { StyleSheet, View, ScrollView } from "react-native";
     import {
       SafeAreaProvider,
       useSafeAreaInsets,
     } from "react-native-safe-area-context";
+    import { InstantSearch } from "react-instantsearch-core";
+    import { Heading } from "./components/Heading";
     import { BookList } from "./components/BookList";
-    import { Document } from "./types/Book";
-    import { search } from "./utils/typesense";
     import { SearchInput } from "./components/SearchInput";
+    import { searchClient } from "./utils/typesense";
 
     function AppContent() {
-      const [books, setBooks] = useState<Document[]>([]);
-      const [searchQuery, setSearchQuery] = useState("");
       const insets = useSafeAreaInsets();
-
-      useEffect(() => {
-        fetchBooks().catch((error) => {
-          console.error("Error fetching books:", error);
-        });
-      }, []);
-
-      useEffect(() => {
-        fetchBooks().catch((error) => {
-          console.error("Error fetching books:", error);
-        });
-      }, [searchQuery]);
-
-      async function fetchBooks() {
-        const data = await search(searchQuery);
-        setBooks(data);
-      }
 
       return (
         <View style={[styles.container, { paddingTop: insets.top }]}>
           <ScrollView>
-            <SearchInput
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              placeholder="Search books..."
-            />
+            <Heading />
+            <SearchInput />
             <View style={styles.grid}>
-              <BookList books={books} />
+              <BookList />
             </View>
             <StatusBar style="auto" />
           </ScrollView>
@@ -507,7 +489,9 @@ Let's create the project structure step by step. After each step, we'll show you
     export default function App() {
       return (
         <SafeAreaProvider>
-          <AppContent />
+          <InstantSearch searchClient={searchClient} indexName="books">
+            <AppContent />
+          </InstantSearch>
         </SafeAreaProvider>
       );
     }
@@ -526,7 +510,7 @@ Let's create the project structure step by step. After each step, we'll show you
     });
     ```
 
-    This main component uses React hooks (`useState`, `useEffect`) to manage search state and trigger searches when the query changes. The `SafeAreaProvider` and `useSafeAreaInsets` ensure the app respects device-specific safe areas like notches and home indicators.
+    This main component wraps the app with the `InstantSearch` provider, which connects all the search components to Typesense. The `searchClient` from our utility file and the `indexName` ("books") are passed to the provider. The `SafeAreaProvider` ensures the app respects device-specific safe areas like notches and home indicators.
 
 11. Your final project structure should look like this:
 
