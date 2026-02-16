@@ -41,11 +41,12 @@ const usecases = [
     image: "/images/use-cases/geo-distributed-cache.svg",
   },
 ];
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
   <section class="flex flex-col items-center text-center">
-    <Badge>Search meets 2025</Badge>
+    <Badge>Search meets {{ currentYear }}</Badge>
     <h2 class="max-sm:hidden">
       Meticulously Engineered For <br />
       <strong>Performance</strong> & <strong>Ease-Of-Use</strong>.
