@@ -1,6 +1,10 @@
 # Building a Search Bar in React Native
 
-This guide walks you through building a mobile search interface using React Native (Expo) and Typesense. You'll create a cross-platform book search application that works on both iOS and Android devices, demonstrating how to integrate Typesense into your React Native projects. With over 60% of web traffic now coming from mobile devices, building fast and responsive mobile apps isn't just nice to have, it's essential. Mobile users expect instant results and won't wait around for slow searches. That's why combining React Native's native performance with Typesense's lightning-fast search engine creates the perfect foundation for a mobile app that your users will love.
+This guide walks you through building a native mobile search interface using React Native (Expo) and Typesense. 
+
+You'll create a cross-platform book search application that works on both iOS and Android devices, demonstrating how to integrate Typesense into your React Native projects. 
+
+Mobile users expect instant results and won't wait around for slow searches. That's why combining React Native's native performance with Typesense's lightning-fast search engine creates the perfect foundation for a mobile app search experience that your users will love.
 
 ## What is Typesense?
 
@@ -91,17 +95,17 @@ curl "http://localhost:8108/collections" \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
       -d '{
-        "name": "books",
-        "fields": [
-          {"name": "title", "type": "string", "facet": false},
-          {"name": "authors", "type": "string[]", "facet": true},
-          {"name": "publication_year", "type": "int32", "facet": true},
-          {"name": "average_rating", "type": "float", "facet": true},
-          {"name": "image_url", "type": "string", "facet": false},
-          {"name": "ratings_count", "type": "int32", "facet": true}
-        ],
-        "default_sorting_field": "ratings_count"
-      }'
+            "name": "books",
+            "fields": [
+              {"name": "title", "type": "string", "facet": false},
+              {"name": "authors", "type": "string[]", "facet": true},
+              {"name": "publication_year", "type": "int32", "facet": true},
+              {"name": "average_rating", "type": "float", "facet": true},
+              {"name": "image_url", "type": "string", "facet": false},
+              {"name": "ratings_count", "type": "int32", "facet": true}
+            ],
+            "default_sorting_field": "ratings_count"
+          }'
 ```
 
 Now that the collection is set up, we can load the sample dataset.
@@ -155,7 +159,7 @@ Let's go over the key dependencies:
 - **typesense-instantsearch-adapter** - Connects InstantSearch with Typesense
 
 :::tip Note
-React Native can use `react-instantsearch-core` with the `typesense-instantsearch-adapter`, just like web frameworks. This gives you access to powerful InstantSearch hooks and widgets. Alternatively, you can make direct API calls to Typesense using the Fetch API for a lighter implementation.
+React Native can use `react-instantsearch-core` with the [`typesense-instantsearch-adapter`](https://github.com/typesense/typesense-instantsearch-adapter), just like web frameworks. This gives you access to powerful InstantSearch hooks and widgets. Alternatively, you can make direct API calls to Typesense using the Fetch API for a lighter implementation.
 :::
 
 ## Project Structure
@@ -227,9 +231,7 @@ Let's create the project structure step by step. After each step, we'll show you
    Expo automatically loads environment variables starting with `EXPO_PUBLIC_` and makes them available to your app via `process.env`.
    :::
 
-   Using env variables is **NOT recommended** for production apps since they are bundled with the app and can be reverse engineered. If you must use a key on the client side, ensure it has restricted permissions (read-only only) and limited scope.
-
-   For production, consider using a more secure method like a backend service behind an authentication layer to handle the API key.
+   Using env variables is **NOT recommended** for production apps since they are bundled with the app. Instead, you want to generate a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#search-only-api-key`">search-only API key</RouterLink> and serve it to your app from a backend endpoint, along with your Typesense cluster endpoints. This way you can rotate your API keys and change your cluster endpoints at any point as needed.
 
 4. Create the types file:
 
