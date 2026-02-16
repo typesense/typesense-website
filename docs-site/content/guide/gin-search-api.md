@@ -17,23 +17,16 @@ Why developers choose Typesense:
 
 ## Why Build a Backend Search API?
 
-While Typesense can be accessed directly from frontend applications, there's a crucial reason why production applications almost always use a backend proxy: **security and control**.
+While Typesense can be accessed directly from frontend applications, some teams might prefer to proxy requests to Typesense through their backend APIs for a couple of reasons:
 
-Here's the reality: when you expose your Typesense API key directly to the frontend, you're essentially giving every user full access to your search infrastructure. They could potentially:
+- Full control over the exact API response structure
+- Add additional business logic on top of search results
+- Pre-process search queries before sending them to Typesense
+- Add custom conditional authentication logic that gets evaluated on every request, in addition to what <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search API keys</RouterLink> provide
+- Add custom rate limiting
 
-- Make unlimited search requests, driving up your costs
-- Access collections they shouldn't see
-- Reverse-engineer your search logic
-- Overwhelm your server with requests
-
-By building a backend API, you get:
-
-- **Authentication** - Only logged-in users can search
-- **Rate limiting** - Prevent abuse and control costs
-- **Custom business logic** - Filter results based on user permissions
-- **API key security** - Your Typesense credentials never leave the server
-- **Analytics** - Track what users are searching for
-- **Caching** - Speed up repeated searches
+The tradeoff is that this introduces an additional network hop through the backend, compared to sending the requests going from users' devices directly to Typesense which adds more network latency. 
+Also, features like the [Search Delivery Network](/guide/typesense-cloud/search-delivery-network.md) in Typesense Cloud work based on the geo origin of search request, which if you intend to use, will see all requests as originating from your backend instead of end users' actual location.
 
 ## Prerequisites
 
