@@ -315,6 +315,7 @@ let config = {
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
+            ['/guide/react-native-search-bar', 'Search Bar in React Native'],
           ],
         },
         {
