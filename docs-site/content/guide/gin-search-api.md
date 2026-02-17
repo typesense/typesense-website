@@ -79,65 +79,22 @@ Once Docker is installed, you can run a Typesense container in the background us
   82dd6bdfaf66   typesense/typesense:latest   "/opt/typesense-serv…"   1 min ago   Up 1 minutes   0.0.0.0:8108->8108/tcp, [::]:8108->8108/tcp   nostalgic_babbage
   ```
 
-- That's it! You are now ready to create collections and load data into your Typesense server.
-
 :::tip
 You can also set up a managed Typesense cluster on [Typesense Cloud](https://cloud.typesense.org) for a fully managed experience with a management UI, high availability, globally distributed search nodes and more.
 :::
 
-## Step 2: Create a new books collection and load sample dataset into Typesense
+## Step 2: Download sample dataset
 
-Typesense needs you to create a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/collections.html`">collection</RouterLink> in order to search through documents. A collection is a named container that defines a schema and stores indexed documents for search. Collection bundles three things together:
+For this guide, we'll use a sample books dataset. Both the collection creation and data import will be handled automatically by our Go application when it starts up (we'll implement this in later steps).
 
-  1. Schema
-  2. Document
-  3. Index
-
-You can create the books collection for this project using this `curl` command:
+Download the sample dataset to your project directory:
 
 ```shell
-curl "http://localhost:8108/collections" \
-      -X POST \
-      -H "Content-Type: application/json" \
-      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-      -d '{
-        "name": "books",
-        "fields": [
-          {"name": "title", "type": "string", "facet": false},
-          {"name": "authors", "type": "string[]", "facet": true},
-          {"name": "publication_year", "type": "int32", "facet": true},
-          {"name": "average_rating", "type": "float", "facet": true},
-          {"name": "image_url", "type": "string", "facet": false},
-          {"name": "ratings_count", "type": "int32", "facet": true}
-        ],
-        "default_sorting_field": "ratings_count"
-      }'
+curl -O https://dl.typesense.org/datasets/books.jsonl.gz
+gunzip books.jsonl.gz
 ```
 
-Now that the collection is set up, we can load the sample dataset.
-
-1. Download the sample dataset:
-
-   ```shell
-   curl -O https://dl.typesense.org/datasets/books.jsonl.gz
-   ```
-
-2. Unzip the dataset:
-
-   ```shell
-   gunzip books.jsonl.gz
-   ```
-
-3. Load the dataset in to Typesense:
-
-   ```shell
-   curl "http://localhost:8108/collections/books/documents/import" \
-         -X POST \
-         -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-         --data-binary @books.jsonl
-   ```
-
-You should see a bunch of success messages if the data load is successful.
+This will create a `books.jsonl` file that our Go application will automatically import on first startup.
 
 ## Step 3: Initialize your Go project
 
@@ -200,7 +157,7 @@ Let's organize our code properly. Create the following directory structure:
 
 ```bash
 mkdir -p utils routes
-touch utils/env.go utils/typesense.go routes/search.go server.go
+touch utils/env.go utils/typesense.go utils/collections.go utils/data_import.go routes/search.go server.go
 ```
 
 Your project should now look like this:
@@ -211,10 +168,13 @@ typesense-gin-search-api/
 │   └── search.go
 ├── utils/
 │   ├── env.go
-│   └── typesense.go
+│   ├── typesense.go
+│   ├── collections.go
+│   └── data_import.go
 ├── .env
 ├── go.mod
 ├── go.sum
+├── books.jsonl // sample dataset file
 └── server.go
 ```
 
@@ -303,7 +263,215 @@ func init() {
 
 This creates a singleton Typesense client that's initialized once and reused throughout your application. The client handles connection pooling and request management automatically. This client can be configured with additional options as per the [official documentation](https://github.com/typesense/typesense-go?tab=readme-ov-file#usage).
 
-## Step 8: Create the search route
+## Step 8: Set up automatic collection creation
+
+Now let's implement the code for managing collections. Instead of manually creating collections with curl commands, we'll have our application automatically create them on startup if they don't exist.
+
+Add this code to `utils/collections.go`:
+
+```go
+package utils
+
+import (
+    "context"
+    "log"
+
+    "github.com/typesense/typesense-go/v4/typesense/api"
+    "github.com/typesense/typesense-go/v4/typesense/api/pointer"
+)
+
+// InitializeCollections ensures all required collections exist
+// This is idempotent - safe to call multiple times
+func InitializeCollections(ctx context.Context) error {
+    log.Println("Initializing Typesense collections...")
+
+    // Define the books collection schema
+    booksSchema := &api.CollectionSchema{
+        Name: BookCollection,
+        Fields: []api.Field{
+            {Name: "title", Type: "string", Facet: pointer.False()},
+            {Name: "authors", Type: "string[]", Facet: pointer.True()},
+            {Name: "publication_year", Type: "int32", Facet: pointer.True()},
+            {Name: "average_rating", Type: "float", Facet: pointer.True()},
+            {Name: "image_url", Type: "string", Facet: pointer.False()},
+            {Name: "ratings_count", Type: "int32", Facet: pointer.True()},
+        },
+        DefaultSortingField: pointer.String("ratings_count"),
+    }
+
+    // Try to retrieve the collection to check if it exists
+    _, err := Client.Collection(BookCollection).Retrieve(ctx)
+    if err != nil {
+        // Collection doesn't exist, create it
+        log.Printf("Collection '%s' not found, creating...", BookCollection)
+        _, err = Client.Collections().Create(ctx, booksSchema)
+        if err != nil {
+            log.Printf("Failed to create collection '%s': %v", BookCollection, err)
+            return err
+        }
+        log.Printf("Collection '%s' created successfully", BookCollection)
+    } else {
+        log.Printf("Collection '%s' already exists, skipping creation", BookCollection)
+    }
+
+    return nil
+}
+```
+
+This function:
+
+- **Checks if the collection exists** by trying to retrieve it
+- **Creates it if missing** with the defined schema
+- **Skips creation if it already exists** (idempotent behavior)
+- **Returns errors** for proper error handling
+
+## Step 9: Set up automatic data import
+
+Now let's implement automatic data loading. This ensures your collection is populated with data on first startup, making your application truly ready to use out of the box.
+
+Add this code to `utils/data_import.go`:
+
+```go
+package utils
+
+import (
+    "bufio"
+    "context"
+    "encoding/json"
+    "fmt"
+    "log"
+    "os"
+
+    "github.com/typesense/typesense-go/v4/typesense/api"
+    "github.com/typesense/typesense-go/v4/typesense/api/pointer"
+)
+
+// ImportDocumentsFromJSONL imports documents from a JSONL file in bulk
+func ImportDocumentsFromJSONL(ctx context.Context, collectionName, filePath string) error {
+    log.Printf("Starting bulk import from %s to collection '%s'...", filePath, collectionName)
+
+    // Read the JSONL file
+    file, err := os.Open(filePath)
+    if err != nil {
+        return fmt.Errorf("failed to open file: %w", err)
+    }
+    defer file.Close()
+
+    // Parse each line as a JSON document
+    scanner := bufio.NewScanner(file)
+    var documents []interface{}
+    lineCount := 0
+
+    for scanner.Scan() {
+        var doc map[string]interface{}
+        if err := json.Unmarshal(scanner.Bytes(), &doc); err != nil {
+            log.Printf("Warning: skipping invalid JSON line: %v", err)
+            continue
+        }
+        documents = append(documents, doc)
+        lineCount++
+    }
+
+    if err := scanner.Err(); err != nil {
+        return fmt.Errorf("error reading file: %w", err)
+    }
+
+    log.Printf("Read %d documents from file", lineCount)
+
+    // Import documents in bulk using the import API
+    // BatchSize controls how many documents are processed at once
+    importParams := &api.ImportDocumentsParams{
+        BatchSize: pointer.Int(100), // Process in batches of 100
+    }
+
+    // The Import method accepts []interface{} containing document maps
+    results, err := Client.Collection(collectionName).Documents().Import(
+        ctx,
+        documents,
+        importParams,
+    )
+
+    if err != nil {
+        return fmt.Errorf("bulk import failed: %w", err)
+    }
+
+    // Count successes and failures
+    successCount := 0
+    failureCount := 0
+
+    for _, result := range results {
+        if result.Success {
+            successCount++
+        } else {
+            failureCount++
+            // Log first few errors for debugging
+            if failureCount <= 5 {
+                log.Printf("Import error: %s", result.Error)
+            }
+        }
+    }
+
+    log.Printf("Bulk import completed: %d succeeded, %d failed", successCount, failureCount)
+
+    if failureCount > 0 && failureCount > lineCount/2 {
+        // Only error if more than half failed
+        return fmt.Errorf("bulk import had too many failures: %d out of %d", failureCount, lineCount)
+    }
+
+    return nil
+}
+
+// CheckCollectionDocumentCount returns the number of documents in a collection
+func CheckCollectionDocumentCount(ctx context.Context, collectionName string) (int, error) {
+    collection, err := Client.Collection(collectionName).Retrieve(ctx)
+    if err != nil {
+        return 0, fmt.Errorf("failed to retrieve collection: %w", err)
+    }
+
+    return int(*collection.NumDocuments), nil
+}
+
+// InitializeDataIfEmpty checks if collection is empty and imports data if needed
+// This is idempotent - safe to run on every startup
+func InitializeDataIfEmpty(ctx context.Context, collectionName, dataFilePath string) error {
+    log.Printf("Checking if collection '%s' needs data initialization...", collectionName)
+
+    // Check current document count
+    count, err := CheckCollectionDocumentCount(ctx, collectionName)
+    if err != nil {
+        return fmt.Errorf("failed to check document count: %w", err)
+    }
+
+    if count > 0 {
+        log.Printf("Collection '%s' already has %d documents, skipping import", collectionName, count)
+        return nil
+    }
+
+    log.Printf("Collection '%s' is empty, importing data from %s", collectionName, dataFilePath)
+
+    // Import data
+    if err := ImportDocumentsFromJSONL(ctx, collectionName, dataFilePath); err != nil {
+        return fmt.Errorf("failed to import data: %w", err)
+    }
+
+    // Verify import
+    newCount, err := CheckCollectionDocumentCount(ctx, collectionName)
+    if err != nil {
+        return fmt.Errorf("failed to verify import: %w", err)
+    }
+
+    log.Printf("Data import successful: collection '%s' now has %d documents", collectionName, newCount)
+    return nil
+}
+```
+
+This module provides three key functions:
+
+- **`ImportDocumentsFromJSONL()`** - Reads a JSONL file and bulk imports documents into Typesense. This is 10-100x faster than inserting documents one by one.
+- **`CheckCollectionDocumentCount()`** - Returns the current number of documents in a collection.
+- **`InitializeDataIfEmpty()`** - Checks if a collection is empty and imports data if needed. This is idempotent and safe to run on every startup.
+
+## Step 10: Create the search route
 
 Now for the heart of our API - the search endpoint. Add this to `routes/search.go`:
 
@@ -336,8 +504,10 @@ func searchBooks(c *gin.Context) {
 
     // Create search parameters
     searchParams := &api.SearchCollectionParams{
-        Q:       pointer.String(query),
-        QueryBy: pointer.String("title,authors"),
+      Q:       pointer.String(query),
+      QueryBy: pointer.String("title,authors"),
+      QueryByWeights: pointer.String("2,1"),
+      FacetBy:        pointer.String("authors,publication_year,average_rating")
     }
 
     // Perform search using the Typesense client
@@ -362,13 +532,13 @@ func searchBooks(c *gin.Context) {
 This route handler:
 
 1. Validates that a search query was provided.
-2. Configures the search to look in both `title` and `authors` fields.
+2. Configures the search to look in both `title` and `authors` fields, with `query_by_weights` to rank title matches 2x higher than author matches, and `facet_by` to return aggregated counts for filtering. See the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">full list of search parameters</RouterLink> for more options.
 3. Executes the search against Typesense.
 4. Returns the results in a clean JSON format.
 
 Notice how the Typesense API key never appears in the response - it stays safely on the server.
 
-## Step 9: Create the main server
+## Step 11: Create the main server
 
 Finally, let's tie everything together. Add this to `server.go`:
 
@@ -376,37 +546,56 @@ Finally, let's tie everything together. Add this to `server.go`:
 package main
 
 import (
-    "github.com/gin-contrib/cors"
-    "github.com/gin-gonic/gin"
-    "github.com/<yourusername>/typesense-gin-search-api/routes"
-    "github.com/<yourusername>/typesense-gin-search-api/utils"
+  "context"
+  "log"
+  "time"
+
+  "github.com/gin-contrib/cors"
+  "github.com/gin-gonic/gin"
+  "github.com/<yourusername>/typesense-gin-search-api/routes"
+  "github.com/<yourusername>/typesense-gin-search-api/utils"
 )
 
 func main() {
-    router := gin.Default()
+  // Initialize collections before starting the server
+  ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+  defer cancel()
 
-    // CORS middleware - allows requests from your frontend
-    router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"*"},
-        AllowMethods:     []string{"GET", "OPTIONS"},
-        AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
-        ExposeHeaders:    []string{"Content-Length"},
-        AllowCredentials: true,
-    }))
+  if err := utils.InitializeCollections(ctx); err != nil {
+    log.Fatalf("Failed to initialize collections: %v", err)
+  }
 
-    // Health check endpoint
-    router.GET("/ping", func(c *gin.Context) {
-        c.JSON(200, gin.H{
-            "message": "pong",
-        })
+  // Initialize data if collection is empty
+  // This is idempotent - only imports if collection has no documents
+  dataFile := "books.jsonl"
+  if err := utils.InitializeDataIfEmpty(ctx, utils.BookCollection, dataFile); err != nil {
+    log.Printf("Warning: Failed to initialize data: %v", err)
+    log.Println("Server will continue, but collection may be empty")
+  }
+
+  router := gin.Default()
+
+ // CORS middleware
+ router.Use(cors.New(cors.Config{
+   AllowOrigins:     []string{"*"},
+   AllowMethods:     []string{"GET", "OPTIONS"},
+   AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+   ExposeHeaders:    []string{"Content-Length"},
+   AllowCredentials: true,
+  }))
+
+  // Health check endpoint
+  router.GET("/ping", func(c *gin.Context) {
+    c.JSON(200, gin.H{
+      "message": "pong",
     })
+  })
 
-    // Setup search routes
-    routes.SetupSearchRoutes(router)
+  // Setup search routes
+  routes.SetupSearchRoutes(router)
 
-    // Get port from environment
-    port := utils.GetEnv("PORT", "3000")
-    router.Run(":" + port)
+  port := utils.GetEnv("PORT", "3000")
+  router.Run(":" + port)
 }
 ```
 
@@ -417,9 +606,11 @@ This sets up:
 - Your search routes
 - The server to run on the configured port
 
-## Step 10: Run your API server
+## Step 12: Run your API server
 
-You're ready to start your server! Run:
+Before starting the server, make sure you have the `books.jsonl` data file in your project root directory (the same directory as `server.go`).
+
+Now you're ready to start your server! Run:
 
 ```bash
 go run server.go
@@ -428,11 +619,21 @@ go run server.go
 You should see output like:
 
 ```bash
-2026/02/15 08:19:18 Typesense Client created successfully
+Typesense Client created successfully
+Initializing Typesense collections...
+Collection 'books' not found, creating...
+Collection 'books' created successfully
+Checking if collection 'books' needs data initialization...
+Collection 'books' is empty, importing data from books.jsonl
+Starting bulk import from books.jsonl to collection 'books'...
+Read 9979 documents from file
+Bulk import completed: 9979 succeeded, 0 failed
 [GIN-debug] GET    /ping      --> main.main.func1 (4 handlers)
 [GIN-debug] GET    /search    --> routes.searchBooks (4 handlers)
 [GIN-debug] Listening and serving HTTP on :3000
 ```
+
+Notice the collection initialization and data import happens automatically before the server starts. If the collection doesn't exist, you'll see it being created instead.
 
 You can also configure hot reload for development using [CompileDaemon](https://github.com/githubnemo/CompileDaemon) and use this command to watch for changes and automatically restart the server:
 
