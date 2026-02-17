@@ -155,8 +155,8 @@ npm i react-instantsearch-core typesense-instantsearch-adapter
 
 Let's go over the key dependencies:
 
-- **react-instantsearch-core** - Provides InstantSearch hooks and components for React Native
-- **typesense-instantsearch-adapter** - Connects InstantSearch with Typesense
+- **react-instantsearch-core** - Provides [InstantSearch](https://github.com/algolia/instantsearch) hooks and components for React Native. InstantSearch is an open-source UI library by Algolia for building search interfaces that works with any search backend through adapters.
+- **typesense-instantsearch-adapter** - Connects InstantSearch with Typesense as the search engine
 
 :::tip Note
 React Native can use `react-instantsearch-core` with the [`typesense-instantsearch-adapter`](https://github.com/typesense/typesense-instantsearch-adapter), just like web frameworks. This gives you access to powerful InstantSearch hooks and widgets. Alternatively, you can make direct API calls to Typesense using the Fetch API for a lighter implementation.
@@ -571,7 +571,6 @@ Here's the complete source code for this project on GitHub:
 Here are other related examples that show you how to build search interfaces with different frameworks:
 
 - [Guitar Chords Search with React Native](https://github.com/typesense/showcase-guitar-chords-search-react-native)
-- [E-commerce Store with React Native](https://github.com/typesense/showcase-ecommerce-store-react-native)
 
 ## Need Help?
 
