@@ -935,12 +935,6 @@ Typesense supports adding or removing fields to a collection's schema in-place.
 Typesense supports updating all fields **except** the `id` field (since it's a special field within Typesense).
 :::
 
-:::danger Adding Embedding Fields
-If you use this alter operation to add an [auto-embedding field](./vector-search.html#option-b-auto-embedding-generation-within-typesense), Typesense will generate embeddings for **all existing documents** in the collection. This is highly CPU and RAM intensive and **can make your cluster nodes unresponsive**.
-
-For production clusters, we strongly recommend creating a new collection with the embedding field in the schema and indexing documents in controlled batches, rather than altering an existing collection. See the [alias feature](#using-an-alias) for zero-downtime migration, and [GPU Acceleration](./vector-search.html#using-a-gpu-optional) to speed up embedding generation.
-:::
-
 Let's see how we can add a new `company_category` field to the `companies` collection and also drop the existing
 `num_employees` field.
 
@@ -1162,9 +1156,15 @@ curl "http://localhost:8108/collections/companies" \
        }'
 ```
 
+:::danger Adding Embedding Fields
+If you use this alter operation to add an [auto-embedding field](./vector-search.html#option-b-auto-embedding-generation-within-typesense), Typesense will generate embeddings for **all existing documents** in the collection. This is highly CPU and RAM intensive and **can make your cluster nodes unresponsive**.
+
+For production clusters, we strongly recommend creating a new collection with the embedding field in the schema and indexing documents in controlled batches, rather than altering an existing collection. See the [alias feature](#using-an-alias) for zero-downtime migration, and [GPU Acceleration](./vector-search.html#using-a-gpu-optional) to speed up embedding generation.
+:::
+
 ### Using an alias
 
-If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use 
+If you need to do zero-downtime schema changes, you could also re-create the collection fully with the updated schema and use
 the [Collection Alias](./collection-alias.md) feature to do a zero-downtime switch over to the new collection:
 
 Let's say you have a collection called `movies_jan_1` that you want to change the schema for.
