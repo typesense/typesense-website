@@ -291,6 +291,7 @@ let config = {
             ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/query-suggestions', 'Query Suggestions'],
             ['/guide/natural-language-search', 'Natural Language Search'],
+            ['/guide/ai-agents-typesense', 'Typesense for AI Agents'],
             ['/guide/boolean-tag-search', 'Boolean Search with Tags'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
             ['/guide/github-actions', 'Running Tests in Github Actions'],
