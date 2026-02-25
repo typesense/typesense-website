@@ -1,6 +1,14 @@
 # Building a Search API with Go Gin and Typesense
 
-This guide walks you through building a RESTful search API using Go's Gin framework and Typesense. You'll create a simple backend server that acts as a secure proxy between your frontend applications and Typesense, giving you full control over authentication, rate limiting, and search logic.
+This guide walks you through building a RESTful search API using Go's Gin framework, PostgreSQL, and Typesense. You'll build a backend server that stores data in PostgreSQL as the source of truth, keeps Typesense in sync for fast search, and exposes a clean search API to your frontend clients.
+
+By the end of this guide, you'll have:
+
+- A full CRUD API for books backed by PostgreSQL
+- Automatic database-to-Typesense sync (both real-time and periodic)
+- Paginated sync that safely handles millions of records without memory issues
+- Resilient Typesense client with automatic retries
+- A search endpoint that proxies queries through your backend
 
 ## What is Typesense?
 
@@ -25,162 +33,156 @@ While Typesense can be accessed directly from frontend applications, some teams 
 - Add custom conditional authentication logic that gets evaluated on every request, in addition to what <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search API keys</RouterLink> provide
 - Add custom rate limiting
 
-The tradeoff is that this introduces an additional network hop through the backend, compared to sending the requests going from users' devices directly to Typesense which adds more network latency. 
+The tradeoff is that this introduces an additional network hop through the backend, compared to sending the requests going from users' devices directly to Typesense which adds more network latency.
 Also, features like the [Search Delivery Network](/guide/typesense-cloud/search-delivery-network.md) in Typesense Cloud work based on the geo origin of search request, which if you intend to use, will see all requests as originating from your backend instead of end users' actual location.
+
+## Architecture Overview
+
+Before writing code, let's understand how the pieces fit together:
+
+```text
+┌─────────────┐     CRUD      ┌─────────────┐
+│   Frontend  │ ────────────▶ │  Gin API    │
+│             │ ◀──────────── │  (Go)       │
+└─────────────┘    Search     └──────┬──────┘
+                                     │
+                          ┌──────────┴──────────┐
+                          │                     │
+                    ┌─────▼─────┐        ┌──────▼──────┐
+                    │ PostgreSQL│        │  Typesense  │
+                    │ (source   │        │  (search    │
+                    │  of truth)│        │   index)    │
+                    └─────┬─────┘        └──────▲──────┘
+                          │                     │
+                          └─────────────────────┘
+                              Background Sync
+                              (every 60 seconds)
+```
+
+**PostgreSQL** is the source of truth. All writes go there first. **Typesense** is the search index, kept in sync automatically via a background goroutine that runs every 60 seconds. This pattern gives you durable relational storage alongside sub-millisecond full-text search.
 
 ## Prerequisites
 
-This guide uses [Go](https://go.dev/) and the [Gin](https://gin-gonic.com/) web framework to build a fast, production-ready API server.
-
 Please ensure you have the following installed:
 
-- [Go 1.19+](https://go.dev/doc/install)
-- [Docker](https://docs.docker.com/get-docker/) (for running Typesense locally)
+- [Go 1.21+](https://go.dev/doc/install)
+- [Docker](https://docs.docker.com/get-docker/) (for running Typesense and PostgreSQL)
 - Basic knowledge of Go and REST APIs
 
-This guide uses a Linux environment, but you can adapt the commands to other operating systems as needed.
+## Step 1: Start Typesense and PostgreSQL
 
-## Step 1: Setup your Typesense server
+Run both services with Docker:
 
-Once Docker is installed, you can run a Typesense container in the background using the following commands:
+```bash
+mkdir typesense-data
 
-- Create a folder that will store all searchable data stored for Typesense:
+# Start Typesense
+docker run -d -p 8108:8108 \
+  -v "$(pwd)"/typesense-data:/data \
+  typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+  --data-dir /data \
+  --api-key=1234 \
+  --enable-cors
 
-  ```shell
-  mkdir "$(pwd)"/typesense-data
-  ```
-
-- Run the Docker container:
-
-  <Tabs :tabs="['Shell']">
-    <template v-slot:Shell>
-      <div class="manual-highlight">
-        <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
-  docker run -p 8108:8108 \
-    -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
-    --data-dir /data \
-    --api-key=$TYPESENSE_API_KEY \
-    --enable-cors \
-    -d</code></pre>
-      </div>
-    </template>
-  </Tabs>
-
-- Verify if your Docker container was created properly:
-
-  ```shell
-  docker ps
-  ```
-
-- You should see the Typesense container running without any issues:
-
-  ```shell
-  CONTAINER ID   IMAGE                      COMMAND                  CREATED       STATUS       PORTS                                         NAMES
-  82dd6bdfaf66   typesense/typesense:latest   "/opt/typesense-serv…"   1 min ago   Up 1 minutes   0.0.0.0:8108->8108/tcp, [::]:8108->8108/tcp   nostalgic_babbage
-  ```
+# Start PostgreSQL
+docker run -d -p 5432:5432 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=typesense_books \
+  postgres:15
+```
 
 :::tip
 You can also set up a managed Typesense cluster on [Typesense Cloud](https://cloud.typesense.org) for a fully managed experience with a management UI, high availability, globally distributed search nodes and more.
 :::
 
-## Step 2: Download sample dataset
+## Step 2: Initialize your Go project
 
-For this guide, we'll use a sample books dataset. Both the collection creation and data import will be handled automatically by our Go application when it starts up (we'll implement this in later steps).
-
-Download the sample dataset to your project directory:
-
-```shell
-curl -O https://dl.typesense.org/datasets/books.jsonl.gz
-gunzip books.jsonl.gz
-```
-
-This will create a `books.jsonl` file that our Go application will automatically import on first startup.
-
-## Step 3: Initialize your Go project
-
-Create a new directory for your project:
+Create the project and install dependencies:
 
 ```bash
-mkdir typesense-gin-search-api
-cd typesense-gin-search-api
-```
+mkdir typesense-gin-full-text-search
+cd typesense-gin-full-text-search
+go mod init github.com/<yourusername>/typesense-gin-full-text-search
 
-Initialize a Go module:
-
-```bash
-go mod init github.com/<yourusername>/typesense-gin-search-api
-```
-
-Install the required dependencies:
-
-```bash
 go get github.com/gin-gonic/gin
 go get github.com/gin-contrib/cors
 go get github.com/typesense/typesense-go/v4
 go get github.com/joho/godotenv
+go get gorm.io/gorm
+go get gorm.io/driver/postgres
 ```
 
-Let's understand what each dependency does:
+What each dependency does:
 
-- [**gin-gonic/gin**](https://github.com/gin-gonic/gin) - A fast HTTP web framework for Go, perfect for building APIs
+- [**gin-gonic/gin**](https://github.com/gin-gonic/gin) - Fast HTTP web framework for building APIs
 - [**gin-contrib/cors**](https://github.com/gin-contrib/cors) - CORS middleware to allow requests from your frontend
-- [**typesense-go**](https://github.com/typesense/typesense-go) - Official Go client for Typesense
+- [**typesense-go/v4**](https://github.com/typesense/typesense-go) - Official Go client for Typesense
 - [**godotenv**](https://github.com/joho/godotenv) - Loads environment variables from a `.env` file
+- [**gorm**](https://gorm.io/) - ORM for Go with automatic migrations and soft deletes
+- [**gorm postgres driver**](https://github.com/go-gorm/postgres) - PostgreSQL driver for GORM
+
+## Step 3: Create the project structure
+
+```bash
+mkdir -p utils routes models
+touch utils/env.go utils/typesense.go utils/collections.go
+touch utils/database.go utils/sync.go utils/sync_worker.go
+touch models/book.go
+touch routes/search.go routes/books.go
+touch server.go .env
+```
+
+Your project should look like this:
+
+```plaintext
+typesense-gin-full-text-search/
+├── models/
+│   └── book.go           # GORM model with soft delete support
+├── routes/
+│   ├── books.go          # CRUD API handlers
+│   └── search.go         # Search + sync API handlers
+├── utils/
+│   ├── collections.go    # Typesense collection management
+│   ├── database.go       # PostgreSQL queries (paginated)
+│   ├── env.go            # Environment variable helpers
+│   ├── sync.go           # DB → Typesense sync logic
+│   ├── sync_worker.go    # Background sync goroutine
+│   └── typesense.go      # Typesense client initialization
+├── .env
+├── go.mod
+├── go.sum
+└── server.go
+```
 
 ## Step 4: Set up environment configuration
 
-Create a `.env` file in your project root:
-
-```bash
-touch .env
-```
-
-Add your configuration:
+Add this to `.env`:
 
 ```env
-# Server Configuration
+# Server
 PORT=3000
 
-# Typesense Configuration
+# Typesense
 TYPESENSE_HOST=localhost
 TYPESENSE_PORT=8108
 TYPESENSE_PROTOCOL=http
 TYPESENSE_API_KEY=xyz
 TYPESENSE_COLLECTION=books
+
+# PostgreSQL
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=typesense_books
 ```
 
-This keeps your sensitive configuration separate from your code. In production, you'd use actual environment variables instead of a `.env` file.
+This keeps sensitive credentials out of your code.
 
-## Step 5: Create the project structure
+## Step 5: Build the environment utilities
 
-Let's organize our code properly. Create the following directory structure:
-
-```bash
-mkdir -p utils routes
-touch utils/env.go utils/typesense.go utils/collections.go utils/data_import.go routes/search.go server.go
-```
-
-Your project should now look like this:
-
-```plaintext
-typesense-gin-search-api/
-├── routes/
-│   └── search.go
-├── utils/
-│   ├── env.go
-│   ├── typesense.go
-│   ├── collections.go
-│   └── data_import.go
-├── .env
-├── go.mod
-├── go.sum
-├── books.jsonl // sample dataset file
-└── server.go
-```
-
-## Step 6: Build the environment utilities
-
-First, let's create a utility to read environment variables. Add this to `utils/env.go`:
+Add this to `utils/env.go`:
 
 ```go
 package utils
@@ -193,9 +195,8 @@ import (
     "github.com/joho/godotenv"
 )
 
-// init() runs automatically when the package is imported
+// init() runs automatically when the package is imported - loads .env file
 func init() {
-    // Load .env file
     if err := godotenv.Load(); err != nil {
         log.Println("No .env file found, using environment variables")
     }
@@ -228,17 +229,18 @@ func GetServerURL() string {
 var BookCollection = GetEnv("TYPESENSE_COLLECTION", "books")
 ```
 
-This utility provides a clean way to access configuration throughout your application. The `init()` function automatically loads the `.env` file when the package is imported.
+The `init()` function is a special Go function that runs automatically when a package is first imported - no explicit call needed. This guarantees the `.env` file is loaded before any other code in the `utils` package runs.
 
-## Step 7: Initialize the Typesense client
+## Step 6: Initialize the Typesense client with retry support
 
-Now let's set up the Typesense client. Add this to `utils/typesense.go`:
+Add this to `utils/typesense.go`:
 
 ```go
 package utils
 
 import (
     "log"
+    "time"
 
     "github.com/typesense/typesense-go/v4/typesense"
 )
@@ -249,43 +251,200 @@ func init() {
     apiKey := GetEnv("TYPESENSE_API_KEY", "xyz")
     serverURL := GetServerURL()
 
-    log.Printf("Creating Typesense Client - Server URL: %s", serverURL)
-
-    // Create client with configuration from environment
     Client = typesense.NewClient(
         typesense.WithServer(serverURL),
         typesense.WithAPIKey(apiKey),
+        typesense.WithNumRetries(3),
+        typesense.WithRetryInterval(1*time.Second),
     )
 
     log.Printf("Typesense Client created successfully")
 }
 ```
 
-This creates a singleton Typesense client that's initialized once and reused throughout your application. The client handles connection pooling and request management automatically. This client can be configured with additional options as per the [official documentation](https://github.com/typesense/typesense-go?tab=readme-ov-file#usage).
+`WithNumRetries(3)` automatically retries failed requests up to 3 times, handling transient network issues transparently. `WithRetryInterval(1*time.Second)` waits 1 second between attempts so a briefly overloaded server has time to recover.
 
-## Step 8: Set up automatic collection creation
+## Step 7: Define the Book model
 
-Now let's implement the code for managing collections. Instead of manually creating collections with curl commands, we'll have our application automatically create them on startup if they don't exist.
+Add this to `models/book.go`:
 
-Add this code to `utils/collections.go`:
+```go
+package models
+
+import (
+    "fmt"
+    "time"
+
+    "gorm.io/gorm"
+)
+
+type Book struct {
+    ID              uint           `gorm:"primaryKey" json:"id"`
+    Title           string         `json:"title"`
+    Authors         []string       `gorm:"serializer:json" json:"authors"`
+    PublicationYear int            `json:"publication_year"`
+    AverageRating   float64        `json:"average_rating"`
+    ImageUrl        string         `json:"image_url"`
+    RatingsCount    int            `json:"ratings_count"`
+    CreatedAt       time.Time      `json:"created_at"`
+    UpdatedAt       time.Time      `json:"updated_at"`
+    DeletedAt       gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
+}
+
+func (b *Book) GetTypesenseID() string {
+    return fmt.Sprintf("book_%d", b.ID)
+}
+
+func (b *Book) BeforeUpdate(tx *gorm.DB) error {
+    b.UpdatedAt = time.Now()
+    return nil
+}
+
+func (b *Book) BeforeDelete(tx *gorm.DB) error {
+    b.UpdatedAt = time.Now()
+    return nil
+}
+```
+
+Key design choices:
+
+- **`Authors []string`** with `gorm:"serializer:json"` stores the slice as a JSON array in PostgreSQL and maps cleanly to Typesense's `string[]` field type.
+- **`DeletedAt gorm.DeletedAt`** enables GORM's soft delete. Calling `db.Delete(&book)` sets this timestamp instead of removing the row, so we can detect deletions and propagate them to Typesense.
+- **`GetTypesenseID()`** prefixes the database integer ID with `book_` since Typesense requires string document IDs.
+- **`BeforeUpdate` / `BeforeDelete`** hooks ensure `updated_at` is always stamped on writes. The incremental sync relies on this field to detect what changed since the last run.
+
+## Step 8: Set up the database layer with pagination
+
+Add this to `utils/database.go`. The critical design here is **paginated queries** — we never load the entire table into memory:
 
 ```go
 package utils
 
 import (
     "context"
+    "fmt"
+    "os"
+    "time"
+
+    "github.com/<yourusername>/typesense-gin-full-text-search/models"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
+)
+
+var DB *gorm.DB
+
+func ConnectToDB(ctx context.Context) *gorm.DB {
+    dsn := fmt.Sprintf(
+        "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
+        os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
+        os.Getenv("DB_NAME"), os.Getenv("DB_PORT"),
+    )
+    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    if err != nil {
+        panic(fmt.Sprintf("Failed to connect to database: %v", err))
+    }
+    // AutoMigrate creates or updates the table schema automatically on startup
+    if err := db.AutoMigrate(&models.Book{}); err != nil {
+        panic(fmt.Sprintf("Failed to auto-migrate: %v", err))
+    }
+    DB = db
+    return db
+}
+
+// GetAllBooksPaginated fetches books in pages for memory-efficient full sync.
+// page is 1-indexed. Order("id ASC") is required for consistent pagination.
+func GetAllBooksPaginated(ctx context.Context, page int, pageSize int) ([]models.Book, error) {
+    var books []models.Book
+    offset := (page - 1) * pageSize
+    err := DB.WithContext(ctx).
+        Offset(offset).Limit(pageSize).
+        Order("id ASC").
+        Find(&books).Error
+    return books, err
+}
+
+func GetTotalBooksCount(ctx context.Context) (int64, error) {
+    var count int64
+    err := DB.WithContext(ctx).Model(&models.Book{}).Count(&count).Error
+    return count, err
+}
+
+// GetBooksByUpdatedAtPaginated fetches only books modified since `since`.
+// Used by incremental sync to find what changed since the last run.
+func GetBooksByUpdatedAtPaginated(ctx context.Context, since time.Time, page int, pageSize int) ([]models.Book, error) {
+    var books []models.Book
+    offset := (page - 1) * pageSize
+    err := DB.WithContext(ctx).
+        Where("updated_at > ?", since).
+        Offset(offset).Limit(pageSize).
+        Order("updated_at ASC").
+        Find(&books).Error
+    return books, err
+}
+
+func GetUpdatedBooksCount(ctx context.Context, since time.Time) (int64, error) {
+    var count int64
+    err := DB.WithContext(ctx).Model(&models.Book{}).
+        Where("updated_at > ?", since).Count(&count).Error
+    return count, err
+}
+
+// GetDeletedBooks fetches soft-deleted rows using Unscoped() to bypass
+// GORM's automatic WHERE deleted_at IS NULL filter.
+func GetDeletedBooks(ctx context.Context, since time.Time) ([]models.Book, error) {
+    var books []models.Book
+    err := DB.WithContext(ctx).Unscoped().
+        Where("deleted_at IS NOT NULL").
+        Where("updated_at > ?", since).
+        Find(&books).Error
+    return books, err
+}
+
+func GetBookByID(ctx context.Context, id uint) (*models.Book, error) {
+    var book models.Book
+    if err := DB.WithContext(ctx).First(&book, id).Error; err != nil {
+        return nil, err
+    }
+    return &book, nil
+}
+
+func GetAllBooks(ctx context.Context) ([]models.Book, error) {
+    var books []models.Book
+    err := DB.WithContext(ctx).Find(&books).Error
+    return books, err
+}
+
+func SaveBook(ctx context.Context, book *models.Book) error {
+    return DB.WithContext(ctx).Save(book).Error
+}
+
+func DeleteBook(ctx context.Context, id uint) error {
+    return DB.WithContext(ctx).Delete(&models.Book{}, id).Error
+}
+```
+
+The `Order("id ASC")` in `GetAllBooksPaginated` is essential. Without a consistent sort order, the database can return rows in a different order between queries, causing records to be silently skipped or duplicated across pages.
+
+## Step 9: Set up automatic collection creation
+
+Add this to `utils/collections.go`:
+
+```go
+package utils
+
+import (
+    "context"
+    "fmt"
     "log"
 
     "github.com/typesense/typesense-go/v4/typesense/api"
     "github.com/typesense/typesense-go/v4/typesense/api/pointer"
 )
 
-// InitializeCollections ensures all required collections exist
-// This is idempotent - safe to call multiple times
+// InitializeCollections ensures the books collection exists. Safe to call on every startup.
 func InitializeCollections(ctx context.Context) error {
     log.Println("Initializing Typesense collections...")
 
-    // Define the books collection schema
     booksSchema := &api.CollectionSchema{
         Name: BookCollection,
         Fields: []api.Field{
@@ -299,15 +458,11 @@ func InitializeCollections(ctx context.Context) error {
         DefaultSortingField: pointer.String("ratings_count"),
     }
 
-    // Try to retrieve the collection to check if it exists
     _, err := Client.Collection(BookCollection).Retrieve(ctx)
     if err != nil {
-        // Collection doesn't exist, create it
         log.Printf("Collection '%s' not found, creating...", BookCollection)
-        _, err = Client.Collections().Create(ctx, booksSchema)
-        if err != nil {
-            log.Printf("Failed to create collection '%s': %v", BookCollection, err)
-            return err
+        if _, err = Client.Collections().Create(ctx, booksSchema); err != nil {
+            return fmt.Errorf("failed to create collection: %w", err)
         }
         log.Printf("Collection '%s' created successfully", BookCollection)
     } else {
@@ -325,420 +480,751 @@ This function:
 - **Skips creation if it already exists** (idempotent behavior)
 - **Returns errors** for proper error handling
 
-## Step 9: Set up automatic data import
+Fields marked `Facet: pointer.True()` can be used for filtering and aggregation in search results (e.g. "all books by a given author published after 2000"). `DefaultSortingField` sets the tiebreaker when two results have the same relevance score.
 
-Now let's implement automatic data loading. This ensures your collection is populated with data on first startup, making your application truly ready to use out of the box.
+## Step 10: Implement paginated sync from PostgreSQL to Typesense
 
-Add this code to `utils/data_import.go`:
+Add this to `utils/sync.go`.
+
+This file implements two sync patterns that work together:
+
+**Paginated full sync** — When syncing for the first time, or after a long outage, there may be thousands or millions of records to index. Loading them all into memory at once would cause out-of-memory crashes on large datasets. Instead, `SyncAllBooksToTypesense` fetches 1,000 rows at a time from PostgreSQL, converts them to Typesense documents, sends that batch to Typesense, then moves to the next page. Memory usage stays flat at roughly one page of data regardless of how large the table grows.
+
+**Incremental sync** — On every subsequent run, `SyncBooksToTypesense` only fetches records whose `updated_at` timestamp is newer than `lastSyncTime` — the timestamp of the last successful sync. This avoids re-indexing the entire dataset on every tick. For a table with 1 million books where only 50 changed in the last 60 seconds, only those 50 are fetched and sent to Typesense. The `lastSyncTime` is updated to `time.Now()` at the end of each successful run, so the next run picks up from exactly where this one left off.
 
 ```go
 package utils
 
 import (
-    "bufio"
     "context"
-    "encoding/json"
     "fmt"
     "log"
-    "os"
+    "sync"
+    "time"
 
     "github.com/typesense/typesense-go/v4/typesense/api"
     "github.com/typesense/typesense-go/v4/typesense/api/pointer"
+    "github.com/<yourusername>/typesense-gin-full-text-search/models"
 )
 
-// ImportDocumentsFromJSONL imports documents from a JSONL file in bulk
-func ImportDocumentsFromJSONL(ctx context.Context, collectionName, filePath string) error {
-    log.Printf("Starting bulk import from %s to collection '%s'...", filePath, collectionName)
+type SyncConfig struct {
+    BatchSize        int // Documents per Typesense import API call
+    PageSize         int // Records fetched per PostgreSQL query
+    SyncIntervalSec  int
+    EnableSoftDelete bool
+}
 
-    // Read the JSONL file
-    file, err := os.Open(filePath)
-    if err != nil {
-        return fmt.Errorf("failed to open file: %w", err)
+func DefaultSyncConfig() *SyncConfig {
+    return &SyncConfig{
+        BatchSize:       1000,
+        PageSize:        1000,
+        SyncIntervalSec: 60,
     }
-    defer file.Close()
+}
 
-    // Parse each line as a JSON document
-    scanner := bufio.NewScanner(file)
-    var documents []interface{}
-    lineCount := 0
+// SyncBooksToTypesense incrementally syncs books modified since lastSyncTime.
+// Returns the new sync timestamp to persist after a successful run.
+func SyncBooksToTypesense(ctx context.Context, lastSyncTime time.Time) (time.Time, error) {
+    log.Printf("Starting incremental sync since %s", lastSyncTime.Format(time.RFC3339))
+    config := DefaultSyncConfig()
 
-    for scanner.Scan() {
-        var doc map[string]interface{}
-        if err := json.Unmarshal(scanner.Bytes(), &doc); err != nil {
-            log.Printf("Warning: skipping invalid JSON line: %v", err)
-            continue
+    updatedCount, err := GetUpdatedBooksCount(ctx, lastSyncTime)
+    if err != nil {
+        return lastSyncTime, fmt.Errorf("failed to count updated books: %w", err)
+    }
+    if updatedCount == 0 {
+        log.Println("No changes to sync")
+        return time.Now(), nil
+    }
+
+    totalPages := int((updatedCount + int64(config.PageSize) - 1) / int64(config.PageSize))
+    log.Printf("Found %d books to sync (processing in batches of %d)", updatedCount, config.PageSize)
+    log.Printf("Will process %d pages", totalPages)
+
+    totalSuccess, totalFailure := 0, 0
+
+    for page := 1; page <= totalPages; page++ {
+        log.Printf("Processing page %d/%d...", page, totalPages)
+
+        books, err := GetBooksByUpdatedAtPaginated(ctx, lastSyncTime, page, config.PageSize)
+        if err != nil {
+            return lastSyncTime, fmt.Errorf("failed to fetch page %d: %w", page, err)
         }
-        documents = append(documents, doc)
-        lineCount++
-    }
+        if len(books) == 0 {
+            break
+        }
+        log.Printf("Fetched %d books from page %d", len(books), page)
 
-    if err := scanner.Err(); err != nil {
-        return fmt.Errorf("error reading file: %w", err)
-    }
+        documents := make([]any, 0, len(books))
+        for _, book := range books {
+            documents = append(documents, map[string]any{
+                "id":               book.GetTypesenseID(),
+                "title":            book.Title,
+                "authors":          book.Authors,
+                "publication_year": book.PublicationYear,
+                "average_rating":   book.AverageRating,
+                "image_url":        book.ImageUrl,
+                "ratings_count":    book.RatingsCount,
+            })
+        }
 
-    log.Printf("Read %d documents from file", lineCount)
+        // "upsert" inserts new docs and replaces existing ones — idempotent
+        upsertAction := api.IndexAction("upsert")
+        importParams := &api.ImportDocumentsParams{
+            BatchSize: pointer.Int(config.BatchSize),
+            Action:    &upsertAction,
+        }
 
-    // Import documents in bulk using the import API
-    // BatchSize controls how many documents are processed at once
-    importParams := &api.ImportDocumentsParams{
-        BatchSize: pointer.Int(100), // Process in batches of 100
-    }
+        results, err := Client.Collection(BookCollection).Documents().Import(ctx, documents, importParams)
+        if err != nil {
+            return lastSyncTime, fmt.Errorf("import failed on page %d: %w", page, err)
+        }
 
-    // The Import method accepts []interface{} containing document maps
-    results, err := Client.Collection(collectionName).Documents().Import(
-        ctx,
-        documents,
-        importParams,
-    )
-
-    if err != nil {
-        return fmt.Errorf("bulk import failed: %w", err)
-    }
-
-    // Count successes and failures
-    successCount := 0
-    failureCount := 0
-
-    for _, result := range results {
-        if result.Success {
-            successCount++
-        } else {
-            failureCount++
-            // Log first few errors for debugging
-            if failureCount <= 5 {
-                log.Printf("Import error: %s", result.Error)
+        pageSuccess, pageFailure := 0, 0
+        for _, result := range results {
+            if result.Success {
+                pageSuccess++
+            } else {
+                pageFailure++
+                if totalFailure+pageFailure <= 5 {
+                    log.Printf("Sync error for document %s: %s", result.Id, result.Error)
+                }
             }
         }
+        totalSuccess += pageSuccess
+        totalFailure += pageFailure
+        log.Printf("Page %d/%d completed: %d succeeded, %d failed (Total: %d succeeded, %d failed)",
+            page, totalPages, pageSuccess, pageFailure, totalSuccess, totalFailure)
     }
 
-    log.Printf("Bulk import completed: %d succeeded, %d failed", successCount, failureCount)
+    log.Printf("Incremental sync completed: %d upserted, %d failed out of %d total",
+        totalSuccess, totalFailure, updatedCount)
 
-    if failureCount > 0 && failureCount > lineCount/2 {
-        // Only error if more than half failed
-        return fmt.Errorf("bulk import had too many failures: %d out of %d", failureCount, lineCount)
+    newSyncTime := time.Now()
+    log.Printf("Last sync time updated to: %s", newSyncTime.Format(time.RFC3339))
+    return newSyncTime, nil
+}
+
+// SyncSingleBookToTypesense upserts one book immediately for real-time sync.
+func SyncSingleBookToTypesense(ctx context.Context, book models.Book) error {
+    doc := map[string]any{
+        "id": book.GetTypesenseID(), "title": book.Title,
+        "authors": book.Authors, "publication_year": book.PublicationYear,
+        "average_rating": book.AverageRating, "image_url": book.ImageUrl,
+        "ratings_count": book.RatingsCount,
     }
+    _, err := Client.Collection(BookCollection).Documents().Upsert(ctx, doc, &api.DocumentIndexParameters{})
+    return err
+}
 
+// SyncSingleBookDeletionToTypesense removes one book from Typesense immediately.
+func SyncSingleBookDeletionToTypesense(ctx context.Context, bookID uint) error {
+    _, err := Client.Collection(BookCollection).Document(fmt.Sprintf("book_%d", bookID)).Delete(ctx)
+    return err
+}
+
+// SyncSoftDeletesToTypesense removes a batch of soft-deleted books from Typesense.
+func SyncSoftDeletesToTypesense(ctx context.Context, deletedBookIDs []uint) error {
+    if len(deletedBookIDs) == 0 {
+        return nil
+    }
+    ids := make([]string, 0, len(deletedBookIDs))
+    for _, id := range deletedBookIDs {
+        ids = append(ids, fmt.Sprintf("book_%d", id))
+    }
+    filterBy := "id:=[" + joinSlice(ids, ",") + "]"
+    _, err := Client.Collection(BookCollection).Documents().Delete(ctx, &api.DeleteDocumentsParams{
+        FilterBy: pointer.String(filterBy),
+    })
+    return err
+}
+
+func joinSlice(s []string, sep string) string {
+    result := ""
+    for i, v := range s {
+        if i > 0 {
+            result += sep
+        }
+        result += v
+    }
+    return result
+}
+
+// SyncState holds shared sync state — protected by a mutex for goroutine safety.
+type SyncState struct {
+    LastSyncTime      time.Time
+    SyncWorkerRunning bool
+    mu                sync.RWMutex
+}
+
+var globalSyncState = &SyncState{LastSyncTime: time.Now()}
+
+func GetLastSyncTime() time.Time {
+    globalSyncState.mu.RLock()
+    defer globalSyncState.mu.RUnlock()
+    return globalSyncState.LastSyncTime
+}
+
+func SetLastSyncTime(t time.Time) {
+    globalSyncState.mu.Lock()
+    defer globalSyncState.mu.Unlock()
+    globalSyncState.LastSyncTime = t
+}
+
+func SetSyncWorkerRunning(running bool) {
+    globalSyncState.mu.Lock()
+    defer globalSyncState.mu.Unlock()
+    globalSyncState.SyncWorkerRunning = running
+}
+
+func IsSyncWorkerRunning() bool {
+    globalSyncState.mu.RLock()
+    defer globalSyncState.mu.RUnlock()
+    return globalSyncState.SyncWorkerRunning
+}
+```
+
+- The `upsert` action makes sync idempotent — running it twice on the same data produces the same result with no duplicates. 
+- Batching operates at two levels: `PageSize` is how many rows are fetched per PostgreSQL query, `BatchSize` is how many documents are sent per Typesense API call.
+- `SyncState` uses a `sync.RWMutex` because `lastSyncTime` is read and written from both the background worker goroutine and the `/sync` HTTP endpoint — the mutex prevents race conditions between them.
+
+## Step 11: Add the background sync worker
+
+Add this to `utils/sync_worker.go`.
+
+Think of `StartSyncWorker` as a background job that wakes up every 60 seconds, syncs any changed books to Typesense, then goes back to sleep. It runs in its own goroutine so the HTTP server handles requests at the same time — the two never block each other.
+
+When the server starts, a short 2-second delayed sync runs first to populate Typesense before the periodic ticks begin. Calling `StopSyncWorker()` cancels the context, which causes the `select` to exit cleanly — no leaked goroutines.
+
+```go
+package utils
+
+import (
+    "context"
+    "log"
+    "time"
+
+    "github.com/<yourusername>/typesense-gin-full-text-search/models"
+)
+
+var (
+    workerCtx    context.Context
+    workerCancel context.CancelFunc
+)
+
+// StartSyncWorker runs in a goroutine and syncs the database to Typesense
+// on a fixed interval. Call via: go utils.StartSyncWorker(ctx, config)
+func StartSyncWorker(ctx context.Context, config *SyncConfig) {
+    workerCtx, workerCancel = context.WithCancel(ctx)
+    SetSyncWorkerRunning(true)
+    log.Printf("Starting sync worker with interval: %d seconds", config.SyncIntervalSec)
+
+    // Initial sync runs in its own goroutine so the server starts serving
+    // requests immediately — no blocking wait for first sync.
+    go func() {
+        time.Sleep(2 * time.Second)
+        lastSyncTime := GetLastSyncTime()
+        if newSyncTime, err := SyncBooksToTypesense(workerCtx, lastSyncTime); err != nil {
+            log.Printf("Initial sync failed: %v", err)
+        } else {
+            SetLastSyncTime(newSyncTime)
+        }
+    }()
+
+    ticker := time.NewTicker(time.Duration(config.SyncIntervalSec) * time.Second)
+    defer ticker.Stop()
+
+    for {
+        select {
+        case <-ticker.C:
+            log.Printf("Running periodic sync...")
+            lastSyncTime := GetLastSyncTime()
+            if newSyncTime, err := SyncBooksToTypesense(workerCtx, lastSyncTime); err != nil {
+                log.Printf("Periodic sync failed: %v", err)
+                // Do NOT update lastSyncTime on failure — next tick will retry
+                // all records from the same checkpoint
+            } else {
+                SetLastSyncTime(newSyncTime)
+            }
+            if config.EnableSoftDelete {
+                if err := handleSoftDeletes(workerCtx); err != nil {
+                    log.Printf("Soft delete sync failed: %v", err)
+                }
+            }
+        case <-workerCtx.Done():
+            log.Println("Sync worker stopped")
+            SetSyncWorkerRunning(false)
+            return
+        }
+    }
+}
+
+func StopSyncWorker() {
+    if workerCancel != nil {
+        workerCancel()
+    }
+}
+
+func handleSoftDeletes(ctx context.Context) error {
+    lastSyncTime := GetLastSyncTime()
+    deletedBooks, err := GetDeletedBooks(ctx, lastSyncTime)
+    if err != nil {
+        return err
+    }
+    if len(deletedBooks) == 0 {
+        return nil
+    }
+    deletedIDs := make([]uint, 0, len(deletedBooks))
+    for _, book := range deletedBooks {
+        deletedIDs = append(deletedIDs, book.ID)
+    }
+    if err := SyncSoftDeletesToTypesense(ctx, deletedIDs); err != nil {
+        return err
+    }
+    SetLastSyncTime(time.Now())
     return nil
 }
 
-// CheckCollectionDocumentCount returns the number of documents in a collection
-func CheckCollectionDocumentCount(ctx context.Context, collectionName string) (int, error) {
-    collection, err := Client.Collection(collectionName).Retrieve(ctx)
-    if err != nil {
-        return 0, fmt.Errorf("failed to retrieve collection: %w", err)
+// SyncBookOnUpdate syncs a single book to Typesense immediately after a write.
+func SyncBookOnUpdate(ctx context.Context, book *models.Book) error {
+    if err := SyncSingleBookToTypesense(ctx, *book); err != nil {
+        return err
     }
-
-    return int(*collection.NumDocuments), nil
+    SetLastSyncTime(time.Now())
+    return nil
 }
 
-// InitializeDataIfEmpty checks if collection is empty and imports data if needed
-// This is idempotent - safe to run on every startup
-func InitializeDataIfEmpty(ctx context.Context, collectionName, dataFilePath string) error {
-    log.Printf("Checking if collection '%s' needs data initialization...", collectionName)
-
-    // Check current document count
-    count, err := CheckCollectionDocumentCount(ctx, collectionName)
-    if err != nil {
-        return fmt.Errorf("failed to check document count: %w", err)
+// SyncBookDeletionOnDelete removes a book from Typesense immediately after delete.
+func SyncBookDeletionOnDelete(ctx context.Context, bookID uint) error {
+    if err := SyncSingleBookDeletionToTypesense(ctx, bookID); err != nil {
+        return err
     }
-
-    if count > 0 {
-        log.Printf("Collection '%s' already has %d documents, skipping import", collectionName, count)
-        return nil
-    }
-
-    log.Printf("Collection '%s' is empty, importing data from %s", collectionName, dataFilePath)
-
-    // Import data
-    if err := ImportDocumentsFromJSONL(ctx, collectionName, dataFilePath); err != nil {
-        return fmt.Errorf("failed to import data: %w", err)
-    }
-
-    // Verify import
-    newCount, err := CheckCollectionDocumentCount(ctx, collectionName)
-    if err != nil {
-        return fmt.Errorf("failed to verify import: %w", err)
-    }
-
-    log.Printf("Data import successful: collection '%s' now has %d documents", collectionName, newCount)
+    SetLastSyncTime(time.Now())
     return nil
 }
 ```
 
-This module provides three key functions:
+The error handling on the periodic sync is intentional: **only update `lastSyncTime` on success**. If a sync run fails partway through (e.g. Typesense is temporarily down), keeping the old timestamp means the next run retries all records from the same checkpoint. Updating it on failure would silently skip those records.
 
-- **`ImportDocumentsFromJSONL()`** - Reads a JSONL file and bulk imports documents into Typesense. This is 10-100x faster than inserting documents one by one.
-- **`CheckCollectionDocumentCount()`** - Returns the current number of documents in a collection.
-- **`InitializeDataIfEmpty()`** - Checks if a collection is empty and imports data if needed. This is idempotent and safe to run on every startup.
+## Step 12: Build the CRUD API with real-time sync
 
-## Step 10: Create the search route
+Add this to `routes/books.go`. Each write syncs to Typesense **asynchronously** in a goroutine so the HTTP response returns immediately without waiting for the Typesense call:
 
-Now for the heart of our API - the search endpoint. Add this to `routes/search.go`:
+```go
+package routes
+
+import (
+    "context"
+    "log"
+    "net/http"
+    "strconv"
+
+    "github.com/gin-gonic/gin"
+    "github.com/<yourusername>/typesense-gin-full-text-search/models"
+    "github.com/<yourusername>/typesense-gin-full-text-search/utils"
+)
+
+func SetupBookRoutes(router *gin.Engine) {
+    books := router.Group("/books")
+    {
+        books.POST("", createBook)
+        books.GET("/:id", getBook)
+        books.GET("", getAllBooks)
+        books.PUT("/:id", updateBook)
+        books.DELETE("/:id", deleteBook)
+    }
+}
+
+func createBook(c *gin.Context) {
+    var book models.Book
+    if err := c.ShouldBindJSON(&book); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body: " + err.Error()})
+        return
+    }
+    // 1. Write to PostgreSQL
+    if err := utils.SaveBook(c.Request.Context(), &book); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create book: " + err.Error()})
+        return
+    }
+    // 2. Sync to Typesense asynchronously
+    go func(bookCopy models.Book) {
+        if err := utils.SyncBookOnUpdate(context.Background(), &bookCopy); err != nil {
+            log.Printf("Async Typesense sync failed for book %d: %v", bookCopy.ID, err)
+        }
+    }(book)
+    c.JSON(http.StatusCreated, gin.H{"message": "Book created successfully", "book": book})
+}
+
+func updateBook(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
+        return
+    }
+    book, err := utils.GetBookByID(c.Request.Context(), uint(id))
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+        return
+    }
+    if err := c.ShouldBindJSON(book); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body: " + err.Error()})
+        return
+    }
+    book.ID = uint(id)
+    if err := utils.SaveBook(c.Request.Context(), book); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update book: " + err.Error()})
+        return
+    }
+    go func(bookCopy models.Book) {
+        if err := utils.SyncBookOnUpdate(context.Background(), &bookCopy); err != nil {
+            log.Printf("Async Typesense sync failed for book %d: %v", bookCopy.ID, err)
+        }
+    }(*book)
+    c.JSON(http.StatusOK, gin.H{"message": "Book updated successfully", "book": book})
+}
+
+func deleteBook(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
+        return
+    }
+    if _, err := utils.GetBookByID(c.Request.Context(), uint(id)); err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+        return
+    }
+    // Soft delete in PostgreSQL (sets deleted_at, does not remove the row)
+    if err := utils.DeleteBook(c.Request.Context(), uint(id)); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete book: " + err.Error()})
+        return
+    }
+    // Remove from Typesense asynchronously
+    go func(bookID uint) {
+        if err := utils.SyncBookDeletionOnDelete(context.Background(), bookID); err != nil {
+            log.Printf("Async Typesense deletion failed for book %d: %v", bookID, err)
+        }
+    }(uint(id))
+    c.JSON(http.StatusOK, gin.H{"message": "Book deleted successfully"})
+}
+
+func getBook(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
+        return
+    }
+    book, err := utils.GetBookByID(c.Request.Context(), uint(id))
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"book": book})
+}
+
+func getAllBooks(c *gin.Context) {
+    books, err := utils.GetAllBooks(c.Request.Context())
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch books: " + err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"count": len(books), "books": books})
+}
+```
+
+Passing `book` as a function argument to the goroutine captures its value at call time — this prevents a data race where the goroutine reads the variable after the handler has already returned and potentially modified it.
+
+## Step 13: Build the search and sync routes
+
+Add this to `routes/search.go`:
 
 ```go
 package routes
 
 import (
     "net/http"
+    "time"
 
     "github.com/gin-gonic/gin"
-    "github.com/<yourusername>/typesense-gin-search-api/utils"
+    "github.com/<yourusername>/typesense-gin-full-text-search/utils"
     "github.com/typesense/typesense-go/v4/typesense/api"
     "github.com/typesense/typesense-go/v4/typesense/api/pointer"
 )
 
-// SetupSearchRoutes configures all search-related routes
 func SetupSearchRoutes(router *gin.Engine) {
     router.GET("/search", searchBooks)
+    router.POST("/sync", syncDatabaseToTypesense)
+    router.GET("/sync/status", getSyncStatus)
 }
 
-// searchBooks handles the search request
 func searchBooks(c *gin.Context) {
     query := c.Query("q")
     if query == "" {
-        c.JSON(http.StatusBadRequest, gin.H{
-            "error": "Search query parameter 'q' is required",
-        })
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Search query 'q' is required"})
         return
     }
 
-    // Create search parameters
     searchParams := &api.SearchCollectionParams{
-      Q:       pointer.String(query),
-      QueryBy: pointer.String("title,authors"),
-      QueryByWeights: pointer.String("2,1"),
-      FacetBy:        pointer.String("authors,publication_year,average_rating")
+        Q:              pointer.String(query),
+        QueryBy:        pointer.String("title,authors"),
+        QueryByWeights: pointer.String("2,1"),                                     // title matches rank 2x higher
+        FacetBy:        pointer.String("authors,publication_year,average_rating"), // aggregation counts for filters
     }
 
-    // Perform search using the Typesense client
     result, err := utils.Client.Collection(utils.BookCollection).Documents().Search(c.Request.Context(), searchParams)
     if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{
-            "error": "Search failed: " + err.Error(),
-        })
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Search failed: " + err.Error()})
         return
     }
 
-    // Return search results
     c.JSON(http.StatusOK, gin.H{
-        "query":   query,
-        "results": *result.Hits,
-        "found":   *result.Found,
-        "took":    result.SearchTimeMs,
+        "query":        query,
+        "results":      *result.Hits,
+        "found":        *result.Found,
+        "took":         result.SearchTimeMs,
+        "facet_counts": result.FacetCounts,
+    })
+}
+
+// syncDatabaseToTypesense triggers an on-demand incremental sync.
+// Useful after bulk database changes without restarting the server.
+func syncDatabaseToTypesense(c *gin.Context) {
+    ctx := c.Request.Context()
+    lastSyncTime := utils.GetLastSyncTime()
+
+    newSyncTime, err := utils.SyncBooksToTypesense(ctx, lastSyncTime)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Sync failed", "message": err.Error()})
+        return
+    }
+
+    deletedBooks, err := utils.GetDeletedBooks(ctx, lastSyncTime)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch deleted books"})
+        return
+    }
+
+    if len(deletedBooks) > 0 {
+        deletedIDs := make([]uint, 0, len(deletedBooks))
+        for _, book := range deletedBooks {
+            deletedIDs = append(deletedIDs, book.ID)
+        }
+        if err := utils.SyncSoftDeletesToTypesense(ctx, deletedIDs); err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to sync deletions"})
+            return
+        }
+    }
+
+    utils.SetLastSyncTime(newSyncTime)
+    c.JSON(http.StatusOK, gin.H{
+        "message":      "Sync completed",
+        "newSyncTime":  newSyncTime.Format(time.RFC3339),
+        "deletedBooks": len(deletedBooks),
+    })
+}
+
+func getSyncStatus(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        "lastSyncTime":      utils.GetLastSyncTime().Format(time.RFC3339),
+        "syncWorkerRunning": utils.IsSyncWorkerRunning(),
     })
 }
 ```
 
-This route handler:
+`QueryByWeights: pointer.String("2,1")` tells Typesense to weight `title` matches twice as heavily as `author` matches. `FacetBy` returns aggregated counts per author, year, and rating that your frontend can use to render filter sidebars. See the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">full list of search parameters</RouterLink> for more options.
 
-1. Validates that a search query was provided.
-2. Configures the search to look in both `title` and `authors` fields, with `query_by_weights` to rank title matches 2x higher than author matches, and `facet_by` to return aggregated counts for filtering. See the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">full list of search parameters</RouterLink> for more options.
-3. Executes the search against Typesense.
-4. Returns the results in a clean JSON format.
+The Typesense API key never appears in the response — it stays safely on the server.
 
-Notice how the Typesense API key never appears in the response - it stays safely on the server.
+## Step 14: Wire everything together in server.go
 
-## Step 11: Create the main server
-
-Finally, let's tie everything together. Add this to `server.go`:
+Add this to `server.go`:
 
 ```go
 package main
 
 import (
-  "context"
-  "log"
-  "time"
+    "context"
+    "log"
+    "time"
 
-  "github.com/gin-contrib/cors"
-  "github.com/gin-gonic/gin"
-  "github.com/<yourusername>/typesense-gin-search-api/routes"
-  "github.com/<yourusername>/typesense-gin-search-api/utils"
+    "github.com/gin-contrib/cors"
+    "github.com/gin-gonic/gin"
+    "github.com/<yourusername>/typesense-gin-full-text-search/routes"
+    "github.com/<yourusername>/typesense-gin-full-text-search/utils"
 )
 
 func main() {
-  // Initialize collections before starting the server
-  ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-  defer cancel()
+    // Connect to PostgreSQL and auto-migrate the schema
+    utils.ConnectToDB(context.Background())
 
-  if err := utils.InitializeCollections(ctx); err != nil {
-    log.Fatalf("Failed to initialize collections: %v", err)
-  }
+    // Initialize the Typesense collection (idempotent - safe on every startup)
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+    defer cancel()
+    if err := utils.InitializeCollections(ctx); err != nil {
+        log.Fatalf("Failed to initialize collections: %v", err)
+    }
 
-  // Initialize data if collection is empty
-  // This is idempotent - only imports if collection has no documents
-  dataFile := "books.jsonl"
-  if err := utils.InitializeDataIfEmpty(ctx, utils.BookCollection, dataFile); err != nil {
-    log.Printf("Warning: Failed to initialize data: %v", err)
-    log.Println("Server will continue, but collection may be empty")
-  }
+    router := gin.Default()
+    router.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+    }))
 
-  router := gin.Default()
-
- // CORS middleware
- router.Use(cors.New(cors.Config{
-   AllowOrigins:     []string{"*"},
-   AllowMethods:     []string{"GET", "OPTIONS"},
-   AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
-   ExposeHeaders:    []string{"Content-Length"},
-   AllowCredentials: true,
-  }))
-
-  // Health check endpoint
-  router.GET("/ping", func(c *gin.Context) {
-    c.JSON(200, gin.H{
-      "message": "pong",
+    router.GET("/ping", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "pong"})
     })
-  })
 
-  // Setup search routes
-  routes.SetupSearchRoutes(router)
+    routes.SetupSearchRoutes(router)
+    routes.SetupBookRoutes(router)
 
-  port := utils.GetEnv("PORT", "3000")
-  router.Run(":" + port)
+    // Start background sync worker in its own goroutine.
+    // Without `go`, StartSyncWorker's infinite loop would block router.Run()
+    // from ever being reached.
+    syncConfig := utils.DefaultSyncConfig()
+    syncConfig.EnableSoftDelete = true
+    go utils.StartSyncWorker(context.Background(), syncConfig)
+
+    port := utils.GetEnv("PORT", "3000")
+    log.Printf("Server starting on port %s", port)
+    router.Run(":" + port)
 }
 ```
 
-This sets up:
+The `go utils.StartSyncWorker(...)` is the key concurrency point. With `go`, the sync worker ticks in the background while Gin handles HTTP requests simultaneously.
 
-- CORS to allow frontend requests (configure `AllowOrigins` for production)
-- A health check endpoint at `/ping`
-- Your search routes
-- The server to run on the configured port
-
-## Step 12: Run your API server
-
-Before starting the server, make sure you have the `books.jsonl` data file in your project root directory (the same directory as `server.go`).
-
-Now you're ready to start your server! Run:
+## Step 15: Run your server
 
 ```bash
 go run server.go
 ```
 
-You should see output like:
+Expected startup output:
 
-```bash
+```plaintext
 Typesense Client created successfully
 Initializing Typesense collections...
 Collection 'books' not found, creating...
 Collection 'books' created successfully
-Checking if collection 'books' needs data initialization...
-Collection 'books' is empty, importing data from books.jsonl
-Starting bulk import from books.jsonl to collection 'books'...
-Read 9979 documents from file
-Bulk import completed: 9979 succeeded, 0 failed
-[GIN-debug] GET    /ping      --> main.main.func1 (4 handlers)
-[GIN-debug] GET    /search    --> routes.searchBooks (4 handlers)
+Starting sync worker with interval: 60 seconds
+Server starting on port 3000
+[GIN-debug] GET    /ping
+[GIN-debug] GET    /search
+[GIN-debug] POST   /sync
+[GIN-debug] GET    /sync/status
+[GIN-debug] POST   /books
+[GIN-debug] GET    /books/:id
+[GIN-debug] GET    /books
+[GIN-debug] PUT    /books/:id
+[GIN-debug] DELETE /books/:id
 [GIN-debug] Listening and serving HTTP on :3000
 ```
 
-Notice the collection initialization and data import happens automatically before the server starts. If the collection doesn't exist, you'll see it being created instead.
-
-You can also configure hot reload for development using [CompileDaemon](https://github.com/githubnemo/CompileDaemon) and use this command to watch for changes and automatically restart the server:
+For hot reload during development:
 
 ```bash
+go install github.com/githubnemo/CompileDaemon@latest
 CompileDaemon --build="go build -o server ." --command="./server"
 ```
 
-Your API is now running! Test it with:
+## Testing the API
+
+**Search** — Typesense handles typos automatically:
 
 ```bash
-curl "http://localhost:3000/search?q=harry"
+curl "http://localhost:3000/search?q=harry+potter"
+curl "http://localhost:3000/search?q=tolkein"   # typo — still finds Tolkien
 ```
 
-You should get back search results for books matching "harry" (like Harry Potter):
+**Create a book** — syncs to Typesense in the background:
+
+```bash
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "The Go Programming Language",
+    "authors": ["Alan Donovan", "Brian Kernighan"],
+    "publication_year": 2015,
+    "average_rating": 4.7,
+    "image_url": "https://example.com/gobook.jpg",
+    "ratings_count": 8500
+  }'
+```
+
+**Trigger a manual sync** (useful after bulk database changes):
+
+```bash
+curl -X POST http://localhost:3000/sync
+```
+
+Response:
 
 ```json
 {
-  "found": 32,
-  "query": "harry",
-  "results": [
-    {
-      "document": {
-        "authors": ["J.K. Rowling", " Mary GrandPré"],
-        "average_rating": 4.44,
-        "id": "2",
-        "image_url": "https://images.gr-assets.com/books/1474154022m/3.jpg",
-        "publication_year": 1997,
-        "ratings_count": 4602479,
-        "title": "Harry Potter and the Philosopher's Stone"
-      },
-      "highlight": {
-        "title": {
-          "matched_tokens": ["Harry"],
-          "snippet": "<mark>Harry</mark> Potter and the Philosopher's Stone"
-        }
-      },
-      "highlights": [
-        {
-          "field": "title",
-          "matched_tokens": ["Harry"],
-          "snippet": "<mark>Harry</mark> Potter and the Philosopher's Stone"
-        }
-      ],
-      "text_match": 578730123365189753,
-      "text_match_info": {
-        "best_field_score": "1108091338753",
-        "best_field_weight": 15,
-        "fields_matched": 1,
-        "num_tokens_dropped": 0,
-        "score": "578730123365189753",
-        "tokens_matched": 1,
-        "typo_prefix_score": 0
-      }
-    }
-  ],
-  "took": 4
+  "message": "Sync completed",
+  "newSyncTime": "2026-02-25T11:30:39+05:30",
+  "deletedBooks": 0
 }
 ```
 
-The response includes:
+**Check sync worker status:**
 
-- **query** - What the user searched for
-- **results** - Array of matching documents with highlights
-- **found** - Total number of matches
-- **took** - Search time in milliseconds
+```bash
+curl http://localhost:3000/sync/status
+```
+
+Response:
+
+```json
+{
+  "lastSyncTime": "2026-02-25T11:30:39+05:30",
+  "syncWorkerRunning": true
+}
+```
+
+**Example paginated sync log** (10,000 records, 10 pages of 1,000):
+
+```plaintext
+Found 10000 books to sync (processing in batches of 1000)
+Will process 10 pages
+Processing page 1/10...
+Fetched 1000 books from page 1
+Page 1/10 completed: 1000 succeeded, 0 failed (Total: 1000 succeeded, 0 failed)
+...
+Processing page 10/10...
+Fetched 1000 books from page 10
+Page 10/10 completed: 1000 succeeded, 0 failed (Total: 10000 succeeded, 0 failed)
+Incremental sync completed: 10000 upserted, 0 failed out of 10000 total
+```
+
+## How the sync strategies work together
+
+The three sync strategies complement each other:
+
+| Strategy | When | Latency | Use case |
+| --- | --- | --- | --- |
+| Real-time (goroutine) | On each CRUD write | < 100ms | Individual creates, updates, deletes |
+| Periodic (worker) | Every 60 seconds | Up to 60s | Catch-up for any missed real-time syncs |
+| Manual (`POST /sync`) | On demand | Depends on volume | After bulk DB imports, after outages |
+
+The periodic sync is the safety net. Even if the real-time async goroutine fails (e.g. Typesense was briefly down), the periodic sync picks up all changed records by comparing `updated_at` against `lastSyncTime`.
 
 ## Production Considerations
 
-Before deploying to production, consider these improvements:
-
-### 1. Restrict CORS origins
-
-Update your CORS configuration to only allow your frontend domain:
+### Restrict CORS origins
 
 ```go
 AllowOrigins: []string{"https://yourdomain.com"},
 ```
 
-### 2. Add authentication
-
-Protect your API with authentication middleware:
+### Add authentication middleware
 
 ```go
 router.Use(authMiddleware())
 ```
 
-### 3. Implement rate limiting
-
-Prevent abuse by limiting requests per user. Consider using a middleware like [gin-limiter](https://github.com/ulule/limiter):
-
-```go
-router.Use(rateLimitMiddleware())
-```
-
-### 4. Add request logging
-
-Track what users are searching for:
-
-```go
-router.Use(gin.Logger())
-```
-
-### 5. Use production Typesense
-
-Update your `.env` to point to Typesense Cloud or your production server:
+### Use production Typesense
 
 ```env
 TYPESENSE_HOST=xxx.typesense.net
@@ -747,51 +1233,17 @@ TYPESENSE_PROTOCOL=https
 TYPESENSE_API_KEY=your-production-key
 ```
 
-### 6. Run in release mode
-
-Set Gin to release mode for better performance:
+### Run Gin in release mode
 
 ```bash
 export GIN_MODE=release
 ```
-
-## Testing Your API
-
-Here are some example searches to try:
-
-```bash
-# Search for Harry Potter books
-curl "http://localhost:3000/search?q=harry+potter"
-
-# Search for books by Tolkien
-curl "http://localhost:3000/search?q=tolkien"
-
-# Search with a typo (Typesense will still find results!)
-curl "http://localhost:3000/search?q=shakespear"
-```
-
-## Next Steps
-
-Now that you have a working search API, you can:
-
-- Add more search endpoints (faceted search, filtering, sorting)
-- Implement user authentication and authorization
-- Add caching with Redis for frequently searched terms
-- Set up monitoring and analytics
-- Deploy to production (AWS, GCP, Heroku, etc.)
-- Build a frontend that consumes this API
 
 ## Source Code
 
 The complete source code for this project is available on GitHub:
 
 [https://github.com/typesense/code-samples/tree/master/typesense-gin-full-text-search](https://github.com/typesense/code-samples/tree/master/typesense-gin-full-text-search)
-
-## Related Examples
-
-Check out these related examples:
-
-- [Typesense Go Demo](https://github.com/ekkinox/typesense-go-demo)
 
 ## Need Help?
 
