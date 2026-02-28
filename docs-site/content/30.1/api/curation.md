@@ -1197,7 +1197,7 @@ curl "http://localhost:8108/curation_sets/curate_products" -X DELETE \
 ### Altering an existing collection
 
 ```shell
-curl "http://localhost:8108/products" -X PATCH \
+curl "http://localhost:8108/collections/products" -X PATCH \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 -d '{
