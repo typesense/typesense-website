@@ -351,27 +351,35 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `synonym_sets:delete`   | Allows the deletion of synonym sets (DELETE /synonym_sets/:name).         |
 | `synonym_sets:*`        | Allows all synonym set operations.                                        |
 
-#### Synonym actions (Collection-level)
+#### Synonym Set Item actions
 
-These actions apply to the collection-level synonym endpoints (`/collections/{collection}/synonyms`).
+| Action                      | Description                                       |
+|:----------------------------|:--------------------------------------------------|
+| `synonym_sets/items:list`   | Allows all synonym set items to be fetched.       |
+| `synonym_sets/items:get`    | Allows a single synonym set item to be retrieved. |
+| `synonym_sets/items:create` | Allows the creation of synonym set item.          |
+| `synonym_sets/items:delete` | Allows the deletion of synonym set item.          |
+| `synonym_sets/items:*`      | Allows all synonym set item operations.           |
 
-| Action               | Description                                       |
-|:---------------------|:--------------------------------------------------|
-| `synonyms:list`      | Allows all synonyms to be fetched.                |
-| `synonyms:get`       | Allows a single synonym to be retrieved           |
-| `synonyms:create`    | Allows the creation of synonyms.                  |
-| `synonyms:delete`    | Allows the deletion of synonyms.                  |
-| `synonyms:*`         | Allows all synonym operations.                    |
+#### Curation Set actions
 
-#### Override actions
+| Action                   | Description                                                               |
+|:-------------------------|:--------------------------------------------------------------------------|
+| `curation_sets:list`     | Allows all curation sets to be fetched (GET /curation_sets).              |
+| `curation_sets:get`      | Allows a single curation set to be retrieved (GET /curation_sets/:name).  |
+| `curation_sets:create`   | Allows the creation/update of curation sets (PUT /curation_sets/:name).   |
+| `curation_sets:delete`   | Allows the deletion of curation sets (DELETE /curation_sets/:name).       |
+| `curation_sets:*`        | Allows all curation set operations.                                       |
 
-| Action               | Description                                       |
-|:---------------------|:--------------------------------------------------|
-| `overrides:list`     | Allows all overrides to be fetched.               |
-| `overrides:get`      | Allows a single override to be retrieved          |
-| `overrides:create`   | Allows the creation of overrides.                 |
-| `overrides:delete`   | Allows the deletion of overrides.                 |
-| `overrides:*`        | Allows all override operations.                   |
+#### Curation Set Item actions
+
+| Action                       | Description                                        |
+|:-----------------------------|:---------------------------------------------------|
+| `curation_sets/items:list`   | Allows all curation set items to be fetched.       |
+| `curation_sets/items:get`    | Allows a single curation set item to be retrieved. |
+| `curation_sets/items:create` | Allows the creation of curation set item.          |
+| `curation_sets/items:delete` | Allows the deletion of curation set item.          |
+| `curation_sets/items:*`      | Allows all curation set item operations.           |
 
 #### Stopwords actions
 
