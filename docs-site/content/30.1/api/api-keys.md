@@ -382,6 +382,9 @@ These actions apply to the collection-level synonym endpoints (`/collections/{co
 | `curation_sets/items:upsert`    | Allows creating/updating curation set items (PUT /curation_sets/:name/items/:id).           |
 | `curation_sets/items:delete`    | Allows deleting items inside a curation set. Does not allow deleting the whole curation set. |
 | `curation_sets/items:*`         | Allows all curation set item operations.                                                     |
+
+Note: `curation_sets:*` and `curation_sets/items:*` are different resource scopes. Granting `curation_sets:*` does not automatically include `curation_sets/items:*` actions.
+
 #### Override actions
 
 | Action               | Description                                       |
