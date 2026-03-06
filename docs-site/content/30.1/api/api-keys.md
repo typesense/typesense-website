@@ -368,6 +368,20 @@ These actions apply to the collection-level synonym endpoints (`/collections/{co
 | `synonyms:delete`    | Allows the deletion of synonyms.                  |
 | `synonyms:*`         | Allows all synonym operations.                    |
 
+#### Curation Set actions
+
+| Action                          | Description                                                                                  |
+|:--------------------------------|:---------------------------------------------------------------------------------------------|
+| `curation_sets:list`            | Allows all curation sets to be fetched (GET /curation_sets).                                |
+| `curation_sets:get`             | Allows a single curation set to be retrieved (GET /curation_sets/:name).                    |
+| `curation_sets:upsert`          | Allows the creation/update of curation sets (PUT /curation_sets/:name).                     |
+| `curation_sets:delete`          | Allows the deletion of curation sets (DELETE /curation_sets/:name).                         |
+| `curation_sets:*`               | Allows all curation set operations.                                                          |
+| `curation_sets/items:list`      | Allows listing curation set items (GET /curation_sets/:name/items).                         |
+| `curation_sets/items:get`       | Allows retrieving a single curation set item (GET /curation_sets/:name/items/:id).          |
+| `curation_sets/items:upsert`    | Allows creating/updating curation set items (PUT /curation_sets/:name/items/:id).           |
+| `curation_sets/items:delete`    | Allows deleting items inside a curation set. Does not allow deleting the whole curation set. |
+| `curation_sets/items:*`         | Allows all curation set item operations.                                                     |
 #### Override actions
 
 | Action               | Description                                       |
