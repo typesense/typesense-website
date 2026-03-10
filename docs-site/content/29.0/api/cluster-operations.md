@@ -101,9 +101,9 @@ curl "http://localhost:8108/operations/snapshot?snapshot_path=/tmp/typesense-dat
 `POST ${TYPESENSE_HOST}/operations/snapshot`
 
 ### Arguments
-| Parameter      | Required    |Description                                            |
-| -------------- | ----------- |-------------------------------------------------------|
-|snapshot_path	|yes	|The directory on the server where the snapshot should be saved.|
+| Parameter      | Required | Description                                                                                                                                                                                                                                                                                                                                                                                            |
+|----------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| snapshot_path	 | no	      | The directory on the server where the snapshot should be saved. <br><br>If not provided, Typesense will perform an internal snapshot to compact Raft logs into the snapshot internally, without exporting the data out of the Typesense process. This is helpful during [certain scenarios](../../guide/high-availability.md#recovering-a-single-failed-node) when recovering a node in an HA cluster. |
 
 ## Compacting the on-disk database
 
