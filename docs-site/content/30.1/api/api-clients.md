@@ -165,6 +165,7 @@ We also have the following framework integrations:
 - [DocSearch](/guide/docsearch.html)
 - [Docusaurus](https://github.com/typesense/docusaurus-theme-search-typesense)
 - [Sphinx](https://writeexperience.co/integrating-typesense-with-sphinx-readthedocs-template-a-step-by-step-guide/)
+- [Fumadocs](https://www.fumadocs.dev/docs/headless/search/typesense)
 
 ## AI / ML Platforms
 
