@@ -91,8 +91,7 @@
                     datasets (eg: log data)
                   </td>
                   <td>
-                    Instant Search-as-you-type Experiences for use cases that
-                    don't require a highly-available fault-tolerant setup.
+                    Instant Search-as-you-type Experiences for use cases.
                     <a
                       href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=RAM%E2%80%91to%E2%80%91disk%20ratio%20around%201%2F3%20does%20not%20materially%20impact%20performance"
                       target="_blank"
@@ -160,9 +159,8 @@
                     replication
                   </td>
                   <td class="!text-[#DC3545]">
-                    <Cross class="text-[#490F0F]" /><br /><br />Only supports a
-                    single-node setup, which creates a single point of failure
-                    and so is not fault tolerant / production-ready.
+                    <Check class="text-[#263311]" /><br /><br />Virtual-naming-based
+                    multi-node clustering
                   </td>
                 </tr>
                 <tr>
@@ -194,7 +192,8 @@
                     <Cross class="text-[#490F0F]" /><br /><br />Not available as
                     part of hosted offering
                   </td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Check class="text-[#263311]" /><br /><br />Available in
+                    Premium tier, called geo-replicated sharding</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Runtime Dependencies</td>
