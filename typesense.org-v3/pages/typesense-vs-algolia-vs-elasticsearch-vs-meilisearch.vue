@@ -94,11 +94,11 @@
                     Instant Search-as-you-type Experiences for use cases that
                     don't require a highly-available fault-tolerant setup.
                     <a
-                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=RAM%E2%80%91to%E2%80%91disk%20ratio%20around%201%2F3%20does%20not%20materially%20impact%20performance"
                       target="_blank"
                       >Recommends</a
                     >
-                    providing enough RAM to hold entire dataset in RAM for ideal
+                    providing enough RAM to hold a third of the dataset in RAM for ideal
                     performance.
                   </td>
                 </tr>
