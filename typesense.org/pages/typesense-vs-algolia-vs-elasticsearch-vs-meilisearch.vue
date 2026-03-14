@@ -153,6 +153,15 @@
                   <td>✅<br /><br />Virtual-naming-based multi-node clustering</td>
                 </tr>
                 <tr>
+                  <td class="font-weight-bold">
+                    Sharding / <br />Horizontal Scaling
+                  </td>
+                  <td>❌<br /><br />Only supports vertical scaling</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅<br /><br />Virtual-naming-based multi-node sharding</td>
+                </tr>
+                <tr>
                   <td class="font-weight-bold">GPU Acceleration Support</td>
                   <td>
                     ✅<br /><br />Can optionally use a GPU when available.
