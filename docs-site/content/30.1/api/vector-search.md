@@ -2141,6 +2141,14 @@ You would need the following authentication information:
 
 You can use any of the following parameters to fine-tune how API calls are made to remote embedding services:
 
+#### How remote embedding calls work
+
+If you use a remote embedding model in `model_config`, Typesense makes that embedding request for you and will retry it if the request times out or fails in a retryable way.
+
+- By default, Typesense waits about a minute before timing out, and it tries the request twice.
+- You can change that per request with `remote_embedding_timeout_ms` and `remote_embedding_num_tries`.
+- This applies when Typesense creates embeddings during search and during document indexing.
+
 #### During Search
 
 | Parameter                     | Description                                                                                               |  Default  |
