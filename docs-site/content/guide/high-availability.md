@@ -185,18 +185,30 @@ If you see a value other than `state: 4` or `state: 1` that indicates an error. 
 
 ### Recovering a single failed node
 
-When running a highly available Typesense cluster and one of your nodes goes down, the recovery process is straightforward:
-
-1. Stop the Typesense process if it's still running
-2. Clear the data directory on the failed node
-3. Start the Typesense service back up on that node
-
-The node will automatically synchronize all necessary data from the other healthy nodes in the cluster. 
+When running a highly available Typesense cluster, if one of your nodes goes down and later recovers with the same IP address, it will automatically re-join the cluster and catch up on any writes that came in during the time when it was down.
 Typesense's built-in replication mechanism will ensure that your recovered node catches up with the current state of your data.
 
+While it is doing so, you will see an HTTP 503 for any requests that reach this particular node, until it's caught up and ready to start serving traffic again.
+
 :::tip
-There's no need to perform any manual snapshot operations or restore backups for this scenario. Letting Typesense handle the synchronization is both faster and more reliable.
+There's no need to perform any manual backup / restore backups for this single-node failure scenario. Letting Typesense handle the synchronization is both faster and more reliable.
 :::
+
+#### Recovery after an extended period
+
+Now, if a node has been down for an extended period of time and significant amount of writes came in during this time, it might take a long time for the node to reload its data from the last snapshot (provided to it from the leader) and then replay all the writes since that snapshot, one-by-one. 
+This is because the leader pauses the automated internal snapshotting process if a node in the cluster is down and/or loading data, by design, for safety reasons. 
+
+In this scenario, you could speed up the recovery process using this (optional) playbook: 
+
+1. Stop the Typesense process on the unhealthy follower.
+2. Update the nodes file on the other healthy nodes to remove this follower's IP address. Wait for 10s and the nodes will refresh their nodes file automatically and will now establish a cluster among just the remaining nodes. (No need to restart).
+3. Trigger a snapshot on the leader using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#create-snapshot-for-backups`">`/operations/snapshot` endpoint</RouterLink>. (You can leave out the ?path query parameter so the snapshot is generated internally, but not exported out of Typesense). This will compact all the writes in the Raft logs into the snapshot.
+4. Clear the Typesense data directory on the unhealthy follower.
+5. Add the unhealthy follower's IP back to the nodes file of all the nodes in the cluster.
+6. Start the Typesense process back up on the previously unhealthy follower.
+
+The follower will now load the latest snapshot from the leader, and it wouldn't have to catch up on all the writes that came in when this follower was down again, because those writes would have been compacted into the snapshot in Step 3.
 
 ### Recovering a cluster that has lost quorum
 

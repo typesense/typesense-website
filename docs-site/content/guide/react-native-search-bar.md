@@ -216,7 +216,7 @@ Let's create the project structure step by step. After each step, we'll show you
 
    Add this content to `.env`:
 
-   ```env
+   ```bash
    EXPO_PUBLIC_TYPESENSE_API_KEY=xyz
    EXPO_PUBLIC_TYPESENSE_HOST=10.0.2.2
    EXPO_PUBLIC_TYPESENSE_PORT=8108

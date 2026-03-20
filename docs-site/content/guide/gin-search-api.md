@@ -4,11 +4,11 @@ This guide walks you through building a RESTful search API using Go's Gin framew
 
 By the end of this guide, you'll have:
 
-- A full CRUD API for books backed by PostgreSQL
+- A full CRUD API for a sample books dataset, backed by PostgreSQL
 - Automatic database-to-Typesense sync (both real-time and periodic)
 - Paginated sync that safely handles millions of records without memory issues
 - Resilient Typesense client with automatic retries
-- A search endpoint that proxies queries through your backend
+- A search endpoint that proxies queries through your backend, to Typesense
 
 ## What is Typesense?
 
@@ -166,7 +166,7 @@ typesense-gin-full-text-search/
 
 Add this to `.env`:
 
-```env
+```bash
 # Server
 PORT=3000
 
@@ -244,7 +244,7 @@ func GetServerURL() string {
 var BookCollection string
 ```
 
-Unlike `init()`, `InitializeEnv()` is an explicit call — this gives you full control over the initialization order. Calling it first in `main()` guarantees env vars are loaded before the Typesense client or database connection is initialized.
+Unlike `init()`, `InitializeEnv()` is an explicit call - this gives you full control over the initialization order. Calling it first in `main()` guarantees env vars are loaded before the Typesense client or database connection is initialized.
 
 ## Step 6: Initialize the Typesense client with retry support
 
@@ -333,7 +333,7 @@ Key design choices:
 
 ## Step 8: Set up the database layer with pagination
 
-Add this to `store/store.go`. The critical design here is **paginated queries** — we never load the entire table into memory:
+Add this to `store/store.go`. The critical design here is **paginated queries** - we never load the entire table into memory:
 
 ```go
 package store
@@ -517,9 +517,9 @@ Add this to `search/sync.go`.
 
 This file implements two sync patterns that work together:
 
-**Paginated full sync** — When syncing for the first time, or after a long outage, there may be thousands or millions of records to index. Loading them all into memory at once would cause out-of-memory crashes on large datasets. Instead, `SyncAllBooksToTypesense` fetches 1,000 rows at a time from PostgreSQL, converts them to Typesense documents, sends that batch to Typesense, then moves to the next page. Memory usage stays flat at roughly one page of data regardless of how large the table grows.
+**Paginated full sync** - When syncing for the first time, or after a long outage, there may be thousands or millions of records to index. Loading them all into memory at once would cause out-of-memory crashes on large datasets. Instead, `SyncAllBooksToTypesense` fetches 1,000 rows at a time from PostgreSQL, converts them to Typesense documents, sends that batch to Typesense, then moves to the next page. Memory usage stays flat at roughly one page of data regardless of how large the table grows.
 
-**Incremental sync** — On every subsequent run, `SyncBooksToTypesense` only fetches records whose `updated_at` timestamp is newer than `lastSyncTime` — the timestamp of the last successful sync. This avoids re-indexing the entire dataset on every tick. For a table with 1 million books where only 50 changed in the last 60 seconds, only those 50 are fetched and sent to Typesense. The `lastSyncTime` is updated to `time.Now()` at the end of each successful run, so the next run picks up from exactly where this one left off.
+**Incremental sync** - On every subsequent run, `SyncBooksToTypesense` only fetches records whose `updated_at` timestamp is newer than `lastSyncTime` - the timestamp of the last successful sync. This avoids re-indexing the entire dataset on every tick. For a table with 1 million books where only 50 changed in the last 60 seconds, only those 50 are fetched and sent to Typesense. The `lastSyncTime` is updated to `time.Now()` at the end of each successful run, so the next run picks up from exactly where this one left off.
 
 ```go
 package search
@@ -599,7 +599,7 @@ func SyncBooksToTypesense(ctx context.Context, lastSyncTime time.Time) (time.Tim
             })
         }
 
-        // "upsert" inserts new docs and replaces existing ones — idempotent
+        // "upsert" inserts new docs and replaces existing ones - idempotent
         upsertAction := api.IndexAction("upsert")
         importParams := &api.ImportDocumentsParams{
             BatchSize: pointer.Int(cfg.BatchSize),
@@ -670,7 +670,7 @@ func SyncSoftDeletesToTypesense(ctx context.Context, deletedBookIDs []uint) erro
     return err
 }
 
-// SyncState holds shared sync state — protected by a mutex for goroutine safety.
+// SyncState holds shared sync state - protected by a mutex for goroutine safety.
 type SyncState struct {
     LastSyncTime      time.Time
     SyncWorkerRunning bool
@@ -704,22 +704,22 @@ func IsSyncWorkerRunning() bool {
 }
 ```
 
-- The `upsert` action makes sync idempotent — running it twice on the same data produces the same result with no duplicates.
+- The `upsert` action makes sync idempotent - running it twice on the same data produces the same result with no duplicates.
 - Batching operates at two levels: `PageSize` is how many rows are fetched per PostgreSQL query, `BatchSize` is how many documents are sent per Typesense API call.
-- `SyncState` uses a `sync.RWMutex` because `lastSyncTime` is read and written from both the background worker goroutine and the `/sync` HTTP endpoint — the mutex prevents race conditions between them.
+- `SyncState` uses a `sync.RWMutex` because `lastSyncTime` is read and written from both the background worker goroutine and the `/sync` HTTP endpoint - the mutex prevents race conditions between them.
 
 ## Step 11: Add the background sync worker
 
 Add this to `search/worker.go`.
 
-Think of `StartSyncWorker` as a background job that wakes up every 60 seconds, syncs any changed books to Typesense, then goes back to sleep. It runs in its own goroutine so the HTTP server handles requests at the same time — the two never block each other.
+Think of `StartSyncWorker` as a background job that wakes up every 60 seconds, syncs any changed books to Typesense, then goes back to sleep. It runs in its own goroutine so the HTTP server handles requests at the same time - the two never block each other.
 
 On startup, the worker checks whether Typesense already has data before deciding how to sync:
 
-- **Typesense is empty** (first run or fresh instance): runs a full sync from zero time — all records from PostgreSQL are pushed to Typesense.
-- **Typesense already has data** (server restart): seeds `lastSyncTime` from `MAX(updated_at)` of the PostgreSQL table, then runs an incremental sync — only records changed since that timestamp are synced. This avoids re-syncing thousands of already-indexed records on every restart.
+- **Typesense is empty** (first run or fresh instance): runs a full sync from zero time - all records from PostgreSQL are pushed to Typesense.
+- **Typesense already has data** (server restart): seeds `lastSyncTime` from `MAX(updated_at)` of the PostgreSQL table, then runs an incremental sync - only records changed since that timestamp are synced. This avoids re-syncing thousands of already-indexed records on every restart.
 
-Calling `StopSyncWorker()` cancels the context, which causes the `select` to exit cleanly — no leaked goroutines.
+Calling `StopSyncWorker()` cancels the context, which causes the `select` to exit cleanly - no leaked goroutines.
 
 ```go
 package search
@@ -751,14 +751,14 @@ func StartSyncWorker(ctx context.Context, cfg *SyncConfig) {
         time.Sleep(2 * time.Second)
 
         if CollectionDocumentCount(workerCtx) > 0 {
-            // Typesense already has data — seed from DB's latest updated_at
+            // Typesense already has data - seed from DB's latest updated_at
             // so we only pick up records changed since the last known state.
             if latest, err := store.GetLatestUpdatedAt(workerCtx); err == nil && !latest.IsZero() {
                 SetLastSyncTime(latest)
                 log.Printf("Typesense already populated, seeding sync time from DB: %s", latest.Format(time.RFC3339))
             }
         } else {
-            // Typesense is empty — full sync from zero time
+            // Typesense is empty - full sync from zero time
             log.Printf("Typesense collection is empty, running full sync")
         }
 
@@ -771,7 +771,7 @@ func StartSyncWorker(ctx context.Context, cfg *SyncConfig) {
         }
     })
 
-    // Periodic sync loop — starts after the initial sync above completes.
+    // Periodic sync loop - starts after the initial sync above completes.
     ticker := time.NewTicker(time.Duration(cfg.SyncIntervalSec) * time.Second)
     defer ticker.Stop()
 
@@ -782,7 +782,7 @@ func StartSyncWorker(ctx context.Context, cfg *SyncConfig) {
             lastSyncTime := GetLastSyncTime()
             if newSyncTime, err := SyncBooksToTypesense(workerCtx, lastSyncTime); err != nil {
                 log.Printf("Periodic sync failed: %v", err)
-                // Do NOT update lastSyncTime on failure — next tick retries from same checkpoint
+                // Do NOT update lastSyncTime on failure - next tick retries from same checkpoint
             } else {
                 SetLastSyncTime(newSyncTime)
             }
@@ -974,7 +974,7 @@ func getAllBooks(c *gin.Context) {
 }
 ```
 
-Passing `book` as a function argument to the goroutine captures its value at call time — this prevents a data race where the goroutine reads the variable after the handler has already returned and potentially modified it.
+Passing `book` as a function argument to the goroutine captures its value at call time - this prevents a data race where the goroutine reads the variable after the handler has already returned and potentially modified it.
 
 ## Step 13: Build the search and sync routes
 
@@ -1078,7 +1078,7 @@ func getSyncStatus(c *gin.Context) {
 
 `QueryByWeights: pointer.String("2,1")` tells Typesense to weight `title` matches twice as heavily as `author` matches. `FacetBy` returns aggregated counts per author, year, and rating that your frontend can use to render filter sidebars. See the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">full list of search parameters</RouterLink> for more options.
 
-The Typesense API key never appears in the response — it stays safely on the server.
+The Typesense API key never appears in the response - it stays safely on the server.
 
 ## Step 14: Wire everything together in server.go
 
@@ -1185,14 +1185,14 @@ CompileDaemon --build="go build -o server ." --command="./server"
 
 ## Testing the API
 
-**Search** — Typesense handles typos automatically:
+**Search** - Typesense handles typos automatically:
 
 ```bash
 curl "http://localhost:3000/search?q=harry+potter"
-curl "http://localhost:3000/search?q=tolkein"   # typo — still finds Tolkien
+curl "http://localhost:3000/search?q=tolkein"   # typo - still finds Tolkien
 ```
 
-**Create a book** — syncs to Typesense in the background:
+**Create a book** - syncs to Typesense in the background:
 
 ```bash
 curl -X POST http://localhost:3000/books \
@@ -1281,7 +1281,7 @@ router.Use(authMiddleware())
 
 ### Use production Typesense
 
-```env
+```bash
 TYPESENSE_HOST=xxx.typesense.net
 TYPESENSE_PORT=443
 TYPESENSE_PROTOCOL=https

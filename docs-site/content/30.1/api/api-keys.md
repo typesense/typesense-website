@@ -295,7 +295,7 @@ The collection names can contain regular expressions. For example, if you have m
 | Parameter    | Required  | Description                                                                                                                                                                                                           |
 |:-------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | actions      | yes       | List of allowed actions. See next table for possible values.                                                                                                                                                          |
-| collections  | yes       | List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name.                                                                               |
+| collections  | yes       | List of collections that this key is scoped to. Supports regex. Eg: `coll.*` will match all collections that have "coll" in their name. This scope only applies to collection endpoints and does not restrict global endpoints like `synonym_sets`, `keys`, or `stopwords`. |
 | description  | yes       | Internal description to identify what the key is for                                                                                                                                                                  |
 | value        | no        | By default Typesense will auto-generate a random key for you, when this parameter is not specified. If you need to use a particular string as the key, you can mention it using this parameter when creating the key. |
 | expires_at   | no        | [Unix timestamp](https://www.epochconverter.com/) until which the key is valid.                                                                                                                                       |
@@ -343,13 +343,18 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 
 #### Synonym Set actions
 
-| Action                  | Description                                                               |
-|:------------------------|:--------------------------------------------------------------------------|
-| `synonym_sets:list`     | Allows all synonym sets to be fetched (GET /synonym_sets).                |
-| `synonym_sets:get`      | Allows a single synonym set to be retrieved (GET /synonym_sets/:name).    |
-| `synonym_sets:create`   | Allows the creation/update of synonym sets (PUT /synonym_sets/:name).     |
-| `synonym_sets:delete`   | Allows the deletion of synonym sets (DELETE /synonym_sets/:name).         |
-| `synonym_sets:*`        | Allows all synonym set operations.                                        |
+| Action                         | Description                                                                                |
+|:-------------------------------|:-------------------------------------------------------------------------------------------|
+| `synonym_sets:list`            | Allows all synonym sets to be fetched (GET /synonym_sets).                                |
+| `synonym_sets:get`             | Allows a single synonym set to be retrieved (GET /synonym_sets/:name).                    |
+| `synonym_sets:create`          | Allows the creation/update of synonym sets (PUT /synonym_sets/:name).                     |
+| `synonym_sets:delete`          | Allows the deletion of synonym sets (DELETE /synonym_sets/:name).                         |
+| `synonym_sets:*`               | Allows all synonym set operations.                                                         |
+| `synonym_sets/items:list`      | Allows listing synonym set items.                                                          |
+| `synonym_sets/items:get`       | Allows retrieving a single synonym set item.                                               |
+| `synonym_sets/items:upsert`    | Allows creating/updating synonym set items.                                                |
+| `synonym_sets/items:delete`    | Allows deleting items inside a synonym set. Does not allow deleting the whole synonym set. |
+| `synonym_sets/items:*`         | Allows all synonym set item operations.                                                    |
 
 #### Synonym actions (Collection-level)
 
@@ -362,6 +367,23 @@ These actions apply to the collection-level synonym endpoints (`/collections/{co
 | `synonyms:create`    | Allows the creation of synonyms.                  |
 | `synonyms:delete`    | Allows the deletion of synonyms.                  |
 | `synonyms:*`         | Allows all synonym operations.                    |
+
+#### Curation Set actions
+
+| Action                          | Description                                                                                  |
+|:--------------------------------|:---------------------------------------------------------------------------------------------|
+| `curation_sets:list`            | Allows all curation sets to be fetched (GET /curation_sets).                                |
+| `curation_sets:get`             | Allows a single curation set to be retrieved (GET /curation_sets/:name).                    |
+| `curation_sets:upsert`          | Allows the creation/update of curation sets (PUT /curation_sets/:name).                     |
+| `curation_sets:delete`          | Allows the deletion of curation sets (DELETE /curation_sets/:name).                         |
+| `curation_sets:*`               | Allows all curation set operations.                                                          |
+| `curation_sets/items:list`      | Allows listing curation set items (GET /curation_sets/:name/items).                         |
+| `curation_sets/items:get`       | Allows retrieving a single curation set item (GET /curation_sets/:name/items/:id).          |
+| `curation_sets/items:upsert`    | Allows creating/updating curation set items (PUT /curation_sets/:name/items/:id).           |
+| `curation_sets/items:delete`    | Allows deleting items inside a curation set. Does not allow deleting the whole curation set. |
+| `curation_sets/items:*`         | Allows all curation set item operations.                                                     |
+
+Note: `curation_sets:*` and `curation_sets/items:*` are different resource scopes. Granting `curation_sets:*` does not automatically include `curation_sets/items:*` actions.
 
 #### Override actions
 
