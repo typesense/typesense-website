@@ -131,8 +131,5 @@ However, if you make any changes to these resources, and then downgrade later, t
 
 Besides the above caveat, you can safely downgrade to any version above `v27`.
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />

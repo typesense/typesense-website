@@ -49,8 +49,5 @@ This release contains new features, performance improvements and important bug f
   catch up status of a follower, are replaced with `healthy-read-lag` and `healthy-write-lag`
   [flags](./server-configuration.md#using-command-line-arguments).
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />

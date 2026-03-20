@@ -56,8 +56,5 @@ This release contains new features, performance improvements and important bug f
   now requires the whole document to be sent for indexing. If you wish to update part of a document, use the `update` action.
 
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />
