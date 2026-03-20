@@ -318,6 +318,7 @@ let config = {
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
             ['/guide/gin-search-api', 'Search API in Gin'],
+            ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
           ],
         },
         {
