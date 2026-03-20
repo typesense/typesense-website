@@ -248,6 +248,37 @@ curl "http://localhost:8108/metrics.json" \
   </template>
 </Tabs>
 
+#### Metrics Reference
+
+**System Metrics**
+
+| Metric | Description |
+|--------|-------------|
+| `system_cpu_active_percentage` | Overall CPU usage across all cores. |
+| `system_cpuN_active_percentage` | CPU usage for individual core N (e.g. `system_cpu1_active_percentage`). |
+| `system_disk_total_bytes` | Total disk space in bytes. |
+| `system_disk_used_bytes` | Used disk space in bytes. |
+| `system_memory_total_bytes` | Total system RAM in bytes. |
+| `system_memory_used_bytes` | Used system RAM in bytes. |
+| `system_memory_total_swap_bytes` | Total swap space in bytes. |
+| `system_memory_used_swap_bytes` | Used swap space in bytes. |
+| `system_network_received_bytes` | Network bytes received. |
+| `system_network_sent_bytes` | Network bytes sent. |
+
+**Typesense Memory Metrics**
+
+These metrics are sourced from [jemalloc](https://jemalloc.net/jemalloc.3.html), the memory allocator used by Typesense.
+
+| Metric | Description |
+|--------|-------------|
+| `typesense_memory_allocated_bytes` | Total bytes currently allocated by the Typesense process. This is the most direct measure of how much memory Typesense is actively using. Corresponds to jemalloc's [`stats.allocated`](https://jemalloc.net/jemalloc.3.html#stats.allocated). |
+| `typesense_memory_active_bytes` | Total bytes in active memory pages allocated by the Typesense process. This is a multiple of the page size and is always >= `allocated_bytes`. Corresponds to jemalloc's [`stats.active`](https://jemalloc.net/jemalloc.3.html#stats.active). |
+| `typesense_memory_fragmentation_ratio` | Fraction of active memory that is fragmented, calculated as `1 - (allocated_bytes / active_bytes)`. Values close to `0` indicate low fragmentation; higher values indicate more wasted space within active pages. |
+| `typesense_memory_mapped_bytes` | Total bytes in virtual address space mapped by the allocator. Larger than `active_bytes` as it includes all mapped extents. Corresponds to jemalloc's [`stats.mapped`](https://jemalloc.net/jemalloc.3.html#stats.mapped). |
+| `typesense_memory_metadata_bytes` | Bytes used by the memory allocator for its own internal bookkeeping and metadata structures. Corresponds to jemalloc's [`stats.metadata`](https://jemalloc.net/jemalloc.3.html#stats.metadata). |
+| `typesense_memory_resident_bytes` | Total bytes physically resident in RAM. Includes metadata pages, active allocation pages, and unused dirty pages. Corresponds to jemalloc's [`stats.resident`](https://jemalloc.net/jemalloc.3.html#stats.resident). |
+| `typesense_memory_retained_bytes` | Total bytes in virtual memory mappings retained by the allocator rather than returned to the OS. This memory is not necessarily backed by physical RAM. Corresponds to jemalloc's [`stats.retained`](https://jemalloc.net/jemalloc.3.html#stats.retained). |
+
 #### Definition
 `GET ${TYPESENSE_HOST}/metrics.json`
 
