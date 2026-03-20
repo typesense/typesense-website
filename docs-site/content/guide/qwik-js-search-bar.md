@@ -630,9 +630,9 @@ Let's create the project structure step by step. After each step, we'll show you
 
 11. Run the application:
 
-   ```bash
-   npm run dev
-   ```
+     ```bash
+     npm run dev
+     ```
 
    This will start the development server and open your default browser to [http://localhost:5173](http://localhost:5173). You should see the search interface with the book search results.
 
