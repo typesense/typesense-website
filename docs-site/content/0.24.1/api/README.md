@@ -150,8 +150,5 @@ However, if you need to downgrade to `v0.23`, we've released a special version `
 
 So `v0.24` can only be downgraded to `v0.23.2`.
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />

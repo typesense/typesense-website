@@ -291,6 +291,7 @@ let config = {
             ['/guide/ab-testing', 'A/B Testing'],
             ['/guide/query-suggestions', 'Query Suggestions'],
             ['/guide/natural-language-search', 'Natural Language Search'],
+            ['/guide/ai-agents-typesense', 'Typesense for AI Agents'],
             ['/guide/boolean-tag-search', 'Boolean Search with Tags'],
             ['/guide/docker-swarm-high-availability', 'Running on Docker Swarm'],
             ['/guide/github-actions', 'Running Tests in Github Actions'],
@@ -316,6 +317,8 @@ let config = {
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
+            ['/guide/gin-search-api', 'Search API in Gin'],
+            ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
           ],
         },
         {

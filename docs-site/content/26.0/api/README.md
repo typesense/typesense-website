@@ -191,8 +191,5 @@ field in the `/debug` end-point response.
 
 Once you upgrade to `v26` of Typesense Server, you can only downgrade back to `v0.25.x`. 
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />

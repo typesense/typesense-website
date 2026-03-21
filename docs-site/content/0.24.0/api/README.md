@@ -127,8 +127,5 @@ field in the `/debug` end-point response.
 7. Replace the binary on the old leader and start the Typesense server back again. 
 8. This node will re-join the cluster as a follower, and we are done.
 
-:::tip
-This documentation itself is open source. If you find any issues, click on the Edit page button at the bottom of the page and send us a Pull Request.
-:::
 
 <RedirectOldLinks />
