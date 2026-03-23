@@ -34,6 +34,10 @@ We also have the following community-maintained client libraries:
 - [PHP SEAL Adapter](https://github.com/schranz-search/seal-typesense-adapter)
 - [Elixir](https://github.com/jaeyson/ex_typesense)
 
+If you are using the JavaScript client in a browser-based search UI, there is also a
+short [tuning guide](/guide/typesense-js-client-tuning.md) that covers timeouts,
+retries, caching, and slow hybrid searches.
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Go','Swift']">
   <template v-slot:JavaScript>
 
