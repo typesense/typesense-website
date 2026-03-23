@@ -264,6 +264,9 @@ By default, Typesense will start on port 8108, and the installation will generat
 We are starting a single node here, but Typesense can also run in a clustered mode. See the [High Availability](./high-availability.md) section for more details.
 :::
 
+### Terraform Module
+
+[Here's](https://github.com/getclera/typesense-terraform) a community-maintained terraform module to set up Typesense in GCP, built by one of our users - the team at [Clera](https://www.getclera.com/).
 
 ### Using a GPU (optional)
 
