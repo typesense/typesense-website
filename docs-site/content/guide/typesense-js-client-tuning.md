@@ -14,6 +14,26 @@ should fail quickly on bad networks, not sit there for a long time retrying the 
 `numRetries` and `retryIntervalSeconds` control how often the client tries again after a failure.
 For a browser search experience, shorter values are usually better than long ones.
 
+```js
+import { SearchClient as TypesenseSearchClient } from "typesense"
+
+const client = new TypesenseSearchClient({
+  nodes: [
+    {
+      host: "xxx.a1.typesense.net",
+      port: 443,
+      protocol: "https",
+    },
+  ],
+  apiKey: "your-search-only-api-key",
+  connectionTimeoutSeconds: 2,
+  timeoutSeconds: 5,
+  numRetries: 3,
+  retryIntervalSeconds: 1,
+  cacheSearchResultsForSeconds: 120,
+})
+```
+
 Client-side caching is handled by `cacheSearchResultsForSeconds`, which exists in the JS client.
 That cache only helps inside the current browser session, so it is useful when users repeat the
 same search or toggle between the same filters. It does not reduce load across different users.
