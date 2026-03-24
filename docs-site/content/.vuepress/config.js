@@ -278,6 +278,7 @@ let config = {
             ['/guide/locale', 'Tips for Locale-Specific Search'],
             ['/guide/tips-for-filtering', 'Tips for Filtering Data in Typesense'],
             ['/guide/running-in-production', 'Running in Production'],
+            ['/guide/typesense-js-client-tuning', 'Typesense JS Client Tuning'],
           ],
         },
         {

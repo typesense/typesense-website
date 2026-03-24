@@ -35,6 +35,10 @@ We also have the following community-maintained client libraries:
 - [Elixir](https://github.com/jaeyson/ex_typesense)
 - [Typesense CLI](https://github.com/getclera/typesense-cli)
 
+If you are using the JavaScript client in a browser-based search UI, there is also a
+short [tuning guide](/guide/typesense-js-client-tuning.md) that covers timeouts,
+retries, and caching.
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Go','Swift']">
   <template v-slot:JavaScript>
 
