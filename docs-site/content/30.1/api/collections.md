@@ -294,7 +294,16 @@ auto-schema detection should help you.
 
 You can define a wildcard field with the name `.*` and type `auto` to let Typesense automatically
 detect the type of the fields when you [add documents](./documents.md#index-a-single-document) to the collection.
-In fact, you can use **any RegEx expression to define a field name**.
+You can also use **any RegEx expression to define a field name**.
+
+When you use dynamic field definitions:
+
+- `type: auto`, `type: string*`, and regex field names containing `.*` are treated as dynamic fields.
+- If `optional` is omitted, dynamic fields default to `true`.
+- `.*` is a special wildcard fallback field. It must be optional, cannot be a facet, cannot be a reference, must stay indexed, and only one `.*` field is allowed per collection.
+- Regex field names are matched against the document field name at index time.
+- Avoid overlapping regex patterns in schema reconciliation. Typesense uses the first matching dynamic field it encounters, and iteration order is not a documented precedence rule.
+- Regex definitions can also match flattened nested field names when `enable_nested_fields` is on, for example `titles\\..*`.
 
 <Tabs :tabs="['JSON']">
   <template v-slot:JSON>
@@ -312,6 +321,7 @@ In fact, you can use **any RegEx expression to define a field name**.
 </Tabs>
 
 When a `.*` field is defined this way, all the fields in a document are automatically indexed for **searching and filtering**.
+If you use a regex field name instead of `.*`, only matching document fields are added to the schema.
 
 #### Data Coercion
 
@@ -443,7 +453,7 @@ string, then the next document that contains the field named `title` will be exp
 | name          | yes      | Name of the field.                                                                                                                         |
 | type          | yes      | The data type of the field (see the section below for a list of types).                                                                    |
 | facet         | no       | Enables faceting on the field. Default: `false`.                                                                                           |
-| optional      | no       | When set to `true`, the field can have empty, null or missing values. Default: `false`.                                                    |
+| optional      | no       | When set to `true`, the field can have empty, null or missing values. Default: `false` for regular fields and `true` for dynamic fields (`auto`, `string*`, and regex field names). |
 | index         | no       | When set to `false`, the field will not be indexed in **any** in-memory index (e.g. search/sort/filter/facet).  Default: `true`.           |
 | store         | no       | When set to `false`, the field value will not be stored on disk.  Default: `true`.                                                         |
 | sort          | no       | When set to `true`, the field will be sortable.  Default: `true` for numbers, `false` otherwise.                                           |
