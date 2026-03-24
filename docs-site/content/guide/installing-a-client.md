@@ -1,8 +1,5 @@
 # Installing a client
 
-If you are using the JavaScript client in the browser, there is a short guide on
-[tuning the client](./typesense-js-client-tuning.md) for timeouts, retries, and caching.
-
 We have client libraries for:
 
 - [JavaScript](https://github.com/typesense/typesense-js)
