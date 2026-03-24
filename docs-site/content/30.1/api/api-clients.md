@@ -36,7 +36,7 @@ We also have the following community-maintained client libraries:
 
 If you are using the JavaScript client in a browser-based search UI, there is also a
 short [tuning guide](/guide/typesense-js-client-tuning.md) that covers timeouts,
-retries, caching, and slow hybrid searches.
+retries, and caching.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart', 'Java', 'Go','Swift']">
   <template v-slot:JavaScript>
