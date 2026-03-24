@@ -10,6 +10,10 @@ sitemap:
 When you upgrade to v30, all existing collection-specific override definitions will be automatically migrated to the new curation sets format. Your searches will continue working without any hiccups, but you have to use the new API and client methods for reading and writing to the curation definitions. If self-hosting, [**perform a snapshot**](./cluster-operations.md#create-snapshot-for-backups) before upgrading for the Synonyms & Overrides to be migrated to v30.
 :::
 
+:::warning API Key Actions Updated
+Since the curation API route changed from `/collections/{collection}/overrides` to `/curation_sets`, API keys scoped to `overrides:*` actions will **not** grant access to the new curations set endpoints (resulting in `401 Unauthorized`). You need to create new API keys using `curation_sets:*` actions instead. Since there is no update endpoint for API keys, you will need to create new keys and then delete the old ones. See the full list of [Curation Set actions](./api-keys.html#curation-set-actions).
+:::
+
 While Typesense makes it really easy and intuitive to deliver great search results, sometimes you might want to promote certain documents over others. Or, you might want to exclude certain documents from a query's result set.
 
 Using curation, you can include or exclude specific documents for a given query.
@@ -524,7 +528,7 @@ await client.curation_sets.upsert('curate_products', curation_set);
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
+curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
@@ -739,7 +743,7 @@ await client.curation_sets.upsert('curate_products', curation_set);
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
+curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
@@ -865,7 +869,7 @@ await client.curation_sets.upsert('curate_products', curation_set);
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products" -X PUT \
+curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "items": [{
@@ -952,7 +956,7 @@ Its default value is `0.5`.
 Instead of using `curation_tags`, diversity overrides can also be defined with specific rules regarding [query/filter matches](#parameters), which are invoked dynamically.
 
 ### Synonyms with Curations
-You can enable synonyms matching in curation rule by adding param `"synonyms" : true` while adding curation rule like:
+You can enable synonyms matching in curation rule by adding param `"synonyms": true` while adding curation rule like:
 
 ```json
 {
@@ -960,7 +964,7 @@ You can enable synonyms matching in curation rule by adding param `"synonyms" : 
         "rule": {
             "query": "credit card",
             "match": "exact",
-            "synonyms" : true
+            "synonyms": true
           },
           "includes": [
                 {"id": "4", "position": 1}
@@ -981,14 +985,14 @@ Now if we search the collection using query `payment card` or `cc`, it'll trigge
 
 ### Stemming with Curations
 Stemming can be enabled optionally for curations.
-To enable stemming with any curation rule, one needs to set `"stem":true` like following:
+To enable stemming with any curation rule, one needs to set `"stem": true` like following:
 
 ```json
 {      "id": "stemmer2",
         "rule": {
             "query": "People",
             "match": "exact",
-            "stem" : true,
+            "stem": true,
             "stemming_dictionary": "set1"
           },
           "includes": [
@@ -1046,7 +1050,7 @@ await client.curation_sets.retrieve('curate_products');
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products" -X GET \
+curl "http://localhost:8108/curation_sets/curate_products" -X GET \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -1105,7 +1109,7 @@ await client.curation_sets.retrieve();
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets" -X GET \
+curl "http://localhost:8108/curation_sets" -X GET \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -1163,7 +1167,7 @@ await client.curation_sets.delete('curate_products');
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products" -X DELETE \
+curl "http://localhost:8108/curation_sets/curate_products" -X DELETE \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -1292,7 +1296,7 @@ await client.curation_sets['curate_products'].items['dynamic-sort-filter'].upser
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X PUT \
+curl "http://localhost:8108/curation_sets/curate_products/items/dynamic-sort-filter" -X PUT \
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "rule": {
@@ -1321,6 +1325,8 @@ curl "http://localhost:8108/collections/curation_sets/curate_products/items/dyna
 | rule.match                         | no                                                          | Indicates whether the match on the query term should be `exact` or `contains`. Required when `rule.query` is set.                                                                                                                                                                                                                                                       |
 | rule.filter_by                     | One of either `rule.query` or `rule.filter_by` is required. | Indicates that the override should apply when the `filter_by` parameter in a search query _exactly_ matches the string specified here (including backticks, spaces, brackets, etc).                                                                                                                                                                                     |
 | rule.tags                          | no                                                          | List of tag values to associate with this override rule.                                                                                                                                                                                                                                                                                                                |
+| rule.synonyms                      | no                                                          | Indicates whether synonyms matching is enabled for the curation rule. <br/><br/>Default: `false`.                                                                                                                                                                                                                                                                       |
+| rule.stem                          | no                                                          | Indicates whether stemming is enabled for the curation rule. <br/><br/>Default: `false`.                                                                                                                                                                                                                                                                                |
 | excludes                           | no                                                          | List of document `id`s that should be excluded from the search results.                                                                                                                                                                                                                                                                                                 |
 | includes                           | no                                                          | List of document `id`s that should be included in the search results with their corresponding `positions`.                                                                                                                                                                                                                                                              |
 | metadata                           | no                                                          | Return a custom JSON object in the Search API response, when this rule is triggered. This can can be used to display a pre-defined message (eg: a promotion banner) on the front-end when a particular rule is triggered.                                                                                                                                               |
@@ -1374,7 +1380,7 @@ client.curationSets('curate_products').items('dynamic-sort-filter').retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->curationSets['curate_products']->getItems()['dynamic-sort-filter']->retrieve();
+$client->curationSets['curate_products']->items['dynamic-sort-filter']->retrieve();
 ```
 
   </template>
@@ -1406,7 +1412,7 @@ await client.curation_sets.retrieve('curate_products');
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X GET \
+curl "http://localhost:8108/curation_sets/curate_products/items/dynamic-sort-filter" -X GET \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -1432,7 +1438,7 @@ client.curationSets('curate_products').items().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->curationSets['curate_products']->items()->retrieve();
+$client->curationSets['curate_products']->items->retrieve();
 ```
 
   </template>
@@ -1464,7 +1470,7 @@ await client.curation_sets.retrieve('curate_products');
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products/items" -X GET \
+curl "http://localhost:8108/curation_sets/curate_products/items" -X GET \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
@@ -1518,7 +1524,7 @@ await client.curation_sets.delete('curate_products');
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/collections/curation_sets/curate_products/items/dynamic-sort-filter" -X DELETE \
+curl "http://localhost:8108/curation_sets/curate_products/items/dynamic-sort-filter" -X DELETE \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 

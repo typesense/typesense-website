@@ -818,7 +818,7 @@ client.synonymSets('tech-synonyms').items().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->synonymSets['tech-synonyms']->items()->retrieve();
+$client->synonymSets['tech-synonyms']->items->retrieve();
 ```
 
   </template>
