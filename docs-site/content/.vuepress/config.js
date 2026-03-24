@@ -274,11 +274,11 @@ let config = {
           collapsable: false,
           children: [
             ['/guide/ranking-and-relevance', 'Tuning Ranking and Relevance'],
-            ['/guide/typesense-js-client-tuning', 'Typesense JS Client Tuning'],
             ['/guide/tips-for-searching-common-types-of-data', 'Tips for Searching Common Types of Data'],
             ['/guide/locale', 'Tips for Locale-Specific Search'],
             ['/guide/tips-for-filtering', 'Tips for Filtering Data in Typesense'],
             ['/guide/running-in-production', 'Running in Production'],
+            ['/guide/typesense-js-client-tuning', 'Typesense JS Client Tuning'],
           ],
         },
         {
