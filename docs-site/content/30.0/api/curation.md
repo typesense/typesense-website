@@ -386,9 +386,9 @@ You can add tags to override rules and then trigger curation by referring to the
       "id": "tagging-example",
       "rule": {
         "query": "iphone pro",
-        "match": "exact"
+        "match": "exact",
+        "tags": ["apple", "iphone"]
       },
-      "tags": ["apple", "iphone"],
       "includes": [{"id": "1348","position": 1}],
       "excludes": [
         {"id": "287"}
