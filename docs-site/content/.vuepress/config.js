@@ -313,6 +313,7 @@ let config = {
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
             ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
+            ['/guide/nuxt-js-search-bar', 'Search Bar in Nuxt.js'],
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
