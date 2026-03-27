@@ -150,20 +150,25 @@
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />RAFT-based multi-node clustering</td>
                   <td>✅<br /><br />Active-passive replication</td>
-                  <td class="text-danger">
-                    ❌<br /><br />Only supports a single-node setup, which
-                    creates a single point of failure and so is not fault
-                    tolerant / production-ready.
+                  <td>✅<br /><br />Virtual-naming-based multi-node clustering</td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">
+                    Sharding / <br />Horizontal Scaling
                   </td>
+                  <td>❌<br /><br />Only supports vertical scaling</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅<br /><br />Virtual-naming-based multi-node sharding</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">GPU Acceleration Support</td>
                   <td>
-                    ✅<br /><br />Can optionally use a GPU when available.
+                    ✅<br /><br />Can optionally use a GPU when available
                   </td>
                   <td>❌</td>
                   <td>❌</td>
-                  <td>❌</td>
+                  <td>✅<br /><br />Can optionally use a GPU to generate embeddings</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">
