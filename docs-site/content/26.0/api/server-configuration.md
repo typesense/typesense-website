@@ -93,6 +93,11 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--db-compaction-interval`        | false    | Frequency of automatic on-disk [database compaction](./cluster-operations.md#compacting-the-on-disk-database). Default: `604,800` (7 days)<br><br> If you do frequent collection drops and recreates, you want to considering setting this to say 24 hours.                          |
 | `--skip-writes`                   | false    | Starts Typesense in a mode that does not read writes from the Raft log. This is useful when the server has crashed due to some recent bad writes that you want to skip over temporarily.                                                                                             |
 
+### Search
+
+| Parameter              | Required | Description                                                                                                                                                                                                                                                                                                                  |
+|------------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--enable-lazy-filter` | false    | Sets the server-wide default for lazy evaluation of filter clauses. When enabled, filter clauses are evaluated incrementally during search instead of upfront. Default: `false`. <br><br>**NOTE**: We recommend setting `enable_lazy_filter` as a [search parameter](./search.md#search-parameters) on a per-query basis instead of enabling it server-wide, since it is only beneficial for specific query patterns (e.g. filtering on large value sets where the query tokens match very few documents). |
 
 ## Using a Configuration File
 
