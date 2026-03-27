@@ -1567,6 +1567,7 @@ While exporting, you can use the following parameters to control the result of t
 | filter_by      | Restrict the exports to documents that satisfies the [`filter by` query](search.md#filter-results). |
 | include_fields | List of fields that should be present in the exported documents.                                    |
 | exclude_fields | List of fields that should not be present in the exported documents.                                |
+| batch_size     | Number of documents to stream per chunk while exporting. Default: `100`.                          |
 
 **Definition**
 
