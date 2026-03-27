@@ -124,9 +124,6 @@ export default {
     align-items center
     width 100%
 
-  .search-query
-    padding-right 40px 
-
   .shortcut-indicator
     position absolute
     right 8px
@@ -134,11 +131,11 @@ export default {
     transform translateY(-50%)
     display inline-flex
     align-items center
-    gap 1px
     height 14px
     border 1px solid rgba(0, 0, 0, 0.1)
     border-radius 7px
     padding 0 4px
+    z-index 99
     font-size 9px
     font-family monospace
     font-weight 500
@@ -199,7 +196,7 @@ export default {
         padding 0
       .typesense-docsearch-suggestion--title
         font-weight 600
-        margin-bottom 0.8rem
+        margin-bottom 0.35rem
         color $textColor
       .typesense-docsearch-suggestion--subcategory-column
         vertical-align top
@@ -213,7 +210,7 @@ export default {
     .typesense-docsearch-footer
       border-color $borderColor
     .typesense-docsearch-suggestion--content
-      padding 0.8rem
+      padding 0.6rem 0.8rem
     .ds-cursor .typesense-docsearch-suggestion--content
       background-color #e7edf3 !important
       color $textColor
@@ -237,14 +234,22 @@ export default {
 
 @media (max-width: $MQMobile)
   .typesense-search-wrapper
+    .search-container
+      width auto
+      justify-content flex-end
+    .shortcut-indicator
+      display none
     .ds-dropdown-menu
       min-width calc(100vw - 4rem) !important
       max-width calc(100vw - 4rem) !important
-    .typesense-docsearch-suggestion--wrapper
-      padding 5px 7px 5px 5px !important
-    .typesense-docsearch-suggestion--subcategory-column
+    .typesense-docsearch-suggestion--category-header
+      padding 5px 10px
+    .typesense-docsearch-suggestion--title
       padding 0 !important
-      background white !important
+    .typesense-docsearch-suggestion--wrapper
+      padding 0 !important
+    .typesense-docsearch-suggestion--subcategory-column
+      padding 5px 10px !important
     .typesense-docsearch-suggestion--subcategory-column-text:after
       content " > "
       font-size 10px
@@ -253,4 +258,32 @@ export default {
       width 5px
       margin -3px 3px 0
       vertical-align middle
+    .typesense-docsearch-suggestion--subcategory-inline
+      padding 0 10px !important
+    .typesense-docsearch-suggestion--content
+      display block !important
+      width 100% !important
+      box-sizing border-box
+      padding 5px 10px !important
+
+@media (max-width: $MQNarrow)
+  .typesense-search-wrapper.search-box
+    .search-container
+      &:not(:focus-within) .shortcut-indicator
+        display none
+      &:focus-within .shortcut-indicator
+        display inline-flex
+
+    .search-query
+      width 0 !important
+      border-color transparent !important
+      cursor pointer !important
+
+    .search-query:not(:focus)
+      margin-left 0 !important
+
+    .search-query:focus
+      width 7rem !important
+      cursor text !important
+      border-color $accentColor !important
 </style>
