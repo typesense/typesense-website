@@ -152,68 +152,65 @@ const asSeenAt = [
     <section class="mt-[100px]">
       <h2 class="mb-[30px] max-md:mb-6">As seen at</h2>
       <div
-        class="grid grid-cols-4 justify-between gap-4 max-lg:flex max-lg:flex-col max-md:gap-3"
+        class="grid grid-cols-[360px_360px_304px] justify-between items-start gap-4 max-[1200px]:grid-cols-2 max-[1200px]:justify-start max-md:!grid-cols-1 max-md:!justify-start max-md:gap-6"
       >
-        <div
-          class="col-span-3 grid grid-cols-[360px_360px] gap-4 max-[1050px]:grid-cols-2 max-md:m-0 max-md:grid-cols-1 max-md:gap-6"
-        >
-          <div class="space-y-3">
-            <div class="flex items-center justify-between px-4">
-              <p class="text-sm text-gray-500">
-                The iconic Nasdaq billboard in New York
-              </p>
-              <a
-                href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
-                target="_blank"
-                class="text-sm text-primary hover:text-primary/80"
-                >View ›</a
-              >
-            </div>
-            <CustomLink
-              to="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
-              class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
+        <div class="space-y-3">
+          <div class="flex items-center justify-between px-4">
+            <p class="text-sm text-gray-500">
+              The iconic Nasdaq billboard in New York
+            </p>
+            <a
+              href="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
+              target="_blank"
+              class="text-sm text-primary hover:text-primary/80"
+              >View ›</a
             >
-              <div class="relative h-full w-full">
-                <img
-                  class="h-full w-full rounded-3xl object-cover object-[center_20%]"
-                  src="@/assets/images/typesense-on-nasdaq.jpeg"
-                  alt="Typesense on the Nasdaq billboard in New York City"
-                />
-              </div>
-            </CustomLink>
           </div>
-
-          <div class="space-y-3 max-md:mt-8">
-            <div class="flex items-center justify-between px-4">
-              <p class="text-sm text-gray-500">
-                Hundreds of San Francisco billboards
-              </p>
-              <a
-                href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
-                target="_blank"
-                class="text-sm text-primary hover:text-primary/80"
-                >View ›</a
-              >
+          <CustomLink
+            to="https://typesense.org/blog/typesense-on-nasdaq-billboard-aug-2022/"
+            class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
+          >
+            <div class="relative h-full w-full">
+              <img
+                class="h-full w-full rounded-3xl object-cover object-[center_20%]"
+                src="@/assets/images/typesense-on-nasdaq.jpeg"
+                alt="Typesense on the Nasdaq billboard in New York City"
+              />
             </div>
-            <CustomLink
-              to="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
-              class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
-            >
-              <div class="relative h-full w-full">
-                <img
-                  class="h-full w-full rounded-3xl object-cover object-[center_20%]"
-                  src="@/assets/images/typesense-at-sf-1.jpg"
-                  alt="Typesense in San Francisco"
-                />
-              </div>
-            </CustomLink>
-          </div>
+          </CustomLink>
         </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between px-4">
+            <p class="text-sm text-gray-500">
+              Hundreds of San Francisco billboards
+            </p>
+            <a
+              href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
+              target="_blank"
+              class="text-sm text-primary hover:text-primary/80"
+              >View ›</a
+            >
+          </div>
+          <CustomLink
+            to="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
+            class="relative block h-[500px] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full max-sm:h-[400px]"
+          >
+            <div class="relative h-full w-full">
+              <img
+                class="h-full w-full rounded-3xl object-cover object-[center_20%]"
+                src="@/assets/images/typesense-at-sf-1.jpg"
+                alt="Typesense in San Francisco"
+              />
+            </div>
+          </CustomLink>
+        </div>
+
         <div
-          class="flex justify-center gap-4 max-lg:grid max-lg:grid-cols-3 max-md:flex max-md:flex-wrap max-md:gap-2 md:flex-col"
+          class="self-stretch flex h-full flex-col justify-center gap-4 max-[1200px]:col-span-2 max-[1200px]:grid max-[1200px]:h-auto max-[1200px]:grid-cols-2 max-[1200px]:content-start max-md:col-span-1 max-md:gap-2 max-sm:grid-cols-2"
         >
           <CustomLink
-            class="basis-[calc(25%-10.67px)] max-md:basis-[calc(50%-6px)]"
+            class="w-full"
             v-for="item in asSeenAt"
             :key="item.href"
             :to="item.href"
@@ -226,6 +223,30 @@ const asSeenAt = [
                 :style="`height:${item.height}px !important;`"
               />
             </Card>
+          </CustomLink>
+        </div>
+
+        <div class="col-span-3 mt-4 space-y-3 max-[1200px]:col-span-2 max-md:col-span-1">
+          <div class="flex items-center justify-between px-4">
+            <p class="text-sm text-gray-500">Typesense on San Francisco buses</p>
+            <a
+              href="https://x.com/jasonbosco/status/2042001011313930250"
+              target="_blank"
+              class="text-sm text-primary hover:text-primary/80"
+              >View ›</a
+            >
+          </div>
+          <CustomLink
+            to="https://x.com/jasonbosco/status/2042001011313930250"
+            class="relative block aspect-[3520/1980] overflow-hidden transition-transform hover:scale-[1.02] max-md:w-full"
+          >
+            <div class="relative h-full w-full">
+              <img
+                class="h-full w-full rounded-3xl object-cover object-center"
+                src="@/assets/images/typesense-on-sf-buses.jpg"
+                alt="Typesense on San Francisco Buses"
+              />
+            </div>
           </CustomLink>
         </div>
       </div>

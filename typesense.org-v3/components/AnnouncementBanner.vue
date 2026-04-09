@@ -35,7 +35,7 @@ onUnmounted(() => {
   >
     <div class="container mx-auto flex justify-center px-4">
       <a
-        href="https://typesense.org/blog/typesense-on-san-francisco-billboards-apr-2025/"
+        href="https://x.com/jasonbosco/status/2042001011313930250"
         target="_blank"
         rel="noopener noreferrer"
         class="group inline-flex h-9 items-center gap-2 rounded-full bg-primary px-3 py-2.5 text-sm max-md:-mt-1 max-md:text-xs"
@@ -43,11 +43,9 @@ onUnmounted(() => {
         <img src="/icons/promo.svg" alt="New announcement" />
         <span class="whitespace-nowrap text-text-inverted">
           <span class="max-md:hidden"
-            >Check out our billboards now live in San Francisco</span
+            >Check out Typesense on San Francisco buses</span
           >
-          <span class="hidden max-md:inline"
-            >Check out our billboards live in SF</span
-          >
+          <span class="hidden max-md:inline">Check out our ads live in SF</span>
         </span>
         <span
           class="inline-flex items-center gap-1 whitespace-nowrap rounded font-normal tracking-tight text-secondary underline underline-offset-[3px] transition-colors group-hover:text-secondary/85 md:ml-1"
