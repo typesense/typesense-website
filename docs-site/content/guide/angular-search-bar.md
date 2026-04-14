@@ -41,12 +41,12 @@ Once Docker is installed, you can run a Typesense container in the background us
     <template v-slot:Shell>
       <div class="manual-highlight">
         <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
-  docker run -p 8108:8108 \
+  docker run -p 8108:8108 -d \
     -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
     --data-dir /data \
     --api-key=$TYPESENSE_API_KEY \
     --enable-cors \
-    -d</code></pre>
+    </code></pre>
       </div>
     </template>
   </Tabs>
@@ -198,7 +198,7 @@ Let's create the project structure step by step. After each step, we'll show you
     ```typescript
     export const environment = {
       typesense: {
-        apiKey: '1234',
+        apiKey: 'xyz',
         host: 'localhost',
         port: 8108,
         protocol: 'http',
@@ -665,7 +665,7 @@ Here's the complete source code for this project on GitHub:
 
 ## Related Examples
 
-Here's another related example that shows you how to build a search bar in a Next.JS application:
+Here's another related example that shows you how to build a search bar in a Angular application:
 
 [Guitar Chords Search with Angular](https://github.com/typesense/showcase-guitar-chords-search-angular/tree/master)
 
