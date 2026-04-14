@@ -314,6 +314,7 @@ let config = {
             ['/guide/docsearch', 'Search for Documentation Sites'],
             ['/guide/wordpress-search', 'Search for WordPress Sites'],
             ['/guide/magento2-search', 'Search for Magento Sites'],
+            ['/guide/angular-search-bar', 'Search Bar in Angular'],
             ['/guide/next-js-search-bar', 'Search Bar in Next.js'],
             ['/guide/nuxt-js-search-bar', 'Search Bar in Nuxt.js'],
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
