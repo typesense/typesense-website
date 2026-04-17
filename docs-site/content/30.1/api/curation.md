@@ -123,8 +123,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -266,8 +266,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -480,8 +480,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -695,8 +695,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -822,8 +822,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
   </template>
   <template v-slot:Ruby>
