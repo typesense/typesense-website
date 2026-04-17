@@ -68,6 +68,9 @@ This release contains important new features, performance improvements and bug f
 - Fixed a bug with collection truncation, requiring unnecessary parameters. 
 - Fixed a bug where the alter operations endpoint was returning the incorrect document counter.
 - Fixed a bug where analytics counters only worked with int32 fields.
+- **[v29.1]** Fixed scoped API key handling so embedded collection parameters can supply a missing collection in multi-search requests.
+- **[v29.1]** Fixed conversation search error handling so failed searches do not incorrectly reuse the first search collection.
+- **[v29.1]** Fixed search cache keying so scoped API key parameters and request-specific embedded params do not collide in the cache.
 
 ### Deprecations / behavior changes
 

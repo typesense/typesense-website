@@ -506,6 +506,40 @@ let config = {
         ['/30.0/api/api-errors', 'API Errors'],
       ],
 
+      //For 29.1
+      '/29.1/api/': [
+        ['/29.1/api/', 'Introduction'],
+        ['/29.1/api/server-configuration', 'Server Configuration'],
+        ['/29.1/api/api-clients', 'API Clients'],
+        ['/29.1/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/29.1/api/collections', 'Collections'],
+            ['/29.1/api/documents', 'Documents'],
+            ['/29.1/api/search', 'Search'],
+            ['/29.1/api/geosearch', 'GeoSearch'],
+            ['/29.1/api/vector-search', 'Vector Search'],
+            ['/29.1/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/29.1/api/voice-search-query', 'Voice Query'],
+            ['/29.1/api/image-search', 'Image Search'],
+            ['/29.1/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/29.1/api/natural-language-search', 'Natural Language Search'],
+            ['/29.1/api/joins', 'JOINs'],
+            ['/29.1/api/analytics-query-suggestions', 'Analytics & Query Suggestions'],
+            ['/29.1/api/api-keys', 'API Keys'],
+            ['/29.1/api/curation', 'Curation'],
+            ['/29.1/api/collection-alias', 'Collection Alias'],
+            ['/29.1/api/synonyms', 'Synonyms'],
+            ['/29.1/api/stemming', 'Stemming'],
+            ['/29.1/api/stopwords', 'Stopwords'],
+            ['/29.1/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/29.1/api/api-errors', 'API Errors'],
+      ],
+
       //For 29.0
       '/29.0/api/': [
         ['/29.0/api/', 'Introduction'],
