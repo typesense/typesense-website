@@ -38,6 +38,7 @@ This release contains new features, performance improvements and important bug f
 - Ability to clone a collection schema (without documents), overrides and synonyms.
 - New highlight structure that mimics the original document structure. Nested fields are highlighted only in this new
   structure, which is returned in a key named `highlight` in the JSON response.
+- Export documents in chunks with the new `batch_size` parameter on the export endpoint.
 - Allow override rules to be processed past the first match via the `stop_processing` flag (default is `true`).
 - Support locale and symbols in synonyms via the `locale` and `symbols_to_index` options during synonym creation.
 - Allow cloning of collection schema & linked assets (like synonyms, overrides) from a reference collection.
