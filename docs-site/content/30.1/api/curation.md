@@ -123,8 +123,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -266,8 +266,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -480,8 +480,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -695,8 +695,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -822,8 +822,8 @@ curation_set = {
   }]
 }
 
-# Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+# Creates/updates the `curate_products` curation set
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
   </template>
   <template v-slot:Ruby>
@@ -1196,6 +1196,61 @@ curl "http://localhost:8108/curation_sets/curate_products" -X DELETE \
 
 ### Altering an existing collection
 
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+update_schema = {
+  "curation_sets": ["clothing_curation", "tech_curation"]
+}
+client.collections('products').update(update_schema)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$update_schema = [
+  "curation_sets" => ["clothing_curation", "tech_curation"]
+];
+$client->collections['products']->update($update_schema);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+update_schema = {
+  "curation_sets": ["clothing_curation", "tech_curation"]
+}
+client.collections['products'].update(update_schema)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+update_schema = {
+  "curation_sets" => ["clothing_curation", "tech_curation"]
+}
+client.collections['products'].update(update_schema)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final updateSchema = UpdateSchema(
+  {},
+  curationSets: {'clothing_curation', 'tech_curation'},
+);
+await client.collection('products').update(updateSchema);
+```
+
+  </template>
+  <template v-slot:Shell>
+
 ```shell
 curl "http://localhost:8108/collections/products" -X PATCH \
 -H "Content-Type: application/json" \
@@ -1204,6 +1259,9 @@ curl "http://localhost:8108/collections/products" -X PATCH \
     "curation_sets": ["clothing_curation", "tech_curation"]
 }'
 ```
+
+  </template>
+</Tabs>
 
 ## Upsert a curation set item
 
