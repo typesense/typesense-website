@@ -1196,6 +1196,61 @@ curl "http://localhost:8108/curation_sets/curate_products" -X DELETE \
 
 ### Altering an existing collection
 
+<Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Shell']">
+  <template v-slot:JavaScript>
+
+```js
+update_schema = {
+  "curation_sets": ["clothing_curation", "tech_curation"]
+}
+client.collections('products').update(update_schema)
+```
+
+  </template>
+
+  <template v-slot:PHP>
+
+```php
+$update_schema = [
+  "curation_sets" => ["clothing_curation", "tech_curation"]
+];
+$client->collections['products']->update($update_schema);
+```
+
+  </template>
+  <template v-slot:Python>
+
+```py
+update_schema = {
+  "curation_sets": ["clothing_curation", "tech_curation"]
+}
+client.collections['products'].update(update_schema)
+```
+
+  </template>
+  <template v-slot:Ruby>
+
+```rb
+update_schema = {
+  "curation_sets" => ["clothing_curation", "tech_curation"]
+}
+client.collections['products'].update(update_schema)
+```
+
+  </template>
+  <template v-slot:Dart>
+
+```dart
+final updateSchema = UpdateSchema(
+  {},
+  curationSets: {'clothing_curation', 'tech_curation'},
+);
+await client.collection('products').update(updateSchema);
+```
+
+  </template>
+  <template v-slot:Shell>
+
 ```shell
 curl "http://localhost:8108/collections/products" -X PATCH \
 -H "Content-Type: application/json" \
@@ -1204,6 +1259,9 @@ curl "http://localhost:8108/collections/products" -X PATCH \
     "curation_sets": ["clothing_curation", "tech_curation"]
 }'
 ```
+
+  </template>
+</Tabs>
 
 ## Upsert a curation set item
 
