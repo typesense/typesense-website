@@ -15,7 +15,11 @@ To learn how to install and run Typesense, see the [Guide section](https://types
 
 ## What's new
 
-This release contains new features, enhancements, performance improvements, bug fixes and important API changes for synonyms, curation rules and analytics rules.
+The **v30** release contains new features, enhancements, performance improvements, bug fixes and important API changes 
+for synonyms, curation rules and analytics rules.
+
+This particular **v30.2** release primarily contains bug fixes, performance improvements, and operational hardening across 
+search, highlighting, filtering, faceting, vector search, and multi-search / conversation search flows.
 
 ### New Features
 
@@ -55,6 +59,11 @@ This release contains new features, enhancements, performance improvements, bug 
 - Enhance image embedding models support by adding CLIP Multilingual Model support
 - Support for synonym matching in curations [(Docs)](https://typesense.org/docs/30.1/api/curation.html#synonyms-with-curations)
 - Support stemming with curations [(Docs)](https://typesense.org/docs/30.1/api/curation.html#stemming-with-curations)
+- **[v30.2]** Improved search concurrency and memory efficiency by reducing lock contention during searches.
+- **[v30.2]** Improved `delete-by-query` performance by batching index removals while preserving per-document behavior for cascaded deletes.
+- **[v30.2]** Added pre-emptive logging for long-running queries to make production debugging easier.
+- **[v30.2]** Increased timeouts for model downloads and embedding model configuration fetches to better accommodate slower remote providers.
+- **[v30.2]** Return a clearer error message when a `group_by` field cannot be resolved.
 
 ### Bug Fixes
 
@@ -100,7 +109,20 @@ This release contains new features, enhancements, performance improvements, bug 
 - Validate that curation rules with `match` also include `query`, returning `400` otherwise.
 - Fix dropping nested object fields to only remove dot-delimited children, preserving similarly-prefixed top-level fields.
 - Fix conversation and natural language search model updates when the model ID changes, returning `409` on ID conflicts.
-- **[New in 30.1]** Fixed precision issue with search latency metric in `/stats.json` endpoint
+- **[v30.1]** Fixed precision issue with search latency metric in `/stats.json` endpoint.
+- **[v30.2]** Fixed incorrect handling of numeric `!=` filters in both lazy and eager filter execution, including explicit not-equals lists on range-indexed numeric fields.
+- **[v30.2]** Fixed highlighting to correctly mark single-token phrase matches and to avoid race conditions during union searches that run alongside concurrent writes.
+- **[v30.2]** Fixed missing `synonyms`, `stem`, and `stemming_dictionary` fields in curation GET responses.
+- **[v30.2]** Fixed a number of edge cases in diversity search.
+- **[v30.2]** Fixed union search deduplication so curated pinned hits are no longer collapsed.
+- **[v30.2]** Fixed a bug related to reference faceting.
+- **[v30.2]** Fixed vector search behavior so zero-match phrase queries still preserve vector search results.
+- **[v30.2]** Fixed scoped API key handling so embedded collection parameters can supply a missing collection in multi-search requests.
+- **[v30.2]** Fixed conversation search error handling so failed searches do not incorrectly reuse the first search collection.
+- **[v30.2]** Fixed search cache keying so scoped API key parameters and request-specific embedded params do not collide in the cache.
+- **[v30.2]** Fixed JSON response escaping by using `nlohmann::json::dump()` when serializing response payloads.
+- **[v30.2]** Fixed `/health` responsiveness during heavy bulk inserts by routing health checks to the meta thread pool.
+- **[v30.2]** Fixed HTTP/2 async import teardown on early exit.
 
 ### Deprecations / behavior changes
 
