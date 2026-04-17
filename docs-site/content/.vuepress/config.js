@@ -404,6 +404,40 @@ let config = {
         ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
       ],
 
+      //For 30.2
+      '/30.2/api/': [
+        ['/30.2/api/', 'Introduction'],
+        ['/30.2/api/server-configuration', 'Server Configuration'],
+        ['/30.2/api/api-clients', 'API Clients'],
+        ['/30.2/api/authentication', 'Authentication'],
+        {
+          title: 'API Resources',
+          collapsable: false,
+          children: [
+            ['/30.2/api/collections', 'Collections'],
+            ['/30.2/api/documents', 'Documents'],
+            ['/30.2/api/search', 'Search'],
+            ['/30.2/api/geosearch', 'GeoSearch'],
+            ['/30.2/api/vector-search', 'Vector Search'],
+            ['/30.2/api/federated-multi-search', 'Federated / Multi Search'],
+            ['/30.2/api/voice-search-query', 'Voice Query'],
+            ['/30.2/api/image-search', 'Image Search'],
+            ['/30.2/api/conversational-search-rag', 'Conversational Search (RAG)'],
+            ['/30.2/api/natural-language-search', 'Natural Language Search'],
+            ['/30.2/api/joins', 'JOINs'],
+            ['/30.2/api/analytics-query-suggestions', 'Analytics'],
+            ['/30.2/api/api-keys', 'API Keys'],
+            ['/30.2/api/curation', 'Curation'],
+            ['/30.2/api/collection-alias', 'Collection Alias'],
+            ['/30.2/api/synonyms', 'Synonyms'],
+            ['/30.2/api/stemming', 'Stemming'],
+            ['/30.2/api/stopwords', 'Stopwords'],
+            ['/30.2/api/cluster-operations', 'Cluster Operations'],
+          ],
+        },
+        ['/30.2/api/api-errors', 'API Errors'],
+      ],
+
       //For 30.1
       '/30.1/api/': [
         ['/30.1/api/', 'Introduction'],
