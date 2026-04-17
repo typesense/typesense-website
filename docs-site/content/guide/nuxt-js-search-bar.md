@@ -548,7 +548,7 @@ Let's create the project structure step by step. After each step, we'll show you
 
     Add your Typesense configuration:
 
-    ```env
+    ```bash
     NUXT_PUBLIC_TYPESENSE_API_KEY=xyz
     NUXT_PUBLIC_TYPESENSE_HOST=localhost
     NUXT_PUBLIC_TYPESENSE_PORT=8108

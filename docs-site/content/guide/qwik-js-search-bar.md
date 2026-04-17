@@ -202,7 +202,7 @@ Let's create the project structure step by step. After each step, we'll show you
 
     Add this to `.env`:
 
-    ```env
+    ```bash
     PUBLIC_TYPESENSE_API_KEY=xyz
     PUBLIC_TYPESENSE_HOST=localhost
     PUBLIC_TYPESENSE_PORT=8108
