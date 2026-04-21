@@ -71,7 +71,10 @@ This release contains important new features, performance improvements and bug f
 
 ### Deprecations / behavior changes
 
--  For `group_by` queries, the `found` value returned in the response is no longer an exact number. It's an 
+-  We fixed a couple of validation bugs that could prevent documents with schema-incompatible field values from loading.
+   To resolve this, reindex your data from the primary source — ensuring all document field values strictly conform to
+   the schema (for example, non-optional fields must *not* contain `null` values).
+-  For `group_by` queries, the `found` value returned in the response is no longer an exact number. It's an
    approximation of the number of groups found, and is guaranteed to be within 2% of the actual number of groups found.
 
 ## Upgrading
