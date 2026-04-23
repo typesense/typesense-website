@@ -215,7 +215,7 @@ For example, to filter for products that are either made in the USA or Canada, a
 
 ### Operator Precedence
 
-In boolean operations, the AND operator (`&&`) has higher precedence than the OR operator (`||`). This means that AND operations are performed before OR operations, unless parentheses are used to specify a different order.
+In boolean operations, the AND operator (`&&`) and the OR operator (`||`) have the same precedence and are evaluated left to right, unless parentheses are used to specify a different order.
 
 For example:
 
@@ -226,13 +226,13 @@ country:=USA || country:=Canada && city:=New York
 Would be interpreted as:
 
 ```shell
-country:=USA || (country:=Canada && city:=New York)
+(country:=USA || country:=Canada) && city:=New York
 ```
 
-To change the order of operations, use parentheses:
+To force a different order of operations, use parentheses explicitly:
 
 ```shell
-(country:=USA || country:=Canada) && city:=New York
+country:=USA || (country:=Canada && city:=New York)
 ```
 
 ## Filtering Array Types
