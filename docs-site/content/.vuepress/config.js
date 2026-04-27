@@ -298,6 +298,7 @@ let config = {
             ['/guide/github-actions', 'Running Tests in Github Actions'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/testcontainers', 'Running Tests with Testcontainers'],
+            ['/guide/personalized-search-join', 'Personalized Search with JOINs'],
           ],
         },
 
