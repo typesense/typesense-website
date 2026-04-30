@@ -96,7 +96,11 @@
             :key="language"
             type="button"
             class="copy-language-option"
-            :class="{ unavailable: !isLanguagePresent(language), active: isLanguageSelected(language) }"
+            :class="{
+              unavailable: !isLanguagePresent(language),
+              active: isLanguageSelected(language),
+              'selected-unavailable': isLanguageSelected(language) && !isLanguagePresent(language),
+            }"
             :disabled="!isLanguagePresent(language)"
             :aria-checked="isLanguageSelected(language) ? 'true' : 'false'"
             :aria-disabled="!isLanguagePresent(language) ? 'true' : 'false'"
@@ -260,7 +264,7 @@ export default {
       this.showOptions = !this.showOptions
     },
     isLanguageSelected(language) {
-      return this.isLanguagePresent(language) && this.selectedLanguages.includes(language)
+      return this.selectedLanguages.includes(language)
     },
     isLanguagePresent(language) {
       return this.presentLanguages.includes(language)
@@ -287,7 +291,9 @@ export default {
       if (this.allAvailableLanguagesSelected) {
         this.selectedLanguages = this.selectedLanguages.filter(language => !this.isLanguagePresent(language))
       } else {
-        this.selectedLanguages = this.presentLanguages.slice()
+        this.selectedLanguages = this.languageOptions.filter(
+          language => !this.isLanguagePresent(language) ? this.selectedLanguages.includes(language) : true,
+        )
       }
 
       setPreferredCopyLanguages(this.selectedLanguages)
@@ -587,6 +593,15 @@ export default {
     > span:first-of-type + span
       color lighten($textColor, 45%)
       font-weight 500
+
+  &.selected-unavailable
+    border-color transparent
+
+    .copy-language-checkbox[data-state='checked']
+      background lighten($accentColor, 42%)
+      border-color lighten($accentColor, 42%)
+      color rgba(255, 255, 255, 0.88)
+      box-shadow none
 
   &.unavailable:hover
     background transparent
