@@ -122,29 +122,50 @@ export default {
 
       let sectionStart = -1
       let sectionEnd = lines.length
+      let activeFence = null
 
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i]
+      lines.forEach((line, lineIndex) => {
+        const fence = this.getFenceMarker(line)
+        if (fence) {
+          activeFence = activeFence === fence ? null : activeFence || fence
+        }
 
         if (sectionStart === -1) {
           if (line === targetLine) {
-            sectionStart = i
+            sectionStart = lineIndex
           }
-        } else {
-          // start, look for end (next heading of equal or higher level)
-          const level = this.getHeadingLevel(line)
-          if (level > 0 && level <= this.headingLevel) {
-            sectionEnd = i
-            break
-          }
+          return
         }
-      }
+
+        if (activeFence) {
+          return
+        }
+
+        const level = this.getHeadingLevel(line)
+        if (level > 0 && level <= this.headingLevel && sectionEnd === lines.length) {
+          sectionEnd = lineIndex
+        }
+      })
 
       if (sectionStart === -1) {
         return null
       }
 
       return lines.slice(sectionStart, sectionEnd).join('\n')
+    },
+
+    getFenceMarker(line) {
+      const trimmedLine = line.trim()
+
+      if (trimmedLine.startsWith('```')) {
+        return '```'
+      }
+
+      if (trimmedLine.startsWith('~~~')) {
+        return '~~~'
+      }
+
+      return null
     },
 
     getHeadingLevel(line) {
