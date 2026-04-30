@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { stripVueMarkdownWrappers } = require('../util/markdownCopy')
+const { analyzeMarkdownForCopy, stripVueMarkdownWrappers } = require('../util/markdownCopy')
 
 function withBase(base, url) {
   if (!url || /^https?:\/\//.test(url) || !base || base === '/') return url
@@ -68,7 +68,11 @@ module.exports = (options, context) => ({
 
       markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
 
-      $page.markdown = stripVueMarkdownWrappers(markdown)
+      const markdownCopyData = analyzeMarkdownForCopy(markdown)
+
+      $page.markdown = markdownCopyData.markdown
+      $page.markdownCopyTabGroups = markdownCopyData.copyTabGroups
+      $page.markdownCopyLanguages = markdownCopyData.copyLanguages
 
       if ($page.path.endsWith('/')) {
         $page.markdownUrl = `${$page.path}README.md`
