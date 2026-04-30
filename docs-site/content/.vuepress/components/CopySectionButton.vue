@@ -1,9 +1,9 @@
 <template>
   <button
     class="copy-section-button"
-    @click.prevent.stop="copySection"
     :title="buttonTitle"
     :class="{ copied: isCopied }"
+    @click.prevent.stop="copySection"
   >
     <span class="icon-container">
       <svg

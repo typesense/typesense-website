@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { stripVueMarkdownWrappers } = require('../util/markdownCopy')
 
 function withBase(base, url) {
   if (!url || /^https?:\/\//.test(url) || !base || base === '/') return url
@@ -42,6 +43,7 @@ module.exports = (options, context) => ({
           console.log('Reading file:', sourceFile)
           let markdown = fs.readFileSync(sourceFile, 'utf-8')
           markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
+          markdown = stripVueMarkdownWrappers(markdown)
 
           res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
           res.send(markdown)
@@ -66,7 +68,7 @@ module.exports = (options, context) => ({
 
       markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
 
-      $page.markdown = markdown
+      $page.markdown = stripVueMarkdownWrappers(markdown)
 
       if ($page.path.endsWith('/')) {
         $page.markdownUrl = `${$page.path}README.md`
@@ -101,6 +103,7 @@ module.exports = (options, context) => ({
         let markdown = fs.readFileSync(sourceFile, 'utf-8')
 
         markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
+        markdown = stripVueMarkdownWrappers(markdown)
 
         let outputPath
         if (page.path.endsWith('/')) {

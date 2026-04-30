@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-actions">
-    <button class="copy-markdown-button" @click="copyMarkdown" :class="{ copied: isCopied }" :title="buttonTitle">
+    <button class="copy-markdown-button" :class="{ copied: isCopied }" :title="buttonTitle" @click="copyMarkdown">
       <div class="icon-container">
         <svg
           class="copy-icon"
