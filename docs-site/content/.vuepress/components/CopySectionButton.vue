@@ -1,9 +1,9 @@
 <template>
   <button
     class="copy-section-button"
-    @click.prevent.stop="copySection"
     :title="buttonTitle"
     :class="{ copied: isCopied }"
+    @click.prevent.stop="copySection"
   >
     <span class="icon-container">
       <svg
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+const { filterMarkdownByCopyLanguages, getPreferredCopyLanguages } = require('../util/markdownCopyFilter')
+
 export default {
   name: 'CopySectionButton',
   props: {
@@ -90,7 +92,13 @@ export default {
           throw new Error('Markdown content not available')
         }
 
-        const sectionMarkdown = this.extractSection(markdown)
+        const copyLanguages = getPreferredCopyLanguages()
+        const filteredMarkdown = filterMarkdownByCopyLanguages(
+          markdown,
+          this.$page.markdownCopyTabGroups,
+          copyLanguages,
+        )
+        const sectionMarkdown = this.extractSection(filteredMarkdown)
         if (!sectionMarkdown) {
           throw new Error('Could not find section')
         }
@@ -114,29 +122,50 @@ export default {
 
       let sectionStart = -1
       let sectionEnd = lines.length
+      let activeFence = null
 
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i]
+      lines.forEach((line, lineIndex) => {
+        const fence = this.getFenceMarker(line)
+        if (fence) {
+          activeFence = activeFence === fence ? null : activeFence || fence
+        }
 
         if (sectionStart === -1) {
           if (line === targetLine) {
-            sectionStart = i
+            sectionStart = lineIndex
           }
-        } else {
-          // start, look for end (next heading of equal or higher level)
-          const level = this.getHeadingLevel(line)
-          if (level > 0 && level <= this.headingLevel) {
-            sectionEnd = i
-            break
-          }
+          return
         }
-      }
+
+        if (activeFence) {
+          return
+        }
+
+        const level = this.getHeadingLevel(line)
+        if (level > 0 && level <= this.headingLevel && sectionEnd === lines.length) {
+          sectionEnd = lineIndex
+        }
+      })
 
       if (sectionStart === -1) {
         return null
       }
 
       return lines.slice(sectionStart, sectionEnd).join('\n')
+    },
+
+    getFenceMarker(line) {
+      const trimmedLine = line.trim()
+
+      if (trimmedLine.startsWith('```')) {
+        return '```'
+      }
+
+      if (trimmedLine.startsWith('~~~')) {
+        return '~~~'
+      }
+
+      return null
     },
 
     getHeadingLevel(line) {
