@@ -50,7 +50,7 @@ search, highlighting, filtering, faceting, vector search, and multi-search / con
 - Configurable token truncation for string fields to improve exact match filtering on long strings, using the new `truncate` parameter in the collection schema. [(Docs)](https://typesense.org/docs/30.1/api/collections.html#field-parameters)
 - Return an error message when a field is declared that references another field of the same collection.
 - New `group_max_candidates` search parameter which overrides the behavior of `group_by` queries introduced in [v29.0](https://typesense.org/docs/29.0/api/#deprecations-behavior-changes) where `found` value is an approximation. When `group_max_candidates` is passed, `found` will be accurate up until its value. [(Docs)](https://typesense.org/docs/30.1/api/search.html#grouping-parameters)
-- Allow non-indexed nested fields to still be marked as required.
+- Allow non-indexed nested fields to still be marked as required (`{"index": false, "optional": false}`). See the behavior changes section below for the validation implication on existing schemas.
 - Improved synonym matching logic: Previously, synonym matches with a higher number of tokens (query/synonym) would be ranked higher. Now, matches are ranked by how well they match the query/synonyms overall, not just by the number of matched tokens.
 - Use Transliterator objects pool to enhance tokenization performance of Cyrillic and Chinese languages.
 - Support for dynamic `facet_return_parent` fields. [(Docs)](https://typesense.org/docs/30.1/api/search.html#faceting-parameters)
@@ -132,6 +132,7 @@ search, highlighting, filtering, faceting, vector search, and multi-search / con
 - ⚠️ The structure of **Analytics Rules** has changed. Old rules will be automatically migrated to the new structure internally. Read more here. [(Docs)](https://typesense.org/docs/30.1/api/analytics-query-suggestions.html)
 - The export endpoint doesn't stop streaming the response if an error is encountered while loading a document from disk. The error is logged and is also returned in the response stream.
 - Collections having references to each other are not allowed. If mutual reference is detected, the reference field will not be indexed.
+- ⚠️ **Required non-indexed fields are now type-validated on write.** In earlier versions, any field declared with `index: false` silently bypassed type validation regardless of the `optional` setting. From v30.0 onwards, validation is only skipped when the field is **both** `index: false` **and** `optional: true`. <br/><br/> If you previously had a field declared as `{"type": "object", "index": false, "optional": false}` and your documents supplied a value that did not match the declared type (for example, an array of objects against a singular `object` field), imports that previously succeeded will now return `400 Field 'X' has an incorrect type`. To restore the old permissive behavior, either set `"optional": true` on the field, or change the field type so it matches the actual data shape (for example, change `object` to `object[]`). See the [Indexing all but some fields](https://typesense.org/docs/30.2/api/collections.html#indexing-all-but-some-fields) section for examples.
 
 ## Upgrading
 
