@@ -181,7 +181,7 @@ TYPESENSE_COLLECTION=books
 
 Update your `prisma/schema.prisma` file with the `Book` model and PostgreSQL provider:
 
-```prisma
+```plaintext
 generator client {
   provider = "prisma-client-js"
 }
@@ -532,3 +532,137 @@ startServer();
 ```
 
 Your API backend acts as a smart bridge: PostgreSQL guarantees your data integrity via Prisma ORM, Typesense enables blazing fast search, and the `node-cron` background worker gracefully keeps everything perfectly synchronized batch by batch!
+
+## Step 11: Run your server
+
+Start your backend application:
+
+```bash
+npm run dev
+```
+
+Expected startup output:
+
+```plaintext
+Connecting to PostgreSQL database...
+Database connected.
+Initializing Typesense...
+Collection 'books' not found. Creating...
+Collection 'books' created successfully.
+Running startup sync...
+Starting full sync...
+Imported batch 1 (0 books)
+Starting background sync worker (every 60 seconds)...
+Server listening on port 3000
+```
+
+## Testing the API
+
+**Create a book** - syncs to Typesense in the background:
+
+```bash
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "The TypeScript Handbook",
+    "authors": ["Microsoft"],
+    "publication_year": 2020,
+    "average_rating": 4.8,
+    "image_url": "https://example.com/tsbook.jpg",
+    "ratings_count": 5000
+  }'
+```
+
+**Search** - Typesense handles typos automatically:
+
+```bash
+curl "http://localhost:3000/search?q=typescript"
+curl "http://localhost:3000/search?q=handbuk"   # typo - still finds Handbook
+```
+
+**Trigger a manual sync** (useful after bulk database changes):
+
+```bash
+curl -X POST http://localhost:3000/sync
+```
+
+Response:
+
+```json
+{
+  "message": "Sync completed",
+  "newSyncTime": "2026-02-25T11:30:39.000Z",
+  "syncedAt": "2026-02-25T11:30:39.000Z",
+  "deletedBooks": 0
+}
+```
+
+**Check sync worker status:**
+
+```bash
+curl http://localhost:3000/sync/status
+```
+
+Response:
+
+```json
+{
+  "lastSyncTime": "2026-02-25T11:30:39.000Z",
+  "syncWorkerRunning": true
+}
+```
+
+**Example paginated sync log** (10,000 records, 10 pages of 1,000):
+
+```plaintext
+Starting full sync...
+Imported batch 1 (1000 books)
+Imported batch 2 (1000 books)
+...
+Imported batch 10 (1000 books)
+```
+
+## How the sync strategies work together
+
+The three sync strategies complement each other:
+
+| Strategy | When | Latency | Use case |
+| --- | --- | --- | --- |
+| Real-time (async) | On each CRUD write | < 100ms | Individual creates, updates, deletes |
+| Periodic (worker) | Every 60 seconds | Up to 60s | Catch-up for any missed real-time syncs |
+| Manual (`POST /sync`) | On demand | Depends on volume | After bulk DB imports, after outages |
+
+The periodic sync is the safety net. Even if the real-time async sync fails (e.g. Typesense was briefly down), the periodic sync picks up all changed records by comparing `updated_at` against `lastSyncTime`.
+
+## Production Considerations
+
+### Restrict CORS origins
+
+```typescript
+app.use(cors({ origin: 'https://yourdomain.com' }));
+```
+
+### Add an authentication middleware
+
+```typescript
+app.use(authMiddleware());
+```
+
+### Use production Typesense
+
+```bash
+TYPESENSE_HOST=xxx.typesense.net
+TYPESENSE_PORT=443
+TYPESENSE_PROTOCOL=https
+TYPESENSE_API_KEY=your-production-key
+```
+
+## Source Code
+
+The complete source code for this project is available on GitHub:
+
+[https://github.com/typesense/code-samples/tree/master/typesense-node-prisma-full-text-search](https://github.com/typesense/code-samples/tree/master/typesense-node-prisma-full-text-search)
+
+## Need Help?
+
+Read our [Help](/help.md) section for information on how to get additional help, or join our [Slack community](https://join.slack.com/t/typesense-community/shared_invite/zt-2fetvh0pw-ft5y2YQlq4l_bPhhqpjXig) to chat with other developers.
