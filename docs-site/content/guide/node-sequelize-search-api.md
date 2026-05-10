@@ -179,17 +179,73 @@ DB_PASSWORD=password
 DB_NAME=typesense_books
 ```
 
+Create `src/config/env.ts` to safely parse and export these environment variables:
+
+```typescript
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const env = {
+  PORT: parseInt(process.env.PORT || '3000', 10),
+  
+  DB_HOST: process.env.DB_HOST || 'localhost',
+  DB_USER: process.env.DB_USER || 'postgres',
+  DB_PASSWORD: process.env.DB_PASSWORD || 'password',
+  DB_NAME: process.env.DB_NAME || 'typesense_books',
+  DB_PORT: parseInt(process.env.DB_PORT || '5432', 10),
+
+  TYPESENSE_HOST: process.env.TYPESENSE_HOST || 'localhost',
+  TYPESENSE_PORT: parseInt(process.env.TYPESENSE_PORT || '8108', 10),
+  TYPESENSE_PROTOCOL: process.env.TYPESENSE_PROTOCOL || 'http',
+  TYPESENSE_API_KEY: process.env.TYPESENSE_API_KEY || 'xyz',
+};
+```
+
+Create `src/config/database.ts` to initialize the Sequelize connection:
+
+```typescript
+import { Sequelize } from 'sequelize';
+import { env } from './env';
+
+export const sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASSWORD, {
+  host: env.DB_HOST,
+  port: env.DB_PORT,
+  dialect: 'postgres',
+  logging: console.log,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
+```
+
 ## Step 5: Define the Book Model (Sequelize)
 
 Add this to `src/models/Book.ts`:
 
 ```typescript
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/database';
+import { Model, DataTypes, type Optional } from 'sequelize';
+import { sequelize } from '../config/database';
 
-export class Book extends Model {
-  // Using 'declare' prevents TypeScript from emitting initialization code
-  // that would overwrite Sequelize's custom getters/setters!
+export interface BookAttributes {
+  id: number;
+  title: string;
+  authors: string[];
+  publication_year: number;
+  average_rating: number;
+  image_url: string;
+  ratings_count: number;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
+export interface BookCreationAttributes extends Optional<BookAttributes, 'id'> {}
+
+export class Book extends Model<BookAttributes, BookCreationAttributes> implements BookAttributes {
   declare id: number;
   declare title: string;
   declare authors: string[];
@@ -197,6 +253,7 @@ export class Book extends Model {
   declare average_rating: number;
   declare image_url: string;
   declare ratings_count: number;
+
   declare readonly created_at: Date;
   declare readonly updated_at: Date;
   declare readonly deleted_at: Date | null;
@@ -210,32 +267,40 @@ Book.init(
       primaryKey: true,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     authors: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSONB,
       allowNull: false,
       defaultValue: [],
     },
     publication_year: {
       type: DataTypes.INTEGER,
+      allowNull: true,
     },
     average_rating: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(3, 2),
+      allowNull: true,
+      get() {
+        const value = this.getDataValue('average_rating');
+        return value === null ? null : parseFloat(value as unknown as string);
+      }
     },
     image_url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
     ratings_count: {
       type: DataTypes.INTEGER,
+      allowNull: true,
     },
   },
   {
     sequelize,
     tableName: 'books',
-    timestamps: true, // Automatically manages created_at and updated_at
-    paranoid: true,   // Enables soft deletes (deleted_at)
+    timestamps: true,
+    paranoid: true, // Enables soft deletes (deletedAt)
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
@@ -265,49 +330,47 @@ export const typesenseClient = new Client({
   ],
   apiKey: env.TYPESENSE_API_KEY,
   connectionTimeoutSeconds: 5,
-  retryIntervalSeconds: 1,
-  numRetries: 3,
 });
 ```
-
-Setting `numRetries` to 3 helps your application gracefully handle transient networking issues by automatically retrying failed requests.
 
 ## Step 7: Set up Automatic Collection Creation
 
 Add this to `src/search/collections.ts`:
 
 ```typescript
-import { typesenseClient } from './client';
-import { env } from '../config/env';
 import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
+import { typesenseClient } from './client';
 
-export async function initializeCollections() {
-  const collectionName = env.TYPESENSE_COLLECTION;
+export const BOOKS_COLLECTION_NAME = 'books';
 
-  const schema: CollectionCreateSchema = {
-    name: collectionName,
-    fields: [
-      { name: 'title', type: 'string', facet: false },
-      { name: 'authors', type: 'string[]', facet: true },
-      { name: 'publication_year', type: 'int32', facet: true },
-      { name: 'average_rating', type: 'float', facet: true },
-      { name: 'image_url', type: 'string', facet: false },
-      { name: 'ratings_count', type: 'int32', facet: true },
-    ],
-    default_sorting_field: 'ratings_count',
-  };
+export const booksCollectionSchema: CollectionCreateSchema = {
+  name: BOOKS_COLLECTION_NAME,
+  fields: [
+    { name: 'id', type: 'string' },
+    { name: 'title', type: 'string' },
+    { name: 'authors', type: 'string[]', facet: true },
+    { name: 'publication_year', type: 'int32', facet: true, optional: true },
+    { name: 'average_rating', type: 'float', facet: true, optional: true },
+    { name: 'image_url', type: 'string', optional: true },
+    { name: 'ratings_count', type: 'int32', optional: true },
+  ],
+};
 
+export async function initializeTypesense(): Promise<void> {
   try {
-    await typesenseClient.collections(collectionName).retrieve();
-    console.log(`Collection '${collectionName}' already exists.`);
-  } catch (error: any) {
-    if (error.httpStatus === 404) {
-      console.log(`Collection '${collectionName}' not found. Creating...`);
-      await typesenseClient.collections().create(schema);
-      console.log(`Collection '${collectionName}' created successfully.`);
+    const collections = await typesenseClient.collections().retrieve();
+    const collectionExists = collections.some((c) => c.name === BOOKS_COLLECTION_NAME);
+
+    if (!collectionExists) {
+      console.log(`Creating collection ${BOOKS_COLLECTION_NAME}...`);
+      await typesenseClient.collections().create(booksCollectionSchema);
+      console.log(`Collection ${BOOKS_COLLECTION_NAME} created successfully.`);
     } else {
-      throw error;
+      console.log(`Collection ${BOOKS_COLLECTION_NAME} already exists.`);
     }
+  } catch (error) {
+    console.error('Error initializing Typesense collection:', error);
+    throw error;
   }
 }
 ```
@@ -316,96 +379,157 @@ This ensures your Typesense collection and schema correctly align with your Sequ
 
 ## Step 8: Paginated and Incremental Sync Logic
 
-Add this to `src/search/sync.ts`.
-
 Handling sync efficiently is critical when dealing with millions of rows. We tackle this by implementing **paginated syncs**: instead of dumping an entire table into memory, we query PostgreSQL and import to Typesense in batches. We also use **incremental sync** based on `updated_at` to avoid re-syncing rows that haven't changed.
+
+Add this to `src/search/sync.ts`:
 
 ```typescript
 import { Op } from 'sequelize';
-import { typesenseClient } from './client';
 import { Book } from '../models/Book';
-import { env } from '../config/env';
+import { typesenseClient } from './client';
+import { BOOKS_COLLECTION_NAME } from './collections';
 
-export interface SyncState {
-  lastSyncTime: Date;
-  isRunning: boolean;
-}
+export let lastSyncTime: Date = new Date(0);
 
-export const syncState: SyncState = {
-  lastSyncTime: new Date(0), // Epoch
-  isRunning: false,
-};
+const BATCH_SIZE = 1000;
 
-export async function syncBooksToTypesense(since: Date = new Date(0)): Promise<Date> {
-  const pageSize = 1000;
-  let page = 1;
-  const newSyncTime = new Date();
+export async function runFullSync() {
+  console.log('Running full sync...');
+  let lastId = 0;
+  let hasMore = true;
+  let totalProcessed = 0;
 
-  console.log(`Starting sync since ${since.toISOString()}`);
+  while (hasMore) {
+    let books: Book[];
+    try {
+      books = await Book.findAll({
+        where: { id: { [Op.gt]: lastId } },
+        limit: BATCH_SIZE,
+        order: [['id', 'ASC']],
+        paranoid: true, // Only fetch active records
+      });
+    } catch (err) {
+      console.error('Database error during full sync fetching:', err);
+      break; // Abort this sync run gracefully on DB failure
+    }
 
-  while (true) {
-    const books = await Book.findAll({
-      where: {
-        updated_at: { [Op.gt]: since },
-      },
-      order: [['id', 'ASC']],
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-    });
+    if (books.length === 0) {
+      hasMore = false;
+      break;
+    }
 
-    if (books.length === 0) break;
+    lastId = books[books.length - 1].id;
 
-    const documents = books.map((book) => ({
-      id: `book_${book.id}`,
-      title: book.title,
-      authors: book.authors,
-      publication_year: book.publication_year,
-      average_rating: book.average_rating,
-      image_url: book.image_url,
-      ratings_count: book.ratings_count,
+    const documents = books.map((b) => ({
+      id: b.id.toString(),
+      title: b.title,
+      authors: b.authors,
+      publication_year: b.publication_year || 0,
+      average_rating: b.average_rating || 0.0,
+      image_url: b.image_url || '',
+      ratings_count: b.ratings_count || 0,
     }));
 
-    await typesenseClient
-      .collections(env.TYPESENSE_COLLECTION)
-      .documents()
-      .import(documents, { action: 'upsert' });
-
-    console.log(`Imported batch ${page} (${books.length} books)`);
-    page++;
+    try {
+      await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
+      totalProcessed += documents.length;
+      console.log(`Full sync: Processed ${totalProcessed} books.`);
+    } catch (err) {
+      console.error('Error importing documents during full sync', err);
+      // We can choose to break or continue here; breaking is safer on Typesense errors
+      break; 
+    }
   }
 
-  return newSyncTime;
+  // Update lastSyncTime to now
+  lastSyncTime = new Date();
+  console.log('Full sync completed.');
 }
 
-// Ensure soft-deleted rows in PostgreSQL are purged from Typesense
-export async function syncSoftDeletesToTypesense(since: Date = new Date(0)) {
-  const pageSize = 1000;
-  let page = 1;
-
-  while (true) {
-    const deletedBooks = await Book.findAll({
-      where: {
-        deleted_at: { [Op.not]: null },
-        updated_at: { [Op.gt]: since },
+export async function runIncrementalSync() {
+  console.log(`Running incremental sync since ${lastSyncTime.toISOString()}...`);
+  
+  // 1. Find newly created or updated books
+  const updatedBooks = await Book.findAll({
+    where: {
+      updated_at: {
+        [Op.gt]: lastSyncTime,
       },
-      paranoid: false, // Required in Sequelize to fetch soft-deleted rows!
-      order: [['id', 'ASC']],
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-    });
+    },
+    paranoid: true, // Only active
+  });
 
-    if (deletedBooks.length === 0) break;
+  if (updatedBooks.length > 0) {
+    const documents = updatedBooks.map((b) => ({
+      id: b.id.toString(),
+      title: b.title,
+      authors: b.authors,
+      publication_year: b.publication_year || 0,
+      average_rating: b.average_rating || 0.0,
+      image_url: b.image_url || '',
+      ratings_count: b.ratings_count || 0,
+    }));
 
-    const documentIds = deletedBooks.map((book) => `book_${book.id}`);
-    const filterBy = `id:=[${documentIds.join(',')}]`;
+    try {
+      await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
+      console.log(`Incremental sync: Upserted ${documents.length} books.`);
+    } catch (err) {
+      console.error('Error upserting documents in incremental sync', err);
+    }
+  }
 
-    await typesenseClient
-      .collections(env.TYPESENSE_COLLECTION)
-      .documents()
-      .delete({ filter_by: filterBy });
+  // 2. Find soft-deleted books
+  const deletedBooks = await Book.findAll({
+    where: {
+      deleted_at: {
+        [Op.gt]: lastSyncTime,
+      },
+    },
+    paranoid: false, // Include soft-deleted
+  });
 
-    console.log(`Deleted batch ${page} (${deletedBooks.length} books)`);
-    page++;
+  if (deletedBooks.length > 0) {
+    for (const book of deletedBooks) {
+      try {
+        await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents(book.id.toString()).delete();
+        console.log(`Incremental sync: Deleted book ${book.id} from Typesense.`);
+      } catch (err) {
+        // Typesense might return 404 if document doesn't exist, which is fine
+        const error = err as { httpStatus?: number };
+        if (error.httpStatus !== 404) {
+          console.error(`Error deleting book ${book.id} from Typesense`, err);
+        }
+      }
+    }
+  }
+
+  lastSyncTime = new Date();
+  console.log('Incremental sync completed.');
+}
+
+export async function determineAndRunStartupSync() {
+  try {
+    const searchStats = await typesenseClient.collections(BOOKS_COLLECTION_NAME).retrieve();
+    const docCount = searchStats.num_documents;
+
+    if (docCount === 0) {
+      // Empty Typesense collection, full sync
+      await runFullSync();
+    } else {
+      // Typesense has data, get latest updated_at from DB
+      const latestBook = await Book.findOne({
+        order: [['updated_at', 'DESC']],
+        paranoid: false, // Check across all records
+      });
+
+      if (latestBook?.updated_at) {
+        lastSyncTime = latestBook.updated_at;
+      }
+      
+      await runIncrementalSync();
+    }
+  } catch (error) {
+    console.error('Error during startup sync:', error);
   }
 }
 ```
@@ -416,40 +540,237 @@ When searching for soft-deleted records to remove from Typesense, you MUST pass 
 
 ## Step 9: Add the Background Sync Worker
 
-Add this to `src/search/worker.ts`. Using `node-cron`, we can trigger the incremental sync every 60 seconds automatically.
+Using `node-cron`, we can trigger the incremental sync every 60 seconds automatically. Add this to `src/search/worker.ts`:
 
 ```typescript
 import cron from 'node-cron';
-import { syncBooksToTypesense, syncSoftDeletesToTypesense, syncState } from './sync';
+import { runIncrementalSync } from './sync';
 
-export function startBackgroundSync() {
-  console.log('Background sync worker scheduled (every 60 seconds)');
+let isSyncRunning = false;
 
-  cron.schedule('*/60 * * * * *', async () => {
-    if (syncState.isRunning) {
-      console.log('Sync is already running, skipping this interval.');
+export function startBackgroundSyncWorker() {
+  console.log('Starting background periodic sync worker (every 60s)...');
+  
+  // Runs every minute
+  cron.schedule('* * * * *', async () => {
+    if (isSyncRunning) {
+      console.log('Sync already running, skipping this iteration.');
       return;
     }
 
+    isSyncRunning = true;
     try {
-      syncState.isRunning = true;
-      console.log('Running periodic sync...');
-      
-      const newSyncTime = await syncBooksToTypesense(syncState.lastSyncTime);
-      await syncSoftDeletesToTypesense(syncState.lastSyncTime);
-      
-      syncState.lastSyncTime = newSyncTime;
-      console.log(`Periodic sync completed. Last sync time updated to ${syncState.lastSyncTime.toISOString()}`);
+      await runIncrementalSync();
     } catch (error) {
-      console.error('Periodic sync failed:', error);
+      console.error('Error in background sync worker:', error);
     } finally {
-      syncState.isRunning = false;
+      isSyncRunning = false;
     }
   });
 }
+
+export function getSyncStatus() {
+  return {
+    syncWorkerRunning: isSyncRunning,
+  };
+}
 ```
 
-## Step 10: Wire it all together in the Server
+## Step 10: Build the CRUD API with real-time sync
+
+Add this to `src/routes/books.ts`. Each write syncs to Typesense **asynchronously** so the HTTP response returns immediately:
+
+```typescript
+import { Router, type Request, type Response } from 'express';
+import { Book } from '../models/Book';
+import { typesenseClient } from '../search/client';
+import { BOOKS_COLLECTION_NAME } from '../search/collections';
+
+const router = Router();
+
+// Helper for real-time async sync
+const syncBookToTypesense = async (book: Book) => {
+  try {
+    const document = {
+      id: book.id.toString(),
+      title: book.title,
+      authors: Array.isArray(book.authors) ? book.authors : [book.authors],
+      publication_year: book.publication_year || 0,
+      average_rating: typeof book.average_rating === 'number' ? book.average_rating : parseFloat(book.average_rating || '0'),
+      image_url: book.image_url || '',
+      ratings_count: book.ratings_count || 0,
+    };
+    
+    console.log(`Syncing book ${book.id} to Typesense:`, document.title);
+    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().upsert(document);
+    console.log(`Successfully synced book ${book.id} to Typesense.`);
+  } catch (err) {
+    console.error(`Failed to sync book ${book.id} to Typesense:`, err);
+    throw err;
+  }
+};
+
+const deleteBookFromTypesense = async (id: number) => {
+  try {
+    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents(id.toString()).delete();
+  } catch (err) {
+    console.error(`Failed to delete book ${id} from Typesense`, err);
+  }
+};
+
+// GET /books - Get all books with pagination
+router.get('/', async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string || '1', 10);
+  const limit = parseInt(req.query.limit as string || '10', 10);
+  const offset = (page - 1) * limit;
+
+  try {
+    const { count, rows } = await Book.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']]
+    });
+    
+    res.json({
+      total: count,
+      page,
+      limit,
+      data: rows
+    });
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
+// GET /books/:id - Get a book
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    res.json(book);
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch book' });
+  }
+});
+
+// POST /books - Create a book
+router.post('/', async (req: Request, res: Response) => {
+  try {
+    const book = await Book.create(req.body);
+    
+    // Real-time async sync (now awaited to ensure consistency in tests)
+    await syncBookToTypesense(book);
+
+    res.status(201).json(book);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+// PUT /books/:id - Update a book
+router.put('/:id', async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    await book.update(req.body);
+
+    // Real-time async sync (now awaited to ensure consistency in tests)
+    await syncBookToTypesense(book);
+
+    res.json(book);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+// DELETE /books/:id - Delete a book
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findByPk(req.params.id);
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    await book.destroy();
+
+    // Real-time async sync
+    deleteBookFromTypesense(book.id);
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+export default router;
+```
+
+## Step 11: Build the search and sync routes
+
+Add this to `src/routes/search.ts`:
+
+```typescript
+import { Router, type Request, type Response } from 'express';
+import { typesenseClient } from '../search/client';
+import { BOOKS_COLLECTION_NAME } from '../search/collections';
+import { runFullSync, lastSyncTime } from '../search/sync';
+import { getSyncStatus } from '../search/worker';
+
+const router = Router();
+
+// GET /search?q=<query>
+router.get('/search', async (req: Request, res: Response) => {
+  const query = req.query.q as string || '';
+  
+  try {
+    const searchResults = await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().search({
+      q: query,
+      query_by: 'title,authors',
+    });
+    
+    res.json({
+      query,
+      found: searchResults.found,
+      results: searchResults.hits,
+      facet_counts: searchResults.facet_counts || [],
+    });
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
+// POST /sync - Trigger manual sync
+router.post('/sync', async (_req: Request, res: Response) => {
+  try {
+    // We run full sync here for manual trigger, but you could also run incremental
+    await runFullSync();
+    
+    res.json({
+      message: 'Sync completed',
+      syncedAt: lastSyncTime.toISOString()
+    });
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to sync books' });
+  }
+});
+
+// GET /sync/status - Check sync status
+router.get('/sync/status', (_req: Request, res: Response) => {
+  res.json({
+    lastSyncTime: lastSyncTime.toISOString(),
+    syncWorkerRunning: getSyncStatus().syncWorkerRunning
+  });
+});
+
+export default router;
+```
+
+## Step 12: Wire it all together in the Server
 
 Assemble the dependencies in `src/server.ts`:
 
@@ -457,16 +778,16 @@ Assemble the dependencies in `src/server.ts`:
 import express from 'express';
 import cors from 'cors';
 import { env } from './config/env';
-import sequelize from './config/database';
-import { initializeCollections } from './search/collections';
-import { startBackgroundSync } from './search/worker';
-import { syncBooksToTypesense, syncState } from './search/sync';
+import { sequelize } from './config/database';
+import { initializeTypesense } from './search/collections';
+import { determineAndRunStartupSync } from './search/sync';
+import { startBackgroundSyncWorker } from './search/worker';
 
-// Import routers
 import booksRouter from './routes/books';
 import searchRouter from './routes/search';
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -477,25 +798,26 @@ app.use('/', searchRouter);
 async function startServer() {
   try {
     // 1. Connect to PostgreSQL
+    console.log('Connecting to PostgreSQL database...');
     await sequelize.authenticate();
+    // In production, use migrations instead of sync()
     await sequelize.sync(); 
-    console.log('PostgreSQL connected and synced.');
+    console.log('Database connected and models synced.');
 
-    // 2. Setup Typesense Schema
-    await initializeCollections();
+    // 2. Initialize Typesense
+    console.log('Initializing Typesense...');
+    await initializeTypesense();
 
-    // 3. Initial Catch-Up Sync
-    console.log('Running initial full sync...');
-    syncState.isRunning = true;
-    syncState.lastSyncTime = await syncBooksToTypesense(new Date(0));
-    syncState.isRunning = false;
+    // 3. Run Startup Sync
+    console.log('Running startup sync...');
+    await determineAndRunStartupSync();
 
-    // 4. Start the Node-Cron Worker
-    startBackgroundSync();
+    // 4. Start Background Worker
+    startBackgroundSyncWorker();
 
     // 5. Start Express API
     app.listen(env.PORT, () => {
-      console.log(`Server listening on port ${env.PORT}`);
+      console.log(`Server is running on http://localhost:${env.PORT}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
@@ -508,7 +830,7 @@ startServer();
 
 Your API backend acts as a smart bridge: PostgreSQL guarantees your data integrity, Typesense enables blazing fast search, and the `node-cron` background worker gracefully keeps everything perfectly synchronized!
 
-## Step 11: Run your server
+## Step 13: Run your server
 
 Start your backend application:
 
