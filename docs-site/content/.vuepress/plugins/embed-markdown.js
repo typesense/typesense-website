@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { analyzeMarkdownForCopy, stripVueMarkdownWrappers } = require('../util/markdownCopy')
+const { analyzeMarkdownForCopy, stripVueMarkdownWrappers, transformRouterLinks } = require('../util/markdownCopy')
 
 function withBase(base, url) {
   if (!url || /^https?:\/\//.test(url) || !base || base === '/') return url
@@ -10,6 +10,23 @@ function withBase(base, url) {
 
   if (normalizedUrl.startsWith(`${basePath}/`)) return normalizedUrl
   return `${basePath}${normalizedUrl}`
+}
+
+function getPageVersion(pagePath, knownVersions) {
+  if (typeof pagePath !== 'string') return null
+  const segment = pagePath.split('/')[1]
+  if (!segment) return null
+  return knownVersions.includes(segment) ? segment : null
+}
+
+function getRouterLinkContext(context, pagePath) {
+  const themeConfig = (context.siteConfig && context.siteConfig.themeConfig) || {}
+  const latestVersion = themeConfig.typesenseLatestVersion || null
+  const knownVersions = themeConfig.typesenseVersions || []
+  return {
+    latestVersion,
+    pageVersion: getPageVersion(pagePath, knownVersions),
+  }
 }
 
 module.exports = (options, context) => ({
@@ -44,6 +61,7 @@ module.exports = (options, context) => ({
           let markdown = fs.readFileSync(sourceFile, 'utf-8')
           markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
           markdown = stripVueMarkdownWrappers(markdown)
+          markdown = transformRouterLinks(markdown, getRouterLinkContext(context, page.path))
 
           res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
           res.send(markdown)
@@ -69,8 +87,9 @@ module.exports = (options, context) => ({
       markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
 
       const markdownCopyData = analyzeMarkdownForCopy(markdown)
+      const routerLinkContext = getRouterLinkContext(context, $page.path)
 
-      $page.markdown = markdownCopyData.markdown
+      $page.markdown = transformRouterLinks(markdownCopyData.markdown, routerLinkContext)
       $page.markdownCopyTabGroups = markdownCopyData.copyTabGroups
       $page.markdownCopyLanguages = markdownCopyData.copyLanguages
 
@@ -108,6 +127,7 @@ module.exports = (options, context) => ({
 
         markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
         markdown = stripVueMarkdownWrappers(markdown)
+        markdown = transformRouterLinks(markdown, getRouterLinkContext(context, page.path))
 
         let outputPath
         if (page.path.endsWith('/')) {
