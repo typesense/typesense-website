@@ -1,3 +1,7 @@
+---
+description: "Index and search non-English text in Typesense: configure the locale field option, supported languages, tokenization tradeoffs, and best practices."
+---
+
 # Tips for Locale-Specific Search
 
 In this article, we'll talk about how to handle locale-specific text in your

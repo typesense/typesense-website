@@ -1,3 +1,7 @@
+---
+description: "Build Google/Amazon-style search-as-you-type query suggestions in Typesense using either the analytics aggregation rule or a dedicated suggestions collection."
+---
+
 # Query Suggestions
 
 When you start typing a search term into say Google or Amazon, 

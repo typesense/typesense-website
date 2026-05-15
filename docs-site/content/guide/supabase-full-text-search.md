@@ -1,3 +1,7 @@
+---
+description: "Sync data from Supabase (Postgres) into Typesense to add fast, typo-tolerant full-text search to a Supabase-backed app via triggers or edge functions."
+---
+
 # Syncing Supabase with Typesense
 
 [Supabase](https://Supabase.com/) is an open-source development platform constructed on PostgreSQL, offering secure direct database access to app users and an array of features including authentication management, TypeScript edge functions, logging, and storage, making it a popular choice among developers. However, its search functionality, based on PostgreSQL fuzzy search, is not as powerful compared to specialized search engines such as Typesense.

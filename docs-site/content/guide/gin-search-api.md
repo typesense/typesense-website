@@ -1,3 +1,7 @@
+---
+description: "Build a Go (Gin) REST API backed by PostgreSQL as source of truth, kept in sync with Typesense for fast typo-tolerant search served via a proxy endpoint."
+---
+
 # Building a Search API with Go Gin and Typesense
 
 This guide walks you through building a RESTful search API using Go's Gin framework, PostgreSQL, and Typesense. You'll build a backend server that stores data in PostgreSQL as the source of truth, keeps Typesense in sync for fast search, and exposes a clean search API to your frontend clients.

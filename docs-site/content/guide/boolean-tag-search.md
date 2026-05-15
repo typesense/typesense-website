@@ -1,3 +1,7 @@
+---
+description: "Implement boolean (AND/OR) search across full-text fields in Typesense via a tag-search pattern, keeping typo tolerance and ranking benefits intact."
+---
+
 # Boolean Search with Tags
 
 A common ask we hear is to be able to search using boolean operators (AND, OR) in full text search. 

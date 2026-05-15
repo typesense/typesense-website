@@ -1,3 +1,7 @@
+---
+description: "Build a cross-platform iOS/Android search interface in React Native (Expo) using Typesense for instant, typo-tolerant in-app search."
+---
+
 # Building a Search Bar in React Native
 
 This guide walks you through building a native mobile search interface using React Native (Expo) and Typesense. 

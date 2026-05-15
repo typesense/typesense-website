@@ -1,3 +1,7 @@
+---
+description: "How Typesense ranks results: text-match scoring (frequency, edit distance, proximity), query_by ordering and weights, field weighting, and tie-breakers."
+---
+
 # Ranking and Relevance
 
 Typesense ranks search results using a simple tie-breaking sorting algorithm that can rely on one or more of:

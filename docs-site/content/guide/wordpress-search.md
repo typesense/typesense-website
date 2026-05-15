@@ -1,3 +1,7 @@
+---
+description: "Add an instant search-as-you-type experience to a WordPress site via the community-built Search With Typesense plugin, indexing posts and pages."
+---
+
 # Search for WordPress Sites
 
 If you are looking to implement a search-as-you-type instant search experience on a WordPress site, you can use the Typesense WordPress plugin [Search With Typesense](https://wordpress.org/plugins/search-with-typesense/) built by the [CodeManas](https://www.codemanas.com/) team. 

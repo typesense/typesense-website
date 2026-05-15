@@ -1,3 +1,7 @@
+---
+description: "Choose RAM, CPU, and disk for a self-hosted Typesense cluster based on dataset size, query patterns, search type (keyword/vector), and concurrency."
+---
+
 # System Requirements
 
 Typesense is an in-memory datastore optimized for fast, low-latency retrieval.

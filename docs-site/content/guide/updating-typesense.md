@@ -1,3 +1,7 @@
+---
+description: "Upgrade a Typesense Cloud or self-hosted cluster between versions, including pre-update checks, release-notes review, and rolling-upgrade procedure."
+---
+
 # Updating Typesense
 
 Before updating Typesense versions, please make sure you've read the [release notes](https://github.com/typesense/typesense/releases) for each of the versions since the one you'll be upgrading from. 

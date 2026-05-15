@@ -1,3 +1,7 @@
+---
+description: "Strategies for keeping Typesense in sync with a primary database: bulk polling, change-data-capture, queue-based pipelines, and import API patterns."
+---
+
 # Syncing Data into Typesense
 
 Typesense offers a REST-ful API that you can use to keep data from your primary database in sync with Typesense.

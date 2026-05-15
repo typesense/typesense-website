@@ -1,4 +1,5 @@
 ---
+description: "Run a real Typesense instance from integration tests using Testcontainers (Java, Node, Python, Go, .NET) for isolated, reproducible test environments."
 sidebarDepth: 2
 ---
 

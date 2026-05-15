@@ -1,3 +1,7 @@
+---
+description: "Use an LLM (e.g. Google Gemini) alongside Typesense to translate plain-English search queries into structured filter, sort, and query parameters at runtime."
+---
+
 # Natural Language Search
 
 One of the most powerful capabilities of Large Language Models (LLMs) is their ability to turn natural language into structured data.

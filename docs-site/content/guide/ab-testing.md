@@ -1,3 +1,7 @@
+---
+description: "Run A/B tests against Typesense search parameters using third-party platforms like Flagsmith, Growthbook, or Optimizely to tune relevance and measure conversion lift."
+---
+
 # A/B Testing
 
 In the context of optimizing search experiences, 

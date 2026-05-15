@@ -1,3 +1,7 @@
+---
+description: "Run a Raft-backed Typesense cluster for high availability and automatic replication, with quorum sizing guidance and Typesense Cloud managed HA."
+---
+
 # High Availability
 
 You can run a cluster of Typesense nodes for high availability.
