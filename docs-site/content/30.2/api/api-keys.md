@@ -1,4 +1,5 @@
 ---
+description: "Create, list, and delete Typesense API keys with fine-grained access control scoped per collection, action, record, or field, including scoped search keys."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

@@ -1,4 +1,5 @@
 ---
+description: "HTTP response codes returned by the Typesense API and what each 4xx and 5xx status means."
 sitemap:
   priority: 0.7
 ---

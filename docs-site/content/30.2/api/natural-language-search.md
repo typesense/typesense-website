@@ -1,4 +1,5 @@
 ---
+description: "Translate free-form user sentences into structured Typesense search parameters (filters, sort, query terms) using an LLM, so users can search in plain English."
 sitemap:
   priority: 0.7
 ---

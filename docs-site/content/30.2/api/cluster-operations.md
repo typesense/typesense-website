@@ -1,4 +1,5 @@
 ---
+description: "Operate a running Typesense cluster: snapshots, node compaction, vote leadership, health and stats endpoints, slow-request logging, and leader re-election."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

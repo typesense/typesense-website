@@ -1,4 +1,5 @@
 ---
+description: "Reference for every Typesense server flag, config-file option, and runtime parameter covering networking, storage, peering, TLS, logging, and resource limits."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

@@ -1,4 +1,5 @@
 ---
+description: "Enable language-aware stemming so a search for one form of a word also matches its grammatical variations (run/running/ran, company/companies)."
 sidebarDepth: 1
 sitemap:
   priority: 0.3

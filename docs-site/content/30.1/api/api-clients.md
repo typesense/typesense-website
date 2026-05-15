@@ -1,4 +1,5 @@
 ---
+description: "Official and community-maintained Typesense client libraries for JavaScript, PHP, Python, Ruby, Dart, Java, Go, Swift, and more, with install links."
 sitemap:
   priority: 0.3
 ---

@@ -1,4 +1,5 @@
 ---
+description: "Index and search images using Typesense built-in CLIP model. Search by text description or find visually similar images via embedding-based KNN."
 sidebarDepth: 2
 sitemap:
   priority: 0.7
