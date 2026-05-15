@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { analyzeMarkdownForCopy, stripVueMarkdownWrappers, transformRouterLinks } = require('../util/markdownCopy')
 const { COPY_LANGUAGE_OPTIONS, filterMarkdownByCopyLanguages } = require('../util/markdownCopyFilter')
+const { writeLlmsArtifacts } = require('../util/llmsTxt')
 
 const LANGUAGE_VARIANT_FANOUT_DEPTH = 2
 
@@ -165,6 +166,10 @@ module.exports = (options, context) => ({
   async generated() {
     const { outDir, pages, sourceDir } = context
     const fanoutVersions = getFanoutVersions(context)
+    const themeConfig = (context.siteConfig && context.siteConfig.themeConfig) || {}
+    const latestVersion = themeConfig.typesenseLatestVersion
+    const cleanedByPath = new Map()
+    const pageVersionByPath = new Map()
     let variantCount = 0
 
     for (const page of pages) {
@@ -177,6 +182,8 @@ module.exports = (options, context) => ({
         const { markdown: cleaned, copyTabGroups, copyLanguages } = analyzeMarkdownForCopy(rawMarkdown)
         const routerCtx = getRouterLinkContext(context, page.path)
         const baseMarkdown = transformRouterLinks(cleaned, routerCtx)
+        cleanedByPath.set(page.path, baseMarkdown)
+        pageVersionByPath.set(page.path, routerCtx.pageVersion)
 
         let outputPath
         if (page.path.endsWith('/')) {
@@ -211,5 +218,14 @@ module.exports = (options, context) => ({
 
     const baseCount = pages.filter(p => p.relativePath && p.relativePath.endsWith('.md')).length
     console.log(`Generated ${baseCount} markdown files (+${variantCount} language variants)`)
+
+    writeLlmsArtifacts({
+      outDir,
+      pages,
+      base: context.base || '/',
+      latestVersion,
+      cleanedByPath,
+      pageVersionByPath,
+    })
   },
 })
