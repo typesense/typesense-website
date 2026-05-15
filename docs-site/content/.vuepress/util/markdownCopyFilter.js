@@ -29,7 +29,25 @@ function markSlotLinesForRemoval(linesToRemove, slot) {
   }
 }
 
-function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguages) {
+/**
+ * Filter language-specific code blocks inside `<Tabs>` groups in markdown.
+ *
+ * Default behavior keeps a group whose tabs do not include any selected
+ * language, so the docs UI still shows code in some language when the user's
+ * preferred language is not documented for that section.
+ *
+ * When `dropGroupsMissingLanguage` is true, groups that do not document any
+ * selected language are stripped entirely. Used by the agent-facing per-language
+ * `.md` build so e.g. `search.php.md` contains only PHP snippets, with nothing
+ * shown for sections that have no PHP variant.
+ *
+ * @param {string} markdown Cleaned markdown (Vue wrappers already stripped).
+ * @param {Array<{slots: Array<{label: string, startLine: number, endLine: number}>}>} copyTabGroups Tab groups from `analyzeMarkdownForCopy`.
+ * @param {string[]} selectedLanguages Language labels to keep (e.g. `['JavaScript']`). Empty array removes all tab-group code.
+ * @param {boolean} [dropGroupsMissingLanguage=false] Also strip groups that have none of the selected languages.
+ * @returns {string} Filtered markdown.
+ */
+function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguages, dropGroupsMissingLanguage = false) {
   if (!copyTabGroups || copyTabGroups.length === 0) {
     return markdown
   }
@@ -53,6 +71,9 @@ function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguage
   copyTabGroups.forEach(group => {
     const hasSelectedLanguageInGroup = group.slots.some(slot => selectedLanguageSet.has(slot.label))
     if (!hasSelectedLanguageInGroup) {
+      if (dropGroupsMissingLanguage) {
+        group.slots.forEach(slot => markSlotLinesForRemoval(linesToRemove, slot))
+      }
       return
     }
 
