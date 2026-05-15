@@ -6,6 +6,12 @@ const { writeLlmsArtifacts } = require('../util/llmsTxt')
 
 const LANGUAGE_VARIANT_FANOUT_DEPTH = 2
 
+const prependAgentIndex = (md) => [
+  '> **AI agents and LLMs:** before exploring further, fetch the full index of Typesense documentation with descriptions at https://typesense.org/docs/llms.txt.',
+  '',
+  md,
+].join('\n')
+
 function getFanoutVersions(context) {
   const themeConfig = (context.siteConfig && context.siteConfig.themeConfig) || {}
   const versions = themeConfig.typesenseVersions || []
@@ -108,7 +114,7 @@ module.exports = (options, context) => ({
             }
             const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
             res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
-            res.send(transformRouterLinks(filtered, routerCtx))
+            res.send(prependAgentIndex(transformRouterLinks(filtered, routerCtx)))
             return
           }
 
@@ -116,7 +122,7 @@ module.exports = (options, context) => ({
           markdown = transformRouterLinks(markdown, routerCtx)
 
           res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
-          res.send(markdown)
+          res.send(prependAgentIndex(markdown))
         } catch (error) {
           console.error('Error:', error.message)
           next()
@@ -137,7 +143,7 @@ module.exports = (options, context) => ({
       const markdownCopyData = analyzeMarkdownForCopy(markdown)
       const routerLinkContext = getRouterLinkContext(context, $page.path)
 
-      $page.markdown = transformRouterLinks(markdownCopyData.markdown, routerLinkContext)
+      $page.markdown = prependAgentIndex(transformRouterLinks(markdownCopyData.markdown, routerLinkContext))
       $page.markdownCopyTabGroups = markdownCopyData.copyTabGroups
       $page.markdownCopyLanguages = markdownCopyData.copyLanguages
 
@@ -198,7 +204,7 @@ module.exports = (options, context) => ({
           fs.mkdirSync(outputDir, { recursive: true })
         }
 
-        fs.writeFileSync(outputPath, baseMarkdown, 'utf-8')
+        fs.writeFileSync(outputPath, prependAgentIndex(baseMarkdown), 'utf-8')
 
         if (copyTabGroups.length === 0) continue
         if (!shouldFanoutPage(page.path, context, fanoutVersions)) continue
@@ -208,7 +214,7 @@ module.exports = (options, context) => ({
           const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
           const variantMarkdown = transformRouterLinks(filtered, routerCtx)
           const variantPath = variantOutputPath(outDir, page.path, langSlug)
-          fs.writeFileSync(variantPath, variantMarkdown, 'utf-8')
+          fs.writeFileSync(variantPath, prependAgentIndex(variantMarkdown), 'utf-8')
           variantCount += 1
         }
       } catch (error) {
