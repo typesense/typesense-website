@@ -89,8 +89,7 @@ module.exports = (options, context) => ({
       if (page && page.relativePath) {
         try {
           const sourceFile = path.join(context.sourceDir, page.relativePath)
-          let rawMarkdown = fs.readFileSync(sourceFile, 'utf-8')
-          rawMarkdown = rawMarkdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
+          const rawMarkdown = fs.readFileSync(sourceFile, 'utf-8')
 
           const routerCtx = getRouterLinkContext(context, page.path)
 
@@ -132,9 +131,7 @@ module.exports = (options, context) => ({
 
     try {
       const sourceFile = path.join(context.sourceDir, $page.relativePath)
-      let markdown = fs.readFileSync(sourceFile, 'utf-8')
-
-      markdown = markdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
+      const markdown = fs.readFileSync(sourceFile, 'utf-8')
 
       const markdownCopyData = analyzeMarkdownForCopy(markdown)
       const routerLinkContext = getRouterLinkContext(context, $page.path)
@@ -175,9 +172,7 @@ module.exports = (options, context) => ({
 
       try {
         const sourceFile = path.join(sourceDir, page.relativePath)
-        let rawMarkdown = fs.readFileSync(sourceFile, 'utf-8')
-
-        rawMarkdown = rawMarkdown.replace(/^---\n[\s\S]*?\n---\n*/m, '')
+        const rawMarkdown = fs.readFileSync(sourceFile, 'utf-8')
 
         const { markdown: cleaned, copyTabGroups, copyLanguages } = analyzeMarkdownForCopy(rawMarkdown)
         const routerCtx = getRouterLinkContext(context, page.path)
