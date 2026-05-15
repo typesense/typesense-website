@@ -1,3 +1,7 @@
+---
+description: "Live demo sites showcasing Typesense across recipes, books, geo, vector, semantic, conversational, natural-language, and image search."
+---
+
 # Live Demos
 
 Here are some live demos, that show Typesense used for different use cases.

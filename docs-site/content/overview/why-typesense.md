@@ -1,3 +1,7 @@
+---
+description: "Typesense design philosophy: batteries-included defaults, simple operability, and a focus on shrinking time-to-market for a great instant-search experience."
+---
+
 # Why Typesense?
 
 Our goal with Typesense is to reduce the time-to-market for building a great instant-search experience that provides relevant results out-of-the-box.

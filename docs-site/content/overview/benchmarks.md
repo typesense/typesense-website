@@ -1,3 +1,7 @@
+---
+description: "Typesense benchmarks across 2M recipe, 28M book, and 3M product datasets covering RAM use, index time, throughput, and average query latency on small clusters."
+---
+
 # Typesense Benchmarks
 
 - A dataset containing **2.2 Million recipes** (recipe names and ingredients):

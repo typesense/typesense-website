@@ -1,3 +1,7 @@
+---
+description: "What Typesense is good at: search-as-you-type, faceted browsing, geo search, multi-tenant search, federated search, semantic search, recommendations, and RAG."
+---
+
 # Typesense Use Cases
 
 We primarily built Typesense to be a search engine optimized for fast, typo-tolerant full-text search. 

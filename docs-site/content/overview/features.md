@@ -1,3 +1,7 @@
+---
+description: "Complete list of Typesense features: typo tolerance, faceting, ranking, geo search, vector search, semantic search, RAG, JOINs, synonyms, clustering, and more."
+---
+
 # Features
 
 - **Typo Tolerance:** Handles typographical errors elegantly, out-of-the-box.
