@@ -321,6 +321,7 @@ let config = {
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
+            ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
             ['/guide/gin-search-api', 'Search API in Gin'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
