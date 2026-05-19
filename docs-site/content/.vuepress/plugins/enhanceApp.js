@@ -11,6 +11,9 @@ import VueGtag from 'vue-gtag'
 
 import { typesenseLatestVersion } from './../../../../typesenseVersions'
 import isSemVer from '../utils/isSemVer'
+import store from '../store'
+
+const { syncPreferredCopyLanguagesToUrl } = require('../util/copyLanguagePreferences')
 
 // fork from vue-router@3.0.2
 // src/util/scroll.js
@@ -98,6 +101,9 @@ export default ({
   let gtagPageViewDebounceTimerId
   router.afterEach(to => {
     if (!isServer) {
+      store.commit('HYDRATE_COPY_LANGUAGES')
+      syncPreferredCopyLanguagesToUrl(store.state.copyLanguages)
+
       const pagePath = siteData.base + to.fullPath.substring(1)
       const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
 
