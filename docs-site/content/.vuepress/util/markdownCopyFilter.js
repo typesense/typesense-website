@@ -1,27 +1,4 @@
-const STORAGE_KEY = 'typesense.docs.copyMarkdownLanguages'
-const { COPY_LANGUAGE_OPTIONS } = require('./copyLanguages')
-
-function getPreferredCopyLanguages() {
-  if (typeof window === 'undefined') {
-    return []
-  }
-
-  try {
-    const value = window.localStorage.getItem(STORAGE_KEY)
-    const parsedValue = value ? JSON.parse(value) : []
-    return Array.isArray(parsedValue) ? parsedValue : []
-  } catch (error) {
-    return []
-  }
-}
-
-function setPreferredCopyLanguages(languages) {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(languages))
-}
+const { normalizeCopyLanguages } = require('./copyLanguages')
 
 function markSlotLinesForRemoval(linesToRemove, slot) {
   for (let lineNumber = slot.startLine; lineNumber < slot.endLine; lineNumber += 1) {
@@ -52,7 +29,8 @@ function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguage
     return markdown
   }
 
-  if (!selectedLanguages || selectedLanguages.length === 0) {
+  const normalizedLanguages = normalizeCopyLanguages(selectedLanguages)
+  if (normalizedLanguages.length === 0) {
     const linesToRemove = new Set()
 
     copyTabGroups.forEach(group => {
@@ -65,7 +43,7 @@ function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguage
       .join('\n')
   }
 
-  const selectedLanguageSet = new Set(selectedLanguages)
+  const selectedLanguageSet = new Set(normalizedLanguages)
   const linesToRemove = new Set()
 
   copyTabGroups.forEach(group => {
@@ -91,8 +69,5 @@ function filterMarkdownByCopyLanguages(markdown, copyTabGroups, selectedLanguage
 }
 
 module.exports = {
-  COPY_LANGUAGE_OPTIONS,
   filterMarkdownByCopyLanguages,
-  getPreferredCopyLanguages,
-  setPreferredCopyLanguages,
 }

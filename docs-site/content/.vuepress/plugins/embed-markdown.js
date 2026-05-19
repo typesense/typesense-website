@@ -1,7 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const { analyzeMarkdownForCopy, stripVueMarkdownWrappers, transformRouterLinks } = require('../util/markdownCopy')
-const { COPY_LANGUAGE_OPTIONS, filterMarkdownByCopyLanguages } = require('../util/markdownCopyFilter')
+const { COPY_LANGUAGE_SLUGS, getCopyLanguageByLabel, getCopyLanguageBySlug } = require('../util/copyLanguages')
+const { filterMarkdownByCopyLanguages } = require('../util/markdownCopyFilter')
 const { writeLlmsArtifacts } = require('../util/llmsTxt')
 
 const LANGUAGE_VARIANT_FANOUT_DEPTH = 2
@@ -64,7 +65,7 @@ module.exports = (options, context) => ({
   name: 'embed-markdown',
 
   beforeDevServer(app) {
-    const langSlugSet = new Set(COPY_LANGUAGE_OPTIONS.map(lang => lang.toLowerCase()))
+    const langSlugSet = new Set(COPY_LANGUAGE_SLUGS)
     const fanoutVersions = getFanoutVersions(context)
 
     app.get('*.md', (req, res, next) => {
@@ -102,17 +103,21 @@ module.exports = (options, context) => ({
 
           if (requestedLang) {
             if (!shouldFanoutPage(page.path, context, fanoutVersions)) {
+              console.warn(`Skipping markdown variant request for non-fanout page: ${page.path} (lang=${requestedLang})`)
               return next()
             }
             const { markdown: cleaned, copyTabGroups, copyLanguages } = analyzeMarkdownForCopy(rawMarkdown)
             if (copyTabGroups.length === 0) {
+              console.warn(`Skipping markdown variant request without filterable tab groups: ${page.path} (lang=${requestedLang})`)
               return next()
             }
-            const language = COPY_LANGUAGE_OPTIONS.find(lang => lang.toLowerCase() === requestedLang)
-            if (!language || !copyLanguages.includes(language)) {
+            const language = getCopyLanguageBySlug(requestedLang)
+            const languageLabel = language ? language.label : null
+            if (!languageLabel || !copyLanguages.includes(languageLabel)) {
+              console.warn(`Skipping markdown variant request with unsupported language: ${page.path} (lang=${requestedLang})`)
               return next()
             }
-            const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
+            const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [languageLabel], true)
             res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
             res.send(prependAgentIndex(transformRouterLinks(filtered, routerCtx)))
             return
@@ -210,7 +215,12 @@ module.exports = (options, context) => ({
         if (!shouldFanoutPage(page.path, context, fanoutVersions)) continue
 
         for (const language of copyLanguages) {
-          const langSlug = language.toLowerCase()
+          const descriptor = getCopyLanguageByLabel(language)
+          if (!descriptor) {
+            console.error(`Skipping markdown variant generation with unknown language label: ${page.path} (${language})`)
+            continue
+          }
+          const langSlug = descriptor.slug
           const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
           const variantMarkdown = transformRouterLinks(filtered, routerCtx)
           const variantPath = variantOutputPath(outDir, page.path, langSlug)
