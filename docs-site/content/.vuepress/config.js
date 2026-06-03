@@ -326,6 +326,7 @@ let config = {
             ['/guide/gin-search-api', 'Search API in Gin'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
+            ['/guide/langchain-ai-search', 'AI Search with LangChain & Chainlit'],
           ],
         },
         {
