@@ -19,11 +19,13 @@ If you had a single-region Typesense cluster in **Oregon** and your users are in
 
 But if you had a 3-region SDN Typesense Cloud cluster in **Oregon, Ohio & Northern Virginia**, your users in New York will now see a much lower network latency of **~9ms**, since the SDN will route the New York user to the node in Northern Virginia.
 
-Typesense Cloud has 20+ geo regions around the world, and you can pick any 3-5 regions for a single SDN cluster.
+Typesense Cloud has 25+ geo regions around the world, and you can pick any 3 or 5 regions for a single SDN cluster, with one node in each region.
+
+If you need more than one node in a particular region, say to handle higher search traffic from that location, you can use the **Multi-Nodes Per Region** option to spread up to 7 nodes across 2 to 7 regions, and choose how many nodes run in each region.
 
 ## How to use it
 
-When you provision a Typesense Cloud cluster, you'll find the option to turn on "Search Delivery Network" in the cluster configuration page, and select the regions you want in your SDN.
+When you provision a Typesense Cloud cluster, you'll find the option to turn on "Search Delivery Network" in the cluster configuration page, and select the regions you want in your SDN. If you choose the Multi-Nodes Per Region option, you can also set how many nodes to run in each region.
 
 Once the cluster is provisioned, you'll now see a special "Nearest Node" hostname displayed in the dashboard:
 
