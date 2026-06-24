@@ -161,6 +161,8 @@ let config = {
     logo: '/images/typesense_logo.svg',
     logoHeight: 42,
     logoWidth: 150,
+    logoHeightMobile: 28,
+    logoWidthMobile: 100,
     typesenseVersions: typesenseVersions,
     typesenseLatestVersion: typesenseLatestVersion,
     typesenseDocsearch: {
