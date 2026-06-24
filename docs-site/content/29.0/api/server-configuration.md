@@ -167,3 +167,16 @@ TYPESENSE_DATA_DIR=/var/lib/typesense TYPESENSE_API_KEY=AS3das2awQ2 ./typesense-
 ```
   </template>
 </Tabs>
+
+## Log Level
+
+Since Typesense is using [glog](https://github.com/typesense/typesense/issues/475#issuecomment-1597713929), the log level can be set via the `GLOG_minloglevel` environment variable.
+
+The values and their corresponding severity levels are as follows:
+
+- `0` - INFO
+- `1` - WARNING
+- `2` - ERROR
+- `3` - FATAL
+
+For example, setting  `GLOG_minloglevel=1` hides INFO logs, and only shows WARNING, ERROR, and FATAL.
