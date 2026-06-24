@@ -190,3 +190,4 @@ Here are other Search UI libraries for Typesense:
 - [Typesense-MiniBar](https://github.com/jquery/typesense-minibar)
 - [Autocomplete.js](/guide/reference-implementations/typesense-autocomplete-js.md)
 - [DocSearch](/guide/docsearch.html)
+- [Typesense-js](https://github.com/typesense/typesense-js)  Not! a UI library, but a low level client for building UI libraries. Advanced users.
