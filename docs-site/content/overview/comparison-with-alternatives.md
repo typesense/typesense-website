@@ -42,7 +42,6 @@ For example, additional sort orders require duplicate indices in both Algolia an
 Based on the project's documented limitations, it seems to be geared for small dataset sizes,
 and specifically for cases where high availability is not a requirement. Since it does not have multi-node clustering or node-node replication, it is not production-ready yet.
 
-That said, Meilisearch is a relatively new project, and while it's not suited for serious production use-cases today,
-the project has a good team & momentum behind it. We're eager to see how the project evolves.
+That said, Meilisearch is a relatively new project. The project has a good team & momentum behind it. We're eager to see how the project evolves.
 
 See a side-by-side feature comparison [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
