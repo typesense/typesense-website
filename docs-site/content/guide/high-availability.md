@@ -19,8 +19,10 @@ When you flip the setting ON when launching a cluster, you'll see a special Load
 
 <img src="~@images/high-availability/ha-hostnames.png" height="350" width="367" alt="Typesense Cloud HA Hostnames">
 
-Requests sent to the Load-Balanced endpoint are distributed between all the 3 nodes in the cluster.
+Requests sent to the Load-Balanced endpoint are distributed between all the nodes in the cluster.
 If a particular node has an infrastructure issue, or is inaccessible for any reason, it is automatically quarantined and traffic is re-routed to the other healthy nodes.
+
+By default, a highly available cluster in Typesense Cloud runs 3 nodes, which lets it tolerate a 1-node failure. When you launch or modify a cluster, you can choose to run between 3 and 7 nodes, so your cluster can tolerate more simultaneous node failures (as explained above) and also scale read throughput, as each node holds the entire replicated copy of your dataset and can handle searches independently.
 
 ::: warning Note
 
