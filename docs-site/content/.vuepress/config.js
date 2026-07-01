@@ -46,6 +46,18 @@ let config = {
         }
       })
 
+      md.core.ruler.after('markdown-actions', 'agent-docs-index', state => {
+        const tokens = state.tokens
+        for (let i = 0; i < tokens.length; i += 1) {
+          if (tokens[i].type !== 'html_block' || !tokens[i].content.includes('</div>')) continue
+          if (i < 2 || tokens[i - 1].content !== '<MarkdownActions />') continue
+          const token = new state.Token('html_block', '', 0)
+          token.content = '<div hidden><p><strong>AI agents and LLMs:</strong> before exploring further, fetch the full index of Typesense documentation with descriptions at <a href="https://typesense.org/docs/llms.txt">https://typesense.org/docs/llms.txt</a>.</p></div>\n'
+          tokens.splice(i + 1, 0, token)
+          return
+        }
+      })
+
       md.use(md => {
         let currentHeading = null
 

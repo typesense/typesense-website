@@ -1,4 +1,5 @@
 ---
+description: "Frequently asked questions on Typesense covering keyword search, prefix matching, indexing, ranking, deployment, and operational behavior."
 sidebarDepth: 1
 ---
 

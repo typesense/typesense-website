@@ -1,3 +1,7 @@
+---
+description: "Build a typo-tolerant book search interface in an Astro site using Typesense and the typesense-instantsearch-adapter, from project setup to a working UI."
+---
+
 # Building a Search Bar in Astro
 
 This guide walks you through building a full-text search interface in Astro using Typesense. You'll create a simple book search application that demonstrates how to integrate the Typesense ecosystem with your Astro projects.

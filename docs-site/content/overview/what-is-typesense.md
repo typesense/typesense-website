@@ -1,3 +1,7 @@
+---
+description: "Typesense is an open-source, typo-tolerant search engine optimized for sub-50ms instant search and developer productivity, positioned between Algolia and Elasticsearch."
+---
+
 # What is Typesense?
 
 Typesense is an open-source, typo-tolerant search engine optimized for instant (typically sub-50ms) search-as-you-type experiences and developer productivity.

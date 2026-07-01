@@ -1,3 +1,7 @@
+---
+description: "Build a search interface in a Solid.js app using Typesense via instantsearch.js and the typesense-instantsearch-adapter, from setup to deployed UI."
+---
+
 # Building a Search Bar in Solid.js
 
 This guide walks you through building a full-text search interface in Solid.js using Typesense. You'll create a simple book search application that demonstrates how to integrate the Typesense ecosystem with your Solid.js projects. Solid.js has been gaining popularity among developers for its React-like syntax and impressive performance, offering a familiar component-based approach while delivering blazing-fast updates through its reactivity system.

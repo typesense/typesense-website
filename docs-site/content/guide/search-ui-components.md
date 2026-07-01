@@ -1,3 +1,7 @@
+---
+description: "Build a search UI with Algolia InstantSearch.js (and its React/Vue/Angular variants) on top of Typesense via the typesense-instantsearch-adapter."
+---
+
 # Building Search UIs
 
 ## Using InstantSearch.js

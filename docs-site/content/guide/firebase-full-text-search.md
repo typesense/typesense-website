@@ -1,3 +1,7 @@
+---
+description: "Add full-text search to a Firebase / Firestore app by syncing documents into Typesense using the official Firebase Extension or your own trigger."
+---
+
 # Full-text Search for Firebase with Typesense
 
 [Firebase](https://firebase.google.com/) is a popular app development platform backed by Google and used by developers across the globe. 

@@ -1,4 +1,5 @@
 ---
+description: "Define reference fields between collections and run joined queries with one-to-one, one-to-many, and many-to-many relations across Typesense collections."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

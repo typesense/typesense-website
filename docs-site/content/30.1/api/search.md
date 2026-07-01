@@ -1,4 +1,5 @@
 ---
+description: "Query a Typesense collection with full-text search, filters, facets, sorting, grouping, typo tolerance, and pagination. Includes the full parameter reference."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

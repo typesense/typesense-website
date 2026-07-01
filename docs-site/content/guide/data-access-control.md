@@ -1,3 +1,7 @@
+---
+description: "Manage who can read and write to a Typesense cluster: bootstrap key handling, scoped API keys per collection, action, record or field, and key rotation."
+---
+
 # Managing Access to Data
 
 Typesense's primary interface to read/write data is a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">REST-ful HTTP API</RouterLink>, and access to this API is controlled by API Keys.

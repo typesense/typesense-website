@@ -1,3 +1,7 @@
+---
+description: "Install Typesense via Typesense Cloud, prebuilt DEB/RPM packages, downloadable binaries for Linux/macOS, or the official Docker image."
+---
+
 # Install Typesense
 
 Here are a couple of available options to install and run Typesense.

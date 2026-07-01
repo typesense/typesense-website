@@ -1,4 +1,5 @@
 ---
+description: "Index, retrieve, update, upsert, delete, import, and export documents in a Typesense collection, including bulk JSONL imports and partial updates."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

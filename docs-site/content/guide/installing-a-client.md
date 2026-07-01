@@ -1,3 +1,7 @@
+---
+description: "Pick and install a Typesense client library: official builds for JavaScript, PHP, Python, Ruby, and community libraries for Go, Java, Rust, Dart, Swift, and more."
+---
+
 # Installing a client
 
 We have client libraries for:

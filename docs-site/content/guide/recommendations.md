@@ -1,3 +1,7 @@
+---
+description: "Generate item recommendations in Typesense by training a model (e.g. Starspace), storing embeddings, and using vector search for nearest-neighbor lookup."
+---
+
 # Recommendations
 
 Typesense can generate recommendations based on the actions users take in a given session, using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html`">Vector Search</RouterLink> feature.

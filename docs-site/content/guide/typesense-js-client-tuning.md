@@ -1,4 +1,5 @@
 ---
+description: "Configure timeouts, retries, and connection settings for the Typesense JavaScript client in browser and server contexts, optimized for fast UX failure modes."
 sidebarDepth: 2
 ---
 

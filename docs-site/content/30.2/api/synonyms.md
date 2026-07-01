@@ -1,4 +1,5 @@
 ---
+description: "Define one-way and multi-way synonym sets so queries match documents containing equivalent words (e.g. sneaker matches shoe), attached at search time."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

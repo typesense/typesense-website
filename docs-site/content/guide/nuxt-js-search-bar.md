@@ -1,3 +1,7 @@
+---
+description: "Build a search interface in a Nuxt.js (Vue) app using Typesense via instantsearch.js and the typesense-instantsearch-adapter, from setup to deployed UI."
+---
+
 # Building a Search Bar in Nuxt.js
 
 Adding full-text search capabilities to your Vue/Nuxt.js projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using Nuxt.js and the Typesense ecosystem.

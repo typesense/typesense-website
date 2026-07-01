@@ -1,3 +1,7 @@
+---
+description: "Capture search analytics for Typesense, either server-side via aggregated analytics rules or client-side by piping search events into your existing analytics tool."
+---
+
 # Search Analytics
 
 ## Server-side vs Client-side

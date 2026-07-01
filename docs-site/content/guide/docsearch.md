@@ -1,3 +1,7 @@
+---
+description: "Index a documentation site with typesense-docsearch-scraper and drop in typesense-docsearch.js to add a fast search bar (same setup powering Typesense docs)."
+---
+
 # Search for Documentation Sites
 
 The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch), which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.

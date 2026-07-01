@@ -152,12 +152,9 @@
 </template>
 
 <script>
-const {
-  COPY_LANGUAGE_OPTIONS,
-  filterMarkdownByCopyLanguages,
-  getPreferredCopyLanguages,
-  setPreferredCopyLanguages,
-} = require('../util/markdownCopyFilter')
+const { COPY_LANGUAGE_OPTIONS } = require('../util/copyLanguages')
+const { filterMarkdownByCopyLanguages } = require('../util/markdownCopyFilter')
+const store = require('../store').default
 
 export default {
   name: 'MarkdownActions',
@@ -165,7 +162,6 @@ export default {
     return {
       isCopied: false,
       copyTimeout: null,
-      selectedLanguages: [],
       showOptions: false,
     }
   },
@@ -187,6 +183,9 @@ export default {
     },
     languageOptions() {
       return COPY_LANGUAGE_OPTIONS
+    },
+    selectedLanguages() {
+      return store.state.copyLanguages
     },
     hasLanguageFilters() {
       return this.presentLanguages.length > 0
@@ -210,11 +209,9 @@ export default {
       }
       this.isCopied = false
       this.showOptions = false
-      this.selectedLanguages = this.normalizeStoredLanguages(getPreferredCopyLanguages())
     },
   },
   mounted() {
-    this.selectedLanguages = this.normalizeStoredLanguages(getPreferredCopyLanguages())
     document.addEventListener('click', this.closeOptionsOnOutsideClick)
     document.addEventListener('keydown', this.closeOptionsOnEscape)
   },
@@ -226,9 +223,6 @@ export default {
     document.removeEventListener('keydown', this.closeOptionsOnEscape)
   },
   methods: {
-    normalizeStoredLanguages(languages) {
-      return this.languageOptions.filter(language => languages.includes(language))
-    },
     async copyMarkdown() {
       if (this.copyTimeout) {
         clearTimeout(this.copyTimeout)
@@ -277,26 +271,27 @@ export default {
       this.toggleLanguage(language)
     },
     toggleLanguage(language) {
-      if (this.isLanguageSelected(language)) {
-        this.selectedLanguages = this.selectedLanguages.filter(selectedLanguage => selectedLanguage !== language)
-      } else {
-        if (!this.selectedLanguages.includes(language)) {
-          this.selectedLanguages = this.selectedLanguages.concat(language)
-        }
-      }
+      const nextSelectedLanguages = this.isLanguageSelected(language)
+        ? this.selectedLanguages.filter(selectedLanguage => selectedLanguage !== language)
+        : this.selectedLanguages.concat(language)
 
-      setPreferredCopyLanguages(this.selectedLanguages)
+      this.updateSelectedLanguages(nextSelectedLanguages)
     },
     toggleAllAvailableLanguages() {
+      let nextSelectedLanguages
+
       if (this.allAvailableLanguagesSelected) {
-        this.selectedLanguages = this.selectedLanguages.filter(language => !this.isLanguagePresent(language))
+        nextSelectedLanguages = this.selectedLanguages.filter(language => !this.isLanguagePresent(language))
       } else {
-        this.selectedLanguages = this.languageOptions.filter(
+        nextSelectedLanguages = this.languageOptions.filter(
           language => !this.isLanguagePresent(language) ? this.selectedLanguages.includes(language) : true,
         )
       }
 
-      setPreferredCopyLanguages(this.selectedLanguages)
+      this.updateSelectedLanguages(nextSelectedLanguages)
+    },
+    updateSelectedLanguages(languages) {
+      store.commit('SET_COPY_LANGUAGES', languages)
     },
     closeOptionsOnOutsideClick(event) {
       if (!this.showOptions) {

@@ -1,3 +1,7 @@
+---
+description: "Personalize search rankings per user or user-group in Typesense using popularity ranking, scoped overrides, and ML-based recommendations via vector search."
+---
+
 # Personalizing Search Results
 
 Personalization, in the context of building search experiences, 

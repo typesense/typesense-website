@@ -1,3 +1,7 @@
+---
+description: "Build a search interface in a Qwik app using Typesense via instantsearch.js and the typesense-instantsearch-adapter, from setup to deployed UI."
+---
+
 # Building a Search Bar in Qwik
 
 Adding full-text search capabilities to your Qwik projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using Qwik and the Typesense ecosystem.

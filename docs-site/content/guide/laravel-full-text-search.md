@@ -1,3 +1,7 @@
+---
+description: "Add typo-tolerant full-text search to a Laravel app by wiring Laravel Scout to the Typesense driver, indexing Eloquent models with a few config changes."
+---
+
 # Laravel Full-Text Search
 
 [Laravel Scout](https://laravel.com/docs/12.x/scout) is a powerful package that provides a simple, driver-based solution for adding full-text search to [Laravel Eloquent](https://laravel.com/docs/12.x/eloquent) ORM models. 

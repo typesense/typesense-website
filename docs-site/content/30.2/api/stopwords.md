@@ -1,4 +1,5 @@
 ---
+description: "Configure stopword sets, words that Typesense strips from search queries but not from indexed data, scoped per locale and attached to searches."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

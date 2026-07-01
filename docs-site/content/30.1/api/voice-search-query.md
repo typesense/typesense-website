@@ -1,4 +1,5 @@
 ---
+description: "Send a base64-encoded audio clip to Typesense for transcription via a configured voice-query model (Whisper), then run the resulting text as a query."
 sidebarDepth: 2
 sitemap:
   priority: 0.3
