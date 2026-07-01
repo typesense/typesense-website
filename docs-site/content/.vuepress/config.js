@@ -323,6 +323,7 @@ let config = {
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
             ['/guide/gin-search-api', 'Search API in Gin'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
+            ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
             ['/guide/spring-boot-search-api', 'Search API in Spring Boot'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
           ],
