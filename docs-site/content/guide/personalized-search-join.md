@@ -1,6 +1,6 @@
 # Personalizing Search Results with JOINs
 
-Personalized search tailors search results to individual users or user groups based on their characteristics, preferences, or context. This is commonly used in e-commerce platforms to show tier-based pricing, subscription services to filter content by access level, multi-tenant applications to restrict data by organization, and marketplaces to display region-specific inventory or pricing.
+Personalized search tailors search results to individual users or user groups based on their characteristics, preferences, or context. This is commonly used in e-commerce platforms to show tier-based pricing, subscription services to filter content by access level, multi-tenant applications to restrict data by organization, marketplaces to display region-specific inventory or pricing, user-generated records where users can create favorites and search through their favorites, etc.
 
 This guide shows you how to use Typesense's <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/joins.html`">JOIN feature</RouterLink> to personalize search results by combining data from multiple collections at query time.
 
@@ -8,7 +8,7 @@ We'll use a practical example of implementing tier-based product pricing, where 
 
 ## The Problem
 
-Modern applications often need to serve different data to different users. In e-commerce, for example:
+Modern applications often need to serve different data to different users. In our e-commerce example, let's say you have the following criteria:
 
 * VIP users get better prices.
 * Different regions have different pricing.
@@ -29,7 +29,7 @@ In each case, you want to show user-specific data when available and fall back t
 
 ## Traditional Approach (SQL)
 
-In a relational database like PostgreSQL, you would typically use a `LEFT JOIN` with `COALESCE` to merge personalized pricing:
+In a relational database like MySQL or PostgreSQL, you would typically use a `LEFT JOIN` with `COALESCE` to merge personalized pricing:
 
 ```sql
 SELECT 
@@ -57,7 +57,7 @@ While this works, it comes with challenges at scale:
 
 ## Typesense Approach
 
-Typesense allows you to combine full-text search, filtering, and JOINs across collections in a single query. It handles these operations in-memory with sub-millisecond latency, scales horizontally by adding nodes, and requires no manual index management or query optimization.
+Typesense allows you to combine full-text search, filtering, and JOINs across collections in a single query, while handling these operations in-memory with sub-millisecond latency. It scales horizontally by adding nodes, and requires no manual index management or query optimization.
 
 Let's see how this works in practice. In the following example, we'll create three collections: `products`, `user_prices`, and `inventory`. The `products` collection will store product information, `user_prices` will store user-specific pricing, and `inventory` will track regional stock levels.
 
@@ -89,7 +89,7 @@ Next, create a collection for user-specific pricing:
   "name": "user_prices",
   "fields": [
     { "name": "id", "type": "string" },
-    { "name": "product_id", "type": "string", "reference": "products.id" },
+    { "name": "product_id", "type": "string", "reference": "products.id", "async_reference": true },
     { "name": "tier", "type": "string", "facet": true },
     { "name": "region", "type": "string", "facet": true },
     { "name": "custom_price", "type": "float" },
@@ -104,7 +104,7 @@ Finally, create a collection for regional inventory tracking:
 {
   "name": "inventory",
   "fields": [
-    { "name": "product_id", "type": "string", "reference": "products.id" },
+    { "name": "product_id", "type": "string", "reference": "products.id", "async_reference": true },
     { "name": "warehouse", "type": "string", "facet": true },
     { "name": "in_stock", "type": "bool" },
     { "name": "quantity", "type": "int32" }
@@ -116,21 +116,18 @@ The `reference` field in the `user_prices` and `inventory` collections enables J
 
 ## Step 2: Index Sample Data
 
-Download the sample datasets:
+Download the sample dataset:
 
 ```bash
-curl -O https://dl.typesense.org/datasets/products.jsonl.gz
-curl -O https://dl.typesense.org/datasets/user_prices.jsonl.gz
-curl -O https://dl.typesense.org/datasets/inventory.jsonl.gz
+curl -O https://dl.typesense.org/personalized-search-join-sample-dataset.tar.gz
+tar -xzf personalized-search-join-sample-dataset.tar.gz
 ```
 
-Unzip the datasets:
+This should give you three files:
 
-```shell
-gunzip products.jsonl.gz
-gunzip user_prices.jsonl.gz
-gunzip inventory.jsonl.gz
-```
+- inventory.jsonl
+- products.jsonl and 
+- user_prices.jsonl
 
 Load all datasets into Typesense:
 
