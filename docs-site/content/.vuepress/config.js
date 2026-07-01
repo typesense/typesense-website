@@ -322,6 +322,7 @@ let config = {
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
             ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
+            ['/guide/swift-search-bar', 'Search Bar in Swift'],
             ['/guide/gin-search-api', 'Search API in Gin'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
