@@ -50,7 +50,10 @@ We can then move the clusters from your existing team account to your new team a
 
 3. Use the image [here](/docs/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
 
-4. Enable Response Assertion signing in your SSO app. It's usually found under "Advanced" settings and often enabled by default.
+4. Configure your SSO app to sign the SAML assertion (only). 
+
+   - In Microsoft Entra ID, this is the "Signing Option" setting under "SAML Signing Certificate", and should be set to "Sign SAML assertion". 
+   - Other SSO platforms often list this under "Advanced" settings.
 
 5. Once you've created the app, your SSO platform should give you the following information:
 

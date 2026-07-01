@@ -27,7 +27,7 @@ When using Synonym Sets and [Overrides](./curation.md) together, Overrides are h
 :::
 
 :::tip Locale-specific synonyms
-When a synonym has a `locale` specified, it will only be applied when searching fields with a matching locale. If no locale is specified for a synonym, it will be applied globally. This helps manage cases where the same word has different meanings across languages.
+When a synonym has a `locale` specified, it will only be applied when the most weighted searched field has a matching locale. If no locale is specified for a synonym, it will be applied globally. This helps manage cases where the same word has different meanings across languages.
 :::
 
 :::tip Phrase Match Queries & Filtering
