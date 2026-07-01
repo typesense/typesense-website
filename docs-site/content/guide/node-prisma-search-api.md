@@ -177,6 +177,47 @@ TYPESENSE_API_KEY=xyz
 TYPESENSE_COLLECTION=books
 ```
 
+Create `src/config/env.ts` to safely parse and export these environment variables:
+
+```typescript
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const env = {
+  PORT: parseInt(process.env.PORT || '3000', 10),
+  
+  DB_HOST: process.env.DB_HOST || 'localhost',
+  DB_USER: process.env.DB_USER || 'postgres',
+  DB_PASSWORD: process.env.DB_PASSWORD || 'password',
+  DB_NAME: process.env.DB_NAME || 'typesense_books',
+  DB_PORT: parseInt(process.env.DB_PORT || '5432', 10),
+
+  TYPESENSE_HOST: process.env.TYPESENSE_HOST || 'localhost',
+  TYPESENSE_PORT: parseInt(process.env.TYPESENSE_PORT || '8108', 10),
+  TYPESENSE_PROTOCOL: process.env.TYPESENSE_PROTOCOL || 'http',
+  TYPESENSE_API_KEY: process.env.TYPESENSE_API_KEY || 'xyz',
+};
+```
+
+Create `src/config/database.ts` to initialize the Prisma Client:
+
+```typescript
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
+
+const connectionString = process.env.DATABASE_URL;
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+
+export const prisma = new PrismaClient({
+  adapter,
+  log: ['query', 'info', 'warn', 'error'],
+});
+```
+
 ## Step 5: Define the Book Model (Prisma)
 
 Update your `prisma/schema.prisma` file with the `Book` model and PostgreSQL provider:
@@ -188,7 +229,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Book {
@@ -201,32 +241,17 @@ model Book {
   ratings_count    Int?
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
-  deleted_at       DateTime? // For soft deletes
+  deleted_at       DateTime?
 
   @@map("books")
 }
 ```
 
-Run Prisma migrations to create the database table and generate the client:
+After updating the schema, generate the Prisma client and push the schema to the database:
 
 ```bash
-npx prisma migrate dev --name init
-```
-
-Set up the Prisma Client instance in `src/config/database.ts`:
-
-```typescript
-import { PrismaClient } from '@prisma/client';
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { env } from './env';
-
-const connectionString = env.DATABASE_URL;
-
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-
-export const prisma = new PrismaClient({ adapter });
+npx prisma generate
+npx prisma db push
 ```
 
 ## Step 6: Initialize the Typesense Client
@@ -247,49 +272,47 @@ export const typesenseClient = new Client({
   ],
   apiKey: env.TYPESENSE_API_KEY,
   connectionTimeoutSeconds: 5,
-  retryIntervalSeconds: 1,
-  numRetries: 3,
 });
 ```
-
-Setting `numRetries` to 3 helps your application gracefully handle transient networking issues by automatically retrying failed requests.
 
 ## Step 7: Set up Automatic Collection Creation
 
 Add this to `src/search/collections.ts`:
 
 ```typescript
-import { typesenseClient } from './client';
-import { env } from '../config/env';
 import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
+import { typesenseClient } from './client';
 
-export const BOOKS_COLLECTION_NAME = env.TYPESENSE_COLLECTION;
+export const BOOKS_COLLECTION_NAME = 'books';
 
-export async function initializeTypesense() {
-  const schema: CollectionCreateSchema = {
-    name: BOOKS_COLLECTION_NAME,
-    fields: [
-      { name: 'title', type: 'string', facet: false },
-      { name: 'authors', type: 'string[]', facet: true },
-      { name: 'publication_year', type: 'int32', facet: true },
-      { name: 'average_rating', type: 'float', facet: true },
-      { name: 'image_url', type: 'string', facet: false },
-      { name: 'ratings_count', type: 'int32', facet: true },
-    ],
-    default_sorting_field: 'ratings_count',
-  };
+export const booksCollectionSchema: CollectionCreateSchema = {
+  name: BOOKS_COLLECTION_NAME,
+  fields: [
+    { name: 'id', type: 'string' },
+    { name: 'title', type: 'string' },
+    { name: 'authors', type: 'string[]', facet: true },
+    { name: 'publication_year', type: 'int32', facet: true, optional: true },
+    { name: 'average_rating', type: 'float', facet: true, optional: true },
+    { name: 'image_url', type: 'string', optional: true },
+    { name: 'ratings_count', type: 'int32', optional: true },
+  ],
+};
 
+export async function initializeTypesense(): Promise<void> {
   try {
-    await typesenseClient.collections(BOOKS_COLLECTION_NAME).retrieve();
-    console.log(`Collection '${BOOKS_COLLECTION_NAME}' already exists.`);
-  } catch (error: any) {
-    if (error.httpStatus === 404) {
-      console.log(`Collection '${BOOKS_COLLECTION_NAME}' not found. Creating...`);
-      await typesenseClient.collections().create(schema);
-      console.log(`Collection '${BOOKS_COLLECTION_NAME}' created successfully.`);
+    const collections = await typesenseClient.collections().retrieve();
+    const collectionExists = collections.some((c) => c.name === BOOKS_COLLECTION_NAME);
+
+    if (!collectionExists) {
+      console.log(`Creating collection ${BOOKS_COLLECTION_NAME}...`);
+      await typesenseClient.collections().create(booksCollectionSchema);
+      console.log(`Collection ${BOOKS_COLLECTION_NAME} created successfully.`);
     } else {
-      throw error;
+      console.log(`Collection ${BOOKS_COLLECTION_NAME} already exists.`);
     }
+  } catch (error) {
+    console.error('Error initializing Typesense collection:', error);
+    throw error;
   }
 }
 ```
@@ -298,9 +321,9 @@ This ensures your Typesense collection and schema correctly align with your Pris
 
 ## Step 8: Paginated and Incremental Sync Logic
 
-Add this to `src/search/sync.ts`.
+Handling sync efficiently is critical when dealing with millions of rows. We tackle this by implementing **paginated syncs**: instead of dumping an entire table into memory, we query PostgreSQL and import to Typesense in batches. We also use **incremental sync** based on `updated_at` to avoid re-syncing rows that haven't changed.
 
-Handling sync efficiently is critical when dealing with millions of rows. We tackle this by implementing **paginated syncs** using cursor-based pagination with `findMany` and `take`: instead of dumping an entire table into memory, we query PostgreSQL and import to Typesense in batches. We also use **incremental sync** based on `updated_at` to avoid re-syncing rows that haven't changed, and we execute bulk deletes for records that were soft-deleted.
+Add this to `src/search/sync.ts`:
 
 ```typescript
 import { prisma } from '../config/database';
@@ -309,6 +332,7 @@ import { BOOKS_COLLECTION_NAME } from './collections';
 import type { Book } from '@prisma/client';
 
 export let lastSyncTime: Date = new Date(0);
+
 const BATCH_SIZE = 1000;
 
 const mapBookToTypesense = (b: Book) => ({
@@ -328,14 +352,20 @@ export async function runFullSync() {
   let totalProcessed = 0;
 
   while (hasMore) {
-    const books = await prisma.book.findMany({
-      where: { 
-        id: { gt: lastId },
-        deleted_at: null // Do not sync deleted rows
-      },
-      take: BATCH_SIZE,
-      orderBy: { id: 'asc' }
-    });
+    let books: Book[];
+    try {
+      books = await prisma.book.findMany({
+        where: { 
+          id: { gt: lastId },
+          deleted_at: null
+        },
+        take: BATCH_SIZE,
+        orderBy: { id: 'asc' }
+      });
+    } catch (err) {
+      console.error('Database error during full sync fetching:', err);
+      break; // Abort this sync run gracefully on DB failure
+    }
 
     if (books.length === 0) {
       hasMore = false;
@@ -343,13 +373,20 @@ export async function runFullSync() {
     }
 
     lastId = books[books.length - 1].id;
+
     const documents = books.map(mapBookToTypesense);
 
-    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
-    totalProcessed += documents.length;
-    console.log(`Full sync: Processed ${totalProcessed} books.`);
+    try {
+      await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
+      totalProcessed += documents.length;
+      console.log(`Full sync: Processed ${totalProcessed} books.`);
+    } catch (err) {
+      console.error('Error importing documents during full sync', err);
+      break; 
+    }
   }
 
+  // Update lastSyncTime to now
   lastSyncTime = new Date();
   console.log('Full sync completed.');
 }
@@ -363,15 +400,21 @@ export async function runIncrementalSync() {
   let totalUpserted = 0;
 
   while (hasMoreUpserts) {
-    const updatedBooks = await prisma.book.findMany({
-      where: {
-        updated_at: { gt: lastSyncTime },
-        deleted_at: null,
-        id: { gt: lastUpsertId }
-      },
-      take: BATCH_SIZE,
-      orderBy: { id: 'asc' }
-    });
+    let updatedBooks: Book[];
+    try {
+      updatedBooks = await prisma.book.findMany({
+        where: {
+          updated_at: { gt: lastSyncTime },
+          deleted_at: null,
+          id: { gt: lastUpsertId }
+        },
+        take: BATCH_SIZE,
+        orderBy: { id: 'asc' }
+      });
+    } catch (err) {
+      console.error('Database error during incremental sync upsert fetching:', err);
+      break;
+    }
 
     if (updatedBooks.length === 0) {
       hasMoreUpserts = false;
@@ -381,8 +424,17 @@ export async function runIncrementalSync() {
     lastUpsertId = updatedBooks[updatedBooks.length - 1].id;
     const documents = updatedBooks.map(mapBookToTypesense);
 
-    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
-    totalUpserted += documents.length;
+    try {
+      await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().import(documents, { action: 'upsert' });
+      totalUpserted += documents.length;
+    } catch (err) {
+      console.error('Error upserting documents in incremental sync', err);
+      break;
+    }
+  }
+
+  if (totalUpserted > 0) {
+    console.log(`Incremental sync: Upserted ${totalUpserted} books.`);
   }
 
   // 2. Process soft-deleted books in batches
@@ -391,14 +443,20 @@ export async function runIncrementalSync() {
   let totalDeleted = 0;
 
   while (hasMoreDeletes) {
-    const deletedBooks = await prisma.book.findMany({
-      where: {
-        deleted_at: { gt: lastSyncTime },
-        id: { gt: lastDeleteId }
-      },
-      take: BATCH_SIZE,
-      orderBy: { id: 'asc' }
-    });
+    let deletedBooks: Book[];
+    try {
+      deletedBooks = await prisma.book.findMany({
+        where: {
+          deleted_at: { gt: lastSyncTime },
+          id: { gt: lastDeleteId }
+        },
+        take: BATCH_SIZE,
+        orderBy: { id: 'asc' }
+      });
+    } catch (err) {
+      console.error('Database error during incremental sync delete fetching:', err);
+      break;
+    }
 
     if (deletedBooks.length === 0) {
       hasMoreDeletes = false;
@@ -408,45 +466,55 @@ export async function runIncrementalSync() {
     lastDeleteId = deletedBooks[deletedBooks.length - 1].id;
     const ids = deletedBooks.map(b => b.id.toString());
 
-    // Bulk delete in Typesense using filter_by
-    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().delete({
-      filter_by: `id:=[${ids.join(',')}]`
-    });
-    totalDeleted += deletedBooks.length;
+    try {
+      // Bulk delete in Typesense using filter_by
+      await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().delete({
+        filter_by: `id:=[${ids.join(',')}]`
+      });
+      totalDeleted += deletedBooks.length;
+    } catch (err) {
+      console.error('Error deleting documents in incremental sync', err);
+      break;
+    }
+  }
+
+  if (totalDeleted > 0) {
+    console.log(`Incremental sync: Deleted ${totalDeleted} books from Typesense.`);
   }
 
   lastSyncTime = new Date();
+  console.log('Incremental sync completed.');
 }
 
 export async function determineAndRunStartupSync() {
-  const searchStats = await typesenseClient.collections(BOOKS_COLLECTION_NAME).retrieve();
-  const docCount = searchStats.num_documents;
+  try {
+    const searchStats = await typesenseClient.collections(BOOKS_COLLECTION_NAME).retrieve();
+    const docCount = searchStats.num_documents;
 
-  if (docCount === 0) {
-    // Empty Typesense collection, full sync
-    await runFullSync();
-  } else {
-    // Typesense has data, get latest updated_at from DB
-    const latestBook = await prisma.book.findFirst({
-      orderBy: { updated_at: 'desc' }
-    });
+    if (docCount === 0) {
+      // Empty Typesense collection, full sync
+      await runFullSync();
+    } else {
+      // Typesense has data, get latest updated_at from DB
+      const latestBook = await prisma.book.findFirst({
+        orderBy: { updated_at: 'desc' }
+      });
 
-    if (latestBook?.updated_at) {
-      lastSyncTime = latestBook.updated_at;
+      if (latestBook?.updated_at) {
+        lastSyncTime = latestBook.updated_at;
+      }
+      
+      await runIncrementalSync();
     }
-    
-    await runIncrementalSync();
+  } catch (error) {
+    console.error('Error during startup sync:', error);
   }
 }
 ```
 
-:::warning Soft Deletes
-When executing incremental synchronization, we check for rows where `deleted_at` is greater than the last sync time. In Prisma, we explicitly query for records with a `deleted_at` value to identify the subset to purge from Typesense using bulk deletion (`filter_by`).
-:::
-
 ## Step 9: Add the Background Sync Worker
 
-Add this to `src/search/worker.ts`. Using `node-cron`, we can trigger the incremental sync every 60 seconds automatically.
+Using `node-cron`, we can trigger the incremental sync every 60 seconds automatically. Add this to `src/search/worker.ts`:
 
 ```typescript
 import cron from 'node-cron';
@@ -455,27 +523,256 @@ import { runIncrementalSync } from './sync';
 let isSyncRunning = false;
 
 export function startBackgroundSyncWorker() {
-  console.log('Starting background sync worker (every 60 seconds)...');
-
-  cron.schedule('*/60 * * * * *', async () => {
+  console.log('Starting background periodic sync worker (every 60s)...');
+  
+  // Runs every minute
+  cron.schedule('* * * * *', async () => {
     if (isSyncRunning) {
-      console.log('Sync already running, skipping this interval.');
+      console.log('Sync already running, skipping this iteration.');
       return;
     }
 
     isSyncRunning = true;
     try {
       await runIncrementalSync();
-    } catch (err) {
-      console.error('Error during background incremental sync:', err);
+    } catch (error) {
+      console.error('Error in background sync worker:', error);
     } finally {
       isSyncRunning = false;
     }
   });
 }
+
+export function getSyncStatus() {
+  return {
+    syncWorkerRunning: isSyncRunning,
+  };
+}
 ```
 
-## Step 10: Wire it all together in the Server
+## Step 10: Build the CRUD API with real-time sync
+
+Add this to `src/routes/books.ts`. Each write syncs to Typesense **asynchronously** so the HTTP response returns immediately:
+
+```typescript
+import { Router, type Request, type Response } from 'express';
+import { prisma } from '../config/database';
+import type { Book } from '@prisma/client';
+import { typesenseClient } from '../search/client';
+import { BOOKS_COLLECTION_NAME } from '../search/collections';
+
+const router = Router();
+
+// Helper for real-time async sync
+const syncBookToTypesense = async (book: Book) => {
+  try {
+    // Prisma returns JSON as Prisma.JsonValue, we cast to array for typesense
+    const authorsArray = Array.isArray(book.authors) ? book.authors : [book.authors];
+    
+    const document = {
+      id: book.id.toString(),
+      title: book.title,
+      authors: authorsArray as string[],
+      publication_year: book.publication_year || 0,
+      average_rating: book.average_rating ? Number(book.average_rating) : 0,
+      image_url: book.image_url || '',
+      ratings_count: book.ratings_count || 0,
+    };
+    
+    console.log(`Syncing book ${book.id} to Typesense:`, document.title);
+    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().upsert(document);
+    console.log(`Successfully synced book ${book.id} to Typesense.`);
+  } catch (err) {
+    console.error(`Failed to sync book ${book.id} to Typesense:`, err);
+    throw err;
+  }
+};
+
+const deleteBookFromTypesense = async (id: number) => {
+  try {
+    await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents(id.toString()).delete();
+  } catch (err) {
+    console.error(`Failed to delete book ${id} from Typesense`, err);
+  }
+};
+
+// GET /books - Get all books with pagination
+router.get('/', async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string || '1', 10);
+  const limit = parseInt(req.query.limit as string || '10', 10);
+  const offset = (page - 1) * limit;
+
+  try {
+    const [count, rows] = await Promise.all([
+      prisma.book.count({ where: { deleted_at: null } }),
+      prisma.book.findMany({
+        where: { deleted_at: null },
+        skip: offset,
+        take: limit,
+        orderBy: { id: 'asc' }
+      })
+    ]);
+    
+    res.json({
+      total: count,
+      page,
+      limit,
+      data: rows
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
+// GET /books/:id - Get a book
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const book = await prisma.book.findUnique({
+      where: { 
+        id: parseInt(req.params.id),
+        deleted_at: null 
+      }
+    });
+    
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    res.json(book);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch book' });
+  }
+});
+
+// POST /books - Create a book
+router.post('/', async (req: Request, res: Response) => {
+  try {
+    const book = await prisma.book.create({
+      data: req.body
+    });
+    
+    // Real-time async sync
+    await syncBookToTypesense(book);
+
+    res.status(201).json(book);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+// PUT /books/:id - Update a book
+router.put('/:id', async (req: Request, res: Response) => {
+  try {
+    const bookId = parseInt(req.params.id);
+    const existingBook = await prisma.book.findUnique({ where: { id: bookId, deleted_at: null } });
+    
+    if (!existingBook) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    const updatedBook = await prisma.book.update({
+      where: { id: bookId },
+      data: req.body
+    });
+
+    // Real-time async sync
+    await syncBookToTypesense(updatedBook);
+
+    res.json(updatedBook);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+// DELETE /books/:id - Delete a book
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const bookId = parseInt(req.params.id);
+    const existingBook = await prisma.book.findUnique({ where: { id: bookId, deleted_at: null } });
+    
+    if (!existingBook) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    // Soft delete
+    await prisma.book.update({
+      where: { id: bookId },
+      data: { deleted_at: new Date() }
+    });
+
+    // Real-time async sync
+    deleteBookFromTypesense(bookId);
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+export default router;
+```
+
+## Step 11: Build the search and sync routes
+
+Add this to `src/routes/search.ts`:
+
+```typescript
+import { Router, type Request, type Response } from 'express';
+import { typesenseClient } from '../search/client';
+import { BOOKS_COLLECTION_NAME } from '../search/collections';
+import { runFullSync, lastSyncTime } from '../search/sync';
+import { getSyncStatus } from '../search/worker';
+
+const router = Router();
+
+// GET /search?q=<query>
+router.get('/search', async (req: Request, res: Response) => {
+  const query = req.query.q as string || '';
+  
+  try {
+    const searchResults = await typesenseClient.collections(BOOKS_COLLECTION_NAME).documents().search({
+      q: query,
+      query_by: 'title,authors',
+    });
+    
+    res.json({
+      query,
+      found: searchResults.found,
+      results: searchResults.hits,
+      facet_counts: searchResults.facet_counts || [],
+    });
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
+// POST /sync - Trigger manual sync
+router.post('/sync', async (_req: Request, res: Response) => {
+  try {
+    // We run full sync here for manual trigger, but you could also run incremental
+    await runFullSync();
+    
+    res.json({
+      message: 'Sync completed',
+      syncedAt: lastSyncTime.toISOString()
+    });
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to sync books' });
+  }
+});
+
+// GET /sync/status - Check sync status
+router.get('/sync/status', (_req: Request, res: Response) => {
+  res.json({
+    lastSyncTime: lastSyncTime.toISOString(),
+    syncWorkerRunning: getSyncStatus().syncWorkerRunning
+  });
+});
+
+export default router;
+```
+
+## Step 12: Wire it all together in the Server
 
 Assemble the dependencies in `src/server.ts`:
 
@@ -488,11 +785,11 @@ import { initializeTypesense } from './search/collections';
 import { determineAndRunStartupSync } from './search/sync';
 import { startBackgroundSyncWorker } from './search/worker';
 
-// Import routers
 import booksRouter from './routes/books';
 import searchRouter from './routes/search';
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -502,25 +799,25 @@ app.use('/', searchRouter);
 
 async function startServer() {
   try {
-    // 1. Connect to PostgreSQL via Prisma
+    // 1. Connect to PostgreSQL
     console.log('Connecting to PostgreSQL database...');
     await prisma.$connect();
     console.log('Database connected.');
 
-    // 2. Setup Typesense Schema
+    // 2. Initialize Typesense
     console.log('Initializing Typesense...');
     await initializeTypesense();
 
-    // 3. Initial Catch-Up Sync
+    // 3. Run Startup Sync
     console.log('Running startup sync...');
     await determineAndRunStartupSync();
 
-    // 4. Start the Node-Cron Worker
+    // 4. Start Background Worker
     startBackgroundSyncWorker();
 
     // 5. Start Express API
     app.listen(env.PORT, () => {
-      console.log(`Server listening on port ${env.PORT}`);
+      console.log(`Server is running on http://localhost:${env.PORT}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
@@ -533,7 +830,7 @@ startServer();
 
 Your API backend acts as a smart bridge: PostgreSQL guarantees your data integrity via Prisma ORM, Typesense enables blazing fast search, and the `node-cron` background worker gracefully keeps everything perfectly synchronized batch by batch!
 
-## Step 11: Run your server
+## Step 13: Run your server
 
 Start your backend application:
 

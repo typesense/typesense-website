@@ -325,6 +325,7 @@ let config = {
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
             ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
+            ['/guide/spring-boot-search-api', 'Search API in Spring Boot'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
           ],
         },

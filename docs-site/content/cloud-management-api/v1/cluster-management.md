@@ -47,11 +47,15 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
     "high_performance_disk": "no",
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
+    "high_availability_node_count": null,
     "search_delivery_network": "off",
     "load_balancing": "no",
     "regions": [
       "oregon"
     ],
+    "region_node_counts": {
+      "oregon": 1
+    },
     "auto_upgrade_capacity": null,
     "usage": {
       "runtime_hours": 0,
@@ -76,6 +80,8 @@ You can use any of the following parameters inside the payload of the above API 
 - [memory](#memory) <Badge type="warning" text="Required" vertical="top"/>
 - [vcpu](#vcpu) <Badge type="warning" text="Required" vertical="top"/>
 - [regions](#regions) <Badge type="warning" text="Required" vertical="top"/>
+- [region_node_counts](#region-node-counts)
+- [high_availability_node_count](#high-availability-node-count)
 - [gpu](#gpu)
 - [high_availability](#high-availability)
 - [search_delivery_network](#search-delivery-network)
@@ -138,8 +144,12 @@ Only certain CPU configuration are available with particular RAM configurations.
 
 An array with one or more regions where the nodes should be geographically placed. <Badge type="warning" text="Required" vertical="top"/>
 
+This field is required unless you provide [`region_node_counts`](#region-node-counts) instead.
+
 - For a non-Search-Delivery-Network cluster, the array should have only one region.
-- For a Search Delivery Network (SDN) cluster, the array should have 3 or 5 regions depending on the number of SDN regions. 
+- For a Search Delivery Network (SDN) cluster with the `3_regions` or `5_regions` option, the array should have 3 or 5 regions respectively, with one node placed in each region.
+
+If you want to place more than one node in a region (for example, a highly available cluster with more than 3 nodes, or a [Multi-Nodes Per Region](#search-delivery-network) SDN cluster), use [`region_node_counts`](#region-node-counts) instead of `regions`. You can only specify one of `regions` or `region_node_counts`.
 
 The table below lists all available regions:
 
@@ -172,6 +182,60 @@ The table below lists all available regions:
 | melbourne    |
 | sydney       |
 
+### `region_node_counts`
+
+An object that maps region names to the number of nodes you want placed in each region. Use this instead of [`regions`](#regions) when you want to control how many nodes go into each region.
+
+For example, to provision a Multi-Nodes Per Region SDN cluster with 2 nodes in Oregon and 1 node in Frankfurt:
+
+```json
+{
+  "high_availability": "yes",
+  "search_delivery_network": "multi_nodes_per_region",
+  "region_node_counts": {
+    "oregon": 2,
+    "frankfurt": 1
+  }
+}
+```
+
+The region names are the same values listed in the [`regions`](#regions) table above, and each node count must be a positive integer.
+
+The number of regions and nodes you can specify depends on the cluster's [`high_availability`](#high-availability) and [`search_delivery_network`](#search-delivery-network) options:
+
+| Configuration                                          | Regions          | Nodes                              |
+|--------------------------------------------------------|------------------|------------------------------------|
+| Single region, High Availability off                   | Exactly 1 region | Exactly 1 node                     |
+| Single region, High Availability on                    | Exactly 1 region | Between 3 and 7 nodes              |
+| `search_delivery_network`: `3_regions`                 | Exactly 3 regions | 1 node per region                 |
+| `search_delivery_network`: `5_regions`                 | Exactly 5 regions | 1 node per region                 |
+| `search_delivery_network`: `multi_nodes_per_region`    | Between 2 and 7 regions | Between 3 and 7 nodes in total |
+
+You can only specify one of `regions` or `region_node_counts`. To set the number of nodes for a single-region highly available cluster, use [`high_availability_node_count`](#high-availability-node-count) together with a single [`regions`](#regions) value instead.
+
+### `high_availability_node_count`
+
+The number of nodes to provision for a single-region highly available cluster. This is a shorthand for specifying [`region_node_counts`](#region-node-counts) with a single region.
+
+This option:
+
+- Can only be used when [`high_availability`](#high-availability) is `yes`.
+- Can only be used when [`search_delivery_network`](#search-delivery-network) is `off`.
+- Requires exactly one region (specified via [`regions`](#regions)).
+- Must be between 3 and 7.
+
+For example, to provision a 5-node highly available cluster in Oregon:
+
+```json
+{
+  "high_availability": "yes",
+  "regions": ["oregon"],
+  "high_availability_node_count": 5
+}
+```
+
+You can only specify one of `high_availability_node_count` or [`region_node_counts`](#region-node-counts).
+
 ### `gpu`
 
 When set to `yes`, it enables the use of a GPU to accelerate embedding generation when using built-in ML models both during indexing and searching.
@@ -199,6 +263,8 @@ Default: `no`
 
 When set to `yes`, at least 3 nodes are provisioned in 3 different data centers to form a highly available (HA) cluster and your data is automatically replicated between all nodes.
 
+By default, an HA cluster has 3 nodes. To provision more than 3 nodes (up to 7) in a single region, use [`high_availability_node_count`](#high-availability-node-count).
+
 Default: `no`
 
 ### `search_delivery_network`
@@ -209,11 +275,14 @@ Default: `off`
 
 The table below lists all available options:
 
-| `search_delivery_network` |
-|---------------------------|
-| off                       |
-| 3_regions                 |
-| 5_regions                 |
+| `search_delivery_network` | Description                                                                                                                  |
+|---------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| off                       | Search Delivery Network is disabled.                                                                                          |
+| 3_regions                 | One node is placed in each of 3 regions.                                                                                      |
+| 5_regions                 | One node is placed in each of 5 regions.                                                                                      |
+| multi_nodes_per_region    | Place multiple nodes across 2 to 7 regions, with a custom number of nodes in each region (3 to 7 nodes in total).            |
+
+When using `multi_nodes_per_region`, specify the number of nodes for each region using [`region_node_counts`](#region-node-counts).
 
 **IMPORTANT:** Make sure you set `high_availability` to `yes` when you turn on Search Delivery Network.
 
@@ -251,6 +320,20 @@ Default: `false`
 Most response parameters are similar to the request parameters above. 
 
 We've documented response-specific parameters below:
+
+### `regions` (response)
+
+In the response, `regions` is a flat list with one entry per node. For example, a 3-node cluster in Oregon returns `["oregon", "oregon", "oregon"]`.
+
+During a topology change, this list reflects the nodes that are currently live, which can differ from the target topology reported in [`region_node_counts`](#region-node-counts-response).
+
+### `region_node_counts` (response)
+
+An object that maps each region to the number of nodes configured for that region, for example `{ "oregon": 2, "frankfurt": 1 }`. This reflects the cluster's target topology.
+
+### `high_availability_node_count` (response)
+
+The number of nodes for a single-region highly available cluster. This is `null` when High Availability is off, or when Search Delivery Network is enabled. In those cases, refer to [`region_node_counts`](#region-node-counts-response) for the number of nodes per region.
 
 ### `status`
 
@@ -315,6 +398,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
   "high_performance_disk": "no",
   "typesense_server_version": "0.23.1",
   "high_availability": "yes",
+  "high_availability_node_count": 3,
   "search_delivery_network": "off",
   "load_balancing": "yes",
   "regions": [
@@ -322,6 +406,9 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
     "mumbai",
     "mumbai"
   ],
+  "region_node_counts": {
+    "mumbai": 3
+  },
   "auto_upgrade_capacity": null,
   "hostnames": {
     "load_balanced": "nuj9s7k6vplrg15yp.a1.typesense.net",
@@ -373,11 +460,15 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
       "high_performance_disk": "no",
       "typesense_server_version": "0.23.1",
       "high_availability": "no",
+      "high_availability_node_count": null,
       "search_delivery_network": "off",
       "load_balancing": "no",
       "regions": [
         "oregon"
       ],
+      "region_node_counts": {
+        "oregon": 1
+      },
       "auto_upgrade_capacity": false,
       "usage": {
         "runtime_hours": 5643,
@@ -444,9 +535,13 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "high_performance_disk": "no",
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
+    "high_availability_node_count": null,
     "search_delivery_network": "off",
     "load_balancing": "no",
     "regions": ["oregon"],
+    "region_node_counts": {
+      "oregon": 1
+    },
     "auto_upgrade_capacity": true,
     "usage": {
       "runtime_hours": 5643,
