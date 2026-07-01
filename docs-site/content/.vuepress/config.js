@@ -329,6 +329,7 @@ let config = {
             ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
             ['/guide/spring-boot-search-api', 'Search API in Spring Boot'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
+            ['/guide/langchain-ai-search', 'AI Search with LangChain & Chainlit'],
           ],
         },
         {
