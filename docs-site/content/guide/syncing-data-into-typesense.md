@@ -154,7 +154,7 @@ Here are some tips when importing data in batches into Typesense:
 In order to update records you push into Typesense at a later point in time, you want to set the `id` field in each document you send to Typesense.
 This is a special field that Typesense uses internally to reference documents.
 
-If an explicit `id` field is not set, Typesense will auto-generate one for the document and can return it if you set `return_ids=true` as a parameter to the import endpoint.
+If an explicit `id` field is not set, Typesense will auto-generate one for the document and can return it if you set `return_id=true` as a parameter to the import endpoint.
 You will then have to save this `id` field in your database and use that to update the same record in the future.
 
 ### Client-side timeouts
