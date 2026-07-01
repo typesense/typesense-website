@@ -718,6 +718,13 @@ This plugin includes built-in indexing that automatically syncs your documentati
 
 For setup and configuration details, see the [VitePress Plugin Typesense documentation](https://vitepress-plugin.typesense.org/).
 
+### Options H & I: Rspress and Nextra
+
+Both [Rspress](https://rspress.rs/) and [Nextra](https://nextra.site/) have official plugins with built-in indexing at build time, so no separate scraper is needed.
+
+- [rspress-plugin-typesense](https://github.com/typesense/rspress-plugin-typesense) for Rspress
+- [typesense-nextra-adapter](https://github.com/typesense/typesense-nextra-adapter) for Nextra
+
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
 
 Typesense supports built-in [Semantic Search](./semantic-search.md) as `v0.25.1` of Typesense Server and `v0.9.1` of the typesense-docsearch-scraper.
