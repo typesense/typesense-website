@@ -1,9 +1,5 @@
-> **AI agents and LLMs:** before exploring further, fetch the full index of Typesense documentation with descriptions at https://typesense.org/docs/llms.txt.
-
 ---
-
-description: "Add an instant search-as-you-type experience to a WordPress site via the community-built Search With Typesense and SwiftSearch for Typesense plugins, indexing posts, products, pages and any custom post types."
-
+description: "Add an instant search-as-you-type experience to a WordPress site via the community-built Search With Typesense WordPress plugin or the SwiftSearch for Typesense plugin, indexing posts, products, pages and any custom post types."
 ---
 
 # Search for WordPress Sites
@@ -17,9 +13,7 @@ If you are looking to implement a search-as-you-type instant search experience o
 These WordPress integrations are built and maintained by members of the extended Typesense community. Please reach out to their respective support channels for setup assistance or feature requests.
 :::
 
----
-
-## Search With Typesense by CodeManas
+## Search With Typesense - by CodeManas
 
 Built by the CodeManas team, this plugin allows you to index your posts and pages and showcase them via InstantSearch and Autocomplete.
 
@@ -117,9 +111,8 @@ And that's it - you are ready to go.
 There are many additional options to use the plugin with shortcodes and advanced customization options. 
 Read more about them in the full documentation on [https://codemanas.github.io/cm-typesense-docs/](https://codemanas.github.io/cm-typesense-docs/).
 
----
 
-## SwiftSearch for Typesense by Loopstates
+## SwiftSearch for Typesense - by Loopstates
 
 SwiftSearch is an open-source, direct-to-node search plugin. It queries the Typesense cluster directly from the user's browser, bypassing the WordPress database and PHP execution layers to minimize server resource consumption.
 
