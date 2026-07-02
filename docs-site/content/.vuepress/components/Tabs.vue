@@ -32,6 +32,8 @@ Have a look at the "Shell" tab for guidance on HTTP headers, method and paramete
 </template>
 
 <script>
+const store = require('../store').default
+
 export default {
   props: {
     tabs: {
@@ -41,7 +43,6 @@ export default {
   },
   data() {
     return {
-      store: null,
       cmpActiveTab: this.tabs[0],
     }
   },
@@ -55,18 +56,25 @@ export default {
       }
     },
     activeTab() {
-      if (this.store) {
-        const activeTab = this.augmentedTabs.find(tab => tab === this.store.state.defaultTab)
-        return activeTab || this.cmpActiveTab
-      } else {
-        return this.cmpActiveTab
+      const singleLanguage = store.getters.singlePreferredCopyLanguage
+      if (singleLanguage && this.augmentedTabs.includes(singleLanguage)) {
+        return singleLanguage
+      }
+
+      const activeTab = this.augmentedTabs.find(tab => tab === store.state.defaultTab)
+      return activeTab || this.cmpActiveTab
+    },
+  },
+  watch: {
+    // Remember the currently shown tab so we don't snap back to the first tab
+    // when the languages override drops (e.g. picker cleared or expanded to >1).
+    activeTab(newTab) {
+      if (newTab && newTab !== this.cmpActiveTab) {
+        this.cmpActiveTab = newTab
       }
     },
   },
   async mounted() {
-    import('../store').then(module => {
-      this.store = module.default
-    })
     // This block of code is to highlight code with variable interpolation
     //  since Vuepress doesn't support this natively
     window.Prism = window.Prism || {}
@@ -88,7 +96,7 @@ export default {
   methods: {
     setActiveTab(tab) {
       this.cmpActiveTab = tab
-      this.store.commit('UPDATE_DEFAULT_TAB', tab)
+      store.commit('SET_DEFAULT_TAB', tab)
     },
   },
 }

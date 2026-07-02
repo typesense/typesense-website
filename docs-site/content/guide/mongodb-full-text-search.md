@@ -1,3 +1,7 @@
+---
+description: "Stream MongoDB documents into Typesense via Change Streams (or the official Node.js CLI) to get typo-tolerant full-text search backed by a MongoDB source."
+---
+
 # Full-text Fuzzy Search with MongoDB and Typesense
 
 This walk-through will show you how to ingest data from MongoDB into Typesense, and then use Typesense to search through the data with typo-tolerance, filtering, faceting, etc.

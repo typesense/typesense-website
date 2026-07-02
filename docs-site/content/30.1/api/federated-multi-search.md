@@ -1,4 +1,5 @@
 ---
+description: "Run multiple search requests in a single HTTP call. Federated mode returns each result independently; union mode merges them into one ranked list."
 sidebarDepth: 1
 sitemap:
   priority: 0.3

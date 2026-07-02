@@ -46,6 +46,18 @@ let config = {
         }
       })
 
+      md.core.ruler.after('markdown-actions', 'agent-docs-index', state => {
+        const tokens = state.tokens
+        for (let i = 0; i < tokens.length; i += 1) {
+          if (tokens[i].type !== 'html_block' || !tokens[i].content.includes('</div>')) continue
+          if (i < 2 || tokens[i - 1].content !== '<MarkdownActions />') continue
+          const token = new state.Token('html_block', '', 0)
+          token.content = '<div hidden><p><strong>AI agents and LLMs:</strong> before exploring further, fetch the full index of Typesense documentation with descriptions at <a href="https://typesense.org/docs/llms.txt">https://typesense.org/docs/llms.txt</a>.</p></div>\n'
+          tokens.splice(i + 1, 0, token)
+          return
+        }
+      })
+
       md.use(md => {
         let currentHeading = null
 
@@ -298,6 +310,7 @@ let config = {
             ['/guide/github-actions', 'Running Tests in Github Actions'],
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/testcontainers', 'Running Tests with Testcontainers'],
+            ['/guide/personalized-search-join', 'Personalized Search with JOINs'],
           ],
         },
 
@@ -320,8 +333,15 @@ let config = {
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
+            ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
+            ['/guide/swift-search-bar', 'Search Bar in Swift'],
             ['/guide/gin-search-api', 'Search API in Gin'],
+            ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
+            ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
+            ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
+            ['/guide/spring-boot-search-api', 'Search API in Spring Boot'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
+            ['/guide/langchain-ai-search', 'AI Search with LangChain & Chainlit'],
           ],
         },
         {

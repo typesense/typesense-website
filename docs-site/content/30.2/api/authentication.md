@@ -1,4 +1,5 @@
 ---
+description: "Configure hostnames and API keys to authenticate requests against a Typesense cluster from each official client library."
 sitemap:
   priority: 0.7
 ---

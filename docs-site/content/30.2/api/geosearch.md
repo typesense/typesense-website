@@ -1,4 +1,5 @@
 ---
+description: "Search and filter documents by latitude and longitude using geopoint fields. Supports radius, polygon, and bounding-box queries with distance-based sorting."
 sidebarDepth: 2
 sitemap:
   priority: 0.7

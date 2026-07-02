@@ -1,4 +1,5 @@
 ---
+description: "Index embeddings from any ML model and run nearest-neighbor (KNN) queries for semantic search, recommendations, hybrid search, visual search, and RAG."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

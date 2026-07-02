@@ -1,3 +1,7 @@
+---
+description: "Filter Typesense search results by exact, range, multi-value, geo, nested, and joined-collection conditions using filter_by, with syntax tips and examples."
+---
+
 # Tips for Filtering Data in Typesense
 
 In this article, we'll talk about how to filter data in Typesense using various filtering options:

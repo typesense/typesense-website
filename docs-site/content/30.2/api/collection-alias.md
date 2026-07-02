@@ -1,4 +1,5 @@
 ---
+description: "Create a virtual alias pointing to a real collection so you can swap underlying collections without changing client code, useful for zero-downtime reindexing."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

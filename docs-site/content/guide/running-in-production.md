@@ -1,3 +1,7 @@
+---
+description: "Best practices for running Typesense in production: capacity planning, HA setup, deployment via Docker or systemd, monitoring, and operational tips."
+---
+
 # Running Typesense in Production
 
 In addition to performance and ease-of-use, Typesense is also designed to have low operational overhead in Production.

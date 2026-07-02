@@ -38,7 +38,8 @@
 </template>
 
 <script>
-const { filterMarkdownByCopyLanguages, getPreferredCopyLanguages } = require('../util/markdownCopyFilter')
+const { filterMarkdownByCopyLanguages } = require('../util/markdownCopyFilter')
+const store = require('../store').default
 
 export default {
   name: 'CopySectionButton',
@@ -92,11 +93,10 @@ export default {
           throw new Error('Markdown content not available')
         }
 
-        const copyLanguages = getPreferredCopyLanguages()
         const filteredMarkdown = filterMarkdownByCopyLanguages(
           markdown,
           this.$page.markdownCopyTabGroups,
-          copyLanguages,
+          store.state.copyLanguages,
         )
         const sectionMarkdown = this.extractSection(filteredMarkdown)
         if (!sectionMarkdown) {

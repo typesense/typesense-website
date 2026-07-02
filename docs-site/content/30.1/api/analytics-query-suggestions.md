@@ -1,4 +1,5 @@
 ---
+description: "Aggregate search queries and track user interaction events (clicks, conversions, visits) for query suggestions, popularity scoring, and personalization."
 sidebarDepth: 2
 sitemap:
   priority: 0.3

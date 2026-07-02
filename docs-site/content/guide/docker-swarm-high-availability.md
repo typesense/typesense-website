@@ -1,3 +1,7 @@
+---
+description: "Deploy a Typesense high-availability cluster across multiple hosts using Docker Swarm services, including init, peer config, and node-join steps."
+---
+
 # Deploy a Typesense cluster to Docker Swarm
 
 To Deploy a Typesense cluster on multiple hosts which run in [Docker Swarm](https://docs.docker.com/engine/swarm/) mode, follow these steps:

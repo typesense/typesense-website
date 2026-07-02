@@ -1,3 +1,7 @@
+---
+description: "Add semantic search to a Typesense collection using built-in embedding models or external ones (OpenAI, PaLM, Vertex AI) with auto-embedded fields."
+---
+
 # Semantic Search
 
 Typesense supports the ability to do semantic search out-of-the-box, using built-in Machine Learning models or you can also use external ML models like OpenAI, PaLM API and Vertex AI API (starting from `v0.25`).

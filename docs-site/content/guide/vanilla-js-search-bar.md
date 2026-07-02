@@ -1,3 +1,7 @@
+---
+description: "Build a typo-tolerant book search interface using plain JavaScript (no framework) and the Typesense ecosystem, from project setup to a working UI."
+---
+
 # Building a Search Bar in Vanilla JavaScript
 
 You don't need a fancy framework to work with Typesense. This walkthrough will take you through all the steps required to build a simple book search application using Vanilla JavaScript and the Typesense ecosystem.

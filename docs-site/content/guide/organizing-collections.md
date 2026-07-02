@@ -1,3 +1,7 @@
+---
+description: "How to model Typesense data into collections: one-per-entity vs combined, tradeoffs for joins, multi-tenancy, and rebuild or reindex strategies."
+---
+
 # Organizing Collections
 
 In this article, we'll discuss different approaches to organize documents into one or more collections, and the tradeoffs to consider. 

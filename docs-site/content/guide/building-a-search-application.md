@@ -1,3 +1,7 @@
+---
+description: "First-steps walk-through: create a Typesense collection, index a sample books dataset, and run your first searches via a client library."
+---
+
 # Build A Search Application
 
 Now that you have Typesense [installed and running](./install-typesense.md), we're now ready to create a Typesense collection, index some documents in it and try searching for them.

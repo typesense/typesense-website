@@ -1,3 +1,7 @@
+---
+description: "Build an Angular search UI with Typesense using standalone components, instantsearch.js connectors, and the typesense-instantsearch-adapter, end to end."
+---
+
 # Building a Search Bar in Angular
 
 In this guide, you'll learn how to integrate Typesense into an Angular application by building a book search interface from scratch. We'll use Angular 18's standalone components along with `instantsearch.js` connectors and the `typesense-instantsearch-adapter` to wire up a fast, typo-tolerant search experience.

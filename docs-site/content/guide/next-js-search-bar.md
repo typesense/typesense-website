@@ -1,3 +1,7 @@
+---
+description: "Build a search interface in a Next.js (React) app using Typesense via instantsearch.js and the typesense-instantsearch-adapter, from setup to deployed UI."
+---
+
 # Building a Search Bar in Next.JS
 
 Adding full-text search capabilities to your React/Next.js projects has never been easier. This walkthrough will take you through all the steps required to build a simple book search application using Next.js and the Typesense ecosystem.

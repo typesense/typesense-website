@@ -1,72 +1,21 @@
+> **AI agents and LLMs:** before exploring further, fetch the full index of Typesense documentation with descriptions at https://typesense.org/docs/llms.txt.
+
 ---
-title: Search for WordPress Sites
+
+description: "Add an instant search-as-you-type experience to a WordPress site via the community-built Search With Typesense and SwiftSearch for Typesense plugins, indexing posts, products, pages and any custom post types."
+
 ---
+
+# Search for WordPress Sites
 
 If you are looking to implement a search-as-you-type instant search experience on a WordPress or WooCommerce website, there are two primary community-maintained integrations available:
 
-1. **[SwiftSearch for Typesense](#swiftsearch-for-typesense)** - A direct-to-node search integration supporting Custom Post Types (CPTs), Synonym Sets, visual merchandising (pinning), and native WooCommerce catalog replacements.
-2. **[Search With Typesense by CodeManas](#search-with-typesense-by-codemanas)** - A clean integration supporting standard post/page indexing, Autocomplete, and InstantSearch UI widgets.
-
----
+1. **[Search With Typesense](#search-with-typesense-by-codemanas) by [CodeManas](https://www.codemanas.com/)** - A clean integration supporting standard post/page indexing, Autocomplete, and InstantSearch UI widgets.
+2. **[SwiftSearch for Typesense](#swiftsearch-for-typesense-by-loopstates) by [Loopstates](https://loopstates.com/)** - An open-source, client-side, direct-to-node integration querying the Typesense cluster directly from the users' browser. Features native Custom Post Type (CPT) indexing, global Synonym Sets, visual merchandising (product pinning), facet filters and configuration, search analytics, as well as native WooCommerce catalog overrides.
 
 :::tip Third-Party Integrations
 These WordPress integrations are built and maintained by members of the extended Typesense community. Please reach out to their respective support channels for setup assistance or feature requests.
 :::
-
-## SwiftSearch for Typesense
-
-SwiftSearch is an open-source, direct-to-node search plugin. It queries the Typesense cluster directly from the user's browser, bypassing the WordPress database and PHP execution layers to minimize server resource consumption.
-
-* **WordPress.org Plugin:** [SwiftSearch for Typesense](https://wordpress.org/plugins/swiftsearch-for-typesense/)
-* **Official Documentation:** [SwiftSearch Documentation](https://docs.loopstates.com/swift-search-typesense/)
-
-### Key Capabilities
-- **Direct-to-Node Queries:** Sub-millisecond browser-to-node query architecture, bypassing WordPress database and PHP layers.
-- **Custom Post Type (CPT) Support:** Native indexing for Posts, Pages, Products, and custom post types or taxonomies out of the box.
-- **Advanced Typesense Features:** Native support for global Synonym Sets (v0.30+ API compatible) and a visual product pinning (merchandising) dashboard.
-- **Faceted Navigation & Metadata Mappings:** A visual drag-and-drop builder to create multi-select filters using taxonomies and metadata (ACF, price, SKU).
-- **Local Search Analytics:** Displays search trends and zero-result queries directly inside the WordPress dashboard without proxy middleware.
-- **WooCommerce Catalog Mode:** Replaces default WooCommerce shop and category pages with instant search and sidebar filters.
-- **Page Builder Friendly:** Integrates with Elementor, Divi, and Gutenberg blocks using shortcodes (`[swift_search]`) or automatic search form replacement.
-- **Developer Extensible:** Includes custom JavaScript event listeners (e.g. `swift-search:hit-rendered`) and WordPress PHP filters for query and document synchronization tuning.
-- **Background Batch Syncing:** Self-scheduling indexing engine processes catalogs in batches to prevent server script timeouts.
-- **GDPR & Privacy Ready:** Bypasses third-party proxy middleware, ensuring direct connectivity and complete data ownership.
-
-### Minimum Requirements
-- **PHP Version:** 8.0.0 or higher
-- **WordPress Version:** 6.0 or higher
-
-### Installation
-* **Automatic:** In your WordPress Admin panel, navigate to **Plugins > Add New**, search for `SwiftSearch for Typesense`, install, and activate the plugin.
-* **Manual:** Download the plugin ZIP from the [WordPress.org Plugin Directory](https://wordpress.org/plugins/swiftsearch-for-typesense/), upload it via **Plugins > Add New > Upload Plugin**, and activate it.
-
-### Setup
-Before configuring the plugin in WordPress, you need a running Typesense instance:
-* **Typesense Cloud:** Set up a cluster on [Typesense Cloud](https://cloud.typesense.org). Once active, click **Generate API Keys** on your cluster dashboard to download your credentials text file.
-* **Self-Hosted:** If you are running Typesense on your own server, generate your API keys following the instructions here: <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html`">Generate API Keys</RouterLink>.
-
-![Typesense API Keys Generate](~@images/wordpress/api-keys-overview.png)
-
-From the downloaded credentials file or your self-hosted setup, locate the following details:
-- **Admin API Key** (required for server-side indexing).
-- **Search Only API Key** (required for client-side search queries).
-- **Nodes/Hostnames** (along with port number and protocol).
-
-![Typesense Credentials File](~@images/wordpress/configuration-txt.png)
-
-### Configuration
-Once you have your credentials, navigate to **SwiftSearch** in the WordPress admin menu. The setup wizard will guide you through the configuration:
-
-1. **Connection Settings:** Input your Typesense node host, port, protocol, and API keys. Ensure you input the **Search Only API Key** for public query requests to prevent exposing your Admin key to frontend clients.
-2. **Content Settings:** Select which Post Types to index (supports Pages, Posts, Products, and Custom Post Types/CPTs). Enable the global search override to replace standard search forms.
-3. **Relevance:** Define weights for your fields (e.g., matching titles higher than excerpts) and configure Synonym Sets (compatible with Typesense v0.30+ API).
-4. **Search UI:** Enable or disable facets for taxonomies and custom meta fields. Choose between the standard search override or replace the WooCommerce shop catalog.
-5. **Styling:** Customize colors and layout options to match your theme.
-6. **Analytics:** View search logs directly inside your admin panel, including search trends and zero-result queries.
-7. **Pinning (Merchandising):** Manually assign specific items to appear at the top of results for chosen keywords.
-8. **Sync Management:** Perform the initial index. Future updates, deletions, and new posts sync automatically in the background.
-
-For advanced customization (such as PHP filter hooks or custom JS event listeners), refer to the [SwiftSearch Documentation](https://docs.loopstates.com/swift-search-typesense/).
 
 ---
 
@@ -167,5 +116,69 @@ And that's it - you are ready to go.
 #### Read More
 There are many additional options to use the plugin with shortcodes and advanced customization options. 
 Read more about them in the full documentation on [https://codemanas.github.io/cm-typesense-docs/](https://codemanas.github.io/cm-typesense-docs/).
+
+---
+
+## SwiftSearch for Typesense by Loopstates
+
+SwiftSearch is an open-source, direct-to-node search plugin. It queries the Typesense cluster directly from the user's browser, bypassing the WordPress database and PHP execution layers to minimize server resource consumption.
+
+* **WordPress.org Plugin:** [SwiftSearch for Typesense](https://wordpress.org/plugins/swiftsearch-for-typesense/)
+* **GitHub Repository:** [Loopstates/swiftsearch-for-typesense](https://github.com/Loopstates/swiftsearch-for-typesense)
+* **Official Documentation:** [SwiftSearch Documentation](https://docs.loopstates.com/swift-search-typesense/)
+
+### Key Capabilities
+- **Direct-to-Node Queries:** Sub-millisecond browser-to-node query architecture, bypassing WordPress database and PHP layers.
+- **Custom Post Type (CPT) Support:** Native indexing for Posts, Pages, Products, and custom post types or taxonomies out of the box.
+- **Advanced Typesense Features:** Native support for global Synonym Sets (v0.30+ API compatible).
+- **Visual Product Pinning (Merchandising):** A dedicated admin dashboard to pin specific products or posts to the top of search results for designated search queries.
+- **Faceted Navigation & Metadata Mappings:** A visual drag-and-drop builder to create multi-select filters using taxonomies and metadata (ACF, price, SKU).
+- **Local Search Analytics:** Displays search trends and zero-result queries directly inside the WordPress dashboard without proxy middleware.
+- **WooCommerce Catalog Mode:** Replaces default WooCommerce shop and category pages with instant search and sidebar filters.
+- **Page Builder Friendly:** Integrates with Elementor, Divi, and Gutenberg blocks using shortcodes (`[swift_search]`) or automatic search form replacement.
+- **Developer Extensible:** Includes custom JavaScript event listeners (e.g. `swift-search:hit-rendered`) and WordPress PHP filters for query and document synchronization tuning.
+- **Background Batch Syncing:** Self-scheduling indexing engine processes catalogs in batches to prevent server script timeouts.
+- **GDPR & Privacy Ready:** Bypasses third-party proxy middleware, ensuring direct connectivity and complete data ownership.
+- **Instant Autocomplete:** Displays matching products, posts, and custom types the moment visitors start typing.
+- **Result Weighting & Tuning:** Adjust search relevance and define custom ranking weights for titles, contents, and metadata fields.
+- **Automated Sync:** Real-time document indexing and synchronization triggered automatically whenever content is saved, updated, or deleted.
+- **Global UI Customization:** Visually toggle results layouts, thumbnails, prices, and excerpts directly from the admin panel.
+- **Translation & Multilingual Ready:** Compatible with multi-language sites and translation plugins.
+
+### Minimum Requirements
+- **PHP Version:** 8.0.0 or higher
+- **WordPress Version:** 6.0 or higher
+
+### Installation
+* **Automatic:** In your WordPress Admin panel, navigate to **Plugins > Add New**, search for `SwiftSearch for Typesense`, install, and activate the plugin.
+* **Manual:** Download the plugin ZIP from the [WordPress.org Plugin Directory](https://wordpress.org/plugins/swiftsearch-for-typesense/), upload it via **Plugins > Add New > Upload Plugin**, and activate it.
+
+### Setup
+Before configuring the plugin in WordPress, you need a running Typesense instance:
+* **Typesense Cloud:** Set up a cluster on [Typesense Cloud](https://cloud.typesense.org). Once active, click **Generate API Keys** on your cluster dashboard to download your credentials text file.
+* **Self-Hosted:** If you are running Typesense on your own server, generate your API keys following the instructions here: <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html`">Generate API Keys</RouterLink>.
+
+![Typesense API Keys Generate](~@images/wordpress/api-keys-overview.png)
+
+From the downloaded credentials file or your self-hosted setup, locate the following details:
+- **Admin API Key** (required for server-side indexing).
+- **Search Only API Key** (required for client-side search queries).
+- **Nodes/Hostnames** (along with port number and protocol).
+
+![Typesense Credentials File](~@images/wordpress/configuration-txt.png)
+
+### Configuration
+Once you have your credentials, navigate to **SwiftSearch** in the WordPress admin menu. The setup wizard will guide you through the configuration:
+
+1. **Connection Settings:** Input your Typesense node host, port, protocol, and API keys. Ensure you input the **Search Only API Key** for public query requests to prevent exposing your Admin key to frontend clients.
+2. **Content Settings:** Select which Post Types to index (supports Pages, Posts, Products, and Custom Post Types/CPTs). Enable the global search override to replace standard search forms.
+3. **Relevance:** Define weights for your fields (e.g., matching titles higher than excerpts) and configure Synonym Sets (compatible with Typesense v0.30+ API).
+4. **Search UI:** Enable or disable facets for taxonomies and custom meta fields. Choose between the standard search override or replace the WooCommerce shop catalog.
+5. **Styling:** Customize colors and layout options to match your theme.
+6. **Analytics:** View search logs directly inside your admin panel, including search trends and zero-result queries.
+7. **Pinning (Merchandising):** Manually assign specific items to appear at the top of results for chosen keywords.
+8. **Sync Management:** Perform the initial index. Future updates, deletions, and new posts sync automatically in the background.
+
+For advanced customization (such as PHP filter hooks or custom JS event listeners), refer to the [SwiftSearch Documentation](https://docs.loopstates.com/swift-search-typesense/).
 
 ---

@@ -1,3 +1,7 @@
+---
+description: "Safely back up and restore a self-hosted Typesense node by taking a snapshot via the cluster-operations API and archiving the snapshot directory."
+---
+
 # Backing Up and Restoring Typesense Data
 
 When you send documents to Typesense, it stores your data in the directory indicated by the `data-dir` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameter</RouterLink> and then builds the in-memory data structures that power search.

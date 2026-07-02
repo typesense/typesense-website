@@ -1,4 +1,5 @@
 ---
+description: "Run end-to-end tests against a real Typesense instance from inside a GitHub Actions workflow, either via a community action or a manual service step."
 sidebarDepth: 2
 ---
 

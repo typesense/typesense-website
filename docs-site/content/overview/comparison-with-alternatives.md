@@ -1,3 +1,7 @@
+---
+description: "How Typesense compares to Elasticsearch, Algolia, and Meilisearch on operability, cost, and developer experience, with a side-by-side feature matrix."
+---
+
 # Comparison with Alternatives
 
 ## Side-by-side feature comparison

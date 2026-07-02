@@ -1,3 +1,7 @@
+---
+description: "Index a documentation site with typesense-docsearch-scraper and drop in typesense-docsearch.js to add a fast search bar (same setup powering Typesense docs)."
+---
+
 # Search for Documentation Sites
 
 The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch), which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.
@@ -717,6 +721,13 @@ If you're using [VitePress](https://vitepress.dev/), you can integrate search ea
 This plugin includes built-in indexing that automatically syncs your documentation to Typesense every time you build your site, so you don't need to set up a separate scraper.
 
 For setup and configuration details, see the [VitePress Plugin Typesense documentation](https://vitepress-plugin.typesense.org/).
+
+### Options H & I: Rspress and Nextra
+
+Both [Rspress](https://rspress.rs/) and [Nextra](https://nextra.site/) have official plugins with built-in indexing at build time, so no separate scraper is needed.
+
+- [rspress-plugin-typesense](https://github.com/typesense/rspress-plugin-typesense) for Rspress
+- [typesense-nextra-adapter](https://github.com/typesense/typesense-nextra-adapter) for Nextra
 
 ## Semantic Search <Badge type="tip" text="New" vertical="middle" />
 

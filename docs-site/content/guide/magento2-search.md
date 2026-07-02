@@ -1,3 +1,7 @@
+---
+description: "Replace Magento 2 default database-backed search with Typesense using the community-built Magento Extension to deliver instant, scaleable product search."
+---
+
 # Search for Magento2 Sites
 
 The default search in Magento is based on the basic search features in your primary database, which while it might give you decent mileage, might not be as fast as your dataset grows.
