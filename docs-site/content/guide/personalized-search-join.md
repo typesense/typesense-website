@@ -114,6 +114,10 @@ Finally, create a collection for regional inventory tracking:
 
 The `reference` field in the `user_prices` and `inventory` collections enables JOINs with the `products` collection.
 
+:::tip
+Notice that we've also set <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/joins.html#asynchronous-references`"><code>async_reference: true</code></RouterLink> on these fields. This allows documents in `user_prices` and `inventory` to be indexed successfully even if the referenced `products` document doesn't exist yet. Typesense will automatically resolve the relationship when the referenced document is indexed later.
+:::
+
 ## Step 2: Index Sample Data
 
 Download the sample dataset:
