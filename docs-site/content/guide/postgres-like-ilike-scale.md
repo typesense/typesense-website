@@ -22,7 +22,7 @@ SELECT * FROM products WHERE description ILIKE '%laptop%';
 When you have 10,000 rows, a sequential scan might take a few milliseconds. But when you hit 10 million rows, that same query could take seconds. If you have concurrent users running searches, those slow queries will quickly exhaust your database connections and CPU, bringing your application to a halt.
 
 :::tip
-While you can use `pg_trgm` to create GIN indexes that support leading wildcards, they come with their own trade-offs: massive index sizes, slower write speeds, and they still don't solve the other problems listed below.
+While you can use `pg_trgm` to create GIN indexes that support leading wildcards, they come with their own trade-offs such as massive index sizes and slower write speeds. They still fail to address the core user-experience limitations of database pattern matching such as relevance ranking, typo tolerance, and accent sensitivity.
 :::
 
 ### The Experiment: Searching 5 Million Rows
