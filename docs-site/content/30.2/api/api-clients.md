@@ -186,6 +186,7 @@ We also have the following framework integrations:
 - MCP Servers
   - [Avarant](https://github.com/avarant/typesense-mcp-server)
   - [Suhail](https://github.com/suhail-ak-s/mcp-typesense-server)
+  - [TypesenseKit](https://github.com/akshitkrnagpal/typesensekit)
 
 ## Ecommerce
 
@@ -216,6 +217,7 @@ We also have the following framework integrations:
 - [Sitemap Generator from Typesense Data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)
 - [Terminal UI for administering Typesense](https://github.com/ekrist1/typesensecli)
+- [TypesenseKit CLI and MCP server](https://github.com/akshitkrnagpal/typesensekit)
 - [Prometheus Exporter](https://github.com/imatefx/typesense-prometheus-exporter)
 
 :::tip
