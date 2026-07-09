@@ -28,7 +28,7 @@ All PostgreSQL execution plans and performance metrics in this guide are based o
 
 ## Architecture overview
 
-When offloading search workloads, PostgreSQL remains your primary database and source of truth. You do not duplicate your entire database into Typesense. Instead, you only index the specific fields required for search and filtering.
+When offloading search workloads, PostgreSQL remains your primary database and source of truth. In many deployments, only the fields required for search and filtering are indexed into Typesense.
 
 ### Query flow
 Search requests are sent directly to Typesense to ensure low latency. Typesense returns the matching document IDs (and any fields needed for rendering the UI), and the application can fetch the full relational data from PostgreSQL if necessary.
@@ -83,7 +83,7 @@ Execution Time: 1547.978 ms
 
 ### Equivalent implementation in Typesense
 
-Typesense handles basic substring search natively through the `q` parameter. All search queries complete in under 5 milliseconds.
+Typesense handles basic substring search natively through the `q` parameter. Search requests are served directly from the search index without requiring SQL pattern matching.
 
 ```json
 {
@@ -119,7 +119,7 @@ After adding a GIN index, PostgreSQL uses a Bitmap Index Scan instead of a Seque
 
 ### Equivalent implementation in Typesense
 
-Typo tolerance is enabled by default in Typesense. The engine automatically adjusts the number of allowed typos based on the length of the search word, leveraging its in-memory Adaptive Radix Tree (ART) to efficiently traverse and identify fuzzy matches without requiring a separate trigram index.
+Typo tolerance is enabled by default in Typesense. The engine uses an Adaptive Radix Tree (ART) to efficiently perform prefix and fuzzy lookups
 
 ```json
 {
@@ -187,6 +187,19 @@ Field weighting (`query_by_weights`) allows you to boost matches in a title over
 Implementing search-as-you-type (autocomplete) in PostgreSQL requires generating prefix queries and often managing multiple index types to handle both prefix matching and typo tolerance simultaneously. 
 
 Developers typically use `tsquery` with prefix matching (e.g., `gaming:*`) or `LIKE 'gaming%'` combined with trigrams, requiring careful query construction to balance latency and accuracy.
+
+```sql
+SELECT *
+FROM products
+WHERE name ILIKE 'gam%';
+```
+
+```sql
+SELECT *
+FROM products
+WHERE to_tsvector('english', name)
+      @@ to_tsquery('english', 'gam:*');
+```
 
 ### Equivalent implementation in Typesense
 
@@ -270,10 +283,12 @@ Synonyms and curations (merchandising) can be defined dynamically via the API or
 
 The decision to scale search beyond PostgreSQL is rarely about raw query latency, but rather about the architectural overhead of query concurrency, write frequency, and search complexity.
 
-| Use PostgreSQL when... | Use Typesense when... |
+| PostgreSQL is often sufficient when... | Consider Typesense when... |
 | :--- | :--- |
-| Search is secondary | Search is a core feature |
-| Small feature set | Autocomplete |
-| Simple ranking | Typo tolerance |
-| Few search requests | High query throughput |
-| One database is preferred | Dedicated search infrastructure |
+| Search is a secondary feature of the application | Search is a primary part of the user experience |
+| Basic substring search or Full Text Search meets your requirements | You need autocomplete and search-as-you-type |
+| PostgreSQL's built-in ranking is sufficient | You need typo tolerance, synonyms, and relevance tuning |
+| You prefer to keep search within your primary database | You want to offload search workloads to a dedicated search engine |
+| Search traffic is relatively modest | You expect high search concurrency or search-intensive workloads |
+
+The two systems are often used together rather than as replacements for one another. PostgreSQL continues to manage transactional data, while Typesense indexes the fields required for search, providing a dedicated engine optimized for low-latency, feature-rich search experiences.
