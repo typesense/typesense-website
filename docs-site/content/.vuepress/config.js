@@ -311,7 +311,7 @@ let config = {
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/testcontainers', 'Running Tests with Testcontainers'],
             ['/guide/personalized-search-join', 'Personalized Search with JOINs'],
-            ['/guide/postgres-like-ilike-scale', 'Postgres LIKE/ILIKE at Scale']
+            ['/guide/postgres-typesense-migration-fts', 'Migrating from Postgres for Full-Text Search']
           ],
         },
 
