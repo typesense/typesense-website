@@ -210,12 +210,6 @@ For example, to filter for products that are either made in the USA or Canada, a
 ```
 
 This will return products that are either made in the USA or Canada, and are located in New York.
-When using logical operators, you can use parentheses to group your filters.
-For example, to filter for products that are either made in the USA or Canada, and are located in New York, you can use the following filter:
-
-```shell
-(country:=USA || country:=Canada) && city:=New York
-```
 
 ### Operator Precedence
 
