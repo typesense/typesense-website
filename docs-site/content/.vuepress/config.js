@@ -337,6 +337,7 @@ let config = {
             ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
             ['/guide/swift-search-bar', 'Search Bar in Swift'],
             ['/guide/gin-search-api', 'Search API in Gin'],
+            ['/guide/django-search-api', 'Search API in Django'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
             ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
