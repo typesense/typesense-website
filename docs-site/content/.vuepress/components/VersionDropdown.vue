@@ -124,6 +124,7 @@ export default {
 
 <style lang="stylus" scoped>
 .version-switcher
+  display inline-block
   @media (min-width: $MQMobile)
     display: inline-block;
 
@@ -132,20 +133,24 @@ export default {
 
     select
       display: inline-block;
-      box-sizing: border-box;
-      padding: 0 1.6rem 0 1rem;
-      border: 1px solid $white;
-      background-color $lightGrayColor;
+      padding: 0.2rem 1.6rem 0.2rem 0.6rem;
+      align-text center
+      border: 1px solid #e1e1e1;
+      border-radius 3px
+      background-color #f8f8f8;
+      color #2c3e50
+      font-size 0.8rem
+      font-weight 500
       font: inherit;
       line-height: inherit;
       -webkit-appearance: none;
       -moz-appearance: none;
       -ms-appearance: none;
       appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
       background-repeat: no-repeat;
-      background-image: linear-gradient(45deg, transparent 50%, $accentColor 50%), linear-gradient(135deg, $accentColor 50%, transparent 50%);
-      background-position: right 15px top 1.2em, right 10px top 1.2em;
-      background-size: 5px 5px, 5px 5px;
+      background-position: right 0.8rem center;
+      background-size: 12px 8px;
 
   &.show-on-mobile-only
     display none
@@ -164,9 +169,8 @@ export default {
     padding 0.5em
     line-height 1.6
 
-    @media (max-width: $MQMobile)
-      margin-top 1em
-      margin-right 2em
+    margin-top 1em
+    margin-right 2em
 
     a:hover
       text-decoration underline
