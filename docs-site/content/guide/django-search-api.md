@@ -147,6 +147,11 @@ typesense-django-full-text-search/
 │   │   ├── collections.py   # Typesense collection management
 │   │   ├── sync.py          # DB → Typesense sync logic and state
 │   │   └── worker.py        # Background periodic sync thread
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_models.py   # Model and soft-delete tests
+│   │   ├── test_views.py    # API endpoint tests
+│   │   └── test_sync.py     # Sync logic tests
 │   ├── apps.py              # Starts the background sync on load
 │   ├── models.py            # Django models with soft-delete support
 │   ├── urls.py              # App URLs
@@ -155,7 +160,8 @@ typesense-django-full-text-search/
 │   ├── settings.py          # Django configuration
 │   └── urls.py              # Root URLs
 ├── .env
-└── manage.py
+├── manage.py
+└── requirements.txt         # Python dependencies
 ```
 
 ## Step 4: Set up environment configuration
@@ -184,6 +190,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-change-me-in-production')
 
 # Add 'books' to INSTALLED_APPS
 INSTALLED_APPS = [
@@ -289,7 +297,10 @@ Key design choices:
 Add this to `books/search/collections.py`:
 
 ```python
+import logging
 from .client import typesense_client
+
+logger = logging.getLogger(__name__)
 
 BOOKS_COLLECTION_NAME = 'books'
 
@@ -312,13 +323,13 @@ def initialize_typesense():
         collection_exists = any(c['name'] == BOOKS_COLLECTION_NAME for c in collections)
 
         if not collection_exists:
-            print(f"Creating collection {BOOKS_COLLECTION_NAME}...")
+            logger.info('Creating collection %s...', BOOKS_COLLECTION_NAME)
             typesense_client.collections.create(books_collection_schema)
-            print(f"Collection {BOOKS_COLLECTION_NAME} created successfully.")
+            logger.info('Collection %s created successfully.', BOOKS_COLLECTION_NAME)
         else:
-            print(f"Collection {BOOKS_COLLECTION_NAME} already exists.")
+            logger.info('Collection %s already exists.', BOOKS_COLLECTION_NAME)
     except Exception as e:
-        print(f"Error initializing Typesense collection: {e}")
+        logger.error('Error initializing Typesense collection: %s', e)
 ```
 
 Fields marked `facet: True` can be used for filtering and aggregation in search results.
@@ -332,15 +343,29 @@ This file implements two sync patterns:
 **Incremental sync** (`run_incremental_sync`) only queries records where `updated_at > last_sync_time` so it only indexes recent changes. 
 
 ```python
+import logging
 import datetime
+import threading
 from django.utils import timezone
 from .client import typesense_client
 from .collections import BOOKS_COLLECTION_NAME
 
-# Global state to keep track of last sync time
-last_sync_time = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+logger = logging.getLogger(__name__)
+
+# Thread-safe sync state
+_sync_lock = threading.Lock()
+_last_sync_time = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
 
 BATCH_SIZE = 1000
+
+def get_last_sync_time():
+    with _sync_lock:
+        return _last_sync_time
+
+def _set_last_sync_time(value):
+    global _last_sync_time
+    with _sync_lock:
+        _last_sync_time = value
 
 def _map_book_to_document(book):
     return {
@@ -354,24 +379,20 @@ def _map_book_to_document(book):
     }
 
 def run_full_sync():
-    global last_sync_time
-    print('Running full sync...')
+    logger.info('Running full sync...')
     from books.models import Book
-    
+
     last_id = 0
-    has_more = True
     total_processed = 0
 
-    while has_more:
+    while True:
         try:
-            # Only fetch active records (ActiveBookManager)
             books = list(Book.objects.filter(id__gt=last_id).order_by('id')[:BATCH_SIZE])
         except Exception as err:
-            print(f'Database error during full sync fetching: {err}')
+            logger.error('Database error during full sync fetching: %s', err)
             break
 
         if not books:
-            has_more = False
             break
 
         last_id = books[-1].id
@@ -380,71 +401,76 @@ def run_full_sync():
         try:
             typesense_client.collections[BOOKS_COLLECTION_NAME].documents.import_(documents, {'action': 'upsert'})
             total_processed += len(documents)
-            print(f'Full sync: Processed {total_processed} books.')
+            logger.info('Full sync: Processed %d books.', total_processed)
         except Exception as err:
-            print(f'Error importing documents during full sync: {err}')
+            logger.error('Error importing documents during full sync: %s', err)
             break
 
-    last_sync_time = timezone.now()
-    print('Full sync completed.')
+    _set_last_sync_time(timezone.now())
+    logger.info('Full sync completed.')
 
 def run_incremental_sync():
-    global last_sync_time
-    
-    # Capture the start time before we begin fetching records to prevent missing
-    # any concurrent writes that happen while the sync is running.
     sync_started_at = timezone.now()
-    
-    print(f'Running incremental sync since {last_sync_time.isoformat()}...')
-    from books.models import Book
-    
-    # 1. Find newly created or updated books (only active ones)
-    updated_books = Book.objects.filter(updated_at__gt=last_sync_time)
+    current_last_sync = get_last_sync_time()
 
-    if updated_books.exists():
-        documents = [_map_book_to_document(b) for b in updated_books]
+    logger.info('Running incremental sync since %s...', current_last_sync.isoformat())
+    from books.models import Book
+
+    # 1. Upsert newly created or updated books — paginated
+    last_id = 0
+    total_upserted = 0
+
+    while True:
+        batch = list(
+            Book.objects.filter(updated_at__gt=current_last_sync, id__gt=last_id)
+            .order_by('id')[:BATCH_SIZE]
+        )
+        if not batch:
+            break
+
+        last_id = batch[-1].id
+        documents = [_map_book_to_document(b) for b in batch]
+
         try:
             typesense_client.collections[BOOKS_COLLECTION_NAME].documents.import_(documents, {'action': 'upsert'})
-            print(f'Incremental sync: Upserted {len(documents)} books.')
+            total_upserted += len(documents)
         except Exception as err:
-            print(f'Error upserting documents in incremental sync: {err}')
+            logger.error('Error upserting documents in incremental sync: %s', err)
 
-    # 2. Find soft-deleted books
-    deleted_books = Book.all_objects.filter(deleted_at__gt=last_sync_time)
+    if total_upserted:
+        logger.info('Incremental sync: Upserted %d books.', total_upserted)
+
+    # 2. Delete soft-deleted books
+    deleted_books = Book.all_objects.filter(deleted_at__gt=current_last_sync)
 
     if deleted_books.exists():
         for book in deleted_books:
             try:
                 typesense_client.collections[BOOKS_COLLECTION_NAME].documents[str(book.id)].delete()
-                print(f'Incremental sync: Deleted book {book.id} from Typesense.')
+                logger.info('Incremental sync: Deleted book %d from Typesense.', book.id)
             except Exception as err:
                 if not (hasattr(err, 'status_code') and err.status_code == 404):
-                    print(f'Error deleting book {book.id} from Typesense: {err}')
+                    logger.error('Error deleting book %d from Typesense: %s', book.id, err)
 
-    last_sync_time = sync_started_at
-    print('Incremental sync completed.')
+    _set_last_sync_time(sync_started_at)
+    logger.info('Incremental sync completed.')
 
 def determine_and_run_startup_sync():
-    global last_sync_time
     from books.models import Book
-    
+
     try:
         search_stats = typesense_client.collections[BOOKS_COLLECTION_NAME].retrieve()
         doc_count = search_stats.get('num_documents', 0)
 
         if doc_count == 0:
-            # Empty Typesense collection, full sync
             run_full_sync()
         else:
-            # Typesense has data, get latest updated_at from DB
-            latest_book = Book.all_objects.order_by('-updated_at').first()
-
-            if latest_book and latest_book.updated_at:
-                last_sync_time = latest_book.updated_at
-            
+            # Set last_sync_time to epoch so incremental sync picks up
+            # any records that may have been missed while Typesense was down.
+            _set_last_sync_time(datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc))
             run_incremental_sync()
     except Exception as error:
-        print(f'Error during startup sync: {error}')
+        logger.error('Error during startup sync: %s', error)
 ```
 
 ## Step 9: Add the background sync worker
@@ -452,32 +478,35 @@ def determine_and_run_startup_sync():
 Add this to `books/search/worker.py`. This uses `apscheduler` to run a thread alongside your Django app:
 
 ```python
+import logging
+import threading
 from apscheduler.schedulers.background import BackgroundScheduler
 from .sync import run_incremental_sync
 
-_is_sync_running = False
+logger = logging.getLogger(__name__)
+
+_sync_job_lock = threading.Lock()
 _scheduler = None
 
 def _sync_job():
-    global _is_sync_running
-    if _is_sync_running:
-        print('Sync already running, skipping this iteration.')
+    acquired = _sync_job_lock.acquire(blocking=False)
+    if not acquired:
+        logger.info('Sync already running, skipping this iteration.')
         return
-        
-    _is_sync_running = True
+
     try:
         run_incremental_sync()
     except Exception as error:
-        print(f'Error in background sync worker: {error}')
+        logger.error('Error in background sync worker: %s', error)
     finally:
-        _is_sync_running = False
+        _sync_job_lock.release()
 
 def start_background_sync_worker():
     global _scheduler
     if _scheduler is not None:
         return
-        
-    print('Starting background periodic sync worker (every 60s)...')
+
+    logger.info('Starting background periodic sync worker (every 60s)...')
     _scheduler = BackgroundScheduler()
     _scheduler.add_job(_sync_job, 'interval', seconds=60)
     _scheduler.start()
@@ -485,7 +514,7 @@ def start_background_sync_worker():
 def get_sync_status():
     return {
         'syncWorkerRunning': _scheduler is not None and _scheduler.running,
-        'syncJobActive': _is_sync_running
+        'syncJobActive': _sync_job_lock.locked()
     }
 ```
 
@@ -494,7 +523,7 @@ To wire this up cleanly when Django boots, define the `books/search/__init__.py`
 ```python
 from .client import typesense_client
 from .collections import BOOKS_COLLECTION_NAME, initialize_typesense
-from .sync import run_full_sync, run_incremental_sync, determine_and_run_startup_sync
+from .sync import run_full_sync, run_incremental_sync, determine_and_run_startup_sync, get_last_sync_time
 from .worker import start_background_sync_worker, get_sync_status
 ```
 
@@ -502,7 +531,10 @@ Then tie it all together in `books/apps.py`. This runs the initial sync in a thr
 
 ```python
 import sys
+import logging
 from django.apps import AppConfig
+
+logger = logging.getLogger(__name__)
 
 class BooksConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -512,7 +544,7 @@ class BooksConfig(AppConfig):
         # Avoid running during management commands (like migrate, makemigrations)
         if 'manage.py' in sys.argv and 'runserver' not in sys.argv:
             return
-        
+
         from .search import (
             initialize_typesense,
             determine_and_run_startup_sync,
@@ -522,22 +554,19 @@ class BooksConfig(AppConfig):
 
         def _startup_sequence():
             try:
-                print('Initializing Typesense...')
+                logger.info('Initializing Typesense...')
                 initialize_typesense()
-                print('Running startup sync...')
-                # We wrap the startup sync in a try/except specifically so that if you run 
-                # `manage.py runserver` before `manage.py migrate` on a fresh database, 
-                # the missing table error won't prevent the background worker from starting.
+
+                logger.info('Running startup sync...')
                 try:
                     determine_and_run_startup_sync()
                 except Exception as sync_err:
-                    print(f"Startup sync skipped (database might not be migrated yet): {sync_err}")
-                
+                    logger.warning('Startup sync skipped (database might not be migrated yet): %s', sync_err)
+
                 start_background_sync_worker()
             except Exception as e:
-                print(f"Failed to start background sync worker: {e}")
+                logger.error('Failed to start background sync worker: %s', e)
 
-        # Ensure it runs only once per worker
         import os
         if os.environ.get('RUN_MAIN') == 'true' or not sys.argv[0].endswith('manage.py'):
             thread = threading.Thread(target=_startup_sequence, daemon=True)
@@ -550,58 +579,72 @@ Add the HTTP handlers to `books/views.py`. These views manage CRUD operations on
 
 ```python
 import json
-from django.http import JsonResponse
+import logging
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Book
 from .search import typesense_client, BOOKS_COLLECTION_NAME, run_full_sync, get_sync_status
+from .search.sync import _map_book_to_document, get_last_sync_time
+
+logger = logging.getLogger(__name__)
+
+MUTABLE_FIELDS = {'title', 'authors', 'publication_year', 'average_rating', 'image_url', 'ratings_count'}
+
+def _book_to_response(book):
+    return {
+        'id': book.id,
+        'title': book.title,
+        'authors': book.authors,
+        'publication_year': book.publication_year,
+        'average_rating': book.average_rating,
+        'image_url': book.image_url,
+        'ratings_count': book.ratings_count,
+    }
 
 def sync_book_to_typesense(book):
     try:
-        document = {
-            'id': str(book.id),
-            'title': book.title,
-            'authors': book.authors if isinstance(book.authors, list) else [book.authors],
-            'publication_year': book.publication_year or 0,
-            'average_rating': float(book.average_rating) if book.average_rating else 0.0,
-            'image_url': book.image_url or '',
-            'ratings_count': book.ratings_count or 0,
-        }
+        document = _map_book_to_document(book)
         typesense_client.collections[BOOKS_COLLECTION_NAME].documents.upsert(document)
     except Exception as err:
-        pass
+        logger.error('Failed to sync book %d to Typesense: %s', book.id, err)
 
 def delete_book_from_typesense(book_id):
     try:
         typesense_client.collections[BOOKS_COLLECTION_NAME].documents[str(book_id)].delete()
     except Exception as err:
-        pass
+        logger.error('Failed to delete book %d from Typesense: %s', book_id, err)
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def books_list_create(request):
     if request.method == 'GET':
-        page = int(request.GET.get('page', 1))
-        limit = int(request.GET.get('limit', 10))
+        try:
+            page = max(int(request.GET.get('page', 1)), 1)
+            limit = min(max(int(request.GET.get('limit', 10)), 1), 100)
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'page and limit must be integers'}, status=400)
+
         offset = (page - 1) * limit
-        
+
         queryset = Book.objects.all().order_by('id')
         total = queryset.count()
         books = list(queryset[offset:offset+limit].values())
-        
+
         return JsonResponse({
             'total': total,
             'page': page,
             'limit': limit,
             'data': books
         })
-        
+
     elif request.method == 'POST':
         try:
             data = json.loads(request.body)
-            book = Book.objects.create(**data)
+            filtered = {k: v for k, v in data.items() if k in MUTABLE_FIELDS}
+            book = Book.objects.create(**filtered)
             sync_book_to_typesense(book)
-            return JsonResponse({'id': book.id, 'title': book.title}, status=201)
+            return JsonResponse(_book_to_response(book), status=201)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
@@ -612,32 +655,31 @@ def books_detail(request, pk):
         book = Book.objects.get(pk=pk)
     except Book.DoesNotExist:
         return JsonResponse({'error': 'Book not found'}, status=404)
-        
+
     if request.method == 'GET':
-        return JsonResponse({'id': book.id, 'title': book.title})
-        
+        return JsonResponse(_book_to_response(book))
+
     elif request.method == 'PUT':
         try:
             data = json.loads(request.body)
             for key, value in data.items():
-                if hasattr(book, key):
+                if key in MUTABLE_FIELDS:
                     setattr(book, key, value)
             book.save()
             sync_book_to_typesense(book)
-            return JsonResponse({'id': book.id, 'title': book.title})
+            return JsonResponse(_book_to_response(book))
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
-            
+
     elif request.method == 'DELETE':
         try:
             book_id = book.id
-            book.delete() 
+            book.delete()
             delete_book_from_typesense(book_id)
-            return JsonResponse({}, status=204)
+            return HttpResponse(status=204)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-@csrf_exempt
 @require_http_methods(["GET"])
 def search(request):
     query = request.GET.get('q', '')
@@ -660,20 +702,18 @@ def search(request):
 def manual_sync(request):
     try:
         run_full_sync()
-        import books.search.sync as sync_module
         return JsonResponse({
             'message': 'Sync completed',
-            'syncedAt': sync_module.last_sync_time.isoformat()
+            'syncedAt': get_last_sync_time().isoformat()
         })
     except Exception as error:
         return JsonResponse({'error': str(error)}, status=500)
 
 @require_http_methods(["GET"])
 def sync_status(request):
-    import books.search.sync as sync_module
     status = get_sync_status()
     return JsonResponse({
-        'lastSyncTime': sync_module.last_sync_time.isoformat(),
+        'lastSyncTime': get_last_sync_time().isoformat(),
         'syncWorkerRunning': status['syncWorkerRunning'],
         'syncJobActive': status['syncJobActive']
     })
@@ -686,11 +726,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('books', views.books_list_create),
-    path('books/<int:pk>', views.books_detail),
-    path('search', views.search),
-    path('sync', views.manual_sync),
-    path('sync/status', views.sync_status),
+    path('books/', views.books_list_create),
+    path('books/<int:pk>/', views.books_detail),
+    path('search/', views.search),
+    path('sync/', views.manual_sync),
+    path('sync/status/', views.sync_status),
 ]
 ```
 
@@ -730,14 +770,14 @@ Starting background periodic sync worker (every 60s)...
 **Search** - Typesense handles typos automatically:
 
 ```bash
-curl "http://localhost:8000/search?q=harry+potter"
-curl "http://localhost:8000/search?q=tolkein"   # typo - still finds Tolkien
+curl "http://localhost:8000/search/?q=harry+potter"
+curl "http://localhost:8000/search/?q=tolkein"   # typo - still finds Tolkien
 ```
 
 **Create a book** - syncs to Typesense in the background:
 
 ```bash
-curl -X POST http://localhost:8000/books \
+curl -X POST http://localhost:8000/books/ \
   -H "Content-Type: application/json" \
   -d '{
     "title": "The Django Book",
@@ -752,7 +792,7 @@ curl -X POST http://localhost:8000/books \
 **Trigger a manual sync** (useful after bulk database changes):
 
 ```bash
-curl -X POST http://localhost:8000/sync
+curl -X POST http://localhost:8000/sync/
 ```
 
 Response:
@@ -767,7 +807,7 @@ Response:
 **Check sync worker status:**
 
 ```bash
-curl http://localhost:8000/sync/status
+curl http://localhost:8000/sync/status/
 ```
 
 Response:
