@@ -468,7 +468,7 @@ def determine_and_run_startup_sync():
         logger.error('Error during startup sync: %s', error)
 ```
 
-Key design choices:
+Sync design highlights:
 
 - **`threading.Lock`** ensures thread-safe reads and updates to `_last_sync_time` when accessed concurrently by background worker threads and API request handlers.
 - **Keyset pagination (`BATCH_SIZE = 1000`)** fetches database records in fixed chunks using `id__gt=last_id` for both full and incremental syncs, keeping memory consumption low regardless of database size.
@@ -720,6 +720,13 @@ def sync_status(request):
     })
 ```
 
+API Implementation Highlights:
+
+- **`@csrf_exempt`** is applied to mutating endpoints (`POST`, `PUT`, `DELETE`) because this is a stateless REST API designed for decoupled clients (mobile apps, SPAs, external services) that use token/key authentication rather than Django session cookies.
+- **`MUTABLE_FIELDS` allowlist** prevents mass-assignment vulnerabilities by filtering client payloads to allowed attributes only, ignoring internal or system fields like `id`, `created_at`, or `deleted_at`.
+- **Real-time sync helpers (`sync_book_to_typesense`, `delete_book_from_typesense`)** immediately mirror database writes to Typesense during CRUD operations, providing sub-millisecond search freshness without waiting for the 60-second periodic worker.
+- **`HttpResponse(status=204)`** returns an empty response body on `DELETE` requests in accordance with HTTP spec (RFC 9110).
+
 Map these views in `books/urls.py`:
 
 ```python
@@ -873,7 +880,7 @@ ALLOWED_HOSTS = ['yourdomain.com']
 
 ### Background Task Queue (Celery / Huey)
 
-The in-process `apscheduler` shown in this guide is great for a single-server deployment. However, if you deploy Django in a multi-process WSGI environment (like `gunicorn -w 4`), every worker process will spawn its own background thread! To prevent race conditions and redundant syncs in large-scale production environments, replace `apscheduler` with a dedicated task queue like **Celery**, **Django-Q**, or **Huey** to ensure the periodic sync job runs exactly once on a dedicated worker machine.
+The in-process `apscheduler` shown in this guide is great for a single-server deployment. However, if you deploy Django in a multi-process WSGI environment (like `gunicorn -w 4`), every worker process will spawn its own background thread! To prevent race conditions and redundant syncs in large-scale production environments, replace `apscheduler` with a dedicated task queue like [**Celery**](https://docs.celeryq.dev/en/stable/), [**Django-Q**](https://django-q.readthedocs.io/en/latest/), or [**Huey**](https://huey.readthedocs.io/en/latest/) to ensure the periodic sync job runs exactly once on a dedicated worker machine.
 
 ## Source Code
 
