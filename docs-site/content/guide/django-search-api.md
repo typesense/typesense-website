@@ -147,11 +147,6 @@ typesense-django-full-text-search/
 │   │   ├── collections.py   # Typesense collection management
 │   │   ├── sync.py          # DB → Typesense sync logic and state
 │   │   └── worker.py        # Background periodic sync thread
-│   ├── tests/
-│   │   ├── __init__.py
-│   │   ├── test_models.py   # Model and soft-delete tests
-│   │   ├── test_views.py    # API endpoint tests
-│   │   └── test_sync.py     # Sync logic tests
 │   ├── apps.py              # Starts the background sync on load
 │   ├── models.py            # Django models with soft-delete support
 │   ├── urls.py              # App URLs
@@ -472,6 +467,12 @@ def determine_and_run_startup_sync():
     except Exception as error:
         logger.error('Error during startup sync: %s', error)
 ```
+
+Key design choices:
+
+- **`threading.Lock`** ensures thread-safe reads and updates to `_last_sync_time` when accessed concurrently by background worker threads and API request handlers.
+- **Keyset pagination (`BATCH_SIZE = 1000`)** fetches database records in fixed chunks using `id__gt=last_id` for both full and incremental syncs, keeping memory consumption low regardless of database size.
+- **Startup sync recovery** sets `_last_sync_time` to epoch on boot when Typesense already contains data, ensuring any database updates missed while Typesense was offline are automatically backfilled.
 
 ## Step 9: Add the background sync worker
 
