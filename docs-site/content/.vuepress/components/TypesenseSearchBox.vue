@@ -73,15 +73,17 @@ export default {
               this.$router.push(`${routepath}${_hash}`)
             },
             queryHook: query => {
-              if (!window.gtag) {
+              if (typeof window === 'undefined') {
                 return
               }
               if (debounceTimerId) {
                 clearTimeout(debounceTimerId)
               }
               debounceTimerId = setTimeout(() => {
-                window.gtag('event', 'search', {
-                  search_term: query,
+                window.dataLayer = window.dataLayer || []
+                window.dataLayer.push({
+                  event: 'docs_search',
+                  search_term: query.slice(0, 100),
                 })
               }, 500)
             },

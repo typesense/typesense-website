@@ -38,7 +38,6 @@
     "markdown-it": "^8.4.2",
     "markdown-it-attrs": "^4.1.4",
     "prismjs": "^1.29.0",
-    "vue-gtag": "^1.16.1",
     "vue-prism-component": "^2.0.0",
     "vuepress": "1.9.7",
     "vuepress-plugin-latex": "^0.1.3",

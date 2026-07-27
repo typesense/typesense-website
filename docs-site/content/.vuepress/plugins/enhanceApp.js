@@ -1,5 +1,3 @@
-/* global gtag */
-
 /**
  * Client app enhancement file.
  *
@@ -7,7 +5,6 @@
  */
 
 import Vuex from 'vuex'
-import VueGtag from 'vue-gtag'
 
 import { typesenseLatestVersion } from './../../../../typesenseVersions'
 import isSemVer from '../utils/isSemVer'
@@ -67,7 +64,6 @@ export default ({
   Vue, // the version of Vue being used in the VuePress app
   options, // the options for the root Vue instance
   router, // the router instance for the app
-  siteData, // site metadata
   isServer, // is this enhancement applied in server-rendering or client
 }) => {
   Vue.use(Vuex)
@@ -91,19 +87,6 @@ export default ({
       }
     })
   }
-
-  Vue.use(VueGtag, {
-    config: {
-      id: 'UA-116415641-1',
-      params: {
-        anonymize_ip: true, // anonymize IP
-        send_page_view: false, // might be necessary to avoid duplicated page track on page reload
-        linker: {
-          domains: ['typesense.org', 'cloud.typesense.org'],
-        },
-      },
-    },
-  })
 
   router.beforeEach((to, from, next) => {
     const splitPath = to.fullPath.split('/')
@@ -139,22 +122,10 @@ export default ({
     next()
   })
 
-  // Analytics
-  let gtagPageViewDebounceTimerId
-  router.afterEach(to => {
+  router.afterEach(() => {
     if (!isServer) {
       store.commit('HYDRATE_COPY_LANGUAGES')
       syncPreferredCopyLanguagesToUrl(store.state.copyLanguages)
-
-      const pagePath = siteData.base + to.fullPath.substring(1)
-      const locationPath = window.location.origin + siteData.base + to.fullPath.substring(1)
-
-      if (gtagPageViewDebounceTimerId) {
-        clearTimeout(gtagPageViewDebounceTimerId)
-      }
-      gtagPageViewDebounceTimerId = setTimeout(() => {
-        window.gtag('config', 'UA-116415641-1', { page_path: pagePath, location_path: locationPath })
-      }, 2000)
     }
   })
 
