@@ -35,6 +35,12 @@ const clickIdCaptureScript = `(function () {
   } catch (error) {}
 })()`;
 
+const googleTagManagerScript = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'/mtcs/?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','');`;
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-01-20",
@@ -92,11 +98,11 @@ export default defineNuxtConfig({
         },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
-      script: [{ innerHTML: clickIdCaptureScript }],
+      script: [{ innerHTML: clickIdCaptureScript }, { innerHTML: googleTagManagerScript }],
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],
@@ -104,11 +110,6 @@ export default defineNuxtConfig({
     },
     display: "swap",
     preconnect: true,
-  },
-  gtm: {
-    id: 'GTM-NDZ9CJJ',
-    enableRouterSync: true,
-    trackViewEventProperty: 'nuxtRoute'
   },
   // For sitemap generation
   site: { url: 'https://typesense.org' },

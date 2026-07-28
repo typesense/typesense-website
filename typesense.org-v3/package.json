@@ -30,7 +30,6 @@
   "devDependencies": {
     "@types/lodash.startcase": "^4.4.9",
     "@types/prismjs": "^1.26.5",
-    "@zadigetvoltaire/nuxt-gtm": "^0.0.13",
     "prettier": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "vite-svg-loader": "^5.1.0"
