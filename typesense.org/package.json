@@ -13,7 +13,6 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
-    "@nuxtjs/google-gtag": "^1.0.4",
     "@nuxtjs/gtm": "^2.4.0",
     "@nuxtjs/redirect-module": "^0.3.1",
     "@nuxtjs/robots": "^3.0.0",

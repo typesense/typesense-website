@@ -1,5 +1,40 @@
 import svgLoader from "vite-svg-loader";
 
+// Keep this browser bootstrap in sync across typesense.org-v3, docs-site, landing-pages, howtosearch, and blog.
+const clickIdCaptureScript = `(function () {
+  try {
+    var names = ['gclid', 'gbraid', 'wbraid', 'msclkid', 'fbclid', 'li_fat_id']
+    var params = new URLSearchParams(location.search)
+    var hostname = location.hostname
+    var domain =
+      hostname === 'typesense.org' || hostname.endsWith('.typesense.org') ? '; Domain=.typesense.org' : ''
+    var secure = location.protocol === 'https:' ? '; Secure' : ''
+
+    names.forEach(function (name) {
+      if (!params.has(name)) return
+      var value = params.get(name)
+      if (!value) return
+      value = value.slice(0, 255)
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(value) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+      document.cookie =
+        name +
+        '_ts=' +
+        Math.floor(Date.now() / 1000) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+    })
+  } catch (error) {}
+})()`;
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-01-20",
@@ -57,10 +92,11 @@ export default defineNuxtConfig({
         },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
+      script: [{ innerHTML: clickIdCaptureScript }],
     },
   },
   css: ["~/assets/css/fonts.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm", "nuxt-gtag"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/sitemap", "@nuxtjs/robots", "@zadigetvoltaire/nuxt-gtm"],
   googleFonts: {
     families: {
       Inter: [300, 400, 500, 600],
@@ -68,19 +104,6 @@ export default defineNuxtConfig({
     },
     display: "swap",
     preconnect: true,
-  },
-  gtag: {
-    id: 'UA-116415641-1',
-    config: {
-      anonymize_ip: true, // anonymize IP
-      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
-      linker: {
-        domains: [
-          'typesense.org',
-          'cloud.typesense.org',
-        ],
-      },
-    },
   },
   gtm: {
     id: 'GTM-NDZ9CJJ',

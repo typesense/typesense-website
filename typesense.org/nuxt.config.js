@@ -48,7 +48,6 @@ const config = {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxtjs/google-gtag',
     '@nuxtjs/redirect-module',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
@@ -86,22 +85,6 @@ const config = {
     typesenseSearchOnlyAPIKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY,
     typesenseCollectionName: process.env.TYPESENSE_COLLECTION_NAME,
     baseURL: process.env.BASE_URL || 'https://typesense.org',
-  },
-
-  'google-gtag': {
-    id: 'UA-116415641-1',
-    config: {
-      anonymize_ip: true, // anonymize IP
-      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
-      linker: {
-        domains: [
-          'new-site.typesense.org',
-          'typesense.org',
-          'cloud.typesense.org',
-        ],
-      },
-    },
-    debug: false, // enable to track in dev mode
   },
 
   gtm: {

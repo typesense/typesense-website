@@ -2,6 +2,41 @@ const { description } = require('../../package')
 const { typesenseVersions, typesenseLatestVersion } = require('../../../typesenseVersions')
 const path = require('path')
 
+// Keep this browser bootstrap in sync across typesense.org-v3, docs-site, landing-pages, howtosearch, and blog.
+const clickIdCaptureScript = `(function () {
+  try {
+    var names = ['gclid', 'gbraid', 'wbraid', 'msclkid', 'fbclid', 'li_fat_id']
+    var params = new URLSearchParams(location.search)
+    var hostname = location.hostname
+    var domain =
+      hostname === 'typesense.org' || hostname.endsWith('.typesense.org') ? '; Domain=.typesense.org' : ''
+    var secure = location.protocol === 'https:' ? '; Secure' : ''
+
+    names.forEach(function (name) {
+      if (!params.has(name)) return
+      var value = params.get(name)
+      if (!value) return
+      value = value.slice(0, 255)
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(value) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+      document.cookie =
+        name +
+        '_ts=' +
+        Math.floor(Date.now() / 1000) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+    })
+  } catch (error) {}
+})()`
+
 let config = {
   // The base URL the site will be deployed at
   base: '/docs/',
@@ -141,6 +176,16 @@ let config = {
     ['meta', { name: 'twitter:description', content: description }],
     ['meta', { name: 'twitter:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
     ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['script', {}, clickIdCaptureScript],
+    [
+      'script',
+      {},
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NDZ9CJJ');`,
+    ],
     // Disable helpscout to improve page load times
     // [
     //   'script',
