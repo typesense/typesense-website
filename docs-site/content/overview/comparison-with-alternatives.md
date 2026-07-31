@@ -6,47 +6,38 @@ description: "How Typesense compares to Elasticsearch, Algolia, and Meilisearch 
 
 ## Side-by-side feature comparison
 
-If reading a big block of text is not your thing, see a side-by-side feature comparison matrix [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
+If reading a big block of text is not your thing, jump to the [side-by-side comparison of Typesense, Algolia, Elasticsearch, and Meilisearch](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
 
 ## Typesense vs Elasticsearch
 
-Elasticsearch is a large piece of software, that takes non-trivial amount of effort to setup, administer, scale and fine-tune. It offers you a few thousand configuration parameters to get to your ideal configuration. So it's better suited for large teams who have the bandwidth to get it production-ready, regularly monitor it and scale it, especially when they have a need to store billions of documents and petabytes of data (eg: logs).
+Elasticsearch is a versatile search and analytics platform. That breadth can be both a blessing and a curse. It probably has every search feature you can dream of, alongside analytics, visualization, logs, observability, and security incident monitoring. If you need to work with billions of documents or petabytes of data, or want one platform for all of those jobs, Elasticsearch is a strong fit.
 
-Typesense is built specifically for decreasing the "time to market" for a delightful search experience. It is a light-weight yet powerful & scalable alternative that focuses on Developer Happiness and Experience with a clean well-documented API, clear semantics and smart defaults, so it just works well out-of-the-box, without you having to turn many knobs.
+The tradeoff is complexity. Running Elasticsearch means learning about the JVM, Lucene, shards, replicas, mappings, analyzers, and a few thousand configuration parameters. We actually grepped through the Elasticsearch codebase to count them. That flexibility is valuable when you need it, but it can feel like taking a bulldozer to an ant-hill when the job is search inside a website, mobile app, or device.
 
-Elasticsearch also runs on the JVM, which by itself can be quite an effort to tune to run optimally. Typesense, on the other hand, is a single light-weight self-contained native binary, so it's simple to setup and operate.
+Typesense unbundles that platform and zooms in on site and app search. It ships as one self-contained native binary with a clean API, typo tolerance enabled by default, built-in Raft clustering, and sane defaults that work well out of the box. We expose a deliberately chosen set of options for fine-tuning relevance without asking every engineer on your team to become an Elasticsearch, Lucene, and JVM specialist. No PhD required.
 
-See a side-by-side feature comparison [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
+See the [focused Typesense vs Elasticsearch comparison](https://typesense.org/typesense-vs-elasticsearch/) or the [four-product feature matrix](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
 
 ## Typesense vs Algolia
 
-Algolia is a proprietary, hosted, search-as-a-service product that works well, when cost is not an issue. From our experience, fast growing sites and apps quickly run into search & indexing limits, accompanied by expensive plan upgrades as they scale.
+Algolia is a proprietary, fully managed search service that delivers an excellent instant search-as-you-type experience. It works well when cost and platform lock-in are not concerns. From our experience, fast-growing sites and apps can quickly run into record and search-operation limits, followed by increasingly expensive plan upgrades as usage grows.
 
-Typesense on the other hand is an open-source product that you can run on your own infrastructure or use our managed SaaS offering - Typesense Cloud. The open source version is free to use (besides of course your own infra costs). With Typesense Cloud we do not charge by records or search operations. Instead, you get a dedicated cluster and you can throw as much data and traffic at it as it can handle. You only pay a fixed hourly cost & bandwidth charges for it, depending on the configuration your choose, similar to most modern cloud platforms.
+Typesense gives you that same fast, typo-tolerant search-as-you-type experience for a fraction of the cost, with the freedom to self-host or use Typesense Cloud. The open-source server is free to self-host forever. Typesense Cloud gives you a dedicated cluster billed by the hour, plus bandwidth, with no per-search or per-record fees. Its full pricing catalog is public, and you can scale the cluster up or down without reopening a pricing negotiation with a sales team.
 
-From a product perspective, Typesense is closer in spirit to Algolia than Elasticsearch. However, we've addressed some important limitations with Algolia:
+From a product perspective, Typesense is closer in spirit to Algolia than Elasticsearch, but it removes several constraints. Search fields, filters, facets, grouping, ranking, and sort order can all be changed at query time. Price low-to-high, price high-to-low, and newest-first can use the same collection instead of duplicate indices that multiply billable records and cost. Typesense also supports joins between collections, filtering within nested arrays of objects, and migration of an existing InstantSearch frontend through the [Typesense-InstantSearch adapter](https://github.com/typesense/typesense-instantsearch-adapter).
 
-Algolia requires separate indices for each sort order, which counts towards your plan limits. Most of the index settings like fields to search, fields to facet, fields to group by, ranking settings, etc are defined upfront when the index is created vs being able to set them on the fly at query time.
+Algolia is still a good fit when you prefer packaged personalization, recommendations, advanced merchandising, A/B testing, or agent tooling in one managed platform. Typesense gives you the underlying APIs for those experiences and leaves you in control of how they fit into your application.
 
-With Typesense, these settings can be configured at search time via query parameters which makes it very flexible and unlocks new use cases. Typesense is also able to give you sorted results with a single index, vs having to create multiple. This helps reduce memory consumption.
-
-Algolia offers the following features that Typesense does not have currently: built-in personalization and recommendations. You can still implement these in Typesense, using Typesense's underlying vector store.
-
-See a side-by-side feature comparison [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
+See the [focused Typesense vs Algolia comparison](https://typesense.org/typesense-vs-algolia/) or the [four-product feature matrix](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
 
 ## Typesense vs Meilisearch
 
-Meilisearch is an open search engine written in Rust and is close in spirit to Algolia.
+Meilisearch is an open search engine written in Rust and, like Typesense, is designed to make search easier for developers. Its memory-mapped storage lets an index exceed available RAM, which can be interesting when you can accept the slower reads that come with hitting disk.
 
-It aims to be on parity with Algolia in terms of architecture, which is good as it relates to a familiar experience for developers,
-but is also bad in that the engine has unfortunately inherited some of Algolia's quirks in the process.
+The most important difference shows up in production. Meilisearch Community Edition is single-node. Replication requires Meilisearch Cloud or Enterprise Edition, and even there the current model has a [serious known limitation](https://github.com/typesense/typesense-website/pull/454#issuecomment-4307510079): one static write leader with no automatic leader election. If that leader fails, searches routed to it can fail and writes stop until an operator manually promotes another node. This makes Meilisearch unsuitable for production workloads where both read and write availability with automatic failover are important.
 
-For example, additional sort orders require duplicate indices in both Algolia and Meilisearch, which increases costs and memory requirements.
+Typesense is more battle-tested in high-scale production environments. Its open-source server includes Raft clustering with automatic leader election and failover, avoiding that single point of failure. The same API surface is available whether you self-host or use Typesense Cloud, including vector and hybrid search, Natural Language Search, conversational search, joins, analytics, and merchandising.
 
-Based on the project's documented limitations, it seems to be geared for small dataset sizes,
-and specifically for cases where high availability is not a requirement. Since it does not have multi-node clustering or node-node replication, it is not production-ready yet.
+Meilisearch is worth considering when that disk-read tradeoff fits your workload or your team prefers a Rust codebase. Its open-source Community Edition, though, is feature-restricted for distributed deployments: high availability and sharding require the paid, BUSL-licensed Enterprise Edition, and pricing for those deployments requires a conversation with its sales team. Typesense is the stronger fit when search is production-critical and you want automatic failover, the full open-source feature set, and transparent Cloud pricing.
 
-That said, Meilisearch is a relatively new project, and while it's not suited for serious production use-cases today,
-the project has a good team & momentum behind it. We're eager to see how the project evolves.
-
-See a side-by-side feature comparison [here](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).
+See the [focused Typesense vs Meilisearch comparison](https://typesense.org/typesense-vs-meilisearch/) or the [four-product feature matrix](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/).

@@ -4,29 +4,47 @@
     src="/images/backgrounds/tunnels-top.svg"
     alt="background"
   />
-  <div class="site-padding relative flex flex-col !gap-[120px]">
+  <div class="site-padding relative flex flex-col !gap-6 max-md:!gap-8">
     <section>
       <section>
         <div class="mb-4 flex gap-4 max-md:mb-2">
           <FlashFill /> <SearchFill />
         </div>
         <h2 class="mb-8 text-center max-md:mb-4">
-          Compare Algolia vs ElasticSearch<br />
+          Compare Algolia vs Elasticsearch<br />
           vs Meilisearch vs
           <strong>Typesense</strong>
         </h2>
         <p
           class="max-w-[700px] text-justify text-xl leading-[1.8] tracking-[-0.4px] text-text-muted max-md:text-[14px] [&_b]:text-text-primary"
         >
-          This table is meant to give you an objective side-by-side comparison
-          of key features in each search engine and is based on each search
-          engine's documentation.<br /><br />
-          We've strived to provide accurate information below, but if you notice
-          any issues, please open an issue
+          The table below gives you a practical side-by-side comparison of key
+          features and tradeoffs, based on each search engine's public
+          documentation.<br />
+          We've strived to keep it accurate, but if you notice an issue, please
+          open one
           <CustomLink
             class="text-primary underline underline-offset-4"
             to="https://github.com/typesense/typesense-website/issues"
             >here</CustomLink
+          >.
+        </p>
+        <p class="mt-3 w-full max-w-[700px] text-left text-text-muted">
+          Explore the focused comparisons:
+          <CustomLink
+            class="text-primary underline underline-offset-4"
+            to="/typesense-vs-algolia/"
+            >Algolia</CustomLink
+          >,
+          <CustomLink
+            class="text-primary underline underline-offset-4"
+            to="/typesense-vs-elasticsearch/"
+            >Elasticsearch</CustomLink
+          >, and
+          <CustomLink
+            class="text-primary underline underline-offset-4"
+            to="/typesense-vs-meilisearch/"
+            >Meilisearch</CustomLink
           >.
         </p>
       </section>
@@ -42,17 +60,25 @@
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
                   <th>Typesense</th>
                   <th>Algolia</th>
-                  <th class="py-3">ElasticSearch</th>
+                  <th class="py-3">Elasticsearch</th>
                   <th class="rounded-r-xl">Meilisearch</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Source Code</td>
-                  <td>Fully open source</td>
+                  <td>Fully open source under GPL-3.0</td>
                   <td>Proprietary closed source</td>
-                  <td>Free Edition is open source and AGPLv3 licensed, other editions are source-available licensed under Elastic License 2.0</td>
-                  <td>Community Edition is open source and MIT-licensed, <br>Enterprise Edition is source-available licensed under Business Source License (BUSL)</td>
+                  <td>
+                    Free portions offer AGPLv3, SSPL, or Elastic License 2.0.
+                    The default distribution and X-Pack remain under Elastic
+                    License 2.0
+                  </td>
+                  <td>
+                    Community Edition is open source and MIT-licensed,
+                    <br />Enterprise Edition is source-available licensed under
+                    Business Source License (BUSL)
+                  </td>
                 </tr>
                 <tr>
                   <td>First Commit</td>
@@ -94,7 +120,7 @@
                     Instant Search-as-you-type Experiences for use cases that
                     don't require a highly-available fault-tolerant setup.
                     <a
-                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/resources/internals/storage#:~:text=For%20best%20performance%2C%20Meilisearch%20works%20optimally%20when%20the%20full%20dataset%20fits%20in%20RAM."
                       target="_blank"
                       >Recommends</a
                     >
@@ -104,10 +130,39 @@
                 </tr>
                 <tr>
                   <td>Primary Index Location</td>
+                  <td>
+                    Search index in RAM; source documents and unindexed fields
+                    on disk
+                  </td>
                   <td>RAM</td>
-                  <td>RAM</td>
-                  <td>Disk, with RAM cache</td>
-                  <td>Disk with Memory Mapped files</td>
+                  <td>Lucene segments on disk, with filesystem cache in RAM</td>
+                  <td>Disk, with RAM used as a cache</td>
+                </tr>
+                <tr>
+                  <td>Pricing Model</td>
+                  <td>
+                    Free to self-host.<br /><br />
+                    Typesense Cloud bills dedicated clusters hourly by RAM and
+                    CPU configuration, plus bandwidth, without per-search or
+                    per-record charges. The full pricing catalog is public.
+                  </td>
+                  <td>
+                    Build Plan is free to get started. Grow Plan and Grow Plus
+                    Plan bill search requests and records; Elevate Plan requires
+                    an annual contract with bespoke pricing.
+                  </td>
+                  <td>
+                    Free Basic tier for self-hosting.<br /><br />
+                    Elastic Cloud offers resource-based Hosted plans and
+                    usage-based Serverless pricing.
+                  </td>
+                  <td>
+                    Free, feature-restricted Community Edition for
+                    self-hosting.<br /><br />
+                    Meilisearch Cloud publishes single-node estimates, while HA
+                    and Enterprise configurations use bespoke pricing available
+                    through its sales team.
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -124,7 +179,7 @@
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
                   <th>Typesense</th>
                   <th>Algolia</th>
-                  <th class="py-3">ElasticSearch</th>
+                  <th class="py-3">Elasticsearch</th>
                   <th class="rounded-r-xl">Meilisearch</th>
                 </tr>
               </thead>
@@ -148,21 +203,33 @@
                     High Availability / <br />Fault Tolerance
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />RAFT-based
-                    multi-node clustering
+                    <Check class="text-[#263311]" /><br /><br />Raft-based
+                    multi-node clustering with automatic leader election
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />RAFT-based
-                    multi-node clustering
+                    <Check class="text-[#263311]" /><br /><br />Managed
+                    three-server Raft clusters that prioritize search
+                    availability
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Active-passive
-                    replication
+                    <Check class="text-[#263311]" /><br /><br />Primary shards
+                    with replica copies and automatic replica promotion
                   </td>
-                  <td class="!text-[#DC3545]">
-                    <Cross class="text-[#490F0F]" /><br /><br />Only supports a
-                    single-node setup, which creates a single point of failure
-                    and so is not fault tolerant / production-ready.
+                  <td>
+                    🔶<br /><br />HA and sharding are offered in the
+                    BUSL-licensed Enterprise Edition or Meilisearch Cloud. The
+                    MIT Community Edition is single-node. One static leader
+                    handles writes, and a failure requires manual promotion
+                    before writes resume. <br /><br />
+                    <span class="!text-[#DC3545]"
+                      >Has
+                      <a
+                        href="https://github.com/typesense/typesense-website/pull/454#issuecomment-4307510079"
+                        target="_blank"
+                        >known limitations</a
+                      >
+                      around fault tolerance, recovery and resilience.</span
+                    >
                   </td>
                 </tr>
                 <tr>
@@ -183,31 +250,44 @@
                     CDN-like Geo-Distributed clusters
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Supported in
-                    self-hosted and SaaS options, called Search Delivery Network
+                    <Check class="text-[#263311]" /><br /><br />Typesense
+                    Cloud's Search Delivery Network supports up to 7 regions per
+                    cluster from 26 choices, with nearest-node routing
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Available in
-                    Premium tier, called Distributed Search Network
+                    <Check class="text-[#263311]" /><br /><br />Available in the
+                    paid Distributed Search Network add-on
                   </td>
                   <td>
-                    <Cross class="text-[#490F0F]" /><br /><br />Not available as
-                    part of hosted offering
+                    🔶<br /><br />Elastic Cloud Hosted supports up to three
+                    availability zones within one region. Geo-distribution
+                    requires separate deployments plus cross-cluster search or
+                    replication, with teams configuring the remote clusters and
+                    regional routing topology.
                   </td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    🔶<br /><br />Enterprise replication supports geographically
+                    routed reads, but optimal routing is not currently available
+                    when sharding and replication are combined.
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Runtime Dependencies</td>
                   <td>
-                    None. Self-contained binary. <br /><br />Built-in high
-                    performance HTTP server, that can be exposed to the frontend
-                    directly.
+                    None. Self-contained C++ binary.<br /><br />Built-in high
+                    performance HTTP server that backends and public clients can
+                    connect to directly using search-only scoped API keys.
                   </td>
                   <td>N/A, since it's SaaS only</td>
                   <td>
-                    Requires JVM, and an application backend. <br /><br />Cannot
-                    be directly exposed to frontend - requires use of nginx,
-                    apache or the like as a reverse proxy in front
+                    Requires the JVM. Elastic's own guidance says Elasticsearch
+                    is
+                    <a
+                      href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ip-filtering.html"
+                      target="_blank"
+                      >not designed to be publicly accessible</a
+                    >, so public applications normally use a backend or reverse
+                    proxy.
                   </td>
                   <td>
                     None. Self-contained binary. <br /><br />Built-in high
@@ -247,6 +327,34 @@
                   </td>
                   <td>Replace binary, restart process with upgrade option.</td>
                 </tr>
+                <tr>
+                  <td class="font-weight-bold">Serverless Offering</td>
+                  <td>
+                    <Cross class="text-[#490F0F]" /><br /><br />
+                    Typesense is a persistent in-memory process that requires an
+                    uninterrupted runtime, RAM, and persistent disk.
+                  </td>
+                  <td>
+                    <Cross class="text-[#490F0F]" /><br /><br />
+                    Algolia operates managed, stateful
+                    <a
+                      href="https://www.algolia.com/doc/guides/scaling/infrastructure/classic/servers-clusters"
+                      target="_blank"
+                      >three-server clusters</a
+                    >
+                    behind the service.
+                  </td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />Elastic Cloud
+                    Serverless
+                  </td>
+                  <td>
+                    <Cross class="text-[#490F0F]" /><br /><br />
+                    Meilisearch is a persistent process with memory-mapped
+                    storage. Standard Meilisearch Cloud runs on provisioned
+                    compute.
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -262,7 +370,7 @@
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
                   <th>Typesense</th>
                   <th>Algolia</th>
-                  <th class="py-3">ElasticSearch</th>
+                  <th class="py-3">Elasticsearch</th>
                   <th class="rounded-r-xl">Meilisearch</th>
                 </tr>
               </thead>
@@ -279,12 +387,9 @@
                   <td><Check class="text-[#263311]" /></td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />But slow and
-                    <a
-                      href="https://www.algolia.com/blog/engineering/algolia-v-elasticsearch-relevance/"
-                      target="_blank"
-                      >affects relevance</a
-                    >
+                    <Check class="text-[#263311]" /><br /><br />Opt-in per query
+                    with the <code>fuzziness</code> parameter, not enabled by
+                    default, for performance reasons.
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                 </tr>
@@ -311,7 +416,11 @@
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td><Check class="text-[#263311]" /></td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />API keys can
+                    carry index restrictions. Document-level security is
+                    available on paid tiers.
+                  </td>
                   <td><Check class="text-[#263311]" /></td>
                 </tr>
                 <tr>
@@ -326,12 +435,12 @@
                   <td><Check class="text-[#263311]" /></td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
-                    Upto one distinct field
+                    Up to one distinct field
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
                     🔶<br /><br />
-                    Upto one distinct field, no support for grouping
+                    Up to one distinct field, no support for grouping
                   </td>
                 </tr>
                 <tr>
@@ -340,7 +449,10 @@
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td><Cross class="text-[#490F0F]" /></td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    🔶<br /><br />ES|QL supports LOOKUP JOIN; Elasticsearch also
+                    has join field types
+                  </td>
                   <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
@@ -350,19 +462,15 @@
                     be defined at query time using a single index
                   </td>
                   <td>
-                    🔶<br /><br />Duplicate indices need to be created for each
-                    sort order, for
-                    <a
-                      href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/"
-                      target="_blank"
-                      >Exhaustive Sorting</a
-                    >.<br /><br />
-                    Virtual replica indices can be used for
+                    🔶<br /><br />Each exhaustive sort order needs a duplicate
+                    index, multiplying billable records and cost.
                     <a
                       href="https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/"
                       target="_blank"
-                      >Relevant Sorting</a
-                    >.
+                      >Relevant sorting</a
+                    >
+                    can use virtual replicas, with a subset of settings and
+                    limits.
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />Sort fields can
@@ -401,20 +509,25 @@
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Upto 10 results
-                    in Free Tier, Upto 10,000 results in Premium Tier
+                    <Check class="text-[#263311]" /><br /><br />10 rules per
+                    index on Grow Plan; 10,000 per index on Grow Plus Plan and
+                    Elevate Plan
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
-                    Available only in closed-source version
+                    Pinned query included in the free Basic distribution
                   </td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    🔶<br /><br />Experimental, pinning-only search rules. Three
+                    rules per Cloud project are free; additional rules are a
+                    paid add-on.
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Synonyms</td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Upto 10,000 per
+                    <Check class="text-[#263311]" /><br /><br />Up to 10,000 per
                     index
                   </td>
                   <td><Check class="text-[#263311]" /></td>
@@ -423,10 +536,7 @@
                 <tr>
                   <td class="font-weight-bold">Dynamic Synonym Suggestions</td>
                   <td><Cross class="text-[#490F0F]" /></td>
-                  <td>
-                    <Check class="text-[#263311]" /><br /><br />Available in
-                    Premium Tier
-                  </td>
+                  <td><Check class="text-[#263311]" /></td>
                   <td><Cross class="text-[#490F0F]" /></td>
                   <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
@@ -475,7 +585,7 @@
                   <td><Check class="text-[#263311]" /></td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
-                    <Cross class="text-[#490F0F]" /><br /><br />IDs needs to be
+                    <Cross class="text-[#490F0F]" /><br /><br />IDs need to be
                     pre-generated
                   </td>
                 </tr>
@@ -527,11 +637,11 @@
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
                     <a
-                      href="https://typesense.org/docs/0.24.0/api/collections.html#with-auto-schema-detection"
+                      href="https://typesense.org/docs/30.2/api/collections.html#with-auto-schema-detection"
                       target="_blank"
                       >Automatic schema detection</a
                     >
-                    needs to be enabled.
+                    or a strict schema.
                   </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td>
@@ -571,7 +681,12 @@
                     (Nearest-Neighbor Search)
                   </td>
                   <td><Check class="text-[#263311]" /></td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    <Cross class="text-[#490F0F]" /><br /><br />
+                    While direct vector search is not available, NeuralSearch
+                    combines keyword and vector search and is available on
+                    higher plan tiers.
+                  </td>
                   <td><Check class="text-[#263311]" /></td>
                   <td><Check class="text-[#263311]" /></td>
                 </tr>
@@ -580,10 +695,25 @@
                   <td><Check class="text-[#263311]" /></td>
                   <td>
                     <Check class="text-[#263311]" /> <br /><br />Called
-                    NeuralSearch
+                    NeuralSearch and is available on higher plan tiers.
+                  </td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />
+                    <code>semantic_text</code> is generally available; ELSER
+                    requires a paid subscription tier
+                  </td>
+                  <td><Check class="text-[#263311]" /></td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Natural Language Search</td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />Built in. Uses
+                    an LLM to translate natural-language requests into
+                    structured search terms, filters, and sort parameters.
                   </td>
                   <td><Cross class="text-[#490F0F]" /></td>
-                  <td><Check class="text-[#263311]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Similarity Search</td>
@@ -613,15 +743,25 @@
                   <td><Cross class="text-[#490F0F]" /></td>
                 </tr>
                 <tr>
-                  <td class="font-weight-bold">Conversational Q&A Search</td>
+                  <td class="font-weight-bold">Conversational Search / RAG</td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />Built-in RAG
-                    pipeline and integration with OpenAI and Cloudflare-hosted
-                    LLMs
+                    pipeline with OpenAI, Azure OpenAI, Google, Cloudflare
+                    Workers AI, and vLLM
                   </td>
-                  <td><Cross class="text-[#490F0F]" /></td>
-                  <td><Cross class="text-[#490F0F]" /></td>
-                  <td><Cross class="text-[#490F0F]" /></td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />Agent Studio is
+                    generally available and connects supported LLMs to Algolia
+                    search and tools
+                  </td>
+                  <td>
+                    <Check class="text-[#263311]" /><br /><br />Agent Builder is
+                    an Enterprise-tier feature in self-managed Elasticsearch and
+                    Elastic Cloud.
+                  </td>
+                  <td>
+                    🔶<br /><br />Experimental <code>/chats</code> endpoint
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Recommendations</td>
@@ -665,7 +805,7 @@
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
-                    Premium Tier
+                    Available on higher tiers
                   </td>
                   <td><Cross class="text-[#490F0F]" /></td>
                   <td>
@@ -703,7 +843,7 @@
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
-                    Premium Tier
+                    Available from Grow Plan
                   </td>
                   <td>
                     <Cross class="text-[#490F0F]" />
@@ -732,13 +872,10 @@
                     Cloud
                   </td>
                   <td><Check class="text-[#263311]" /></td>
+                  <td><Check class="text-[#263311]" /><br /><br />Kibana</td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />3rd party
-                    plugins
-                  </td>
-                  <td>
-                    <Check class="text-[#263311]" /><br /><br />Search only in
-                    OSS and more features on Meilisearch Cloud
+                    <Check class="text-[#263311]" /><br /><br />Search tools in
+                    self-hosted deployments, with analytics in Meilisearch Cloud
                   </td>
                 </tr>
                 <tr>
@@ -746,16 +883,15 @@
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
                     <a
-                      href="https://typesense.org/docs/guide/docsearch.html"
+                      href="https://github.com/typesense/typesense-docsearch-scraper"
                       target="_blank"
-                      >DocSearch crawler</a
+                      >Self-hosted DocSearch crawler</a
                     >
                     for docs sites.
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />
-                    DocSearch crawler for docs sites.<br />
-                    General site crawler is part of Premium Tier.
+                    Hosted DocSearch crawler for docs sites.
                   </td>
                   <td><Cross class="text-[#490F0F]" /></td>
                   <td>
@@ -766,8 +902,9 @@
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Supports
-                    InstantSearch.js
+                    <Check class="text-[#263311]" /><br /><br />The
+                    Typesense-InstantSearch adapter supports JavaScript, React,
+                    Vue, React Native, and Angular
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />InstantSearch.js
@@ -777,8 +914,8 @@
                     requires hosted search
                   </td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />Forked version
-                    of InstantSearch.js
+                    <Check class="text-[#263311]" /><br /><br />
+                    Forked version of InstantSearch.js
                   </td>
                 </tr>
                 <tr>
@@ -823,7 +960,7 @@
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
                   <th>Typesense</th>
                   <th>Algolia</th>
-                  <th class="py-3">ElasticSearch</th>
+                  <th class="py-3">Elasticsearch</th>
                   <th class="rounded-r-xl">Meilisearch</th>
                 </tr>
               </thead>
@@ -838,7 +975,7 @@
                   <td>
                     No limitation, constrained by available disk space and
                     <a
-                      href="https://www.meilisearch.com/docs/learn/engine/storage#:~:text=For%20the%20best%20performance%2C%20it%20is%20recommended%20to%20provide%20the%20same%20amount%20of%20RAM%20as%20the%20size%20the%20database%20takes%20on%20disk%2C%20so%20all%20the%20data%20structures%20can%20fit%20in%20memory"
+                      href="https://www.meilisearch.com/docs/resources/internals/storage#:~:text=For%20best%20performance%2C%20Meilisearch%20works%20optimally%20when%20the%20full%20dataset%20fits%20in%20RAM."
                       target="_blank"
                     >
                       performance is constrained by available RAM</a
@@ -848,14 +985,17 @@
                 <tr>
                   <td class="font-weight-bold">Maximum Number of Indices</td>
                   <td>No limitation</td>
-                  <td>No limitation</td>
+                  <td>
+                    Plan-dependent: 10 on Build Plan, 50 on Grow Plan, and up to
+                    1,000 on top tiers
+                  </td>
                   <td>No limitation</td>
                   <td>No limitation</td>
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Maximum Index Size</td>
                   <td>No limitation, only constrained by available RAM</td>
-                  <td>128 GB</td>
+                  <td>100 GB per application; 1 GB on Build Plan</td>
                   <td>No limitation</td>
                   <td>No limitation, only constrained by available disk</td>
                 </tr>
@@ -869,7 +1009,9 @@
                 <tr>
                   <td class="font-weight-bold">Maximum Record Size</td>
                   <td>No limitation</td>
-                  <td>10KB</td>
+                  <td>
+                    10 KB to 100 KB, depending on plan; 10 KB on Build Plan
+                  </td>
                   <td>No limitation</td>
                   <td>No limitation</td>
                 </tr>
@@ -895,7 +1037,7 @@
                   <th class="rounded-l-xl py-3 pl-4 text-left"></th>
                   <th>Typesense</th>
                   <th>Algolia</th>
-                  <th class="py-3">ElasticSearch</th>
+                  <th class="py-3">Elasticsearch</th>
                   <th class="rounded-r-xl">Meilisearch</th>
                 </tr>
               </thead>
@@ -934,18 +1076,25 @@
                 </tr>
                 <tr>
                   <td class="font-weight-bold">Support Hours</td>
-                  <td>24 x 7 x 365 <br />for Paid Prioritized Support</td>
                   <td>
-                    Mon-Fri; Business Hours<br />
-                    9am-5pm in user timezone<br />for Paid Prioritized Support
+                    Critical Production Support: 24/7/365 on Typesense Cloud for
+                    all users.<br /><br />General support: 24/7/365 for paid
+                    prioritized support users. Response SLAs depend on the
+                    <CustomLink to="/support/">support tier</CustomLink>
+                    you choose.
                   </td>
                   <td>
-                    24 x 7 x 365 <br />for Platinum and Enterprise Prioritized
-                    Support
+                    Grow Plan, Grow Plus Plan, and Elevate Plan include weekday
+                    business-hours web support.<br /><br />Elevate Plan can add
+                    24/7 coverage for P0 and P1 incidents.
                   </td>
                   <td>
-                    Standard: Mon-Thu; 8am - 10pm Paris Time.<br />
-                    Paid Prioritized Support: 24 x 7 x 365
+                    24/7/365<br />for Platinum and Enterprise prioritized
+                    support
+                  </td>
+                  <td>
+                    Standard: Mon-Thu, 8am-10pm Paris time.<br />
+                    Paid prioritized support: 24/7/365
                   </td>
                 </tr>
                 <tr>
@@ -977,12 +1126,12 @@
 </template>
 <script lang="ts" setup>
 useSeoMeta({
-  title: "About Us | Typesense",
-  ogTitle: "About Us | Typesense",
+  title: "Typesense vs Algolia vs Elasticsearch vs Meilisearch",
+  ogTitle: "Typesense vs Algolia vs Elasticsearch vs Meilisearch",
   description:
-    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+    "Compare Typesense, Algolia, Elasticsearch, and Meilisearch across deployment options, search features, product limits, and support.",
   ogDescription:
-    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+    "Compare Typesense, Algolia, Elasticsearch, and Meilisearch across deployment options, search features, product limits, and support.",
 });
 import Check from "@/assets/icons/check.svg";
 import Cross from "@/assets/icons/cross.svg";
