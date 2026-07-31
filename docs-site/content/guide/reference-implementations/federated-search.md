@@ -1,3 +1,7 @@
+---
+description: "Search username and company collections in parallel with a single federated Typesense query using this live reference implementation."
+---
+
 # Federated Search
 
 This site indexes usernames and company names, and let you search through both collections in parallel.

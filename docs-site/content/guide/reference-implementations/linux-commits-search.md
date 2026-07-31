@@ -1,3 +1,7 @@
+---
+description: "Browse, search, and filter one million Linux commit messages indexed in Typesense through this live reference implementation."
+---
+
 # Linux Commits Search
 
 This site indexes **1 Million** Linux commit messages in Typesense and lets you browse, search and filter through them.

@@ -1,5 +1,6 @@
 ---
-description: "What Typesense is good at: search-as-you-type, faceted browsing, geo search, multi-tenant search, federated search, semantic search, recommendations, and RAG."
+title: "Typesense Use Cases and Examples"
+description: "Explore Typesense use cases including search-as-you-type, faceted browsing, geo and multi-tenant search, semantic search, recommendations, and RAG."
 ---
 
 # Typesense Use Cases

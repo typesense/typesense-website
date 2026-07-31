@@ -1,4 +1,5 @@
 ---
+title: "Migrate from Algolia to Typesense"
 description: "Migration guide for moving from Algolia to Typesense: timeline, document mapping, synonyms and rules export-import, and using the InstantSearch adapter."
 ---
 

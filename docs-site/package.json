@@ -1,6 +1,6 @@
 {
   "name": "typesense-docs",
-  "description": "Documentation for Typesense Search",
+  "description": "Typesense documentation helps developers install, configure, and use Typesense to build fast, typo-tolerant search experiences for applications.",
   "private": true,
   "license": "GPL-3.0",
   "scripts": {

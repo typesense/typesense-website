@@ -1,5 +1,6 @@
 ---
-description: "Why AI agents and LLM-driven knowledge retrieval should pick Typesense over vector-only stores or grep, with unified keyword, semantic, and structured search in one binary."
+title: "AI Agent Search with Typesense"
+description: "Learn why AI agents can use Typesense for keyword, semantic, hybrid, and structured retrieval in one search engine instead of combining separate tools like vector-only stores or plain grep."
 ---
 
 # AI Agents: Why You Should Use Typesense for Knowledge Retrieval

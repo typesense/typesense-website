@@ -1,4 +1,5 @@
 ---
+title: "Typesense filter_by Syntax and Examples"
 description: "Filter Typesense search results by exact, range, multi-value, geo, nested, and joined-collection conditions using filter_by, with syntax tips and examples."
 ---
 

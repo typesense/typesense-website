@@ -1,4 +1,5 @@
 ---
+title: "Typesense Collections API"
 description: "Create, list, retrieve, update, and drop Typesense collections. Includes the schema definition format, supported field types, and per-field index options."
 sidebarDepth: 2
 sitemap:

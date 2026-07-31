@@ -1,4 +1,6 @@
 ---
+title: "Typesense API Documentation v{{ $page.typesenseVersion }}"
+description: "Typesense v30.2 API reference covers endpoints, parameters, release changes, and guidance for upgrading or downgrading Typesense Server."
 sitemap:
   priority: 0.7
 ---

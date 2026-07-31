@@ -1,3 +1,7 @@
+---
+description: "Configure SAML single sign-on for a Typesense Cloud team with your identity provider, then manage login flows and user access."
+---
+
 # Single-Sign On (SSO) in Typesense Cloud
 
 In Typesense Cloud, you can integrate any SAML-based Single Sign-On platform(s) to give designated users in your organization access to your [team account](./team-accounts.md), 

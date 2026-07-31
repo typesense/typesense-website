@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud Cluster Management API response codes explain the HTTP statuses returned for successful requests and common errors."
+---
+
 # Response Codes
 
 This section talks about the error codes that the [Typesense Cloud **Cluster Management API**](README.md) might return.

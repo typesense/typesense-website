@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud Cluster Management API documentation covers programmatic cluster provisioning, lifecycle management, access, and architecture."
+---
+
 # Cloud Cluster Management API <Badge type="tip" text="Advanced" vertical="middle" />
 
 The Typesense Cloud **Cluster Management API** lets you programmatically provision clusters, 

@@ -1,3 +1,7 @@
+---
+description: "Authenticate with the Typesense Cloud Cluster Management API by creating an API key from your Cloud account page and passing it in an HTTP header or query parameter."
+---
+
 # Authentication
 
 This section talks about how to authenticate with the [Typesense Cloud **Cluster Management API**](README.md).
@@ -23,4 +27,3 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
     -H "Accept: application/json" \
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: INSERT-YOUR-KEY-HERE"
 ```
-

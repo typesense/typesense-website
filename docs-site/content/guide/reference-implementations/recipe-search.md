@@ -1,3 +1,7 @@
+---
+description: "Search a database of two million recipes and filter results by ingredients with this Typesense live demo and reusable source code."
+---
+
 # Recipe Search
 
 This site showcases Typesense in action on a **2 Million** recipe database, with the ability to filter by ingredients.

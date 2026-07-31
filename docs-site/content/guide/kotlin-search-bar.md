@@ -1,3 +1,7 @@
+---
+description: "Build a native Android book search interface with Kotlin, Typesense, MVVM, coroutines, and a repository-based application architecture."
+---
+
 # Building a Search Bar in Kotlin for Android
 
 This guide walks you through building a native Android search interface using Kotlin and Typesense.

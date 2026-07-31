@@ -1,5 +1,6 @@
 ---
-description: "Index a documentation site with typesense-docsearch-scraper and drop in typesense-docsearch.js to add a fast search bar (same setup powering Typesense docs)."
+title: "DocSearch for Documentation Sites"
+description: "Add DocSearch to documentation sites with Typesense's scraper and JavaScript search bar, including setup for Docusaurus-style structured content."
 ---
 
 # Search for Documentation Sites

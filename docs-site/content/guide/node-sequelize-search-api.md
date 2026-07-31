@@ -1,3 +1,7 @@
+---
+description: "Build a Node.js search API with Express, PostgreSQL, Sequelize, and Typesense while keeping the search index synced with source data."
+---
+
 # Building a Search API with Node.js, Express, Sequelize, and Typesense
 
 This guide walks you through building a RESTful search API using Node.js, Express, PostgreSQL (via the Sequelize ORM), and Typesense. You'll build a backend server that stores data in PostgreSQL as the source of truth, keeps Typesense in sync for fast search, and exposes a clean search API to your frontend clients.

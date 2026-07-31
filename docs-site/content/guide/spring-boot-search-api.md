@@ -1,3 +1,7 @@
+---
+description: "Build a Spring Boot search API with PostgreSQL and Typesense, synchronizing source data into a fast search index for frontend clients."
+---
+
 # Building a Search API with Spring Boot and Typesense
 
 This guide walks you through building a RESTful search API using Spring Boot, PostgreSQL, and Typesense. You'll build a backend server that stores data in PostgreSQL as the source of truth, keeps Typesense in sync for fast search, and exposes a clean search API to your frontend clients.

@@ -1,4 +1,5 @@
 ---
+title: "Firebase Full-Text Search with Typesense"
 description: "Add full-text search to a Firebase / Firestore app by syncing documents into Typesense using the official Firebase Extension or your own trigger."
 ---
 

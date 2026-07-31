@@ -1,4 +1,5 @@
 ---
+title: "Upgrade Typesense Between Versions"
 description: "Upgrade a Typesense Cloud or self-hosted cluster between versions, including pre-update checks, release-notes review, and rolling-upgrade procedure."
 ---
 

@@ -9,9 +9,9 @@ A/B Testing refers to the process of testing the effect of various search and ra
 
 There are several A/B Testing platforms out there like:
 
-- [Flagsmith](https://docs.flagsmith.com/advanced-use/ab-testing)
+- [Flagsmith](https://www.flagsmith.com/a-b-and-multivariate-testing)
 - [Growthbook](https://www.growthbook.io/)
-- [Google Optimize](https://optimize.withgoogle.com/)
+- [Google Analytics](https://support.google.com/analytics/answer/13468470?hl=en)
 - [Split.io](https://www.split.io/)
 - [Visual Web Optimizer](https://vwo.com/)
 - [Optimizely](https://www.optimizely.com/)

@@ -1,3 +1,7 @@
+---
+description: "Share Typesense Cloud cluster access with team members using GitHub, email and password, or single sign-on authentication."
+---
+
 # Team Accounts in Typesense Cloud
 
 In Typesense Cloud, you can share access to your clusters with members of your team. 
@@ -43,4 +47,4 @@ But you can [customize access roles and permissions](./role-based-access-control
 
 When you sign up via [Email/Password-based Auth](#using-emailpassword-based-auth) and create a team, you can set up any SAML-based SSO platform to be the identity provider for that team. 
 
-Read this dedicated guide about [setting up Single Sign-on](./single-sign-on.md) for more information. 
+Read this dedicated guide about [setting up Single Sign-on](./single-sign-on.md) for more information.

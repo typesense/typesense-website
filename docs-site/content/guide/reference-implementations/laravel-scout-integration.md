@@ -1,3 +1,7 @@
+---
+description: "Integrate Typesense with Laravel Scout using the official setup guidance and a demo application with reusable source code."
+---
+
 # Laravel Scout Integration
 
 Laravel supports a native integration with Typesense, via Laravel Scout. 

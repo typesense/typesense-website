@@ -1,4 +1,5 @@
 ---
+title: "Semantic Search with OpenAI and Typesense"
 description: "Add semantic search to a Typesense collection using built-in embedding models or external ones (OpenAI, PaLM, Vertex AI) with auto-embedded fields."
 ---
 

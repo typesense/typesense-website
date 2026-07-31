@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud Invoice API endpoints list billing invoices and retrieve detailed invoice records, including line items, costs, and billing periods."
+---
+
 # Invoices API
 
 The Invoices API allows you to programmatically retrieve billing invoices for your Typesense Cloud account. 

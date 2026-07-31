@@ -1,3 +1,7 @@
+---
+description: "Search restaurants with free-form language that Typesense and an LLM translate into structured keywords, filters, and sort parameters."
+---
+
 # Natural Language Search restaurants
 
 This demo restaurant search showcases the **Natural Language Search** feature of Typesense. This allows users to type a free-form sentence into the search bar. Typesense then leverages **Large Language Models** (LLMs) to understand users' intent, automatically translating the natural language query into structured search parameters like filters, sort orders, and relevant keywords.

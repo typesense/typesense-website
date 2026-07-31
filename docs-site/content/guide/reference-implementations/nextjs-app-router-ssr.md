@@ -1,3 +1,7 @@
+---
+description: "Use Typesense with the Next.js App Router and React InstantSearch to server-render search results for a Steam games dataset."
+---
+
 # Next.js App Router SSR on Steam Games
 
 This site showcases how to use Typesense with Next.js' App Router along with React InstantSearch for server-side rendering on a Steam games dataset.

@@ -1,3 +1,7 @@
+---
+description: "Build keyboard-style typeahead autocorrect with Typesense typo correction using this interactive demo and reusable reference code."
+---
+
 # Typeahead Spellchecker
 
 Typesense's typo correction feature can be used to build interesting experiences like this widget that mimics the type-ahead autocorrect interfaces commonly found in iOS/Android keyboards.

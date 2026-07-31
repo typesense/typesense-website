@@ -1,3 +1,7 @@
+---
+description: "Use Typesense JOINs with Django and custom React InstantSearch components to explore related Formula 1 race data across collections."
+---
+
 # Using JOINs with Typesense and Django
 
 This site showcases how to use Typesense JOINs with Django on a Formula 1 race dataset, using custom React components for [react-instantsearch](https://www.npmjs.com/package/react-instantsearch) with [typesense-instantsearch-adapter](https://www.npmjs.com/package/typesense-instantsearch-adapter).

@@ -1,4 +1,5 @@
 ---
+title: "Build a JavaScript Search Bar with Typesense"
 description: "Build a typo-tolerant book search interface using plain JavaScript (no framework) and the Typesense ecosystem, from project setup to a working UI."
 ---
 

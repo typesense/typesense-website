@@ -4,7 +4,7 @@ description: "Safely back up and restore a self-hosted Typesense node by taking 
 
 # Backing Up and Restoring Typesense Data
 
-When you send documents to Typesense, it stores your data in the directory indicated by the `data-dir` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration`">server configuration parameter</RouterLink> and then builds the in-memory data structures that power search.
+When you send documents to Typesense, it stores your data in the directory indicated by the `data-dir` <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">server configuration parameter</RouterLink> and then builds the in-memory data structures that power search.
 When a Typesense process is restarted, the data is read from the data directory and the in-memory indices are rebuilt.   
 
 :::tip
@@ -27,5 +27,4 @@ Instead, you want to do the following:
 4. Start the Typesense process again.
 
 Typesense will then read the snapshot from the data dir and build the in-memory index.
-
 

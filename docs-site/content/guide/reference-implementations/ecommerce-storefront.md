@@ -1,3 +1,7 @@
+---
+description: "Explore a Typesense ecommerce storefront that demonstrates fast product browsing and search through a live demo and reusable source code."
+---
+
 # E-Commerce Storefront
 
 In addition to search experiences, Typesense can also be used to build performant browsing experiences like product listing pages in an ecommerce store.

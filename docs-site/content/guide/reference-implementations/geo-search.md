@@ -1,3 +1,7 @@
+---
+description: "Browse, search, and filter 1.2 million Airbnb listings on a map by location and available amenities with this Typesense geo-search demo."
+---
+
 # Geo Search
 
 This site indexes 1.2M AirBnB listings and let's you browse them on a map, and filter by amenities available at each listing. 

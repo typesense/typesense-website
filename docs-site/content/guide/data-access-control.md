@@ -1,4 +1,5 @@
 ---
+title: "Typesense API Keys and Access Control"
 description: "Manage who can read and write to a Typesense cluster: bootstrap key handling, scoped API keys per collection, action, record or field, and key rotation."
 ---
 

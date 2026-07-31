@@ -1,3 +1,7 @@
+---
+description: "Get help with Typesense through community channels, support resources, and links for reporting bugs or asking implementation questions."
+---
+
 # Help
 
 If you run into any issues or have general questions, here are a couple of ways to ask for help:

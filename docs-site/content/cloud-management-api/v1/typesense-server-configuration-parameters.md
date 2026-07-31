@@ -1,3 +1,7 @@
+---
+description: "Manage advanced Typesense Server configuration parameters for Cloud clusters, including CORS, performance, and analytics settings."
+---
+
 # Typesense Server Configuration Parameters API
 
 Once you've provisioned a cluster via the Typesense Cloud web console or using the [Cluster Management API](./cluster-management.md), 
