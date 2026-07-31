@@ -1,5 +1,6 @@
 ---
-description: "Translate free-form user sentences into structured Typesense search parameters (filters, sort, query terms) using an LLM, so users can search in plain English."
+title: "Natural Language Search API"
+description: "Use the Typesense Natural Language Search API to turn plain-English requests into structured query, filter, and sort parameters with an LLM."
 sitemap:
   priority: 0.7
 ---

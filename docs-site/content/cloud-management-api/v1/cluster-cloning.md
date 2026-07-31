@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud cluster cloning endpoints create copies of active clusters and let you retrieve, list, or cancel cloning operations."
+---
+
 # Cluster Cloning API
 
 Once you've provisioned a cluster via the Typesense Cloud web console or using the [Cluster Management API](./cluster-management.md), you can create a clone of that cluster using the API below.
@@ -210,4 +214,4 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
 Only cloning operations in a `pending` status can be canceled.
 
 This state only exists transiently as the cloning operation is waiting to be picked up by one of the async worker processes.
-::: 
+:::

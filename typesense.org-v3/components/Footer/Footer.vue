@@ -19,9 +19,15 @@ const pages = [
   { name: "Pricing", link: "https://cloud.typesense.org/pricing" },
   { name: "Blog", link: `${runtimeConfig.public.baseUrl}/blog` },
   {
-    name: "Algolia vs Elasticsearch vs Typesense",
+    name: "Compare Search Engines",
     link: "/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/",
   },
+  { name: "Typesense vs Algolia", link: "/typesense-vs-algolia/" },
+  {
+    name: "Typesense vs Elasticsearch",
+    link: "/typesense-vs-elasticsearch/",
+  },
+  { name: "Typesense vs Meilisearch", link: "/typesense-vs-meilisearch/" },
   { name: "Typesense Cloud", link: "https://cloud.typesense.org/" },
 ];
 const libraries = [
@@ -89,7 +95,10 @@ const supportLinks = [
   { name: "FAQs", link: "https://typesense.org/docs/guide/faqs.html" },
   { name: "Slack Community", link: "https://typesense.link/slack-community" },
   { name: "Community Archive", link: "https://threads.typesense.org/" },
-  { name: "GitHub Issue Tracker", link: "https://github.com/search?q=org%3Atypesense++issues&type=issues" },
+  {
+    name: "GitHub Issue Tracker",
+    link: "https://github.com/search?q=org%3Atypesense++issues&type=issues",
+  },
 ];
 </script>
 

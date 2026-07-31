@@ -1,3 +1,7 @@
+---
+description: "Build a Kotlin Compose interface for fast, faceted search across soccer matches with Typesense and custom mobile UI components."
+---
+
 # Using Search with Kotlin Compose and Typesense
 
 This site showcases how to use Typesense with Kotlin Compose to search through a soccer match dataset, implementing custom UI components and leveraging Typesense for fast, faceted search functionality.

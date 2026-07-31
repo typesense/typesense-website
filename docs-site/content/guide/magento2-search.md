@@ -1,4 +1,5 @@
 ---
+title: "Magento 2 Search with Typesense"
 description: "Replace Magento 2 default database-backed search with Typesense using the community-built Magento Extension to deliver instant, scaleable product search."
 ---
 
@@ -118,4 +119,4 @@ Store > Configuration > Typesense Search > Semantic Search > Semantic Search
 
 The extension supports several more options. Read more about them here in the [Official Documentation](https://ceymox.com/doc/typesense-search-for-magento-implementation-guide.html) written by Ceymox.
 
-If you have any questions or need additional help, please contact the Ceymox team directly: [https://ceymox.com/contact/](https://ceymox.com/contact/) 
+If you have any questions or need additional help, please contact the Ceymox team directly: [https://ceymox.com/contact/](https://ceymox.com/contact/)

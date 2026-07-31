@@ -1,3 +1,7 @@
+---
+description: "Search 28 million OpenLibrary books and filter results by author or subject in this Typesense reference implementation and live demo."
+---
+
 # Books Search
 
 This site showcases Typesense in action on a **28 Million** books database from [OpenLibrary](https://openlibrary.org/), with the ability to filter by authors and subject.

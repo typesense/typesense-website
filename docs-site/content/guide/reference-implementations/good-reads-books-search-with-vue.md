@@ -1,3 +1,7 @@
+---
+description: "Use Typesense with Vue InstantSearch to search a Goodreads books dataset and filter results by author or subject in this reference app."
+---
+
 # Good Reads Books Search
 
 This site showcases how to use Typesense with vue-instantsearch on a Good Reads books dataset, with the ability to filter by authors and subject.

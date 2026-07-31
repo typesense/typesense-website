@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud Cluster Management API keys allow 30 requests per minute by default and return HTTP 429 when the limit is exceeded."
+---
+
 # Rate Limits
 
 Cluster Management API Calls are rate-limited as a precaution.

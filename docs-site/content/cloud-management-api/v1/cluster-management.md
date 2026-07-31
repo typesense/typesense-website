@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud cluster management API endpoints provision, retrieve, list, update, and terminate clusters through a programmatic workflow."
+---
+
 # Cluster Management API
 
 This section talks about how to use the [Typesense Cloud **Cluster Management API**](README.md).

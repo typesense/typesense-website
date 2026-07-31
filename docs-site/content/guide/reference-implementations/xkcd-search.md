@@ -1,3 +1,7 @@
+---
+description: "Browse and search xkcd transcripts and topics by subject, character name, and publication date with this Typesense reference implementation."
+---
+
 # xkcd Search
 
 This site indexes transcripts and topics from xkcd and let's you browse and search by topic, character names and date. 

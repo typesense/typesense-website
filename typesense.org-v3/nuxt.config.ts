@@ -76,7 +76,6 @@ export default defineNuxtConfig({
             "Typesense is a fast, typo-tolerant search engine optimized for instant search-as-you-type experiences and ease of use.",
         },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://typesense.org" },
 
         {
           property: "og:image",
@@ -112,7 +111,7 @@ export default defineNuxtConfig({
     preconnect: true,
   },
   // For sitemap generation
-  site: { url: 'https://typesense.org' },
+  site: { url: 'https://typesense.org', trailingSlash: true },
   sitemap: {
     discoverImages: false,
     defaults: {

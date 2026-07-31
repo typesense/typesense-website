@@ -1,4 +1,5 @@
 ---
+title: "Typesense Search for SKUs, Emails and URLs"
 description: "How to index and search tricky data types in Typesense: SKUs, part numbers, emails, URLs, hashtags, code identifiers, and other punctuation-heavy strings."
 ---
 

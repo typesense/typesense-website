@@ -1,4 +1,5 @@
 ---
+title: "Build an Astro Search Bar with Typesense"
 description: "Build a typo-tolerant book search interface in an Astro site using Typesense and the typesense-instantsearch-adapter, from project setup to a working UI."
 ---
 

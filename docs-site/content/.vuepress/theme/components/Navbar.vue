@@ -7,7 +7,7 @@
           v-if="$site.themeConfig.logo"
           class="logo"
           :src="$withBase($site.themeConfig.logo)"
-          :alt="$siteTitle"
+          alt="Typesense"
           :width="$site.themeConfig.logoWidth"
           :height="$site.themeConfig.logoHeight"
         />

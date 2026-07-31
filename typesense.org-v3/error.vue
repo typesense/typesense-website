@@ -4,6 +4,11 @@ import type { NuxtError } from "#app";
 const props = defineProps({
   error: Object as () => NuxtError,
 });
+
+useSeoMeta({
+  title: "Page Not Found | Typesense",
+  robots: "noindex",
+});
 </script>
 
 <template>

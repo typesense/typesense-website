@@ -1,5 +1,6 @@
 ---
-description: "Reference for every Typesense server flag, config-file option, and runtime parameter covering networking, storage, peering, TLS, logging, and resource limits."
+title: "Typesense Server Configuration and Ports"
+description: "Configure Typesense server ports, network binding, storage, peering, TLS, logging, resource limits, and other command-line or config-file options."
 sidebarDepth: 2
 sitemap:
   priority: 0.7

@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud configuration API endpoints schedule and manage changes to cluster capacity, regions, topology, GPU, HA, SDN, and server version."
+---
+
 # Cluster Configuration Changes API
 
 Once you've provisioned a cluster via the Typesense Cloud web console or using the [Cluster Management API](./cluster-management.md), 

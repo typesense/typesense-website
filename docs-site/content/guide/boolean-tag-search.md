@@ -1,4 +1,5 @@
 ---
+title: "Boolean Tag Search with Typesense"
 description: "Implement boolean (AND/OR) search across full-text fields in Typesense via a tag-search pattern, keeping typo tolerance and ranking benefits intact."
 ---
 

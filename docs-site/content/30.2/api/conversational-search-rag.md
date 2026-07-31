@@ -1,4 +1,5 @@
 ---
+title: "Conversational Search and RAG API"
 description: "Build ChatGPT-style conversational Q&A over your indexed data using Typesense built-in RAG pipeline backed by the vector store and pluggable LLM models."
 sidebarDepth: 2
 sitemap:

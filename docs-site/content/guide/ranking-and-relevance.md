@@ -1,4 +1,5 @@
 ---
+title: "Typesense Search Ranking and Relevance"
 description: "How Typesense ranks results: text-match scoring (frequency, edit distance, proximity), query_by ordering and weights, field weighting, and tie-breakers."
 ---
 

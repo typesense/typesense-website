@@ -1,3 +1,7 @@
+---
+description: "Use the community-maintained Typesense Terraform provider to manage Typesense Cloud resources through the Cluster Management API."
+---
+
 # Terraform Module
 
 > This section talks about the rate limits that apply to the [Typesense Cloud **Cluster Management API**](README.md).

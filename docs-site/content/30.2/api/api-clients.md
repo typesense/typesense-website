@@ -156,7 +156,7 @@ We also have the following framework integrations:
 - [Gatsby](https://www.gatsbyjs.com/plugins/gatsby-plugin-typesense/)
 - [SEAL](https://github.com/schranz-search/schranz-search) provides integrations of Typesense in Laravel, Symfony, Spiral, Yii and Laminas Mezzio PHP Framework
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
-- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/TypesenseDemo.ipynb)
+- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/TypesenseDemo.ipynb)
 - [Django](https://github.com/Siege-Software/django-typesense) provides faster django admin
 
 ## UI Components
@@ -182,7 +182,7 @@ We also have the following framework integrations:
   - [PaLM API](./vector-search.md#using-google-palm-api)
   - [Vertex AI](./vector-search.md#using-gcp-vertex-ai-api)
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
-- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/TypesenseDemo.ipynb)
+- [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/TypesenseDemo.ipynb)
 - MCP Servers
   - [Avarant](https://github.com/avarant/typesense-mcp-server)
   - [Suhail](https://github.com/suhail-ak-s/mcp-typesense-server)
@@ -212,7 +212,7 @@ We also have the following framework integrations:
 ## Utilities
 
 - [ToolJet](https://tooljet.com/?ref=typesense)
-- [Airbyte ETL](https://docs.airbyte.com/integrations/destinations/typesense)
+- [Airbyte ETL](https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/destination-typesense/README.md)
 - [Enterspeed ETL](https://docs.enterspeed.com/integrations/typesense)
 - [Sitemap Generator from Typesense Data](https://github.com/adviise/typesense-sitemap)
 - [typesense-cli](https://github.com/AlexBV117/typesense-cli)

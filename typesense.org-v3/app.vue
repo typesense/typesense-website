@@ -1,3 +1,18 @@
+<script setup lang="ts">
+const route = useRoute();
+const canonicalUrl = computed(() => {
+  const routePath =
+    route.path === "/" ? route.path : `${route.path.replace(/\/+$/, "")}/`;
+
+  return new URL(routePath, "https://typesense.org").toString();
+});
+
+useHead(() => ({
+  link: [{ rel: "canonical", href: canonicalUrl.value }],
+  meta: [{ property: "og:url", content: canonicalUrl.value }],
+}));
+</script>
+
 <template>
   <NuxtLayout>
     <NuxtPage />

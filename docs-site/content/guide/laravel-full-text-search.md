@@ -1,4 +1,5 @@
 ---
+title: "Laravel Full-Text Search with Typesense"
 description: "Add typo-tolerant full-text search to a Laravel app by wiring Laravel Scout to the Typesense driver, indexing Eloquent models with a few config changes."
 ---
 

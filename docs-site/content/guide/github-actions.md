@@ -1,4 +1,5 @@
 ---
+title: "Run Typesense in GitHub Actions"
 description: "Run end-to-end tests against a real Typesense instance from inside a GitHub Actions workflow, either via a community action or a manual service step."
 sidebarDepth: 2
 ---
@@ -109,4 +110,3 @@ jobs:
 A full example file can be found here: [jaeyson/ex_typesense](https://github.com/jaeyson/ex_typesense/blob/main/.github/workflows/ci.yml).
 
 And that's it!
-

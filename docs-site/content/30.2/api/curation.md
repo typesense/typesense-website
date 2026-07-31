@@ -1,4 +1,5 @@
 ---
+title: "Typesense Search Curation API"
 description: "Curation sets let you pin, hide, or replace documents for specific queries to promote, demote, or substitute results without touching the underlying index."
 sidebarDepth: 2
 sitemap:

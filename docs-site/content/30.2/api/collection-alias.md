@@ -1,5 +1,6 @@
 ---
-description: "Create a virtual alias pointing to a real collection so you can swap underlying collections without changing client code, useful for zero-downtime reindexing."
+title: "Typesense Collection Aliases"
+description: "Use Typesense collection aliases to point a virtual name at a collection, switch indexes without client changes, and support zero-downtime reindexing."
 sidebarDepth: 1
 sitemap:
   priority: 0.7

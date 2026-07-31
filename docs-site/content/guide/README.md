@@ -1,4 +1,6 @@
 ---
+title: "Typesense Guides and Tutorials"
+description: "Typesense guides provide quick starts, installation steps, search tutorials, API links, reference implementations, and support resources."
 sidebarDepth: 1
 ---
 

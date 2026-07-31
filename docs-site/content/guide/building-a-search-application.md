@@ -1,4 +1,5 @@
 ---
+title: "Build a Search Application with Typesense"
 description: "First-steps walk-through: create a Typesense collection, index a sample books dataset, and run your first searches via a client library."
 ---
 

@@ -1,3 +1,7 @@
+---
+description: "Search about 300,000 Hacker News comments with Typesense semantic, keyword, and hybrid search plus filtering and faceting controls."
+---
+
 # Semantic + Hybrid Search on HackerNews Comments
 
 This site indexes around 300K comments from [HackerNews](https://new.ycombinator.com) 

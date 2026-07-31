@@ -1,3 +1,7 @@
+---
+description: "Build a Node.js search API with Express, PostgreSQL, Prisma, and Typesense while keeping the search index synced with source data."
+---
+
 # Building a Search API with Node.js, Express, Prisma, and Typesense
 
 This guide walks you through building a RESTful search API using Node.js, Express, PostgreSQL (via the Prisma ORM), and Typesense. You'll build a backend server that stores data in PostgreSQL as the source of truth, keeps Typesense in sync for fast search, and exposes a clean search API to your frontend clients.

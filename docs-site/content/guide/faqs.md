@@ -1,4 +1,5 @@
 ---
+title: "Typesense Search FAQs"
 description: "Frequently asked questions on Typesense covering keyword search, prefix matching, indexing, ranking, deployment, and operational behavior."
 sidebarDepth: 1
 ---
@@ -102,7 +103,7 @@ Then enable the dictionary in your collection schema by setting the `stem_dictio
 }
 ```
 
-For more details on stemming, read the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/stemming`">stemming documentation</RouterLink>.
+For more details on stemming, read the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/stemming.html`">stemming documentation</RouterLink>.
 
 ### When I search for a short string, I don't get all results. How do I address this?
 

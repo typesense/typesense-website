@@ -1,3 +1,7 @@
+---
+description: "Typesense Cloud Search Delivery Network routes queries to nearby geo-replicated nodes to reduce latency for users across geographic regions."
+---
+
 # Search Delivery Network
 
 **In Typesense Cloud**, you can choose to have your data distributed to multiple regions around the world

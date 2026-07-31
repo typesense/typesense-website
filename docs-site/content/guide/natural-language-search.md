@@ -1,5 +1,6 @@
 ---
-description: "Use an LLM (e.g. Google Gemini) alongside Typesense to translate plain-English search queries into structured filter, sort, and query parameters at runtime."
+title: "Natural Language Search with Typesense"
+description: "Build natural language search with Typesense and an LLM such as Gemini by translating plain-English requests into query, filter, and sort parameters."
 ---
 
 # Natural Language Search

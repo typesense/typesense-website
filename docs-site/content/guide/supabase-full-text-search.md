@@ -1,4 +1,5 @@
 ---
+title: "Supabase Full-Text Search with Typesense"
 description: "Sync data from Supabase (Postgres) into Typesense to add fast, typo-tolerant full-text search to a Supabase-backed app via triggers or edge functions."
 ---
 
@@ -114,7 +115,7 @@ The PG_NET extension will be used to realtime sync PostgreSQL with Typesense. Th
 
 ## Step 2: Configuring Typesense
 
-If your Typesense instance is already running and connected to the internet, skip to the _Setup API Keys_ section. This guide refers to the Docker portion of [Typesense's installation documentation](https://Typesense.org/docs/guide/install-Typesense.html#option-1-Typesense-cloud) with some modifications.
+If your Typesense instance is already running and connected to the internet, skip to the _Setup API Keys_ section. This guide refers to the Docker portion of [Typesense's installation documentation](https://typesense.org/docs/guide/install-typesense.html#option-1-typesense-cloud) with some modifications.
 
 ### Install with Docker
 

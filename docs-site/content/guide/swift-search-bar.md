@@ -1,3 +1,7 @@
+---
+description: "Build a native iOS book search interface with Swift, SwiftUI, Typesense, MVVM, Combine, and the official Typesense Swift client."
+---
+
 # Building a Search Bar in Swift for iOS
 
 This guide walks you through building a native iOS search interface using Swift, SwiftUI, and Typesense.

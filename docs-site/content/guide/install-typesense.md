@@ -1,4 +1,5 @@
 ---
+title: "Install Typesense: Cloud, Docker and Linux"
 description: "Install Typesense via Typesense Cloud, prebuilt DEB/RPM packages, downloadable binaries for Linux/macOS, or the official Docker image."
 ---
 
@@ -282,7 +283,7 @@ You would have to install the following additional dependencies, after which Typ
 
     You want to specifically install the following versions of these packages: `cuda=11.8.0-1`, `libcudnn8=8.9.2.26-1+cuda11.8` and `libcudnn8-dev=8.9.2.26-1+cuda11.8` and their dependencies.
 
-2. Install cuDNN following the instructions [here](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html).
+2. Install cuDNN following the instructions [here](https://docs.nvidia.com/deeplearning/cudnn/archives/cudnn-896/install-guide/index.html).
 
     You want to specifically install the `libcudnn8` and `libcudnn8-dev` packages.
 

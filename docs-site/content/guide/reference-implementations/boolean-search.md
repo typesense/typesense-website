@@ -1,3 +1,7 @@
+---
+description: "Implement Boolean search logic in Typesense with a tag-based interface while retaining query-by search across the indexed game data."
+---
+
 # Boolean Search 
 
 This demo shows you one way to implement Boolean search logic in Typesense while retaining query_by search functionality, by using tag-based UX features. 

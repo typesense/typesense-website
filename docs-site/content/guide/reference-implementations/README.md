@@ -1,3 +1,7 @@
+---
+description: "Browse Typesense reference implementations with live demos and source code for search, filtering, recommendations, geolocation, and more."
+---
+
 # Reference Implementations
 
 This section contains links to several reference implementation with live demos and source code.

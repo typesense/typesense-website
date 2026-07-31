@@ -1,3 +1,7 @@
+---
+description: "Compare Typesense guitar chord search implementations across popular JavaScript frameworks using 2,141 chord shapes and 552 chords."
+---
+
 # Guitar Chords Search in different JS frameworks
 
 Sites that showcase how to use Typesense in different Javascript frameworks, using a dataset of 2141 chord shapes of 552 guitar chords.

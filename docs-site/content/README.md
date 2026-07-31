@@ -1,3 +1,7 @@
+---
+description: "Typesense documentation explains how to install, configure, and use the search engine, with guides, API references, demos, and support links."
+---
+
 # Typesense Documentation
 
 👋 Welcome! Let's get you up and searching. 

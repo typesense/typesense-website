@@ -1,3 +1,7 @@
+---
+description: "Personalize Typesense search results with JOINs by combining products and user-specific data for pricing, filtering, faceting, and sorting."
+---
+
 # Personalizing Search Results with JOINs
 
 Personalized search tailors search results to individual users or user groups based on their characteristics, preferences, or context. This is commonly used in e-commerce platforms to show tier-based pricing, subscription services to filter content by access level, multi-tenant applications to restrict data by organization, marketplaces to display region-specific inventory or pricing, user-generated records where users can create favorites and search through their favorites, etc.

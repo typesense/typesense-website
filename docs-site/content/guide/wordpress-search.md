@@ -1,5 +1,6 @@
 ---
-description: "Add an instant search-as-you-type experience to a WordPress site via the community-built Search With Typesense WordPress plugin or the SwiftSearch for Typesense plugin, indexing posts, products, pages and any custom post types."
+title: "WordPress Autocomplete Search with Typesense"
+description: "Add autocomplete and instant search to WordPress or WooCommerce with community Typesense plugins that index posts, pages, products, and custom post types."
 ---
 
 # Search for WordPress Sites

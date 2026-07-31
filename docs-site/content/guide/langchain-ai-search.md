@@ -1,3 +1,7 @@
+---
+description: "Build a conversational movie search application with Python, Chainlit, LangChain, Typesense hybrid search, and generated recommendations."
+---
+
 # Building an AI-Powered Movie Search Engine with LangChain and Typesense
 
 This guide walks you through building an intelligent conversational search application using **Python**, **Chainlit**, **LangChain**, and **Typesense**. You will build a chatbot that understands natural language queries, performs Hybrid Search against a movie dataset, and generates conversational recommendations.

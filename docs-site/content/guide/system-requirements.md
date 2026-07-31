@@ -1,4 +1,5 @@
 ---
+title: "Typesense System Requirements"
 description: "Choose RAM, CPU, and disk for a self-hosted Typesense cluster based on dataset size, query patterns, search type (keyword/vector), and concurrency."
 ---
 
@@ -111,7 +112,7 @@ GPU is not necessary when using remote embedding models like OpenAI, PaLM API or
 Typesense currently only support Nvidia GPUs.
 
 :::tip
-In Typesense Cloud, you'll find the option to turn on "GPU Acceleration" for [select RAM / CPU configurations](https://typesense-cloud.helpscoutdocs.com/article/4-gpu-acceleration) 
+In Typesense Cloud, you'll find the option to turn on "GPU Acceleration" for [select RAM / CPU configurations](https://cloud-help.typesense.org/article/gpu-acceleration)
 when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
 :::
 

@@ -1,4 +1,5 @@
 ---
+title: "Typesense Vector Search and Embeddings"
 description: "Index embeddings from any ML model and run nearest-neighbor (KNN) queries for semantic search, recommendations, hybrid search, visual search, and RAG."
 sidebarDepth: 2
 sitemap:
@@ -950,7 +951,7 @@ The GPU is only used for _generating_ embeddings - when indexing documents and w
 
 #### On Typesense Cloud:
 
-For [select RAM / CPU configurations](https://typesense-cloud.helpscoutdocs.com/article/4-gpu-acceleration), you'll find the option to turn on "GPU Acceleration" when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
+For [select RAM / CPU configurations](https://cloud-help.typesense.org/article/gpu-acceleration), you'll find the option to turn on "GPU Acceleration" when provisioning a new cluster or under Cluster Configuration > Modify for Typesense versions `0.25.0` and above.
 
 #### When Self Hosting:
 

@@ -1,5 +1,6 @@
 ---
-description: "Complete list of Typesense features: typo tolerance, faceting, ranking, geo search, vector search, semantic search, RAG, JOINs, synonyms, clustering, and more."
+title: "Typesense Features: Keyword, Vector & AI Search"
+description: "Explore Typesense features for typo-tolerant keyword search, filtering, faceting, geo search, vectors, hybrid search, RAG, JOINs, and clustering."
 ---
 
 # Features

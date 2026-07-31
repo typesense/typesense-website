@@ -1,4 +1,5 @@
 ---
+title: "Run Typesense in Production"
 description: "Best practices for running Typesense in production: capacity planning, HA setup, deployment via Docker or systemd, monitoring, and operational tips."
 ---
 

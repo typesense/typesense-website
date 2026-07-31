@@ -1,3 +1,7 @@
+---
+description: "Chat with 220 Paul Graham essays using Typesense conversational search, stored embeddings, source retrieval, and conversation history."
+---
+
 # Paul Graham essays conversational search
 
 This demo indexes and creates embeddings for 220 essays by Paul Graham in Typesense and uses its conversational search features to enable a

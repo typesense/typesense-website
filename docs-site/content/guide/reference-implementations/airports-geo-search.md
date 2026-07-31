@@ -1,3 +1,7 @@
+---
+description: "Search and filter 78,000 airports on a map with Typesense, Next.js, React InstantSearch, and the Typesense InstantSearch adapter."
+---
+
 # Airports Geo Search
 
 This demo indexes 78K Airports around the world and lets you browse them on a map, search by airport details, and filter by a variety of parameters like airport type, elevation, number of runways, etc.

@@ -1,4 +1,5 @@
 ---
+title: "Multilingual Search with Typesense Locales"
 description: "Index and search non-English text in Typesense: configure the locale field option, supported languages, tokenization tradeoffs, and best practices."
 ---
 
