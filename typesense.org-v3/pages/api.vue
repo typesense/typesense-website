@@ -2,6 +2,15 @@
 
 <script setup lang="ts">
 definePageMeta({
-  redirect: "/docs/api/",
+  layout: false,
+});
+
+useHead({
+  meta: [
+    {
+      "http-equiv": "refresh",
+      content: "0; url=/docs/api/",
+    },
+  ],
 });
 </script>

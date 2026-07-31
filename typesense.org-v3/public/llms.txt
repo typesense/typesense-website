@@ -1,0 +1,8 @@
+# Typesense
+
+Typesense is an open source, typo-tolerant search engine designed for fast search-as-you-type experiences and a straightforward developer API.
+
+## Documentation
+
+- [Typesense documentation index](https://typesense.org/docs/llms.txt)
+- [Full Typesense documentation](https://typesense.org/docs/llms-full.txt)

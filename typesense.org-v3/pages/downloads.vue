@@ -282,12 +282,12 @@ section {
 
 <script lang="ts" setup>
 useSeoMeta({
-  title: "Downloads | Typesense",
-  ogTitle: "Downloads | Typesense",
+  title: "Download Typesense: Docker and Linux Packages | Typesense",
+  ogTitle: "Download Typesense: Docker and Linux Packages | Typesense",
   description:
-    "Run on Typesense Cloud, or download DEB, RPM and binary packages.",
+    "Download Typesense Server for Linux as DEB, RPM or compressed binaries, run the official Docker image, or choose a managed Typesense Cloud cluster.",
   ogDescription:
-    "Run on Typesense Cloud, or download DEB, RPM and binary packages.",
+    "Download Typesense Server for Linux as DEB, RPM or compressed binaries, run the official Docker image, or choose a managed Typesense Cloud cluster.",
 });
 
 import FlashFill from "@/assets/icons/flash-fill.svg";

@@ -156,12 +156,12 @@ section {
 </style>
 <script lang="ts" setup>
 useSeoMeta({
-  title: "About Us | Typesense",
-  ogTitle: "About Us | Typesense",
+  title: "About Typesense: Open Source Search Engine | Typesense",
+  ogTitle: "About Typesense: Open Source Search Engine | Typesense",
   description:
-    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+    "Learn what Typesense is, why we built an open source search engine, and how our lean team works to make powerful search technology accessible to everyone.",
   ogDescription:
-    "We are a lean team of engineers passionate about making great search technology accessible to everyone. Our goal is to democratize search.",
+    "Learn what Typesense is, why we built an open source search engine, and how our lean team works to make powerful search technology accessible to everyone.",
 });
 
 import ExternalArrow from "@/assets/icons/external-arrow.svg";
