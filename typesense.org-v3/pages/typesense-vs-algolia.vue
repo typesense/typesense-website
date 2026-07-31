@@ -639,6 +639,61 @@
       </div>
     </section>
 
+    <section class="spotlight-section">
+      <div class="spotlight-card">
+        <div class="spotlight-copy">
+          <h2>Font Awesome compared four options for icon search</h2>
+          <p>
+            If any team knows search boxes, it is the one drawing the magnifying
+            glass icons that sit inside so many of them. When Font Awesome moved
+            fontawesome.com's icon search off Algolia, Rob Madole, Principal
+            Software Engineer at Font Awesome, wrote to us the day the migration
+            shipped:
+          </p>
+          <blockquote class="spotlight-quote">
+            <p>
+              We compared Algolia, Postgres Full-Text Search, and Meilisearch to
+              Typesense. We chose Typesense for the Algolia Vue component
+              compatibility, the embedded vector, and the ease of deploying
+              (snapshot to the rescue) and ability to tune results.
+            </p>
+          </blockquote>
+          <p>
+            His email names what pushed them to switch, in his own words:
+            Algolia quality “had been slipping for a little while” and “the
+            knobs to adjust it were put behind paywalls”. fontawesome.com now
+            runs on a self-hosted Typesense service.
+          </p>
+          <CustomLink
+              class="spotlight-link"
+              to="https://fontawesome.com/search"
+          >
+            <span>See the search they shipped</span>
+            <ArrowRight />
+          </CustomLink>
+        </div>
+        <a
+            class="spotlight-image-link"
+            href="/images/font-awesome-email-testimonial.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read the full email from Font Awesome about switching to Typesense"
+        >
+          <img
+              class="spotlight-image"
+              src="/images/font-awesome-email-testimonial.png"
+              alt="Email from Rob Madole, Principal Software Engineer at Font Awesome, describing fontawesome.com's move from Algolia to a self-hosted Typesense service"
+              width="1600"
+              height="608"
+              loading="lazy"
+          />
+        </a>
+        <p class="spotlight-caption">
+          Rob's email to us, shared with his permission.
+        </p>
+      </div>
+    </section>
+
     <section class="content-section fit-section">
       <div class="fit-grid">
         <article class="fit-card fit-card-algolia">
@@ -1258,6 +1313,49 @@ tbody tr td:last-child {
 }
 .proof-copy {
   @apply mb-6 max-w-[780px] text-left leading-[1.7] text-text-muted;
+}
+.spotlight-section {
+  @apply w-full max-w-[1160px] self-center;
+}
+.spotlight-card {
+  @apply flex w-full flex-col rounded-3xl bg-blue-in-green p-10 text-text-inverted shadow-lg shadow-black/10 max-md:p-5;
+}
+.spotlight-copy {
+  @apply flex flex-col items-start;
+}
+.spotlight-copy h2 {
+  @apply mb-4 text-left text-text-inverted;
+}
+.spotlight-copy p {
+  @apply mb-6 max-w-[840px] text-left leading-[1.7] text-text-inverted/90;
+}
+.spotlight-quote {
+  @apply relative mb-6 ml-6 max-w-[840px] border-l-2 border-white/40 pl-8 max-md:ml-4 max-md:pl-6;
+}
+.spotlight-quote::before {
+  content: "“";
+  position: absolute;
+  top: -1.75rem;
+  left: -0.45rem;
+  color: rgb(255 255 255 / 45%);
+  font-family: Georgia, serif;
+  font-size: 6rem;
+  line-height: 1;
+}
+.spotlight-copy .spotlight-quote p {
+  @apply mb-0 text-xl font-semibold italic leading-[1.5] text-text-inverted max-md:text-lg;
+}
+.spotlight-link {
+  @apply mb-8 flex items-center gap-2 font-semibold text-text-inverted underline underline-offset-4;
+}
+.spotlight-image-link {
+  @apply block overflow-hidden rounded-2xl bg-white p-2 shadow-xl shadow-black/20;
+}
+.spotlight-image {
+  @apply block h-auto w-full rounded-xl;
+}
+.spotlight-caption {
+  @apply mt-3 text-sm text-text-inverted/70;
 }
 .testimonial-layout {
   @apply grid w-full grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-10 max-lg:grid-cols-1;

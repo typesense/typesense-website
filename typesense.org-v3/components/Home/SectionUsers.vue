@@ -16,7 +16,13 @@ const users = [
     href: "https://www.bbcmaestro.com",
     imgPath: "/images/user-logos/bbc-maestro-logo.svg",
     height: 15.5,
-    alt: "Soundsnap",
+    alt: "BBC Maestro",
+  },
+  {
+    href: "https://fontawesome.com",
+    imgPath: "/images/user-logos/font-awesome-logo.svg",
+    height: 28,
+    alt: "Font Awesome",
   },
   {
     href: "https://kick.com",
@@ -60,6 +66,24 @@ const users = [
     imgPath: "/images/user-logos/eleven-labs.svg",
     height: 15,
     alt: "ElevenLabs",
+  },
+  {
+    href: "https://ultrahuman.com",
+    imgPath: "/images/user-logos/ultrahuman-logo.svg",
+    height: 14,
+    alt: "Ultrahuman",
+  },
+  {
+    href: "https://solidstarts.com",
+    imgPath: "/images/user-logos/solid-starts-logo.svg",
+    height: 39.25,
+    alt: "Solid Starts",
+  },
+  {
+    href: "https://tireplanet.com",
+    imgPath: "/images/user-logos/tireplanet-logo.svg",
+    height: 37,
+    alt: "Tire Planet",
   },
 ];
 
@@ -152,7 +176,7 @@ const asSeenAt = [
     <section class="mt-[100px]">
       <h2 class="mb-[30px] max-md:mb-6">As seen at</h2>
       <div
-        class="grid grid-cols-[360px_360px_304px] justify-between items-start gap-4 max-[1200px]:grid-cols-2 max-[1200px]:justify-start max-md:!grid-cols-1 max-md:!justify-start max-md:gap-6"
+        class="grid grid-cols-[360px_360px_304px] items-start justify-between gap-4 max-[1200px]:grid-cols-2 max-[1200px]:justify-start max-md:!grid-cols-1 max-md:!justify-start max-md:gap-6"
       >
         <div class="space-y-3">
           <div class="flex items-center justify-between px-4">
@@ -207,7 +231,7 @@ const asSeenAt = [
         </div>
 
         <div
-          class="self-stretch flex h-full flex-col justify-center gap-4 max-[1200px]:col-span-2 max-[1200px]:grid max-[1200px]:h-auto max-[1200px]:grid-cols-2 max-[1200px]:content-start max-md:col-span-1 max-md:gap-2 max-sm:grid-cols-2"
+          class="flex h-full flex-col justify-center gap-4 self-stretch max-[1200px]:col-span-2 max-[1200px]:grid max-[1200px]:h-auto max-[1200px]:grid-cols-2 max-[1200px]:content-start max-md:col-span-1 max-md:gap-2 max-sm:grid-cols-2"
         >
           <CustomLink
             class="w-full"
@@ -226,9 +250,13 @@ const asSeenAt = [
           </CustomLink>
         </div>
 
-        <div class="col-span-3 mt-4 space-y-3 max-[1200px]:col-span-2 max-md:col-span-1">
+        <div
+          class="col-span-3 mt-4 space-y-3 max-[1200px]:col-span-2 max-md:col-span-1"
+        >
           <div class="flex items-center justify-between px-4">
-            <p class="text-sm text-gray-500">Typesense on San Francisco buses</p>
+            <p class="text-sm text-gray-500">
+              Typesense on San Francisco buses
+            </p>
             <a
               href="https://x.com/jasonbosco/status/2042001011313930250"
               target="_blank"

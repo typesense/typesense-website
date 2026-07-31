@@ -77,29 +77,71 @@ onUnmounted(() => {
       <div
         class="flex flex-1 flex-col items-end justify-between gap-4 max-md:flex-row max-md:items-stretch max-md:gap-2"
       >
-        <div class="card flex-1 min-[1180px]:mt-24 min-[1360px]:mr-[-80px]">
+        <div
+          class="card flex-1 !bg-secondary-bg min-[1180px]:mt-24 min-[1360px]:mr-[-80px]"
+        >
+          <blockquote class="subtext !mt-0">
+            “We compared Algolia, Postgres Full-Text Search, and Meilisearch to
+            Typesense. We chose Typesense for the Algolia Vue component
+            compatibility, the embedded vector, and the ease of deploying
+            (snapshot to the rescue) and ability to tune results.”
+          </blockquote>
+          <a
+            href="/images/font-awesome-email-testimonial.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read the full email from Font Awesome"
+          >
+            <img
+              class="rounded-xl border border-black/5"
+              src="/images/font-awesome-email-testimonial.png"
+              alt="Email from Rob Madole at Font Awesome about moving fontawesome.com to a self-hosted Typesense service"
+              width="1600"
+              height="608"
+              loading="lazy"
+            />
+          </a>
+          <div class="flex items-center justify-between gap-3 self-stretch">
+            <span class="subtext !mt-0 text-sm"
+              >Rob Madole, Principal Software Engineer</span
+            >
+            <CustomLink to="https://fontawesome.com" class="shrink-0">
+              <img
+                style="height: 34px"
+                src="/images/user-logos/font-awesome-logo.svg"
+                alt="Font Awesome"
+              />
+            </CustomLink>
+          </div>
+        </div>
+        <div class="card md:relative md:right-12">
           <p class="subtext !mt-0">
-            We made the switch to Typesense from Algolia and never looked back.
+            “We made the switch to Typesense from Algolia and never looked back.
             As our business was scaling incredibly fast, Typesense was able to
             provide superior performance, technology and support which allowed
             us to take one large feature off our plates while focusing on other
-            core business functionalities.
+            core business functionalities.”
           </p>
-          <CustomLink to="https://kick.com/" class="self-end">
-            <img
-              width="73.5"
-              src="/images/user-logos/kick-logo.svg"
-              alt="Kick"
-            />
-          </CustomLink>
+          <div class="flex items-center justify-between gap-3 self-stretch">
+            <span class="subtext !mt-0 text-sm"
+              >Paul Chianese, Head of Product</span
+            >
+            <CustomLink to="https://kick.com/" class="shrink-0">
+              <img
+                width="73.5"
+                src="/images/user-logos/kick-logo.svg"
+                alt="Kick"
+              />
+            </CustomLink>
+          </div>
         </div>
         <div class="card !bg-secondary-bg md:relative md:right-24">
           <p class="subtext !mt-0 opacity-75">
-            We switched from our in-house search solution to Typesense Cloud in
+            “We switched from our in-house search solution to Typesense Cloud in
             a matter of days, and it has been working reliably for months now.
             Integrating it into our existing tech stack was a breeze, and the
             customization options within the Cloud Dashboard have been the real
-            highlights so far.
+            highlights so far.”
           </p>
           <CustomLink to="https://n8n.io/" class="self-end">
             <img src="/images/user-logos/n8n.svg" alt="n8n" />
@@ -108,10 +150,10 @@ onUnmounted(() => {
         <div class="card">
           <div class="flex justify-between gap-5 max-md:flex-col">
             <p class="subtext !mt-0">
-              Switched from elasticsearch to @typesense and I think these
+              “Switched from elasticsearch to @typesense and I think these
               results speak for themselves. The best part? The ranking is better
-              too! ... This is what I like to call "brick-shittingly good
-              improvement"
+              too! ... This is what I like to call ‘brick-shittingly good
+              improvement’”
             </p>
             <img
               class="m-auto max-w-[200px] rounded-xl"
