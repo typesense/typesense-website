@@ -1,8 +1,65 @@
 # Typesense
 
-Typesense is an open source, typo-tolerant search engine designed for fast search-as-you-type experiences and a straightforward developer API.
+> Typesense is an open source search engine for developers and AI agents. Use it to add search to websites, web apps, mobile apps, devices, desktop apps, or really anything else that needs full-text search alongside modern AI-powered retrieval. It combines typo-tolerant keyword search with vector, semantic, hybrid, Natural Language Search, and geo search through a developer-friendly REST API.
+
+Typesense is designed to deliver fast search-as-you-type experiences with relevant results out of the box. It focuses on site and app search, with sensible defaults for common use cases and query-time controls for teams that need more tuning. No PhD required.
+
+The same search API can run as a self-hosted native binary or Docker container, or as a dedicated managed cluster on Typesense Cloud. The open source server includes Raft clustering with automatic leader election and failover. Typesense Cloud adds managed operations, a visual dashboard, self-service scaling, geo-distributed search delivery, team access, SSO, role-based access control, and support plans.
+
+Core capabilities include typo tolerance, tunable relevance, filtering and faceting, dynamic sorting without duplicate indices, grouping, synonyms, merchandising, federated search, joins, geo search, vector search, semantic and hybrid search, Natural Language Search, recommendations, and conversational search with built-in RAG. Typesense can generate embeddings through supported model providers or use embeddings supplied by the application.
 
 ## Documentation
 
-- [Typesense documentation index](https://typesense.org/docs/llms.txt)
-- [Full Typesense documentation](https://typesense.org/docs/llms-full.txt)
+- [Typesense documentation index](https://typesense.org/docs/llms.txt): A compact, structured index of the documentation.
+- [Full Typesense documentation](https://typesense.org/docs/llms-full.txt): The complete documentation in a single machine-readable file.
+- [AI Agent Search with Typesense](https://typesense.org/docs/guide/ai-agents-typesense.html): Use Typesense directly as an AI agent's knowledge-retrieval layer, combining typo-tolerant keyword, semantic, and hybrid search with structured filtering, automatic embeddings, and RAG through one API.
+
+## Product and Deployment
+
+- [Typesense](https://typesense.org/): Product overview, search capabilities, use cases, developer experience, community, and integrations for ecommerce platforms, content management systems, developer tools, and AI frameworks.
+- [Download Typesense](https://typesense.org/downloads/): Self-host Typesense with Docker, native Linux packages and binaries, or Homebrew on macOS.
+- [Typesense Cloud](https://cloud.typesense.org/): Run Typesense as a managed cluster without operating the search infrastructure yourself.
+- [Typesense Cloud Pricing](https://cloud.typesense.org/pricing): Public configuration-based pricing with no per-search or per-record fees.
+- [Typesense Source Code](https://github.com/typesense/typesense): The open source Typesense server, written in C++ and distributed as a self-contained native binary.
+
+## Client Libraries and Search Interfaces
+
+- [JavaScript and TypeScript Client](https://github.com/typesense/typesense-js): Official client for browsers, Node.js, and JavaScript runtimes.
+- [Python Client](https://github.com/typesense/typesense-python): Official Python client.
+- [Ruby Client](https://github.com/typesense/typesense-ruby): Official Ruby client.
+- [PHP Client](https://github.com/typesense/typesense-php): Official PHP client.
+- [Go Client](https://github.com/typesense/typesense-go): Official Go client.
+- [Java Client](https://github.com/typesense/typesense-java): Official Java client.
+- [Swift Client](https://github.com/typesense/typesense-swift): Official Swift client.
+- [Dart Client](https://github.com/typesense/typesense-dart): Official Dart and Flutter client.
+- [Typesense InstantSearch Adapter](https://github.com/typesense/typesense-instantsearch-adapter): Use Algolia InstantSearch UI widgets with a Typesense backend.
+- [Typesense DocSearch](https://github.com/typesense/typesense-docsearch.js): Prebuilt search UI for documentation websites.
+- [Docusaurus Search Theme](https://github.com/typesense/docusaurus-theme-search-typesense): Add Typesense-powered search to Docusaurus websites.
+
+## Platform Integrations
+
+- [Laravel Scout](https://laravel.com/docs/11.x/scout#typesense): Use Typesense as a Laravel Scout search engine.
+- [Firebase Extension](https://firebase.google.com/products/extensions/typesense-firestore-typesense-search): Sync Firestore data to Typesense for full-text search.
+- [WordPress Plugin](https://wordpress.org/plugins/search-with-typesense/): Add Typesense-powered search to WordPress.
+- [Gatsby Plugin](https://github.com/typesense/gatsby-plugin-typesense): Index Gatsby content in Typesense.
+
+## Compare Search Platforms
+
+- [Typesense, Algolia, Elasticsearch, and Meilisearch](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/): Side-by-side comparison of capabilities, hosting models, pricing approaches, and support.
+- [Typesense vs Algolia](https://typesense.org/typesense-vs-algolia/): Compare instant search, relevance controls, sorting, infrastructure choices, and how costs change as usage grows.
+- [Typesense vs Elasticsearch](https://typesense.org/typesense-vs-elasticsearch/): Compare a focused site and app search engine with Elasticsearch's broader search, analytics, observability, and security platform.
+- [Typesense vs Meilisearch](https://typesense.org/typesense-vs-meilisearch/): Compare production availability, storage tradeoffs, feature access, cloud pricing, and developer experience.
+
+## Company and Support
+
+- [About Typesense](https://typesense.org/about/): Typesense's mission, history, customer-funded approach, and commitment to making powerful search accessible to developers.
+- [Typesense Support](https://typesense.org/support/): Community support for self-hosted Typesense and prioritized support plans for Typesense Cloud.
+- [Typesense GitHub Organization](https://github.com/typesense): Server, client library, integration, and tooling repositories.
+- [Typesense Roadmap](https://github.com/orgs/typesense/projects/1): Public product roadmap and work in progress.
+- [Typesense Slack Community](https://typesense.link/slack-community): Community discussion and help from Typesense users and maintainers.
+
+## Optional
+
+- [Typesense Blog](https://typesense.org/blog/): Product updates, engineering articles, company decisions, and customer stories.
+- [Learn Search](https://typesense.org/learn/): Practical articles about building and improving search experiences.
+- [Typesense Community Archive](https://threads.typesense.org/): Searchable archive of public Typesense community discussions.
