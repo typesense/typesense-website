@@ -8,13 +8,9 @@ sitemap:
 
 # Conversational Search (RAG)
 
-Typesense has the ability to respond to free-form questions, with conversational responses and also maintain context for follow-up questions and answers.
+Typesense can respond to free-form questions about your indexed data while preserving conversation context for follow-up questions and answers. This lets you build a ChatGPT-style Q&A interface over your own data.
 
-Think of this feature as a ChatGPT-style Q&A interface, but with the data you've indexed in Typesense. 
-
-Typesense uses a technique called [Retrieval Augmented Generation](https://www.promptingguide.ai/techniques/rag) (RAG) to enable this style of conversational searches. 
-
-Instead of having to build your own RAG pipeline, Typesense essentially has built-in RAG using it's [Vector Store](./vector-search.md) for [semantic search](../../guide/semantic-search.md), and it's pre-built integration with LLMs for formulating conversational responses.
+Typesense uses [Retrieval Augmented Generation](https://www.promptingguide.ai/techniques/rag) (RAG) to retrieve relevant documents through [semantic search](../../guide/semantic-search.md) in its [Vector Store](./vector-search.md). It then passes them to your configured LLM, which formulates a conversational response. The retrieval and LLM integrations are built in, so you do not need to assemble the RAG pipeline yourself.
 
 ## Create a Conversation History collection
 

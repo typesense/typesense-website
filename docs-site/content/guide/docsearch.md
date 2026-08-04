@@ -3,11 +3,11 @@ title: "DocSearch for Documentation Sites"
 description: "Add DocSearch to documentation sites with Typesense's scraper and JavaScript search bar, including setup for Docusaurus-style structured content."
 ---
 
-# Search for Documentation Sites
+# DocSearch for Documentation Sites
 
-The good folks over at Algolia have built and open-sourced [DocSearch](https://github.com/algolia/docsearch), which is a suite of tools specifically built to index data from a documentation site and then add a search bar to the site quickly.
+The good folks over at Algolia built and open-sourced [DocSearch](https://github.com/algolia/docsearch), a suite of tools that crawls structured documentation, indexes the content, and adds a search bar that returns relevant sections as users type.
 
-This article will show you how to use a customized version of DocSearch that works with Typesense. In fact, the search bar you see on Typesense's own documentation site is built with this customized version of DocSearch.
+This guide shows you how to use a customized version of DocSearch that works with Typesense. The search bar on the Typesense documentation site uses this same implementation.
 
 Typesense's customized version of DocSearch is made up of two components:
 

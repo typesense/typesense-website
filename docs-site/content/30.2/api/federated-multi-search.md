@@ -1,27 +1,21 @@
 ---
+title: "Multi-Search API | Federated Search Across Collections"
 description: "Run multiple search requests in a single HTTP call. Federated mode returns each result independently; union mode merges them into one ranked list."
 sidebarDepth: 1
 sitemap:
   priority: 0.7
 ---
 
-# Federated / Multi Search
+# Multi-Search API (Federated and Union Search)
 
-Multi search allows you to make multiple search requests in a single HTTP request. It helps you avoid
-round-trip network latencies incurred otherwise if each of these requests are sent as separate HTTP requests.
+The multi-search API batches multiple search requests into one HTTP request, avoiding the round-trip latency of sending each request separately. It supports two response modes:
 
-You can use it in two different modes:
-
-- **Federated search**: each search request in the multi-search payload returns results as independently.
-- **Union search**: the response of each search request is merged into a single unified order.
+- **Federated search** returns a separate result set for each search request.
+- **Union search** combines the matches from all search requests into a single ranked result set.
 
 ## Federated search
 
-With **federated search**, you can use a`multi_search` request to search across multiple collections
-in a single HTTP request, with the search results being independent of each other.
-
-For eg: in an ecommerce products dataset, you can show results from both a "products" collection,
-and a "brands" collection to the user, by searching them in parallel with a `multi_search` request.
+Federated search works well when a UI needs distinct results from several sources. For example, an ecommerce UI can query `products` and `brands` collections in parallel and display each result set separately:
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>

@@ -1,9 +1,11 @@
 ---
-title: "Typesense Search Analytics"
+title: "Search Analytics: Queries, No Results, and Conversions"
 description: "Set up Typesense search analytics with server-side aggregation rules or client-side events to track popular queries, no-result searches, and conversions."
 ---
 
 # Search Analytics
+
+Search analytics helps you understand how people use search so you can improve result quality and the overall search experience.
 
 ## Server-side vs Client-side
 
@@ -17,11 +19,9 @@ A common need when building search experiences is to get answers to questions li
 - What are the items that are most often returned in search results?
 - Is there a correlation between user demographics / cohorts and their search behavior?
 
-In order to answer most of these questions, you need not just search data, but also data about how a user engages with different parts of your site or app. 
-This is data you are most likely already capturing in your **web/app analytics** tool of choice like [Amplitude](https://amplitude.com/), [Google Analytics](https://marketingplatform.google.com/about/analytics/), [Heap](https://heap.io/), [Mixpanel](https://mixpanel.com/), [Plausible](https://plausible.io/), [Pendo](https://www.pendo.io/) etc.
+Most of these questions require both search data and client-side behavioral data about how users engage with different parts of your site or app. You may already capture this behavioral context in a **web/app analytics** tool such as [Amplitude](https://amplitude.com/), [Google Analytics](https://marketingplatform.google.com/about/analytics/), [Heap](https://heap.io/), [Mixpanel](https://mixpanel.com/), [Plausible](https://plausible.io/), or [Pendo](https://www.pendo.io/).
 
-Given that you need the context of user-behavioral data to get a complete picture of how your search experience is performing, 
-**we highly recommend instrumenting your search experience on the client-side**, to send additional search data along with the rest of the data you are already capturing, to your existing analytics platform.
+To combine these sources and get a complete picture of search performance, **we highly recommend instrumenting your search experience on the client side**. This lets you send search activity to your existing analytics platform alongside the rest of the behavioral data you already capture.
 
 ## Server-side analytics 
 
