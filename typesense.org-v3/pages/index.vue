@@ -3,6 +3,14 @@ definePageMeta({
   layout: "default",
 });
 
+const description =
+  "Typesense is an open-source search engine for fast, typo-tolerant site and app search, with simple APIs, vector search, and self-hosting.";
+
+useSeoMeta({
+  description,
+  ogDescription: description,
+});
+
 useHead({
   script: [
     {

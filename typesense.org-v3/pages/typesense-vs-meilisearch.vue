@@ -356,7 +356,7 @@
                   <CustomLink
                     to="https://github.com/typesense/typesense-instantsearch-adapter"
                   >
-                    <span>Typesense-InstantSearch adapter</span>
+                    <span>Typesense InstantSearch adapter</span>
                   </CustomLink>
                   lets Algolia's widgets work with Typesense for JavaScript,
                   React, Vue, and Angular
@@ -720,7 +720,7 @@
             <CustomLink
               to="https://github.com/typesense/typesense-instantsearch-adapter"
             >
-              <span>Typesense-InstantSearch adapter</span>
+              <span>Typesense InstantSearch adapter</span>
             </CustomLink>
             supports InstantSearch.js and the React, Vue, and Angular
             integrations, so much of the existing UI can stay in place.

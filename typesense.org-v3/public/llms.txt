@@ -46,8 +46,10 @@ Core capabilities include typo tolerance, tunable relevance, filtering and facet
 ## Compare Search Platforms
 
 - [Typesense, Algolia, Elasticsearch, and Meilisearch](https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/): Side-by-side comparison of capabilities, hosting models, pricing approaches, and support.
-- [Typesense vs Algolia](https://typesense.org/typesense-vs-algolia/): Compare instant search, relevance controls, sorting, infrastructure choices, and how costs change as usage grows.
+- [Typesense vs Algolia](https://typesense.org/typesense-vs-algolia/): Compare Algolia pricing, migration, instant search, relevance controls, infrastructure choices, and fit.
 - [Typesense vs Elasticsearch](https://typesense.org/typesense-vs-elasticsearch/): Compare a focused site and app search engine with Elasticsearch's broader search, analytics, observability, and security platform.
+- [Algolia vs Elasticsearch](https://typesense.org/algolia-vs-elasticsearch/): Compare Algolia's hosted search product with Elasticsearch's broader data platform, including ownership, operations, pricing, and fit.
+- [Elasticsearch Alternatives](https://typesense.org/elasticsearch-alternatives/): Route search, analytics, logs, and hosted workloads across Typesense, OpenSearch, Solr, Meilisearch, and Algolia.
 - [Typesense vs Meilisearch](https://typesense.org/typesense-vs-meilisearch/): Compare production availability, storage tradeoffs, feature access, cloud pricing, and developer experience.
 
 ## Company and Support
