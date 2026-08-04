@@ -28,6 +28,14 @@ const pages = [
     link: "/typesense-vs-elasticsearch/",
   },
   { name: "Typesense vs Meilisearch", link: "/typesense-vs-meilisearch/" },
+  {
+    name: "Algolia vs Elasticsearch",
+    link: "/algolia-vs-elasticsearch/",
+  },
+  {
+    name: "Elasticsearch Alternatives",
+    link: "/elasticsearch-alternatives/",
+  },
   { name: "Typesense Cloud", link: "https://cloud.typesense.org/" },
 ];
 const libraries = [

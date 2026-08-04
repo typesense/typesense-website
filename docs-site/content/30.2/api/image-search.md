@@ -1,18 +1,18 @@
 ---
+title: "Image Search API with CLIP Embeddings"
 description: "Index and search images using Typesense built-in CLIP model. Search by text description or find visually similar images via embedding-based KNN."
 sidebarDepth: 2
 sitemap:
   priority: 0.7
 ---
 
-# Image Search
+# Image Search API
 
-Typesense can be used for:
+Typesense's built-in support for the [CLIP ML model](https://openai.com/research/clip) lets you search images in three ways:
 
-1. Searching through images, based on the description of items in the image and 
-2. For Image Similarity search
-
-Using Typesense's built-in support for the [CLIP ML model](https://openai.com/research/clip).
+1. Search indexed images with a text description.
+2. Find similar images by reusing the embedding of an image already indexed in the collection.
+3. Find images similar to a newly uploaded image, which Typesense embeds at search time.
 
 ## Create a collection
 
@@ -160,4 +160,4 @@ curl "http://localhost:8108/multi_search" \
         }'
 ```
 
-Behind the scenes, Typesense will use the CLIP model to generate an embedding for your image mentioned in the `vector_query`, do a nearest neighbor search and return the results ordered by closeness. 
+Behind the scenes, Typesense will use the CLIP model to generate an embedding for your image mentioned in the `vector_query`, do a nearest neighbor search and return the results ordered by closeness.

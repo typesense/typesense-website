@@ -1,15 +1,16 @@
 ---
+title: "Geo Search API | Filter and Sort by Location"
 description: "Search and filter documents by latitude and longitude using geopoint fields. Supports radius, polygon, and bounding-box queries with distance-based sorting."
 sidebarDepth: 2
 sitemap:
   priority: 0.7
 ---
 
-# Geosearch
+# Geo Search API
 
-Typesense supports geo search on fields containing latitude and longitude values, specified as the `geopoint` or `geopoint[]` [field types](./collections.md#field-types).
+Typesense supports geo search on fields that store latitude and longitude as the `geopoint` or `geopoint[]` [field types](./collections.md#field-types). You can filter records by distance or area and sort results by distance from a point.
 
-Let's create a collection called `places` with a field called `location` of type `geopoint`.
+Let's use this data model in a `places` collection with a `location` field of type `geopoint`.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Go','Shell']">
   <template v-slot:JavaScript>

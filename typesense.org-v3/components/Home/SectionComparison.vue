@@ -26,10 +26,22 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
       >
     </p>
     <Button
-      link="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch"
+      link="/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/"
       type="white"
       >See More <ArrowRight
     /></Button>
+    <nav
+      class="mt-9 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm max-md:mt-7"
+      aria-label="Focused search platform comparisons"
+    >
+      <CustomLink to="/typesense-vs-algolia/">Typesense vs Algolia</CustomLink>
+      <CustomLink to="/typesense-vs-elasticsearch/">
+        Typesense vs Elasticsearch
+      </CustomLink>
+      <CustomLink to="/typesense-vs-meilisearch/">
+        Typesense vs Meilisearch
+      </CustomLink>
+    </nav>
     <div
       class="card relative mb-[-6px] mt-6 w-[min(100%,832px)] rounded-t-3xl bg-bg-gray-2 px-4 pt-4"
     >
@@ -168,6 +180,9 @@ import BlankTableIllustration from "@/assets/images/blank-table-illustration.svg
 }
 .card {
   box-shadow: -5.05px 4.04px 34.34px 0px rgba(0, 0, 0, 0.1);
+}
+nav a {
+  @apply text-text-muted transition-colors hover:text-text-primary hover:underline hover:underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4;
 }
 table {
   border-collapse: separate;

@@ -45,6 +45,12 @@
             class="text-primary underline underline-offset-4"
             to="/typesense-vs-meilisearch/"
             >Meilisearch</CustomLink
+          >. For a direct comparison between the hosted search product and the
+          broader data platform, read
+          <CustomLink
+            class="text-primary underline underline-offset-4"
+            to="/algolia-vs-elasticsearch/"
+            >Algolia vs Elasticsearch</CustomLink
           >.
         </p>
       </section>
@@ -902,9 +908,9 @@
                 <tr>
                   <td class="font-weight-bold">Search UI Component Library</td>
                   <td>
-                    <Check class="text-[#263311]" /><br /><br />The
-                    Typesense-InstantSearch adapter supports JavaScript, React,
-                    Vue, React Native, and Angular
+                    <Check class="text-[#263311]" /><br /><br />The Typesense
+                    InstantSearch adapter supports JavaScript, React, Vue, React
+                    Native, and Angular
                   </td>
                   <td>
                     <Check class="text-[#263311]" /><br /><br />InstantSearch.js
@@ -1125,13 +1131,43 @@
   </div>
 </template>
 <script lang="ts" setup>
+const title = "Typesense vs Algolia vs Elasticsearch vs Meilisearch";
+const description =
+  "Compare Typesense, Algolia, Elasticsearch, and Meilisearch across deployment options, search features, product limits, and support.";
+const pageUrl =
+  "https://typesense.org/typesense-vs-algolia-vs-elasticsearch-vs-meilisearch/";
+
 useSeoMeta({
-  title: "Typesense vs Algolia vs Elasticsearch vs Meilisearch",
-  ogTitle: "Typesense vs Algolia vs Elasticsearch vs Meilisearch",
-  description:
-    "Compare Typesense, Algolia, Elasticsearch, and Meilisearch across deployment options, search features, product limits, and support.",
-  ogDescription:
-    "Compare Typesense, Algolia, Elasticsearch, and Meilisearch across deployment options, search features, product limits, and support.",
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description,
+});
+
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: title,
+        description,
+        mainEntityOfPage: pageUrl,
+        dateModified: "2026-07-30",
+        author: {
+          "@type": "Organization",
+          name: "Typesense, Inc.",
+          url: "https://typesense.org/",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Typesense, Inc.",
+          url: "https://typesense.org/",
+        },
+      }),
+    },
+  ],
 });
 import Check from "@/assets/icons/check.svg";
 import Cross from "@/assets/icons/cross.svg";

@@ -40,6 +40,18 @@
         </CustomLink>
         covering all four products.
       </p>
+      <p
+        class="mt-3 w-full max-w-[900px] text-left text-text-muted max-md:text-[14px] max-md:leading-[1.8]"
+      >
+        Comparing alternatives? Use the
+        <CustomLink
+          class="text-primary underline underline-offset-4"
+          to="/elasticsearch-alternatives/"
+        >
+          <span>Elasticsearch alternatives guide</span>
+        </CustomLink>
+        to compare options by workload.
+      </p>
     </section>
 
     <section class="-mt-20 w-full max-w-[1160px] self-center max-md:-mt-16">
@@ -388,7 +400,7 @@
                   <CustomLink
                     to="https://github.com/typesense/typesense-instantsearch-adapter"
                   >
-                    <span>Typesense-InstantSearch adapter</span>
+                    <span>Typesense InstantSearch adapter</span>
                   </CustomLink>
                   lets Algolia's JavaScript, React, Vue, and Angular widgets
                   work with a Typesense backend.
@@ -846,7 +858,14 @@
     <section class="content-section">
       <h2>Compare other search platforms</h2>
       <p class="text-center text-text-muted">
-        Read
+        Compare
+        <CustomLink
+          class="text-primary underline underline-offset-4"
+          to="/algolia-vs-elasticsearch/"
+        >
+          <span>Algolia vs Elasticsearch</span>
+        </CustomLink>
+        directly, or read
         <CustomLink
           class="text-primary underline underline-offset-4"
           to="/typesense-vs-algolia/"

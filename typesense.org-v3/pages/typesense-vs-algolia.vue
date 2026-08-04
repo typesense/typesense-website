@@ -14,12 +14,12 @@
         Typesense vs <strong>Algolia</strong>
       </h1>
       <p class="intro">
-        Typesense delivers the same instant search-as-you-type experience as
-        Algolia for a fraction of the cost. Algolia is a fully managed,
-        proprietary search service with productized merchandising and
-        experimentation, along with built-in recommendations and personalization
-        features at higher plan tiers. Typesense gives you an open-source search
-        server that combines typo-tolerant keyword search with direct vector
+        Typesense is an open source search API and Algolia alternative that
+        delivers the same instant search-as-you-type experience for a fraction
+        of the cost. Algolia is a fully managed, proprietary search service with
+        productized merchandising and experimentation, along with built-in
+        recommendations and personalization features at higher plan tiers.
+        Typesense combines typo-tolerant keyword search with direct vector
         search, hybrid search, semantic search, and geo search. It also offers
         native integrations with LLMs of your choice to enable Natural Language
         Search and built-in retrieval-augmented generation (RAG). Typesense
@@ -376,7 +376,7 @@
 
     <section class="pricing-section full-bleed bg-secondary-bg">
       <Badge>PUBLIC LIST-PRICE COMPARISON</Badge>
-      <h2>How the pricing models differ</h2>
+      <h2>Typesense vs Algolia pricing</h2>
       <p class="mb-2 text-sm text-text-muted md:hidden">
         Swipe horizontally to compare <span aria-hidden="true">→</span>
       </p>
@@ -597,7 +597,7 @@
             <CustomLink
               to="https://github.com/typesense/typesense-instantsearch-adapter"
             >
-              <span>Typesense-InstantSearch adapter</span>
+              <span>Typesense InstantSearch adapter</span>
             </CustomLink>
             lets you keep your existing widgets in most cases. You can move to
             Typesense Cloud or self-host the same search server.
@@ -842,7 +842,7 @@
             <CustomLink
               to="https://github.com/typesense/typesense-instantsearch-adapter"
             >
-              <span>The Typesense-InstantSearch adapter</span>
+              <span>The Typesense InstantSearch adapter</span>
             </CustomLink>
             preserves most JavaScript, React, Vue, and Angular InstantSearch
             widgets. Some widgets and options need documented adjustments.
@@ -985,7 +985,14 @@
     <section class="content-section">
       <h2>Compare other search platforms</h2>
       <p class="text-center text-text-muted">
-        Read
+        Compare
+        <CustomLink
+          class="text-primary underline underline-offset-4"
+          to="/algolia-vs-elasticsearch/"
+        >
+          <span>Algolia vs Elasticsearch</span>
+        </CustomLink>
+        directly, or read
         <CustomLink
           class="text-primary underline underline-offset-4"
           to="/typesense-vs-elasticsearch/"
