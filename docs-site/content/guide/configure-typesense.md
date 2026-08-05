@@ -1,5 +1,7 @@
 ---
 description: "Redirect page to the latest version of the Typesense server configuration reference."
+sitemap:
+  exclude: true
 ---
 
 # Configure Typesense

@@ -1,3 +1,8 @@
+---
+sitemap:
+  exclude: true
+---
+
 <meta http-equiv="refresh" :content="`0; url=${$site.base}${$site.themeConfig.typesenseLatestVersion}/api/`">
 
 Redirecting you to the latest version of <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense API Documentation</RouterLink>...

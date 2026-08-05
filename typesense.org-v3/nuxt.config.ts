@@ -114,6 +114,7 @@ export default defineNuxtConfig({
   site: { url: 'https://typesense.org', trailingSlash: true },
   sitemap: {
     discoverImages: false,
+    exclude: ['/api/', '/guide/'],
     defaults: {
       lastmod: new Date().toISOString(),
     },

@@ -1,6 +1,7 @@
 ---
 sitemap:
   priority: 0.7
+  exclude: true
 ---
 
 # Typesense v{{ $page.typesenseVersion }}
