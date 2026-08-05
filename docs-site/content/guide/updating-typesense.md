@@ -43,7 +43,7 @@ For all other types of configuration changes, you would have to provision a new 
 ### Zero-Downtime Upgrades on Typesense Cloud
 
 **For clusters that have High Availability enabled and/or Search Delivery Network enabled**: the upgrade will happen one node at a time. So the other nodes in the cluster will continue to serve traffic and you should see a zero-downtime upgrade. 
-Learn more [here](https://typesense-cloud.helpscoutdocs.com/article/10-high-availability) about all the scenarios when HA helps.
+Learn more [here](https://cloud-help.typesense.org/article/high-availability) about all the scenarios when HA helps.
 
 :::warning IMPORTANT
 When you have a cluster with High Availability enabled, you want to ensure that you have also configured your client libraries as described [here](./high-availability.md#when-using-typesense-cloud-or-a-load-balancer) with all the hostnames you see in your cluster dashboard, before triggering the config change.

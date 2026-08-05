@@ -213,7 +213,7 @@ Agent systems that have consolidated to Typesense report:
 - **Zero** embedding pipeline maintenance
 - **Better** search quality (hybrid > pure vector or pure keyword)
 
-See this [ADR](https://joelclaw.com/adrs/adr-0082) for detailed decision records from a production agent system - [joelclaw](joelclaw.com).
+See this [ADR](https://joelclaw.com/adrs/adr-0082) for detailed decision records from a production agent system - [joelclaw](https://joelclaw.com).
 
 ## Architecture Patterns for Agent Systems
 

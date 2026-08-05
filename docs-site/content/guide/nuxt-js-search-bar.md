@@ -168,7 +168,7 @@ Let's go over these dependencies one by one:
   - Translates the `InstantSearch.js` queries to Typesense API calls.
 
 :::tip Note
-This tutorial uses vanilla CSS for styling to keep things simple and framework-agnostic. Check the full source code in the [GitHub repository](https://github.com/typesense/typesense-nuxt-search-bar).
+This tutorial uses vanilla CSS for styling to keep things simple and framework-agnostic. Check the full source code in the [GitHub repository](https://github.com/typesense/code-samples/tree/master/typesense-nuxt-search-bar).
 :::
 
 ## Project Structure

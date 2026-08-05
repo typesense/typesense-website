@@ -98,7 +98,7 @@ You'll find options to
 ##### Replace WordPress Search
 Enabling this option will replace all WordPress default search widgets and forms with an autocomplete search form, powered by Typesense.
 
-You can see an example of this [here](https://typesense.codemanas.com/autocomplete/).
+You can see an example of this [here](https://demo.wptypesense.com/).
 
 ##### Autocomplete Placeholder
 This allows you to change the placeholder text for the autocomplete search (if replace WordPress search is enabled).
