@@ -288,4 +288,12 @@ puts client.collections['books'].documents.search({
   bottom: 0;
   right: 0;
 }
+
+.code :deep(pre) {
+  scrollbar-width: none;
+}
+
+.code :deep(pre::-webkit-scrollbar) {
+  display: none;
+}
 </style>
