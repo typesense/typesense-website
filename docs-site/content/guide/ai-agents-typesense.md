@@ -498,16 +498,18 @@ Here's what they told us:
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code>mkdir typesense-data
-<br>
+
+```bash
+mkdir typesense-data
+
 docker run -d -p 8108:8108 \
   -v "$(pwd)"/typesense-data:/data \
   typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
   --data-dir /data \
   --api-key=xyz \
-  --enable-cors</code></pre>
-    </div>
+  --enable-cors
+```
+
   </template>
 </Tabs>
 

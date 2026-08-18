@@ -25,10 +25,12 @@ To install and start Typesense using docker run the following Docker command:
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-<div class="manual-highlight">
-<pre class="language-bash"><code>docker run -p 8108:8108 -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
-  --data-dir /data --api-key=$TYPESENSE_API_KEY</code></pre>
-</div>
+
+```bash
+docker run -p 8108:8108 -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+  --data-dir /data --api-key=$TYPESENSE_API_KEY
+```
+
   </template>
 </Tabs>
 
