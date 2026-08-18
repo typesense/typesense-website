@@ -801,16 +801,18 @@ You would have to install the following additional dependencies, after which Typ
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
+
+```bash
+# x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
-<br>
+
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-      </code></pre>
-    </div>
+      
+```
+
   </template>
 </Tabs>
 
