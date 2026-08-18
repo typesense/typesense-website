@@ -88,15 +88,17 @@ You can determine whether a node is a leader or follower by the value of the `st
 ### Updating via Docker
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code>docker stop &lt;container_id&gt;
-<br>
+
+```bash
+docker stop <container_id>
+
 docker run -p 8108:8108 \
             -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
             --data-dir /data \
             --api-key=$TYPESENSE_API_KEY \
-            --enable-cors</code></pre>
-    </div>
+            --enable-cors
+```
+
   </template>
 </Tabs>
 
@@ -104,18 +106,20 @@ docker run -p 8108:8108 \
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
+
+```bash
+# x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
-<br>
+
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
 sudo yum install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
-<br>
+
 # Start Typesense
-sudo systemctl restart typesense-server.service</code></pre>
-    </div>
+sudo systemctl restart typesense-server.service
+```
+
   </template>
 </Tabs>
 
@@ -123,18 +127,20 @@ sudo systemctl restart typesense-server.service</code></pre>
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code># x64
+
+```bash
+# x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-amd64.deb
-<br>
+
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
 sudo apt install ./typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-arm64.deb
-<br>
+
 # Start Typesense
-sudo systemctl restart typesense-server.service</code></pre>
-    </div>
+sudo systemctl restart typesense-server.service
+```
+
   </template>
 </Tabs>
 
@@ -142,23 +148,25 @@ sudo systemctl restart typesense-server.service</code></pre>
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-    <pre class="language-bash"><code># x64
+
+```bash
+# x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
-<br>
+
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
-<br>
+
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
-<br>
-kill &lt;TYPESENSE_PROCESS_ID&gt; # will gracefully shutdown
-<br>
+
+kill <TYPESENSE_PROCESS_ID> # will gracefully shutdown
+
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
-    </div>
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
+```
+
   </template>
 </Tabs>
 
@@ -166,23 +174,25 @@ export TYPESENSE_API_KEY=xyz
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code># Apple Silicon CPU 
+
+```bash
+# Apple Silicon CPU 
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-arm64.tar.gz
-<br>
+
 # Intel CPU 
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
 tar -xzf typesense-server-{{ $site.themeConfig.typesenseLatestVersion }}-darwin-amd64.tar.gz
-<br>
+
 mv ./typesense-server $PATH_TO_EXISTING_BINARY
-<br>
-kill &lt;TYPESENSE_PROCESS_ID&gt; # will gracefully shutdown
-<br>
+
+kill <TYPESENSE_PROCESS_ID> # will gracefully shutdown
+
 # Start Typesense
 export TYPESENSE_API_KEY=xyz
-./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors</code></pre>
-    </div>
+./typesense-server --data-dir="$(pwd)"/typesense-data --api-key=$TYPESENSE_API_KEY --enable-cors
+```
+
   </template>
 </Tabs>
 
@@ -190,10 +200,12 @@ export TYPESENSE_API_KEY=xyz
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code>brew services stop typesense-server
+
+```bash
+brew services stop typesense-server
 brew install typesense/tap/typesense-server@{{ $site.themeConfig.typesenseLatestVersion }}
-brew services start typesense-server@{{ $site.themeConfig.typesenseLatestVersion }}</code></pre>
-    </div>
+brew services start typesense-server@{{ $site.themeConfig.typesenseLatestVersion }}
+```
+
   </template>
 </Tabs>
