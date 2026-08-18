@@ -250,6 +250,10 @@ curl 'http://localhost:8108/keys' \
 
 By setting the `actions` scope to `["documents:search"]` and the `collections` scope to `["companies"]`, we can generate a key that is allowed to only conduct searches on the `companies` collection.
 
+:::warning
+A search key scoped to a collection also exposes data from any collection that its schema references, when that data is fetched through a [joined query](./joins.md). The key does not allow searching the referenced collection directly.
+:::
+
 #### Sample Response
 
 <Tabs :tabs="['JSON']">

@@ -88,6 +88,10 @@ Fields of type `int32`, `int64`, and `string` can be used in the case of "one-to
 being related to exactly one reference document. Fields of type `int32[]`, `int64[]`, and `string[]` can be used in 
 the case of multiple references, i.e. one document being related to zero or more documents in another collection.
 
+:::warning
+Adding a `reference` field makes the referenced collection reachable through joins. A search key scoped only to this collection can then read the referenced collection's fields via a joined query — though still not search it directly. See [Search-only API Key](./api-keys.md#search-only-api-key).
+:::
+
 ## One-to-many relation
 
 ### Simple Example
