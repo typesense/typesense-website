@@ -56,20 +56,13 @@ For example, here's a search-as-you-type experience that shows this user experie
 Notice how instead of showing suggestions in one step and then full results in another page, it directly shows users the full results in less than 50ms for most queries, even with 32 Million records: 
 
 <div style="text-align: center; margin: 3em;">
-  <video width="640" muted controls preload="none" poster="~@images/query-suggestions/search-as-you-type-poster.png">
+  <video width="640" muted controls loop preload="none" poster="~@images/query-suggestions/search-as-you-type-poster.png">
       <source src="~@images/query-suggestions/search-as-you-type.mp4"
               type="video/mp4">
   
       Sorry, your browser doesn't support embedded videos.
   </video>
 </div>
-<script>
-// https://stackoverflow.com/a/28729753/123545
-document.getElementsByTagName('video')[0].onended = function () {
-  this.load();
-  this.play();
-};
-</script>
 
 Here's a link to the live experience: [songs-search.typesense.org](https://songs-search.typesense.org/)
 
