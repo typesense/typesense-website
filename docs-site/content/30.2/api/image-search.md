@@ -53,6 +53,10 @@ Notice the new data type called `type: image` for the field named `image`, which
 
 The `store: false` property in the field definition tells Typesense to use the field only for generating the embeddings, and to then discard the image from the document and not store it on disk. 
 
+:::tip
+Because `store: false` discards the image, it is not present after a restart. That is fine here, because the vector it produces is written to the `embedding` field, which is stored by default (`store: true`) and so image search keeps working after a restart. Before setting `store: false` on a field whose value you actually need after a restart, read the [note on `store: false`](./collections.md#schema-parameters) in the Collections reference.
+:::
+
 You can also combine text and image into a single embedding with a collection schema like the following:
 
 ```json{8-12,16-22}
