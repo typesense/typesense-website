@@ -350,9 +350,25 @@ To simplify the process of embedding generation, Typesense can automatically use
 
 When you do a search query on this automatically-generated vector field, your search query will be vectorized using the same model used for the field, which then allows you to do semantic search or combine keyword and semantic search to do hybrid search.
 
+:::warning Adding Embeddings to Existing Collections
+When you add an auto-embedding field to an **existing collection** via [schema alter](./collections.html#update-or-alter-a-collection) (PATCH), Typesense will generate embeddings for **all existing documents at once**. This is computationally intensive and can cause:
+
+- **CPU spikes to 100%**, making nodes unresponsive to API calls
+- **High RAM usage**, as the cluster must have enough memory to hold all document embeddings
+- **Blocked writes** to the collection until the operation completes
+
+**Recommended approach for production clusters:**
+
+1. Create a **new collection** with the embedding field already in the schema
+2. Index documents into the new collection in a controlled manner (e.g., in batches)
+3. Use the [Collection Alias](./collections.html#using-an-alias) feature to switch traffic to the new collection with zero downtime
+
+If you must use schema alter, do so during off-peak hours on a cluster with sufficient CPU and RAM headroom. Enabling [GPU Acceleration](#using-a-gpu-optional) significantly speeds up embedding generation.
+:::
+
 ### Creating an auto-embedding field
 
-To create a field that automatically embeds other string or string array fields, you need to set the `embed` property of the field. 
+To create a field that automatically embeds other string or string array fields, you need to set the `embed` property of the field.
 
 Here's an example:
 

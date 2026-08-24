@@ -1313,6 +1313,12 @@ curl "http://localhost:8108/collections/companies" \
        }'
 ```
 
+:::danger Adding Embedding Fields
+If you use this alter operation to add an [auto-embedding field](./vector-search.html#option-b-auto-embedding-generation-within-typesense), Typesense will generate embeddings for **all existing documents** in the collection. This is highly CPU and RAM intensive and **can make your cluster nodes unresponsive**.
+
+For production clusters, we strongly recommend creating a new collection with the embedding field in the schema and indexing documents in controlled batches, rather than altering an existing collection. See the [alias feature](#using-an-alias) for zero-downtime migration, and [GPU Acceleration](./vector-search.html#using-a-gpu-optional) to speed up embedding generation.
+:::
+
 ### Get Schema Change Status
 
 You can check the status of in-progress schema change operations by using the schema changes endpoint.
