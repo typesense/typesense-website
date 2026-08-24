@@ -102,6 +102,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--filter-by-max-ops` | false    | Maximum number of operators permitted in `filter_by` clause. Default: `100` |
 | `--max-per-page`      | false    | Max number of hits permitted per page. Default: `250`                       |
 | `--max-group-limit`   | false    | Max value of `group_limit` permitted when using `group_by`. Default: `99`   |
+| `--enable-lazy-filter` | false    | Sets the server-wide default for lazy evaluation of filter clauses. When enabled, filter clauses are evaluated incrementally during search instead of upfront. Default: `false`. <br><br>**NOTE**: We recommend setting `enable_lazy_filter` as a [search parameter](./search.md#search-parameters) on a per-query basis instead of enabling it server-wide, since it is only beneficial for specific query patterns (e.g. filtering on large value sets where the query tokens match very few documents). |
 
 ### On-Disk DB Fine Tuning
 
