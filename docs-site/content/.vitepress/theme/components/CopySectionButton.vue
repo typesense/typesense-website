@@ -3,13 +3,21 @@
     <button
       v-if="pageMarkdown"
       type="button"
-      class="copy-section-button inline-block ml-2 px-1 border-0 bg-transparent align-middle cursor-pointer text-[0.75em] opacity-0 transition-[opacity,color] duration-150 hover:rounded-[0.2rem]"
-      :class="isCopied ? '!opacity-100 text-badge-tip' : 'text-accent hover:text-accent-hover'"
+      class="copy-section-button inline-flex ml-2 px-1 border-0 bg-transparent align-middle cursor-pointer opacity-0 transition-opacity duration-150"
+      :class="isCopied ? '!opacity-100 text-accent' : 'text-accent hover:text-accent-hover'"
       :title="isCopied ? 'Copied!' : 'Copy this section as Markdown'"
       @click="copySection"
     >
-      <span v-if="isCopied" aria-hidden="true">✓</span>
-      <span v-else aria-hidden="true">#</span>
+      <span class="relative flex h-[0.65em] w-[0.65em] items-center justify-center">
+        <Copy
+          class="absolute h-full w-full transition-all duration-300"
+          :class="isCopied ? 'scale-0 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'"
+        />
+        <Check
+          class="absolute h-full w-full transition-all duration-300"
+          :class="isCopied ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'"
+        />
+      </span>
     </button>
   </ClientOnly>
 </template>
@@ -17,6 +25,7 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue'
 import { useData } from 'vitepress'
+import { Copy, Check } from 'lucide-vue-next'
 import { docsStore } from '../store'
 import { filterMarkdownByCopyLanguages } from '../util/markdownCopyFilter'
 import { decodeMarkdown } from '../util/decodeMarkdown'
