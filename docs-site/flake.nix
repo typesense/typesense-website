@@ -15,16 +15,16 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             nodejs_22
-            yarn
+            bun
             # `serve` script uses http-server; git for edit-link tooling
             git
           ];
 
           shellHook = ''
-            echo "Typesense docs dev shell — Node $(node --version), Yarn $(yarn --version)"
-            echo "  yarn install    install dependencies"
-            echo "  yarn dev        start the VitePress dev server"
-            echo "  yarn build      production build"
+            echo "Typesense docs dev shell — Node $(node --version), Bun $(bun --version)"
+            echo "  bun install     install dependencies"
+            echo "  bun run dev     start the VitePress dev server"
+            echo "  bun run build   production build"
           '';
         };
       });
