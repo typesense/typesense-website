@@ -83,6 +83,7 @@ module.exports = {
             ['/guide/migrating-from-algolia', 'Migrating from Algolia'],
             ['/guide/testcontainers', 'Running Tests with Testcontainers'],
             ['/guide/personalized-search-join', 'Personalized Search with JOINs'],
+            ['/guide/postgres-typesense-migration-fts', 'Migrating from Postgres for Full-Text Search'],
           ],
         },
 
@@ -108,6 +109,7 @@ module.exports = {
             ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
             ['/guide/swift-search-bar', 'Search Bar in Swift'],
             ['/guide/gin-search-api', 'Search API in Gin'],
+            ['/guide/django-search-api', 'Search API in Django'],
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
             ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
