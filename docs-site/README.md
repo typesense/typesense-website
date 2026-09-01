@@ -10,8 +10,8 @@ On deployment, the dist folder generated is copied to [https://typesense.org/doc
 
 1. Navigate to `typesense-website/docs-site/`
 
-2. Run `yarn`
-3. Run `yarn dev`
+2. Run `bun install`
+3. Run `bun run dev`
 4. Visit the link shown
 
 As you write content in the content folder, the page should live reload.
@@ -64,5 +64,5 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 ## Deployment
 
 ```shell
-yarn deploy
+bun run deploy
 ```
