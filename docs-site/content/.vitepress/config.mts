@@ -65,7 +65,8 @@ export default defineConfig({
   ],
 
   sitemap: {
-    hostname: 'https://typesense.org/docs',
+    // keep the trailing slash, new URL(path, hostname) drops /docs without it
+    hostname: 'https://typesense.org/docs/',
   },
 
   themeConfig: {
