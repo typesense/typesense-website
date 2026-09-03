@@ -21,16 +21,20 @@ const config = {
   ],
   selectors: {
     default: {
-      lvl0: '.content__default h1',
-      lvl1: '.content__default h2',
-      lvl2: '.content__default h3',
-      lvl3: '.content__default h4',
-      lvl4: '.content__default h5',
-      text: '.content__default p, .content__default ul li, .content__default table tbody tr',
+      lvl0: '.vp-doc h1',
+      lvl1: '.vp-doc h2',
+      lvl2: '.vp-doc h3',
+      lvl3: '.vp-doc h4',
+      lvl4: '.vp-doc h5',
+      text: '.vp-doc p, .vp-doc ul li, .vp-doc table tbody tr',
     },
   },
   scrape_start_urls: false,
-  strip_chars: ' .,;:#',
+  // The .md/.{lang}.md artifacts emitted next to each page yield no records, skip crawling them
+  stop_urls: ['\\.md$'],
+  // \u200b: VitePress heading anchors end with a zero-width space that would
+  // otherwise trail every indexed heading
+  strip_chars: ' .,;:#\u200b',
   custom_settings: {
     field_definitions: [
       { name: 'anchor', type: 'string', optional: true },
