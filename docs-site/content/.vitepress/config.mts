@@ -60,7 +60,7 @@ export default defineConfig({
       'script',
       {},
       "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());" +
-        "gtag('config','UA-116415641-1',{anonymize_ip:true,send_page_view:false,linker:{domains:['typesense.org','cloud.typesense.org']}});",
+      "gtag('config','UA-116415641-1',{anonymize_ip:true,send_page_view:false,linker:{domains:['typesense.org','cloud.typesense.org']}});",
     ],
   ],
 
