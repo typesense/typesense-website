@@ -33,7 +33,7 @@ const platforms = [
   {
     name: "Langchain",
     image: "/images/platforms/langchain.svg",
-    link: "https://python.langchain.com/en/latest/modules/indexes/vectorstores/examples/typesense.html?ref=typesense",
+    link: "https://github.com/typesense/langchain-typesense",
     width: 125,
   },
   {
@@ -69,7 +69,7 @@ const platforms = [
   {
     name: "Tooljet",
     image: "/images/platforms/tooljet.svg",
-    link: "https://tooljet.com/?ref=typesense",
+    link: "https://tooljet.com/datasources/typesense?ref=typesense",
     width: 125,
   },
 ];
