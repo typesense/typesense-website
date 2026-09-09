@@ -14,7 +14,11 @@
           <h4>Run Typesense</h4>
           <p class="subtext !text-[14px]">
             Use Docker, our native binaries or our RPM or DEB packages. Or, use
-            Typesense Cloud to provision a cluster with a few clicks.
+            Typesense Cloud to provision a cluster with a few clicks, or
+            <CustomLink :to="STATIC.link_agents_setup" class="underline underline-offset-4"
+              >have your AI agent do it</CustomLink
+            >: connect it to Typesense Cloud and it provisions the cluster,
+            indexes your data and runs your first search.
           </p>
         </div>
       </div>

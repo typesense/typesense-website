@@ -183,9 +183,12 @@ We also have the following framework integrations:
   - [Vertex AI](./vector-search.md#using-gcp-vertex-ai-api)
 - [LangChain](https://python.langchain.com/docs/integrations/vectorstores/typesense)
 - [Llama-Index](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/TypesenseDemo.ipynb)
-- MCP Servers
-  - [Avarant](https://github.com/avarant/typesense-mcp-server)
-  - [Suhail](https://github.com/suhail-ak-s/mcp-typesense-server)
+
+## MCP Servers
+
+- <span><Badge type="tip" text="Official" vertical="middle" /></span> [Typesense Cloud MCP server](../../guide/typesense-cloud/mcp-server.md): hosted by Typesense Cloud, manages clusters and the data inside them
+- [Avarant](https://github.com/avarant/typesense-mcp-server)
+- [Suhail](https://github.com/suhail-ak-s/mcp-typesense-server)
 
 ## Ecommerce
 

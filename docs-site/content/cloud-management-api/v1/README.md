@@ -22,6 +22,7 @@ The Cloud Cluster Management API lets you do the following operations on Typesen
 4. Update select attributes of the cluster (Name, Auto Upgrade Capacity)
 5. Schedule cluster configuration changes
 6. Clone clusters
+7. Inspect per-node cluster metrics
 
 Once you provision a cluster via this API,
 you'll then use the hostname(s) returned by this API to connect to your cluster's [Typesense Server API](/api) directly to index your data and search on it.
@@ -34,3 +35,7 @@ Here's an architecture diagram that shows you how the Typesense Cloud Management
 <img src="~@images/cloud-management-api/management-api-architecture.png" alt="Typesense Cloud Management API Architecture" height="400">
 <figcaption>Architecture of Cloud Cluster Management API</figcaption>
 </figure>
+
+## OpenAPI Spec
+
+A machine-readable [OpenAPI 3.1 spec](https://cloud.typesense.org/api/v1/openapi.json) of this API describes every endpoint, request and response schema, the management-key capability each endpoint needs, and the error responses, so AI agents and code generators can work from it directly.

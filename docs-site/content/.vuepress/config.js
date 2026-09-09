@@ -304,6 +304,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ['/guide/installing-a-client', 'Installing a Client'],
             ['/guide/building-a-search-application', 'Building a Search Application'],
             ['/guide/search-ui-components', 'Search UI Components'],
+            ['/guide/typesense-cloud/mcp-server', 'MCP Server (Typesense Cloud)'],
           ],
         },
         {

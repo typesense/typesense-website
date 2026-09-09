@@ -15,6 +15,9 @@ const config = {
     {
       url: 'https://typesense.org/docs/guide/',
     },
+    {
+      url: 'https://typesense.org/docs/cloud-management-api/v1/',
+    },
   ],
   selectors: {
     default: {

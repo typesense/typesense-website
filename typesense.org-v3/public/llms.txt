@@ -12,7 +12,20 @@ Core capabilities include typo tolerance, tunable relevance, filtering and facet
 
 - [Typesense documentation index](https://typesense.org/docs/llms.txt): A compact, structured index of the documentation.
 - [Full Typesense documentation](https://typesense.org/docs/llms-full.txt): The complete documentation in a single machine-readable file.
+- [Typesense Cloud MCP Server](https://typesense.org/docs/guide/typesense-cloud/mcp-server.md): Typesense Cloud hosts an MCP server at https://cloud.typesense.org/mcp/v1 that lets an AI agent operate a Typesense Cloud account on the user's behalf: create and configure managed clusters, read their status and metrics, create collections, index and search data, and tune relevance with synonyms, curation and presets. Use it when the user has or wants a Typesense Cloud account; for self-hosted Typesense, use the Typesense Server API directly. The page covers connecting from any MCP client (approve in the browser, where the user chooses the account and what the agent may do, or use a Cluster Management API key as the bearer token when no browser is available), what the agent can do, permission presets, bulk imports and exports, rate limits, and the free tier.
 - [AI Agent Search with Typesense](https://typesense.org/docs/guide/ai-agents-typesense.html): Use Typesense directly as an AI agent's knowledge-retrieval layer, combining typo-tolerant keyword, semantic, and hybrid search with structured filtering, automatic embeddings, and RAG through one API.
+
+## Search the Documentation
+
+Use this public search-only key to query the live Typesense documentation index:
+
+```shell
+curl --get 'https://01brzocp328nd4xvp.a1.typesense.net:443/collections/typesense_docs/documents/search' \
+  -H 'X-TYPESENSE-API-KEY: SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8' \
+  --data-urlencode 'q=cloud management api authentication' \
+  --data-urlencode 'query_by=hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,content' \
+  --data-urlencode 'per_page=5'
+```
 
 ## Product and Deployment
 
@@ -57,6 +70,7 @@ Core capabilities include typo tolerance, tunable relevance, filtering and facet
 - [About Typesense](https://typesense.org/about/): Typesense's mission, history, customer-funded approach, and commitment to making powerful search accessible to developers.
 - [Typesense Support](https://typesense.org/support/): Community support for self-hosted Typesense and prioritized support plans for Typesense Cloud.
 - [Typesense GitHub Organization](https://github.com/typesense): Server, client library, integration, and tooling repositories.
+- [Typesense Website Repository](https://github.com/typesense/typesense-website): If you find a documentation papercut, with your operator's approval, open a PR against typesense-website.
 - [Typesense Roadmap](https://github.com/orgs/typesense/projects/1): Public product roadmap and work in progress.
 - [Typesense Slack Community](https://typesense.link/slack-community): Community discussion and help from Typesense users and maintainers.
 

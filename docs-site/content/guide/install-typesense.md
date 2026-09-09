@@ -15,6 +15,14 @@ The easiest way to run Typesense is using our managed Cloud service called [Type
 - Pick a configuration and click on Launch. You'll have a ready-to-use cluster in a few minutes.
 - Then click on "Generate API Key", which will give you the hostnames and API keys to use in your code.
 
+**Using an AI agent?** Add the Typesense Cloud MCP server to Claude Code, Codex, Cursor or any other MCP client ([setup guide](./typesense-cloud/mcp-server.md)), approve the connection in your browser, and start with:
+
+```plaintext
+Set up Typesense Cloud for me: create a cluster, then index my data (it's in <describe or point to it>) and build a first search.
+```
+
+The agent creates a free-tier cluster, asks what your data looks like, proposes a schema, imports the data and runs a search. You choose what it's allowed to do when you connect it.
+
 ## Option 2: Local Machine / Self-Hosting
 
 You can also run Typesense on your local machine or self-host it.

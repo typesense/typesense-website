@@ -8,4 +8,5 @@ export const STATIC = {
   link_typesense_cloud: "https://cloud.typesense.org/",
   link_use_cases: "https://typesense.org/docs/overview/use-cases.html",
   link_get_started: "https://typesense.org/docs/guide/#quick-start",
+  link_agents_setup: "https://typesense.org/docs/guide/typesense-cloud/mcp-server.html",
 };

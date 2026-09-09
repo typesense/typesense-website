@@ -437,6 +437,63 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 }
 ```
 
+## Get cluster metrics
+
+This endpoint returns average per-node metric series for one cluster. The management key needs the `metrics:read` capability. You can request up to five metrics at a time.
+
+```shell
+curl --get --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/metrics" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
+    --data-urlencode "metrics=system_cpu_active_percentage,system_memory_used_bytes,search_latency_ms" \
+    --data-urlencode "window=1h"
+```
+
+Use a comma-separated selection from this allowlist:
+
+- `system_cpu_active_percentage`
+- `system_memory_used_bytes`
+- `system_memory_total_bytes`
+- `system_disk_used_bytes`
+- `system_disk_total_bytes`
+- `system_swap_used_bytes`
+- `system_swap_total_bytes`
+- `system_network_received_bytes_rate`
+- `system_network_sent_bytes_rate`
+- `typesense_memory_active_bytes`
+- `search_latency_ms`
+- `search_requests_per_second`
+- `pending_write_batches`
+
+The supported windows are `1h`, `3h`, `24h`, `7d`, and `30d`. The `1h` and `3h` windows use 30-second buckets, `24h` uses 30-minute buckets, and `7d` and `30d` use 1-hour buckets.
+
+**Response:**
+
+```json
+{
+  "cluster_id": "nuj9s7k6vplrg15yp",
+  "window": "1h",
+  "resolution": "30s",
+  "timestamp_unit": "epoch_milliseconds",
+  "metrics": {
+    "system_cpu_active_percentage": {
+      "1": {
+        "hostname": "nuj9s7k6vplrg15yp-1.a1.typesense.net",
+        "timestamps": [1786381200000, 1786381230000],
+        "values": [21.4, 24.8]
+      },
+      "2": {
+        "hostname": "nuj9s7k6vplrg15yp-2.a1.typesense.net",
+        "timestamps": [1786381200000, 1786381230000],
+        "values": [19.7, 20.1]
+      }
+    }
+  }
+}
+```
+
+Each metric is keyed by node index, and each series carries that node's `hostname`. `resolution` is the bucket width used for the window. Timestamps are epoch milliseconds. Responses include `Cache-Control: private, no-store` and may reuse server-side data for up to 20 seconds.
+
 ## List all clusters
 
 This endpoint can be used to list all clusters under this account.

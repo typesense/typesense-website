@@ -11,6 +11,8 @@ If you're evaluating full-text search frameworks for your knowledge retrieval ne
 You'll find a link to a Markdown version of this page if you look in the HTML markup. 
 :::
 
+If you want an agent to provision a managed cluster first, connect it to the [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md). This guide focuses on using Typesense as the retrieval layer after you have a running server.
+
 ## Your Search Problem
 
 You're likely running into one of these issues:
@@ -486,7 +488,7 @@ Here's what they told us:
 
 **4. Configuration diff lookup** - Mirror `*.env`, feature-flag manifests, and deployment YAMLs. When a deploy changes behavior, query `"feature flag rotation" filter_by=service:payments` and instantly compare what flipped.
 
-**5. Tooling inventory & research vault** - Skill READMEs, CLI flags, ADRs, API docs, PDFs, blog posts, YouTube transcripts—all indexed with metadata. Instead of grep-ing or re-reading docs, one hybrid query surfaces the right file path, usage example, or quotable snippet.
+**5. Tooling inventory & research vault** - Skill READMEs, CLI flags, ADRs, API docs, PDFs, blog posts, YouTube transcripts, all indexed with metadata. Instead of grep-ing or re-reading docs, one hybrid query surfaces the right file path, usage example, or quotable snippet.
 
 > In short: if it's text (or embeddings) that I'll need to recall under time pressure, I throw it into Typesense with enough metadata to facet by source, time, or project. Then every "hey, remember…" question turns into a single hybrid query instead of spelunking through 20 tools.
 
@@ -709,8 +711,9 @@ const results = await client.collections('knowledge').documents.search({
 
 ## Next Steps
 
-1. Read the [Semantic Search Guide](./semantic-search.md) to understand hybrid search.
-2. Explore the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#hybrid-search`">Vector Search</RouterLink> API reference for hybrid search configuration.
-3. Explore <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/conversational-search-rag.html`">Conversational Search</RouterLink> for RAG capabilities.
-4. Browse the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">full API reference</RouterLink> for all available features.
-5. Read our [Help](/help.md) section for information on how to get additional help.
+1. Provision a managed cluster through the [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md), or use one of the self-hosted options above.
+2. Read the [Semantic Search Guide](./semantic-search.md) to understand hybrid search.
+3. Explore the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/vector-search.html#hybrid-search`">Vector Search</RouterLink> API reference for hybrid search configuration.
+4. Explore <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/conversational-search-rag.html`">Conversational Search</RouterLink> for RAG capabilities.
+5. Browse the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">full API reference</RouterLink> for all available features.
+6. Read our [Help](/help.md) section for information on how to get additional help.
