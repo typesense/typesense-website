@@ -481,14 +481,15 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 
 ## Get cluster metrics
 
-This endpoint returns average per-node metric series for one cluster. The management key needs the `metrics:read` capability. You can request up to five metrics at a time.
+This endpoint returns per-node metric series for one cluster, each bucket aggregated by average (the default), maximum, minimum or 95th percentile, the same choices as the cluster dashboard. The management key needs the `metrics:read` capability. You can request up to five metrics at a time.
 
 ```shell
 curl --get --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/metrics" \
     -H "Accept: application/json" \
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
     --data-urlencode "metrics=system_cpu_active_percentage,system_memory_used_bytes,search_latency_ms" \
-    --data-urlencode "window=1h"
+    --data-urlencode "window=1h" \
+    --data-urlencode "aggregation=p95"
 ```
 
 Use a comma-separated selection from this allowlist:
@@ -509,12 +510,15 @@ Use a comma-separated selection from this allowlist:
 
 The supported windows are `1h`, `3h`, `24h`, `7d`, and `30d`. The `1h` and `3h` windows use 30-second buckets, `24h` uses 30-minute buckets, and `7d` and `30d` use 1-hour buckets.
 
+`aggregation` chooses how each bucket summarises the samples it covers: `avg` (the default), `max`, `min` or `p95`. Use `max` or `p95` to find peaks that an average hides, for example CPU spikes during bursts of traffic.
+
 **Response:**
 
 ```json
 {
   "cluster_id": "nuj9s7k6vplrg15yp",
   "window": "1h",
+  "aggregation": "p95",
   "resolution": "30s",
   "timestamp_unit": "epoch_milliseconds",
   "metrics": {

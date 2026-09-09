@@ -9,7 +9,7 @@ Connect your AI agent to Typesense Cloud and it can create and configure cluster
 
 ## Connect
 
-Add the Typesense Cloud MCP server to your client:
+Add the Typesense Cloud MCP server to your client. It is a remote MCP server over Streamable HTTP with OAuth, so any client that supports those works:
 
 ```
 https://cloud.typesense.org/mcp/v1
@@ -28,17 +28,17 @@ codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1
 codex mcp login typesense-cloud
 ```
 
-Cursor (`mcp.json`):
+Cursor (`mcp.json`, [MCP setup docs](https://cursor.com/docs/context/mcp)):
 
 ```json
 { "mcpServers": { "typesense-cloud": { "url": "https://cloud.typesense.org/mcp/v1" } } }
 ```
 
-claude.ai and Claude Desktop: Settings, then Connectors, then Add custom connector, and paste the URL.
+claude.ai and Claude Desktop ([custom connector docs](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)): Customize, then Connectors, then Add custom connector, and paste the URL.
 
-ChatGPT: Settings, then Connectors (developer mode), and add the URL.
+ChatGPT ([MCP setup docs](https://learn.chatgpt.com/docs/extend/mcp?surface=app)): in the ChatGPT desktop app, go to Settings, then Plugins, then MCP, then Add, then Add MCP Server. Name it "Typesense Cloud", set the type to Streamable HTTP and the URL to `https://cloud.typesense.org/mcp/v1`, and save. Then ask: "Using Typesense Cloud MCP, show me my clusters."
 
-Any other client that supports MCP with OAuth works the same way.
+Any other client that supports MCP over Streamable HTTP with OAuth works the same way.
 
 Your browser opens a Typesense Cloud page. Sign in (or sign up), choose the account the agent should work on, choose what it may do, and click Connect.
 
