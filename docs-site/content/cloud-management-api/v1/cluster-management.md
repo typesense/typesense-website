@@ -79,7 +79,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
 
 ### Parameters
 
-You can use any of the following parameters inside the payload of the above API call:  
+You can use any of the following parameters inside the payload of the above API call. The values each parameter accepts are listed below; the [Get cluster options](#get-cluster-options) endpoint returns the same lists, along with which regions are currently available.
 
 - [memory](#memory) <Badge type="warning" text="Required" vertical="top"/>
 - [vcpu](#vcpu) <Badge type="warning" text="Required" vertical="top"/>
@@ -353,6 +353,48 @@ It can have the following values:
 | `deprovisioning` | Cluster is being deprovisioned              |
 | `suspended`      | Cluster was suspended due to billing issues |
 | `terminated`     | Cluster was terminated                      |
+
+## Get cluster options
+
+This endpoint lists the values you can use when creating a cluster: the regions, the memory options, the vCPU options available for each memory option, the GPU, high performance disk and high availability options, the Search Delivery Network options, and the free-tier configuration. It also tells you whether each region is currently available. The management key needs the `clusters:read` capability.
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+**Response:**
+
+```json
+{
+  "regions": [
+    {"name": "oregon", "available": true},
+    {"name": "n_virginia", "available": true},
+    {"name": "frankfurt", "available": true},
+    {"name": "bahrain", "available": false}
+  ],
+  "memory": ["0.5_gb", "1_gb", "2_gb", "4_gb", "8_gb", "16_gb", "32_gb", "64_gb", "96_gb", "128_gb", "192_gb", "256_gb", "384_gb", "512_gb", "768_gb", "1024_gb"],
+  "vcpu_by_memory": {
+    "0.5_gb": ["2_vcpus_1_hr_burst_per_day"],
+    "4_gb": ["2_vcpus_4_hr_burst_per_day", "2_vcpus"]
+  },
+  "gpu": ["yes", "no"],
+  "high_performance_disk": ["yes", "no"],
+  "high_availability": ["yes", "no"],
+  "search_delivery_network": ["off", "3_regions", "5_regions", "multi_nodes_per_region"],
+  "free_tier": {
+    "memory": "0.5_gb",
+    "vcpu": "2_vcpus_1_hr_burst_per_day"
+  }
+}
+```
+
+The response above is shortened. The actual response lists every region and every memory option.
+
+- `regions[].name` is the value to use for `regions` in [Create new cluster](#create-new-cluster). A region with `"available": false` is currently having an outage.
+- `vcpu_by_memory` shows which `vcpu` values go with each `memory` value. For example, `2_vcpus` is available with `4_gb` but not with `0.5_gb`.
+- `free_tier` is the configuration you can create without adding a payment method.
 
 ## Generate API key
 

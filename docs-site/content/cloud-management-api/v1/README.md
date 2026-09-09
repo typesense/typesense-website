@@ -23,6 +23,7 @@ The Cloud Cluster Management API lets you do the following operations on Typesen
 5. Schedule cluster configuration changes
 6. Clone clusters
 7. Inspect per-node cluster metrics
+8. Look up the regions, memory and vCPU options a cluster can be created with
 
 Once you provision a cluster via this API,
 you'll then use the hostname(s) returned by this API to connect to your cluster's [Typesense Server API](/api) directly to index your data and search on it.

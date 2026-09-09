@@ -113,7 +113,7 @@ These are the tools available for your agent to use once it is connected:
 - `whoami`: which account and permissions the connection has. Agents call it first.
 - `search_typesense_docs`: searches this documentation, matched to your cluster's Typesense version.
 - `search_documents`: searches a collection, including multi-search and vector or hybrid queries.
-- `get_clusters`: lists clusters and reads configuration, status, metrics, configuration-change and cloning history, server parameters and invoices.
+- `get_clusters`: lists clusters and reads configuration, status, metrics, configuration-change and cloning history, server parameters and invoices, plus the regions, memory and vCPU options a cluster can be created with.
 - `manage_cluster`: creates, renames, resizes, tunes, clones and terminates clusters, and issues cluster API keys.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
 - `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, analytics, models, stemming dictionaries.
