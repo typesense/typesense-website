@@ -34,6 +34,14 @@ function variantOutputPath(outDir, pagePath, langSlug) {
   return path.join(outDir, pagePath.replace(/\.html$/, `.${langSlug}.md`))
 }
 
+// /docs/latest/... is resolved by the browser for HTML pages; Markdown readers
+// have no browser, so the build publishes the latest version's Markdown under
+// latest/ as well and the edge lets those requests through to it.
+function latestAliasPath(pagePath, latestVersion) {
+  if (!latestVersion || !pagePath.startsWith(`/${latestVersion}/`)) return null
+  return `/latest/${pagePath.slice(latestVersion.length + 2)}`
+}
+
 function withBase(base, url) {
   if (!url || /^https?:\/\//.test(url) || !base || base === '/') return url
 
@@ -74,6 +82,11 @@ module.exports = (options, context) => ({
       let requestPath = req.path
       if (basePath && basePath !== '/' && requestPath.startsWith(`${basePath}/`)) {
         requestPath = requestPath.slice(basePath.length)
+      }
+
+      const latestVersion = (context.siteConfig.themeConfig || {}).typesenseLatestVersion
+      if (latestVersion && requestPath.startsWith('/latest/')) {
+        requestPath = `/${latestVersion}/${requestPath.slice('/latest/'.length)}`
       }
 
       const variantMatch = requestPath.match(/^(.*)\.([a-z]+)\.md$/)
@@ -182,6 +195,24 @@ module.exports = (options, context) => ({
     const cleanedByPath = new Map()
     const pageVersionByPath = new Map()
     let variantCount = 0
+    let latestCount = 0
+
+    const writeMarkdown = (outputPath, markdown) => {
+      const outputDir = path.dirname(outputPath)
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true })
+      }
+      fs.writeFileSync(outputPath, markdown, 'utf-8')
+    }
+
+    const writeWithLatestAlias = (pagePath, markdown, toOutputPath) => {
+      writeMarkdown(toOutputPath(pagePath), markdown)
+      const aliasPath = latestAliasPath(pagePath, latestVersion)
+      if (aliasPath) {
+        writeMarkdown(toOutputPath(aliasPath), markdown)
+        latestCount += 1
+      }
+    }
 
     for (const page of pages) {
       if (!page.relativePath || !page.relativePath.endsWith('.md')) continue
@@ -196,20 +227,12 @@ module.exports = (options, context) => ({
         cleanedByPath.set(page.path, baseMarkdown)
         pageVersionByPath.set(page.path, routerCtx.pageVersion)
 
-        let outputPath
-        if (page.path.endsWith('/')) {
-          outputPath = path.join(outDir, page.path, 'README.md')
-        } else {
-          outputPath = path.join(outDir, page.path.replace(/\.html$/, '.md'))
-        }
-
-        const outputDir = path.dirname(outputPath)
-
-        if (!fs.existsSync(outputDir)) {
-          fs.mkdirSync(outputDir, { recursive: true })
-        }
-
-        fs.writeFileSync(outputPath, prependAgentIndex(baseMarkdown), 'utf-8')
+        writeWithLatestAlias(page.path, prependAgentIndex(baseMarkdown), pagePath => {
+          if (pagePath.endsWith('/')) {
+            return path.join(outDir, pagePath, 'README.md')
+          }
+          return path.join(outDir, pagePath.replace(/\.html$/, '.md'))
+        })
 
         if (copyTabGroups.length === 0) continue
         if (!shouldFanoutPage(page.path, context, fanoutVersions)) continue
@@ -223,8 +246,9 @@ module.exports = (options, context) => ({
           const langSlug = descriptor.slug
           const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
           const variantMarkdown = transformRouterLinks(filtered, routerCtx)
-          const variantPath = variantOutputPath(outDir, page.path, langSlug)
-          fs.writeFileSync(variantPath, prependAgentIndex(variantMarkdown), 'utf-8')
+          writeWithLatestAlias(page.path, prependAgentIndex(variantMarkdown), pagePath =>
+            variantOutputPath(outDir, pagePath, langSlug),
+          )
           variantCount += 1
         }
       } catch (error) {
@@ -233,7 +257,9 @@ module.exports = (options, context) => ({
     }
 
     const baseCount = pages.filter(p => p.relativePath && p.relativePath.endsWith('.md')).length
-    console.log(`Generated ${baseCount} markdown files (+${variantCount} language variants)`)
+    console.log(
+      `Generated ${baseCount} markdown files (+${variantCount} language variants, +${latestCount} latest/ aliases)`,
+    )
 
     writeLlmsArtifacts({
       outDir,
