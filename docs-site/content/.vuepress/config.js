@@ -387,6 +387,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ['/guide/node-sequelize-search-api', 'Search API in Node.js (Sequelize)'],
             ['/guide/node-prisma-search-api', 'Search API in Node.js (Prisma)'],
             ['/guide/node-drizzle-search-api', 'Search API in Node.js (Drizzle)'],
+            ['/guide/deno-hono-search-api', 'Search API in Deno (Hono)'],
             ['/guide/spring-boot-search-api', 'Search API in Spring Boot'],
             ['/guide/qwik-js-search-bar', 'Search Bar in Qwik.js'],
             ['/guide/langchain-ai-search', 'AI Search with LangChain & Chainlit'],
