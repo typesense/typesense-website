@@ -140,10 +140,17 @@ export default defineConfig({
         enforce: 'pre',
         transform(code, id) {
           if (!id.endsWith('.md')) return
-          if (!code.includes('this.$') && !code.includes('typesenseLatestVersion')) return
-          return code
+          if (!code.includes('this.$') && !code.includes('typesenseLatestVersion') && !code.includes('$page.typesenseVersion')) return
+          let out = code
             .replace(/this\.\$(site|page)\b/g, '$$$1')
             .replace(/\{\{\s*\$site\.themeConfig\.typesenseLatestVersion\s*\}\}/g, typesenseLatestVersion)
+          // vue only evaluates {{ }} in text nodes, leaving the token verbatim
+          // in the anchor aria-labels vitepress generates for headings
+          const version = id.slice(srcDir.length).replace(/^\//, '').split('/')[0]
+          if (typesenseVersions.includes(version)) {
+            out = out.replace(/\{\{\s*\$page\.typesenseVersion\s*\}\}/g, version)
+          }
+          return out
         },
       },
       {
