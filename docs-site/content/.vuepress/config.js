@@ -379,6 +379,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ['/guide/astro-search-bar', 'Search Bar in Astro'],
             ['/guide/vanilla-js-search-bar', 'Search Bar in Vanilla JS'],
             ['/guide/solid-js-search-bar', 'Search Bar in Solid.js'],
+            ['/guide/sveltekit-search-bar', 'Search Bar in SvelteKit'],
             ['/guide/react-native-search-bar', 'Search Bar in React Native'],
             ['/guide/kotlin-search-bar', 'Search Bar in Kotlin'],
             ['/guide/swift-search-bar', 'Search Bar in Swift'],
