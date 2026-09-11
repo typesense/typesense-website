@@ -175,7 +175,7 @@ Data permissions match the cluster UI dashboard's permissions:
 - `data:view`: read collections, schemas, documents and aliases
 - `data:search`: search, and create a search-only cluster key for an app (if your role manages keys)
 - `data:full_access`: create, change and drop collections; add, update and delete documents; manage aliases
-- `data:manage_synonyms`, `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`
+- `data:manage_synonyms`, `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`, `data:manage_stemming`
 - `data:manage_analytics_rules`, `data:manage_conversation_models`, `data:manage_natural_language_models`
 
 Every tool is offered to every connection; but each tool call is checked against the permissions you granted, and a refused call tells the agent which permission it is missing so it can ask you for it. To widen a connection, disconnect the MCP Server from your agent, then re-add and re-authenticate. You'll see the consent screen again, where you'll be able to select the new set of permissions.
@@ -194,7 +194,7 @@ These are the tools available for your agent to use once it is connected. Agents
 - `get_clusters`: lists clusters and reads configuration, status, metrics, configuration-change and cloning history, server parameters and invoices, plus the regions, memory and vCPU options a cluster can be created with.
 - `manage_cluster`: creates, renames, resizes, tunes, clones and terminates clusters, and issues cluster API keys.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
-- `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, analytics, and conversation and natural language search models.
+- `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, and conversation and natural language search models.
 
 Typesense Cloud performs data operations against your cluster with a key it keeps server-side. The agent does not receive your cluster's admin key.
 
