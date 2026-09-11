@@ -31,6 +31,7 @@ module.exports = {
             ['/guide/installing-a-client', 'Installing a Client'],
             ['/guide/building-a-search-application', 'Building a Search Application'],
             ['/guide/search-ui-components', 'Search UI Components'],
+            ['/guide/typesense-cloud/mcp-server', 'MCP Server (Typesense Cloud)'],
           ],
         },
         {
