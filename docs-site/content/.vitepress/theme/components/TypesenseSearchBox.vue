@@ -13,6 +13,7 @@ const router = useRouter()
 
 const container = ref<HTMLElement | null>(null)
 let instance: DocSearchInstance | undefined
+let searchEventTimer: ReturnType<typeof setTimeout> | undefined
 
 function currentVersion(): string | null {
   return (page.value as any).typesenseVersion
@@ -35,6 +36,15 @@ function initialize() {
       filter_by: version
         ? `version:=[${version},unversioned]`
         : `version:=[${latest},unversioned]`,
+    },
+    queryHook(query: string) {
+      if (typeof window === 'undefined') return
+      clearTimeout(searchEventTimer)
+      searchEventTimer = setTimeout(() => {
+        const w = window as any
+        w.dataLayer = w.dataLayer || []
+        w.dataLayer.push({ event: 'docs_search', search_term: query.slice(0, 100) })
+      }, 500)
     },
     navigator: {
       navigate({ itemUrl }: { itemUrl: string }) {

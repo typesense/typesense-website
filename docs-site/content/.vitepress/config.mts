@@ -14,6 +14,41 @@ import versions from '../../../typesenseVersions.json'
 const { description } = pkg
 const { typesenseVersions, typesenseLatestVersion } = versions
 
+// keep in sync across typesense.org-v3, docs-site, landing-pages, howtosearch, and blog
+const clickIdCaptureScript = `(function () {
+  try {
+    var names = ['gclid', 'gbraid', 'wbraid', 'msclkid', 'fbclid', 'li_fat_id']
+    var params = new URLSearchParams(location.search)
+    var hostname = location.hostname
+    var domain =
+      hostname === 'typesense.org' || hostname.endsWith('.typesense.org') ? '; Domain=.typesense.org' : ''
+    var secure = location.protocol === 'https:' ? '; Secure' : ''
+
+    names.forEach(function (name) {
+      if (!params.has(name)) return
+      var value = params.get(name)
+      if (!value) return
+      value = value.slice(0, 255)
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(value) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+      document.cookie =
+        name +
+        '_ts=' +
+        Math.floor(Date.now() / 1000) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+    })
+  } catch (error) {}
+})()`
+
 // lets the version picker grey out versions that predate the current page
 const typesenseVersionPages = Object.fromEntries(
   typesenseVersions.map((version) => [
@@ -55,13 +90,16 @@ export default defineConfig({
     ['meta', { name: 'twitter:description', content: description }],
     ['meta', { name: 'twitter:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
     ['link', { rel: 'icon', href: '/docs/favicon.png' }],
-    // Google Analytics (page views fired manually on route change — see theme).
-    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=UA-116415641-1' }],
+    ['script', {}, clickIdCaptureScript],
+    // the gtm container handles page views itself, spa route changes included
     [
       'script',
       {},
-      "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());" +
-      "gtag('config','UA-116415641-1',{anonymize_ip:true,send_page_view:false,linker:{domains:['typesense.org','cloud.typesense.org']}});",
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'/mtcs/?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','');`,
     ],
   ],
 

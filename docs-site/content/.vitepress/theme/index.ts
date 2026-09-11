@@ -21,7 +21,6 @@ import { syncPreferredCopyLanguagesToUrl } from './util/copyLanguagePreferences'
 
 const { typesenseVersions, typesenseLatestVersion } = versions
 const BASE = '/docs/'
-const GA_ID = 'UA-116415641-1'
 
 // content markdown still interpolates $page and $site, which vitepress doesn't
 // provide, hence the compatible globals set up in enhanceApp below
@@ -78,20 +77,12 @@ export default {
       }
     }
 
-    let gaTimer: ReturnType<typeof setTimeout> | undefined
     router.onAfterRouteChanged = (to) => {
       $page.typesenseVersion = deriveVersion(to)
       if (typeof window === 'undefined') return
 
       docsStore.hydrateCopyLanguages()
       syncPreferredCopyLanguagesToUrl(docsStore.state.copyLanguages)
-
-      const gtag = (window as any).gtag
-      if (!gtag) return
-      clearTimeout(gaTimer)
-      gaTimer = setTimeout(() => {
-        gtag('config', GA_ID, { page_path: to, location_path: window.location.origin + to })
-      }, 2000)
     }
   },
 } satisfies Theme
