@@ -28,6 +28,7 @@ const typesenseVersionPages = Object.fromEntries(
 export default defineConfig({
   base: '/docs/',
   title: 'Typesense Documentation',
+  titleTemplate: ':title | Typesense',
   description,
   // content links are authored with .html, and the published site serves them
   cleanUrls: false,
