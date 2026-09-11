@@ -11,14 +11,14 @@ Here are a couple of available options to install and run Typesense.
 
 The easiest way to run Typesense is using our managed Cloud service called [Typesense Cloud](https://cloud.typesense.org/). 
 
-- Sign-in with GitHub 
+- Sign-in with GitHub or Email/Password Auth.
 - Pick a configuration and click on Launch. You'll have a ready-to-use cluster in a few minutes.
 - Then click on "Generate API Key", which will give you the hostnames and API keys to use in your code.
 
-**Using an AI agent?** Add the Typesense Cloud MCP server to Claude Code, Codex, Cursor or any other MCP client ([setup guide](./typesense-cloud/mcp-server.md)), approve the connection in your browser, and start with:
+**Using an AI agent?** Add the [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md) to Claude Code, Codex, Cursor or any other MCP client, approve the connection in your browser, and start with:
 
-```plaintext
-Set up Typesense Cloud for me: create a cluster, then index my data (it's in <describe or point to it>) and build a first search.
+```markdown
+Using Typesense Cloud MCP, create a cluster, then index my data (it's in <describe or point to it>) and build my first search query.
 ```
 
 The agent creates a free-tier cluster, asks what your data looks like, proposes a schema, imports the data and runs a search. You choose what it's allowed to do when you connect it.
