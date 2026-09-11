@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
-import { readdirSync } from 'node:fs'
+import { existsSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import mathjax3 from 'markdown-it-mathjax3'
 import { sidebar } from './sidebar'
@@ -13,6 +13,11 @@ import versions from '../../../typesenseVersions.json'
 
 const { description } = pkg
 const { typesenseVersions, typesenseLatestVersion } = versions
+
+// matches 0.11.x dirs too, which dropped out of typesenseVersions
+const VERSION_SEGMENT = /^\d+\.\d+(?:\.\d+)?$/
+
+const sitemapExcludedUrls = new Set<string>()
 
 // keep in sync across typesense.org-v3, docs-site, landing-pages, howtosearch, and blog
 const clickIdCaptureScript = `(function () {
@@ -106,6 +111,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   sitemap: {
     // keep the trailing slash, new URL(path, hostname) drops /docs without it
     hostname: 'https://typesense.org/docs/',
+    transformItems: (items) => items.filter((item) => !sitemapExcludedUrls.has(item.url)),
   },
 
   themeConfig: {
@@ -229,12 +235,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (isVersioned) {
       // @ts-expect-error custom field surfaced to the theme
       pageData.typesenseVersion = version
-      const canonicalPath = `/docs/${pageData.relativePath.replace(/\.md$/, '.html').replace(version, typesenseLatestVersion)}`
-      pageData.frontmatter.head.push(['link', { rel: 'canonical', href: `https://typesense.org${canonicalPath}` }])
     } else {
       // @ts-expect-error custom field surfaced to the theme
       pageData.typesenseVersion = null
       pageData.frontmatter.head.push(['meta', { name: 'docsearch:version', content: 'unversioned' }])
+    }
+
+    // pages since removed from the latest version stay self-canonical
+    const isVersionedPath = VERSION_SEGMENT.test(version)
+    let canonicalRel = pageData.relativePath
+    if (isVersionedPath && version !== typesenseLatestVersion) {
+      const latestRel = typesenseLatestVersion + pageData.relativePath.slice(version.length)
+      const sources = [latestRel, latestRel.replace(/index\.md$/, 'README.md')]
+      if (sources.some((rel) => existsSync(join(srcDir, rel)))) canonicalRel = latestRel
+    }
+    const canonicalPath = canonicalRel.replace(/\.md$/, '.html').replace(/(^|\/)index\.html$/, '$1')
+    pageData.frontmatter.head.push(['link', { rel: 'canonical', href: `https://typesense.org/docs/${canonicalPath}` }])
+
+    const selfUrl = pageData.relativePath.replace(/\.md$/, '.html').replace(/(^|\/)index\.html$/, '$1')
+    const excludedByFrontmatter = (pageData.frontmatter.sitemap as { exclude?: boolean } | undefined)?.exclude === true
+    if (excludedByFrontmatter || (isVersionedPath && version !== typesenseLatestVersion)) {
+      sitemapExcludedUrls.add(selfUrl)
     }
 
     if (pageData.title) {
