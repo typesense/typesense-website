@@ -18,7 +18,8 @@ The easiest way to run Typesense is using our managed Cloud service called [Type
 **Using an AI agent?** Add the [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md) to Claude Code, Codex, Cursor or any other MCP client, approve the connection in your browser, and start with:
 
 ```markdown
-Using Typesense Cloud MCP, create a cluster, then index my data (it's in <describe or point to it>) and build my first search query.
+Using Typesense Cloud MCP, create a cluster, then index my data 
+(it's in <describe or point to it>) and build my first search query.
 ```
 
 The agent creates a free-tier cluster, asks what your data looks like, proposes a schema, imports the data and runs a search. You choose what it's allowed to do when you connect it.
