@@ -151,8 +151,8 @@ When you connect your agent, the permissions page shows five presets:
 
 | Preset | The agent can |
 |---|---|
-| Search only | Search collections and read schemas.|
-| Search and curate | Search, plus synonyms, curation, presets and stopwords. |
+| Search only | Search collections and read schemas, list clusters. |
+| Search and curate | Search, plus synonyms, curation, presets and stopwords, plus list clusters. |
 | Manage clusters | Create, resize, rename and tune clusters. No access to the data inside them. |
 | Build (default) | Manage clusters and everything inside them. No terminating, cloning or billing; the only key it can create is a search-only cluster key for an app. |
 | Everything | Every capability your role allows, including terminating clusters. |
