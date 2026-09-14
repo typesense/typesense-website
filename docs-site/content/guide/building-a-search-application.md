@@ -273,7 +273,7 @@ CollectionResponse collectionResponse = client.collections().create(collectionSc
 
 ```go
 booksSchema := &api.CollectionSchema{
-  Name: "companies",
+  Name: "books",
   Fields: []api.Field{
     {Name: "title", Type: "string"},
     {Name: "authors", Type: "string[]", Facet: pointer.True()},
