@@ -31,7 +31,6 @@ Then open a new Claude Code session, type `/mcp`, select the `typesense-cloud` M
 
 ```shell
 codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1
-codex mcp login typesense-cloud
 ```
 
 Codex reads your project's `AGENTS.md` every turn. Add this line to it so Codex reaches for Typesense Cloud instead of asking you for keys:
@@ -84,7 +83,7 @@ So for eg: someone on your team with a curator role, connecting their agent, wil
 Once connected, paste this into your agent:
 
 ```plaintext
-Set up Typesense Cloud for me: create a cluster, then index my data (it's in <describe or point to it>) and build a first search.
+Using MCP, set up Typesense Cloud for me: create a cluster, then index my data (it's in <describe or point to it>) and build a first search.
 ```
 
 The agent creates a free-tier cluster, asks what your data looks like, proposes a schema, imports the data and runs a search you can check. From there, ask your agent for what you need. Here are some examples for inspiration:
