@@ -191,7 +191,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           // vue only evaluates {{ }} in text nodes, leaving the token verbatim
           // in the anchor aria-labels vitepress generates for headings
           const version = id.slice(srcDir.length).replace(/^\//, '').split('/')[0]
-          if (typesenseVersions.includes(version)) {
+          if (VERSION_SEGMENT.test(version)) {
             out = out.replace(/\{\{\s*\$page\.typesenseVersion\s*\}\}/g, version)
           }
           return out
