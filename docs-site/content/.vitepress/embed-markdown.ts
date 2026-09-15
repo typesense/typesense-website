@@ -195,11 +195,12 @@ function parseFrontmatter(raw: string): Record<string, string> {
   return fm
 }
 
-function titleFor(raw: string, fm: Record<string, string>, urlPath: string): string {
+// empty for redirect stubs, which the llms builders skip
+function titleFor(raw: string, fm: Record<string, string>): string {
   if (fm.title) return fm.title
   const body = raw.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n+/, '')
   const h1 = body.match(/^#\s+(.+)$/m)
-  return h1 ? h1[1].trim() : urlPath
+  return h1 ? h1[1].trim() : ''
 }
 
 function collectMarkdownFiles(dir: string, root: string, out: string[] = []): string[] {
@@ -248,7 +249,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
       cleanedByPath.set(urlPath, baseMarkdown)
       pageVersionByPath.set(urlPath, ctx.pageVersion)
       const fm = parseFrontmatter(raw)
-      llmsPages.push({ path: urlPath, relativePath: rel, title: titleFor(raw, fm, urlPath), frontmatter: fm })
+      llmsPages.push({ path: urlPath, relativePath: rel, title: titleFor(raw, fm), frontmatter: fm })
 
       writeWithLatestAlias(urlPath, prependAgentIndex(baseMarkdown), (p) =>
         p.endsWith('/') ? path.join(outDir, p, 'README.md') : path.join(outDir, p.replace(/\.html$/, '.md')),
@@ -309,7 +310,7 @@ function collectLlmsData(srcDir: string): LlmsData {
 
       cleanedByPath.set(urlPath, baseMarkdown)
       pageVersionByPath.set(urlPath, ctx.pageVersion)
-      pages.push({ path: urlPath, relativePath: rel, title: titleFor(raw, fm, urlPath), frontmatter: fm })
+      pages.push({ path: urlPath, relativePath: rel, title: titleFor(raw, fm), frontmatter: fm })
     } catch (error) {
       console.error(`embed-markdown llms: failed for ${rel}:`, (error as Error).message)
     }
