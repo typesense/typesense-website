@@ -60,16 +60,22 @@ function urlPathFor(relativePath: string): string {
 
 // mirrors the rendering-side substitution in config.mts, keeping copied markdown
 // and llms artifacts on the real version instead of the raw token
-const substituteVersion = (raw: string): string =>
-  raw.replace(/\{\{\s*\$site\.themeConfig\.typesenseLatestVersion\s*\}\}/g, typesenseLatestVersion)
+const VERSION_SEGMENT = /^\d+\.\d+(?:\.\d+)?$/
+
+const substituteVersion = (raw: string, sourcePath = ''): string => {
+  const out = raw.replace(/\{\{\s*\$site\.themeConfig\.typesenseLatestVersion\s*\}\}/g, typesenseLatestVersion)
+  const segment = sourcePath.replace(/^\//, '').split('/')[0]
+  if (!VERSION_SEGMENT.test(segment)) return out
+  return out.replace(/\{\{\s*\$page\.typesenseVersion\s*\}\}/g, segment)
+}
 
 // vitepress may ask for index.md when the file on disk is README.md
 function readSource(srcDir: string, relativePath: string): string {
   const primary = path.join(srcDir, relativePath)
-  if (fs.existsSync(primary)) return substituteVersion(fs.readFileSync(primary, 'utf-8'))
+  if (fs.existsSync(primary)) return substituteVersion(fs.readFileSync(primary, 'utf-8'), relativePath)
   const alt = path.join(srcDir, relativePath.replace(/index\.md$/i, 'README.md'))
-  if (alt !== primary && fs.existsSync(alt)) return substituteVersion(fs.readFileSync(alt, 'utf-8'))
-  return substituteVersion(fs.readFileSync(primary, 'utf-8'))
+  if (alt !== primary && fs.existsSync(alt)) return substituteVersion(fs.readFileSync(alt, 'utf-8'), relativePath)
+  return substituteVersion(fs.readFileSync(primary, 'utf-8'), relativePath)
 }
 
 const markdownUrlFor = (urlPath: string): string =>
@@ -151,7 +157,7 @@ export function mdDevMiddleware(srcDir: string): Connect.NextHandleFunction {
     if (!fs.existsSync(sourceFile)) return next()
 
     try {
-      const raw = substituteVersion(fs.readFileSync(sourceFile, 'utf-8'))
+      const raw = substituteVersion(fs.readFileSync(sourceFile, 'utf-8'), normalizedPath)
       const ctx = routerCtxFor(normalizedPath)
 
       if (requestedLang) {
@@ -233,7 +239,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
 
   for (const rel of files) {
     try {
-      const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'))
+      const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'), rel)
       const urlPath = urlPathFor(rel)
       const ctx = routerCtxFor(urlPath)
       const { markdown: cleaned, copyTabGroups, copyLanguages } = analyzeMarkdownForCopy(raw)
@@ -295,7 +301,7 @@ function collectLlmsData(srcDir: string): LlmsData {
 
   for (const rel of collectMarkdownFiles(srcDir, srcDir)) {
     try {
-      const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'))
+      const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'), rel)
       const urlPath = urlPathFor(rel)
       const ctx = routerCtxFor(urlPath)
       const baseMarkdown = transformRouterLinks(analyzeMarkdownForCopy(raw).markdown, ctx)
