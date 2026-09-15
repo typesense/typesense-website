@@ -37,14 +37,21 @@ function initialize() {
         ? `version:=[${version},unversioned]`
         : `version:=[${latest},unversioned]`,
     },
-    queryHook(query: string) {
-      if (typeof window === 'undefined') return
-      clearTimeout(searchEventTimer)
-      searchEventTimer = setTimeout(() => {
-        const w = window as any
-        w.dataLayer = w.dataLayer || []
-        w.dataLayer.push({ event: 'docs_search', search_term: query.slice(0, 100) })
-      }, 500)
+    transformSearchClient(searchClient) {
+      return {
+        search(params) {
+          const query = params.requests[0]?.q
+          if (typeof window !== 'undefined' && typeof query === 'string' && query.length > 0) {
+            clearTimeout(searchEventTimer)
+            searchEventTimer = setTimeout(() => {
+              const w = window as any
+              w.dataLayer = w.dataLayer || []
+              w.dataLayer.push({ event: 'docs_search', search_term: query.slice(0, 100) })
+            }, 500)
+          }
+          return searchClient.search(params)
+        },
+      }
     },
     navigator: {
       navigate({ itemUrl }: { itemUrl: string }) {
