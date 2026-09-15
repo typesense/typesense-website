@@ -70,6 +70,19 @@ function teardown() {
 
 onMounted(initialize)
 onBeforeUnmount(teardown)
+function onHitClick(event: MouseEvent) {
+  if (event.defaultPrevented || event.button !== 0) return
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  const anchor = (event.target as HTMLElement | null)?.closest?.('.DocSearch-Hit a') as HTMLAnchorElement | null
+  if (!anchor?.href) return
+  const { pathname, hash } = new URL(anchor.href, window.location.origin)
+  if (!pathname.startsWith('/docs/')) return
+  event.preventDefault()
+  router.go(`${pathname}${decodeURIComponent(hash)}`)
+}
+
+onMounted(() => document.addEventListener('click', onHitClick))
+onBeforeUnmount(() => document.removeEventListener('click', onHitClick))
 
 // re-filter results when navigating between versioned sections
 watch(() => currentVersion(), () => {
