@@ -20,6 +20,10 @@
     <template #aside-bottom>
       <VersionWarning />
     </template>
+    <!-- no aside below 1280px, the prompt rides the doc column instead -->
+    <template #doc-bottom>
+      <VersionWarning banner />
+    </template>
   </Layout>
 </template>
 
