@@ -194,6 +194,13 @@ html {
   @apply pl-3;
 }
 
+/* vitepress names the mobile dropdown's heading list `outline`, colliding with
+ * tailwind's `.outline` utility, which paints a 3px currentColor ring over the
+ * 1px --vp-c-gutter divider the grid gap already draws */
+.VPLocalNavOutlineDropdown .outline {
+  outline-style: none;
+}
+
 /* both blocks stick against .aside-container, whose padding-top already clears
  * the navbar, leaving `top` measured from that padded edge rather than the
  * window. the heading list deliberately gets no scroll box of its own, which
