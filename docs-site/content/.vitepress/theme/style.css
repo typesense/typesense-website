@@ -201,6 +201,13 @@ html {
   outline-style: none;
 }
 
+/* Layout.vue marks this row, vitepress only tracks the desktop aside. colour
+ * alone, matching the panel's own "Return to top" accent, since the aside's
+ * marker bar has no rail to sit on here */
+.VPLocalNavOutlineDropdown .outline-link.active {
+  @apply text-accent font-semibold;
+}
+
 /* both blocks stick against .aside-container, whose padding-top already clears
  * the navbar, leaving `top` measured from that padded edge rather than the
  * window. the heading list deliberately gets no scroll box of its own, which
