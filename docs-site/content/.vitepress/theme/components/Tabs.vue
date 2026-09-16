@@ -2,16 +2,16 @@
   <div class="mb-4">
     <ClientOnly>
       <ul
-        class="flex justify-start items-center !list-none !m-0 !px-5 !pt-4 !pb-4 rounded-t-md border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem] max-mobile:-mx-6 max-mobile:rounded-none"
+        class="flex justify-start items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !pt-4 !pb-4 rounded-t-md border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem] max-mobile:!-mx-6 max-mobile:rounded-none"
       >
         <li
           v-for="tab in augmentedTabs"
           :key="tab"
-          class="group mr-4 !mt-0 cursor-pointer"
+          class="group shrink-0 mr-4 !mt-0 cursor-pointer"
           @click="setActiveTab(tab)"
         >
           <span
-            class="inline-block mr-[0.3rem] !text-[0.7rem] leading-none border-b border-transparent group-hover:border-[var(--vp-c-brand-1)]"
+            class="inline-block mr-[0.3rem] !text-[0.7rem] leading-none whitespace-nowrap border-b border-transparent group-hover:border-[var(--vp-c-brand-1)]"
             :class="{ '!border-[var(--vp-c-brand-1)]': tab === activeTab }"
             >{{ tab }}</span
           >
