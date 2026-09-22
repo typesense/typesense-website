@@ -187,7 +187,7 @@ On a team account you can only grant what [your own role](./role-based-access-co
 
 These are the tools available for your agent to use once it is connected. Agents read the tool descriptions, so you do not need to name tools or actions in your prompts; this list is here so you know what is possible.
 
-- `whoami`: which account and permissions the connection has. Agents call it first.
+- `whoami`: which account and permissions the connection has, the clusters on the account, and what to do with them first. Agents call it first.
 - `search_typesense_docs`: searches this documentation, matched to your cluster's Typesense version.
 - `search_documents`: searches a collection, including multi-search and vector or hybrid queries.
 - `get_clusters`: lists clusters and reads configuration, status, metrics, configuration-change and cloning history, server parameters and invoices, plus the regions, memory and vCPU options a cluster can be created with.
