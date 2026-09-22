@@ -11,6 +11,7 @@ import { COPY_LANGUAGE_SLUGS, getCopyLanguageByLabel, getCopyLanguageBySlug } fr
 import { filterMarkdownByCopyLanguages } from './theme/util/markdownCopyFilter'
 import { buildLlmsArtifacts, writeLlmsArtifacts } from './theme/util/llmsTxt'
 import type { LlmsArtifacts, LlmsPage } from './theme/util/llmsTxt'
+import type { TypesensePageData } from './theme/types'
 import versions from '../../../typesenseVersions.json'
 
 const { typesenseVersions } = versions
@@ -87,7 +88,7 @@ const latestAliasPath = (urlPath: string): string | null =>
     ? `/latest/${urlPath.slice(typesenseLatestVersion.length + 2)}`
     : null
 
-export function injectPageMarkdown(pageData: any, srcDir: string): void {
+export function injectPageMarkdown(pageData: TypesensePageData, srcDir: string): void {
   const rel = pageData.relativePath
   if (!rel || !rel.endsWith('.md')) return
   try {

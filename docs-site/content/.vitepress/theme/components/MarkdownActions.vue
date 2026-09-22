@@ -129,6 +129,7 @@ import { docsStore } from '@/store'
 import { COPY_LANGUAGE_OPTIONS } from '@/util/copyLanguages'
 import { filterMarkdownByCopyLanguages } from '@/util/markdownCopyFilter'
 import { decodeMarkdown } from '@/util/decodeMarkdown'
+import type { TypesensePageData } from '@/types'
 
 const { page } = useData()
 const route = useRoute()
@@ -140,14 +141,14 @@ let copyTimeout: ReturnType<typeof setTimeout> | undefined
 const buttonTitle = computed(() =>
   isCopied.value ? 'Markdown copied to clipboard' : 'Copy markdown source to clipboard',
 )
-const pageMarkdown = computed(() => decodeMarkdown((page.value as any).markdown))
+const pageMarkdown = computed(() => decodeMarkdown((page.value as TypesensePageData).markdown))
 const markdownUrl = computed(() => {
-  const url = (page.value as any).markdownUrl
+  const url = (page.value as TypesensePageData).markdownUrl
   return url ? withBase(url) : null
 })
-const tabGroups = computed(() => (page.value as any).markdownCopyTabGroups || [])
+const tabGroups = computed(() => (page.value as TypesensePageData).markdownCopyTabGroups || [])
 const presentLanguages = computed<string[]>(() => {
-  const langs = (page.value as any).markdownCopyLanguages
+  const langs = (page.value as TypesensePageData).markdownCopyLanguages
   return Array.isArray(langs) ? langs : []
 })
 const languageOptions = COPY_LANGUAGE_OPTIONS

@@ -5,14 +5,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
+import type { TypesensePageData, TypesenseThemeConfig } from '../types'
 
 // mounted on legacy landing pages to forward old hash anchors to new pages
-const { page, theme } = useData()
+const { page, theme } = useData<TypesenseThemeConfig>()
 const router = useRouter()
 
 onMounted(() => {
-  const v = (page.value as any).typesenseVersion
-  const L = (theme.value as any).typesenseLatestVersion
+  const v = (page.value as TypesensePageData).typesenseVersion
+  const L = theme.value.typesenseLatestVersion
 
   const redirects: Array<{ from: string; to: string }> = [
     { from: `/guide/#install-typesense`, to: `/guide/install-typesense.html` },

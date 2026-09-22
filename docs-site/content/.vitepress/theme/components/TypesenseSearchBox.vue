@@ -7,8 +7,9 @@ import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useData, useRouter } from 'vitepress'
 import docsearch from 'typesense-docsearch.js'
 import type { DocSearchInstance } from 'typesense-docsearch.js'
+import type { TypesensePageData, TypesenseThemeConfig } from '../types'
 
-const { theme, page } = useData()
+const { theme, page } = useData<TypesenseThemeConfig>()
 const router = useRouter()
 
 const container = ref<HTMLElement | null>(null)
@@ -16,21 +17,21 @@ let instance: DocSearchInstance | undefined
 let searchEventTimer: ReturnType<typeof setTimeout> | undefined
 
 function currentVersion(): string | null {
-  return (page.value as any).typesenseVersion
+  return (page.value as TypesensePageData).typesenseVersion ?? null
 }
 
 function initialize() {
-  const userOptions = (theme.value as any).typesenseDocsearch
+  const userOptions = theme.value.typesenseDocsearch
   if (!userOptions || !container.value) return
 
   const { typesenseSearchParameters = {} } = userOptions
-  const latest = (theme.value as any).typesenseLatestVersion
+  const latest = theme.value.typesenseLatestVersion
   const version = currentVersion()
 
   instance = docsearch({
     ...userOptions,
     container: container.value,
-    placeholder: (theme.value as any).searchPlaceholder || '',
+    placeholder: theme.value.searchPlaceholder || '',
     typesenseSearchParameters: {
       ...typesenseSearchParameters,
       filter_by: version
@@ -44,7 +45,7 @@ function initialize() {
           if (typeof window !== 'undefined' && typeof query === 'string' && query.length > 0) {
             clearTimeout(searchEventTimer)
             searchEventTimer = setTimeout(() => {
-              const w = window as any
+              const w = window as Window & { dataLayer?: Record<string, unknown>[] }
               w.dataLayer = w.dataLayer || []
               w.dataLayer.push({ event: 'docs_search', search_term: query.slice(0, 100) })
             }, 500)

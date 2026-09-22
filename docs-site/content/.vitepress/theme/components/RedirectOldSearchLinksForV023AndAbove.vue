@@ -5,13 +5,14 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
+import type { TypesensePageData } from '../types'
 
 // v0.23.0 split search/geosearch/multisearch out of documents.html
 const { page } = useData()
 const router = useRouter()
 
 onMounted(() => {
-  const v = (page.value as any).typesenseVersion
+  const v = (page.value as TypesensePageData).typesenseVersion
 
   const redirects: Array<{ from: string; to: string }> = [
     { from: `/${v}/api/documents.html#search-parameters`, to: `/${v}/api/search.html#search-parameters` },

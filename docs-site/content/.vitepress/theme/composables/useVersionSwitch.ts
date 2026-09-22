@@ -1,18 +1,19 @@
 import { computed } from 'vue'
 import { useData, useRoute, useRouter, withBase } from 'vitepress'
+import type { TypesensePageData, TypesenseThemeConfig } from '../types'
 
 // shared by the version dropdown and the "switch to latest" warning
 export function useVersionSwitch() {
-  const { page, theme } = useData()
+  const { page, theme } = useData<TypesenseThemeConfig>()
   const route = useRoute()
   const router = useRouter()
 
-  const versions = computed<string[]>(() => (theme.value as any).typesenseVersions || [])
-  const latestVersion = computed<string>(() => (theme.value as any).typesenseLatestVersion)
-  const currentVersion = computed<string | null>(() => (page.value as any).typesenseVersion)
-  const versionPages = computed<Record<string, string[]>>(
-    () => (theme.value as any).typesenseVersionPages || {},
+  const versions = computed<string[]>(() => theme.value.typesenseVersions || [])
+  const latestVersion = computed<string>(() => theme.value.typesenseLatestVersion)
+  const currentVersion = computed<string | null>(
+    () => (page.value as TypesensePageData).typesenseVersion ?? null,
   )
+  const versionPages = computed<Record<string, string[]>>(() => theme.value.typesenseVersionPages || {})
 
   // route.path carries the /docs/ base, version-relative logic doesn't want it
   const relPath = computed(() => route.path.replace(/^\/docs/, '') || '/')
