@@ -10,10 +10,11 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import DocsSectionButton from './DocsSectionButton.vue'
+import type { TypesensePageData, TypesenseThemeConfig } from '../types'
 
-const { page, theme } = useData()
+const { page, theme } = useData<TypesenseThemeConfig>()
 // unversioned pages would otherwise emit /null/api/
 const apiVersion = computed(
-  () => (page.value as any).typesenseVersion || (theme.value as any).typesenseLatestVersion,
+  () => (page.value as TypesensePageData).typesenseVersion || theme.value.typesenseLatestVersion,
 )
 </script>
