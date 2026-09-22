@@ -29,6 +29,7 @@ import { Copy, Check } from 'lucide-vue-next'
 import { docsStore } from '../store'
 import { filterMarkdownByCopyLanguages } from '../util/markdownCopyFilter'
 import { decodeMarkdown } from '../util/decodeMarkdown'
+import type { TypesensePageData } from '../types'
 
 // rendered after every h2-h6 by the markdown pipeline
 const props = defineProps<{ headingText: string; headingLevel: number }>()
@@ -37,8 +38,10 @@ const { page } = useData()
 const isCopied = ref(false)
 let copyTimeout: ReturnType<typeof setTimeout> | undefined
 
-const pageMarkdown = computed<string | undefined>(() => decodeMarkdown((page.value as any).markdown))
-const tabGroups = computed(() => (page.value as any).markdownCopyTabGroups || [])
+const pageMarkdown = computed<string | undefined>(() =>
+  decodeMarkdown((page.value as TypesensePageData).markdown),
+)
+const tabGroups = computed(() => (page.value as TypesensePageData).markdownCopyTabGroups || [])
 
 // runs to the next heading of the same or higher level, ignoring the # inside
 // fenced code blocks
