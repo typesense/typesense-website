@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* a bare `border` utility otherwise falls back to preflight's fixed light
+ * default, which never tracks dark mode */
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+/* one seed expanded into a radix-style 1-12 ramp. light fills at 3-5, borders
+ * at 6/8, solid brand at 9/10, accessible text at 11/12 */
+:root {
+  --brand: #c0ff58;
+  --brand-contrast: #000; /* text on a solid brand fill */
+  --brand-3-raw: hsl(from var(--brand) h s 96%);
+  --brand-4-raw: hsl(from var(--brand) h s 94%);
+  --brand-5-raw: hsl(from var(--brand) h s 92%);
+  --brand-6-raw: hsl(from var(--brand) h s 82%);
+  --brand-8-raw: hsl(from var(--brand) h 40% 50%);
+  --brand-9-raw: var(--brand);
+  --brand-10-raw: color-mix(in srgb, var(--brand), black 5%);
+  --brand-11-raw: hsl(from var(--brand) h 100% 25%); /* accessible text on light */
+  --brand-12-raw: hsl(from var(--brand) h s 10%);
+}
+.dark {
+  --brand-3-raw: hsl(from var(--brand) h s 10%);
+  --brand-4-raw: hsl(from var(--brand) h s 18%);
+  --brand-5-raw: hsl(from var(--brand) h s 20%);
+  --brand-6-raw: hsl(from var(--brand) h s 30%);
+  --brand-8-raw: hsl(from var(--brand) h s 50%);
+  --brand-10-raw: color-mix(in srgb, var(--brand), white 5%);
+  --brand-11-raw: hsl(from var(--brand) h 100% 75%);
+  --brand-12-raw: hsl(from var(--brand) h s 90%);
+}
+
+/* the tailwind ink/line/surface scales read these */
+:root {
+  --ink: #313132;
+  --ink-muted: #6f6f71;
+  --ink-light: #89898b;
+  --ink-lighter: #909092;
+  --ink-lightest: #a2a2a4;
+  --line: #eee8ee;
+  --line-dark: #cfbecf;
+  --surface-gray: #f7f7f7;
+  --surface-gray-hover: #ebebeb;
+}
+.dark {
+  --ink: rgba(255, 255, 255, 0.92);
+  --ink-muted: rgba(255, 255, 255, 0.64);
+  --ink-light: rgba(255, 255, 255, 0.5);
+  --ink-lighter: rgba(255, 255, 255, 0.44);
+  --ink-lightest: rgba(255, 255, 255, 0.38);
+  --line: rgba(255, 255, 255, 0.16);
+  --line-dark: rgba(255, 255, 255, 0.28);
+  --surface-gray: #1a1a1a;
+  --surface-gray-hover: #262626;
+}
+
+/* hsl triples, which is what tailwind's alpha utilities (bg-primary/90) need */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 1% 19%; /* #313132 */
+  --muted: 300 19% 96%;
+  --muted-foreground: 240 1% 44%; /* ~lighten(text, 25%) */
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 1% 19%;
+  --border: 300 19% 92%; /* #eee8ee */
+  --input: 300 19% 92%;
+  --primary: 83 100% 67%; /* brand step 9 (#c0ff58) */
+  --primary-foreground: 0 0% 0%; /* --brand-contrast */
+  --ring: 83 40% 50%; /* brand step 8 */
+  --radius: 0.5rem;
+}
+/* --primary and --ring stay brand, a lime fill reads fine on dark */
+.dark {
+  --background: 0 0% 6%; /* lifted off pure black */
+  --foreground: 0 0% 92%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --popover: 0 0% 12%; /* lifted above the page, overlays read as panels */
+  --popover-foreground: 0 0% 92%;
+  --border: 0 0% 22%;
+  --input: 0 0% 22%;
+}
+
+/* brand text uses step 11, solid buttons 9/10 with black text */
+:root {
+  --vp-c-brand-1: var(--brand-11-raw);
+  --vp-c-brand-2: var(--brand-12-raw); /* darker, hover */
+  --vp-c-brand-3: var(--brand-9-raw); /* solid brand */
+  --vp-c-brand-soft: var(--brand-5-raw); /* light lime fill */
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-text: var(--brand-contrast);
+  --vp-button-brand-hover-text: var(--brand-contrast);
+  --vp-button-brand-active-text: var(--brand-contrast);
+  --vp-button-brand-bg: var(--brand-9-raw);
+  --vp-button-brand-hover-bg: var(--brand-10-raw);
+  --vp-button-brand-active-bg: var(--brand-10-raw);
+
+  --vp-c-text-1: #313132; /* $textColor */
+  --vp-c-text-2: #6f6f71;
+
+  --vp-font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+
+  --vp-sidebar-width: 20rem; /* $sidebarWidth 320px */
+  --vp-layout-max-width: 1440px;
+
+  /* white, not the default gray. the divider lives on .VPSidebar below */
+  --vp-sidebar-bg-color: var(--vp-c-bg);
+}
+
+/* the :root block above hardwires the light neutrals over vitepress's own dark
+ * values, which leaves them needing a re-declaration here */
+.dark {
+  --vp-c-bg: #0f0f0f;
+  --vp-c-bg-alt: #0f0f0f;
+  --vp-c-bg-soft: #1a1a1a;
+  --vp-c-bg-elv: #1a1a1a;
+  --vp-c-gutter: rgba(255, 255, 255, 0.14);
+  --vp-c-divider: rgba(255, 255, 255, 0.12);
+  --vp-c-text-1: var(--ink);
+  --vp-c-text-2: var(--ink-muted);
+}
+
+/* vitepress's js offsets in-page clicks, but a direct load of a #anchor url
+ * takes the browser's native jump and lands under the fixed navbar */
+html {
+  scroll-padding-top: var(--vp-nav-height, 64px);
+}
+.vp-doc :is(h1, h2, h3, h4, h5, h6)[id],
+.vp-doc [id] {
+  scroll-margin-top: var(--vp-nav-height, 64px);
+}
+
+/* ! beats the component-scoped, attribute-boosted default rule */
+.VPNavBarTitle.has-sidebar .title {
+  @apply !border-b-transparent;
+}
+
+/* scrollbar hidden, still scrollable via wheel/trackpad */
+.VPSidebar {
+  scrollbar-width: none; /* firefox */
+  /* matches the navbar bottom border */
+  border-right: 1px solid var(--vp-c-gutter);
+}
+.VPSidebar::-webkit-scrollbar {
+  display: none; /* chrome/safari/edge */
+}
+
+.vp-doc a code {
+  text-decoration-color: var(--brand-6-raw);
+}
+.vp-doc a:hover code {
+  text-decoration-color: var(--brand-11-raw);
+}
+
+/* vitepress only indents .level-1 .items and below, leaving a top-level group's
+ * children flush with the title. indenting the label rather than the .items
+ * container keeps the row box full-width for the active pill */
+.VPSidebarItem.level-1 > .item > .link,
+.VPSidebarItem.level-1 > .item > .text {
+  @apply pl-3;
+}
+
+/* a pill in place of the default 2px indicator bar. it matches the item's
+ * bounding box exactly, no negative-margin bleed past the content edge */
+.VPSidebarItem.is-active > .item > .indicator {
+  @apply hidden;
+}
+.VPSidebarItem.is-active > .item {
+  @apply rounded-lg bg-accent-selected;
+}
+.VPSidebarItem.is-active > .item .link > .text {
+  @apply font-semibold;
+}
+
+/* one line, min-w-0 lets the flex child shrink enough for the ellipsis */
+.VPSidebarItem .text {
+  @apply min-w-0 line-clamp-1;
+}
+
+/* nested outline indent, 16px -> 12px */
+.VPDocOutlineItem.nested {
+  @apply pl-3;
+}
+
+/* vitepress names the mobile dropdown's heading list `outline`, colliding with
+ * tailwind's `.outline` utility, which paints a 3px currentColor ring over the
+ * 1px --vp-c-gutter divider the grid gap already draws */
+.VPLocalNavOutlineDropdown .outline {
+  outline-style: none;
+}
+
+/* Layout.vue marks this row, vitepress only tracks the desktop aside. colour
+ * alone, matching the panel's own "Return to top" accent, since the aside's
+ * marker bar has no rail to sit on here */
+.VPLocalNavOutlineDropdown .outline-link.active {
+  @apply text-accent font-semibold;
+}
+
+/* both blocks stick against .aside-container, whose padding-top already clears
+ * the navbar, leaving `top` measured from that padded edge rather than the
+ * window. the heading list deliberately gets no scroll box of its own, which
+ * would break the js-positioned .outline-marker. z-index has to beat
+ * VPDocOutlineItem's own `position: relative; z-index: 1`. */
+.VPDocAside {
+  --aside-pinned-top: 0px;
+}
+.aside-pinned-version {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background-color: var(--vp-c-bg);
+}
+/* masks headings scrolling up through the aside's top padding gap */
+.aside-pinned-version::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 100% 0;
+  height: 100vh;
+  background-color: var(--vp-c-bg);
+}
+.VPDocAsideOutline .outline-title {
+  position: sticky;
+  top: var(--aside-pinned-top);
+  z-index: 2;
+  padding-bottom: 4px;
+  background-color: var(--vp-c-bg);
+}
+/* short enough that at rest it barely grazes the first heading, and only reads
+ * as a fade once the outline scrolls beneath the title */
+.VPDocAsideOutline .outline-title::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 28px;
+  pointer-events: none;
+  background: linear-gradient(var(--vp-c-bg), transparent 50%);
+}
+
+
+/* the version warning already masks the outline scrolling under it, and its own
+ * stacking context would paint the curtain over the box. every other page keeps
+ * its fade */
+.aside:has(.version-warning) .aside-curtain {
+  @apply hidden;
+}
+
+.vp-doc .custom-block.tip {
+  @apply border-l-4 border-l-accent rounded-l-none;
+  --vp-custom-block-tip-bg: var(--brand-4-raw);
+  --vp-custom-block-tip-code-bg: var(--brand-5-raw);
+}

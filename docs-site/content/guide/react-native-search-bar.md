@@ -52,15 +52,17 @@ Once Docker is installed, you can run a Typesense container in the background us
 
   <Tabs :tabs="['Shell']">
     <template v-slot:Shell>
-      <div class="manual-highlight">
-        <pre class="language-bash"><code>export TYPESENSE_API_KEY=xyz
-  docker run -p 8108:8108 \
-    -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
-    --data-dir /data \
-    --api-key=$TYPESENSE_API_KEY \
-    --enable-cors \
-    -d</code></pre>
-      </div>
+
+  ```bash
+  export TYPESENSE_API_KEY=xyz
+    docker run -p 8108:8108 \
+      -v"$(pwd)"/typesense-data:/data typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
+      --data-dir /data \
+      --api-key=$TYPESENSE_API_KEY \
+      --enable-cors \
+      -d
+  ```
+
     </template>
   </Tabs>
 
