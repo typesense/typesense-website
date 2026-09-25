@@ -46,14 +46,12 @@ onMounted(() => {
   const path = router.route.path.replace(/^\/docs/, '') || '/'
   const currentPathWithHash = `${path}${window.location.hash}`
 
-  redirects.some((redirect) => {
-    if (!currentPathWithHash.startsWith(redirect.from)) return false
-    const [toPath] = redirect.to.split('#')
-    router.go(withBase(toPath))
-    if (redirect.to.includes('#')) {
-      setTimeout(() => router.go(withBase(redirect.to)), 1200)
-    }
-    return true
-  })
+  const redirect = redirects.find(({ from }) => from === currentPathWithHash)
+  if (!redirect) return
+  const [toPath] = redirect.to.split('#')
+  router.go(withBase(toPath))
+  if (redirect.to.includes('#')) {
+    setTimeout(() => router.go(withBase(redirect.to)), 1200)
+  }
 })
 </script>
