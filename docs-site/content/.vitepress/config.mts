@@ -89,11 +89,9 @@ export default defineConfig({
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: 'Typesense Documentation' }],
     ['meta', { property: 'og:description', content: description }],
     ['meta', { property: 'og:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'Typesense Documentation' }],
     ['meta', { name: 'twitter:description', content: description }],
     ['meta', { name: 'twitter:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
     ['link', { rel: 'icon', href: '/docs/favicon.png' }],
@@ -266,6 +264,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (pageData.title) {
       pageData.title = pageData.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, version)
     }
+
+    const socialTitle = pageData.title ? `${pageData.title} | Typesense` : 'Typesense Documentation'
+    pageData.frontmatter.head.push(
+      ['meta', { property: 'og:title', content: socialTitle }],
+      ['meta', { name: 'twitter:title', content: socialTitle }],
+    )
 
     injectPageMarkdown(pageData, srcDir)
   },
