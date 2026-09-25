@@ -23,6 +23,18 @@ export function typesenseMarkdown(md: MarkdownIt): void {
     }
   })
 
+  // vitepress only maps index.md to its directory, so README.md links would render as README.html
+  md.core.ruler.push('readme-links', (state) => {
+    state.tokens
+      .filter((token) => token.type === 'inline' && token.children)
+      .forEach((token) =>
+        token.children!.forEach((child) => {
+          const href = child.type === 'link_open' && child.attrGet('href')
+          if (href && !/^[a-z]+:/i.test(href)) child.attrSet('href', href.replace(/(^|\/)README\.md(#|$)/i, '$1index.md$2'))
+        }),
+      )
+  })
+
   md.core.ruler.after('block', 'markdown-actions', (state) => {
     const tokens = state.tokens
 
