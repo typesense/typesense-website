@@ -41,8 +41,8 @@ export const docsStore = {
   },
   setCopyLanguages(languages: string[]) {
     const nextLanguages = writePreferredCopyLanguages(languages)
-    if (state.copyLanguages.length === 1 && nextLanguages.length === 0) {
-      this.setDefaultTab(state.copyLanguages[0])
+    if (nextLanguages.length === 1 && (state.copyLanguages.length !== 1 || state.copyLanguages[0] !== nextLanguages[0])) {
+      this.setDefaultTab(nextLanguages[0])
     }
     state.copyLanguages = nextLanguages
   },

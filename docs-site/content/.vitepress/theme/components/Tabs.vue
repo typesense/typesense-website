@@ -54,12 +54,13 @@ const augmentedTabs = computed(() =>
 )
 
 const activeTab = computed(() => {
+  const preferred = augmentedTabs.value.find((tab) => tab === docsStore.state.defaultTab)
+  if (preferred) return preferred
   const singleLanguage = docsStore.singlePreferredCopyLanguage.value
   if (singleLanguage && augmentedTabs.value.includes(singleLanguage)) {
     return singleLanguage
   }
-  const preferred = augmentedTabs.value.find((tab) => tab === docsStore.state.defaultTab)
-  return preferred || cmpActiveTab.value
+  return cmpActiveTab.value
 })
 
 // without this the tabs snap back to the first when the language override drops
