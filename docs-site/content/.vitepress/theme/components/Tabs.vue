@@ -2,6 +2,8 @@
   <div class="mb-4">
     <ClientOnly>
       <ul
+        :data-copy-tabs="JSON.stringify(tabs)"
+        :data-copy-active-tab="activeTab"
         class="flex justify-start items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !pt-4 !pb-4 rounded-t-md border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem] max-mobile:!-mx-6 max-mobile:rounded-none"
       >
         <li

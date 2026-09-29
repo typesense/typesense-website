@@ -56,7 +56,7 @@
           <div class="mb-1 border-b border-line px-1 pb-2">
             <div class="text-sm font-semibold text-ink">Copy languages</div>
             <div class="pt-1 text-xs font-normal leading-snug text-ink-muted">
-              Choose which tabbed code examples are included when copying markdown.
+              Choose which tabbed code examples are included when copying markdown. With none selected, the current tab is copied.
             </div>
           </div>
           <div class="flex items-center justify-between gap-3 px-1 pb-1">
@@ -66,7 +66,7 @@
               class="cursor-pointer text-[0.68rem] font-semibold text-accent hover:underline"
               @click="toggleAllAvailableLanguages"
             >
-              {{ allAvailableLanguagesSelected ? 'Deselect all' : 'Select all' }}
+              {{ allAvailableLanguagesSelected ? 'Use current tab' : 'Select all' }}
             </button>
           </div>
           <button
@@ -127,7 +127,7 @@ import { ButtonGroup } from '@/components/ui/button-group'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { docsStore } from '@/store'
 import { COPY_LANGUAGE_OPTIONS } from '@/util/copyLanguages'
-import { filterMarkdownByCopyLanguages } from '@/util/markdownCopyFilter'
+import { filterMarkdownByCopyLanguages, getVisibleCopyTabs } from '@/util/markdownCopyFilter'
 import { decodeMarkdown } from '@/util/decodeMarkdown'
 import type { TypesensePageData } from '@/types'
 
@@ -186,7 +186,13 @@ async function copyMarkdown() {
   isCopied.value = true
   try {
     if (!pageMarkdown.value) throw new Error('Markdown content not available')
-    const markdown = filterMarkdownByCopyLanguages(pageMarkdown.value, tabGroups.value, selectedLanguages.value)
+    const markdown = filterMarkdownByCopyLanguages(
+      pageMarkdown.value,
+      tabGroups.value,
+      selectedLanguages.value,
+      false,
+      getVisibleCopyTabs(tabGroups.value, docsStore.state.defaultTab),
+    )
     await navigator.clipboard.writeText(markdown)
     copyTimeout = setTimeout(() => (isCopied.value = false), 2000)
   } catch (error) {

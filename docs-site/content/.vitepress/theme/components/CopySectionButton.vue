@@ -27,7 +27,7 @@ import { ref, computed, onBeforeUnmount } from 'vue'
 import { useData } from 'vitepress'
 import { Copy, Check } from 'lucide-vue-next'
 import { docsStore } from '../store'
-import { filterMarkdownByCopyLanguages } from '../util/markdownCopyFilter'
+import { filterMarkdownByCopyLanguages, getVisibleCopyTabs } from '../util/markdownCopyFilter'
 import { decodeMarkdown } from '../util/decodeMarkdown'
 import type { TypesensePageData } from '../types'
 
@@ -85,10 +85,13 @@ function extractSection(markdown: string): string {
 
 async function copySection() {
   if (!pageMarkdown.value) return
-  const languages = docsStore.state.copyLanguages
-  const filteredMarkdown = languages.length > 0
-    ? filterMarkdownByCopyLanguages(pageMarkdown.value, tabGroups.value, languages)
-    : pageMarkdown.value
+  const filteredMarkdown = filterMarkdownByCopyLanguages(
+    pageMarkdown.value,
+    tabGroups.value,
+    docsStore.state.copyLanguages,
+    false,
+    getVisibleCopyTabs(tabGroups.value, docsStore.state.defaultTab),
+  )
   const section = extractSection(filteredMarkdown)
   if (!section) return
   try {
