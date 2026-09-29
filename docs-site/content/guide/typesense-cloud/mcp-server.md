@@ -194,6 +194,7 @@ These are the tools available for your agent to use once it is connected. Agents
 - `manage_cluster`: creates, renames, resizes, tunes, clones and terminates clusters, and issues cluster API keys.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
 - `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, and conversation and natural language search models.
+- `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission; nobody replies through the tool, so for anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
 
 Typesense Cloud performs data operations against your cluster with a key it keeps server-side. The agent does not receive your cluster's admin key.
 
