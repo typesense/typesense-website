@@ -22,12 +22,10 @@ const LANGUAGE_VARIANT_FANOUT_DEPTH = 2
 const FANOUT_VERSIONS = new Set(typesenseVersions.slice(0, LANGUAGE_VARIANT_FANOUT_DEPTH))
 const LANG_SLUGS = new Set<string>(COPY_LANGUAGE_SLUGS)
 
-const prependAgentIndex = (md: string): string =>
-  [
-    '> **AI agents and LLMs:** before exploring further, fetch the full index of Typesense documentation with descriptions at https://typesense.org/docs/llms.txt.',
-    '',
-    md,
-  ].join('\n')
+const AGENT_INDEX_PREFIX =
+  '> **AI agents and LLMs:** before exploring further, fetch the full index of Typesense documentation with descriptions at https://typesense.org/docs/llms.txt.\n\n'
+const AGENT_INDEX_LINE_OFFSET = AGENT_INDEX_PREFIX.split('\n').length - 1
+const prependAgentIndex = (md: string): string => `${AGENT_INDEX_PREFIX}${md}`
 
 function withBase(url: string): string {
   if (!url || /^https?:\/\//.test(url)) return url
@@ -93,16 +91,23 @@ export function injectPageMarkdown(pageData: TypesensePageData, srcDir: string):
   if (!rel || !rel.endsWith('.md')) return
   try {
     const raw = readSource(srcDir, rel)
-    const data = analyzeMarkdownForCopy(raw)
     const urlPath = urlPathFor(rel)
     const ctx = routerCtxFor(urlPath)
+    const data = analyzeMarkdownForCopy(transformRouterLinks(raw, ctx))
 
     // base64 keeps a literal </script> from ending the inline __pageData block
     pageData.markdown = Buffer.from(
-      prependAgentIndex(transformRouterLinks(data.markdown, ctx)),
+      prependAgentIndex(data.markdown),
       'utf-8',
     ).toString('base64')
-    pageData.markdownCopyTabGroups = data.copyTabGroups
+    pageData.markdownCopyTabGroups = data.copyTabGroups.map(group => ({
+      ...group,
+      slots: group.slots.map(slot => ({
+        ...slot,
+        startLine: slot.startLine + AGENT_INDEX_LINE_OFFSET,
+        endLine: slot.endLine + AGENT_INDEX_LINE_OFFSET,
+      })),
+    }))
     pageData.markdownCopyLanguages = data.copyLanguages
     pageData.markdownUrl = markdownUrlFor(urlPath)
 

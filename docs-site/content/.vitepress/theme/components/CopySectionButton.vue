@@ -85,12 +85,12 @@ function extractSection(markdown: string): string {
 
 async function copySection() {
   if (!pageMarkdown.value) return
-  let section = extractSection(pageMarkdown.value)
-  if (!section) return
   const languages = docsStore.state.copyLanguages
-  if (languages.length > 0) {
-    section = filterMarkdownByCopyLanguages(section, tabGroups.value, languages)
-  }
+  const filteredMarkdown = languages.length > 0
+    ? filterMarkdownByCopyLanguages(pageMarkdown.value, tabGroups.value, languages)
+    : pageMarkdown.value
+  const section = extractSection(filteredMarkdown)
+  if (!section) return
   try {
     await navigator.clipboard.writeText(section)
     isCopied.value = true
