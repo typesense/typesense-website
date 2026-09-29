@@ -27,6 +27,47 @@ function getVisibleCopyTabs(copyTabGroups: CopyTabGroup[], defaultTab: string | 
   )
 }
 
+// Tab wrappers leave extra blank lines around fenced examples. Keep one blank
+// separator after a fence without changing whitespace inside the code block.
+function collapseBlankLinesAfterFences(markdown: string): string {
+  const lines = markdown.split('\n')
+  const result: string[] = []
+  let openFence: string | null = null
+  let afterFence = false
+
+  lines.forEach(line => {
+    const trimmed = line.trim()
+    const fence = line.match(/^ {0,3}(`{3,}|~{3,})/)
+
+    if (openFence) {
+      result.push(line)
+      if (fence && fence[1][0] === openFence[0] && fence[1].length >= openFence.length &&
+        trimmed.slice(fence[1].length).trim() === '') {
+        openFence = null
+        afterFence = true
+      }
+      return
+    }
+
+    if (fence) {
+      openFence = fence[1]
+      afterFence = false
+      result.push(line)
+      return
+    }
+
+    if (afterFence && trimmed === '') {
+      if (result[result.length - 1]?.trim() !== '') result.push('')
+      return
+    }
+
+    afterFence = false
+    result.push(line)
+  })
+
+  return result.join('\n')
+}
+
 // When none of the selected languages occur in a group, keep the current tab
 // (or its first tab). Per-language .md files instead drop unmatched groups.
 function filterMarkdownByCopyLanguages(
@@ -61,7 +102,7 @@ function filterMarkdownByCopyLanguages(
     .split('\n')
     .filter((_, lineNumber) => !linesToRemove.has(lineNumber))
     .join('\n')
-  return filteredMarkdown
+  return collapseBlankLinesAfterFences(filteredMarkdown)
 }
 
 export {
