@@ -49,6 +49,7 @@ Command line arguments can be passed to the server as `--parameter=value`.
 | `--enable-access-logging`     | false    | Logs the API requests and corresponding IP addresses to the `log-dir`. Default: `false`                                                                                                                                                                                   |
 | `--enable-search-logging`     | false    | Logs the search API request + payload right at the start of search request lifecycle. Default: `false`                                                                                                                                                                    |
 | `--log-slow-requests-time-ms` | false    | Requests that take over this amount of time (in milliseconds) are logged. Default: `-1` which disables slow request logging. <br><br>You can also [dynamically enable](../api/cluster-operations.md#toggle-slow-request-log) slow requests logging via the `/config` API. |
+| `--log-slow-searches-time-ms` | false    | Search requests (`/documents/search` and `/multi_search`) that take over this amount of time (in milliseconds) are logged. Default: `30000`. Set it to `-1` to disable slow search logging. <br><br>You can also change this threshold at runtime via the [`/config` API](../api/cluster-operations.md#toggle-slow-request-log), using the `log-slow-searches-time-ms` key. |
 
 
 ### Networking
