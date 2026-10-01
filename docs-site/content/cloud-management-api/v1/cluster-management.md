@@ -507,6 +507,15 @@ Use a comma-separated selection from this allowlist:
 - `search_latency_ms`
 - `search_requests_per_second`
 - `pending_write_batches`
+- `write_requests_per_second`
+- `import_requests_per_second`
+- `delete_requests_per_second`
+- `import_latency_ms`
+- `delete_latency_ms`
+- `overloaded_requests_per_second`
+- `cache_hit_ratio`
+
+Metric names carry their unit. `cache_hit_ratio` is a fraction from 0 to 1: it reads 0 when search caching is off. Servers below Typesense 29.0 do not report it, so such clusters return no samples for it, apart from any retained from before a downgrade.
 
 The supported windows are `1h`, `3h`, `24h`, `7d`, and `30d`. The `1h` and `3h` windows use 30-second buckets, `24h` uses 30-minute buckets, and `7d` and `30d` use 1-hour buckets.
 
