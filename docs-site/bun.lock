@@ -18,8 +18,8 @@
         "reka-ui": "^2.10.1",
         "tailwind-merge": "^2.5.5",
         "tailwindcss-animate": "^1.0.7",
-        "typesense-docsearch-css": "5.0.2-0",
-        "typesense-docsearch.js": "5.0.2-0",
+        "typesense-docsearch-css": "5.0.2-1",
+        "typesense-docsearch.js": "5.0.2-1",
         "vue-prism-component": "^2.0.0",
         "vuepress": "1.9.7",
         "vuepress-plugin-latex": "^0.1.3",
@@ -2591,9 +2591,9 @@
 
     "typescript-eslint": ["typescript-eslint@8.70.0", "", { "dependencies": { "@typescript-eslint/eslint-plugin": "8.70.0", "@typescript-eslint/parser": "8.70.0", "@typescript-eslint/typescript-estree": "8.70.0", "@typescript-eslint/utils": "8.70.0" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0", "typescript": ">=4.8.4 <6.1.0" } }, "sha512-P/W5cz70/cQAuKfY3xwQMWWTV7BvJ0mAQmi+9mBcsVPaBUpd6Ohpa+fECv9rBFrQcig86jAiNBFNWUqnTjr4pw=="],
 
-    "typesense-docsearch-css": ["typesense-docsearch-css@5.0.2-0", "", {}, "sha512-Ts7TH1YFVnsleDU9+vKo77j6MB8r96W/xIJP/f/AXtceqXT9yr1ERdsXwUNRh+1Ks5u+W1XyGYVtcGRwrdvpLg=="],
+    "typesense-docsearch-css": ["typesense-docsearch-css@5.0.2-1", "", {}, "sha512-Nd3GmR4/X67bMQZLeBLOwY5iHGclkyBEF5CDnWE7d3YyKYCthqWSc4bYeaGPITmOnacGpzQqn1gLmbl2ZPYaKQ=="],
 
-    "typesense-docsearch.js": ["typesense-docsearch.js@5.0.2-0", "", {}, "sha512-3/KrJ4kbMLSoIeuR1H5EswPfk0DPLqgpmrYihI9cePFbPrWqVZFbMLRC/hij/A98Cg1s5LDMQUxS4XySNTQ3Kg=="],
+    "typesense-docsearch.js": ["typesense-docsearch.js@5.0.2-1", "", {}, "sha512-G0AIZURJr29OUzPQ3LETzhjEag23guT+C8N/NMQ7wyh9bN8aKwZhpIAtz7aEd070gysNPyJH+oXiN757ZU59sA=="],
 
     "uc.micro": ["uc.micro@1.0.6", "", {}, "sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA=="],
 
