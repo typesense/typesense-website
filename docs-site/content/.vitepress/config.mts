@@ -79,8 +79,10 @@ export default defineConfig({
     ':dir(.*)/README.md': ':dir/index.md',
   },
   lastUpdated: true,
-  // the versioned tree is full of stale cross-links
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: [
+    link =>
+      /(?:^|\/)latest(?:\/|$)/.test(link) || link === '/api' || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
+  ],
 
   head: [
     ['meta', { name: 'theme-color', content: '#c0ff58' }],
