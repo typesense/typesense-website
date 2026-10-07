@@ -391,7 +391,9 @@ float field and we cannot differentiate between a lat/long definition and an act
 
 If you have a case where you do want to index all fields in the document, except for a few fields, you can use the `{"index": false, "optional": true}` settings to exclude fields.
 
-Note: it is not currently possible to have a mandatory field excluded from the indexing, hence the setting to optional.
+:::warning
+Setting only `"index": false` on a required field (`"optional": false`) excludes it from the index but still **type-validates** the document value against the declared field type. So a document that supplies an array against a singular `object` field will be rejected with `400 Field 'X' has an incorrect type`, even though the field is not indexed. To bypass validation entirely, set `"optional": true` as well. <br/><br/> This is a behavior change from pre-v30 releases, where `"index": false` silently skipped validation regardless of the `optional` setting.
+:::
 
 For eg, if you want to index all fields, except for fields that start with `description_`, you can use a schema like this:
 
