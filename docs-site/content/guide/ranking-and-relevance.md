@@ -93,7 +93,7 @@ If you wish to sort the documents strictly by an indexed numerical or string fie
 
 If you have a popularity score for your documents that you have either:
 1) calculated on your end in your application using any formula of your choice or 
-2) calculated using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html#counting-events-for-popularity`">counter analytics rule in Typesense</RouterLink> 
+2) calculated using a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/analytics-query-suggestions.html#counter-events`">counter analytics rule in Typesense</RouterLink> 
 
 You can have Typesense mix your custom scores with the text relevance score it calculates, so results that are more popular (as defined by your custom score) are boosted more in ranking. There are two approaches you can use:
 
