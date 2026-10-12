@@ -142,6 +142,13 @@ html {
   scroll-margin-top: var(--vp-nav-height, 64px);
 }
 
+/* vitepress's 24px default reads small next to the desktop nav */
+@media (min-width: 960px) {
+  :root {
+    --vp-nav-logo-height: 32px;
+  }
+}
+
 /* ! beats the component-scoped, attribute-boosted default rule */
 .VPNavBarTitle.has-sidebar .title {
   @apply !border-b-transparent;
