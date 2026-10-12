@@ -23,7 +23,7 @@ This should give you a file called `books.jsonl` which we'll use below.
 
 Let's begin by configuring the Typesense client by pointing it to a Typesense node.
 
-- Be sure to use the same API key that you used to [start the Typesense server](./install-typesense.md#🎬-start) earlier.
+- Be sure to use the same API key that you used to [start the Typesense server](./install-typesense.md#option-2-local-machine-self-hosting) earlier.
 - Or if you're using [Typesense Cloud](./install-typesense.md#option-1-typesense-cloud), click on the "Generate API key" button on the cluster page. This will give you a set of hostnames and API keys to use.
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Java','Go','Shell']">

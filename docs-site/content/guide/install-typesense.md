@@ -293,7 +293,7 @@ You can retrieve the hostname for the server on which Typesense is running using
 
 If you'd like Typesense to be started at startup, you can create a BAT file with the command `powershell.exe /c wsl.exe sudo /usr/bin/./typesense-server --config=/etc/typesense/typesense-server.ini` and set it to execute at startup.
 
-By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the [configuration file](./configure-typesense.md#using-a-configuration-file) at `/etc/typesense/typesense-server.ini`
+By default, Typesense will start on port 8108, and the installation will generate a random API key, which you can view/change from the [configuration file](./install-typesense.md#⚙️-configure-typesense) at `/etc/typesense/typesense-server.ini`
 
 
 :::tip
