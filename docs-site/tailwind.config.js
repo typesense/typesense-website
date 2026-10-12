@@ -103,6 +103,10 @@ module.exports = {
       boxShadow: {
         popover: '0 12px 28px rgba(49, 49, 50, 0.12)',
       },
+      transitionTimingFunction: {
+        // ease-out-expo. fast start, long settle, no overshoot
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
     },
   },
   // We own all styling now; preflight is ON per the migration plan.

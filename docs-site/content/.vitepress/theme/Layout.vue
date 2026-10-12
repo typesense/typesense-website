@@ -13,6 +13,9 @@
       <VersionDropdown class="mt-4" />
     </template>
     <!-- measured height feeds the outline title's sticky offset -->
+    <template #sidebar-nav-before>
+      <SidebarActivePill />
+    </template>
     <template #aside-top>
       <div ref="asideTop" class="aside-pinned-version">
         <VersionDropdown show-on-desktop-only class="mb-4" />
@@ -39,6 +42,7 @@ import VersionDropdown from './components/VersionDropdown.vue'
 import VersionWarning from './components/VersionWarning.vue'
 import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
 import OutlineScrollProgress from './components/OutlineScrollProgress.vue'
+import SidebarActivePill from './components/SidebarActivePill.vue'
 
 const { Layout } = DefaultTheme
 
