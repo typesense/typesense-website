@@ -187,6 +187,14 @@ html {
 .VPSidebarItem.is-active > .item {
   @apply rounded-lg bg-accent-selected;
 }
+/* SidebarActivePill paints the background once hydrated, so it can slide
+ * between items. until then the item keeps its own */
+.VPSidebar .nav {
+  @apply relative;
+}
+.VPSidebar .nav[data-active-pill] .VPSidebarItem.is-active > .item {
+  @apply bg-transparent;
+}
 .VPSidebarItem.is-active > .item .link > .text {
   @apply font-semibold;
 }
