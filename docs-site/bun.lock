@@ -16,7 +16,7 @@
         "tailwind-merge": "^2.5.5",
         "tailwindcss-animate": "^1.0.7",
         "typesense-docsearch-css": "5.0.2-1",
-        "typesense-docsearch.js": "5.0.2-1",
+        "typesense-docsearch.js": "5.0.2-3",
       },
       "devDependencies": {
         "@vue/eslint-config-typescript": "^14.3.0",
@@ -906,7 +906,7 @@
 
     "typesense-docsearch-css": ["typesense-docsearch-css@5.0.2-1", "", {}, "sha512-Nd3GmR4/X67bMQZLeBLOwY5iHGclkyBEF5CDnWE7d3YyKYCthqWSc4bYeaGPITmOnacGpzQqn1gLmbl2ZPYaKQ=="],
 
-    "typesense-docsearch.js": ["typesense-docsearch.js@5.0.2-1", "", {}, "sha512-G0AIZURJr29OUzPQ3LETzhjEag23guT+C8N/NMQ7wyh9bN8aKwZhpIAtz7aEd070gysNPyJH+oXiN757ZU59sA=="],
+    "typesense-docsearch.js": ["typesense-docsearch.js@5.0.2-3", "", {}, "sha512-6Oz/TVj5dCFpa8zyPnJThi8OloXfwGQKpGSnOWAlkYEe79LcHxNn89/vSR2vwxXZNs62Hd0gEoVtmR3GNsvV4w=="],
 
     "uc.micro": ["uc.micro@1.0.6", "", {}, "sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA=="],
 
