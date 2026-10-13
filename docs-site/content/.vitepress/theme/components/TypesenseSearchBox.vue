@@ -91,3 +91,41 @@ watch(() => currentVersion(), () => {
   initialize()
 })
 </script>
+
+<style>
+.DocSearch-Modal {
+  background: radial-gradient(
+    ellipse 200% 110% at bottom left,
+    rgb(222 255 151 / 20%),
+    transparent
+  ),
+  radial-gradient(
+    ellipse 55% 125% at bottom right,
+    rgb(222 255 151 / 20%),
+    transparent
+  );
+  border-radius: calc(var(--docsearch-border-radius) + 4px);
+  position: relative;
+  padding: 6px;
+}
+
+.dark .DocSearch-Modal{
+  background: linear-gradient(
+    rgb(255 255 255 / 3%) 30%,
+    rgb(95 120 42 / 16%)
+  );
+}
+
+.DocSearch-Dropdown{
+  background-color: var(--docsearch-modal-background);
+}
+
+.DocSearch-SearchBar{
+  border-radius:  var(--docsearch-border-radius) var(--docsearch-border-radius) 0 0;
+  overflow: hidden;
+}
+
+.DocSearch-Footer{
+  border-radius: 0 0 var(--docsearch-border-radius) var(--docsearch-border-radius);
+}
+</style>
