@@ -23,7 +23,7 @@ Instead, in this article we'll explore how you could use any of these existing A
 
 You can run A/B tests on:
 
-1. Any of the available <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#search-parameters`">search parameters</RouterLink> like `sort_by`, `filter_by`, etc.
+1. Any of the available <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/search.html#search-parameters`">search parameters</RouterLink> like `sort_by`, `filter_by`, etc.
 2. <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/curation.html`">Override/Curation Rules</RouterLink>.
 3. <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/synonyms.html`">Synonyms</RouterLink>.
 
