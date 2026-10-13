@@ -1366,6 +1366,18 @@ For example:
 
 The `rule.filter_by` field in your override definition should exactly be the string in #3 above for the curation rule to be triggered for the given filter and Scoped API key.
 
+#### Curated hits and embedded filters
+
+Documents added through curation, either by the `includes` of a curation set item or by the [`pinned_hits`](./search.md#pinned_hits) search parameter, are not filtered by the `filter_by` embedded in a [scoped API key](./api-keys.md#generate-scoped-search-key). This is the same default that applies to the search request's own `filter_by`, and it is controlled by the same [`filter_curated_hits`](./search.md#filter_curated_hits) parameter.
+
+To only return curated hits that match the scoped API key's filter, embed `filter_curated_hits: true` in the key along with the filter. Parameters embedded in a scoped API key can't be overridden by the search request, so curated hits always go through the combined filter.
+
+```json
+{"filter_by": "company_id:124", "filter_curated_hits": true}
+```
+
+This also applies the search request's own `filter_by` to curated hits.
+
 ## Retrieve a curation set item
 
 Retrieving a curation set item associated with a given collection.
