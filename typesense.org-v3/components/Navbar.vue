@@ -2,10 +2,14 @@
 import Hamburger from "@/assets/icons/hamburger.svg";
 import CloseSquare from "@/assets/icons/close-square.svg";
 import Illustration from "@/assets/images/mobile-nav-background.svg";
+import Slack from "@/assets/icons/slack.svg";
+import Github from "@/assets/icons/github.svg";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const SLACK_LINK = "https://typesense.link/slack-community";
+const GITHUB_LINK = "https://github.com/typesense/typesense";
 
 const isActivePage = (path) => {
   if (path === "/") {
@@ -26,6 +30,8 @@ const navLinks = ref([
   },
   { name: "Blog", link: "https://typesense.org/blog" },
   { name: "Support", link: "/support" },
+  { name: "GitHub", link: GITHUB_LINK, mobileOnly: true },
+  { name: "Slack Community", link: SLACK_LINK, mobileOnly: true },
 ]);
 
 let isActive = ref(false);
@@ -61,7 +67,10 @@ const hideNav = () => {
           <li
             :class="[
               'transition-colors hover:text-secondary',
-              { 'text-secondary': isActivePage(item.link) },
+              {
+                'text-secondary': isActivePage(item.link),
+                'md:hidden': item.mobileOnly,
+              },
             ]"
             @click="hideNav"
             v-for="item in navLinks"
@@ -77,16 +86,33 @@ const hideNav = () => {
         </ul>
         <Illustration class="show-md absolute bottom-0 right-0" />
       </div>
-      <CustomLink
-        :to="STATIC.link_get_started"
-        class="flex h-full items-center justify-end md:w-[12.5%]"
+      <div
+        class="flex h-full shrink-0 items-center justify-end gap-1"
       >
-        <button
-          class="flex items-center gap-2 whitespace-nowrap rounded-full bg-primary px-2 py-2 text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg transition-colors hover:bg-primary/80 max-[886px]:!text-xs max-md:hidden lg:px-4 lg:text-sm"
+        <CustomLink
+          :to="GITHUB_LINK"
+          aria-label="Typesense on GitHub"
+          title="GitHub"
+          class="flex p-2 transition-colors hover:text-secondary max-md:hidden"
         >
-          Quick Start
-        </button>
-      </CustomLink>
+          <Github />
+        </CustomLink>
+        <CustomLink
+          :to="SLACK_LINK"
+          aria-label="Join the Typesense Slack community"
+          title="Slack Community"
+          class="mr-3 flex p-2 transition-colors hover:text-secondary max-md:hidden"
+        >
+          <Slack />
+        </CustomLink>
+        <CustomLink :to="STATIC.link_get_started" class="flex h-full items-center">
+          <button
+            class="flex items-center gap-2 whitespace-nowrap rounded-full bg-primary px-2 py-2 text-sm font-normal tracking-[-0.32px] text-white shadow-[-4px_2px_0px_0px] shadow-bg transition-colors hover:bg-primary/80 max-[886px]:!text-xs max-md:hidden lg:px-4 lg:text-sm"
+          >
+            Quick Start
+          </button>
+        </CustomLink>
+      </div>
       <button class="show-md" @click="toggle">
         <Hamburger />
       </button>
