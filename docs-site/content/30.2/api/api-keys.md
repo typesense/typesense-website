@@ -831,6 +831,8 @@ When you make a search API call with this scoped search API key, Typesense will 
 
 Now let's say you also don't want users to know the entire list of users_ids that have access to a document, you can also embed `exclude_fields: accessible_to_user_ids` in the scoped API key, so it doesn't get returned in the response.
 
+Documents added through [curation](./curation.md#curated-hits-and-embedded-filters) or [`pinned_hits`](./search.md#pinned_hits) are not filtered by the embedded `filter_by` by default. To apply it to them as well, also embed `filter_curated_hits: true` in the scoped API key.
+
 ### Role-based access <Badge text="Advanced"/>
 
 Let's take another scenario where an organization has many users and users can be a part of one or more roles (eg: admin, sales, support, etc).
