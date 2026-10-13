@@ -46,6 +46,6 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "typesense-docsearch-css": "5.0.2-1",
-    "typesense-docsearch.js": "5.0.2-1"
+    "typesense-docsearch.js": "5.0.2-3"
   }
 }
