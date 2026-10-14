@@ -94,6 +94,8 @@ watch(() => currentVersion(), () => {
 
 <style>
 .DocSearch-Modal {
+  @apply rounded-[calc(var(--docsearch-border-radius)+4px)] p-1.5;
+
   background: radial-gradient(
     ellipse 200% 110% at bottom left,
     rgb(222 255 151 / 20%),
@@ -104,28 +106,24 @@ watch(() => currentVersion(), () => {
     rgb(222 255 151 / 20%),
     transparent
   );
-  border-radius: calc(var(--docsearch-border-radius) + 4px);
-  position: relative;
-  padding: 6px;
 }
 
-.dark .DocSearch-Modal{
+.dark .DocSearch-Modal {
   background: linear-gradient(
     rgb(255 255 255 / 3%) 30%,
     rgb(95 120 42 / 16%)
   );
 }
 
-.DocSearch-Dropdown{
-  background-color: var(--docsearch-modal-background);
+.DocSearch-Dropdown {
+  @apply bg-[color:var(--docsearch-modal-background)];
 }
 
-.DocSearch-SearchBar{
-  border-radius:  var(--docsearch-border-radius) var(--docsearch-border-radius) 0 0;
-  overflow: hidden;
+.DocSearch-SearchBar {
+  @apply rounded-t-[var(--docsearch-border-radius)] overflow-hidden;
 }
 
-.DocSearch-Footer{
-  border-radius: 0 0 var(--docsearch-border-radius) var(--docsearch-border-radius);
+.DocSearch-Footer {
+  @apply rounded-b-[var(--docsearch-border-radius)];
 }
 </style>
