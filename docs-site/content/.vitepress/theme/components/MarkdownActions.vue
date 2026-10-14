@@ -9,7 +9,7 @@
           <Button
             variant="ghost"
             size="sm"
-            class="h-8 gap-1.5 rounded-none border-r border-line px-2.5 text-xs text-ink hover:bg-surface-gray-hover hover:text-ink"
+            class="h-8 gap-1.5 rounded-none border-r border-solid border-line px-2.5 text-xs text-ink hover:bg-surface-gray-hover hover:text-ink"
             :class="isCopied ? 'bg-accent-selected text-accent hover:bg-accent-selected hover:text-accent' : ''"
             @click="copyMarkdown"
           >
@@ -38,7 +38,7 @@
                 <Button
                   variant="ghost"
                   size="sm"
-                  class="h-8 gap-1 rounded-none border-r border-line px-2 text-xs text-ink hover:bg-surface-gray-hover hover:text-ink aria-expanded:bg-surface-gray-hover"
+                  class="h-8 gap-1 rounded-none border-r border-solid border-line px-2 text-xs text-ink hover:bg-surface-gray-hover hover:text-ink aria-expanded:bg-surface-gray-hover"
                   aria-label="Choose copied languages"
                 >
                   <Braces class="h-3.5 w-3.5 shrink-0" :stroke-width="1.8" />
