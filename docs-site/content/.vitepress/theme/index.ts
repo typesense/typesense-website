@@ -1,6 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import { reactive } from 'vue'
+import { InfoIcon, LightbulbIcon, OctagonAlertIcon, TriangleAlertIcon } from 'lucide-vue-next'
 import 'typesense-docsearch-css'
 import './style.css'
 
@@ -43,6 +44,10 @@ export default {
     app.component('DocsSectionButton', DocsSectionButton)
     app.component('RedirectOldLinks', RedirectOldLinks)
     app.component('RedirectOldSearchLinksForV023AndAbove', RedirectOldSearchLinksForV023AndAbove)
+    app.component('InfoIcon', InfoIcon)
+    app.component('LightbulbIcon', LightbulbIcon)
+    app.component('TriangleAlertIcon', TriangleAlertIcon)
+    app.component('OctagonAlertIcon', OctagonAlertIcon)
 
     const $site = { base: BASE, themeConfig: { typesenseLatestVersion, typesenseVersions } }
     const $page = reactive<{ typesenseVersion: string | null }>({
