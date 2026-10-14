@@ -1,6 +1,6 @@
 ---
 title: "Firebase Full-Text Search with Typesense"
-description: "Add full-text search to a Firebase / Firestore app by syncing documents into Typesense using the official Firebase Extension or your own trigger."
+description: "Add full-text search to a Firebase / Firestore app by syncing documents into Typesense using the official Typesense function kit."
 ---
 
 # Full-text Search for Firebase with Typesense
@@ -20,13 +20,9 @@ You can either self-host Typesense or use the managed SaaS service [Typesense Cl
 
 :::tip UPDATE
 
-We've published a **Firebase Extension** that you can install into your Firebase project with a few clicks, 
-to automatically sync Firestore documents into Typesense. 
+Firebase Extensions shut down on March 31, 2027. Because of it, Typesense Firebase Extension is now a function kit. 
 
-Here's how to set it up: 
-[https://github.com/typesense/firestore-typesense-search](https://github.com/typesense/firestore-typesense-search#readme).
-
-If you choose to use this extension, you can skip directly to [Step 4](#step-4-let-the-search-begin) below, once you set up the extension.
+If you have the extension installed, see [Migrating from the Firebase Extension](#migrating-from-the-firebase-extension).
 :::
 
 In this walk-through, we are going to show you how to integrate Typesense with Firebase, to build a full-text search experience for your Firebase app.
@@ -98,57 +94,92 @@ We created a collection called `books` and the documents stored in the `books` c
 
 For this tutorial, we will use the Firestore ID of the document as the `id` value.
 
-## Step 3: Write data to Typesense
+## Step 3: Install the function kit
 
-Next, we'll write functions to listen to change events from Firestore and write the changes to Typesense.  
+The [Typesense function kit](https://github.com/typesense/firestore-typesense-search) deploys Cloud Functions into your Firebase project that sync Firestore documents into Typesense on creation, updates and deletes. 
+It also provides a function to backfill existing data.
 
-### New Documents
+Before installing it, make sure that:
 
-We'll create a function to add to the search index (aka collection) in Typesense, whenever a new document is created. 
+- Your Firebase project is on the [Blaze (pay as you go) plan](https://firebase.google.com/pricing).
+- You have firebase-tools 15.32.0 or later (`npm install -g firebase-tools@latest`).
+- You've created the Typesense collection from Step 2. The kit doesn't create it for you.
+- Typesense is reachable over HTTPS on port 443. Typesense Cloud is already set up for this.
 
-```javascript
-exports.onBookCreate = functions.firestore.document('/books/{bookID}')
-  .onCreate((snapshot, context) => {
-    // Grab the document id as id value.
-    id = context.params.bookID
-    const { title, publication_year } = snapshot.data();
-    document = {id, title, publication_year}
+From your Firebase project directory, install the kit. The CLI prompts for each configuration parameter and writes them to the kit's `.env` file:
 
-    // Index the document in books collection  
-    return client.collections('books').documents().create(document)
-  })
+```shell
+firebase functions:kits:install --package typesense-firestore-search --project <project-id>
 ```
 
-### Document Updates
+For the `books` collection, the configuration looks like this:
 
-Similarly, you can update and delete documents as well.
-
-```javascript
-exports.onBookUpdate = functions.firestore.document('books/{bookID}')
-  .onUpdate( (change, context) => {
-    // Grab the changed value
-    const { id, title, publication_year } = change.after.data();
-    document = {id, title, publication_year}
-    return client.collections('books').documents(id).update(document)
-  });
+```ini
+LOCATION=us-central1
+FIRESTORE_DATABASE_REGION=nam5
+DATABASE=(default)
+FIRESTORE_COLLECTION_PATHS=books
+TYPESENSE_COLLECTION_NAMES=books
+FIRESTORE_COLLECTION_FIELDS_LIST=title,publication_year
+FLATTEN_NESTED_DOCUMENTS_LIST=false
+TYPESENSE_HOSTS=xxx.a1.typesense.net
+LOG_TYPESENSE_INSERTS=false
 ```
 
-### Document Deletions
+Then deploy it:
 
-For delete operations, you just need the id of the document:
-
-```javascript
-exports.onBookDelete = functions.firestore.document('books/{bookID}')
-  .onDelete((snap, context) => {
-    // Get the document id
-    id = context.params.bookID
-  
-    return client.collections('books').documents(id).delete()
-  });
-
+```shell
+firebase deploy --only functions:<kit-instance-id> --project <project-id>
 ```
 
-You can also delete a bunch of document based on a condition as described [here](../latest/api/documents.md#delete-documents).
+### Syncing multiple collections
+
+One install can sync several Firestore collections, each into its own Typesense collection. 
+List them in the same order in `FIRESTORE_COLLECTION_PATHS` and `TYPESENSE_COLLECTION_NAMES`, and give one value per collection in the other two lists. 
+For example, to also sync each user's wishlist subcollection:
+
+```ini
+FIRESTORE_COLLECTION_PATHS=books,users/{userId}/wishlist
+TYPESENSE_COLLECTION_NAMES=books,wishlists
+FIRESTORE_COLLECTION_FIELDS_LIST=title,publication_year|
+FLATTEN_NESTED_DOCUMENTS_LIST=false,false
+```
+
+The field lists are separated by `|`. Leave a list empty, like the wishlist one here, to index all fields of that collection. 
+For subcollection paths, the kit adds the placeholder values to each Typesense document, so every wishlist document gets a `userId` field you can filter on. 
+Create each Typesense collection before deploying. See the [kit's README](https://github.com/typesense/firestore-typesense-search#readme) for every parameter.
+
+### Backfill existing data
+
+The kit only syncs documents written after it was deployed. 
+To backfill the documents you already have, create a Firestore collection called `typesense_sync` with a document whose ID is `backfill` and whose contents are `{trigger: true}`. 
+To backfill only some of your collections, list them in the same document: `{trigger: true, firestore_collections: ["books"]}`.
+
+### Migrating from the Firebase Extension
+
+`firebase ext:migrate` moves an installed extension to the function kit and keeps its configuration:
+
+1. Update the extension to 3.0.0:
+
+   ```shell
+   firebase ext:update <instance-id> typesense/firestore-typesense-search@3.0.0 --project <project-id>
+   ```
+
+2. If it uses the single-collection parameters (`FIRESTORE_COLLECTION_PATH`, `TYPESENSE_COLLECTION_NAME`, ...), reconfigure it to use the list parameters (`FIRESTORE_COLLECTION_PATHS`, `TYPESENSE_COLLECTION_NAMES`, ...).
+
+3. Migrate, and answer **No** when it asks to uninstall the extension, until you've checked that the kit is syncing:
+
+   ```shell
+   firebase ext:migrate --ext-instance <instance-id> --package typesense-firestore-search --project <project-id>
+   ```
+
+4. Uninstall the extension:
+
+   ```shell
+   firebase ext:uninstall <instance-id> --project <project-id>
+   ```
+
+The [upgrade guide](https://github.com/typesense/firestore-typesense-search/blob/master/UPGRADING.md) covers each step in detail.
 
 ## Step 4: Let the search begin!
 
