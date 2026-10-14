@@ -55,6 +55,7 @@
   --gray-12: #1f1f28;
   --amber-2: #fefbe9;
   --amber-5: #fbe577;
+  --amber-11: #ab6400;
   --amber-12: #4f3422;
   --tomato-2: #fff8f7;
   --tomato-5: #ffcdc2;
@@ -75,6 +76,7 @@
   --gray-12: #ededf2;
   --amber-2: #1d180f;
   --amber-5: #4d3000;
+  --amber-11: #ffca16;
   --amber-12: #ffe7b3;
   --tomato-2: #1f1513;
   --tomato-5: #5e1c16;
@@ -319,4 +321,7 @@ html {
 }
 .vp-doc .custom-block.tip .custom-block-title {
   @apply text-accent;
+}
+.vp-doc .custom-block.warning .custom-block-title {
+  @apply text-[var(--amber-11)];
 }
