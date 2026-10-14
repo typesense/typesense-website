@@ -112,6 +112,9 @@ module.exports = {
   // We own all styling now; preflight is ON per the migration plan.
   corePlugins: {
     preflight: true,
+    // its `.container` also matches vitepress's doc column and caps it at the
+    // `narrow` screen (960px), squeezing the content against the outline
+    container: false,
   },
   plugins: [require('tailwindcss-animate')],
 }
