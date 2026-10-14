@@ -3,7 +3,7 @@
     aria-hidden="true"
     class="pointer-events-none absolute left-0 top-0 -z-10 rounded-lg bg-accent-selected motion-reduce:transition-none"
     :class="[
-      animate && 'transition-[transform,width,height] duration-500 ease-out-expo',
+      animate && 'narrow:transition-[transform,width,height] narrow:duration-500 narrow:ease-out-expo',
       rect ? 'opacity-100' : 'opacity-0',
     ]"
     :style="
@@ -39,6 +39,8 @@ function update() {
   // an active item inside a collapsed group has no box
   if (!nav || !active || !active.offsetParent) {
     rect.value = null
+    // snap back into place when it reappears instead of sliding in from the top
+    animate.value = false
     return
   }
   const from = nav.getBoundingClientRect()
