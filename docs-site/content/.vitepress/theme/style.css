@@ -309,7 +309,14 @@ html {
 }
 
 .vp-doc .custom-block.tip {
-  @apply border-l-4 border-l-accent rounded-l-none;
-  --vp-custom-block-tip-bg: var(--brand-4-raw);
+  --vp-custom-block-tip-border: var(--brand-6-raw);
+  --vp-custom-block-tip-text: var(--brand-12-raw);
+  --vp-custom-block-tip-bg: var(--brand-3-raw);
   --vp-custom-block-tip-code-bg: var(--brand-5-raw);
+}
+.dark .vp-doc .custom-block.tip {
+  --vp-custom-block-tip-border: var(--brand-5-raw);
+}
+.vp-doc .custom-block.tip .custom-block-title {
+  @apply text-accent;
 }
