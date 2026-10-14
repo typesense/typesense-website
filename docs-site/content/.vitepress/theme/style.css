@@ -38,7 +38,8 @@
   --brand-12-raw: hsl(from var(--brand) h s 90%);
 }
 
-/* cloud-help.typesense.org's blue-tinted gray */
+/* cloud-help.typesense.org's blue-tinted gray, plus radix amber and tomato for
+ * callouts */
 :root {
   --gray-1: #fcfcfe;
   --gray-2: #f9f9fc;
@@ -52,6 +53,12 @@
   --gray-10: #828291;
   --gray-11: #636370;
   --gray-12: #1f1f28;
+  --amber-2: #fefbe9;
+  --amber-5: #fbe577;
+  --amber-12: #4f3422;
+  --tomato-2: #fff8f7;
+  --tomato-5: #ffcdc2;
+  --tomato-12: #5c271f;
 }
 .dark {
   --gray-1: #121216;
@@ -66,6 +73,12 @@
   --gray-10: #79798f;
   --gray-11: #b2b2c3;
   --gray-12: #ededf2;
+  --amber-2: #1d180f;
+  --amber-5: #4d3000;
+  --amber-12: #ffe7b3;
+  --tomato-2: #1f1513;
+  --tomato-5: #5e1c16;
+  --tomato-12: #fbd3cb;
 }
 
 /* hsl triples, which is what tailwind's alpha utilities (bg-primary/90) need */
@@ -121,6 +134,16 @@
   --vp-c-gutter: var(--gray-4);
   --vp-c-border: var(--gray-7);
 
+  --vp-custom-block-info-bg: var(--gray-2);
+  --vp-custom-block-info-border: var(--gray-5);
+  --vp-custom-block-info-text: var(--gray-12);
+  --vp-custom-block-warning-bg: var(--amber-2);
+  --vp-custom-block-warning-border: var(--amber-5);
+  --vp-custom-block-warning-text: var(--amber-12);
+  --vp-custom-block-danger-bg: var(--tomato-2);
+  --vp-custom-block-danger-border: var(--tomato-5);
+  --vp-custom-block-danger-text: var(--tomato-12);
+
   --vp-font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 
@@ -174,6 +197,13 @@ html {
 }
 .vp-doc a:hover code {
   text-decoration-color: var(--brand-11-raw);
+}
+/* links and code inside every callout stay brand, not amber or red */
+.vp-doc .custom-block {
+  --vp-c-warning-1: var(--vp-c-brand-1);
+  --vp-c-warning-2: var(--vp-c-brand-2);
+  --vp-c-danger-1: var(--vp-c-brand-1);
+  --vp-c-danger-2: var(--vp-c-brand-2);
 }
 
 /* vitepress only indents .level-1 .items and below, leaving a top-level group's
