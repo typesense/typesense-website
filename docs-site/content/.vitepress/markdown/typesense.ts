@@ -82,6 +82,21 @@ export function typesenseMarkdown(md: MarkdownIt): void {
     }
   })
 
+  const containerIcons = {
+    info: 'InfoIcon',
+    tip: 'LightbulbIcon',
+    warning: 'TriangleAlertIcon',
+    danger: 'OctagonAlertIcon',
+  }
+  Object.entries(containerIcons).forEach(([type, icon]) => {
+    const defaultOpen = md.renderer.rules[`container_${type}_open`]!
+    md.renderer.rules[`container_${type}_open`] = (tokens, idx, options, env, self) =>
+      defaultOpen(tokens, idx, options, env, self).replace(
+        '<p class="custom-block-title">',
+        `<p class="custom-block-title"><${icon} class="mr-2 inline-block size-4 align-[-2px]" />`,
+      )
+  })
+
   let currentHeading: { level: number; text: string } | null = null
 
   const defaultHeadingOpen =
