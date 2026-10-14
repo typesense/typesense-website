@@ -26,23 +26,23 @@ module.exports = {
           selected: 'var(--brand-5-raw)',
           secondary: 'var(--brand-9-raw)', // solid brand lime — fills only
         },
-        // Neutral ink/line/surface scales. Backed by CSS vars (defined in
+        // Neutral ink/line/surface scales, wired to the gray scale (defined in
         // theme/style.css) so every `text-ink`/`border-line`/`bg-surface-*`
-        // utility re-derives under `.dark`. Light values are the ported hex.
+        // utility re-derives under `.dark`.
         ink: {
-          DEFAULT: 'var(--ink)', // #313132 $textColor
-          muted: 'var(--ink-muted)', // #6f6f71 lighten 25%
-          light: 'var(--ink-light)', // #89898b lighten 35%
-          lighter: 'var(--ink-lighter)', // #909092 lighten 38%
-          lightest: 'var(--ink-lightest)', // #a2a2a4 lighten 45%
+          DEFAULT: 'var(--gray-12)',
+          muted: 'var(--gray-11)',
+          light: 'var(--gray-10)',
+          lighter: 'var(--gray-9)',
+          lightest: 'var(--gray-8)',
         },
         line: {
-          DEFAULT: 'var(--line)', // #eee8ee $borderColor
-          dark: 'var(--line-dark)', // #cfbecf darken 14%
+          DEFAULT: 'var(--gray-5)',
+          dark: 'var(--gray-7)',
         },
         surface: {
-          gray: 'var(--surface-gray)', // #f7f7f7 $lightGrayColor
-          'gray-hover': 'var(--surface-gray-hover)', // #ebebeb darken 5%
+          gray: 'var(--gray-3)',
+          'gray-hover': 'var(--gray-4)',
         },
         code: {
           bg: '#181218', // $codeBgColor
