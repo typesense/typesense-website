@@ -52,7 +52,7 @@ curl --get 'https://01brzocp328nd4xvp.a1.typesense.net:443/collections/typesense
 ## Platform Integrations
 
 - [Laravel Scout](https://laravel.com/docs/11.x/scout#typesense): Use Typesense as a Laravel Scout search engine.
-- [Firebase Extension](https://firebase.google.com/products/extensions/typesense-firestore-typesense-search): Sync Firestore data to Typesense for full-text search.
+- [Firebase Function Kit](https://github.com/typesense/firestore-typesense-search): Sync Firestore data to Typesense for full-text search.
 - [WordPress Plugin](https://wordpress.org/plugins/search-with-typesense/): Add Typesense-powered search to WordPress.
 - [Gatsby Plugin](https://github.com/typesense/gatsby-plugin-typesense): Index Gatsby content in Typesense.
 

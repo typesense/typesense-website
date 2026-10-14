@@ -21,7 +21,7 @@ const platforms = [
   {
     name: "Firebase",
     image: "/images/platforms/firebase.svg",
-    link: "https://firebase.google.com/products/extensions/typesense-firestore-typesense-search",
+    link: "https://github.com/typesense/firestore-typesense-search",
     width: 125,
   },
   {
