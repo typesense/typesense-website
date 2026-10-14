@@ -1,24 +1,28 @@
 <template>
   <div class="mb-4">
     <ClientOnly>
-      <ul
-        :data-copy-tabs="JSON.stringify(tabs)"
-        :data-copy-active-tab="activeTab"
-        class="flex justify-start items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !pt-4 !pb-4 rounded-t-md border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem] max-mobile:!-mx-6 max-mobile:rounded-none"
+      <div
+        class="relative overflow-hidden rounded-t-md max-mobile:-mx-6 max-mobile:rounded-none before:pointer-events-none before:absolute before:left-0 before:top-0 before:bottom-px before:w-6 before:bg-[linear-gradient(to_right,var(--vp-code-block-bg),transparent)] after:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-px after:w-6 after:bg-[linear-gradient(to_left,var(--vp-code-block-bg),transparent)]"
       >
-        <li
-          v-for="tab in augmentedTabs"
-          :key="tab"
-          class="group shrink-0 mr-4 !mt-0 cursor-pointer"
-          @click="setActiveTab(tab)"
+        <ul
+          :data-copy-tabs="JSON.stringify(tabs)"
+          :data-copy-active-tab="activeTab"
+          class="flex justify-start items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !pt-4 !pb-4 border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem]"
         >
-          <span
-            class="inline-block mr-[0.3rem] !text-[0.7rem] leading-none whitespace-nowrap border-b border-transparent group-hover:border-[var(--vp-c-brand-1)]"
-            :class="{ '!border-[var(--vp-c-brand-1)]': tab === activeTab }"
-            >{{ tab }}</span
+          <li
+            v-for="tab in augmentedTabs"
+            :key="tab"
+            class="group shrink-0 mr-4 !mt-0 cursor-pointer"
+            @click="setActiveTab(tab)"
           >
-        </li>
-      </ul>
+            <span
+              class="inline-block mr-[0.3rem] !text-[0.7rem] leading-none whitespace-nowrap border-b border-transparent group-hover:border-[var(--vp-c-brand-1)]"
+              :class="{ '!border-[var(--vp-c-brand-1)]': tab === activeTab }"
+              >{{ tab }}</span
+            >
+          </li>
+        </ul>
+      </div>
       <div class="content-container">
         <div v-for="tab in augmentedTabs" v-show="tab === activeTab" :key="tab" class="tab-content">
           <template v-if="tab === 'Other Languages'">
