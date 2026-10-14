@@ -27,6 +27,9 @@
     <template #aside-bottom>
       <VersionWarning />
     </template>
+    <template #doc-before>
+      <StickyHeading />
+    </template>
     <!-- no aside below 1280px, the prompt rides the doc column instead -->
     <template #doc-bottom>
       <VersionWarning banner />
@@ -43,6 +46,7 @@ import VersionWarning from './components/VersionWarning.vue'
 import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
 import OutlineScrollProgress from './components/OutlineScrollProgress.vue'
 import SidebarActivePill from './components/SidebarActivePill.vue'
+import StickyHeading from './components/StickyHeading.vue'
 
 const { Layout } = DefaultTheme
 
