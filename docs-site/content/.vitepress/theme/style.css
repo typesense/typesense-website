@@ -334,3 +334,25 @@ html {
 .vp-doc .custom-block.warning .custom-block-title {
   @apply text-[var(--amber-11)];
 }
+
+.vp-doc table {
+  @apply text-sm;
+}
+.vp-doc tr {
+  @apply bg-transparent;
+}
+.vp-doc thead tr {
+  @apply border-t-0;
+}
+.vp-doc tbody tr:nth-child(2n) {
+  @apply bg-[var(--vp-c-bg-soft)];
+}
+.vp-doc :is(th, td) {
+  @apply border-0 px-4 py-4 align-top;
+}
+.vp-doc th {
+  @apply bg-transparent py-3 font-semibold tracking-wider text-[var(--vp-c-text-3)];
+}
+.vp-doc td {
+  @apply leading-normal text-[var(--vp-c-text-2)];
+}
