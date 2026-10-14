@@ -192,9 +192,11 @@ html {
   display: none; /* chrome/safari/edge */
 }
 
+.vp-doc a,
 .vp-doc a code {
   text-decoration-color: var(--brand-6-raw);
 }
+.vp-doc a:hover,
 .vp-doc a:hover code {
   text-decoration-color: var(--brand-11-raw);
 }
