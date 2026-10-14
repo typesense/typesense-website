@@ -150,13 +150,19 @@
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 
   --vp-sidebar-width: 20rem; /* $sidebarWidth 320px */
-  /* wider than the 1440px default so large screens spend the spare width on
-   * the gutters around the content. vitepress only reads this from 1440px up
-   * and assumes the viewport is at least this wide, hence the min() */
-  --vp-layout-max-width: min(100vw, 1680px);
 
   /* white, not the default gray. the divider lives on .VPSidebar below */
   --vp-sidebar-bg-color: var(--vp-c-bg);
+}
+
+/* wider than the 1440px default so large screens spend the spare width on
+ * the gutters around the content. vitepress assumes the viewport is at least
+ * this wide, hence the min(). kept off smaller screens because the navbar caps
+ * its width with it too, which on phones insets the logo past the content */
+@media (min-width: 1440px) {
+  :root {
+    --vp-layout-max-width: min(100vw, 1680px);
+  }
 }
 
 /* light keeps vitepress's white page and popovers */
