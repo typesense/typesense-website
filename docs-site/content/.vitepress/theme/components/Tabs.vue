@@ -53,7 +53,7 @@ Have a look at the "Shell" tab for guidance on HTTP headers, method and paramete
 
 <script setup lang="ts">
 import { useResizeObserver } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { docsStore } from '../store'
 
 const props = defineProps<{ tabs: string[] }>()
@@ -82,12 +82,18 @@ watch(activeTab, (newTab) => {
   if (newTab && newTab !== cmpActiveTab.value) cmpActiveTab.value = newTab
 })
 
-function setActiveTab(tab: string, event: MouseEvent) {
-  cmpActiveTab.value = tab
-  docsStore.setDefaultTab(tab)
+async function setActiveTab(tab: string, event: MouseEvent) {
   const item = event.currentTarget as HTMLElement
   const strip = item.parentElement!
+  const top = strip.getBoundingClientRect().top
+  cmpActiveTab.value = tab
+  docsStore.setDefaultTab(tab)
   strip.scrollTo({ left: item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2, behavior: 'smooth' })
+  // every group on the page switches, so the ones above can change height. scroll
+  // anchoring misses that when its anchor is a code block that gets hidden, and
+  // safari has none, so keep the clicked strip where it was on screen
+  await nextTick()
+  window.scrollBy(0, strip.getBoundingClientRect().top - top)
 }
 
 const list = ref<HTMLElement | null>(null)
