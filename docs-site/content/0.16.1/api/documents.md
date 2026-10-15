@@ -824,7 +824,7 @@ The other allowed `action` modes are `create` and `update`.
 
 **Action modes**
 
-<table>
+<table><tbody>
     <tr>
         <td>create (default)</td>
         <td>Creates a new document. Fails if a document with the same id already exists</td>
@@ -837,7 +837,7 @@ The other allowed `action` modes are `create` and `update`.
         <td>update	</td>
         <td>Updates an existing document. Fails if a document with the given id does not exist.</td>
     </tr>
-</table>
+</tbody></table>
 
 **Importing a JSONL file**
 

@@ -178,7 +178,7 @@ curl "http://localhost:8108/collections" -X POST -H "Content-Type: application/j
 Typesense allows you to index the following types of fields:
 
 
-<table>
+<table><tbody>
   <tr>
     <td>string</td>
   </tr>
@@ -194,11 +194,11 @@ Typesense allows you to index the following types of fields:
   <tr>
     <td>bool</td>
   </tr>
-</table>
+</tbody></table>
 
 You can define an array or multi-valued field by suffixing a [] at the end:
 
-<table>
+<table><tbody>
   <tr>
     <td>string[]</td>
   </tr>
@@ -214,7 +214,7 @@ You can define an array or multi-valued field by suffixing a [] at the end:
   <tr>
     <td>bool[]</td>
   </tr>
-</table>
+</tbody></table>
 
 ## Retrieve a collection
 Retrieve the details of a collection, given its name.

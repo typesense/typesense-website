@@ -1307,7 +1307,7 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
 
 #### Action modes
 
-<table>
+<table><tbody>
     <tr>
         <td>create (default)</td>
         <td>Creates a new document. Fails if a document with the same id already exists</td>
@@ -1320,7 +1320,7 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
         <td>update	</td>
         <td>Updates an existing document. Fails if a document with the given id does not exist.</td>
     </tr>
-</table>
+</tbody></table>
 
 ### Import a JSONL file
 

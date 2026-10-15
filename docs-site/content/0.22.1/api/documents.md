@@ -478,7 +478,7 @@ curl "http://localhost:8108/collections/companies/documents/import?action=create
 
 Besides batch-creating documents, you can also use the `?action` query parameter to batch-upsert and batch-update documents.
 
-<table>
+<table><tbody>
     <tr>
         <td>create (default)</td>
         <td>Creates a new document. Fails if a document with the same id already exists</td>
@@ -493,7 +493,7 @@ Besides batch-creating documents, you can also use the `?action` query parameter
         <td>Updates an existing document. Fails if a document with the given id does not exist. You can send 
             a partial document containing only the fields that are to be updated.</td>
     </tr>
-</table>
+</tbody></table>
 
 **Definition**
 
