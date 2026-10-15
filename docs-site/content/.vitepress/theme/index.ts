@@ -9,6 +9,7 @@ import Layout from './Layout.vue'
 import Tabs from './components/Tabs.vue'
 import MarkdownActions from './components/MarkdownActions.vue'
 import CopySectionButton from './components/CopySectionButton.vue'
+import CodeCopyButton from './components/CodeCopyButton.vue'
 import RouterLink from './components/RouterLink.vue'
 import VersionDropdown from './components/VersionDropdown.vue'
 import DocsSections from './components/DocsSections.vue'
@@ -38,6 +39,7 @@ export default {
     app.component('Tabs', Tabs)
     app.component('MarkdownActions', MarkdownActions)
     app.component('CopySectionButton', CopySectionButton)
+    app.component('CodeCopyButton', CodeCopyButton)
     app.component('RouterLink', RouterLink)
     app.component('VersionDropdown', VersionDropdown)
     app.component('DocsSections', DocsSections)
