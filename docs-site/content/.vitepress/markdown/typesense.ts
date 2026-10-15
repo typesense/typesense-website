@@ -97,6 +97,10 @@ export function typesenseMarkdown(md: MarkdownIt): void {
       )
   })
 
+  const defaultFence = md.renderer.rules.fence!
+  md.renderer.rules.fence = (...args) =>
+    defaultFence(...args).replace('<button title="Copy Code" class="copy"></button>', '<CodeCopyButton />')
+
   let currentHeading: { level: number; text: string } | null = null
 
   const defaultHeadingOpen =
