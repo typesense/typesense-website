@@ -364,7 +364,7 @@ You can also [convert from CSV to JSONL](#import-a-csv-file) and [JSON to JSONL]
 Besides batch-creating documents, you can also use the `action` query parameter to update documents using
 their `id` field.
 
-<table>
+<table><tbody>
     <tr>
         <td>create (default)</td>
         <td>Creates a new document. Fails if a document with the same id already exists</td>
@@ -384,7 +384,7 @@ their `id` field.
         <td>Creates a new document or updates an existing document if a document with the same <code>id</code> already exists.
             You can send either the whole document or a partial document for update.</td>
     </tr>
-</table>
+</tbody></table>
 
 Let's see how we can now use the `create` mode to import some documents.
 
