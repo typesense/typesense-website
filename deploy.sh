@@ -3,7 +3,7 @@
 set -ex
 
 cd docs-site
-yarn deploy
+bun run deploy
 
 cd ../typesense.org-v3
 npm run deploy
