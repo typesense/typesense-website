@@ -356,3 +356,58 @@ html {
 .vp-doc td {
   @apply leading-normal text-[var(--vp-c-text-2)];
 }
+
+/* phones stack each row so the long cells get the whole width. the labels
+ * and data-required come from the table-cell-labels markdown rule */
+@media (max-width: 639px) {
+  .vp-doc thead {
+    @apply sr-only;
+  }
+  .vp-doc :is(tbody, tr, td) {
+    @apply block;
+  }
+  .vp-doc tbody tr {
+    @apply py-5 first:border-t-0;
+  }
+  .vp-doc tbody tr:nth-child(2n) {
+    @apply bg-transparent;
+  }
+  .vp-doc td {
+    @apply break-words p-0;
+  }
+  .vp-doc td:first-child {
+    @apply font-medium text-[var(--vp-c-text-1)];
+  }
+  .vp-doc td + td {
+    @apply mt-3;
+  }
+  .vp-doc td + td:where([data-label]) {
+    @apply before:mb-1 before:block before:text-xs before:font-semibold before:tracking-wider before:text-[var(--vp-c-text-3)] before:content-[attr(data-label)];
+  }
+
+  /* rows with a description read as a property list. the type and a required
+   * flag sit beside the name as chips, other cells stack under the description */
+  .vp-doc tr:has(> td[data-label='Description']) {
+    @apply flex flex-wrap items-center gap-x-2 gap-y-1.5;
+  }
+  .vp-doc tr:has(> td[data-label='Description']) > td:first-child {
+    @apply text-accent [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-[length:inherit] [&_code]:text-inherit;
+  }
+  /* :where keeps the rules below able to override it */
+  .vp-doc :where(tr:has(> td[data-label='Description'])) > td + td {
+    @apply order-2 basis-full;
+  }
+  .vp-doc :where(tr:has(> td[data-label='Description'])) > td:is([data-label='Type'], [data-required]) {
+    @apply order-none mt-0 basis-auto rounded bg-[var(--vp-code-bg)] px-1.5 py-0.5 font-mono text-xs text-[var(--vp-c-text-1)] before:hidden;
+  }
+  .vp-doc td[data-required='false'] {
+    @apply sr-only;
+  }
+  /* the cell's own "yes" is shrunk to 0px and ::before draws the chip text */
+  .vp-doc td[data-required='true'] {
+    @apply bg-[var(--tomato-2)] font-sans text-[0px] leading-none ring-1 ring-inset ring-[var(--tomato-5)] before:m-0 before:block before:font-normal before:tracking-normal before:text-[var(--tomato-12)] before:content-['required'];
+  }
+  .vp-doc td[data-label='Description'] {
+    @apply order-1 mt-2 before:hidden;
+  }
+}
