@@ -23,7 +23,22 @@
                 :class="isCopied ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'"
               />
             </span>
-            <span class="text-[0.8rem] font-medium">Copy Markdown</span>
+            <span class="grid text-left text-[0.8rem] font-medium">
+              <span
+                class="col-start-1 row-start-1 transition-all duration-300 ease-out-expo motion-reduce:transition-none"
+                :class="isCopied ? '-translate-y-2 opacity-0 blur-[2px]' : 'opacity-100'"
+                :aria-hidden="isCopied"
+              >
+                Copy Markdown
+              </span>
+              <span
+                class="col-start-1 row-start-1 transition-all duration-300 ease-out-expo motion-reduce:transition-none"
+                :class="isCopied ? 'opacity-100' : 'translate-y-2 opacity-0 blur-[2px]'"
+                :aria-hidden="!isCopied"
+              >
+                Copied!
+              </span>
+            </span>
           </Button>
         </TooltipTrigger>
         <TooltipContent>{{ buttonTitle }}</TooltipContent>
