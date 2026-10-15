@@ -35,6 +35,32 @@ export function typesenseMarkdown(md: MarkdownIt): void {
       )
   })
 
+  // safari drops table semantics once the mobile styles make table parts block or flex
+  const tableRoles: Record<string, string> = {
+    thead_open: 'rowgroup',
+    tbody_open: 'rowgroup',
+    tr_open: 'row',
+    th_open: 'columnheader',
+    td_open: 'cell',
+  }
+
+  md.core.ruler.push('table-cell-labels', (state) => {
+    let labels: string[] = []
+    let column = 0
+    state.tokens.forEach((token, i) => {
+      if (tableRoles[token.type]) token.attrSet('role', tableRoles[token.type])
+      if (token.type === 'thead_open') labels = []
+      else if (token.type === 'tr_open') column = 0
+      else if (token.type === 'th_open') labels.push(state.tokens[i + 1].children!.map((child) => child.content).join(''))
+      else if (token.type === 'td_open') {
+        const label = labels[column++]
+        const value = state.tokens[i + 1].content.trim().toLowerCase()
+        if (label) token.attrSet('data-label', label)
+        if (label === 'Required' && /^(yes|no|true|false)$/.test(value)) token.attrSet('data-required', String(/^(yes|true)$/.test(value)))
+      }
+    })
+  })
+
   md.core.ruler.after('block', 'markdown-actions', (state) => {
     const tokens = state.tokens
 
@@ -100,6 +126,10 @@ export function typesenseMarkdown(md: MarkdownIt): void {
   const defaultFence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) =>
     defaultFence(...args).replace('<button title="Copy Code" class="copy"></button>', '<CodeCopyButton />')
+
+  // vitepress renders table_open as a fixed string, ignoring token attrs
+  const defaultTableOpen = md.renderer.rules.table_open!
+  md.renderer.rules.table_open = (...args) => defaultTableOpen(...args).replace('<table', '<table role="table"')
 
   let currentHeading: { level: number; text: string } | null = null
 
