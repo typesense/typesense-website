@@ -26,7 +26,7 @@
             :data-active="tab === activeTab || undefined"
             class="relative shrink-0 !mt-0 px-2.5 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors"
             :class="tab === activeTab ? 'text-[var(--vp-c-text-1)]' : 'hover:text-[var(--vp-c-text-1)]'"
-            @click="setActiveTab(tab)"
+            @click="setActiveTab(tab, $event)"
           >
             {{ tab }}
           </li>
@@ -82,9 +82,12 @@ watch(activeTab, (newTab) => {
   if (newTab && newTab !== cmpActiveTab.value) cmpActiveTab.value = newTab
 })
 
-function setActiveTab(tab: string) {
+function setActiveTab(tab: string, event: MouseEvent) {
   cmpActiveTab.value = tab
   docsStore.setDefaultTab(tab)
+  const item = event.currentTarget as HTMLElement
+  const strip = item.parentElement!
+  strip.scrollTo({ left: item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2, behavior: 'smooth' })
 }
 
 const list = ref<HTMLElement | null>(null)
