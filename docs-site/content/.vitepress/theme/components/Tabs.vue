@@ -5,21 +5,30 @@
         class="relative overflow-hidden rounded-t-md max-mobile:-mx-6 max-mobile:rounded-none before:pointer-events-none before:absolute before:left-0 before:top-0 before:bottom-px before:w-6 before:bg-[linear-gradient(to_right,var(--vp-code-block-bg),transparent)] after:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-px after:w-6 after:bg-[linear-gradient(to_left,var(--vp-code-block-bg),transparent)]"
       >
         <ul
+          ref="list"
           :data-copy-tabs="JSON.stringify(tabs)"
           :data-copy-active-tab="activeTab"
-          class="flex justify-start items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !pt-4 !pb-4 border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem]"
+          class="relative flex justify-start items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !py-2.5 border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem]"
         >
+          <li
+            v-if="pill"
+            aria-hidden="true"
+            class="pointer-events-none absolute left-0 top-0 !mt-0 rounded-lg border border-border bg-muted shadow-sm transition-[transform,width] duration-500 ease-out-expo motion-reduce:transition-none"
+            :style="{
+              transform: `translate(${pill.left}px, ${pill.top}px)`,
+              width: `${pill.width}px`,
+              height: `${pill.height}px`,
+            }"
+          />
           <li
             v-for="tab in augmentedTabs"
             :key="tab"
-            class="group shrink-0 mr-4 !mt-0 cursor-pointer"
+            :data-active="tab === activeTab || undefined"
+            class="relative shrink-0 !mt-0 px-2.5 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors"
+            :class="tab === activeTab ? 'text-[var(--vp-c-text-1)]' : 'hover:text-[var(--vp-c-text-1)]'"
             @click="setActiveTab(tab)"
           >
-            <span
-              class="inline-block mr-[0.3rem] !text-[0.7rem] leading-none whitespace-nowrap border-b border-transparent group-hover:border-[var(--vp-c-brand-1)]"
-              :class="{ '!border-[var(--vp-c-brand-1)]': tab === activeTab }"
-              >{{ tab }}</span
-            >
+            {{ tab }}
           </li>
         </ul>
       </div>
@@ -43,6 +52,7 @@ Have a look at the "Shell" tab for guidance on HTTP headers, method and paramete
 </template>
 
 <script setup lang="ts">
+import { useResizeObserver } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { docsStore } from '../store'
 
@@ -76,6 +86,25 @@ function setActiveTab(tab: string) {
   cmpActiveTab.value = tab
   docsStore.setDefaultTab(tab)
 }
+
+const list = ref<HTMLElement | null>(null)
+const activeItem = ref<HTMLElement | null>(null)
+const pill = ref<{ left: number; top: number; width: number; height: number } | null>(null)
+
+// the list only exists once ClientOnly mounts
+watch(
+  [list, activeTab],
+  () => (activeItem.value = list.value?.querySelector<HTMLElement>('[data-active]') ?? null),
+  { flush: 'post' },
+)
+
+// also catches the font swapping in and tabs that mount hidden
+useResizeObserver(activeItem, () => {
+  const item = activeItem.value
+  pill.value = item?.offsetParent
+    ? { left: item.offsetLeft, top: item.offsetTop, width: item.offsetWidth, height: item.offsetHeight }
+    : null
+})
 </script>
 
 <!-- css only because shiki generates this markup, no room for tailwind classes -->
