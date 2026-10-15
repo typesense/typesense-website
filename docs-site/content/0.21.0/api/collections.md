@@ -242,7 +242,7 @@ They will be stored on disk, and will not take up any memory.
 
 Typesense allows you to index the following types of fields:
 
-<table>
+<table><tbody>
   <tr>
     <td>string</td>
   </tr>
@@ -261,11 +261,11 @@ Typesense allows you to index the following types of fields:
   <tr>
     <td><a href="../api/documents.html#geosearch">geopoint</a></td>
   </tr>
-</table>
+</tbody></table>
 
 You can define an array or multi-valued field by suffixing a [] at the end:
 
-<table>
+<table><tbody>
   <tr>
     <td>string[]</td>
   </tr>
@@ -281,7 +281,7 @@ You can define an array or multi-valued field by suffixing a [] at the end:
   <tr>
     <td>bool[]</td>
   </tr>
-</table>
+</tbody></table>
 
 There are also two special field types that are used for handling data sources with varying schema via 
 [automatic schema detection](#with-auto-schema-detection).
