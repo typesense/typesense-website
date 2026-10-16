@@ -221,6 +221,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           replacement: fileURLToPath(new URL('./theme/components/VPNavBarSearch.vue', import.meta.url)),
         },
         {
+          find: /^.*\/VPNav\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNav.vue', import.meta.url)),
+        },
+        {
           find: /^.*\/VPLocalNav\.vue$/,
           replacement: fileURLToPath(new URL('./theme/components/VPLocalNav.vue', import.meta.url)),
         },

@@ -12,7 +12,7 @@
       <div
         ref="h3Bar"
         class="absolute inset-x-0 top-full hidden border-b border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] px-6 pb-2.5 pt-1.5 text-xl font-semibold leading-7 tracking-[-0.01em] text-[var(--vp-c-text-1)] min-[640px]:px-0 min-[768px]:block"
-        :class="{ invisible: !subsection?.header }"
+        :class="{ invisible: !subsection?.header, 'max-narrow:invisible': !navHidden }"
         :style="{ transform: `translateY(${subsection?.shift ?? 0}px)` }"
       >
         <div v-if="subsection?.header" :key="subsection.header.title">
@@ -42,10 +42,12 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useLocalNav } from 'vitepress/theme'
+import { useNavHidden } from '../composables/useNavHidden'
 
 // not sticky h2/h3s. vitepress's outline picks the active item by offsetTop,
 // which a stuck heading reports as its pinned spot
 const { headers } = useLocalNav()
+const navHidden = useNavHidden()
 
 type Header = { element: HTMLElement; title: string; children: Header[] }
 type Pinned = { header?: Header; end: number; shift: number; past: number }
