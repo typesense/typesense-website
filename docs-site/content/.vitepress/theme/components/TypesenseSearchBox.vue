@@ -129,10 +129,12 @@ watch(() => currentVersion(), () => {
   @apply rounded-b-[var(--docsearch-border-radius)];
 }
 
-/* docsearch pins the body on phones, which drops the page behind the modal to the top */
-@media (width <= 768px) {
-  body:has(.DocSearch-Container) {
-    @apply static;
-  }
+.DocSearch-Button {
+  @apply max-mobile:border-0 max-mobile:bg-transparent;
+}
+
+/* docsearch pins the body up to 768px, which drops the page behind the modal to the top */
+body:has(.DocSearch-Container) {
+  @apply max-narrow:static;
 }
 </style>
