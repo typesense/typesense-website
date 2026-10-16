@@ -3,7 +3,8 @@
     v-if="frontmatter.layout !== 'home' && (!emptyAndNoSidebar || y >= navHeight)"
     :class="
       cn(
-        'VPLocalNav sticky left-0 top-0 z-[var(--vp-z-index-local-nav)] w-full border-b border-[var(--vp-c-gutter)] bg-[var(--vp-local-nav-bg-color)] pt-[var(--vp-layout-top-height,0px)] narrow:top-[var(--vp-nav-height)] min-[1280px]:hidden',
+        'VPLocalNav sticky left-0 z-[var(--vp-z-index-local-nav)] w-full border-b border-[var(--vp-c-gutter)] bg-[var(--vp-local-nav-bg-color)] pt-[var(--vp-layout-top-height,0px)] transition-[top] duration-300 motion-reduce:transition-none narrow:top-[var(--vp-nav-height)] min-[1280px]:hidden',
+        navHidden ? 'top-0' : 'top-[var(--vp-nav-height)]',
         hasSidebar && 'narrow:pl-[var(--vp-sidebar-width)]',
         empty && 'narrow:hidden',
         emptyAndNoSidebar && 'fixed',
@@ -38,13 +39,18 @@
         </Breadcrumb>
       </div>
 
-      <VPLocalNavOutlineDropdown class="shrink-0" :headers="headers" :nav-height="navHeight" />
+      <!-- the dropdown sizes itself as if the nav had scrolled away -->
+      <VPLocalNavOutlineDropdown
+        class="shrink-0"
+        :headers="headers"
+        :nav-height="navHidden && !wide ? navHeight : y + navHeight"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core'
+import { useMediaQuery, useWindowScroll } from '@vueuse/core'
 import { useData } from 'vitepress'
 import { useLocalNav, useSidebar, type DefaultTheme } from 'vitepress/theme'
 // TODO: upgrade to vitepress 2 and vite 8 once v2 is out of alpha. it types these internals, so both
@@ -62,6 +68,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { useNavHidden } from '../composables/useNavHidden'
 import { cn } from '@/lib/utils'
 
 defineProps<{
@@ -76,6 +83,8 @@ const { theme, frontmatter, page } = useData<DefaultTheme.Config>()
 const { hasSidebar, sidebar } = useSidebar()
 const { headers } = useLocalNav()
 const { y } = useWindowScroll()
+const navHidden = useNavHidden()
+const wide = useMediaQuery('(min-width: 960px)')
 
 const navHeight = ref(0)
 

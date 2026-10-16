@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="typesense-search-wrapper" />
+  <div ref="container" class="typesense-search-wrapper" @click="navHidden = false" />
 </template>
 
 <script setup lang="ts">
@@ -8,9 +8,11 @@ import { useData, useRouter } from 'vitepress'
 import docsearch from 'typesense-docsearch.js'
 import type { DocSearchInstance } from 'typesense-docsearch.js'
 import type { TypesensePageData, TypesenseThemeConfig } from '../types'
+import { useNavHidden } from '../composables/useNavHidden'
 
 const { theme, page } = useData<TypesenseThemeConfig>()
 const router = useRouter()
+const navHidden = useNavHidden()
 
 const container = ref<HTMLElement | null>(null)
 let instance: DocSearchInstance | undefined
@@ -125,5 +127,12 @@ watch(() => currentVersion(), () => {
 
 .DocSearch-Footer {
   @apply rounded-b-[var(--docsearch-border-radius)];
+}
+
+/* docsearch pins the body on phones, which drops the page behind the modal to the top */
+@media (width <= 768px) {
+  body:has(.DocSearch-Container) {
+    @apply static;
+  }
 }
 </style>
