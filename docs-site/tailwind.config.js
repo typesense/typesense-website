@@ -108,6 +108,16 @@ module.exports = {
         // ease-out-expo. fast start, long settle, no overshoot
         'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
+      keyframes: {
+        'anchor-underline': {
+          '0%': { clipPath: 'inset(0 100% 0 0)' },
+          '45%, 55%': { clipPath: 'inset(0)' },
+          '100%': { clipPath: 'inset(0 0 0 100%)' },
+        },
+      },
+      animation: {
+        'anchor-underline': 'anchor-underline 1.3s ease-in-out forwards',
+      },
     },
   },
   // We own all styling now; preflight is ON per the migration plan.
