@@ -9,6 +9,7 @@ import docsearch from 'typesense-docsearch.js'
 import type { DocSearchInstance } from 'typesense-docsearch.js'
 import type { TypesensePageData, TypesenseThemeConfig } from '../types'
 import { useNavHidden } from '../composables/useNavHidden'
+import { underlineAnchor } from '../util/underlineAnchor'
 
 const { theme, page } = useData<TypesenseThemeConfig>()
 const router = useRouter()
@@ -34,6 +35,10 @@ function initialize() {
     ...userOptions,
     container: container.value,
     placeholder: theme.value.searchPlaceholder || '',
+    // vitepress's router skips links with a target, which leaves hits on
+    // typesense.org to onHitClick too
+    hitComponent: ({ hit, children }, { html }) =>
+      html`<a href=${hit.url} target="_self">${children}</a>`,
     typesenseSearchParameters: {
       ...typesenseSearchParameters,
       filter_by: version
@@ -60,7 +65,7 @@ function initialize() {
       navigate({ itemUrl }: { itemUrl: string }) {
         // itemUrl is absolute and already carries the /docs/ base router.go wants
         const { pathname, hash } = new URL(itemUrl, window.location.origin)
-        router.go(`${pathname}${decodeURIComponent(hash)}`)
+        router.go(`${pathname}${decodeURIComponent(hash)}`).then(() => underlineAnchor(hash))
       },
     },
   })
@@ -81,7 +86,7 @@ function onHitClick(event: MouseEvent) {
   const { pathname, hash } = new URL(anchor.href, window.location.origin)
   if (!pathname.startsWith('/docs/')) return
   event.preventDefault()
-  router.go(`${pathname}${decodeURIComponent(hash)}`)
+  router.go(`${pathname}${decodeURIComponent(hash)}`).then(() => underlineAnchor(hash))
 }
 
 onMounted(() => document.addEventListener('click', onHitClick))
