@@ -133,6 +133,11 @@ watch(() => currentVersion(), () => {
   @apply max-mobile:border-0 max-mobile:bg-transparent;
 }
 
+.DocSearch-Button-Placeholder,
+.DocSearch-Button-Keys {
+  @apply max-wide:hidden;
+}
+
 /* docsearch pins the body up to 768px, which drops the page behind the modal to the top */
 body:has(.DocSearch-Container) {
   @apply max-narrow:static;
