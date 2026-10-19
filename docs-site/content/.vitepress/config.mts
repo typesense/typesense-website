@@ -135,7 +135,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/typesense/typesense' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/typesense/typesense', ariaLabel: 'GitHub' }],
 
     sidebar,
 

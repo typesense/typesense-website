@@ -9,9 +9,6 @@
         <TypesenseSearchBox />
       </div>
     </template>
-    <template #nav-screen-content-after>
-      <VersionDropdown class="mt-4" />
-    </template>
     <!-- measured height feeds the outline title's sticky offset -->
     <template #sidebar-nav-before>
       <SidebarActivePill />

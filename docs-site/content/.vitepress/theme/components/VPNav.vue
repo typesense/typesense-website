@@ -10,10 +10,7 @@
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
       <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
     </VPNavBar>
-    <VPNavScreen :open="isScreenOpen">
-      <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
-      <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
-    </VPNavScreen>
+    <VPNavScreen :open="isScreenOpen" />
   </header>
 </template>
 
@@ -22,9 +19,9 @@ import { inBrowser, useData } from 'vitepress'
 // @ts-expect-error vitepress ships no types for its internals
 import { useNav } from 'vitepress/dist/client/theme-default/composables/nav.js'
 import VPNavBar from 'vitepress/dist/client/theme-default/components/VPNavBar.vue'
-import VPNavScreen from 'vitepress/dist/client/theme-default/components/VPNavScreen.vue'
 import { computed, provide, watchEffect } from 'vue'
 import { useNavHidden } from '../composables/useNavHidden'
+import VPNavScreen from './VPNavScreen.vue'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()
