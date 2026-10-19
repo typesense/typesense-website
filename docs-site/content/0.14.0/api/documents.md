@@ -274,16 +274,10 @@ client.collections['companies'].documents.search(search_parameters)
   <template v-slot:Shell>
 
 ```bash
-search_parameters = {
-  'q'           => 'stark',
-  'query_by'    => 'company_name',
-  'filter_by'   => 'num_employees:>100',
-  'sort_by'     => 'num_employees:desc',
-  'group_by'    => 'country',
-  'group_limit' => '1'
-}
-
-client.collections['companies'].documents.search(search_parameters)
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/companies/documents/search\
+?q=stark&query_by=company_name&filter_by=num_employees:>100\
+&sort_by=num_employees:desc&group_by=country&group_limit=1"
 ```
 
   </template>

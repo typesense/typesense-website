@@ -153,13 +153,12 @@ client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
   <template v-slot:Shell>
 
 ```bash
-synonym = {
+curl "http://localhost:8108/collections/products/synonyms/blazer-synonyms" -X PUT \
+-H "Content-Type: application/json" \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "root": "blazer",
   "synonyms": ["coat", "jacket"]
-}
-
-// Creates/updates a synonym called `blazer-synonyms` in the `products` collection
-client.collections('products').synonyms().upsert('blazer-synonyms', synonym)
+}'
 ```
 
   </template>
@@ -226,7 +225,8 @@ client.collections('products').synonyms('coat-synonyms').retrieve
   <template v-slot:Shell>
 
 ```bash
-client.collections('products').synonyms('coat-synonyms').retrieve
+curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
+"http://localhost:8108/collections/products/synonyms/coat-synonyms"
 ```
 
   </template>
