@@ -203,6 +203,14 @@ html {
   display: none; /* chrome/safari/edge */
 }
 
+/* light 5 washes out on white, dark 6 glares behind the text */
+::selection {
+  background-color: var(--brand-6-raw);
+}
+.dark ::selection {
+  background-color: var(--brand-5-raw);
+}
+
 .vp-doc a,
 .vp-doc a code {
   text-decoration-color: var(--brand-6-raw);
