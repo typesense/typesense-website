@@ -1,7 +1,7 @@
 <template>
   <header
     v-if="hasNavbar"
-    class="VPNav pointer-events-none sticky left-0 z-[var(--vp-z-index-nav)] w-full transition-[top] duration-300 motion-reduce:transition-none narrow:fixed narrow:top-[var(--vp-layout-top-height,0px)]"
+    class="VPNav pointer-events-none sticky left-0 z-[var(--vp-z-index-nav)] w-full transition-[top] duration-300 motion-reduce:transition-none narrow:fixed narrow:top-[var(--vp-layout-top-height,0px)] max-wide:[&_.VPNavBarMenu_.vp-external-link-icon]:hidden"
     :class="hidden ? '-top-[var(--vp-nav-height)]' : 'top-[var(--vp-layout-top-height,0px)]'"
   >
     <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">

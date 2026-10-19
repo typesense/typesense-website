@@ -11,6 +11,7 @@ module.exports = {
       'mobile-narrow': '420px', // $MQMobileNarrow 419px
       mobile: '720px', // $MQMobile 719px
       narrow: '960px', // $MQNarrow 959px
+      wide: '1280px', // vitepress's desktop breakpoint, where the nav bar gets its extras
     },
     extend: {
       colors: {
