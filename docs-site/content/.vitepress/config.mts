@@ -123,6 +123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     },
 
     siteTitle: false,
+    logoLink: 'https://typesense.org',
 
     outline: { level: [2, 6], label: 'On this page' },
 
