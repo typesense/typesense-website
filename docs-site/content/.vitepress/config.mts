@@ -134,6 +134,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/' },
       { text: 'Help', link: '/help' },
       { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
+      { text: 'Typesense Cloud', link: 'https://cloud.typesense.org' },
     ],
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/typesense/typesense', ariaLabel: 'GitHub' }],
