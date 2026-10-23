@@ -161,8 +161,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ],
         apiKey: 'SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8',
       },
-      typesenseCollectionName: 'typesense_docs',
-      askAi: 'model1',
+      typesenseCollectionName: "typesense_docs",
       typesenseSearchParameters: {
         per_page: 6,
         query_by:
