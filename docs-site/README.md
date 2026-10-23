@@ -10,8 +10,8 @@ On deployment, the dist folder generated is copied to [https://typesense.org/doc
 
 1. Navigate to `typesense-website/docs-site/`
 
-2. Run `yarn`
-3. Run `yarn dev`
+2. Run `bun install`
+3. Run `bun run dev`
 4. Visit the link shown
 
 As you write content in the content folder, the page should live reload.
@@ -38,7 +38,7 @@ These variables can be used in markdown files as `{{ variableName }}` or in Vue 
 | $site.themeConfig.typesenseVersions | List of all Typesense versions                                                                                        |
 
 **Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles.
-To partially fix the issue with page titles, we have a workaround in `plugins/typesense-enhancements` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
+To partially fix the issue with page titles, we have a workaround in `content/.vitepress/config.mts` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
 
 ### Authoring a new version
 
@@ -52,9 +52,10 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 
 ## Layout
 
-- We override a few components from the default theme, by placing them in `content/.vuepress/theme/components/`
-- Custom components go in `content/.vuepress/components/` and can be referenced in any markdown files
-- Vuepress configuration goes in `content/.vuepress/config.js`
+- We override a few default theme components by aliasing them in `content/.vitepress/config.mts` to files in `content/.vitepress/theme/components/`
+- Custom components go in `content/.vitepress/theme/components/` and are registered in `content/.vitepress/theme/index.ts`, so any markdown file can use them
+- The sidebar lives in `content/.vitepress/data/vuepress-sidebar.cjs`
+- VitePress configuration goes in `content/.vitepress/config.mts`
 
 ## Content Guidelines
 
@@ -64,5 +65,5 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 ## Deployment
 
 ```shell
-yarn deploy
+bun run deploy
 ```

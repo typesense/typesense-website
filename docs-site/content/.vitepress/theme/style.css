@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* a bare `border` utility otherwise falls back to preflight's fixed light
+ * default, which never tracks dark mode */
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+/* one seed expanded into a radix-style 1-12 ramp. light fills at 3-5, borders
+ * at 6/8, solid brand at 9/10, accessible text at 11/12 */
+:root {
+  --brand: #c0ff58;
+  --brand-contrast: #000; /* text on a solid brand fill */
+  --brand-3-raw: hsl(from var(--brand) h s 96%);
+  --brand-4-raw: hsl(from var(--brand) h s 94%);
+  --brand-5-raw: hsl(from var(--brand) h s 92%);
+  --brand-6-raw: hsl(from var(--brand) h s 82%);
+  --brand-8-raw: hsl(from var(--brand) h 40% 50%);
+  --brand-9-raw: var(--brand);
+  --brand-10-raw: color-mix(in srgb, var(--brand), black 5%);
+  --brand-11-raw: hsl(from var(--brand) h 100% 25%); /* accessible text on light */
+  --brand-12-raw: hsl(from var(--brand) h s 10%);
+}
+.dark {
+  --brand-3-raw: hsl(from var(--brand) h s 10%);
+  --brand-4-raw: hsl(from var(--brand) h s 18%);
+  --brand-5-raw: hsl(from var(--brand) h s 20%);
+  --brand-6-raw: hsl(from var(--brand) h s 30%);
+  --brand-8-raw: hsl(from var(--brand) h s 50%);
+  --brand-10-raw: color-mix(in srgb, var(--brand), white 5%);
+  --brand-11-raw: hsl(from var(--brand) h 100% 75%);
+  --brand-12-raw: hsl(from var(--brand) h s 90%);
+}
+
+/* cloud-help.typesense.org's blue-tinted gray, plus radix amber and tomato for
+ * callouts */
+:root {
+  --gray-1: #fcfcfe;
+  --gray-2: #f9f9fc;
+  --gray-3: #f0f0f5;
+  --gray-4: #e7e7ef;
+  --gray-5: #e0e0e9;
+  --gray-6: #d8d8e3;
+  --gray-7: #cdcddb;
+  --gray-8: #babacb;
+  --gray-9: #8c8c9d;
+  --gray-10: #828291;
+  --gray-11: #636370;
+  --gray-12: #1f1f28;
+  --amber-2: #fefbe9;
+  --amber-5: #fbe577;
+  --amber-11: #ab6400;
+  --amber-12: #4f3422;
+  --tomato-2: #fff8f7;
+  --tomato-5: #ffcdc2;
+  --tomato-12: #5c271f;
+}
+.dark {
+  --gray-1: #121216;
+  --gray-2: #19191e;
+  --gray-3: #222229;
+  --gray-4: #292832;
+  --gray-5: #302f3a;
+  --gray-6: #383846;
+  --gray-7: #454556;
+  --gray-8: #5e5e75;
+  --gray-9: #6b6b82;
+  --gray-10: #79798f;
+  --gray-11: #b2b2c3;
+  --gray-12: #ededf2;
+  --amber-2: #1d180f;
+  --amber-5: #4d3000;
+  --amber-11: #ffca16;
+  --amber-12: #ffe7b3;
+  --tomato-2: #1f1513;
+  --tomato-5: #5e1c16;
+  --tomato-12: #fbd3cb;
+}
+
+/* hsl triples, which is what tailwind's alpha utilities (bg-primary/90) need */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 13% 14%; /* gray 12 */
+  --muted: 240 20% 95%; /* gray 3 */
+  --muted-foreground: 240 6% 41%; /* gray 11 */
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 13% 14%;
+  --border: 240 20% 92%; /* gray 4 */
+  --input: 240 17% 90%; /* gray 5 */
+  --primary: 83 100% 67%; /* brand step 9 (#c0ff58) */
+  --primary-foreground: 0 0% 0%; /* --brand-contrast */
+  --ring: 83 40% 50%; /* brand step 8 */
+  --radius: 0.5rem;
+}
+/* --primary and --ring stay brand, a lime fill reads fine on dark */
+.dark {
+  --background: 240 10% 8%; /* gray 1 */
+  --foreground: 240 16% 94%; /* gray 12 */
+  --muted: 240 9% 15%; /* gray 3 */
+  --muted-foreground: 240 12% 73%; /* gray 11 */
+  --popover: 240 9% 11%; /* gray 2, lifted above the page */
+  --popover-foreground: 240 16% 94%;
+  --border: 246 11% 18%; /* gray 4 */
+  --input: 245 10% 21%; /* gray 5 */
+}
+
+/* brand text uses step 11, solid buttons 9/10 with black text */
+:root {
+  --vp-c-brand-1: var(--brand-11-raw);
+  --vp-c-brand-2: var(--brand-12-raw); /* darker, hover */
+  --vp-c-brand-3: var(--brand-9-raw); /* solid brand */
+  --vp-c-brand-soft: var(--brand-5-raw); /* light lime fill */
+
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-text: var(--brand-contrast);
+  --vp-button-brand-hover-text: var(--brand-contrast);
+  --vp-button-brand-active-text: var(--brand-contrast);
+  --vp-button-brand-bg: var(--brand-9-raw);
+  --vp-button-brand-hover-bg: var(--brand-10-raw);
+  --vp-button-brand-active-bg: var(--brand-10-raw);
+
+  --vp-c-bg-alt: var(--gray-2);
+  --vp-c-bg-soft: var(--gray-2);
+  --vp-c-text-1: var(--gray-12);
+  --vp-c-text-2: var(--gray-11);
+  --vp-c-text-3: var(--gray-10);
+  --vp-c-divider: var(--gray-4);
+  --vp-c-gutter: var(--gray-4);
+  --vp-c-border: var(--gray-7);
+
+  --vp-custom-block-info-bg: var(--gray-2);
+  --vp-custom-block-info-border: var(--gray-5);
+  --vp-custom-block-info-text: var(--gray-12);
+  --vp-custom-block-warning-bg: var(--amber-2);
+  --vp-custom-block-warning-border: var(--amber-5);
+  --vp-custom-block-warning-text: var(--amber-12);
+  --vp-custom-block-danger-bg: var(--tomato-2);
+  --vp-custom-block-danger-border: var(--tomato-5);
+  --vp-custom-block-danger-text: var(--tomato-12);
+
+  --vp-font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+
+  --vp-sidebar-width: 20rem; /* $sidebarWidth 320px */
+
+  /* white, not the default gray. the divider lives on .VPSidebar below */
+  --vp-sidebar-bg-color: var(--vp-c-bg);
+}
+
+/* wider than the 1440px default so large screens spend the spare width on
+ * the gutters around the content. vitepress assumes the viewport is at least
+ * this wide, hence the min(). kept off smaller screens because the navbar caps
+ * its width with it too, which on phones insets the logo past the content */
+@media (min-width: 1440px) {
+  :root {
+    --vp-layout-max-width: min(100vw, 1680px);
+  }
+}
+
+/* light keeps vitepress's white page and popovers */
+.dark {
+  --vp-c-bg: var(--gray-1);
+  --vp-c-bg-elv: var(--gray-2);
+}
+
+/* vitepress's js offsets in-page clicks, but a direct load of a #anchor url
+ * takes the browser's native jump and lands under the fixed navbar */
+html {
+  scroll-padding-top: var(--vp-nav-height, 64px);
+}
+.vp-doc :is(h1, h2, h3, h4, h5, h6)[id],
+.vp-doc [id] {
+  scroll-margin-top: var(--vp-nav-height, 64px);
+}
+
+/* vitepress's 24px default reads small next to the desktop nav */
+@media (min-width: 960px) {
+  :root {
+    --vp-nav-logo-height: 32px;
+  }
+}
+
+/* ! beats the component-scoped, attribute-boosted default rule */
+.VPNavBarTitle.has-sidebar .title {
+  @apply !border-b-transparent;
+}
+
+/* scrollbar hidden, still scrollable via wheel/trackpad */
+.VPSidebar {
+  scrollbar-width: none; /* firefox */
+  /* matches the navbar bottom border */
+  border-right: 1px solid var(--vp-c-gutter);
+}
+.VPSidebar::-webkit-scrollbar {
+  display: none; /* chrome/safari/edge */
+}
+
+/* light 5 washes out on white, dark 6 glares behind the text */
+::selection {
+  background-color: var(--brand-6-raw);
+}
+.dark ::selection {
+  background-color: var(--brand-5-raw);
+}
+
+.vp-doc a,
+.vp-doc a code {
+  text-decoration-color: var(--brand-6-raw);
+}
+.vp-doc a:hover,
+.vp-doc a:hover code {
+  text-decoration-color: var(--brand-11-raw);
+}
+/* links and code inside every callout stay brand, not amber or red */
+.vp-doc .custom-block {
+  --vp-c-warning-1: var(--vp-c-brand-1);
+  --vp-c-warning-2: var(--vp-c-brand-2);
+  --vp-c-danger-1: var(--vp-c-brand-1);
+  --vp-c-danger-2: var(--vp-c-brand-2);
+}
+
+/* vitepress only indents .level-1 .items and below, leaving a top-level group's
+ * children flush with the title. indenting the label rather than the .items
+ * container keeps the row box full-width for the active pill */
+.VPSidebarItem.level-1 > .item > .link,
+.VPSidebarItem.level-1 > .item > .text {
+  @apply pl-3;
+}
+
+/* a pill in place of the default 2px indicator bar. it matches the item's
+ * bounding box exactly, no negative-margin bleed past the content edge */
+.VPSidebarItem.is-active > .item > .indicator {
+  @apply hidden;
+}
+.VPSidebarItem.is-active > .item {
+  @apply rounded-lg bg-accent-selected;
+}
+/* SidebarActivePill paints the background once hydrated, so it can slide
+ * between items. until then the item keeps its own */
+.VPSidebar .nav {
+  @apply relative;
+}
+.VPSidebar .nav[data-active-pill] .VPSidebarItem.is-active > .item {
+  @apply bg-transparent;
+}
+.VPSidebarItem.is-active > .item .link > .text {
+  @apply font-semibold;
+}
+
+/* one line, min-w-0 lets the flex child shrink enough for the ellipsis */
+.VPSidebarItem .text {
+  @apply min-w-0 line-clamp-1;
+}
+
+/* nested outline indent, 16px -> 12px */
+.VPDocOutlineItem.nested {
+  @apply pl-3;
+}
+
+/* vitepress names the mobile dropdown's heading list `outline`, colliding with
+ * tailwind's `.outline` utility, which paints a 3px currentColor ring over the
+ * 1px --vp-c-gutter divider the grid gap already draws */
+.VPLocalNavOutlineDropdown .outline {
+  outline-style: none;
+}
+
+/* Layout.vue marks this row, vitepress only tracks the desktop aside. colour
+ * alone, matching the panel's own "Return to top" accent, since the aside's
+ * marker bar has no rail to sit on here */
+.VPLocalNavOutlineDropdown .outline-link.active {
+  @apply text-accent font-semibold;
+}
+
+/* both blocks stick against .aside-container, whose padding-top already clears
+ * the navbar, leaving `top` measured from that padded edge rather than the
+ * window. the heading list deliberately gets no scroll box of its own, which
+ * would break the js-positioned .outline-marker. z-index has to beat
+ * VPDocOutlineItem's own `position: relative; z-index: 1`. */
+.VPDocAside {
+  --aside-pinned-top: 0px;
+}
+.aside-pinned-version {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background-color: var(--vp-c-bg);
+}
+/* masks headings scrolling up through the aside's top padding gap */
+.aside-pinned-version::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 100% 0;
+  height: 100vh;
+  background-color: var(--vp-c-bg);
+}
+.VPDocAsideOutline .outline-title {
+  position: sticky;
+  top: var(--aside-pinned-top);
+  z-index: 2;
+  padding-bottom: 4px;
+  background-color: var(--vp-c-bg);
+}
+/* short enough that at rest it barely grazes the first heading, and only reads
+ * as a fade once the outline scrolls beneath the title */
+.VPDocAsideOutline .outline-title::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 28px;
+  pointer-events: none;
+  background: linear-gradient(var(--vp-c-bg), transparent 50%);
+}
+
+
+/* the version warning already masks the outline scrolling under it, and its own
+ * stacking context would paint the curtain over the box. every other page keeps
+ * its fade */
+.aside:has(.version-warning) .aside-curtain {
+  @apply hidden;
+}
+
+.vp-doc .custom-block.tip {
+  --vp-custom-block-tip-border: var(--brand-6-raw);
+  --vp-custom-block-tip-text: var(--brand-12-raw);
+  --vp-custom-block-tip-bg: var(--brand-3-raw);
+  --vp-custom-block-tip-code-bg: var(--brand-5-raw);
+}
+.dark .vp-doc .custom-block.tip {
+  --vp-custom-block-tip-border: var(--brand-5-raw);
+}
+.vp-doc .custom-block.tip .custom-block-title {
+  @apply text-accent;
+}
+.vp-doc .custom-block.warning .custom-block-title {
+  @apply text-[var(--amber-11)];
+}
+
+.vp-doc table {
+  @apply text-sm;
+}
+.vp-doc tr {
+  @apply bg-transparent;
+}
+.vp-doc thead tr {
+  @apply border-t-0;
+}
+.vp-doc tbody tr:nth-child(2n) {
+  @apply bg-[var(--vp-c-bg-soft)];
+}
+.vp-doc :is(th, td) {
+  @apply border-0 px-4 py-4 align-top;
+}
+.vp-doc th {
+  @apply bg-transparent py-3 font-semibold tracking-wider text-[var(--vp-c-text-3)];
+}
+.vp-doc td {
+  @apply leading-normal text-[var(--vp-c-text-2)];
+}
+
+/* phones stack each row so the long cells get the whole width. the labels
+ * and data-required come from the table-cell-labels markdown rule */
+@media (max-width: 639px) {
+  .vp-doc thead {
+    @apply sr-only;
+  }
+  .vp-doc :is(tbody, tr, td) {
+    @apply block;
+  }
+  .vp-doc tbody tr {
+    @apply py-5 first:border-t-0;
+  }
+  .vp-doc tbody tr:nth-child(2n) {
+    @apply bg-transparent;
+  }
+  .vp-doc td {
+    @apply break-words p-0;
+  }
+  .vp-doc td:first-child {
+    @apply font-medium text-[var(--vp-c-text-1)];
+  }
+  .vp-doc td + td {
+    @apply mt-3;
+  }
+  .vp-doc td + td:where([data-label]) {
+    @apply before:mb-1 before:block before:text-xs before:font-semibold before:tracking-wider before:text-[var(--vp-c-text-3)] before:content-[attr(data-label)];
+  }
+
+  /* rows with a description read as a property list. the type and a required
+   * flag sit beside the name as chips, other cells stack under the description */
+  .vp-doc tr:has(> td[data-label='Description']) {
+    @apply flex flex-wrap items-center gap-x-2 gap-y-1.5;
+  }
+  .vp-doc tr:has(> td[data-label='Description']) > td:first-child {
+    @apply text-accent [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-[length:inherit] [&_code]:text-inherit;
+  }
+  /* :where keeps the rules below able to override it */
+  .vp-doc :where(tr:has(> td[data-label='Description'])) > td + td {
+    @apply order-2 basis-full;
+  }
+  .vp-doc :where(tr:has(> td[data-label='Description'])) > td:is([data-label='Type'], [data-required]) {
+    @apply order-none mt-0 basis-auto rounded bg-[var(--vp-code-bg)] px-1.5 py-0.5 font-mono text-xs text-[var(--vp-c-text-1)] before:hidden;
+  }
+  .vp-doc td[data-required='false'] {
+    @apply sr-only;
+  }
+  /* the cell's own "yes" is shrunk to 0px and ::before draws the chip text */
+  .vp-doc td[data-required='true'] {
+    @apply bg-[var(--tomato-2)] font-sans text-[0px] leading-none ring-1 ring-inset ring-[var(--tomato-5)] before:m-0 before:block before:font-normal before:tracking-normal before:text-[var(--tomato-12)] before:content-['required'];
+  }
+  .vp-doc td[data-label='Description'] {
+    @apply order-1 mt-2 before:hidden;
+  }
+}
