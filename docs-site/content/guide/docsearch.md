@@ -374,7 +374,7 @@ Style your search component following [these instructions](https://docusaurus.io
 #### VuePress v1
 
 If you use [VuePress v1](https://v1.vuepress.vuejs.org/) for a documentation framework (like Typesense's own documentation site),
-here's a [Vue Component](https://github.com/typesense/typesense-website/blob/master/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) you can use.
+here's a [Vue Component](https://github.com/typesense/typesense-website/blob/6ac08b6c660c56a1010754d8402c7eaa404b89de/docs-site/content/.vuepress/components/TypesenseSearchBox.vue) you can use.
 
 Copy that component into `.vuepress/components/TypesenseSearchBox.vue` and edit it as needed.
 

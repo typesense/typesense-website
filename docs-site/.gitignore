@@ -1,5 +1,4 @@
 node_modules
-/content/.vuepress/dist/
 /content/.vitepress/dist/
 /content/.vitepress/cache/
 .pnp.*
