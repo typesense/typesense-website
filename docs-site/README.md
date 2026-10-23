@@ -38,7 +38,7 @@ These variables can be used in markdown files as `{{ variableName }}` or in Vue 
 | $site.themeConfig.typesenseVersions | List of all Typesense versions                                                                                        |
 
 **Note:** These variables [don't work](https://github.com/vuejs/vuepress/issues/2379) in auto-generated anchor tags and page titles.
-To partially fix the issue with page titles, we have a workaround in `plugins/typesense-enhancements` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
+To partially fix the issue with page titles, we have a workaround in `content/.vitepress/config.mts` to manually look for `{{ $page.typesenseVersion }}` in page titles and replace them.
 
 ### Authoring a new version
 
@@ -52,9 +52,10 @@ To partially fix the issue with page titles, we have a workaround in `plugins/ty
 
 ## Layout
 
-- We override a few components from the default theme, by placing them in `content/.vuepress/theme/components/`
-- Custom components go in `content/.vuepress/components/` and can be referenced in any markdown files
-- Vuepress configuration goes in `content/.vuepress/config.js`
+- We override a few default theme components by aliasing them in `content/.vitepress/config.mts` to files in `content/.vitepress/theme/components/`
+- Custom components go in `content/.vitepress/theme/components/` and are registered in `content/.vitepress/theme/index.ts`, so any markdown file can use them
+- The sidebar lives in `content/.vitepress/data/vuepress-sidebar.cjs`
+- VitePress configuration goes in `content/.vitepress/config.mts`
 
 ## Content Guidelines
 
