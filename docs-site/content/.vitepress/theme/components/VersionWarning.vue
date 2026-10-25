@@ -3,7 +3,7 @@
     v-if="showVersionWarning"
     :class="
       banner
-        ? 'sticky bottom-0 z-10 -mx-6 mt-8 bg-[var(--vp-c-bg)] px-6 pb-5 before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-[linear-gradient(transparent,var(--vp-c-bg)_70%)] min-[768px]:-mx-8 min-[768px]:px-8 min-[1280px]:hidden'
+        ? 'sticky bottom-0 z-10 -mx-6 mt-8 bg-[var(--vp-c-bg)] px-6 pb-5 before:pointer-events-none before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-[linear-gradient(transparent,var(--vp-c-bg)_70%)] min-[768px]:-mx-8 min-[768px]:px-8 min-[1280px]:hidden'
         : 'mb-4'
     "
   >
