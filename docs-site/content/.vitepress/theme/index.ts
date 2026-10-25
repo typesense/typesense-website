@@ -66,6 +66,13 @@ export default {
       const segments = rest.split('/')
       const version = segments[0]
 
+      // vitepress has already turned a bare /docs/30.2 or /docs/latest into 30.2.html
+      const bare = segments.length === 1 && version.replace(/\.html$/, '')
+      if (bare && (bare === 'latest' || typesenseVersions.includes(bare))) {
+        router.go(`${BASE}${bare}/`)
+        return false
+      }
+
       if (version === 'latest') {
         segments[0] = typesenseLatestVersion
         router.go(BASE + segments.join('/'))
@@ -77,6 +84,7 @@ export default {
         if (segments[2] === '#what-s-new') {
           const [major, minor] = version.split('.').map((n) => parseInt(n, 10))
           if (major >= 0 && minor >= 20) segments[1] = 'api' // what's new moved under /api post-0.20
+          else segments.splice(1, 1) // and sat on the version's own page before
         } else {
           segments.shift()
         }
