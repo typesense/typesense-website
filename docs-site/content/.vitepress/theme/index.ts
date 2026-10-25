@@ -20,6 +20,7 @@ import versions from '../../../../typesenseVersions.json'
 import isSemVer from './util/isSemVer'
 import { docsStore } from './store'
 import { syncPreferredCopyLanguagesToUrl } from './util/copyLanguagePreferences'
+import { settleAnchor } from './util/settleAnchor'
 
 const { typesenseVersions, typesenseLatestVersion } = versions
 const BASE = '/docs/'
@@ -90,6 +91,7 @@ export default {
 
       docsStore.hydrateCopyLanguages()
       syncPreferredCopyLanguagesToUrl(docsStore.state.copyLanguages)
+      settleAnchor()
     }
   },
 } satisfies Theme
