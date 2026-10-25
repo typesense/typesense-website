@@ -32,7 +32,9 @@ import { decodeMarkdown } from '../util/decodeMarkdown'
 import type { TypesensePageData } from '../types'
 
 // rendered after every h2-h6 by the markdown pipeline
-const props = defineProps<{ headingText: string; headingLevel: number }>()
+const props = withDefaults(defineProps<{ headingText: string; headingLevel: number; headingIndex?: number }>(), {
+  headingIndex: 0,
+})
 const { page } = useData()
 
 const isCopied = ref(false)
@@ -47,9 +49,10 @@ const tabGroups = computed(() => (page.value as TypesensePageData).markdownCopyT
 // fenced code blocks
 function extractSection(markdown: string): string {
   const lines = markdown.split('\n')
-  const headingRe = /^(#{1,6})\s+(.*)$/
+  const headingRe = /^ {0,3}(#{1,6})\s+(.*)$/
   const target = props.headingText.trim()
   let start = -1
+  let matches = 0
   let inFence = false
   let fenceMarker = ''
 
@@ -71,9 +74,8 @@ function extractSection(markdown: string): string {
     if (!m) continue
     const level = m[1].length
     if (start === -1) {
-      if (level === props.headingLevel && m[2].trim().replace(/\s*#.*$/, '').trim() === target) {
-        start = i
-      }
+      const same = level === props.headingLevel && m[2].trim().replace(/\s*#.*$/, '').trim() === target
+      if (same && matches++ === props.headingIndex) start = i
       continue
     }
     if (level <= props.headingLevel) {

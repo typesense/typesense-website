@@ -170,7 +170,11 @@ export function typesenseMarkdown(md: MarkdownIt): void {
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
-      result += `<CopySectionButton headingText="${escapedText}" :headingLevel="${currentHeading.level}" />`
+      // "Definition" repeats under every endpoint, so each copy finds its own by count
+      const seen = (env.copySectionSeen ??= {}) as Record<string, number>
+      const key = `${currentHeading.level} ${currentHeading.text}`
+      seen[key] = (seen[key] ?? -1) + 1
+      result += `<CopySectionButton headingText="${escapedText}" :headingLevel="${currentHeading.level}" :headingIndex="${seen[key]}" />`
     }
 
     currentHeading = null
