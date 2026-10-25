@@ -29,6 +29,9 @@
     <template #doc-bottom>
       <VersionWarning banner />
     </template>
+    <template #not-found>
+      <NotFound />
+    </template>
   </Layout>
 </template>
 
@@ -42,6 +45,7 @@ import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
 import OutlineScrollProgress from './components/OutlineScrollProgress.vue'
 import SidebarActivePill from './components/SidebarActivePill.vue'
 import StickyHeading from './components/StickyHeading.vue'
+import NotFound from './components/NotFound.vue'
 
 const { Layout } = DefaultTheme
 
