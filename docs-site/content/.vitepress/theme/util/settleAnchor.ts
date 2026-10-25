@@ -2,7 +2,18 @@ import { getScrollOffset } from 'vitepress'
 
 const INPUTS = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
 
+const offsetDrift = (target: HTMLElement) =>
+  target.getBoundingClientRect().top -
+  getScrollOffset() +
+  parseInt(getComputedStyle(target).paddingTop, 10)
+
+let drift = offsetDrift
 let release: (() => void) | undefined
+
+// StickyHeading knows which of its bars stay up over a target
+export function settleAnchorWith(fn = offsetDrift) {
+  drift = fn
+}
 
 // tab groups only render client side and the web font swaps in late, both
 // after vitepress has jumped to the #hash. ios safari has no scroll anchoring,
@@ -16,11 +27,8 @@ export function settleAnchor() {
   const observer = new ResizeObserver(() => {
     const target = document.getElementById(id)
     if (!target) return
-    const drift =
-      target.getBoundingClientRect().top -
-      getScrollOffset() +
-      parseInt(getComputedStyle(target).paddingTop, 10)
-    if (Math.abs(drift) >= 1) window.scrollBy(0, drift)
+    const by = drift(target)
+    if (Math.abs(by) >= 1) window.scrollBy(0, by)
   })
   observer.observe(document.body)
 

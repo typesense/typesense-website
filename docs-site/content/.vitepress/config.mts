@@ -79,6 +79,8 @@ export default defineConfig({
     ':dir(.*)/README.md': ':dir/index.md',
   },
   lastUpdated: true,
+  // the outline marks a heading current once it reaches the pinned bars
+  scrollOffset: { selector: '[data-sticky-floor]', padding: 24 },
   ignoreDeadLinks: [
     link =>
       /(?:^|\/)latest(?:\/|$)/.test(link) || link === '/api' || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),

@@ -85,6 +85,18 @@ export default {
       }
     }
 
+    // vitepress scrolls in-page links itself, with no route change
+    if (typeof window !== 'undefined') {
+      window.addEventListener(
+        'click',
+        (e) => {
+          const link = (e.target as Element).closest?.('a')
+          if (e.defaultPrevented && link?.hash && link.pathname === location.pathname) settleAnchor()
+        },
+        { capture: true },
+      )
+    }
+
     router.onAfterRouteChanged = (to) => {
       $page.typesenseVersion = deriveVersion(to)
       if (typeof window === 'undefined') return
