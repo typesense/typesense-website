@@ -64,6 +64,7 @@ import VPLink from 'vitepress/dist/client/theme-default/components/VPLink.vue'
 import VPSwitchAppearance from 'vitepress/dist/client/theme-default/components/VPSwitchAppearance.vue'
 import { computed, inject } from 'vue'
 import VersionDropdown from './VersionDropdown.vue'
+import { useNavLinks } from '../composables/useNavLinks'
 
 defineProps<{ open: boolean }>()
 
@@ -71,9 +72,7 @@ const { page, theme } = useData<DefaultTheme.Config>()
 const closeScreen = inject('close-screen') as () => void
 const isLocked = useScrollLock(inBrowser ? document.body : null)
 
-const links = computed(
-  () => (theme.value.nav ?? []).filter((item) => 'link' in item) as DefaultTheme.NavItemWithLink[],
-)
+const links = useNavLinks()
 const internal = computed(() => links.value.filter((item) => !EXTERNAL_URL_RE.test(item.link)))
 const external = computed(() => [
   ...links.value.filter((item) => EXTERNAL_URL_RE.test(item.link)),

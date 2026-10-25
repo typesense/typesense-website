@@ -130,7 +130,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     nav: [
       { text: 'Overview', link: '/overview/', activeMatch: '/overview/' },
       { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
-      // api reference lives under every version prefix, not just the latest
+      // useNavLinks swaps in the version being read
       { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/' },
       { text: 'Help', link: '/help' },
       { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
@@ -224,6 +224,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {
           find: /^.*\/VPNav\.vue$/,
           replacement: fileURLToPath(new URL('./theme/components/VPNav.vue', import.meta.url)),
+        },
+        {
+          find: /^.*\/VPNavBarMenu\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNavBarMenu.vue', import.meta.url)),
         },
         {
           find: /^.*\/VPNavBarExtra\.vue$/,
