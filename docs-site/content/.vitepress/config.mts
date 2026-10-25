@@ -56,12 +56,12 @@ const clickIdCaptureScript = `(function () {
 
 // lets the version picker grey out versions that predate the current page
 const typesenseVersionPages = Object.fromEntries(
-  typesenseVersions.map((version) => [
+  typesenseVersions.map(version => [
     version,
     readdirSync(join(srcDir, version), { recursive: true })
       .map(String)
-      .filter((file) => file.endsWith('.md'))
-      .map((file) => `/${file.replace(/(^|\/)README\.md$/, '$1').replace(/\.md$/, '')}`),
+      .filter(file => file.endsWith('.md'))
+      .map(file => `/${file.replace(/(^|\/)README\.md$/, '$1').replace(/\.md$/, '')}`),
   ]),
 )
 
@@ -82,8 +82,7 @@ export default defineConfig({
   // the outline marks a heading current once it reaches the pinned bars
   scrollOffset: { selector: '[data-sticky-floor]', padding: 24 },
   ignoreDeadLinks: [
-    link =>
-      /(?:^|\/)latest(?:\/|$)/.test(link) || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
+    link => /(?:^|\/)latest(?:\/|$)/.test(link) || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
   ],
 
   head: [
@@ -113,7 +112,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   sitemap: {
     // keep the trailing slash, new URL(path, hostname) drops /docs without it
     hostname: 'https://typesense.org/docs/',
-    transformItems: (items) => items.filter((item) => !sitemapExcludedUrls.has(item.url)),
+    transformItems: items => items.filter(item => !sitemapExcludedUrls.has(item.url)),
   },
 
   themeConfig: {
@@ -131,7 +130,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     nav: [
       { text: 'Docs Home', link: '/' },
-      { text: 'Overview', link: '/overview/', activeMatch: '/overview/' },
+      { text: 'Overview', link: '/overview/what-is-typesense', activeMatch: '/overview/' },
       { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
       // useNavLinks swaps in the version being read
       { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/' },
@@ -164,7 +163,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ],
         apiKey: 'SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8',
       },
-      typesenseCollectionName: "typesense_docs",
+      typesenseCollectionName: 'typesense_docs',
       typesenseSearchParameters: {
         per_page: 6,
         query_by:
@@ -184,7 +183,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     },
   },
   // mathjax3 renders its formulas as <mjx-*> custom elements
-  vue: { template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith('mjx-') } } },
+  vue: { template: { compilerOptions: { isCustomElement: tag => tag.startsWith('mjx-') } } },
 
   vite: {
     plugins: [
@@ -195,7 +194,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         enforce: 'pre',
         transform(code, id) {
           if (!id.endsWith('.md')) return
-          if (!code.includes('this.$') && !code.includes('typesenseLatestVersion') && !code.includes('$page.typesenseVersion')) return
+          if (
+            !code.includes('this.$') &&
+            !code.includes('typesenseLatestVersion') &&
+            !code.includes('$page.typesenseVersion')
+          )
+            return
           let out = code
             .replace(/this\.\$(site|page)\b/g, '$$$1')
             .replace(/\{\{\s*\$site\.themeConfig\.typesenseLatestVersion\s*\}\}/g, typesenseLatestVersion)
@@ -274,7 +278,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (isVersionedPath && version !== typesenseLatestVersion) {
       const latestRel = typesenseLatestVersion + pageData.relativePath.slice(version.length)
       const sources = [latestRel, latestRel.replace(/index\.md$/, 'README.md')]
-      if (sources.some((rel) => existsSync(join(srcDir, rel)))) canonicalRel = latestRel
+      if (sources.some(rel => existsSync(join(srcDir, rel)))) canonicalRel = latestRel
     }
     const canonicalPath = canonicalRel.replace(/\.md$/, '.html').replace(/(^|\/)index\.html$/, '$1')
     pageData.frontmatter.head.push(['link', { rel: 'canonical', href: `https://typesense.org/docs/${canonicalPath}` }])

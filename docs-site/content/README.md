@@ -34,6 +34,6 @@ But here are direct clickable links as well:
 
 <ul>
   <li v-for="version in $site.themeConfig.typesenseVersions">
-    <RouterLink :to="`${version}/`"> {{version}} </RouterLink>
+    <RouterLink :to="version.startsWith('0.') && Number(version.split('.')[1]) < 20 ? `${version}/` : `${version}/api/`"> {{version}} </RouterLink>
   </li>
 </ul>

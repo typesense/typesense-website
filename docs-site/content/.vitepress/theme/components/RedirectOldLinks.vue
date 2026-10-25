@@ -6,6 +6,7 @@
 import { onMounted } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import type { TypesensePageData, TypesenseThemeConfig } from '../types'
+import versionLandingPath from '../util/versionLandingPath'
 
 // mounted on legacy landing pages to forward old hash anchors to new pages
 const { page, theme } = useData<TypesenseThemeConfig>()
@@ -68,7 +69,7 @@ onMounted(() => {
     { from: `/${v}/api/#cluster-operations-snapshot`, to: `/${v}/api/cluster-operations.html#create-snapshot-for-backups` },
     { from: `/${v}/api/#cluster-operations-vote`, to: `/${v}/api/cluster-operations.html#re-elect-leader` },
     { from: `/${v}/api/#config-slow-request-log`, to: `/${v}/api/cluster-operations.html#toggle-slow-request-log` },
-    { from: `/${v}/api/#whats-new`, to: `/${v}/#what-s-new` },
+    ...(v ? [{ from: `/${v}/api/#whats-new`, to: `${versionLandingPath(v)}#what-s-new` }] : []),
     { from: `/${v}/api/#errors`, to: `/${v}/api/api-errors.html` },
   ]
 

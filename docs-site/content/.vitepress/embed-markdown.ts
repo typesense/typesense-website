@@ -91,6 +91,7 @@ export function injectPageMarkdown(pageData: TypesensePageData, srcDir: string):
   if (!rel || !rel.endsWith('.md')) return
   try {
     const raw = readSource(srcDir, rel)
+    if (isRedirectStub(raw)) return
     const urlPath = urlPathFor(rel)
     const ctx = routerCtxFor(urlPath)
     const data = analyzeMarkdownForCopy(transformRouterLinks(raw, ctx))
@@ -201,6 +202,9 @@ function parseFrontmatter(raw: string): Record<string, string> {
   return fm
 }
 
+// pages whose body is only a <meta http-equiv="refresh"> forward
+const isRedirectStub = (raw: string): boolean => /<meta\s+http-equiv="refresh"/.test(raw)
+
 // empty for redirect stubs, which the llms builders skip
 function titleFor(raw: string, fm: Record<string, string>): string {
   if (fm.title) return fm.title
@@ -247,6 +251,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
   for (const rel of files) {
     try {
       const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'), rel)
+      if (isRedirectStub(raw)) continue
       const urlPath = urlPathFor(rel)
       const ctx = routerCtxFor(urlPath)
       const { markdown: cleaned, copyTabGroups, copyLanguages } = analyzeMarkdownForCopy(raw)
@@ -281,7 +286,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
   }
 
   console.log(
-    `Generated ${files.length} markdown files (+${variantCount} language variants, +${latestCount} latest/ aliases)`,
+    `Generated ${llmsPages.length} markdown files (+${variantCount} language variants, +${latestCount} latest/ aliases)`,
   )
 
   writeLlmsArtifacts({
@@ -309,6 +314,7 @@ function collectLlmsData(srcDir: string): LlmsData {
   for (const rel of collectMarkdownFiles(srcDir, srcDir)) {
     try {
       const raw = substituteVersion(fs.readFileSync(path.join(srcDir, rel), 'utf-8'), rel)
+      if (isRedirectStub(raw)) continue
       const urlPath = urlPathFor(rel)
       const ctx = routerCtxFor(urlPath)
       const baseMarkdown = transformRouterLinks(analyzeMarkdownForCopy(raw).markdown, ctx)

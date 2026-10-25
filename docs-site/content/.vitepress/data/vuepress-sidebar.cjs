@@ -1,6 +1,8 @@
 // Extracted verbatim from the VuePress config.js `sidebar` object (lines 234-1253).
 // VuePress format: ['/path','Title'] tuples and { title, children } groups.
 // Converted to VitePress format at load time by ../sidebar.ts
+const { typesenseLatestVersion } = require('../../../../typesenseVersions.json')
+
 module.exports = {
       '/overview': [
         {
@@ -17,7 +19,7 @@ module.exports = {
         ['/overview/demos', 'Live Demos'],
         ['/overview/benchmarks', 'Benchmarks'],
         ['/guide/', 'Guide'],
-        ['/api/', 'API Reference'],
+        [`/${typesenseLatestVersion}/api/`, 'API Reference'],
         ['/help', 'Help'],
       ],
       '/guide/': [
