@@ -16,7 +16,7 @@ The documentation is divided into the following sections, that you'll find links
 
 ## Help us improve the docs
 
-This documentation site itself is [open source](https://github.com/typesense/typesense-website/tree/master/docs-site). If you notice an issue on any page, just click on the Edit button at the bottom of the page, make changes and submit it as a PR. 
+This documentation site itself is [open source](https://github.com/typesense/typesense-website/tree/master/docs-site). If you notice an issue on any page, just click the "Edit page" link at the bottom of the page, make changes and submit it as a PR. 
 
 We also welcome contributions to the documentation, especially to the Guide section. If you've integrated Typesense with a framework that's not covered, we'd love to have you share your work with the world. 
 Please reach out to us to collaborate on this.
