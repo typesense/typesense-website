@@ -338,6 +338,11 @@ html {
   @apply text-[var(--amber-11)];
 }
 
+/* the youtube embeds carry a fixed 560px width */
+.vp-doc iframe {
+  @apply h-auto max-w-full aspect-video;
+}
+
 .vp-doc table {
   @apply text-sm;
 }
