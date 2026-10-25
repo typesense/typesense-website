@@ -12,11 +12,17 @@ export const useNavHidden = createSharedComposable(() => {
   useEventListener(['touchmove', 'wheel'], () => (byUser = true), { passive: true })
   useEventListener('keydown', e => (byUser = e.key !== 'Enter'))
 
+  // a small nudge back up while reading shouldn't pull the nav over the text
+  let deepest = 0
+
   watch(y, (next, prev) => {
     // ios reports its rubber-band bounce, which reads as a reversal at either end
     const max = document.documentElement.scrollHeight - window.innerHeight - 1
     const [to, from] = [next, prev].map(v => Math.min(Math.max(v, 0), max))
-    if (byUser && to !== from) hidden.value = to > from
+    if (!byUser || to > from) deepest = to
+    if (!byUser || to === from) return
+    if (to > from) hidden.value = true
+    else if (deepest - to >= 20) hidden.value = false
   })
 
   return hidden
