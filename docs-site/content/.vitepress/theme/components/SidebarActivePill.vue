@@ -33,6 +33,17 @@ let nav: HTMLElement | null = null
 let mutations: MutationObserver | undefined
 let resize: ResizeObserver | undefined
 let frame = 0
+let revealed: HTMLElement | null = null
+
+// vitepress leaves the sidebar at the top, however far down the current page is
+function reveal(item: HTMLElement) {
+  const sidebar = item.closest<HTMLElement>('.VPSidebar')
+  if (!sidebar) return
+  const box = sidebar.getBoundingClientRect()
+  const at = item.getBoundingClientRect()
+  if (at.top >= box.top && at.bottom <= box.bottom) return
+  sidebar.scrollTop += at.top - box.top - sidebar.clientHeight / 2 + at.height / 2
+}
 
 function update() {
   const active = nav?.querySelector<HTMLElement>('.VPSidebarItem.is-active > .item')
@@ -42,6 +53,10 @@ function update() {
     // snap back into place when it reappears instead of sliding in from the top
     animate.value = false
     return
+  }
+  if (active !== revealed) {
+    revealed = active
+    reveal(active)
   }
   const from = nav.getBoundingClientRect()
   const to = active.getBoundingClientRect()
