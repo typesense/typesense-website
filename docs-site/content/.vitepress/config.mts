@@ -176,6 +176,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   markdown: {
     lineNumbers: false,
+    // vuepress numbered repeated headings x, x-2, x-3, and old links still use those ids
+    anchor: { uniqueSlugStartIndex: 2 },
     config(md) {
       typesenseMarkdown(md)
       md.use(mathjax3)
