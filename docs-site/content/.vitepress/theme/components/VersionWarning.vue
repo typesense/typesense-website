@@ -9,7 +9,7 @@
   >
     <!-- 688px is vitepress's .content-container width -->
     <div
-      class="rounded-lg bg-accent-selected p-3 text-[0.8125rem] leading-relaxed text-ink [&_a]:font-semibold [&_a]:text-accent [&_a:hover]:cursor-pointer [&_a:hover]:underline"
+      class="relative rounded-lg bg-accent-selected p-3 text-[0.8125rem] leading-relaxed text-ink [&_a]:font-semibold [&_a]:after:absolute [&_a]:after:inset-0 [&_a]:text-accent [&_a:hover]:cursor-pointer [&_a:hover]:underline"
       :class="banner && 'mx-auto max-w-[688px]'"
     >
       <p v-if="isOlderThanLatest">

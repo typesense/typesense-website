@@ -24,7 +24,7 @@
             v-for="tab in augmentedTabs"
             :key="tab"
             :data-active="tab === activeTab || undefined"
-            class="relative shrink-0 !mt-0 px-2.5 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors"
+            class="relative shrink-0 !mt-0 px-2.5 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors after:absolute after:inset-x-0 after:-inset-y-2.5"
             :class="tab === activeTab ? 'text-[var(--vp-c-text-1)]' : 'hover:text-[var(--vp-c-text-1)]'"
             @click="setActiveTab(tab, $event)"
           >

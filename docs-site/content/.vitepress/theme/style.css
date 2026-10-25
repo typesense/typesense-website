@@ -275,6 +275,11 @@ html {
   outline-style: none;
 }
 
+/* the toggle is a 24px line of text in the 48px bar */
+.VPLocalNavOutlineDropdown > button {
+  @apply after:absolute after:-inset-x-5 after:-inset-y-3;
+}
+
 /* scrolling on past the list would scroll the page, which slides the nav back
  * in and pushes the panel off the bottom */
 .VPLocalNavOutlineDropdown .items {
