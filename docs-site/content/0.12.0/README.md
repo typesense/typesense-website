@@ -5,7 +5,7 @@ sitemap:
 
 # Typesense v{{ $page.typesenseVersion }}
 
-This section of the documentation is for `v{{ $page.typesenseVersion }}`. Please use the version dropdown in the Navbar to switch to other versions.
+This section of the documentation is for `v{{ $page.typesenseVersion }}`. Please use the version dropdown to switch to other versions. It sits above "On this page" on wide screens, and in the top navigation on smaller ones.
 
 To learn more about Typesense, visit the non-version specific section of the documentation [here](/).
 

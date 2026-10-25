@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isApiPage"
+    v-if="currentVersion"
     class="inline-block"
     :class="[showOnMobileOnly ? 'mobile:!hidden' : '', showOnDesktopOnly ? 'max-mobile:!hidden' : '']"
   >
@@ -36,5 +36,5 @@ withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boole
   showOnDesktopOnly: false,
 })
 
-const { versions, currentVersion, isApiPage, versionHasPage, switchVersion } = useVersionSwitch()
+const { versions, currentVersion, versionHasPage, switchVersion } = useVersionSwitch()
 </script>

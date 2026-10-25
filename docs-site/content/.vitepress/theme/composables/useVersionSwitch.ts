@@ -18,8 +18,6 @@ export function useVersionSwitch() {
   // route.path carries the /docs/ base, version-relative logic doesn't want it
   const relPath = computed(() => route.path.replace(/^\/docs/, '') || '/')
 
-  const isApiPage = computed(() => /\/api(\/|$)/.test(relPath.value))
-
   const currentPath = computed(() => {
     if (!currentVersion.value) return '/'
     const m = relPath.value.match(new RegExp(`^/${currentVersion.value}(/.*)?$`))
@@ -80,7 +78,6 @@ export function useVersionSwitch() {
     versions,
     latestVersion,
     currentVersion,
-    isApiPage,
     showVersionWarning,
     isOlderThanLatest,
     isNewerThanLatest,

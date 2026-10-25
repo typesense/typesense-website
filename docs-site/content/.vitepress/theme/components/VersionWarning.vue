@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="visible"
+    v-if="showVersionWarning"
     :class="
       banner
         ? 'sticky bottom-0 z-10 -mx-6 mt-8 bg-[var(--vp-c-bg)] px-6 pb-5 before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-[linear-gradient(transparent,var(--vp-c-bg)_70%)] min-[768px]:-mx-8 min-[768px]:px-8 min-[1280px]:hidden'
@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import RouterLink from './RouterLink.vue'
 import { useVersionSwitch } from '../composables/useVersionSwitch'
 
@@ -37,13 +36,10 @@ withDefaults(defineProps<{ banner?: boolean }>(), { banner: false })
 
 const {
   latestVersion,
-  isApiPage,
   showVersionWarning,
   isOlderThanLatest,
   isNewerThanLatest,
   getVersionedPath,
   goToVersion,
 } = useVersionSwitch()
-
-const visible = computed(() => isApiPage.value && showVersionWarning.value)
 </script>
