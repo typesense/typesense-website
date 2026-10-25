@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import { getScrollOffset, useData } from 'vitepress'
+import { getScrollOffset, useData, useRoute } from 'vitepress'
 import VersionDropdown from './components/VersionDropdown.vue'
 import VersionWarning from './components/VersionWarning.vue'
 import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
@@ -64,6 +64,17 @@ function scrollActiveIntoView() {
   const active = document.querySelector<HTMLElement>('.VPDocAsideOutline .outline-link.active')
   if (active) active.scrollIntoView({ block: 'center', behavior: 'smooth' })
 }
+
+// the aside is one scroll box for every page, so a new page's outline would
+// open wherever the last one was left
+const route = useRoute()
+watch(
+  () => route.path,
+  () => {
+    if (!location.hash) document.querySelector('.aside-container')?.scrollTo(0, 0)
+  },
+  { flush: 'post' },
+)
 
 // vitepress runs useActiveAnchor for the desktop aside only, and short-circuits
 // it on isAsideEnabled, which is false at every width where the local nav
