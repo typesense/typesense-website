@@ -124,6 +124,17 @@ function readPreferredCopyLanguages(): CopyLanguageLabel[] {
   return readPreferredCopyLanguagesFromStorage()
 }
 
+// a shared ?languages= link, rather than the stored preference synced into the url
+function readLinkedCopyLanguage(): CopyLanguageLabel | null {
+  const fromUrl = readPreferredCopyLanguagesFromUrl()
+  if (fromUrl?.length !== 1) {
+    return null
+  }
+
+  const stored = readPreferredCopyLanguagesFromStorage()
+  return stored.length === 1 && stored[0] === fromUrl[0] ? null : fromUrl[0]
+}
+
 function writePreferredCopyLanguages(languages: unknown): CopyLanguageLabel[] {
   const normalizedLanguages = normalizeCopyLanguages(languages)
 
@@ -140,6 +151,7 @@ function writePreferredCopyLanguages(languages: unknown): CopyLanguageLabel[] {
 }
 
 export {
+  readLinkedCopyLanguage,
   readPreferredCopyLanguages,
   syncPreferredCopyLanguagesToUrl,
   writePreferredCopyLanguages,

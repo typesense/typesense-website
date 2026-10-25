@@ -1,5 +1,9 @@
 import { reactive, computed } from 'vue'
-import { readPreferredCopyLanguages, writePreferredCopyLanguages } from './util/copyLanguagePreferences'
+import {
+  readLinkedCopyLanguage,
+  readPreferredCopyLanguages,
+  writePreferredCopyLanguages,
+} from './util/copyLanguagePreferences'
 
 function readDefaultTab(): string | null {
   if (typeof window === 'undefined' || !window.localStorage) return null
@@ -21,7 +25,8 @@ function writeDefaultTab(tab: string): void {
 }
 
 const state = reactive<{ defaultTab: string | null; copyLanguages: string[] }>({
-  defaultTab: readDefaultTab(),
+  // a shared link shows its language without overwriting the reader's saved tab
+  defaultTab: readLinkedCopyLanguage() ?? readDefaultTab(),
   copyLanguages: readPreferredCopyLanguages(),
 })
 
