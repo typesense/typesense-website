@@ -12,7 +12,7 @@ The documentation is divided into the following sections, that you'll find links
 |:------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [**Overview**](./overview/what-is-typesense.md)                                                                   | This section gives you a birds-eye view of Typesense, why you'd want to use it and comparison with alternatives.                                                                                                                              |
 | <RouterLink :to="`/guide/`"><strong>Guide</strong></RouterLink>                                                   | This section walks you step-by-step through how you can use Typesense in different scenarios.                                                                                                                                                 |
-| <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> | This section gives you detailed information about all the API endpoints and parameters in each version of Typesense. When you're viewing any of the versions, you can click on the version dropdown in the Navbar to switch between versions. |
+| <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> | This section gives you detailed information about all the API endpoints and parameters in each version of Typesense. When you're viewing any of the versions, use the version dropdown to switch between them. It sits above "On this page" on wide screens, and in the top navigation on smaller ones. |
 
 ## Help us improve the docs
 
@@ -28,7 +28,7 @@ Use the "Edit page" link at the bottom of any page to edit it and submit a PR. W
 ## Typesense Versions
 
 Typesense is versioned software and each version has API documentation specifically tied to it. 
-You can use the dropdown on the top navigation bar to switch between versions.
+On any API Reference page, you can use the version dropdown to switch between versions.
 
 But here are direct clickable links as well:
 
