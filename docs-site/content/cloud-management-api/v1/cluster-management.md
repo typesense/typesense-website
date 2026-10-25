@@ -6,7 +6,7 @@ description: "Typesense Cloud cluster management API endpoints provision, retrie
 
 This section talks about how to use the [Typesense Cloud **Cluster Management API**](README.md).
 
-If you're looking for the Typesense Server API docs, see [here](/api).
+If you're looking for the Typesense Server API docs, see <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">here</RouterLink>.
 
 ## Workflow
 
@@ -16,7 +16,7 @@ Here's a typical sequence of API Calls you'd perform when using this API:
 2. Poll the [single cluster info endpoint](#get-single-cluster) to get the status of the cluster.
 3. Once the cluster has `status: in_service`, save the `hostnames` field returned by the cluster info endpoint.
 4. [Generate Typesense API keys](#generate-api-key) for the cluster and store these keys in a secrets store on your side.
-5. Now, you can make [Typesense API calls](/api) directly to your new cluster using the hostnames in Step 3 and API Keys in Step 4.
+5. Now, you can make <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense API calls</RouterLink> directly to your new cluster using the hostnames in Step 3 and API Keys in Step 4.
 6. Once you're done with the cluster, you can terminate it using the [lifecycle](#terminate-cluster) endpoint.
 
 The rest of this document will talk about the individual endpoints.
@@ -483,7 +483,7 @@ The response has the fields above, plus these:
 
 ## Generate API key
 
-This endpoint can be used to generate [Typesense Server API](/api) Keys for your cluster.
+This endpoint can be used to generate <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense Server API</RouterLink> Keys for your cluster.
 
 You can only generate API keys for a cluster, once its status changes to `in_service`.
 A free-tier cluster is usually `in_service` within seconds.

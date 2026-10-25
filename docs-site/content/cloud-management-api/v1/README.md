@@ -47,7 +47,7 @@ provision resources, manage their lifecycle, access control, etc. programmatical
 - Read the [usage you were invoiced for](./cluster-usage-and-costs.md#list-usage), [what each cluster cost per month](./cluster-usage-and-costs.md#list-costs-by-cluster) and [current prices](./prices.md#list-prices)
 
 Once you provision a cluster via this API,
-you'll then use the hostname(s) returned by this API to connect to your cluster's [Typesense Server API](/api) directly to index your data and search on it.
+you'll then use the hostname(s) returned by this API to connect to your cluster's <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense Server API</RouterLink> directly to index your data and search on it.
 
 ## Architecture
 

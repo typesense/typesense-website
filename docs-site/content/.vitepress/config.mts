@@ -83,7 +83,7 @@ export default defineConfig({
   scrollOffset: { selector: '[data-sticky-floor]', padding: 24 },
   ignoreDeadLinks: [
     link =>
-      /(?:^|\/)latest(?:\/|$)/.test(link) || link === '/api' || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
+      /(?:^|\/)latest(?:\/|$)/.test(link) || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
   ],
 
   head: [
