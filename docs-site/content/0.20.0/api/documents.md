@@ -1505,7 +1505,7 @@ indexed does not match the previously inferred type for that field.
 
 
 | Value      | Behavior                                            |
-| -------------- | ----------- |-------------------------------------------------------|
+| -------------- | --------------------------------------------------- |
 |`coerce_or_reject`  | Attempt coercion of the field's value to previously inferred type. If coercion fails, reject the write outright with an error message. |
 |`coerce_or_drop`    | Attempt coercion of the field's value to previously inferred type. If coercion fails, drop the particular field and index the rest of the document.  |
 |`drop`              | Drop the particular field and index rest of the document. |
