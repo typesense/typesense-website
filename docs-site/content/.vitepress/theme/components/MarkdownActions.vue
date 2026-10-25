@@ -67,7 +67,7 @@
             <TooltipContent>Choose copied languages</TooltipContent>
           </Tooltip>
         </PopoverAnchor>
-        <PopoverContent align="end" :side-offset="6" class="w-64 p-2">
+        <PopoverContent align="end" :side-offset="6" :collision-padding="16" class="w-64 p-2">
           <div class="mb-1 border-b border-line px-1 pb-2">
             <div class="text-sm font-semibold text-ink">Copy languages</div>
             <div class="pt-1 text-xs font-normal leading-snug text-ink-muted">
