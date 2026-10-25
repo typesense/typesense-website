@@ -319,14 +319,6 @@ html {
   background: linear-gradient(var(--vp-c-bg), transparent 50%);
 }
 
-
-/* the version warning already masks the outline scrolling under it, and its own
- * stacking context would paint the curtain over the box. every other page keeps
- * its fade */
-.aside:has(.version-warning) .aside-curtain {
-  @apply hidden;
-}
-
 .vp-doc .custom-block.tip {
   --vp-custom-block-tip-border: var(--brand-6-raw);
   --vp-custom-block-tip-text: var(--brand-12-raw);

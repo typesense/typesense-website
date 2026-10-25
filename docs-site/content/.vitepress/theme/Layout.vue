@@ -16,13 +16,11 @@
     <template #aside-top>
       <div ref="asideTop" class="aside-pinned-version">
         <VersionDropdown show-on-desktop-only class="mb-4" />
+        <VersionWarning />
       </div>
     </template>
     <template #aside-outline-before>
       <OutlineScrollProgress />
-    </template>
-    <template #aside-bottom>
-      <VersionWarning />
     </template>
     <template #doc-before>
       <StickyHeading />
