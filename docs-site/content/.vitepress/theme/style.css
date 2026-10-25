@@ -357,7 +357,10 @@ html {
   @apply bg-transparent py-3 font-semibold tracking-wider text-[var(--vp-c-text-3)];
 }
 .vp-doc td {
-  @apply leading-normal text-[var(--vp-c-text-2)];
+  @apply text-[15px] leading-relaxed text-[var(--vp-c-text-1)];
+}
+.vp-doc tr:has(> td[data-label='Description']) > td:first-child {
+  @apply font-semibold;
 }
 
 /* phones stack each row so the long cells get the whole width. the labels
