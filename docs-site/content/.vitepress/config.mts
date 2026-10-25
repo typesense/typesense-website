@@ -183,6 +183,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       md.use(mathjax3)
     },
   },
+  // mathjax3 renders its formulas as <mjx-*> custom elements
+  vue: { template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith('mjx-') } } },
 
   vite: {
     plugins: [
