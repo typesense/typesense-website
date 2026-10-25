@@ -255,14 +255,17 @@ html {
   @apply font-semibold;
 }
 
-/* one line, min-w-0 lets the flex child shrink enough for the ellipsis */
+/* long titles wrap. a single line keeps the default 32px row */
 .VPSidebarItem .text {
-  @apply min-w-0 line-clamp-1;
+  @apply !py-1.5 !leading-5;
 }
 
 /* nested outline indent, 16px -> 12px */
 .VPDocOutlineItem.nested {
   @apply pl-3;
+}
+.VPDocOutlineItem .outline-link {
+  @apply !whitespace-normal !py-1.5 !leading-5;
 }
 
 /* vitepress names the mobile dropdown's heading list `outline`, colliding with
