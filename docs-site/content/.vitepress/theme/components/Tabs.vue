@@ -88,7 +88,6 @@ async function setActiveTab(tab: string, event: MouseEvent) {
   const top = strip.getBoundingClientRect().top
   cmpActiveTab.value = tab
   docsStore.setDefaultTab(tab)
-  strip.scrollTo({ left: item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2, behavior: 'smooth' })
   // every group on the page switches, so the ones above can change height. scroll
   // anchoring misses that when its anchor is a code block that gets hidden, and
   // safari has none, so keep the clicked strip where it was on screen
@@ -106,6 +105,14 @@ watch(
   () => (activeItem.value = list.value?.querySelector<HTMLElement>('[data-active]') ?? null),
   { flush: 'post' },
 )
+
+// every strip on the page follows the chosen tab, not just the clicked one
+watch(activeItem, (item, previous) => {
+  const strip = item?.parentElement
+  if (!strip) return
+  const left = item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2
+  strip.scrollTo({ left, behavior: previous ? 'smooth' : 'instant' })
+})
 
 // also catches the font swapping in and tabs that mount hidden
 useResizeObserver(activeItem, () => {
