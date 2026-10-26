@@ -60,6 +60,14 @@ export default {
     app.config.globalProperties.$site = $site
     app.config.globalProperties.$page = $page
 
+    const redirect = (to: string) => {
+      // no page is loaded on a direct load or after a 404, so that url is dead.
+      // replacing it keeps it out of Back
+      if (typeof window !== 'undefined' && !router.route.component) history.replaceState(history.state, '', to)
+      router.go(to)
+      return false
+    }
+
     // `to` includes the /docs/ base
     router.onBeforeRouteChange = (to) => {
       const rest = to.startsWith(BASE) ? to.slice(BASE.length) : to.replace(/^\//, '')
@@ -67,16 +75,12 @@ export default {
       const version = segments[0]
 
       // vitepress has already turned a bare /docs/30.2 or /docs/latest into 30.2.html
-      const bare = segments.length === 1 && version.replace(/\.html$/, '')
-      if (bare && (bare === 'latest' || typesenseVersions.includes(bare))) {
-        router.go(`${BASE}${bare}/`)
-        return false
-      }
+      const [, bare, query = ''] = rest.match(/^([^/?#]+)\.html([?#].*)?$/) ?? []
+      if (bare === 'latest' || typesenseVersions.includes(bare)) return redirect(`${BASE}${bare}/${query}`)
 
       if (version === 'latest') {
         segments[0] = typesenseLatestVersion
-        router.go(BASE + segments.join('/'))
-        return false
+        return redirect(BASE + segments.join('/'))
       }
 
       // the guide is unversioned
@@ -88,8 +92,7 @@ export default {
         } else {
           segments.shift()
         }
-        router.go(BASE + segments.join('/'))
-        return false
+        return redirect(BASE + segments.join('/'))
       }
     }
 
