@@ -4,6 +4,9 @@ module.exports = {
     './content/**/*.md',
     './content/.vitepress/**/*.{js,ts,vue}',
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     // Breakpoints ported 1:1 from palette.styl (desktop-first max-width queries
     // in the original; expressed here as min-width tokens where possible).
