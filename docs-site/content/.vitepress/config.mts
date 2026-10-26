@@ -149,7 +149,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       { text: 'Overview', link: '/overview/what-is-typesense', activeMatch: '/overview/' },
       { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
       // useNavLinks swaps in the version being read
-      { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/' },
+      { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/|^/cloud-management-api/' },
       { text: 'Help', link: '/help' },
       { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
       { text: 'Typesense Cloud', link: 'https://cloud.typesense.org' },

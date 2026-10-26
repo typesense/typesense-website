@@ -27,7 +27,7 @@
             >
               {{ item.text }}
             </VPLink>
-            <VersionDropdown v-if="item.activeMatch === '/api/'" />
+            <VersionDropdown v-if="item.link.endsWith('/api/')" />
           </div>
         </nav>
 
