@@ -285,6 +285,12 @@ html {
 .VPLocalNavOutlineDropdown .items {
   @apply overscroll-contain;
 }
+.VPLocalNavOutlineDropdown .items.flyout-enter-active {
+  @apply transition-[opacity,transform] duration-200 ease-out-expo;
+}
+.VPLocalNavOutlineDropdown .items.flyout-leave-active {
+  @apply transition-[opacity,transform] duration-150 ease-out;
+}
 
 /* Layout.vue marks this row, vitepress only tracks the desktop aside. colour
  * alone, matching the panel's own "Return to top" accent, since the aside's
