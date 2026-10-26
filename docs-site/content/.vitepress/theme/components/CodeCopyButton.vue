@@ -2,7 +2,7 @@
   <button
     type="button"
     :title="isCopied ? 'Copied!' : 'Copy code'"
-    class="absolute right-2 top-2 z-[3] flex h-8 items-center overflow-hidden rounded-md border border-line transition-[opacity,background-color] duration-300 focus-visible:opacity-100 [:hover>&]:opacity-100 [@media(hover:none)]:opacity-100 [:hover>&+.lang]:opacity-0 [&:focus-visible+.lang]:opacity-0 [@media(hover:none)]:[&+.lang]:hidden"
+    class="absolute right-2 top-2 z-[3] flex h-8 items-center overflow-hidden rounded-md border border-line transition-[opacity,background-color] duration-150 focus-visible:opacity-100 [:hover>&]:opacity-100 [@media(hover:none)]:opacity-100 [:hover>&+.lang]:opacity-0 [&:focus-visible+.lang]:opacity-0 [@media(hover:none)]:[&+.lang]:hidden motion-safe:[&+.lang]:!duration-150"
     :class="isCopied ? 'bg-accent-selected text-accent' : 'bg-surface-gray text-ink opacity-0 hover:bg-surface-gray-hover'"
     @click="copy"
   >
