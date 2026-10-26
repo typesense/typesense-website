@@ -3,7 +3,7 @@
     v-if="frontmatter.layout !== 'home' && (!emptyAndNoSidebar || y >= navHeight)"
     :class="
       cn(
-        'VPLocalNav sticky left-0 z-[var(--vp-z-index-local-nav)] w-full border-b border-[var(--vp-c-gutter)] bg-[var(--vp-local-nav-bg-color)] pt-[var(--vp-layout-top-height,0px)] transition-[top] duration-300 motion-reduce:transition-none narrow:top-[var(--vp-nav-height)] min-[1280px]:hidden',
+        'VPLocalNav sticky left-0 z-[var(--vp-z-index-local-nav)] w-full border-b border-[var(--vp-c-gutter)] bg-[var(--vp-local-nav-bg-color)] pt-[var(--vp-layout-top-height,0px)] transition-[top] duration-300 ease-out-expo motion-reduce:transition-none narrow:top-[var(--vp-nav-height)] min-[1280px]:hidden',
         navHidden ? 'top-0' : 'top-[var(--vp-nav-height)]',
         hasSidebar && 'narrow:pl-[var(--vp-sidebar-width)]',
         empty && 'narrow:hidden',
