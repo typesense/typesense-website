@@ -413,7 +413,7 @@ html {
     @apply flex flex-wrap items-center gap-x-2 gap-y-1.5;
   }
   .vp-doc tr:has(> td[data-label='Description']) > td:first-child {
-    @apply text-accent [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-[length:inherit] [&_code]:text-inherit;
+    @apply min-w-0 text-accent [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-[length:inherit] [&_code]:text-inherit;
   }
   /* :where keeps the rules below able to override it */
   .vp-doc :where(tr:has(> td[data-label='Description'])) > td + td {
