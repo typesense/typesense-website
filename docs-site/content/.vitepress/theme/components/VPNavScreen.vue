@@ -1,7 +1,7 @@
 <template>
   <transition
-    enter-active-class="transition-opacity duration-300 [&>div]:transition-transform [&>div]:duration-300"
-    leave-active-class="transition-opacity duration-300 [&>div]:transition-transform [&>div]:duration-300"
+    enter-active-class="transition-opacity duration-200 ease-out-expo [&>div]:transition-transform [&>div]:duration-200 [&>div]:ease-out-expo"
+    leave-active-class="transition-opacity duration-150 ease-out [&>div]:transition-transform [&>div]:duration-150 [&>div]:ease-out"
     enter-from-class="opacity-0 [&>div]:-translate-y-2"
     leave-to-class="opacity-0 [&>div]:-translate-y-2"
     @enter="isLocked = true"
