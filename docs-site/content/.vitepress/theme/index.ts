@@ -104,7 +104,7 @@ export default {
           const link = (e.target as Element).closest?.('a')
           // vitepress glides to a heading's own # link, and an instant correction would cut that short
           if (e.defaultPrevented && link?.hash && link.pathname === location.pathname) {
-            settleAnchor(link.classList.contains('header-anchor'))
+            settleAnchor(link.classList.contains('header-anchor') && !matchMedia('(prefers-reduced-motion: reduce)').matches)
           }
         },
         { capture: true },

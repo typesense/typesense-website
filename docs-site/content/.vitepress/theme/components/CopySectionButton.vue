@@ -58,12 +58,13 @@ function extractSection(markdown: string): string {
 
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i]
-    const fenceMatch = line.match(/^\s*(```+|~~~+)/)
+    // like markdown-it, only a bare fence at least as long as the opener closes it
+    const fenceMatch = line.match(/^\s*(```+|~~~+)(.*)$/)
     if (fenceMatch) {
       if (!inFence) {
         inFence = true
-        fenceMarker = fenceMatch[1][0]
-      } else if (line.trimStart().startsWith(fenceMarker)) {
+        fenceMarker = fenceMatch[1]
+      } else if (fenceMatch[1].startsWith(fenceMarker) && !fenceMatch[2].trim()) {
         inFence = false
       }
       continue
