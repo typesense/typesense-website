@@ -7,7 +7,7 @@
     @click="copy"
   >
     <span
-      class="grid transition-[grid-template-columns] duration-300 ease-out-expo motion-reduce:transition-none"
+      class="grid transition-[grid-template-columns] duration-200 ease-out-expo motion-reduce:transition-none"
       :class="isCopied ? 'grid-cols-[1fr]' : 'grid-cols-[0fr]'"
       :aria-hidden="!isCopied"
     >
@@ -17,12 +17,12 @@
     </span>
     <span class="relative flex size-[30px] items-center justify-center">
       <Copy
-        class="absolute size-3.5 transition-all duration-300"
-        :class="isCopied ? 'scale-0 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'"
+        class="absolute size-3.5 transition-[transform,opacity,filter] duration-200 ease-out-expo"
+        :class="isCopied ? 'scale-50 opacity-0 blur-[2px]' : 'scale-100 opacity-100'"
       />
       <Check
-        class="absolute size-3.5 transition-all duration-300"
-        :class="isCopied ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'"
+        class="absolute size-3.5 transition-[transform,opacity,filter] duration-200 ease-out-expo"
+        :class="isCopied ? 'scale-100 opacity-100' : 'scale-50 opacity-0 blur-[2px]'"
       />
     </span>
   </button>

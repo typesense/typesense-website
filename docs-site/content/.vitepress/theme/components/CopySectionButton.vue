@@ -10,12 +10,12 @@
     >
       <span class="relative flex h-[0.65em] w-[0.65em] items-center justify-center">
         <Copy
-          class="absolute h-full w-full transition-all duration-300"
-          :class="isCopied ? 'scale-0 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'"
+          class="absolute h-full w-full transition-[transform,opacity,filter] duration-200 ease-out-expo"
+          :class="isCopied ? 'scale-50 opacity-0 blur-[2px]' : 'scale-100 opacity-100'"
         />
         <Check
-          class="absolute h-full w-full transition-all duration-300"
-          :class="isCopied ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'"
+          class="absolute h-full w-full transition-[transform,opacity,filter] duration-200 ease-out-expo"
+          :class="isCopied ? 'scale-100 opacity-100' : 'scale-50 opacity-0 blur-[2px]'"
         />
       </span>
     </button>
