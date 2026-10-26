@@ -13,7 +13,7 @@
           <li
             v-if="pill"
             aria-hidden="true"
-            class="pointer-events-none absolute left-0 top-0 !mt-0 rounded-lg border border-border bg-muted shadow-sm transition-[transform,width] duration-500 ease-out-expo motion-reduce:transition-none"
+            class="pointer-events-none absolute left-0 top-0 !mt-0 rounded-lg border border-border bg-muted shadow-sm transition-[transform,width] duration-300 ease-out-expo motion-reduce:transition-none"
             :style="{
               transform: `translate(${pill.left}px, ${pill.top}px)`,
               width: `${pill.width}px`,

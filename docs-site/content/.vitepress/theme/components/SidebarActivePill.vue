@@ -3,7 +3,7 @@
     aria-hidden="true"
     class="pointer-events-none absolute left-0 top-0 -z-10 rounded-lg bg-accent-selected motion-reduce:transition-none"
     :class="[
-      animate && 'narrow:transition-[transform,width,height] narrow:duration-500 narrow:ease-out-expo',
+      animate && 'narrow:transition-[transform,width,height] narrow:duration-300 narrow:ease-out-expo',
       rect ? 'opacity-100' : 'opacity-0',
     ]"
     :style="
