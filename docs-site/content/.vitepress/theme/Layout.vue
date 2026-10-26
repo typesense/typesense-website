@@ -62,7 +62,8 @@ let observer: MutationObserver | undefined
 
 function scrollActiveIntoView() {
   const active = document.querySelector<HTMLElement>('.VPDocAsideOutline .outline-link.active')
-  if (active) active.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (active) active.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'instant' })
 }
 
 // the aside is one scroll box for every page, so a new page's outline would

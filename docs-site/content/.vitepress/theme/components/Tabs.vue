@@ -117,7 +117,8 @@ watch(activeItem, (item, previous) => {
     item.offsetLeft + item.offsetWidth <= strip.scrollLeft + strip.clientWidth - inset
   if (shown) return
   const left = item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2
-  strip.scrollTo({ left, behavior: previous ? 'smooth' : 'instant' })
+  const smooth = previous && !matchMedia('(prefers-reduced-motion: reduce)').matches
+  strip.scrollTo({ left, behavior: smooth ? 'smooth' : 'instant' })
 })
 
 // also catches the font swapping in and tabs that mount hidden
