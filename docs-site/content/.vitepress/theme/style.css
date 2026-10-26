@@ -373,7 +373,7 @@ html {
   @apply bg-transparent py-3 font-semibold tracking-wider text-[var(--vp-c-text-3)];
 }
 .vp-doc td {
-  @apply text-[15px] leading-relaxed text-[var(--vp-c-text-1)];
+  @apply leading-relaxed text-[var(--vp-c-text-1)];
 }
 .vp-doc tr:has(> td[data-label='Description']) > td:first-child {
   @apply font-semibold;
