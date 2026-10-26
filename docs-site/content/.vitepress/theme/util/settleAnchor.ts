@@ -20,7 +20,13 @@ export function settleAnchorWith(fn = offsetDrift) {
 // so without this the heading ends up screens below the fold
 export function settleAnchor() {
   release?.()
-  const id = decodeURIComponent(location.hash.slice(1))
+  let id: string
+  // a stray % throws, and on a direct load the app only mounts after this
+  try {
+    id = decodeURIComponent(location.hash.slice(1))
+  } catch {
+    return
+  }
   // back/forward restores its own saved position
   if (!id || history.state?.scrollPosition) return
 
