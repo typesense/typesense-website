@@ -114,9 +114,14 @@ module.exports = {
           '45%, 55%': { clipPath: 'inset(0)' },
           '100%': { clipPath: 'inset(0 0 0 100%)' },
         },
+        'anchor-underline-fade': {
+          '0%, 100%': { opacity: '0' },
+          '15%, 70%': { opacity: '1' },
+        },
       },
       animation: {
         'anchor-underline': 'anchor-underline 1.3s ease-in-out forwards',
+        'anchor-underline-fade': 'anchor-underline-fade 1.3s ease forwards',
       },
     },
   },

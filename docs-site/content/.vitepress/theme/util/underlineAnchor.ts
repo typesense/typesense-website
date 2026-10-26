@@ -7,7 +7,7 @@ const UNDERLINE = [
   'after:rounded-full',
   'after:bg-[var(--vp-c-brand-1)]',
   'after:animate-anchor-underline',
-  'motion-reduce:after:hidden',
+  'motion-reduce:after:!animate-anchor-underline-fade',
 ]
 
 // the last letter of the last line. past it sit the header anchor, a trailing
