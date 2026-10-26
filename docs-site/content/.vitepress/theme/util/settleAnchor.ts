@@ -34,8 +34,8 @@ export function settleAnchor(smooth = false) {
     const target = document.getElementById(id)
     if (!target) return
     const by = drift(target)
-    if (Math.abs(by) >= 1) window.scrollBy({ top: by, behavior: smooth ? 'smooth' : 'auto' })
-    smooth = false
+    // absolute, so a correction mid-glide retargets from where the page is now
+    if (Math.abs(by) >= 1) window.scrollTo({ top: window.scrollY + by, behavior: smooth ? 'smooth' : 'auto' })
   })
   observer.observe(document.body)
 
