@@ -99,7 +99,10 @@ export default {
         'click',
         (e) => {
           const link = (e.target as Element).closest?.('a')
-          if (e.defaultPrevented && link?.hash && link.pathname === location.pathname) settleAnchor()
+          // vitepress glides to a heading's own # link, and an instant correction would cut that short
+          if (e.defaultPrevented && link?.hash && link.pathname === location.pathname) {
+            settleAnchor(link.classList.contains('header-anchor'))
+          }
         },
         { capture: true },
       )
