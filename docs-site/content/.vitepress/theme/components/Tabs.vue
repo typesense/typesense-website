@@ -110,6 +110,12 @@ watch(
 watch(activeItem, (item, previous) => {
   const strip = item?.parentElement
   if (!strip) return
+  // the strip's own padding sits under its edge fades
+  const inset = parseFloat(getComputedStyle(strip).paddingLeft)
+  const shown =
+    item.offsetLeft >= strip.scrollLeft + inset &&
+    item.offsetLeft + item.offsetWidth <= strip.scrollLeft + strip.clientWidth - inset
+  if (shown) return
   const left = item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2
   strip.scrollTo({ left, behavior: previous ? 'smooth' : 'instant' })
 })
