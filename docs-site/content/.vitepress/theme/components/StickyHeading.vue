@@ -1,7 +1,7 @@
 <template>
   <div
     ref="anchor"
-    class="sticky z-10 h-0 transition-[top] duration-300 ease-out-expo motion-reduce:transition-none narrow:top-[calc(var(--vp-nav-height)+48px)] min-[1280px]:top-[var(--vp-nav-height)]"
+    class="sticky z-10 h-0 transition-[top] duration-300 motion-reduce:transition-none narrow:top-[calc(var(--vp-nav-height)+48px)] min-[1280px]:top-[var(--vp-nav-height)]"
     :class="navHidden ? 'top-12' : 'top-[calc(var(--vp-nav-height)+48px)]'"
     aria-hidden="true"
     @transitionend.self="onScroll"
