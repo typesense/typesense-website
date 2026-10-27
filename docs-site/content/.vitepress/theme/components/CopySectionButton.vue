@@ -2,9 +2,13 @@
   <ClientOnly>
     <button
       v-if="pageMarkdown"
+      ref="button"
       type="button"
-      class="copy-section-button inline-flex ml-2 px-1 border-0 bg-transparent align-middle cursor-pointer opacity-0 transition-opacity duration-150"
-      :class="isCopied ? '!opacity-100 text-accent' : 'text-accent hover:text-accent-hover'"
+      class="copy-section-button inline-flex ml-2 px-1 border-0 bg-transparent align-middle cursor-pointer opacity-0 transition-opacity duration-150 focus-visible:opacity-100"
+      :class="[
+        isCopied ? '!opacity-100 text-accent' : 'text-accent hover:text-accent-hover',
+        nearTop && '[@media(hover:none)]:opacity-100',
+      ]"
       :title="isCopied ? 'Copied!' : 'Copy this section as Markdown'"
       @click="copySection"
     >
@@ -24,6 +28,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue'
+import { useElementVisibility } from '@vueuse/core'
 import { useData } from 'vitepress'
 import { Copy, Check } from 'lucide-vue-next'
 import { docsStore } from '../store'
@@ -36,6 +41,10 @@ const props = withDefaults(defineProps<{ headingText: string; headingLevel: numb
   headingIndex: 0,
 })
 const { page } = useData()
+
+const button = ref<HTMLElement | null>(null)
+// touch has no hover to reveal it, so only headings in the top half of the screen show theirs
+const nearTop = useElementVisibility(button, { rootMargin: '0px 0px -50% 0px' })
 
 const isCopied = ref(false)
 let copyTimeout: ReturnType<typeof setTimeout> | undefined
