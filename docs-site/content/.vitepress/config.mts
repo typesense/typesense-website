@@ -192,6 +192,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     lineNumbers: false,
     // vuepress numbered repeated headings x, x-2, x-3, and old links still use those ids
     anchor: { uniqueSlugStartIndex: 2 },
+    // otherwise a line opening with a RouterLink becomes an html block that splits its paragraph
+    component: { inlineTags: ['RouterLink'] },
     // loads markdown-it-mathjax3 and marks its <mjx-*> output as custom elements
     math: true,
     config(md) {
