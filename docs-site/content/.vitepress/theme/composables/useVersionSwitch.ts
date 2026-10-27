@@ -12,6 +12,8 @@ export function useVersionSwitch() {
   const versions = computed<string[]>(() => theme.value.typesenseVersions || [])
   const latestVersion = computed<string>(() => theme.value.typesenseLatestVersion)
   const currentVersion = computed<string | null>(() => (page.value as TypesensePageData).typesenseVersion ?? null)
+  // unlike currentVersion, also covers 0.11.0 and 0.11.1, which dropped out of typesenseVersions
+  const pageVersion = computed(() => page.value.relativePath.match(/^(\d+\.\d+(?:\.\d+)?)\//)?.[1] ?? null)
   const versionsWithoutPage = computed<string[]>(
     () => (page.value as TypesensePageData).typesenseVersionsWithoutPage ?? [],
   )
@@ -55,8 +57,8 @@ export function useVersionSwitch() {
 
   // every version keeps the same /api/… layout, only which pages exist differs
   function getVersionedPath(version: string): string {
-    // the warning's link to latest can't be greyed out
-    if (!versionHasPage(version)) return versionLandingPath(version)
+    // the warning's link to latest can't be greyed out, and 0.11.x pages carry no version data
+    if (!currentVersion.value || !versionHasPage(version)) return versionLandingPath(version)
     return `/${version}${currentPath.value}.html${readHash()}`.replace(/\/\.html/, '/')
   }
 
@@ -78,6 +80,7 @@ export function useVersionSwitch() {
     versions,
     latestVersion,
     currentVersion,
+    pageVersion,
     showVersionWarning,
     isOlderThanLatest,
     isNewerThanLatest,

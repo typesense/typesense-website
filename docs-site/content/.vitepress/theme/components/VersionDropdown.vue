@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="currentVersion"
+    v-if="pageVersion"
     class="inline-block"
     :class="[showOnMobileOnly ? 'mobile:!hidden' : '', showOnDesktopOnly ? 'max-mobile:!hidden' : '']"
   >
@@ -9,6 +9,8 @@
         class="box-border h-8 cursor-pointer appearance-none rounded-md border border-line bg-surface-gray pl-3 pr-8 text-sm font-medium max-[767px]:text-base leading-none text-ink hover:bg-surface-gray-hover focus:outline-none"
         @change="switchVersion"
       >
+        <!-- an unlisted version would otherwise show the first option, which then can't be picked -->
+        <option v-if="!currentVersion" value="" selected disabled>v{{ pageVersion }}</option>
         <option
           v-for="version in versions"
           :key="version"
@@ -35,5 +37,5 @@ withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boole
   showOnDesktopOnly: false,
 })
 
-const { versions, currentVersion, versionHasPage, switchVersion } = useVersionSwitch()
+const { versions, currentVersion, pageVersion, versionHasPage, switchVersion } = useVersionSwitch()
 </script>
