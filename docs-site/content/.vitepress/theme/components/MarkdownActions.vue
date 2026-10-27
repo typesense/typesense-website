@@ -1,8 +1,6 @@
 <template>
   <TooltipProvider :delay-duration="200">
-    <ButtonGroup
-      class="markdown-actions shrink-0 overflow-hidden rounded-md border border-line bg-surface-gray"
-    >
+    <ButtonGroup class="markdown-actions shrink-0 overflow-hidden rounded-md border border-line bg-surface-gray">
       <!-- copy markdown -->
       <Tooltip>
         <TooltipTrigger as-child>
@@ -71,11 +69,14 @@
           <div class="mb-1 border-b border-line px-1 pb-2">
             <div class="text-sm font-semibold text-ink">Copy languages</div>
             <div class="pt-1 text-xs font-normal leading-snug text-ink-muted">
-              Choose which tabbed code examples are included when copying markdown. With none selected, the current tab is copied.
+              Choose which tabbed code examples are included when copying markdown. With none selected, the current tab
+              is copied.
             </div>
           </div>
           <div class="flex items-center justify-between gap-3 px-1 pb-1">
-            <span class="text-[0.68rem] font-medium text-ink-light">{{ availableLanguageCount }} available on this page</span>
+            <span class="text-[0.68rem] font-medium text-ink-light"
+              >{{ availableLanguageCount }} available on this page</span
+            >
             <button
               type="button"
               class="cursor-pointer text-[0.68rem] font-semibold text-accent hover:underline"
@@ -171,9 +172,7 @@ const selectedLanguages = computed<string[]>(() => docsStore.state.copyLanguages
 const hasLanguageFilters = computed(() => presentLanguages.value.length > 0)
 const availableLanguageCount = computed(() => presentLanguages.value.length)
 const allAvailableLanguagesSelected = computed(
-  () =>
-    presentLanguages.value.length > 0 &&
-    presentLanguages.value.every((l) => selectedLanguages.value.includes(l)),
+  () => presentLanguages.value.length > 0 && presentLanguages.value.every(l => selectedLanguages.value.includes(l)),
 )
 
 function isLanguageSelected(language: string) {
@@ -185,14 +184,14 @@ function isLanguagePresent(language: string) {
 function handleLanguageClick(language: string) {
   if (!isLanguagePresent(language)) return
   const next = isLanguageSelected(language)
-    ? selectedLanguages.value.filter((l) => l !== language)
+    ? selectedLanguages.value.filter(l => l !== language)
     : selectedLanguages.value.concat(language)
   docsStore.setCopyLanguages(next)
 }
 function toggleAllAvailableLanguages() {
   const next = allAvailableLanguagesSelected.value
-    ? selectedLanguages.value.filter((l) => !isLanguagePresent(l))
-    : languageOptions.filter((l) => (isLanguagePresent(l) ? true : selectedLanguages.value.includes(l)))
+    ? selectedLanguages.value.filter(l => !isLanguagePresent(l))
+    : languageOptions.filter(l => (isLanguagePresent(l) ? true : selectedLanguages.value.includes(l)))
   docsStore.setCopyLanguages(next)
 }
 

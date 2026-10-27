@@ -10,9 +10,7 @@ export function useVersionSwitch() {
 
   const versions = computed<string[]>(() => theme.value.typesenseVersions || [])
   const latestVersion = computed<string>(() => theme.value.typesenseLatestVersion)
-  const currentVersion = computed<string | null>(
-    () => (page.value as TypesensePageData).typesenseVersion ?? null,
-  )
+  const currentVersion = computed<string | null>(() => (page.value as TypesensePageData).typesenseVersion ?? null)
   const versionsWithoutPage = computed<string[]>(
     () => (page.value as TypesensePageData).typesenseVersionsWithoutPage ?? [],
   )
@@ -50,9 +48,7 @@ export function useVersionSwitch() {
     return 0
   }
 
-  const showVersionWarning = computed(
-    () => !!currentVersion.value && currentVersion.value !== latestVersion.value,
-  )
+  const showVersionWarning = computed(() => !!currentVersion.value && currentVersion.value !== latestVersion.value)
   const isOlderThanLatest = computed(() => compareVersions(currentVersion.value, latestVersion.value) < 0)
   const isNewerThanLatest = computed(() => compareVersions(currentVersion.value, latestVersion.value) > 0)
 

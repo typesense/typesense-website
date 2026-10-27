@@ -22,8 +22,8 @@ function getVisibleCopyTabs(copyTabGroups: CopyTabGroup[], defaultTab: string | 
     })
   }
 
-  return copyTabGroups.map(group =>
-    activeTabsByGroup.get(JSON.stringify(group.tabs))?.shift() || defaultTab || group.tabs[0],
+  return copyTabGroups.map(
+    group => activeTabsByGroup.get(JSON.stringify(group.tabs))?.shift() || defaultTab || group.tabs[0],
   )
 }
 
@@ -41,8 +41,12 @@ function collapseBlankLinesAfterFences(markdown: string): string {
 
     if (openFence) {
       result.push(line)
-      if (fence && fence[1][0] === openFence[0] && fence[1].length >= openFence.length &&
-        trimmed.slice(fence[1].length).trim() === '') {
+      if (
+        fence &&
+        fence[1][0] === openFence[0] &&
+        fence[1].length >= openFence.length &&
+        trimmed.slice(fence[1].length).trim() === ''
+      ) {
         openFence = null
         afterFence = true
       }
@@ -105,7 +109,4 @@ function filterMarkdownByCopyLanguages(
   return collapseBlankLinesAfterFences(filteredMarkdown)
 }
 
-export {
-  filterMarkdownByCopyLanguages,
-  getVisibleCopyTabs,
-}
+export { filterMarkdownByCopyLanguages, getVisibleCopyTabs }

@@ -49,9 +49,7 @@ const nearTop = useElementVisibility(button, { rootMargin: '0px 0px -50% 0px' })
 const isCopied = ref(false)
 let copyTimeout: ReturnType<typeof setTimeout> | undefined
 
-const pageMarkdown = computed<string | undefined>(() =>
-  decodeMarkdown((page.value as TypesensePageData).markdown),
-)
+const pageMarkdown = computed<string | undefined>(() => decodeMarkdown((page.value as TypesensePageData).markdown))
 const tabGroups = computed(() => (page.value as TypesensePageData).markdownCopyTabGroups || [])
 
 // runs to the next heading of the same or higher level, ignoring the # inside
@@ -84,7 +82,12 @@ function extractSection(markdown: string): string {
     if (!m) continue
     const level = m[1].length
     if (start === -1) {
-      const same = level === props.headingLevel && m[2].trim().replace(/\s*#.*$/, '').trim() === target
+      const same =
+        level === props.headingLevel &&
+        m[2]
+          .trim()
+          .replace(/\s*#.*$/, '')
+          .trim() === target
       if (same && matches++ === props.headingIndex) start = i
       continue
     }

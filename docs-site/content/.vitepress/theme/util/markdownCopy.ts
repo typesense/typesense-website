@@ -213,7 +213,13 @@ function isRouterLinkOpenAt(source: string, index: number): boolean {
     return false
   }
   const nextCharacter = source.charAt(index + '<RouterLink'.length)
-  return nextCharacter === ' ' || nextCharacter === '\t' || nextCharacter === '\n' || nextCharacter === '>' || nextCharacter === '/'
+  return (
+    nextCharacter === ' ' ||
+    nextCharacter === '\t' ||
+    nextCharacter === '\n' ||
+    nextCharacter === '>' ||
+    nextCharacter === '/'
+  )
 }
 
 function getFencedLineRanges(tokens: Token[]): [number, number][] {
@@ -520,8 +526,4 @@ function analyzeMarkdownForCopy(markdown: string): MarkdownCopyAnalysis {
   }
 }
 
-export {
-  analyzeMarkdownForCopy,
-  stripVueMarkdownWrappers,
-  transformRouterLinks,
-}
+export { analyzeMarkdownForCopy, stripVueMarkdownWrappers, transformRouterLinks }

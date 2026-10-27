@@ -73,9 +73,9 @@ const closeScreen = inject('close-screen') as () => void
 const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 const links = useNavLinks()
-const internal = computed(() => links.value.filter((item) => !EXTERNAL_URL_RE.test(item.link)))
+const internal = computed(() => links.value.filter(item => !EXTERNAL_URL_RE.test(item.link)))
 const external = computed(() => [
-  ...links.value.filter((item) => EXTERNAL_URL_RE.test(item.link)),
+  ...links.value.filter(item => EXTERNAL_URL_RE.test(item.link)),
   ...(theme.value.socialLinks ?? []).map(({ link, ariaLabel }) => ({ text: ariaLabel, link })),
 ])
 

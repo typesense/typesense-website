@@ -24,7 +24,9 @@ const COPY_LANGUAGE_OPTIONS = Object.keys(COPY_LANGUAGES) as CopyLanguageLabel[]
 const COPY_LANGUAGE_SLUGS = Object.values(COPY_LANGUAGES)
 
 function getCopyLanguageByLabel(label: string): CopyLanguage | null {
-  return label in COPY_LANGUAGES ? { label: label as CopyLanguageLabel, slug: COPY_LANGUAGES[label as CopyLanguageLabel] } : null
+  return label in COPY_LANGUAGES
+    ? { label: label as CopyLanguageLabel, slug: COPY_LANGUAGES[label as CopyLanguageLabel] }
+    : null
 }
 
 function getCopyLanguageBySlug(slug: string): CopyLanguage | null {

@@ -52,7 +52,7 @@ const { Layout } = DefaultTheme
 // typesense-docsearch keys its dark palette off html[data-theme], vitepress
 // off a .dark class
 const { isDark } = useData()
-watch(isDark, (dark) => {
+watch(isDark, dark => {
   document.documentElement.dataset.theme = dark ? 'dark' : 'light'
 })
 
@@ -95,13 +95,11 @@ function absoluteTop(el: HTMLElement | null) {
 }
 
 function syncLocalNavActive() {
-  const links = [
-    ...document.querySelectorAll<HTMLAnchorElement>('.VPLocalNavOutlineDropdown .outline-link'),
-  ]
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.VPLocalNavOutlineDropdown .outline-link')]
   if (!links.length) return
 
   const headers = links
-    .map((link) => ({
+    .map(link => ({
       link,
       top: absoluteTop(document.getElementById(decodeURIComponent(link.hash.slice(1)))),
     }))
@@ -114,7 +112,7 @@ function syncLocalNavActive() {
   // nothing is current while the page sits at the very top
   const active = window.scrollY < 1 ? undefined : reached[reached.length - 1]?.link
 
-  links.forEach((link) => link.classList.toggle('active', link === active))
+  links.forEach(link => link.classList.toggle('active', link === active))
 }
 
 // the panel is its own scroll box, so a long outline can open with the current
@@ -159,8 +157,7 @@ onMounted(() => {
 
   if (asideTop.value) {
     const aside = asideTop.value.closest<HTMLElement>('.VPDocAside')
-    const sync = () =>
-      aside?.style.setProperty('--aside-pinned-top', `${asideTop.value?.offsetHeight ?? 0}px`)
+    const sync = () => aside?.style.setProperty('--aside-pinned-top', `${asideTop.value?.offsetHeight ?? 0}px`)
     resize = new ResizeObserver(sync)
     resize.observe(asideTop.value)
     sync()

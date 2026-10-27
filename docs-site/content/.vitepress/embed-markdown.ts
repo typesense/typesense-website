@@ -2,11 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { SiteConfig } from 'vitepress'
 import type { Connect } from 'vite'
-import {
-  analyzeMarkdownForCopy,
-  stripVueMarkdownWrappers,
-  transformRouterLinks,
-} from './theme/util/markdownCopy'
+import { analyzeMarkdownForCopy, stripVueMarkdownWrappers, transformRouterLinks } from './theme/util/markdownCopy'
 import { COPY_LANGUAGE_SLUGS, getCopyLanguageByLabel, getCopyLanguageBySlug } from './theme/util/copyLanguages'
 import { filterMarkdownByCopyLanguages } from './theme/util/markdownCopyFilter'
 import { buildLlmsArtifacts, writeLlmsArtifacts } from './theme/util/llmsTxt'
@@ -97,10 +93,7 @@ export function injectPageMarkdown(pageData: TypesensePageData, srcDir: string):
     const data = analyzeMarkdownForCopy(transformRouterLinks(raw, ctx))
 
     // base64 keeps a literal </script> from ending the inline __pageData block
-    pageData.markdown = Buffer.from(
-      prependAgentIndex(data.markdown),
-      'utf-8',
-    ).toString('base64')
+    pageData.markdown = Buffer.from(prependAgentIndex(data.markdown), 'utf-8').toString('base64')
     pageData.markdownCopyTabGroups = data.copyTabGroups.map(group => ({
       ...group,
       slots: group.slots.map(slot => ({
@@ -228,7 +221,8 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
   const outDir = siteConfig.outDir
   const cleanedByPath = new Map<string, string>()
   const pageVersionByPath = new Map<string, string | null>()
-  const llmsPages: Array<{ path: string; relativePath: string; title: string; frontmatter: Record<string, string> }> = []
+  const llmsPages: Array<{ path: string; relativePath: string; title: string; frontmatter: Record<string, string> }> =
+    []
   let variantCount = 0
   let latestCount = 0
 
@@ -262,7 +256,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
       const fm = parseFrontmatter(raw)
       llmsPages.push({ path: urlPath, relativePath: rel, title: titleFor(raw, fm), frontmatter: fm })
 
-      writeWithLatestAlias(urlPath, prependAgentIndex(baseMarkdown), (p) =>
+      writeWithLatestAlias(urlPath, prependAgentIndex(baseMarkdown), p =>
         p.endsWith('/') ? path.join(outDir, p, 'README.md') : path.join(outDir, p.replace(/\.html$/, '.md')),
       )
 
@@ -273,7 +267,7 @@ export function generateMarkdownArtifacts(siteConfig: SiteConfig): void {
         if (!descriptor) continue
         const filtered = filterMarkdownByCopyLanguages(cleaned, copyTabGroups, [language], true)
         const variantMarkdown = transformRouterLinks(filtered, ctx)
-        writeWithLatestAlias(urlPath, prependAgentIndex(variantMarkdown), (p) =>
+        writeWithLatestAlias(urlPath, prependAgentIndex(variantMarkdown), p =>
           p.endsWith('/')
             ? path.join(outDir, p, `README.${descriptor.slug}.md`)
             : path.join(outDir, p.replace(/\.html$/, `.${descriptor.slug}.md`)),

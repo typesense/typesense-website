@@ -10,6 +10,6 @@ export function useNavLinks() {
     const version = (page.value as TypesensePageData).typesenseVersion ?? theme.value.typesenseLatestVersion
     return (theme.value.nav ?? [])
       .filter((item): item is DefaultTheme.NavItemWithLink => 'link' in item)
-      .map((item) => (item.link.endsWith('/api/') ? { ...item, link: `/${version}/api/` } : item))
+      .map(item => (item.link.endsWith('/api/') ? { ...item, link: `/${version}/api/` } : item))
   })
 }

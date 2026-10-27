@@ -79,10 +79,8 @@ function outset(el: HTMLElement) {
 
 function pin(headers: Header[], bar: HTMLElement, top: number, last: number): Pinned {
   const line = top + inset(bar)
-  const past = headers.map(
-    ({ element }) => line - element.getBoundingClientRect().top - inset(element),
-  )
-  const index = past.filter((distance) => distance >= 0).length - 1
+  const past = headers.map(({ element }) => line - element.getBoundingClientRect().top - inset(element))
+  const index = past.filter(distance => distance >= 0).length - 1
   const end = headers[index + 1]?.element.getBoundingClientRect().top ?? last
   const height = bar.offsetHeight
   return {
@@ -154,7 +152,7 @@ function barHeight(bar: HTMLElement, title: string) {
 function rest(target: HTMLElement) {
   if (!anchor.value || !h2Bar.value || !h3Bar.value) return 0
   // mid-slide, the computed top is wherever the nav has got to
-  anchor.value.getAnimations().forEach((animation) => animation.finish())
+  anchor.value.getAnimations().forEach(animation => animation.finish())
   const top = parseFloat(getComputedStyle(anchor.value).top)
   const upTo = ({ element }: Header) =>
     element === target || !!(element.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING)

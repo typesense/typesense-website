@@ -62,13 +62,11 @@ const cmpActiveTab = ref(props.tabs[0])
 
 const augmentedTabs = computed(() =>
   // "other languages" has no business on e.g. sample response tabs
-  props.tabs.includes('Ruby') && props.tabs.includes('Python')
-    ? [...props.tabs, 'Other Languages']
-    : props.tabs,
+  props.tabs.includes('Ruby') && props.tabs.includes('Python') ? [...props.tabs, 'Other Languages'] : props.tabs,
 )
 
 const activeTab = computed(() => {
-  const preferred = augmentedTabs.value.find((tab) => tab === docsStore.state.defaultTab)
+  const preferred = augmentedTabs.value.find(tab => tab === docsStore.state.defaultTab)
   if (preferred) return preferred
   const singleLanguage = docsStore.singlePreferredCopyLanguage.value
   if (singleLanguage && augmentedTabs.value.includes(singleLanguage)) {
@@ -78,7 +76,7 @@ const activeTab = computed(() => {
 })
 
 // without this the tabs snap back to the first when the language override drops
-watch(activeTab, (newTab) => {
+watch(activeTab, newTab => {
   if (newTab && newTab !== cmpActiveTab.value) cmpActiveTab.value = newTab
 })
 
@@ -100,11 +98,9 @@ const activeItem = ref<HTMLElement | null>(null)
 const pill = ref<{ left: number; top: number; width: number; height: number } | null>(null)
 
 // the list only exists once ClientOnly mounts
-watch(
-  [list, activeTab],
-  () => (activeItem.value = list.value?.querySelector<HTMLElement>('[data-active]') ?? null),
-  { flush: 'post' },
-)
+watch([list, activeTab], () => (activeItem.value = list.value?.querySelector<HTMLElement>('[data-active]') ?? null), {
+  flush: 'post',
+})
 
 // every strip on the page follows the chosen tab, not just the clicked one
 watch(activeItem, (item, previous) => {

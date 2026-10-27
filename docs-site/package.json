@@ -1,7 +1,7 @@
 {
   "name": "typesense-docs",
-  "description": "Typesense documentation helps developers install, configure, and use Typesense to build fast, typo-tolerant search experiences for applications.",
   "private": true,
+  "description": "Typesense documentation helps developers install, configure, and use Typesense to build fast, typo-tolerant search experiences for applications.",
   "license": "GPL-3.0",
   "scripts": {
     "dev": "vitepress dev content",
@@ -12,8 +12,21 @@
     "clearCDNCache": "aws cloudfront create-invalidation --no-cli-pager --distribution-id EQQQZ0LBFY66H --paths \"/docs*\" --profile typesense",
     "scrapeAndIndexDocs": "aws ecs run-task --no-cli-pager --task-definition=scrape-index-docs --launch-type=FARGATE --cluster=typesense-docsearch-scraper --overrides=\"{\\\"containerOverrides\\\":[ { \\\"name\\\": \\\"typesense-docsearch-scraper\\\", \\\"environment\\\": [ { \\\"name\\\": \\\"CONFIG\\\", \\\"value\\\": $(node docsearch.config.js | jq -aR .)}] }]}\" --network-configuration='{\"awsvpcConfiguration\": {\"subnets\": [\"subnet-a3816afe\"], \"securityGroups\": [\"sg-07b87fb405e2f1f8f\"], \"assignPublicIp\": \"ENABLED\"}}' --profile=typesense",
     "lint": "eslint content/.vitepress",
+    "format": "prettier content/.vitepress",
     "lint:fix": "bun run lint --fix",
     "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.22.1 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors"
+  },
+  "dependencies": {
+    "@vueuse/core": "^14.3.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.460.0",
+    "markdown-it": "^14.1.0",
+    "reka-ui": "^2.10.1",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "typesense-docsearch-css": "5.0.2-4",
+    "typesense-docsearch.js": "5.0.2-4"
   },
   "devDependencies": {
     "@vue/eslint-config-typescript": "^14.3.0",
@@ -29,17 +42,5 @@
     "typescript": "^5.7.0",
     "vitepress": "^1.6.3",
     "vue": "^3.5.0"
-  },
-  "dependencies": {
-    "@vueuse/core": "^14.3.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-vue-next": "^0.460.0",
-    "markdown-it": "^14.1.0",
-    "reka-ui": "^2.10.1",
-    "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
-    "typesense-docsearch-css": "5.0.2-4",
-    "typesense-docsearch.js": "5.0.2-4"
   }
 }

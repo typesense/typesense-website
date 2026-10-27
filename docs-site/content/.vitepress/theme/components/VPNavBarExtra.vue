@@ -35,7 +35,7 @@ const { theme } = useData<DefaultTheme.Config>()
 const external = computed(
   () =>
     (theme.value.nav ?? []).filter(
-      (item) => 'link' in item && EXTERNAL_URL_RE.test(item.link),
+      item => 'link' in item && EXTERNAL_URL_RE.test(item.link),
     ) as DefaultTheme.NavItemWithLink[],
 )
 </script>

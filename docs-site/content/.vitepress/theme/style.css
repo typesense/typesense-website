@@ -146,8 +146,8 @@
   --vp-custom-block-danger-border: var(--tomato-5);
   --vp-custom-block-danger-text: var(--tomato-12);
 
-  --vp-font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --vp-font-family-base: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, 'Noto Sans', sans-serif;
 
   --vp-sidebar-width: 20rem; /* $sidebarWidth 320px */
 

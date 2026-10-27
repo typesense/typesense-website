@@ -37,13 +37,10 @@ function initialize() {
     placeholder: theme.value.searchPlaceholder || '',
     // vitepress's router skips links with a target, which leaves hits on
     // typesense.org to onHitClick too
-    hitComponent: ({ hit, children }, { html }) =>
-      html`<a href=${hit.url} target="_self">${children}</a>`,
+    hitComponent: ({ hit, children }, { html }) => html`<a href=${hit.url} target="_self">${children}</a>`,
     typesenseSearchParameters: {
       ...typesenseSearchParameters,
-      filter_by: version
-        ? `version:=[${version},unversioned]`
-        : `version:=[${latest},unversioned]`,
+      filter_by: version ? `version:=[${version},unversioned]` : `version:=[${latest},unversioned]`,
     },
     transformSearchClient(searchClient) {
       return {
@@ -93,33 +90,25 @@ onMounted(() => document.addEventListener('click', onHitClick))
 onBeforeUnmount(() => document.removeEventListener('click', onHitClick))
 
 // re-filter results when navigating between versioned sections
-watch(() => currentVersion(), () => {
-  teardown()
-  initialize()
-})
+watch(
+  () => currentVersion(),
+  () => {
+    teardown()
+    initialize()
+  },
+)
 </script>
 
 <style>
 .DocSearch-Modal {
   @apply rounded-[calc(var(--docsearch-border-radius)+4px)] p-1.5;
 
-  background: radial-gradient(
-    ellipse 200% 110% at bottom left,
-    rgb(222 255 151 / 20%),
-    transparent
-  ),
-  radial-gradient(
-    ellipse 55% 125% at bottom right,
-    rgb(222 255 151 / 20%),
-    transparent
-  );
+  background: radial-gradient(ellipse 200% 110% at bottom left, rgb(222 255 151 / 20%), transparent),
+    radial-gradient(ellipse 55% 125% at bottom right, rgb(222 255 151 / 20%), transparent);
 }
 
 .dark .DocSearch-Modal {
-  background: linear-gradient(
-    rgb(255 255 255 / 3%) 30%,
-    rgb(95 120 42 / 16%)
-  );
+  background: linear-gradient(rgb(255 255 255 / 3%) 30%, rgb(95 120 42 / 16%));
 }
 
 .DocSearch-Dropdown {

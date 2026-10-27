@@ -1,12 +1,7 @@
 <template>
   <!-- no theme slot reaches the outline title, hence the teleport -->
   <Teleport v-if="title" :to="title">
-    <svg
-      class="inline-block align-middle ml-1.5"
-      :width="SIZE"
-      :height="SIZE"
-      :viewBox="`0 0 ${SIZE} ${SIZE}`"
-    >
+    <svg class="inline-block align-middle ml-1.5" :width="SIZE" :height="SIZE" :viewBox="`0 0 ${SIZE} ${SIZE}`">
       <circle
         class="fill-none stroke-[var(--vp-c-divider)]"
         :cx="SIZE / 2"

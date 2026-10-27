@@ -13,8 +13,7 @@ type VuePressGroup = {
 }
 type VuePressItem = VuePressTuple | VuePressGroup
 
-const normalizeLink = (link: string): string =>
-  link.replace(/\.(md|html)$/, '')
+const normalizeLink = (link: string): string => link.replace(/\.(md|html)$/, '')
 
 const isTuple = (item: VuePressItem): item is VuePressTuple => Array.isArray(item)
 
@@ -35,8 +34,5 @@ const convertItem = (item: VuePressItem): DefaultTheme.SidebarItem => {
 }
 
 export const sidebar: DefaultTheme.Sidebar = Object.fromEntries(
-  Object.entries(vuepressSidebar).map(([prefix, items]) => [
-    prefix,
-    items.map(convertItem),
-  ]),
+  Object.entries(vuepressSidebar).map(([prefix, items]) => [prefix, items.map(convertItem)]),
 )

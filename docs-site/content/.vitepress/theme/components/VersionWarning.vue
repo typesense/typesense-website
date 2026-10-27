@@ -34,12 +34,6 @@ import { useVersionSwitch } from '../composables/useVersionSwitch'
 
 withDefaults(defineProps<{ banner?: boolean }>(), { banner: false })
 
-const {
-  latestVersion,
-  showVersionWarning,
-  isOlderThanLatest,
-  isNewerThanLatest,
-  getVersionedPath,
-  goToVersion,
-} = useVersionSwitch()
+const { latestVersion, showVersionWarning, isOlderThanLatest, isNewerThanLatest, getVersionedPath, goToVersion } =
+  useVersionSwitch()
 </script>

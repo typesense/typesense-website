@@ -1,16 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-
-const Sections = ["overview", "api", "guide", "cloud"] as const
+const Sections = ['overview', 'api', 'guide', 'cloud'] as const
 const sectionTitlesMap = {
   overview: 'Overview',
   api: 'API Reference',
   guide: 'Guides',
   cloud: 'Cloud Management API',
-} as const satisfies Record<typeof Sections[number], string>;
+} as const satisfies Record<(typeof Sections)[number], string>
 
-type Section = typeof Sections[number]
+type Section = (typeof Sections)[number]
 
 export interface LlmsPage {
   path: string

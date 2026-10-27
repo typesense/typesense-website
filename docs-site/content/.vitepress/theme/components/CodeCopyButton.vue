@@ -3,7 +3,9 @@
     type="button"
     :title="isCopied ? 'Copied!' : 'Copy code'"
     class="absolute right-2 top-2 z-[3] flex h-8 items-center overflow-hidden rounded-md border border-line transition-[opacity,background-color] duration-150 focus-visible:opacity-100 [:hover>&]:opacity-100 [@media(hover:none)]:opacity-100 [:hover>&+.lang]:opacity-0 [&:focus-visible+.lang]:opacity-0 [@media(hover:none)]:[&+.lang]:hidden motion-safe:[&+.lang]:!duration-150"
-    :class="isCopied ? 'bg-accent-selected text-accent' : 'bg-surface-gray text-ink opacity-0 hover:bg-surface-gray-hover'"
+    :class="
+      isCopied ? 'bg-accent-selected text-accent' : 'bg-surface-gray text-ink opacity-0 hover:bg-surface-gray-hover'
+    "
     @click="copy"
   >
     <span
@@ -12,7 +14,9 @@
       :aria-hidden="!isCopied"
     >
       <span class="overflow-hidden">
-        <span class="block whitespace-nowrap border-r border-accent-light px-2.5 text-xs font-medium leading-[30px]">Copied!</span>
+        <span class="block whitespace-nowrap border-r border-accent-light px-2.5 text-xs font-medium leading-[30px]"
+          >Copied!</span
+        >
       </span>
     </span>
     <span class="relative flex size-[30px] items-center justify-center">
@@ -39,7 +43,7 @@ let copyTimeout: ReturnType<typeof setTimeout> | undefined
 async function copy(event: MouseEvent) {
   const block = (event.currentTarget as HTMLElement).parentElement!
   const pre = block.querySelector('pre')!.cloneNode(true) as HTMLElement
-  pre.querySelectorAll('.vp-copy-ignore, .diff.remove').forEach((node) => node.remove())
+  pre.querySelectorAll('.vp-copy-ignore, .diff.remove').forEach(node => node.remove())
   const code = pre.textContent ?? ''
   // shell snippets drop their prompts, like vitepress does
   const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(block.className)

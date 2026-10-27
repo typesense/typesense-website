@@ -6,7 +6,7 @@ const IMAGE_ALIAS_RE = /(~?@images)\//g
 const rewriteImageSrc = (src: string): string => src.replace(IMAGE_ALIAS_RE, '/images/')
 
 export function typesenseMarkdown(md: MarkdownRenderer): void {
-  md.core.ruler.push('rewrite-image-aliases', (state) => {
+  md.core.ruler.push('rewrite-image-aliases', state => {
     for (const token of state.tokens) {
       if (token.type === 'html_block' && token.content.includes('@images/')) {
         token.content = rewriteImageSrc(token.content)
@@ -24,13 +24,14 @@ export function typesenseMarkdown(md: MarkdownRenderer): void {
   })
 
   // vitepress only maps index.md to its directory, so README.md links would render as README.html
-  md.core.ruler.push('readme-links', (state) => {
+  md.core.ruler.push('readme-links', state => {
     state.tokens
-      .filter((token) => token.type === 'inline' && token.children)
-      .forEach((token) =>
-        token.children!.forEach((child) => {
+      .filter(token => token.type === 'inline' && token.children)
+      .forEach(token =>
+        token.children!.forEach(child => {
           const href = child.type === 'link_open' && child.attrGet('href')
-          if (href && !/^[a-z]+:/i.test(href)) child.attrSet('href', href.replace(/(^|\/)README\.md(#|$)/i, '$1index.md$2'))
+          if (href && !/^[a-z]+:/i.test(href))
+            child.attrSet('href', href.replace(/(^|\/)README\.md(#|$)/i, '$1index.md$2'))
         }),
       )
   })
@@ -44,24 +45,25 @@ export function typesenseMarkdown(md: MarkdownRenderer): void {
     td_open: 'cell',
   }
 
-  md.core.ruler.push('table-cell-labels', (state) => {
+  md.core.ruler.push('table-cell-labels', state => {
     let labels: string[] = []
     let column = 0
     state.tokens.forEach((token, i) => {
       if (tableRoles[token.type]) token.attrSet('role', tableRoles[token.type])
       if (token.type === 'thead_open') labels = []
       else if (token.type === 'tr_open') column = 0
-      else if (token.type === 'th_open') labels.push(state.tokens[i + 1].children!.map((child) => child.content).join(''))
+      else if (token.type === 'th_open') labels.push(state.tokens[i + 1].children!.map(child => child.content).join(''))
       else if (token.type === 'td_open') {
         const label = labels[column++]
         const value = state.tokens[i + 1].content.trim().toLowerCase()
         if (label) token.attrSet('data-label', label)
-        if (label === 'Required' && /^(yes|no|true|false)$/.test(value)) token.attrSet('data-required', String(/^(yes|true)$/.test(value)))
+        if (label === 'Required' && /^(yes|no|true|false)$/.test(value))
+          token.attrSet('data-required', String(/^(yes|true)$/.test(value)))
       }
     })
   })
 
-  md.core.ruler.after('block', 'markdown-actions', (state) => {
+  md.core.ruler.after('block', 'markdown-actions', state => {
     const tokens = state.tokens
 
     for (let i = 0; i < tokens.length; i += 1) {
@@ -95,7 +97,7 @@ export function typesenseMarkdown(md: MarkdownRenderer): void {
     }
   })
 
-  md.core.ruler.after('markdown-actions', 'agent-docs-index', (state) => {
+  md.core.ruler.after('markdown-actions', 'agent-docs-index', state => {
     const tokens = state.tokens
     for (let i = 0; i < tokens.length; i += 1) {
       if (tokens[i].type !== 'html_block' || !tokens[i].content.includes('</div>')) continue
@@ -134,8 +136,7 @@ export function typesenseMarkdown(md: MarkdownRenderer): void {
   let currentHeading: { level: number; text: string } | null = null
 
   const defaultHeadingOpen =
-    md.renderer.rules.heading_open ||
-    ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options))
+    md.renderer.rules.heading_open || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options))
 
   md.renderer.rules.heading_open = function (tokens, idx, options, env, self) {
     currentHeading = null
@@ -159,17 +160,13 @@ export function typesenseMarkdown(md: MarkdownRenderer): void {
   }
 
   const defaultHeadingClose =
-    md.renderer.rules.heading_close ||
-    ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options))
+    md.renderer.rules.heading_close || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options))
 
   md.renderer.rules.heading_close = function (tokens, idx, options, env, self) {
     let result = ''
 
     if (currentHeading && currentHeading.text) {
-      const escapedText = currentHeading.text
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
+      const escapedText = currentHeading.text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
       // "Definition" repeats under every endpoint, so each copy finds its own by count
       const seen = (env.copySectionSeen ??= {}) as Record<string, number>
       const key = `${currentHeading.level} ${currentHeading.text}`

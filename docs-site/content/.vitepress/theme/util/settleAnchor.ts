@@ -3,9 +3,7 @@ import { getScrollOffset } from 'vitepress'
 const INPUTS = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
 
 const offsetDrift = (target: HTMLElement) =>
-  target.getBoundingClientRect().top -
-  getScrollOffset() +
-  parseInt(getComputedStyle(target).paddingTop, 10)
+  target.getBoundingClientRect().top - getScrollOffset() + parseInt(getComputedStyle(target).paddingTop, 10)
 
 let drift = offsetDrift
 let release: (() => void) | undefined
@@ -41,9 +39,9 @@ export function settleAnchor(smooth = false) {
 
   const stop = () => {
     observer.disconnect()
-    INPUTS.forEach((type) => window.removeEventListener(type, stop, { capture: true }))
+    INPUTS.forEach(type => window.removeEventListener(type, stop, { capture: true }))
     release = undefined
   }
-  INPUTS.forEach((type) => window.addEventListener(type, stop, { capture: true, passive: true }))
+  INPUTS.forEach(type => window.addEventListener(type, stop, { capture: true, passive: true }))
   release = stop
 }

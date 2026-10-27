@@ -6,8 +6,7 @@
   >
     <div class="relative inline-flex items-center">
       <select
-        class="box-border h-8 cursor-pointer appearance-none rounded-md border border-line
-bg-surface-gray pl-3 pr-8 text-sm font-medium max-[767px]:text-base leading-none text-ink hover:bg-surface-gray-hover focus:outline-none"
+        class="box-border h-8 cursor-pointer appearance-none rounded-md border border-line bg-surface-gray pl-3 pr-8 text-sm font-medium max-[767px]:text-base leading-none text-ink hover:bg-surface-gray-hover focus:outline-none"
         @change="switchVersion"
       >
         <option

@@ -23,10 +23,10 @@
 
     <Transition enter-from-class="opacity-0" enter-active-class="transition-opacity duration-200 ease-out">
       <section v-if="suggestions.length" class="mt-14 w-full text-left">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-[var(--vp-c-text-3)]">
-          Were you looking for?
-        </h2>
-        <ul class="mt-3 divide-y divide-[var(--vp-c-divider)] overflow-hidden rounded-lg ring-1 ring-inset ring-[var(--vp-c-divider)]">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-[var(--vp-c-text-3)]">Were you looking for?</h2>
+        <ul
+          class="mt-3 divide-y divide-[var(--vp-c-divider)] overflow-hidden rounded-lg ring-1 ring-inset ring-[var(--vp-c-divider)]"
+        >
           <li v-for="suggestion in suggestions" :key="suggestion.href">
             <VPLink
               :href="suggestion.href"
@@ -66,18 +66,20 @@ type Hit = { document: { url_without_anchor: string; 'hierarchy.lvl0': string } 
 // the broken url's last segment is usually a near miss of a real page title
 async function suggest() {
   suggestions.value = []
-  const segments = route.path.replace(/^\/docs\//, '').split('/').filter(Boolean)
-  const query = (segments.filter((segment) => !VERSION.test(segment)).pop() ?? '')
+  const segments = route.path
+    .replace(/^\/docs\//, '')
+    .split('/')
+    .filter(Boolean)
+  const query = (segments.filter(segment => !VERSION.test(segment)).pop() ?? '')
     .replace(/\.(html|md)$/, '')
     .replace(/[-_]+/g, ' ')
     .trim()
   const config = theme.value.typesenseDocsearch
   if (!query || !config) return
 
-  const versioned = segments.find((segment) => VERSION.test(segment))
-  const version = versioned && theme.value.typesenseVersions.includes(versioned)
-    ? versioned
-    : theme.value.typesenseLatestVersion
+  const versioned = segments.find(segment => VERSION.test(segment))
+  const version =
+    versioned && theme.value.typesenseVersions.includes(versioned) ? versioned : theme.value.typesenseLatestVersion
   const { nearestNode, nodes, apiKey } = config.typesenseServerConfig
   const { protocol, host, port } = nearestNode ?? nodes[0]
   const params = new URLSearchParams({

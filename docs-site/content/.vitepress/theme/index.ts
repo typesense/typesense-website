@@ -69,7 +69,7 @@ export default {
     }
 
     // `to` includes the /docs/ base
-    router.onBeforeRouteChange = (to) => {
+    router.onBeforeRouteChange = to => {
       const rest = to.startsWith(BASE) ? to.slice(BASE.length) : to.replace(/^\//, '')
       const segments = rest.split('/')
       const version = segments[0]
@@ -86,7 +86,7 @@ export default {
       // the guide is unversioned
       if (isSemVer(version) && segments[1] === 'guide') {
         if (segments[2] === '#what-s-new') {
-          const [major, minor] = version.split('.').map((n) => parseInt(n, 10))
+          const [major, minor] = version.split('.').map(n => parseInt(n, 10))
           if (major >= 0 && minor >= 20) segments[1] = 'api' // what's new moved under /api post-0.20
           else segments.splice(1, 1) // and sat on the version's own page before
         } else {
@@ -100,18 +100,20 @@ export default {
     if (typeof window !== 'undefined') {
       window.addEventListener(
         'click',
-        (e) => {
+        e => {
           const link = (e.target as Element).closest?.('a')
           // vitepress glides to a heading's own # link, and an instant correction would cut that short
           if (e.defaultPrevented && link?.hash && link.pathname === location.pathname) {
-            settleAnchor(link.classList.contains('header-anchor') && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+            settleAnchor(
+              link.classList.contains('header-anchor') && !matchMedia('(prefers-reduced-motion: reduce)').matches,
+            )
           }
         },
         { capture: true },
       )
     }
 
-    router.onAfterRouteChanged = (to) => {
+    router.onAfterRouteChanged = to => {
       $page.typesenseVersion = deriveVersion(to)
       if (typeof window === 'undefined') return
 

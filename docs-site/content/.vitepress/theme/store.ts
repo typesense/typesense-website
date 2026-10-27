@@ -30,9 +30,7 @@ const state = reactive<{ defaultTab: string | null; copyLanguages: string[] }>({
   copyLanguages: readPreferredCopyLanguages(),
 })
 
-const singlePreferredCopyLanguage = computed(() =>
-  state.copyLanguages.length === 1 ? state.copyLanguages[0] : null,
-)
+const singlePreferredCopyLanguage = computed(() => (state.copyLanguages.length === 1 ? state.copyLanguages[0] : null))
 
 export const docsStore = {
   state,
@@ -46,7 +44,10 @@ export const docsStore = {
   },
   setCopyLanguages(languages: string[]) {
     const nextLanguages = writePreferredCopyLanguages(languages)
-    if (nextLanguages.length === 1 && (state.copyLanguages.length !== 1 || state.copyLanguages[0] !== nextLanguages[0])) {
+    if (
+      nextLanguages.length === 1 &&
+      (state.copyLanguages.length !== 1 || state.copyLanguages[0] !== nextLanguages[0])
+    ) {
       this.setDefaultTab(nextLanguages[0])
     }
     state.copyLanguages = nextLanguages
