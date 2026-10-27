@@ -13,8 +13,8 @@
       <!-- must come before the h2 bar so it slides up underneath it -->
       <div
         ref="h3Bar"
-        class="absolute inset-x-0 top-full hidden border-b border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] px-6 pb-2.5 pt-1.5 text-xl font-semibold leading-7 tracking-[-0.01em] text-[var(--vp-c-text-1)] transition-opacity duration-300 ease-out-expo min-[640px]:px-0 min-[768px]:block"
-        :class="{ invisible: !subsection?.header || cleared, 'max-narrow:pointer-events-none max-narrow:opacity-0': !navHidden }"
+        class="absolute inset-x-0 top-full hidden border-b border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] px-6 pb-2.5 pt-1.5 text-xl font-semibold leading-7 tracking-[-0.01em] text-[var(--vp-c-text-1)] min-[640px]:px-0 min-[768px]:block"
+        :class="{ invisible: !subsection?.header || cleared, 'max-narrow:invisible': !navHidden }"
         :style="{ transform: `translateY(${subsection?.shift ?? 0}px)` }"
       >
         <div v-if="subsection?.header" :key="subsection.header.title">
