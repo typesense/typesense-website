@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { useData, useRoute, useRouter, withBase } from 'vitepress'
 import type { TypesensePageData, TypesenseThemeConfig } from '../types'
+import versionLandingPath from '../util/versionLandingPath'
 
 // shared by the version dropdown and the "switch to latest" warning
 export function useVersionSwitch() {
@@ -54,6 +55,8 @@ export function useVersionSwitch() {
 
   // every version keeps the same /api/… layout, only which pages exist differs
   function getVersionedPath(version: string): string {
+    // the warning's link to latest can't be greyed out
+    if (!versionHasPage(version)) return versionLandingPath(version)
     return `/${version}${currentPath.value}.html${readHash()}`.replace(/\/\.html/, '/')
   }
 
