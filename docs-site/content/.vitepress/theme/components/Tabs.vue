@@ -2,7 +2,7 @@
   <div class="my-4">
     <ClientOnly>
       <div
-        class="relative overflow-hidden rounded-t-md max-mobile:-mx-6 max-mobile:rounded-none before:pointer-events-none before:absolute before:left-0 before:top-0 before:bottom-px before:w-6 before:bg-[linear-gradient(to_right,var(--vp-code-block-bg),transparent)] after:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-px after:w-6 after:bg-[linear-gradient(to_left,var(--vp-code-block-bg),transparent)]"
+        class="relative overflow-hidden rounded-t-md max-mobile:-mx-6 max-mobile:rounded-none before:pointer-events-none before:absolute before:z-[1] before:left-0 before:top-0 before:bottom-px before:w-6 before:bg-[linear-gradient(to_right,var(--vp-code-block-bg),transparent)] after:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-px after:w-6 after:bg-[linear-gradient(to_left,var(--vp-code-block-bg),transparent)]"
       >
         <ul
           ref="list"
