@@ -115,9 +115,9 @@ watch(activeItem, (item, previous) => {
   const shown =
     item.offsetLeft >= strip.scrollLeft + inset &&
     item.offsetLeft + item.offsetWidth <= strip.scrollLeft + strip.clientWidth - inset
-  if (shown) return
-  const left = item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2
-  const smooth = previous && !matchMedia('(prefers-reduced-motion: reduce)').matches
+  // an instant scroll in place stops a glide toward an earlier pick, which can carry this one out of view
+  const left = shown ? strip.scrollLeft : item.offsetLeft - (strip.clientWidth - item.offsetWidth) / 2
+  const smooth = !shown && previous && !matchMedia('(prefers-reduced-motion: reduce)').matches
   strip.scrollTo({ left, behavior: smooth ? 'smooth' : 'instant' })
 })
 
