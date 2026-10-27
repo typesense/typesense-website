@@ -83,7 +83,8 @@ onMounted(() => {
   const path = router.route.path.replace(new RegExp(`^${base}`), '') || '/'
   const currentPathWithHash = `${path}${window.location.hash}`
 
-  const redirect = redirects.find(({ from }) => from === currentPathWithHash)
+  // an entry without a hash covers the page under any hash
+  const redirect = redirects.find(({ from }) => from === (from.includes('#') ? currentPathWithHash : path))
   if (!redirect) return
   const [toPath] = redirect.to.split('#')
   router.go(withBase(toPath))
