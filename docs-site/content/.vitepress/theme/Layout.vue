@@ -39,6 +39,7 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import { getScrollOffset, useData, useRoute } from 'vitepress'
+import mediumZoom, { type Zoom } from 'medium-zoom'
 import VersionDropdown from './components/VersionDropdown.vue'
 import VersionWarning from './components/VersionWarning.vue'
 import TypesenseSearchBox from './components/TypesenseSearchBox.vue'
@@ -73,6 +74,18 @@ watch(
   () => route.path,
   () => {
     if (!location.hash) document.querySelector('.aside-container')?.scrollTo(0, 0)
+  },
+  { flush: 'post' },
+)
+
+// images inside a link keep following the link
+const ZOOMABLE = '.vp-doc :not(a) > img'
+let zoom: Zoom | undefined
+watch(
+  () => route.path,
+  () => {
+    zoom?.detach()
+    zoom?.attach(ZOOMABLE)
   },
   { flush: 'post' },
 )
@@ -136,6 +149,7 @@ let resize: ResizeObserver | undefined
 
 onMounted(() => {
   document.documentElement.dataset.theme = isDark.value ? 'dark' : 'light'
+  zoom = mediumZoom(ZOOMABLE, { background: 'var(--vp-c-bg)' })
 
   const outline = document.querySelector('.VPDocAsideOutline')
   if (outline) {
@@ -168,6 +182,7 @@ onUnmounted(() => {
   observer?.disconnect()
   resize?.disconnect()
   localNav?.disconnect()
+  zoom?.detach()
   window.removeEventListener('scroll', onLocalNavScroll)
   cancelAnimationFrame(localNavFrame)
 })

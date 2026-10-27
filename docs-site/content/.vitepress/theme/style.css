@@ -360,6 +360,14 @@ html {
   @apply h-auto max-w-full aspect-video;
 }
 
+/* medium-zoom appends both to body, where the nav bar would cover them */
+.medium-zoom-overlay {
+  @apply z-[var(--vp-z-index-backdrop)];
+}
+.medium-zoom-image--opened {
+  @apply z-[calc(var(--vp-z-index-backdrop)+1)];
+}
+
 .vp-doc table {
   @apply text-sm;
 }
