@@ -171,10 +171,6 @@
   --vp-c-bg-elv: var(--gray-2);
 }
 
-html {
-  -webkit-tap-highlight-color: transparent;
-}
-
 /* vitepress's js offsets in-page clicks, but a direct load of a #anchor url
  * takes the browser's native jump and lands under the fixed navbar */
 html {
