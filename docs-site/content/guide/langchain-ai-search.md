@@ -53,7 +53,7 @@ Run Typesense locally using Docker:
 ```bash
 mkdir typesense-data
 
-&#35; Start Typesense
+# Start Typesense
 docker run -d -p 8108:8108 \
   -v "$(pwd)"/typesense-data:/data \
   typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \

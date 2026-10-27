@@ -83,7 +83,7 @@ Run both services with Docker:
 ```bash
 mkdir typesense-data
 
-&#35; Start Typesense
+# Start Typesense
 docker run -d -p 8108:8108 \
   -v "$(pwd)"/typesense-data:/data \
   typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
@@ -91,7 +91,7 @@ docker run -d -p 8108:8108 \
   --api-key=xyz \
   --enable-cors
 
-&#35; Start PostgreSQL
+# Start PostgreSQL
 docker run -d -p 5432:5432 \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=password \
