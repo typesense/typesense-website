@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
+import type Token from 'markdown-it/lib/token.mjs'
 import { COPY_LANGUAGE_OPTIONS } from './copyLanguages'
 
 const markdownParser = new MarkdownIt({ html: true })

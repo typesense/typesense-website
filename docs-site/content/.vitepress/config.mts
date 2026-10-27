@@ -2,7 +2,6 @@ import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
 import { existsSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import mathjax3 from 'markdown-it-mathjax3'
 import { sidebar } from './sidebar'
 import { typesenseMarkdown } from './markdown/typesense'
 import { injectPageMarkdown, mdDevMiddleware, generateMarkdownArtifacts } from './embed-markdown'
@@ -187,13 +186,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     lineNumbers: false,
     // vuepress numbered repeated headings x, x-2, x-3, and old links still use those ids
     anchor: { uniqueSlugStartIndex: 2 },
+    // loads markdown-it-mathjax3 and marks its <mjx-*> output as custom elements
+    math: true,
     config(md) {
       typesenseMarkdown(md)
-      md.use(mathjax3)
     },
   },
-  // mathjax3 renders its formulas as <mjx-*> custom elements
-  vue: { template: { compilerOptions: { isCustomElement: tag => tag.startsWith('mjx-') } } },
 
   vite: {
     plugins: [

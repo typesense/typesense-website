@@ -1,11 +1,11 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from 'vitepress'
 
 // the old site aliased @images to .vuepress/public/images through webpack.
 // left alone, vite tries to resolve those refs as module imports
 const IMAGE_ALIAS_RE = /(~?@images)\//g
 const rewriteImageSrc = (src: string): string => src.replace(IMAGE_ALIAS_RE, '/images/')
 
-export function typesenseMarkdown(md: MarkdownIt): void {
+export function typesenseMarkdown(md: MarkdownRenderer): void {
   md.core.ruler.push('rewrite-image-aliases', (state) => {
     for (const token of state.tokens) {
       if (token.type === 'html_block' && token.content.includes('@images/')) {
