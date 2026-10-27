@@ -5,13 +5,13 @@ import type { CopyTabGroup } from './util/markdownCopy'
 export interface TypesenseThemeConfig extends DefaultTheme.Config {
   typesenseVersions: string[]
   typesenseLatestVersion: string
-  typesenseVersionPages: Record<string, string[]>
   typesenseDocsearch?: Omit<DocSearchProps, 'container'>
   searchPlaceholder?: string
 }
 
 export interface TypesensePageData extends PageData {
   typesenseVersion?: string | null
+  typesenseVersionsWithoutPage?: string[]
   markdown?: string
   markdownUrl?: string
   markdownCopyTabGroups?: CopyTabGroup[]

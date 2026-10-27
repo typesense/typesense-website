@@ -62,14 +62,21 @@ const latestRedirectScript = `(function () {
   location.replace('/docs/${typesenseLatestVersion}' + rest + location.search + location.hash)
 })()`
 
-// lets the version picker grey out versions that predate the current page
-const typesenseVersionPages = Object.fromEntries(
+// a page's path within its version, matching useVersionSwitch's currentPath. takes
+// source files (README.md) and pageData.relativePath, which the rewrites make index.md
+const versionRelPath = (file: string) => `/${file.replace(/(^|\/)(?:README|index)\.md$/, '$1').replace(/\.md$/, '')}`
+
+// build-time only. each page gets just its own missing versions (transformPageData),
+// since themeConfig is inlined into every page's html
+const typesenseVersionPages = new Map(
   typesenseVersions.map(version => [
     version,
-    readdirSync(join(srcDir, version), { recursive: true })
-      .map(String)
-      .filter(file => file.endsWith('.md'))
-      .map(file => `/${file.replace(/(^|\/)README\.md$/, '$1').replace(/\.md$/, '')}`),
+    new Set(
+      readdirSync(join(srcDir, version), { recursive: true })
+        .map(String)
+        .filter(file => file.endsWith('.md'))
+        .map(versionRelPath),
+    ),
   ]),
 )
 
@@ -160,7 +167,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     // @ts-expect-error custom themeConfig fields
     typesenseVersions,
     typesenseLatestVersion,
-    typesenseVersionPages,
 
     typesenseDocsearch: {
       typesenseServerConfig: {
@@ -274,6 +280,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (isVersioned) {
       // @ts-expect-error custom field surfaced to the theme
       pageData.typesenseVersion = version
+      // lets the version picker grey out versions that predate this page
+      const relPath = versionRelPath(pageData.relativePath.slice(version.length + 1))
+      // @ts-expect-error custom field surfaced to the theme
+      pageData.typesenseVersionsWithoutPage = typesenseVersions.filter(v => !typesenseVersionPages.get(v)?.has(relPath))
     } else {
       // @ts-expect-error custom field surfaced to the theme
       pageData.typesenseVersion = null

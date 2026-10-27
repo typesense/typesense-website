@@ -13,7 +13,9 @@ export function useVersionSwitch() {
   const currentVersion = computed<string | null>(
     () => (page.value as TypesensePageData).typesenseVersion ?? null,
   )
-  const versionPages = computed<Record<string, string[]>>(() => theme.value.typesenseVersionPages || {})
+  const versionsWithoutPage = computed<string[]>(
+    () => (page.value as TypesensePageData).typesenseVersionsWithoutPage ?? [],
+  )
 
   // route.path carries the /docs/ base, version-relative logic doesn't want it
   const relPath = computed(() => route.path.replace(/^\/docs/, '') || '/')
@@ -61,8 +63,7 @@ export function useVersionSwitch() {
 
   // versions predating this page get greyed out rather than linking to a 404
   function versionHasPage(version: string): boolean {
-    const pages = versionPages.value[version]
-    return !pages || pages.includes(currentPath.value)
+    return !versionsWithoutPage.value.includes(version)
   }
 
   // getVersionedPath stays base-relative for RouterLink, which adds its own
