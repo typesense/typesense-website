@@ -52,7 +52,7 @@ We can then move the clusters from your existing team account to your new team a
    - SP Single Sign-On URL (also called Reply URL or Assertion Consumer Service URL in some SSO platforms)
    - SP Entity ID (also called Audience URI in some SSO platforms)
 
-3. Use the image [here](/docs/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
+3. Use the image [here](/images/typesense_cloud_logo.svg) as your SSO app's logo, to make it easy for your users to identify the app in your SSO portal.
 
 4. Configure your SSO app to sign the SAML assertion (only). 
 
