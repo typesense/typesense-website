@@ -54,6 +54,15 @@ const clickIdCaptureScript = `(function () {
   } catch (error) {}
 })()`
 
+// /latest/ has no pages, so a direct load gets 404.html, which paints before the
+// router's redirect in theme/index.ts can run. this runs from <head>, before the body
+const latestRedirectScript = `(function () {
+  var match = location.pathname.match(/^\\/docs\\/latest(\\.html|\\/.*)?$/)
+  if (!match) return
+  var rest = !match[1] || match[1] === '.html' ? '/' : match[1]
+  location.replace('/docs/${typesenseLatestVersion}' + rest + location.search + location.hash)
+})()`
+
 // lets the version picker grey out versions that predate the current page
 const typesenseVersionPages = Object.fromEntries(
   typesenseVersions.map(version => [
@@ -86,6 +95,7 @@ export default defineConfig({
   ],
 
   head: [
+    ['script', {}, latestRedirectScript],
     ['meta', { name: 'theme-color', content: '#c0ff58' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
