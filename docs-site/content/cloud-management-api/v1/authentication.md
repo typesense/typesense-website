@@ -45,6 +45,35 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
     -H "Accept: application/json" \
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: INSERT-YOUR-KEY-HERE"
 ```
+## Check which account a key acts on
+
+Any key can look up the account it belongs to and the capabilities it carries, whatever those capabilities are.
+Here's the request:
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/account" \
+    -H "Accept: application/json" \
+```
+
+**Response:**
+
+```json
+{
+  "id": 123456789,
+  "name": "acme",
+  "type": "team",
+  "status": "active",
+  "credential": {
+    "type": "management_api_key",
+    "capabilities": ["clusters:read", "metrics:read"],
+    "acting_as": null
+  }
+}
+```
+
+`type` is `individual` or `team`.
+`credential.capabilities` lists the key's capabilities, or `["admin"]` for a key with every capability.
+When an AI agent calls this through the [MCP server](../../guide/typesense-cloud/mcp-server.md) with your consent, `credential.type` is `oauth_grant` and `acting_as` is your username.
 
 ## Revoking API Keys
 
