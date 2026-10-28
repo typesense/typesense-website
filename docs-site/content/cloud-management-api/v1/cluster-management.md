@@ -123,7 +123,7 @@ You can use any of the following values:
 
 How many [CPU](../../guide/system-requirements.md) cores this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
 
-Only certain CPU configuration are available with particular RAM configurations. The table below lists all available configurations:
+Only certain CPU configurations are available with particular RAM configurations. The table below lists all available configurations:
 
 | `memory` | `vcpu`                                                             |
 |----------|--------------------------------------------------------------------|
@@ -134,15 +134,16 @@ Only certain CPU configuration are available with particular RAM configurations.
 | 8_gb     | 2_vcpus_7_hr_burst_per_day <br> 2_vcpus <br> 4_vcpus               |
 | 16_gb    | 2_vcpus <br> 4_vcpus_5_hr_burst_per_day <br> 4_vcpus <br> 8_vcpus  |
 | 32_gb    | 4_vcpus <br> 8_vcpus_4_hr_burst_per_day <br> 8_vcpus <br> 16_vcpus |
-| 64_gb    | 8_vcpus <br> 16_vcpus <br> 32_vcpus                                |
+| 64_gb    | 4_vcpus <br> 8_vcpus <br> 16_vcpus <br> 32_vcpus                   |
 | 96_gb    | 12_vcpus <br> 24_vcpus <br> 48_vcpus                               |
-| 128_gb   | 4_vcpus <br> 16_vcpus <br> 32_vcpus <br> 64_vcpus                  |
+| 128_gb   | 4_vcpus <br> 8_vcpus <br> 16_vcpus <br> 32_vcpus <br> 64_vcpus     |
 | 192_gb   | 24_vcpus <br> 48_vcpus <br> 96_vcpus                               |
-| 256_gb   | 8_vcpus <br> 32_vcpus <br> 64_vcpus <br> 128_vcpus                 |
-| 384_gb   | 48_vcpus <br> 96_vcpus <br> 128_vcpus                              |
-| 512_gb   | 16_vcpus <br> 64_vcpus <br> 128_vcpus                              |
-| 768_gb   | 24_vcpus <br> 96_vcpus <br> 192_vcpus                              |
+| 256_gb   | 8_vcpus <br> 16_vcpus <br> 32_vcpus <br> 64_vcpus <br> 128_vcpus   |
+| 384_gb   | 48_vcpus <br> 96_vcpus <br> 192_vcpus                              |
+| 512_gb   | 16_vcpus <br> 32_vcpus <br> 64_vcpus <br> 128_vcpus                |
+| 768_gb   | 24_vcpus <br> 48_vcpus <br> 96_vcpus <br> 192_vcpus                |
 | 1024_gb  | 32_vcpus <br> 64_vcpus <br> 128_vcpus                              |
+You can also get this list from the [cluster options](#get-cluster-options) endpoint, under `vcpu_by_memory`.
 
 ### `regions`
 
