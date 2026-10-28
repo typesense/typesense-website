@@ -5,21 +5,27 @@ description: "List, create and revoke a cluster's Typesense API keys through the
 # Cluster API Keys API
 
 Every Typesense Cloud cluster has its own set of <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html`">Typesense Server API keys</RouterLink>, which your applications use to talk to the cluster directly.
-With this API you can list those keys, create a key with just the scope you need and revoke keys you no longer need.
-These are the same keys you see on the API Keys page in the Typesense Cloud dashboard.
 
-The standard admin and search-only key pair comes from the [Generate API key](./cluster-management.md#generate-api-key) endpoint.
-Keys issued that way show up in the list below too, and you can revoke them like any other key.
+There are three ways to create these keys:
 
-You'll need the `cluster_credentials:manage` capability to list, create or revoke keys.
-The cluster also has to be `in_service`.
-See [Error Responses](#error-responses) for what you get back for other statuses.
+| You want to | Use |
+|---|---|
+| Get an admin key and a search-only key for a new cluster | [Generate API key](./cluster-management.md#generate-api-key) |
+| Create a key limited to certain actions, collections or an expiry date, or list and revoke keys | [The endpoints on this page](#create-an-api-key-with-a-given-scope) |
+| Create and manage keys from your own application | The cluster's own <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">`/keys` endpoint</RouterLink> |
+
+The first two are part of the Cloud Management API, so they work with your account's management API key.
+That lets you manage the keys of any cluster in your account without holding each cluster's admin key, for example from a script that provisions clusters.
+The cluster's `/keys` endpoint is part of the Typesense Server API, so you call it on the cluster's hostname with the cluster's admin key.
+
+All three create the same kind of key on the cluster.
+So you can list and revoke a key here, no matter how it was created.
+
+The cluster has to be `in_service` for these endpoints.
 
 ## List all API keys
 
 This endpoint lists every API key on the cluster, newest first.
-You only ever see a key's full value when the key is created.
-So the list carries the first few characters of each value as `value_prefix`, to help you tell keys apart.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/api-keys" \
@@ -60,22 +66,22 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/
 
 | Field          | Description                                                                                                          |
 |----------------|----------------------------------------------------------------------------------------------------------------------|
-| `id`           | The key's id on the cluster. Use it to revoke the key.                                                                |
-| `description`  | What the key is for, as shown on the dashboard's API Keys page                                                       |
+| `id`           | The key's id on the cluster. Use it to [revoke the key](#revoke-an-api-key).                                          |
+| `description`  | What the key is for                                                                                                  |
 | `actions`      | The Typesense actions the key permits, for example `documents:search`. `*` permits every action.                     |
 | `collections`  | The collection names or regular expressions the key covers. `*` covers every collection.                             |
 | `expires_at`   | When the key stops working, as a Unix timestamp in seconds. A key that never expires reports a far-future value.     |
 | `value_prefix` | The first characters of the key's value. The full value is never returned here.                                      |
 
+To see when each key was last used, match `value_prefix` against the [API key last use](./cluster-logs.md#get-when-each-api-key-was-last-used) endpoint.
+
 Keys Typesense Cloud creates for itself show up in the list too, for example the temporary key for a bulk import you start through the [MCP Server](../../guide/typesense-cloud/mcp-server.md#large-imports-and-exports).
-You can revoke those like any other key.
 
 ## Create an API key with a given scope
 
-This endpoint creates one API key with exactly the actions and collections you give it, and an optional expiry.
-It's the equivalent of the "Create key" form on the dashboard's API Keys page.
-
-If you want the standard admin and search-only pair, use [Generate API key](./cluster-management.md#generate-api-key) instead.
+:::warning
+You want to keep admin keys on your servers. Give applications a key limited to the actions and collections they need. When different users need to see different parts of one collection, use a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search key</RouterLink> derived from a search-only key.
+:::
 
 Here's how to create a search key for one collection that expires on a given date:
 
@@ -92,12 +98,18 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
         }'
 ```
 
+### Request Parameters
+
 | Parameter     | Required | Description                                                                                                                                                                                                                                       |
 |---------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `actions`     | Yes      | Array of <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">Typesense action names</RouterLink> the key permits, for example `["documents:search"]`. `["*"]` creates an admin key. At least one entry, at most 100. |
-| `collections` | Yes      | Array of collection names or regular expressions the key covers, for example `["products"]` or `["products_.*"]`. `["*"]` covers every collection. At least one entry, at most 100.                                                                    |
-| `description` | No       | What the key is for. Shown on the dashboard's API Keys page. At most 255 characters.                                                                                                                                                                 |
-| `expires_at`  | No       | Unix timestamp in seconds after which the key stops working. Must be in the future. Omit it for a key that never expires.                                                                                                                             |
+| `actions`     | Required | Array of <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">Typesense action names</RouterLink> the key permits, for example `["documents:search"]`. `["*"]` creates an admin key. |
+| `collections` | Required | Array of collection names or regular expressions the key covers, for example `["products"]` or `["products_.*"]`. `["*"]` covers every collection. |
+| `description` | Optional | What the key is for.                                                                                                                                                                 |
+| `expires_at`  | Optional | Unix timestamp in seconds after which the key stops working. Omit it for a key that never expires.                                                                                                                             |
+
+:::tip
+Typesense doesn't check action names, so a misspelled action never matches anything.
+:::
 
 **Response:**
 
@@ -122,8 +134,10 @@ If you lose it, you want to revoke the key and create a new one.
 
 ## Revoke an API key
 
-This endpoint deletes a key from the cluster.
-Any request made with that key fails from then on.
+
+:::warning
+Revoking a key can't be undone. So create the replacement key first, roll it out and then revoke the old one.
+:::
 
 ```shell
 curl -X DELETE --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/api-keys/<KeyId>" \
@@ -141,47 +155,15 @@ curl -X DELETE --location "https://cloud.typesense.org/api/v1/clusters/<ClusterI
 }
 ```
 
-If no key with that id exists on the cluster, you'll get an HTTP `404`.
-
 ## Error responses
 
-When an error occurs, the API returns an error response with details about what went wrong.
-
-- HTTP `400` when the request is malformed: `actions` or `collections` is not a non-empty array of strings or has more than 100 entries, `description` is longer than 255 characters or `expires_at` is not a Unix timestamp in seconds or is in the past.
-- HTTP `400` when the cluster refuses the request, with the cluster's own message. Typesense stores action names as given and doesn't check them. So a misspelled action never matches anything, and the key can't do what you meant.
+- HTTP `400` when a parameter isn't valid.
+- HTTP `400` when the cluster refuses the request, with the cluster's own message.
 - HTTP `404` when the cluster id is not on your account, or on revoke, when no key with that id exists on the cluster.
-- HTTP `422` when the cluster isn't in service. The message names the cluster's current status, so you can tell whether waiting will help. A `provisioning` cluster will get there, a terminated one won't.
-- HTTP `503` when the cluster can't be reached right now. Retry after a moment.
+- HTTP `422` when the cluster isn't in service.
+- HTTP `503` when the cluster can't be reached right now.
 
-### Validation Error Example
+## Permissions
 
-```json
-{
-  "success": false,
-  "message": "actions must be a non-empty array of strings"
-}
-```
-
-### Cluster Not In Service Example
-
-```json
-{
-  "success": false,
-  "message": "Cluster is not In Service (status: provisioning)"
-}
-```
-
-### Cluster Unreachable Example
-
-```json
-{
-  "success": false,
-  "message": "Node is temporarily unavailable, please try again later"
-}
-```
-
-## Important notes
-
-- You want to keep admin keys on your servers. Give applications a key limited to the actions and collections they need. When different users need to see different parts of one collection, use a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search key</RouterLink> derived from a search-only key.
-- Timestamps in this API are Unix timestamps in seconds. A 13-digit value is in milliseconds, so it's rejected.
-- Revoking a key takes effect immediately and can't be undone. So create the replacement key first, roll it out and then revoke the old one.
+To [list](#list-all-api-keys), [create](#create-an-api-key-with-a-given-scope) or [revoke](#revoke-an-api-key) keys, you need a key with the `cluster_credentials:manage` capability.
+See [capabilities](./authentication.md#capabilities).
