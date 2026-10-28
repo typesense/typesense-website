@@ -8,6 +8,10 @@ Once you've provisioned a cluster via the Typesense Cloud web console or using t
 you can configure advanced <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/server-configuration.html`">Typesense Server Configuration Parameters</RouterLink> that control various aspects of Typesense's behavior, 
 such as CORS settings, performance tuning, and analytics configuration.
 
+:::warning IMPORTANT
+Parameter changes take effect when the Typesense server is restarted. So you want to start a [rolling restart](./cluster-restarts.md#start-a-rolling-restart) after changing them. A [configuration change](./cluster-configuration-changes.md#schedule-a-configuration-change) also restarts every node, so it applies them too.
+:::
+
 ## List all configuration parameters
 
 This endpoint returns all user-editable server configuration parameters for a cluster.
@@ -66,6 +70,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/
 ## Create a parameter
 
 This endpoint creates a new server configuration parameter for a cluster.
+Each parameter can only be set once per cluster, so to change a value, you want to [update it](#update-a-parameter).
 
 ```shell
 curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/server-configuration-parameters" \
@@ -90,6 +95,13 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
 }
 ```
 
+### Request Parameters
+
+| Parameter         | Required | Description |
+|-------------------|----------|-------------|
+| `parameter_name`  | Required | One of the [available parameters](#available-parameters). |
+| `parameter_value` | Required | The value to set. See Valid Values under [available parameters](#available-parameters). |
+
 ### Available Parameters
 
 The following parameters can be configured via this API:
@@ -105,6 +117,7 @@ The following parameters can be configured via this API:
 | `filter-by-max-ops`           | Maximum filter operations per search         | 1 to 65,535                   | v27+              |
 | `max-per-page`                | Maximum results per page                     | 1 to 10,000                   | v27+              |
 | `max-group-limit`             | Maximum group limit for grouped searches     | 1 to 9,999,999                | v29+              |
+| `max-query-len`               | Longer search queries are cut to this length | 1 to 10,000 characters        | v31.0.rc20+       |
 | `log-slow-requests-time-ms`   | Requests that take at least this many milliseconds are logged as [slow requests](./cluster-logs.md#get-slow-requests) | `-1` (off), or 1,000 to 2,147,483,647 | All |
 
 :::tip Note
@@ -157,22 +170,11 @@ curl -X DELETE --location "https://cloud.typesense.org/api/v1/clusters/<ClusterI
 
 ## Error Responses
 
-When an error occurs, the API returns an error response with details about what went wrong.
-
-- HTTP `400` when the parameter name isn't one of the [available parameters](#available-parameters), or `parameter_name` or `parameter_value` is missing.
+- HTTP `400` or `422` when a parameter isn't valid.
 - HTTP `404` when the cluster or the parameter doesn't exist.
-- HTTP `422` when the value isn't valid for the parameter, for example a number outside its range.
 
-### Validation Error Example
+## Permissions
 
-```json
-{
-  "success": false,
-  "message": "Parameter value all CORS domains must start with https://"
-}
-```
-
-## Important Notes
-
-- Parameter changes take effect when the Typesense server is restarted. So you want to start a [rolling restart](./cluster-restarts.md) after changing them. A configuration change also restarts every node, so it applies them too.
-- Each parameter can only be set once per cluster. To change a value, use the update endpoint.
+To [list](#list-all-configuration-parameters) or [get](#get-a-single-parameter) parameters, you need a key with the `clusters:read` capability.
+To [create](#create-a-parameter), [update](#update-a-parameter) or [delete](#delete-a-parameter) one, you need `cluster_parameters:manage`.
+See [capabilities](./authentication.md#capabilities).
