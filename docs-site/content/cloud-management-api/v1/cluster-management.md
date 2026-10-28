@@ -571,6 +571,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 ## List all clusters
 
 This endpoint can be used to list all clusters under this account.
+Clusters terminated more than a week ago only show up here while their [backups](./cluster-backups.md) are still kept, and only for a key with `backups:read`.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
@@ -721,4 +722,9 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>
 
 ### Parameters
 
-This endpoint takes a single parameter `lifecycle_action` and should have the value `terminate`
+`lifecycle_action` must be `terminate`.
+
+`delete_backups` is optional.
+When set to `true`, the cluster's kept [backups](./cluster-backups.md) are deleted along with it.
+When set to `false` (the default), they're kept until they expire, and you're billed for their storage until then.
+Any other value returns HTTP `400`.

@@ -7,6 +7,8 @@ description: "Typesense Cloud Invoice API endpoints list billing invoices and re
 The Invoices API allows you to programmatically retrieve billing invoices for your Typesense Cloud account. 
 You can list all invoices and fetch detailed information including line items for individual invoices.
 
+All amounts are in US cents, and timestamps are Unix timestamps in seconds.
+
 ## List all invoices
 
 This endpoint returns a paginated list of invoices for your account, excluding each invoice's line items.
@@ -17,12 +19,12 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices?page=1&per_p
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
 ```
 
-**Query Parameters:**
+### Request Parameters
 
-| Parameter | Type    | Default | Description                                      |
-|-----------|---------|---------|--------------------------------------------------|
-| page      | integer | 1       | Page number for pagination                       |
-| per_page  | integer | 10      | Number of invoices per page (maximum 50)         |
+| Parameter | Required | Type    | Default | Description                                      |
+|-----------|----------|---------|---------|--------------------------------------------------|
+| page      | Optional | integer | 1       | Page number for pagination                       |
+| per_page  | Optional | integer | 10      | Number of invoices per page (maximum 50)         |
 
 **Response:**
 
@@ -179,39 +181,17 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
 }
 ```
 
-## Download an invoice as a PDF
-
-You can download an invoice as a PDF file.
-It's the same document we attach to the receipt email.
-The response body is the PDF file itself, so here's how to save it to disk:
-
-```shell
-curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123def456/pdf" \
-    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
-    --output typesense-cloud-invoice.pdf
-```
-
-**Response:**
-
-You'll get a `200` response with `Content-Type: application/pdf` and a `Content-Disposition: attachment` header that names the file `typesense-cloud-invoice-<number>.pdf`, where `<number>` is the invoice number.
-
-You can download due and paid invoices.
-A draft invoice (the upcoming one, whose totals can still change), a voided invoice or an invoice that belongs to another account returns a `404`.
-
-If you get a `503` with a `Retry-After` header, every PDF render slot is in use at the moment.
-So you want to retry after the number of seconds it names.
-
 ### Line Item Fields
 
 | Field            | Type    | Description                                                                                                                                                                                                |
 |------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | description      | string  | Human-readable description of the line item                                                                                                                                                                |
 | unit_price_cents | integer | Unit price in cents                                                                                                                                                                                        |
-| quantity         | number  | Quantity (can be fractional for some line items)<br><br>For bandwidth line items, the `quantity` GB transferred with rounding applied. For node line items, the `quantity` represents node-hours of usage. |
+| quantity         | number  | Quantity (can be fractional for some line items)<br><br>For bandwidth line items, the `quantity` GB transferred with rounding applied. For node line items, the `quantity` represents node-hours of usage. For backup storage line items, it's GB-months, rounded up to 0.01. |
 | price_cents      | integer | Total price for this line item in cents (`quantity * unit_price_cents`).                                                                                                                                   |
 | line_item_type   | string  | Type of line item (see table [below](#line-item-types)).                                                                                                                                                   |
 | parameters       | object  | Structured metadata specific to the line item type (see table [below](#line-item-types)).                                                                                                                  |
-| price_tier_id    | string  | For `node` and `bandwidth` line items, the price tier this line groups usage under. It's the same `price_tier_id` as on the matching rows from [List usage](usage-and-prices.md). `null` for other line items. |
+| price_tier_id    | string  | For `node` and `bandwidth` line items, the price tier this line groups usage under. It's the same `price_tier_id` as on the matching rows from [List usage](cluster-usage-and-costs.md#list-usage). `null` for other line items. |
 
 
 ### Line Item Types
@@ -222,13 +202,31 @@ Each line item in an invoice has a `line_item_type` field that indicates what th
 |---------------------------|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `node`                    | Cluster node usage charges        | `cluster_id`, `memory_option`, `vcpu_option`, `gpu_option`, `high_performance_disk_option`, `high_availability_option`, `search_delivery_network_option`, `load_balancing_option`, `region` |
 | `bandwidth`               | Bandwidth usage charges           | `cluster_id`, `memory_option`, `vcpu_option`, `gpu_option`, `high_performance_disk_option`, `high_availability_option`, `search_delivery_network_option`, `load_balancing_option`, `region` |
+| `backup_storage`          | [Backup](./cluster-backups.md) storage, per GB-month | `cluster_id`, `region` |
 | `support`                 | Support plan subscription charges | `plan_name`, `starts_at` (Unix timestamp), `ends_at` (Unix timestamp)                                                                                                                       |
 | `prepaid_credit_purchase` | Prepaid credit purchases          | None                                                                                                                                                                                        |
 
 
-## Important Notes
+## Download an invoice as a PDF
 
-- The list endpoint returns invoice summaries without line items. Use the individual invoice endpoint to retrieve detailed line items.
-- All monetary amounts are in cents (USD).
-- All timestamps are Unix timestamps (seconds since epoch).
-- Pagination is supported for the list endpoint with a maximum of 50 invoices per page.
+Here's how to download an invoice and save it to disk:
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123def456/pdf" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
+    --output typesense-cloud-invoice.pdf
+```
+
+**Response:**
+
+You'll get a `200` response with `Content-Type: application/pdf` and a `Content-Disposition: attachment` header that names the file `typesense-cloud-invoice-<number>.pdf`.
+
+You can download due and paid invoices.
+A draft invoice, a voided invoice or an invoice that belongs to another account returns a `404`.
+
+If you get a `503`, retry after the number of seconds in its `Retry-After` header.
+
+## Permissions
+
+To [list](#list-all-invoices), [get](#get-a-single-invoice) or [download](#download-an-invoice-as-a-pdf) invoices, you need a key with the `billing:read` capability.
+See [capabilities](./authentication.md#capabilities).
