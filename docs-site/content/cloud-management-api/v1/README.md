@@ -14,16 +14,38 @@ provision resources, manage their lifecycle, access control, etc. programmatical
 
 ## What You Can Do with this API
 
-The Cloud Cluster Management API lets you do the following operations on Typesense Cloud:
+The Cloud Cluster Management API lets you do the following on Typesense Cloud:
 
-1. Provision new clusters
-2. Terminate clusters
-3. Generate API Keys for clusters
-4. Update select attributes of the cluster (Name, Auto Upgrade Capacity)
-5. Schedule cluster configuration changes
-6. Clone clusters
-7. Inspect per-node cluster metrics
-8. Look up the regions, memory and vCPU options a cluster can be created with
+### Clusters
+
+- [Create, list, rename and terminate clusters](./cluster-management.md), and look up the regions, memory and vCPU options a cluster can use
+- [Change a cluster's configuration](./cluster-configuration-changes.md): memory, vCPU, high availability, Typesense version and more
+- [Restart a cluster's nodes one at a time](./cluster-restarts.md)
+- [Clone a cluster](./cluster-cloning.md)
+- [Back up a cluster on a schedule and restore its backups](./cluster-backups.md)
+- [Set Typesense server parameters](./typesense-server-configuration-parameters.md)
+
+### Access
+
+- [List, create and revoke a cluster's API keys](./cluster-api-keys.md)
+- [Limit which IP addresses can reach a cluster](./ip-allowlist.md)
+
+### Monitoring
+
+- [Read per-node cluster metrics](./cluster-metrics.md)
+- [Read a cluster's request logs](./cluster-logs.md), including slow requests and when each API key was last used
+
+### Search analytics
+
+- [Read a collection's search insights](./search-insights.md)
+- [Get synonym suggestions for searches that found nothing](./synonym-suggestions.md)
+- [Email an analytics rule's results, such as popular or no-hit queries, on a schedule](./analytics-rule-notifications.md)
+
+### Billing
+
+- [Read invoices](./invoices.md) and download them as PDFs
+- [Read the prepaid credit balance and spend by month](./billing-summary.md), and switch between weekly and monthly billing
+- [Read the usage you were invoiced for, what each cluster cost per month and current prices](./usage-and-prices.md)
 
 Once you provision a cluster via this API,
 you'll then use the hostname(s) returned by this API to connect to your cluster's [Typesense Server API](/api) directly to index your data and search on it.

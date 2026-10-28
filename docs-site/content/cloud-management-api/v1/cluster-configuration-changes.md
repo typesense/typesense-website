@@ -13,7 +13,7 @@ Here's a typical sequence of API Calls you'd perform when using this API:
 
 1. [Schedule a new configuration change](#schedule-a-configuration-change) (which is an asynchronous process).
 2. Poll the [single config change info endpoint](#get-single-configuration-change) to get the status of the configuration change.
-3. If you need to cancel a pending config change, use the [update config change](#cancel-a-pending-configuration-change) endpoint. 
+3. If you need to, [cancel a pending configuration change](#cancel-a-pending-configuration-change).
 
 The rest of this document will talk about the individual endpoints.
 
@@ -31,8 +31,8 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
     -d '{
           "new_memory": "1_gb",
           "new_vcpu": "2_vcpus_2_hr_burst_per_day",
-          "new_typesense_server_version: "0.24.1",
-          "new_high_availability: "yes",
+          "new_typesense_server_version": "0.24.1",
+          "new_high_availability": "yes",
           "perform_change_at": 1787923647,
           "notification_email_addresses": ["email@example.com"]
         }'
@@ -85,7 +85,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
 You can only have one configuration change active / pending at a given time. 
 :::
 
-### Parameters
+### Request Parameters
 
 You can use any of the following parameters inside the payload of the above API call:
 
@@ -100,14 +100,14 @@ You can use any of the following parameters inside the payload of the above API 
 - [new_high_performance_disk](#new-high-performance-disk)
 - [new_typesense_server_version](#new-typesense-server-version)
 
-### `perform_change_at`
+#### `perform_change_at`
 
 The time at which this configuration change should be performed, as a Unix timestamp in seconds.
 
 It can be up to one year ahead.
 If you send a time in the past, the change starts right away.
 
-### `new_memory`
+#### `new_memory`
 
 How much [RAM](../../guide/system-requirements.md) this cluster should have.
 
@@ -116,19 +116,19 @@ You can use any of the following values mentioned [here](./cluster-management.md
 If the new memory size can't hold the cluster's data, the change is refused when it starts.
 To see which sizes fit before you schedule the change, you want to [get the cluster options with `cluster_id`](./cluster-management.md#check-which-memory-options-fit-an-existing-cluster).
 
-### `new_vcpu`
+#### `new_vcpu`
 
 How many [CPU](../../guide/system-requirements.md) cores this cluster should have.
 
 Only certain CPU configuration are available with particular RAM configurations. The table [here](./cluster-management.md#vcpu) lists all available configurations.
 
-### `new_gpu`
+#### `new_gpu`
 
 When set to `yes`, it enables the use of a GPU to accelerate embedding generation when using built-in ML models both during indexing and searching.
 
 Only certain RAM / CPU configurations are available with GPU acceleration. The table [here](./cluster-management.md#gpu) lists all available configurations.
 
-### `new_high_availability`
+#### `new_high_availability`
 
 When set to `yes`, at least 3 nodes are provisioned in 3 different data centers to form a highly available (HA) cluster and your data is automatically replicated between all nodes.
 
@@ -138,7 +138,7 @@ Once High Availability is enabled, it cannot be turned off.
 If you want to turn off HA, you'd need to provision a new cluster without HA, reindex your data in it and then terminate the HA cluster.
 :::
 
-### `new_high_availability_node_count`
+#### `new_high_availability_node_count`
 
 The number of nodes for a single-region highly available cluster. Use this to scale a highly available cluster up or down between 3 and 7 nodes.
 
@@ -151,7 +151,7 @@ This option:
 
 This is a shorthand for [`new_region_node_counts`](#new-region-node-counts) with a single region. You can only specify one of `new_high_availability_node_count` or `new_region_node_counts`.
 
-### `new_search_delivery_network`
+#### `new_search_delivery_network`
 
 Changes the [Search Delivery Network](./cluster-management.md#search-delivery-network) option for the cluster.
 
@@ -165,7 +165,7 @@ Enabling Search Delivery Network on a cluster that doesn't already have High Ava
 You cannot set [`new_high_availability`](#new-high-availability) to `no` while Search Delivery Network is enabled.
 :::
 
-### `new_region_node_counts`
+#### `new_region_node_counts`
 
 An object that maps region names to the number of nodes you want in each region. Use this to change which regions the cluster runs in, and/or how many nodes run in each region.
 
@@ -189,7 +189,7 @@ You can only specify one of `new_region_node_counts` or [`new_high_availability_
 The `region_node_counts` and `high_availability_node_count` parameters used when [creating a cluster](./cluster-management.md#create-new-cluster) are not accepted here. Use `new_region_node_counts` and `new_high_availability_node_count` instead.
 :::
 
-### `new_high_performance_disk`
+#### `new_high_performance_disk`
 
 When set to `yes`, the provisioned hard disk will be co-located on the same physical server that runs the node.
 
@@ -198,7 +198,7 @@ When set to `yes`, the provisioned hard disk will be co-located on the same phys
 - The cluster has High Availability turned on
 - The cluster does not have a burst CPU type.
 
-### `new_typesense_server_version`
+#### `new_typesense_server_version`
 
 The Typesense Server version to change this cluster to.
 
@@ -207,31 +207,16 @@ The Typesense Server version to change this cluster to.
 The API returns HTTP `400` and doesn't schedule the configuration change when:
 
 - the cluster is not In Service
-- another configuration change or a [rolling restart](./cluster-restarts.md) on the cluster is scheduled or in progress
-- the cluster is the source or the target of a cloning operation that's pending or in progress
+- another configuration change or a rolling restart on the cluster is scheduled or in progress
+- the cluster is the source or the target of a [cloning operation](./cluster-cloning.md#start-a-cloning-operation) that's pending or in progress
 - a [backup](./cluster-backups.md) of the cluster is running
-- 100 configuration changes have been requested on the cluster in the last 15 minutes
-- a region the cluster runs in is currently experiencing an outage
-- `perform_change_at` is missing, isn't a Unix timestamp in seconds or is more than a year ahead
-- `new_memory` is not one of the [memory options](./cluster-management.md#memory), or the RAM, CPU and GPU combination you asked for is not available
-- `new_typesense_server_version` is not a valid version, or is a downgrade the cluster's current version doesn't allow
+- the RAM, CPU and GPU combination you asked for is not available
+- `new_typesense_server_version` is a downgrade the cluster's current version doesn't allow
 - `new_high_availability` is `no` while Search Delivery Network is enabled
-- `new_region_node_counts` or `new_high_availability_node_count` is outside its limits, both are sent or `region_node_counts` or `high_availability_node_count` is sent
-- the payload doesn't change anything (to restart the cluster without changing its configuration, use a [rolling restart](./cluster-restarts.md))
-- a notification email address is not valid
+- the payload doesn't change anything (to restart the cluster without changing its configuration, use a [rolling restart](./cluster-restarts.md#start-a-rolling-restart))
+- a parameter isn't valid
 
 It returns HTTP `402` when the change touches anything besides the Typesense Server version and the account has neither a payment method nor a positive prepaid credit balance.
-
-When more than one of the cluster checks above fails, `message` joins them with ` | ` and `messages` lists each one.
-
-Here's the response when the cluster isn't In Service:
-
-```json
-{
-  "success": false,
-  "message": "Cluster configuration can only be modified when the cluster is In Service."
-}
-```
 
 ## Get single configuration change
 
@@ -283,7 +268,9 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
 }
 ```
 
-### `status`
+### Response Parameters
+
+#### `status`
 
 The `status` field can be any of the following values:
 
@@ -352,21 +339,12 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
 }
 ```
 
-### Parameters
+### Request Parameters
 
-You can use the following query parameters with this endpoint:
-
-### `per_page`
-
-The number of results per page.
-
-Default: `10`
-
-### `page`
-
-Page number to fetch
-
-Default: `1`
+| Parameter  | Required | Description |
+|------------|----------|-------------|
+| `per_page` | Optional | The number of results per page. Default: `10` |
+| `page`     | Optional | Page number to fetch. Default: `1` |
 
 ## Cancel a pending configuration change
 
@@ -434,3 +412,9 @@ It returns HTTP `404` when the cluster has no configuration change with this ID.
   "message": "Only configuration changes in a `pending` status can be canceled."
 }
 ```
+
+## Permissions
+
+To [schedule](#schedule-a-configuration-change) or [cancel](#cancel-a-pending-configuration-change) a configuration change, you need a key with the `clusters:configure` capability.
+To [get](#get-single-configuration-change) or [list](#list-all-configuration-changes) configuration changes, you need `clusters:read`.
+See [capabilities](./authentication.md#capabilities).

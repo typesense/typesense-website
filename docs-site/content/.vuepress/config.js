@@ -458,22 +458,60 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ['/cloud-management-api/v1/', 'Overview'],
         ['/cloud-management-api/v1/authentication', 'Authentication'],
         {
-          title: 'API Resources',
+          title: 'Clusters',
           collapsable: false,
           children: [
             ['/cloud-management-api/v1/cluster-management', 'Cluster Management'],
-            ['/cloud-management-api/v1/cluster-configuration-changes', 'Cluster Configuration Changes'],
-            ['/cloud-management-api/v1/cluster-cloning', 'Cluster Cloning'],
-            [
-              '/cloud-management-api/v1/typesense-server-configuration-parameters',
-              'Typesense Configuration Parameters',
-            ],
-            ['/cloud-management-api/v1/invoices', 'Invoices'],
+            ['/cloud-management-api/v1/cluster-configuration-changes', 'Configuration Changes'],
+            ['/cloud-management-api/v1/cluster-restarts', 'Rolling Restarts'],
+            ['/cloud-management-api/v1/cluster-cloning', 'Cloning'],
+            ['/cloud-management-api/v1/cluster-backups', 'Backups'],
+            ['/cloud-management-api/v1/typesense-server-configuration-parameters', 'Server Parameters'],
           ],
         },
-        ['/cloud-management-api/v1/response-codes', 'Response Codes'],
-        ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
-        ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
+        {
+          title: 'Access',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/cluster-api-keys', 'Cluster API Keys'],
+            ['/cloud-management-api/v1/ip-allowlist', 'IP Allowlist'],
+          ],
+        },
+        {
+          title: 'Monitoring',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/cluster-metrics', 'Metrics'],
+            ['/cloud-management-api/v1/cluster-logs', 'Logs'],
+          ],
+        },
+        {
+          title: 'Search Analytics',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/search-insights', 'Search Insights'],
+            ['/cloud-management-api/v1/synonym-suggestions', 'Synonym Suggestions'],
+            ['/cloud-management-api/v1/analytics-rule-notifications', 'Analytics Rule Notifications'],
+          ],
+        },
+        {
+          title: 'Billing',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/invoices', 'Invoices'],
+            ['/cloud-management-api/v1/billing-summary', 'Billing Summary'],
+            ['/cloud-management-api/v1/usage-and-prices', 'Usage and Prices'],
+          ],
+        },
+        {
+          title: 'Reference',
+          collapsable: false,
+          children: [
+            ['/cloud-management-api/v1/response-codes', 'Response Codes'],
+            ['/cloud-management-api/v1/rate-limits', 'Rate Limits'],
+            ['/cloud-management-api/v1/terraform-module', 'Terraform Module'],
+          ],
+        },
       ],
 
       //For 30.2

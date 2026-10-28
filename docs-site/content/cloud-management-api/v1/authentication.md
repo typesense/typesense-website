@@ -20,21 +20,44 @@ Make sure you note this API Key down, as this will be the only time you'll be ab
 
 ## Capabilities and presets
 
-Each key has one or more capabilities:
+Each key carries one or more capabilities, and each request needs one of them.
+If a key doesn't have the capability a request needs, you'll get an HTTP `403` that names the capability (see [Response Codes](./response-codes.md)).
+The keys page in Typesense Cloud groups them under the same headings as this table.
 
-- `clusters:read`
-- `metrics:read`
-- `clusters:create`
-- `clusters:configure`
-- `cluster_parameters:manage`
-- `clusters:clone`
-- `cluster_credentials:issue`
-- `billing:read`
-- `clusters:terminate`
+| Group | Capability | What it allows | In presets |
+|-------|------------|----------------|------------|
+| Clusters | `clusters:read` | List clusters and read their configuration, status, history (configuration changes, cloning, rolling restarts) and server parameters | all |
+| | `clusters:create` | [Create clusters](./cluster-management.md#create-new-cluster) (billed to the account) | `provision` |
+| | `clusters:configure` | Resize, change topology, rename and toggle auto-upgrade (billable changes) | `provision`, `operate` |
+| | `clusters:restart` | Start and cancel [rolling restarts](./cluster-restarts.md) | `provision`, `operate` |
+| | `clusters:clone` | [Clone clusters](./cluster-cloning.md) | |
+| | `clusters:terminate` | [Terminate clusters](./cluster-management.md#terminate-cluster) | |
+| Server parameters | `cluster_parameters:manage` | Change [Typesense server parameters](./typesense-server-configuration-parameters.md) and [synonym suggestion](./synonym-suggestions.md) settings, and read and change [analytics rule notifications](./analytics-rule-notifications.md) (scheduling them also needs `search_insights:read`) | `operate` |
+| Metrics | `metrics:read` | Read [cluster metrics](./cluster-metrics.md) and [request logs](./cluster-logs.md), including when each API key was last used | all |
+| | `search_insights:read` | Read a collection's [search insights](./search-insights.md) and its [synonym suggestions](./synonym-suggestions.md) | |
+| Backups | `backups:read` | List a cluster's [backups](./cluster-backups.md) and read its backup settings and their estimated cost | all |
+| | `backups:manage` | Turn backups on or off, delete backups and change their schedule and regions (billed) | |
+| | `backups:restore` | Restore a backup onto a new cluster (billed), or onto the backed-up cluster itself, replacing all of its data | |
+| Cluster API keys | `cluster_credentials:issue` | [Issue](./cluster-management.md#generate-api-key) a cluster's standard admin and search-only key pair | |
+| | `cluster_credentials:manage` | [List, create and revoke](./cluster-api-keys.md) a cluster's keys, including keys with a custom scope | |
+| Network access | `cluster_network:manage` | Read and replace a cluster's [IP allowlist](./ip-allowlist.md) | |
+| Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md) and [usage, costs by cluster and prices](./usage-and-prices.md) | |
+| | `billing:manage` | [Switch the account](./billing-summary.md) between weekly and monthly billing | |
 
-`clusters:read` covers every read, including configuration-change and cloning history and server parameters. `clusters:configure` covers sizing, topology, rename, and auto-upgrade; `cluster_parameters:manage` covers Typesense server parameters. The `read-only` preset grants `clusters:read` and `metrics:read`. The `provision` preset grants `clusters:read`, `metrics:read`, `clusters:create`, and `clusters:configure`. The `operate` preset grants `clusters:read`, `metrics:read`, `clusters:configure`, and `cluster_parameters:manage`. The `admin` preset grants every capability. Choose custom capabilities when a task needs a different combination.
+There are four presets:
 
-`cluster_credentials:issue` can return a wildcard Typesense Server admin key, so grant it only to trusted workflows that need to create cluster credentials. Cloning copies cluster data, and billing access can reveal billing information, so those capabilities are separate from read-only cluster access.
+- `read-only`: `clusters:read`, `metrics:read` and `backups:read`.
+- `provision`: everything in `read-only`, plus `clusters:create`, `clusters:configure` and `clusters:restart`.
+- `operate`: everything in `read-only`, plus `clusters:configure`, `clusters:restart` and `cluster_parameters:manage`.
+- `admin`: every capability. A few requests need `admin` itself because they write to the data inside a cluster. Accepting a [synonym suggestion](./synonym-suggestions.md#accept-a-synonym-suggestion) is one of them.
+
+Choose custom capabilities when a task needs a different combination.
+On a team account, a key can only carry what your own role allows.
+
+`cluster_credentials:issue` and `cluster_credentials:manage` can each return a wildcard Typesense Server admin key.
+So you want to grant them only to trusted workflows that need to create cluster credentials.
+`cluster_network:manage` can cut off every client of the cluster, so it isn't in any preset and you have to grant it by name.
+Cloning and restoring copy cluster data, and billing access can reveal billing information, so those capabilities are separate from read-only cluster access.
 
 ## Making API Calls
 
@@ -43,8 +66,9 @@ Set the API key in the `X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY` HTTP header. An [A
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
     -H "Accept: application/json" \
-    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: INSERT-YOUR-KEY-HERE"
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
 ```
+
 ## Check which account a key acts on
 
 Any key can look up the account it belongs to and the capabilities it carries, whatever those capabilities are.
@@ -53,6 +77,7 @@ Here's the request:
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/account" \
     -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
 ```
 
 **Response:**

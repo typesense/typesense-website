@@ -12,7 +12,7 @@ If you're looking for the Typesense Server API docs, see [here](/api).
 
 Here's a typical sequence of API Calls you'd perform when using this API:
 
-1. [Create a new cluster](#create-new-cluster) (which is an asynchronous process that will take 4 - 5 minutes).
+1. [Create a new cluster](#create-new-cluster) (which is an asynchronous process: a free-tier cluster is usually ready within seconds and other configurations take 4 to 6 minutes).
 2. Poll the [single cluster info endpoint](#get-single-cluster) to get the status of the cluster.
 3. Once the cluster has `status: in_service`, save the `hostnames` field returned by the cluster info endpoint.
 4. [Generate Typesense API keys](#generate-api-key) for the cluster and store these keys in a secrets store on your side.
@@ -33,7 +33,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
     -d '{
           "memory": "0.5_gb",
           "vcpu": "2_vcpus_1_hr_burst_per_day",
-          "regions": ["oregon"],
+          "regions": ["oregon"]
         }'
 ```
 
@@ -77,9 +77,9 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
 }
 ```
 
-### Parameters
+### Request Parameters
 
-You can use any of the following parameters inside the payload of the above API call. The values each parameter accepts are listed below; the [Get cluster options](#get-cluster-options) endpoint returns the same lists, along with which regions are currently available.
+You can use any of the following parameters inside the payload of the above API call. The [Get cluster options](#get-cluster-options) endpoint also returns the values each one accepts, and which regions are available right now.
 
 - [memory](#memory) <Badge type="warning" text="Required" vertical="top"/>
 - [vcpu](#vcpu) <Badge type="warning" text="Required" vertical="top"/>
@@ -94,7 +94,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [name](#name)
 - [auto_upgrade_capacity](#auto-upgrade-capacity)
 
-### `memory`
+#### `memory`
 
 How much [RAM](../../guide/system-requirements.md) this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
 
@@ -119,7 +119,7 @@ You can use any of the following values:
 | 768_gb   |
 | 1024_gb  |
 
-### `vcpu`
+#### `vcpu`
 
 How many [CPU](../../guide/system-requirements.md) cores this cluster should have. <Badge type="warning" text="Required" vertical="top"/>
 
@@ -143,9 +143,10 @@ Only certain CPU configurations are available with particular RAM configurations
 | 512_gb   | 16_vcpus <br> 32_vcpus <br> 64_vcpus <br> 128_vcpus                |
 | 768_gb   | 24_vcpus <br> 48_vcpus <br> 96_vcpus <br> 192_vcpus                |
 | 1024_gb  | 32_vcpus <br> 64_vcpus <br> 128_vcpus                              |
+
 You can also get this list from the [cluster options](#get-cluster-options) endpoint, under `vcpu_by_memory`.
 
-### `regions`
+#### `regions`
 
 An array with one or more regions where the nodes should be geographically placed. <Badge type="warning" text="Required" vertical="top"/>
 
@@ -187,7 +188,7 @@ The table below lists all available regions:
 | melbourne    |
 | sydney       |
 
-### `region_node_counts`
+#### `region_node_counts`
 
 An object that maps region names to the number of nodes you want placed in each region. Use this instead of [`regions`](#regions) when you want to control how many nodes go into each region.
 
@@ -218,7 +219,7 @@ The number of regions and nodes you can specify depends on the cluster's [`high_
 
 You can only specify one of `regions` or `region_node_counts`. To set the number of nodes for a single-region highly available cluster, use [`high_availability_node_count`](#high-availability-node-count) together with a single [`regions`](#regions) value instead.
 
-### `high_availability_node_count`
+#### `high_availability_node_count`
 
 The number of nodes to provision for a single-region highly available cluster. This is a shorthand for specifying [`region_node_counts`](#region-node-counts) with a single region.
 
@@ -241,7 +242,7 @@ For example, to provision a 5-node highly available cluster in Oregon:
 
 You can only specify one of `high_availability_node_count` or [`region_node_counts`](#region-node-counts).
 
-### `gpu`
+#### `gpu`
 
 When set to `yes`, it enables the use of a GPU to accelerate embedding generation when using built-in ML models both during indexing and searching.
 
@@ -264,7 +265,7 @@ This option is only available with the following RAM / CPU configurations:
 
 Default: `no`
 
-### `high_availability`
+#### `high_availability`
 
 When set to `yes`, at least 3 nodes are provisioned in 3 different data centers to form a highly available (HA) cluster and your data is automatically replicated between all nodes.
 
@@ -272,7 +273,7 @@ By default, an HA cluster has 3 nodes. To provision more than 3 nodes (up to 7) 
 
 Default: `no`
 
-### `search_delivery_network`
+#### `search_delivery_network`
 
 When not `off`, nodes are provisioned in different regions and the node that's closest to it's originating location serves the traffic.
 
@@ -291,7 +292,7 @@ When using `multi_nodes_per_region`, specify the number of nodes for each region
 
 **IMPORTANT:** Make sure you set `high_availability` to `yes` when you turn on Search Delivery Network.
 
-### `high_performance_disk`
+#### `high_performance_disk`
 
 When set to `yes`, the provisioned hard disk will be co-located on the same physical server that runs the node.
 
@@ -302,19 +303,19 @@ Default: `no`
 - The cluster has High Availability turned on
 - The cluster does not have a burst CPU type.
 
-### `typesense_server_version`
+#### `typesense_server_version`
 
 The Typesense Server version to use for this cluster.
 
 Default: Latest GA release version.
 
-### `name`
+#### `name`
 
 A string to identify the cluster for your reference in the Typesense Cloud Web console.
 
 Default: `null`
 
-### `auto_upgrade_capacity`
+#### `auto_upgrade_capacity`
 
 When set to `true`, your cluster will be automatically upgraded when best-practice RAM/CPU thresholds are exceeded in a 12-hour rolling window.
 
@@ -326,24 +327,23 @@ Most response parameters are similar to the request parameters above.
 
 We've documented response-specific parameters below:
 
-### `regions` (response)
+#### `regions` (response)
 
 In the response, `regions` is a flat list with one entry per node. For example, a 3-node cluster in Oregon returns `["oregon", "oregon", "oregon"]`.
 
 During a topology change, this list reflects the nodes that are currently live, which can differ from the target topology reported in [`region_node_counts`](#region-node-counts-response).
 
-### `region_node_counts` (response)
+#### `region_node_counts` (response)
 
 An object that maps each region to the number of nodes configured for that region, for example `{ "oregon": 2, "frankfurt": 1 }`. This reflects the cluster's target topology.
 
-### `high_availability_node_count` (response)
+#### `high_availability_node_count` (response)
 
 The number of nodes for a single-region highly available cluster. This is `null` when High Availability is off, or when Search Delivery Network is enabled. In those cases, refer to [`region_node_counts`](#region-node-counts-response) for the number of nodes per region.
 
-### `cpu_burst`
+#### `cpu_burst`
 
 This is only set for clusters on a burst vCPU option (for example `2_vcpus_4_hr_burst_per_day`).
-It's `null` for every other cluster.
 
 | `cpu_burst`  | Description                                                                    |
 |--------------|--------------------------------------------------------------------------------|
@@ -352,11 +352,11 @@ It's `null` for every other cluster.
 | `throttled`  | The cluster has run out of burst CPU, and its CPU is throttled until usage drops |
 | `null`       | Not a burst vCPU option, or too early to tell. The status updates about every 30 minutes |
 
-### `write_backlog`
+#### `write_backlog`
 
 This is `null` unless the cluster's write queue has grown past what the cluster can keep up with, because of the way data is being written to it.
 While it's set, writes are rejected with a `503` until the queue drains.
-We also email the account's cluster alert recipients when this happens, at most once per cause per week.
+We also email the account's cluster alert recipients when this happens.
 
 Here's an example:
 
@@ -372,7 +372,7 @@ Here's an example:
 | `kind`  | `single_document_writes`: a high rate of single-document writes instead of batched <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">imports</RouterLink>. `import_call_flood`: import calls arriving faster than the cluster can index them, with too few documents per call or too many calls in parallel. |
 | `since` | Unix timestamp, in seconds, of when the condition was first detected. |
 
-### `status`
+#### `status`
 
 The state of the cluster. 
 
@@ -389,7 +389,7 @@ It can have the following values:
 
 ## Get cluster options
 
-This endpoint lists the values you can use when creating a cluster: the regions, the memory options, the vCPU options available for each memory option, the GPU, high performance disk and high availability options, the Search Delivery Network options, and the free-tier configuration. It also tells you whether each region is currently available. The management key needs the `clusters:read` capability.
+This endpoint lists the values you can use when [creating a cluster](#create-new-cluster), and which regions are available right now.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options" \
@@ -425,15 +425,14 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options" \
 
 The response above is shortened. The actual response lists every region and every memory option.
 
-- `regions[].name` is the value to use for `regions` in [Create new cluster](#create-new-cluster). A region with `"available": false` is currently having an outage.
+- `regions[].name` is the value to use for `regions` in [Create new cluster](#create-new-cluster). A region with `"available": false` can't be used right now.
 - `vcpu_by_memory` shows which `vcpu` values go with each `memory` value. For example, `2_vcpus` is available with `4_gb` but not with `0.5_gb`.
 - `free_tier` is the configuration you can create without adding a payment method.
 
 ### Check which memory options fit an existing cluster
 
-Before you change an existing cluster's memory with a [configuration change](./cluster-configuration-changes.md), you want to pass its id as `cluster_id` to this endpoint.
+Before you change an existing cluster's memory with a [configuration change](./cluster-configuration-changes.md#schedule-a-configuration-change), you want to pass its id as `cluster_id` to this endpoint.
 The response then also tells you how much memory and CPU the cluster used in the last 7 days and which memory options can hold its data.
-Your key needs the `metrics:read` capability as well as `clusters:read` for this.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options?cluster_id=<ClusterID>" \
@@ -461,17 +460,15 @@ The response has the fields above, plus these three:
 }
 ```
 
-The `memory_fit` above is shortened.
-The actual response has an entry for every memory option.
 
 - `usage_last_7_days.peak_memory_used_gb` is the peak RAM plus swap used on any node, in GB, rounded up to 0.1.
-- `usage_last_7_days.latest_memory_used_gb` is the RAM plus swap used on any node in the latest complete hour and the current one, in GB, rounded up to 0.1. It's the number a configuration change checks the new memory option against when the change starts. It's `null` when those hours have no metrics.
+- `usage_last_7_days.latest_memory_used_gb` is the RAM plus swap used on any node in the latest complete hour and the current one, in GB, rounded up to 0.1. It's `null` when those hours have no metrics.
 - `usage_last_7_days.peak_cpu_percentage` is the CPU use in the busiest hour (95th percentile) on any node, as a percentage of the cluster's current vCPUs. It's `null` until the window has a full hour in it.
 - `usage_last_7_days.vcpus` is the cluster's current number of vCPUs per node.
 - `usage_last_7_days.window_started_at` is where the window starts: 7 days ago, or the first full hour after the cluster's last memory or vCPU change if that's more recent.
 - `memory_fit` has an entry for every memory option:
   - `fits_current_data` is `true` when the option is larger than `latest_memory_used_gb` (or `peak_memory_used_gb` when that's `null`). A configuration change to a memory option that doesn't fit is rejected when the change starts.
-  - `fits_peak_last_7_days` is `true` when the option is larger than `peak_memory_used_gb`. So when `fits_current_data` is `true` and this is `false`, the data fits now but wouldn't fit if it grew back to its peak.
+  - `fits_peak_last_7_days` is `true` when the option is larger than `peak_memory_used_gb`.
   - `spare_gb` is what would be left over at `latest_memory_used_gb`, rounded down to 0.1. It's negative when the data doesn't fit.
 - `usage_last_7_days_unavailable_reason` is `null`, `no_metrics` (the cluster reported no metrics in the last 7 days) or `metrics_unavailable` (metrics couldn't be read right now, so you want to retry). When it isn't `null`, `usage_last_7_days` and `memory_fit` are both `null`.
 
@@ -504,10 +501,11 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>
 }
 ```
 
-You can use the two ids to refer to these keys later, for example to revoke them with the [Cluster API Keys](./cluster-api-keys.md) endpoints.
+You can use the two ids to [revoke these keys](./cluster-api-keys.md#revoke-an-api-key) later.
 
 This API endpoint is the equivalent of clicking on the "Generate API Keys" button in the Cluster Dashboard on Typesense Cloud Web console.
-The [Cluster API Keys](./cluster-api-keys.md) endpoints also let you list and revoke the keys on a cluster, or create a key that's limited to certain actions or collections.
+
+The [Cluster API Keys](./cluster-api-keys.md) endpoints also let you [list the keys on a cluster](./cluster-api-keys.md#list-all-api-keys) or [create a key that's limited to certain actions or collections](./cluster-api-keys.md#create-an-api-key-with-a-given-scope). That page also covers when to use which way of creating keys.
 
 ## Get single cluster
 
@@ -571,7 +569,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 ## List all clusters
 
 This endpoint can be used to list all clusters under this account.
-Clusters terminated more than a week ago only show up here while their [backups](./cluster-backups.md) are still kept, and only for a key with `backups:read`.
+Clusters terminated more than a week ago only show up here while their [backups](./cluster-backups.md#backups-and-terminated-clusters) are still kept, and only for a key with `backups:read`.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
@@ -623,28 +621,16 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
 }
 ```
 
-### Parameters
+### Request Parameters
 
-You can use the following query parameters with this endpoint:
-
-### `per_page`
-
-The number of results per page. 
-
-Default: `10`
-
-### `page`
-
-Page number to fetch
-
-Default: `1`
+| Parameter  | Required | Description |
+|------------|----------|-------------|
+| `per_page` | Optional | The number of results per page. Default: `10` |
+| `page`     | Optional | Page number to fetch. Default: `1` |
 
 ## Update cluster attributes
 
-This endpoint can be used to update select cluster attributes:
-
-- `auto_upgrade_capacity`
-- `name`
+This endpoint can be used to update select cluster attributes.
 
 ```shell
 curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>" \
@@ -656,6 +642,13 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
           "name": "New Name"
         }'
 ```
+
+### Request Parameters
+
+| Parameter               | Required | Description |
+|-------------------------|----------|-------------|
+| `auto_upgrade_capacity` | Optional | See [`auto_upgrade_capacity`](#auto-upgrade-capacity). |
+| `name`                  | Optional | See [`name`](#name). |
 
 **Response:**
 
@@ -699,7 +692,9 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
 
 This endpoint terminates a running cluster. 
 
-This action cannot be undone. Once a cluster is terminated, all data in it is destroyed permanently as a security and privacy measure.
+:::warning
+This action can't be undone. Once a cluster is terminated, all data in it is destroyed permanently as a security and privacy measure.
+:::
 
 ```shell
 curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/lifecycle" \
@@ -720,11 +715,23 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>
 }
 ```
 
-### Parameters
+### Request Parameters
 
-`lifecycle_action` must be `terminate`.
+| Parameter          | Required | Description |
+|--------------------|----------|-------------|
+| `lifecycle_action` | Required | Must be `terminate`. |
+| `delete_backups`   | Optional | When `true`, the cluster's kept [backups](./cluster-backups.md) are deleted along with it. When `false`, they're kept until they expire. Default: `false` |
 
-`delete_backups` is optional.
-When set to `true`, the cluster's kept [backups](./cluster-backups.md) are deleted along with it.
-When set to `false` (the default), they're kept until they expire, and you're billed for their storage until then.
-Any other value returns HTTP `400`.
+
+:::warning
+You're billed for the storage of kept backups until they expire.
+:::
+
+## Permissions
+
+To [create a cluster](#create-new-cluster), you need a key with the `clusters:create` capability.
+To [get cluster options](#get-cluster-options), [get a cluster](#get-single-cluster) or [list clusters](#list-all-clusters), you need `clusters:read`. [Checking which memory options fit an existing cluster](#check-which-memory-options-fit-an-existing-cluster) also needs `metrics:read`.
+To [generate API keys](#generate-api-key), you need `cluster_credentials:issue`.
+To [update cluster attributes](#update-cluster-attributes), you need `clusters:configure`.
+To [terminate a cluster](#terminate-cluster), you need `clusters:terminate`.
+See [capabilities](./authentication.md#capabilities).

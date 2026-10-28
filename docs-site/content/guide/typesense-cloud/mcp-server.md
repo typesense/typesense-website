@@ -162,21 +162,29 @@ When you connect your agent, the permissions page shows five presets:
 You can also enable or disable individual permissions. Cluster permissions are the same ones a [Cluster Management API key](../../cloud-management-api/v1/authentication.md#capabilities-and-presets) can carry:
 
 - `clusters:read`: list clusters and read their configuration, status, history and server parameters
-- `metrics:read`: read cluster metrics
+- `metrics:read`: read cluster metrics, request logs and each node's health
+- `search_insights:read`: read a collection's search insights (its top no-hit and popular queries, top facet values, field names and synonym sets) and its synonym suggestions, so the agent can propose synonyms
 - `clusters:create`: create clusters (billed to the account)
 - `clusters:configure`: resize, change topology, rename and toggle auto-upgrade (billable changes)
-- `cluster_parameters:manage`: change Typesense server parameters (no billing impact)
+- `clusters:restart`: start and cancel rolling restarts
+- `cluster_parameters:manage`: change Typesense server parameters and synonym suggestion settings, run or dismiss synonym suggestions (suggestion runs use your own LLM provider key and are billed by that provider) and read and change analytics rule notifications (scheduling them also needs `search_insights:read`)
 - `clusters:clone`: clone clusters
-- `cluster_credentials:issue`: issue cluster API keys
-- `billing:read`: read invoices
+- `cluster_credentials:issue`: issue a cluster's admin and search-only keys
+- `cluster_credentials:manage`: list, create and revoke cluster API keys
+- `cluster_network:manage`: read and replace a cluster's IP allowlist (which IPv4 addresses can reach it)
+- `backups:read`: list a cluster's backups and read its backup settings and their estimated cost
+- `backups:manage`: turn backups on or off, change their schedule and regions (billed) and delete backups
+- `backups:restore`: restore a backup to a new cluster (billed), or onto the backed-up cluster, replacing all of its data
+- `billing:read`: read invoices, the billing summary (prepaid credit balance, spend by month, the upcoming invoice and the billing cycle), invoiced usage, what each cluster cost per month and prices
+- `billing:manage`: switch the account between weekly and monthly billing
 - `clusters:terminate`: terminate clusters
 
 Data permissions match the cluster UI dashboard's permissions:
 
 - `data:view`: read collections, schemas, documents and aliases
 - `data:search`: search, and create a search-only cluster key for an app (if your role manages keys)
-- `data:full_access`: create, change and drop collections; add, update and delete documents; manage aliases
-- `data:manage_synonyms`, `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`, `data:manage_stemming`
+- `data:full_access`: manage collections (create, change and drop), documents (add, update and delete) and aliases. It includes `data:view` and `data:search`. It doesn't include the `data:manage_*` permissions below, which you grant separately
+- `data:manage_synonyms` (also needed to accept a synonym suggestion), `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`, `data:manage_stemming`
 - `data:manage_analytics_rules`, `data:manage_conversation_models`, `data:manage_natural_language_models`
 
 Every tool is offered to every connection, but each tool call is checked against the permissions you granted.
@@ -188,7 +196,7 @@ Only the person who connected an agent can change what it can do.
 
 The tools that change things (`manage_cluster`, `documents` and `change_cluster_data`) are marked destructive, so clients that honor that annotation ask you before running them.
 
-On a team account you can only grant what [your own role](./role-based-access-control-admin-dashboard.md) allows. Options your role does not cover are greyed out with the reason.
+On a team account you can only grant what [your own role](./role-based-access-control-admin-dashboard.md) allows. Options your role doesn't cover are grayed out with the reason.
 
 ## What the agent works with
 
@@ -197,8 +205,19 @@ These are the tools available for your agent to use once it is connected. Agents
 - `whoami`: which account and permissions the connection has, the clusters on the account, and what to do with them first. Agents call it first.
 - `search_typesense_docs`: searches this documentation, matched to your cluster's Typesense version.
 - `search_documents`: searches a collection, including multi-search and vector or hybrid queries.
-- `get_clusters`: lists clusters and reads configuration, status, metrics, configuration-change and cloning history, server parameters and invoices, plus the regions, memory and vCPU options a cluster can be created with.
-- `manage_cluster`: creates, renames, resizes, tunes, clones and terminates clusters, and issues cluster API keys.
+- `get_clusters`: reads everything about your clusters and account:
+  - Clusters: configuration, status, metrics, server parameters, the IP allowlist, API keys (never a key's value) and configuration-change, cloning and rolling-restart history.
+  - Monitoring: request logs (the access log, slow requests, top client IPs and API keys, plus when each API key was last used).
+  - Search analytics: a collection's search insights and synonym suggestions, synonym suggestion settings and analytics rule notifications.
+  - Backups: backup settings and kept backups.
+  - Billing: invoices, the billing summary, invoiced usage, costs by cluster and prices.
+  - Options: the regions, memory and vCPU options a cluster can be created with and which memory sizes fit an existing cluster's data.
+- `manage_cluster`: makes changes:
+  - Clusters: creates, renames, resizes, tunes, restarts, clones and terminates clusters, and cancels pending configuration changes, restarts and clones.
+  - Access: replaces a cluster's IP allowlist and issues, creates and revokes cluster API keys.
+  - Search analytics: schedules analytics rule notifications, sets up and runs synonym suggestions and accepts or dismisses them.
+  - Backups: turns backups on or off and deletes or restores them.
+  - Billing: switches the account between weekly and monthly billing.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
 - `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, conversation models and natural language search models. This also covers the cluster's own `/health` and `/metrics.json`.
 - `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission; nobody replies through the tool, so for anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
@@ -217,7 +236,8 @@ A new account can create a free-tier cluster (0.5 GB memory, 2 vCPU burst, one n
 
 ## Rate Limits
 
-Each connection gets 300 data calls (search, documents, reads and writes) per minute and 30 cluster-management actions per minute, the same as the [Cloud Management API](../../cloud-management-api/v1/rate-limits.md).
+Each connection gets 300 data calls (search, documents, reads and writes) per minute.
+Cluster-management actions are limited to 30 per minute, the same as the [Cloud Management API](../../cloud-management-api/v1/rate-limits.md).
 
 ## Running without a browser
 
