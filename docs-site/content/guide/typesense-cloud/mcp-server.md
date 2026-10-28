@@ -145,6 +145,7 @@ The agent creates a free-tier cluster, asks what your data looks like, proposes 
 - "Show me my last three invoices?"
 - "What changed between my invoice from this week vs last week?"
 - "Based on my last 6 invoices, how much should I prepay for the credits to last a year?"
+- "Which cluster cost me the most last month?"
 
 ## What you can let the agent do
 
