@@ -111,6 +111,8 @@ Should be a timestamp in the future.
 How much [RAM](../../guide/system-requirements.md) this cluster should have.
 
 You can use any of the following values mentioned [here](./cluster-management.md#memory).
+If the new memory size can't hold the cluster's data, the change is refused when it starts.
+To see which sizes fit before you schedule the change, you want to [get the cluster options with `cluster_id`](./cluster-management.md#check-which-memory-options-fit-an-existing-cluster).
 
 ### `new_vcpu`
 

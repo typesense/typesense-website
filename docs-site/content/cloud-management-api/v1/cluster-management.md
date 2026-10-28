@@ -396,6 +396,46 @@ The response above is shortened. The actual response lists every region and ever
 - `vcpu_by_memory` shows which `vcpu` values go with each `memory` value. For example, `2_vcpus` is available with `4_gb` but not with `0.5_gb`.
 - `free_tier` is the configuration you can create without adding a payment method.
 
+### Check which memory options fit an existing cluster
+
+Before you change an existing cluster's memory with a [configuration change](./cluster-configuration-changes.md), you want to pass its id as `cluster_id` to this endpoint.
+The response then also tells you how much memory and CPU the cluster used in the last 7 days and which memory options can hold its data.
+Your key needs the `metrics:read` capability as well as `clusters:read` for this.
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options?cluster_id=<ClusterID>" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+The response has the fields above, plus these three:
+
+```json
+{
+  "usage_last_7_days": {
+    "peak_memory_used_gb": 3.1,
+    "peak_cpu_percentage": 38.0,
+    "vcpus": 4,
+    "window_started_at": "2026-10-06T04:00:00Z"
+  },
+  "memory_fit": {
+  },
+  "usage_last_7_days_unavailable_reason": null
+}
+```
+
+The `memory_fit` above is shortened.
+The actual response has an entry for every memory option.
+
+- `usage_last_7_days.peak_memory_used_gb` is the peak RAM plus swap used on any node, in GB, rounded up to 0.1.
+- `usage_last_7_days.vcpus` is the cluster's current number of vCPUs per node.
+- `usage_last_7_days.window_started_at` is where the window starts: 7 days ago, or the first full hour after the cluster's last memory or vCPU change if that's more recent.
+- `memory_fit` has an entry for every memory option:
+  - `fits_current_data` is `true` when the option is larger than `latest_memory_used_gb` (or `peak_memory_used_gb` when that's `null`). A configuration change to a memory option that doesn't fit is rejected when the change starts.
+  - `fits_peak_last_7_days` is `true` when the option is larger than `peak_memory_used_gb`. So when `fits_current_data` is `true` and this is `false`, the data fits now but wouldn't fit if it grew back to its peak.
+  - `spare_gb` is what would be left over at `latest_memory_used_gb`, rounded down to 0.1. It's negative when the data doesn't fit.
+- `usage_last_7_days_unavailable_reason` is `null`, `no_metrics` (the cluster reported no metrics in the last 7 days) or `metrics_unavailable` (metrics couldn't be read right now, so you want to retry). When it isn't `null`, `usage_last_7_days` and `memory_fit` are both `null`.
+
 ## Generate API key
 
 This endpoint can be used to generate [Typesense Server API](/api) Keys for your cluster.
