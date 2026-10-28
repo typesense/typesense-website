@@ -340,6 +340,38 @@ An object that maps each region to the number of nodes configured for that regio
 
 The number of nodes for a single-region highly available cluster. This is `null` when High Availability is off, or when Search Delivery Network is enabled. In those cases, refer to [`region_node_counts`](#region-node-counts-response) for the number of nodes per region.
 
+### `cpu_burst`
+
+This is only set for clusters on a burst vCPU option (for example `2_vcpus_4_hr_burst_per_day`).
+It's `null` for every other cluster.
+
+| `cpu_burst`  | Description                                                                    |
+|--------------|--------------------------------------------------------------------------------|
+| `ok`         | The cluster has burst CPU left                                                 |
+| `low`        | The cluster is about to run out of burst CPU                                   |
+| `throttled`  | The cluster has run out of burst CPU, and its CPU is throttled until usage drops |
+| `null`       | Not a burst vCPU option, or too early to tell. The status updates about every 30 minutes |
+
+### `write_backlog`
+
+This is `null` unless the cluster's write queue has grown past what the cluster can keep up with, because of the way data is being written to it.
+While it's set, writes are rejected with a `503` until the queue drains.
+We also email the account's cluster alert recipients when this happens, at most once per cause per week.
+
+Here's an example:
+
+```json
+"write_backlog": {
+  "kind": "single_document_writes",
+  "since": 1761600000
+}
+```
+
+| Field   | Description |
+|---------|-------------|
+| `kind`  | `single_document_writes`: a high rate of single-document writes instead of batched <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">imports</RouterLink>. `import_call_flood`: import calls arriving faster than the cluster can index them, with too few documents per call or too many calls in parallel. |
+| `since` | Unix timestamp, in seconds, of when the condition was first detected. |
+
 ### `status`
 
 The state of the cluster. 
@@ -415,11 +447,15 @@ The response has the fields above, plus these three:
 {
   "usage_last_7_days": {
     "peak_memory_used_gb": 3.1,
+    "latest_memory_used_gb": 2.8,
     "peak_cpu_percentage": 38.0,
     "vcpus": 4,
     "window_started_at": "2026-10-06T04:00:00Z"
   },
   "memory_fit": {
+    "2_gb": {"fits_current_data": false, "fits_peak_last_7_days": false, "spare_gb": -0.8},
+    "4_gb": {"fits_current_data": true, "fits_peak_last_7_days": true, "spare_gb": 1.2},
+    "8_gb": {"fits_current_data": true, "fits_peak_last_7_days": true, "spare_gb": 5.2}
   },
   "usage_last_7_days_unavailable_reason": null
 }
@@ -429,6 +465,8 @@ The `memory_fit` above is shortened.
 The actual response has an entry for every memory option.
 
 - `usage_last_7_days.peak_memory_used_gb` is the peak RAM plus swap used on any node, in GB, rounded up to 0.1.
+- `usage_last_7_days.latest_memory_used_gb` is the RAM plus swap used on any node in the latest complete hour and the current one, in GB, rounded up to 0.1. It's the number a configuration change checks the new memory option against when the change starts. It's `null` when those hours have no metrics.
+- `usage_last_7_days.peak_cpu_percentage` is the CPU use in the busiest hour (95th percentile) on any node, as a percentage of the cluster's current vCPUs. It's `null` until the window has a full hour in it.
 - `usage_last_7_days.vcpus` is the cluster's current number of vCPUs per node.
 - `usage_last_7_days.window_started_at` is where the window starts: 7 days ago, or the first full hour after the cluster's last memory or vCPU change if that's more recent.
 - `memory_fit` has an entry for every memory option:
@@ -441,7 +479,10 @@ The actual response has an entry for every memory option.
 
 This endpoint can be used to generate [Typesense Server API](/api) Keys for your cluster.
 
-You can only generate API keys for a cluster, once its status changes to `in_service`. New clusters take at least 4 minutes to go from `provisioning` status to `in_service`.
+You can only generate API keys for a cluster, once its status changes to `in_service`.
+A free-tier cluster is usually `in_service` within seconds.
+Other configurations take 4 to 6 minutes to go from `provisioning` to `in_service`.
+So you want to poll [Get single cluster](#get-single-cluster) about every 60 seconds until then.
 
 ```shell
 curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/api-keys" \
@@ -502,6 +543,8 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
     "mumbai": 3
   },
   "auto_upgrade_capacity": null,
+  "cpu_burst": null,
+  "write_backlog": null,
   "hostnames": {
     "load_balanced": "nuj9s7k6vplrg15yp.a1.typesense.net",
     "nodes": [
