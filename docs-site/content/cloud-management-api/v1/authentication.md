@@ -14,50 +14,45 @@ If you're looking for the Typesense Server API docs, see [here](/api).
 2. Switch to the account you want to generate an API Key for, using the account switcher on the top right.
 3. Navigate to your [account page](https://cloud.typesense.org/account).
 4. Scroll all the way down, and click on the "Read More" link next to "Need programmatic access to create clusters".
-5. On the next page, choose a capability preset or a custom capability set, then click "New Cluster Management API Key".
+5. On the next page, pick the key's [capabilities](#capabilities), then click "New Cluster Management API Key".
 
 Make sure you note this API Key down, as this will be the only time you'll be able to see the full API Key.
 
-## Capabilities and presets
+## Capabilities
 
-Each key carries one or more capabilities, and each request needs one of them.
+When you create a key in the Typesense Cloud dashboard, you can pick one or more of these capabilities.
 If a key doesn't have the capability a request needs, you'll get an HTTP `403` that names the capability (see [Response Codes](./response-codes.md)).
-The keys page in Typesense Cloud groups them under the same headings as this table.
 
-| Group | Capability | What it allows | In presets |
-|-------|------------|----------------|------------|
-| Clusters | `clusters:read` | List clusters and read their configuration, status, history (configuration changes, cloning, rolling restarts) and server parameters | all |
-| | `clusters:create` | [Create clusters](./cluster-management.md#create-new-cluster) (billed to the account) | `provision` |
-| | `clusters:configure` | Resize, change topology, rename and toggle auto-upgrade (billable changes) | `provision`, `operate` |
-| | `clusters:restart` | Start and cancel [rolling restarts](./cluster-restarts.md) | `provision`, `operate` |
-| | `clusters:clone` | [Clone clusters](./cluster-cloning.md) | |
-| | `clusters:terminate` | [Terminate clusters](./cluster-management.md#terminate-cluster) | |
-| Server parameters | `cluster_parameters:manage` | Change [Typesense server parameters](./typesense-server-configuration-parameters.md) and [synonym suggestion](./synonym-suggestions.md) settings, and read and change [analytics rule notifications](./analytics-rule-notifications.md) (scheduling them also needs `search_insights:read`) | `operate` |
-| Metrics | `metrics:read` | Read [cluster metrics](./cluster-metrics.md) and [request logs](./cluster-logs.md), including when each API key was last used | all |
-| | `search_insights:read` | Read a collection's [search insights](./search-insights.md) and its [synonym suggestions](./synonym-suggestions.md) | |
-| Backups | `backups:read` | List a cluster's [backups](./cluster-backups.md) and read its backup settings and their estimated cost | all |
-| | `backups:manage` | Turn backups on or off, delete backups and change their schedule and regions (billed) | |
-| | `backups:restore` | Restore a backup onto a new cluster (billed), or onto the backed-up cluster itself, replacing all of its data | |
-| Cluster API keys | `cluster_credentials:issue` | [Issue](./cluster-management.md#generate-api-key) a cluster's standard admin and search-only key pair | |
-| | `cluster_credentials:manage` | [List, create and revoke](./cluster-api-keys.md) a cluster's keys, including keys with a custom scope | |
-| Network access | `cluster_network:manage` | Read and replace a cluster's [IP allowlist](./ip-allowlist.md) | |
-| Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md) and [usage, costs by cluster and prices](./usage-and-prices.md) | |
-| | `billing:manage` | [Switch the account](./billing-summary.md) between weekly and monthly billing | |
+| Group | Capability | What it allows |
+|-------|------------|----------------|
+| | `admin` | Every capability below. A few requests need `admin` itself because they write to the data inside a cluster, such as [accepting a synonym suggestion](./synonym-suggestions.md#accept-a-synonym-suggestion). |
+| Clusters | `clusters:read` | [List clusters](./cluster-management.md#list-all-clusters) and [read their configuration and status](./cluster-management.md#get-single-cluster), their history of [configuration changes](./cluster-configuration-changes.md#list-all-configuration-changes), [cloning](./cluster-cloning.md#list-all-cloning-operations) and [rolling restarts](./cluster-restarts.md#list-all-rolling-restarts), and their [server parameters](./typesense-server-configuration-parameters.md#list-all-configuration-parameters) |
+| | `clusters:create` | [Create clusters](./cluster-management.md#create-new-cluster) (billed to the account) |
+| | `clusters:configure` | [Resize, change topology, rename and toggle auto-upgrade](./cluster-configuration-changes.md#schedule-a-configuration-change) (billable changes) |
+| | `clusters:restart` | [Start](./cluster-restarts.md#start-a-rolling-restart) and [cancel](./cluster-restarts.md#cancel-a-pending-rolling-restart) rolling restarts |
+| | `clusters:clone` | [Clone clusters](./cluster-cloning.md#start-a-cloning-operation) |
+| | `clusters:terminate` | [Terminate clusters](./cluster-management.md#terminate-cluster) |
+| Server parameters | `cluster_parameters:manage` | Change [Typesense server parameters](./typesense-server-configuration-parameters.md#update-a-parameter) and [synonym suggestion settings](./synonym-suggestions.md#set-up-or-replace-synonym-suggestions), and read and change [analytics rule notifications](./analytics-rule-notifications.md) (scheduling them also needs `search_insights:read`) |
+| Metrics | `metrics:read` | Read [cluster metrics](./cluster-metrics.md) and [request logs](./cluster-logs.md), including when each API key was last used |
+| | `search_insights:read` | Read a collection's [search insights](./search-insights.md) and [list its synonym suggestions](./synonym-suggestions.md#list-synonym-suggestions) |
+| Backups | `backups:read` | [List a cluster's backups](./cluster-backups.md#list-backups) and [read its backup settings](./cluster-backups.md#get-backup-settings) and their estimated cost |
+| | `backups:manage` | [Turn backups on or off and change their schedule and regions](./cluster-backups.md#change-backup-settings) (billed), and [delete backups](./cluster-backups.md#delete-a-backup) |
+| | `backups:restore` | [Restore a backup](./cluster-backups.md#restore-a-backup) onto a new cluster (billed), or onto the backed-up cluster itself, replacing all of its data |
+| Cluster API keys | `cluster_credentials:issue` | [Issue](./cluster-management.md#generate-api-key) a cluster's standard admin and search-only key pair |
+| | `cluster_credentials:manage` | [List](./cluster-api-keys.md#list-all-api-keys), [create](./cluster-api-keys.md#create-an-api-key-with-a-given-scope) and [revoke](./cluster-api-keys.md#revoke-an-api-key) a cluster's keys, including keys with a custom scope |
+| Network access | `cluster_network:manage` | Read and replace a cluster's [IP allowlist](./ip-allowlist.md) |
+| Dashboard links | `dashboard_links:manage` | [Create](./dashboard-links.md#create-a-dashboard-link), [list](./dashboard-links.md#list-dashboard-links) and [revoke](./dashboard-links.md#revoke-a-dashboard-link) links that open one cluster's dashboard for a person without a Typesense Cloud account |
+| Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md#get-billing-summary) and [usage](./cluster-usage-and-costs.md#list-usage), [costs by cluster](./cluster-usage-and-costs.md#list-costs-by-cluster) and [prices](./prices.md#list-prices) |
+| | `billing:manage` | [Switch the account between weekly and monthly billing](./billing-summary.md#switch-billing-cycle) |
 
-There are four presets:
-
-- `read-only`: `clusters:read`, `metrics:read` and `backups:read`.
-- `provision`: everything in `read-only`, plus `clusters:create`, `clusters:configure` and `clusters:restart`.
-- `operate`: everything in `read-only`, plus `clusters:configure`, `clusters:restart` and `cluster_parameters:manage`.
-- `admin`: every capability. A few requests need `admin` itself because they write to the data inside a cluster. Accepting a [synonym suggestion](./synonym-suggestions.md#accept-a-synonym-suggestion) is one of them.
-
-Choose custom capabilities when a task needs a different combination.
 On a team account, a key can only carry what your own role allows.
 
-`cluster_credentials:issue` and `cluster_credentials:manage` can each return a wildcard Typesense Server admin key.
-So you want to grant them only to trusted workflows that need to create cluster credentials.
-`cluster_network:manage` can cut off every client of the cluster, so it isn't in any preset and you have to grant it by name.
-Cloning and restoring copy cluster data, and billing access can reveal billing information, so those capabilities are separate from read-only cluster access.
+:::warning Grant these with care
+- `cluster_credentials:issue` and `cluster_credentials:manage` can each return a wildcard Typesense Server admin key, so you want to grant them only to trusted workflows that need to create cluster credentials.
+- `cluster_network:manage` can cut off every client of the cluster.
+- `dashboard_links:manage` hands out sign-ins to a cluster's dashboard. AI agents connected through the MCP server can't be given it at all.
+- Cloning and restoring copy cluster data, and billing access can reveal billing information, so those capabilities are separate from `clusters:read`.
+:::
 
 ## Making API Calls
 
@@ -71,8 +66,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
 
 ## Check which account a key acts on
 
-Any key can look up the account it belongs to and the capabilities it carries, whatever those capabilities are.
-Here's the request:
+Any key can look up the account it belongs to and the capabilities it carries:
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/account" \
@@ -102,6 +96,6 @@ When an AI agent calls this through the [MCP server](../../guide/typesense-cloud
 
 ## Revoking API Keys
 
-To revoke a key, go back to the [Cluster Management API Keys page](https://cloud.typesense.org/account/management-api-keys) under your account, find the key in the list, and click the trash icon next to it. Confirm the prompt and the key stops working immediately.
+To revoke a key, click the trash icon next to it on the [Cluster Management API Keys page](https://cloud.typesense.org/account/management-api-keys).
 
-Keys are minted at the account level, and are not tied to the individual user who created them. The "Created By" line on the keys page is there for attribution: a key keeps working after that user leaves the account, so revoke any keys you no longer want to be usable.
+Keys belong to the account, so a key keeps working after the user who created it leaves the account.

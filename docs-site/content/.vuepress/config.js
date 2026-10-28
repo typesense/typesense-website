@@ -463,7 +463,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           children: [
             ['/cloud-management-api/v1/cluster-management', 'Cluster Management'],
             ['/cloud-management-api/v1/cluster-configuration-changes', 'Configuration Changes'],
-            ['/cloud-management-api/v1/cluster-restarts', 'Rolling Restarts'],
+            ['/cloud-management-api/v1/cluster-restarts', 'Cluster Restarts'],
             ['/cloud-management-api/v1/cluster-cloning', 'Cloning'],
             ['/cloud-management-api/v1/cluster-backups', 'Backups'],
             ['/cloud-management-api/v1/typesense-server-configuration-parameters', 'Server Parameters'],
@@ -475,6 +475,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           children: [
             ['/cloud-management-api/v1/cluster-api-keys', 'Cluster API Keys'],
             ['/cloud-management-api/v1/ip-allowlist', 'IP Allowlist'],
+            ['/cloud-management-api/v1/dashboard-links', 'Dashboard Links'],
           ],
         },
         {
@@ -500,7 +501,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           children: [
             ['/cloud-management-api/v1/invoices', 'Invoices'],
             ['/cloud-management-api/v1/billing-summary', 'Billing Summary'],
-            ['/cloud-management-api/v1/usage-and-prices', 'Usage and Prices'],
+            ['/cloud-management-api/v1/cluster-usage-and-costs', 'Cluster Usage & Costs'],
+            ['/cloud-management-api/v1/prices', 'Prices'],
           ],
         },
         {
