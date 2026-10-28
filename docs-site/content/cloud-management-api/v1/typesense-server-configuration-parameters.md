@@ -174,5 +174,5 @@ When an error occurs, the API returns an error response with details about what 
 
 ## Important Notes
 
-- Parameter changes take effect when the Typesense server is restarted. You need to restart your cluster for changes to take effect using the [Cluster Configuration Management API](./cluster-configuration-changes.md) by leaving out all the parameters except for `perform_change_at`.
+- Parameter changes take effect when the Typesense server is restarted. So you want to start a [rolling restart](./cluster-restarts.md) after changing them. A configuration change also restarts every node, so it applies them too.
 - Each parameter can only be set once per cluster. To change a value, use the update endpoint.

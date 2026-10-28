@@ -134,6 +134,7 @@ The agent creates a free-tier cluster, asks what your data looks like, proposes 
 - "Upgrade my cluster to the latest Typesense version"
 - "Cancel the configuration change that is still pending"
 - "Set `max-per-page` to 500 on this cluster"
+- "Restart my cluster tonight at 2 am UTC so the new server parameters take effect"
 - "Clone my production cluster into a staging cluster"
 - "Which regions and cluster sizes can I choose from?"
 - "Give me the search-only key for my web app"
