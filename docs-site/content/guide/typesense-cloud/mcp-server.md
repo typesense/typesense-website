@@ -178,7 +178,12 @@ Data permissions match the cluster UI dashboard's permissions:
 - `data:manage_synonyms`, `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`, `data:manage_stemming`
 - `data:manage_analytics_rules`, `data:manage_conversation_models`, `data:manage_natural_language_models`
 
-Every tool is offered to every connection; but each tool call is checked against the permissions you granted, and a refused call tells the agent which permission it is missing so it can ask you for it. To widen a connection, disconnect the MCP Server from your agent, then re-add and re-authenticate. You'll see the consent screen again, where you'll be able to select the new set of permissions.
+Every tool is offered to every connection, but each tool call is checked against the permissions you granted.
+When a call is refused, the agent is told which permission it's missing, along with a link to pass on to you.
+The link opens "Edit capabilities" for that connection with the permission already ticked.
+Once you click "Save", the agent has that permission from its next call, without reconnecting.
+You can also change a connection's permissions yourself by going to Account > Connected apps and clicking on "Edit capabilities".
+Only the person who connected an agent can change what it can do.
 
 The tools that change things (`manage_cluster`, `documents` and `change_cluster_data`) are marked destructive, so clients that honor that annotation ask you before running them.
 
