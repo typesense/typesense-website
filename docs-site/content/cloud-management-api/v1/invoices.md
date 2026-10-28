@@ -121,6 +121,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
       "quantity": 720,
       "price_cents": 1800000,
       "line_item_type": "node",
+      "price_tier_id": "59e21f1e-ccf8-11f1-baf2-d6db8e0b3c14",
       "parameters": {
         "cluster_id": "0197kdlrfsubahw4p",
         "memory_option": "4_gb",
@@ -136,9 +137,10 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
     {
       "description": "Bandwidth -- 0197kdlrfsubahw4p -- 4 GB RAM, 2 vCPUs, GPU:No, HiPerfDisk:No, HA:Yes, SDN:3 Regions, LoadBalanced:No, Oregon (per GB)",
       "unit_price_cents": 120,
-      "quantity": 50000000,
-      "price_cents": 6000000,
+      "quantity": 50,
+      "price_cents": 6000,
       "line_item_type": "bandwidth",
+      "price_tier_id": "59e1cd5c-ccf8-11f1-baf2-d6db8e0b3c14",
       "parameters": {
         "cluster_id": "0197kdlrfsubahw4p",
         "memory_option": "4_gb",
@@ -157,6 +159,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
       "quantity": 1,
       "price_cents": 50000,
       "line_item_type": "support",
+      "price_tier_id": null,
       "parameters": {
         "plan_name": "Business",
         "starts_at": 1735689600,
@@ -169,6 +172,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
       "quantity": 100,
       "price_cents": 1000000,
       "line_item_type": "prepaid_credit_purchase",
+      "price_tier_id": null,
       "parameters": {}
     }
   ]
@@ -207,6 +211,7 @@ So you want to retry after the number of seconds it names.
 | price_cents      | integer | Total price for this line item in cents (`quantity * unit_price_cents`).                                                                                                                                   |
 | line_item_type   | string  | Type of line item (see table [below](#line-item-types)).                                                                                                                                                   |
 | parameters       | object  | Structured metadata specific to the line item type (see table [below](#line-item-types)).                                                                                                                  |
+| price_tier_id    | string  | For `node` and `bandwidth` line items, the price tier this line groups usage under. It's the same `price_tier_id` as on the matching rows from [List usage](usage-and-prices.md). `null` for other line items. |
 
 
 ### Line Item Types
