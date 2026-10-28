@@ -1,13 +1,17 @@
 ---
+description: "Get a Typesense Cloud account's spend by month, the upcoming invoice, the billing cycle and any prepaid credit balance through the Cluster Management API, and switch between weekly and monthly billing."
 ---
 
 # Billing Summary API
 
-The billing summary tells you how much prepaid credit is left and what you're spending, in one call.
-It returns the same numbers as the billing insights on the Account page of the Typesense Cloud dashboard: the prepaid credit balance with an estimate of how long it'll last, spend in each of the last 12 months, the invoice accruing now and the billing cycle.
+The billing summary shows what your account has spent in each of the last 12 months, the invoice accruing in the current billing cycle and the billing cycle itself.
 
+By default, charges accrue over each billing cycle and your card on file is charged at the end of it.
+If you've bought [prepaid credit](https://cloud-help.typesense.org/article/billing-process), it's used first, and the summary also returns your credit balance with an estimate of how long it'll last.
 
-## Get the billing summary
+All amounts are in US cents, and timestamps are Unix timestamps in seconds.
+
+## Get billing summary
 
 Here's how to fetch the billing summary:
 
@@ -22,6 +26,13 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/account/billing-summa
 ```json
 {
   "captured_at": 1791568800,
+  "billing_cycle": {
+    "cycle": "weekly",
+    "days": 7,
+    "monthly_eligible": true,
+    "monthly_ineligibility_reason": null,
+    "monthly_available_at": null
+  },
   "credit_balance_cents": 412500,
   "credit_balance_zero_reached_at": null,
   "runway": {
@@ -69,37 +80,93 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/account/billing-summa
 }
 ```
 
-Timestamps in this API are Unix timestamps in seconds.
+### Response Parameters
 
-### Credit balance
+#### Billing cycle
 
-- `credit_balance_cents` is the current prepaid credit balance, or `0` when the account has no prepaid credit.
-- `credit_balance_zero_reached_at` is when the balance last reached zero, if it is zero now.
+- `cycle` is `weekly` (every 7 days) or `monthly` (every 28 days). It's `null` when the Typesense Cloud team has set a different length for the account.
+- `days` is the length of a billing cycle. We issue an invoice at the end of each cycle, or sooner once the invoice's amount reaches the account's limit.
+- `monthly_eligible` is `true` when the account can switch to monthly billing now. Monthly billing is available to active accounts that had a successful payment at least 2 months ago, no failed payment in the last 2 months and no unpaid invoices with failed payments.
+- `monthly_ineligibility_reason` names why monthly billing isn't available: `payment_history_too_short`, `failed_payment_in_window`, `unpaid_invoices`, `account_not_active` or `custom_cycle`. `custom_cycle` means the Typesense Cloud team set the cycle by hand, so you want to ask them to change it.
+- `monthly_available_at` is when monthly billing becomes available if no further payment fails, as a Unix timestamp in seconds. It's set for `payment_history_too_short` and `failed_payment_in_window`, and `null` otherwise, including before the account's first successful payment.
 
-### Runway
-
-`runway` estimates how long the prepaid credit balance will last at your recent spend. It's `null` when the balance is zero.
-
-| `state`                | Meaning                                                                                              |
-|------------------------|------------------------------------------------------------------------------------------------------|
-| `estimated`            | `sentence` holds the estimate. `explanation` and `window_weeks` name the spend window it is based on. |
-| `no_recent_spend`      | Nothing was charged in the last 8 weeks, so the balance isn't being drawn down.                     |
-| `insufficient_history` | The account needs a few weeks of billing history before an estimate is possible.                     |
-
-`sentence` is the estimate in plain words, as the dashboard shows it.
-
-### Monthly spend
+#### Monthly spend
 
 `monthly_spend` always holds 12 months, oldest first.
 Each month counts the money charged in it:
 
 - `card_cents`: successful card charges, less refunds. Purchases of prepaid credit aren't included here. They count in the month the credit is spent.
 - `credit_cents`: prepaid credit used.
-- `amount_cents`: the two added together.
+- `amount_cents`: `card_cents` + `credit_cents`.
 
 The last month has `current_month` set to `true` and covers the current month so far.
 
-### Upcoming invoice
+#### Upcoming invoice
 
-`upcoming_invoice` is the draft invoice accruing now, in the same shape as the [Invoices API](./invoices.md) list, or `null` when nothing is accruing.
-To get its line items, fetch the invoice by its `id`.
+`upcoming_invoice` is the draft invoice accruing now, in the same shape as an invoice from [List all invoices](./invoices.md#list-all-invoices), or `null` when nothing is accruing.
+To get its line items, [fetch the invoice](./invoices.md#get-a-single-invoice) by its `id`.
+
+#### Credit balance
+
+- `credit_balance_cents` is the current prepaid credit balance, or `0` when the account has no prepaid credit.
+- `credit_balance_zero_reached_at` is when the balance last reached zero, if it is zero now.
+
+#### Runway
+
+`runway` estimates how long the prepaid credit balance will last at your recent spend. It's `null` when the balance is zero.
+
+| `state`                | Meaning                                                                                              |
+|------------------------|------------------------------------------------------------------------------------------------------|
+| `estimated`            | `sentence` holds the estimate. `explanation` and `window_weeks` name the spend window it is based on. |
+| `no_recent_spend`      | Nothing was charged in the last 8 weeks.                     |
+| `insufficient_history` | The account needs a few weeks of billing history before an estimate is possible.                     |
+
+## Switch billing cycle
+
+You can always switch to `weekly`, and you can switch to `monthly` once the account is eligible (see [`monthly_eligible`](#billing-cycle)).
+The change applies to the current invoice, counted from the day it opened, and to every invoice after it.
+
+### Request Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `cycle`   | Required | `weekly` or `monthly`. |
+
+Here's how to switch to monthly billing:
+
+```shell
+curl -X PATCH --location "https://cloud.typesense.org/api/v1/account/billing-cycle" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
+    -d '{"cycle": "monthly"}'
+```
+
+**Response:**
+
+```json
+{
+  "billing_cycle": {
+    "cycle": "monthly",
+    "days": 28,
+    "monthly_eligible": true,
+    "monthly_ineligibility_reason": null,
+    "monthly_available_at": null
+  }
+}
+```
+
+When the switch is refused, the response has `success` set to `false` and a `message` saying why:
+
+```json
+{
+  "success": false,
+  "message": "Monthly billing is available after 2 months of successful payments."
+}
+```
+
+## Permissions
+
+To [get the billing summary](#get-billing-summary), you need a key with the `billing:read` capability.
+To [switch the billing cycle](#switch-billing-cycle), you need `billing:manage`.
+See [capabilities](./authentication.md#capabilities).
