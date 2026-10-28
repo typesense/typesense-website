@@ -102,15 +102,17 @@ You can use any of the following parameters inside the payload of the above API 
 
 ### `perform_change_at`
 
-The Unix timestamp at which this configuration change should be performed at.
+The time at which this configuration change should be performed, as a Unix timestamp in seconds.
 
-Should be a timestamp in the future.
+It can be up to one year ahead.
+If you send a time in the past, the change starts right away.
 
 ### `new_memory`
 
 How much [RAM](../../guide/system-requirements.md) this cluster should have.
 
 You can use any of the following values mentioned [here](./cluster-management.md#memory).
+
 If the new memory size can't hold the cluster's data, the change is refused when it starts.
 To see which sizes fit before you schedule the change, you want to [get the cluster options with `cluster_id`](./cluster-management.md#check-which-memory-options-fit-an-existing-cluster).
 
@@ -199,6 +201,37 @@ When set to `yes`, the provisioned hard disk will be co-located on the same phys
 ### `new_typesense_server_version`
 
 The Typesense Server version to change this cluster to.
+
+### Error Responses
+
+The API returns HTTP `400` and doesn't schedule the configuration change when:
+
+- the cluster is not In Service
+- another configuration change or a [rolling restart](./cluster-restarts.md) on the cluster is scheduled or in progress
+- the cluster is the source or the target of a cloning operation that's pending or in progress
+- a [backup](./cluster-backups.md) of the cluster is running
+- 100 configuration changes have been requested on the cluster in the last 15 minutes
+- a region the cluster runs in is currently experiencing an outage
+- `perform_change_at` is missing, isn't a Unix timestamp in seconds or is more than a year ahead
+- `new_memory` is not one of the [memory options](./cluster-management.md#memory), or the RAM, CPU and GPU combination you asked for is not available
+- `new_typesense_server_version` is not a valid version, or is a downgrade the cluster's current version doesn't allow
+- `new_high_availability` is `no` while Search Delivery Network is enabled
+- `new_region_node_counts` or `new_high_availability_node_count` is outside its limits, both are sent or `region_node_counts` or `high_availability_node_count` is sent
+- the payload doesn't change anything (to restart the cluster without changing its configuration, use a [rolling restart](./cluster-restarts.md))
+- a notification email address is not valid
+
+It returns HTTP `402` when the change touches anything besides the Typesense Server version and the account has neither a payment method nor a positive prepaid credit balance.
+
+When more than one of the cluster checks above fails, `message` joins them with ` | ` and `messages` lists each one.
+
+Here's the response when the cluster isn't In Service:
+
+```json
+{
+  "success": false,
+  "message": "Cluster configuration can only be modified when the cluster is In Service."
+}
+```
 
 ## Get single configuration change
 
@@ -387,5 +420,17 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
       "email@example.com"
     ]
   }
+}
+```
+
+### Error Responses
+
+The API returns HTTP `400` when `status` isn't `canceled`, or when the configuration change isn't `pending` any more.
+It returns HTTP `404` when the cluster has no configuration change with this ID.
+
+```json
+{
+  "success": false,
+  "message": "Only configuration changes in a `pending` status can be canceled."
 }
 ```
