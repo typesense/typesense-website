@@ -184,6 +184,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         query_by:
           'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
         vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)',
+        highlight_affix_num_tokens: 8,
       },
     },
   },
