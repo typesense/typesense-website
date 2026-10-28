@@ -415,12 +415,17 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>
   "success": true,
   "api_keys": {
     "admin_key": "cBKqFPEcGRAS7RIKi3h3FuJbj4Q9Rprk",
-    "search_only_key": "y7CFw2zEgu09FFhoDgLzC99j0RwKi0kL"
+    "search_only_key": "y7CFw2zEgu09FFhoDgLzC99j0RwKi0kL",
+    "admin_key_id": 4,
+    "search_only_key_id": 5
   }
 }
 ```
 
+You can use the two ids to refer to these keys later, for example to revoke them with the [Cluster API Keys](./cluster-api-keys.md) endpoints.
+
 This API endpoint is the equivalent of clicking on the "Generate API Keys" button in the Cluster Dashboard on Typesense Cloud Web console.
+The [Cluster API Keys](./cluster-api-keys.md) endpoints also let you list and revoke the keys on a cluster, or create a key that's limited to certain actions or collections.
 
 ## Get single cluster
 

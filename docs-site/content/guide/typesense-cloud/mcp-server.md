@@ -229,4 +229,12 @@ Use the key exactly as it was shown when you created it. A key unlocks the clust
 
 Keep the admin key on your server and give applications the search-only key. A connection with `data:search` can also create a search-only key for an application directly on the cluster, if your role manages keys, so the Build preset covers "make my catalog searchable from my app" end to end without issuing an admin key.
 
-For a key limited to certain collections, actions or an expiry, ask the agent to <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">create one</RouterLink>. If different users must see different parts of one collection, use a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search key</RouterLink>.
+For a key limited to certain collections, actions or an expiry, you want to ask the agent to create one.
+With `cluster_credentials:manage`, `manage_cluster` creates a key with exactly the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#create-an-api-key`">actions and collections</RouterLink> you name, with an optional expiry.
+It hands over the key's value through the same one-time download, or inline for an assistant with no shell.
+If different users must see different parts of one collection, use a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search key</RouterLink>.
+
+With the same permission, `get_clusters` lists the keys on a cluster with their id, description, scope and the first characters of their value.
+It never returns the value itself.
+`manage_cluster` can then revoke a key by its id, including the admin and search-only keys it issued earlier.
+The agent sees the same list you see on the API Keys page in the dashboard.
