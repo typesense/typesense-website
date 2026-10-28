@@ -123,7 +123,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
       "line_item_type": "node",
       "parameters": {
         "cluster_id": "0197kdlrfsubahw4p",
-        "memory_option": "4gb",
+        "memory_option": "4_gb",
         "vcpu_option": "2_vcpus",
         "gpu_option": "no",
         "high_performance_disk_option": "no",
@@ -141,7 +141,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
       "line_item_type": "bandwidth",
       "parameters": {
         "cluster_id": "0197kdlrfsubahw4p",
-        "memory_option": "4gb",
+        "memory_option": "4_gb",
         "vcpu_option": "2_vcpus",
         "gpu_option": "no",
         "high_performance_disk_option": "no",
@@ -174,6 +174,28 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123de
   ]
 }
 ```
+
+## Download an invoice as a PDF
+
+You can download an invoice as a PDF file.
+It's the same document we attach to the receipt email.
+The response body is the PDF file itself, so here's how to save it to disk:
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/invoices/inv_abc123def456/pdf" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY" \
+    --output typesense-cloud-invoice.pdf
+```
+
+**Response:**
+
+You'll get a `200` response with `Content-Type: application/pdf` and a `Content-Disposition: attachment` header that names the file `typesense-cloud-invoice-<number>.pdf`, where `<number>` is the invoice number.
+
+You can download due and paid invoices.
+A draft invoice (the upcoming one, whose totals can still change), a voided invoice or an invoice that belongs to another account returns a `404`.
+
+If you get a `503` with a `Retry-After` header, every PDF render slot is in use at the moment.
+So you want to retry after the number of seconds it names.
 
 ### Line Item Fields
 
