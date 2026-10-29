@@ -33,6 +33,8 @@ Requests Typesense Cloud itself sends to your cluster (health checks, metrics an
 ## Get access log
 
 This endpoint returns the requests a cluster received, newest first, 200 per page.
+Each row has the request's path without its query string, and no request body.
+To see the parameters a search was sent with, use [slow requests](#get-slow-requests), which records them for requests that took longer than the cluster's thresholds.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/logs/access?window=1h&http_method=POST&path=/multi_search" \

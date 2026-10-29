@@ -241,7 +241,7 @@ These are the tools available for your agent to use once it is connected. Agents
 - `search_documents`: searches a collection, including multi-search and vector or hybrid queries.
 - `get_clusters`: reads everything about your clusters and account:
   - Clusters: configuration, status, metrics, server parameters, the IP allowlist, API keys (never a key's value) and configuration-change, cloning and rolling-restart history.
-  - Monitoring: request logs (the access log, slow requests, top client IPs and API keys, plus when each API key was last used).
+  - Monitoring: request logs (the access log, slow requests, top client IPs and API keys, plus when each API key was last used). The access log doesn't record query strings or request bodies, so search parameters only show up in slow requests.
   - Search analytics: a collection's search insights and synonym suggestions, synonym suggestion settings and analytics rule notifications.
   - Backups: backup settings and kept backups.
   - Billing: invoices, the billing summary, invoiced usage, costs by cluster and prices.
