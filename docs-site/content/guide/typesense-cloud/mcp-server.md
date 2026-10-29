@@ -67,6 +67,8 @@ Your browser will open a Typesense Cloud consent page.
 
 Sign in (or sign up), choose the account the agent should work on, choose what [permissions](#what-you-can-let-the-agent-do) it has, and click Connect.
 
+To let your agent try Typesense Cloud before you sign up, click "Try it without an account" instead. See [Starting without an account](#starting-without-an-account).
+
 If you're part of a team account, the permissions in the consent screen will be capped at permissions your [RBAC role](./role-based-access-control-admin-dashboard.md) in your team account already gives you. 
 So for eg: someone on your team with a curator role, connecting their agent, will only be able to add permissions for searching and curation, and not any of the other permissions.  
 
@@ -151,7 +153,10 @@ The agent creates a free-tier cluster, asks what your data looks like, proposes 
 
 Your agent can create a cluster before you have a Typesense Cloud account, and you claim the cluster into your account later.
 
-Until you authenticate the MCP server, it offers your agent just two tools: one creates a free cluster and one checks on it.
+When your client connects, click "Try it without an account" on the Typesense Cloud sign-in page.
+The agent sees all of its tools, but until you connect an account only three of them work: creating a free cluster, checking on it and searching the Typesense docs.
+The other tools tell the agent that you need to connect an account first.
+
 The cluster is the free-tier shape (0.5 GB memory, 2 vCPU burst, one node), in the region nearest the agent unless it asks for another one.
 The agent gets the cluster's hostname and an API key, and works with it directly through the [Typesense Server API](/api/).
 That key can create collections, import, search and set up synonyms, curation, presets, stopwords and analytics rules. It can't delete anything or manage API keys.
@@ -160,14 +165,20 @@ The agent also gives you a claim link.
 Open it, sign in or sign up and pick the account that should own the cluster: your own or one of your team accounts.
 The cluster keeps its ID, hostname and data, so nothing changes for your app.
 
+If you open the claim link in the browser where you clicked "Try it without an account", Typesense Cloud also offers to connect the agent to that account, and you pick its [permissions](#what-you-can-let-the-agent-do).
+The agent works on your account from its next request, so you don't need to reconnect it from your client.
+
+To connect the agent to your account without claiming a cluster, ask it for its connect link.
+That link only works in the browser where you clicked "Try it without an account".
+
 :::warning Note
 An unclaimed cluster is deleted 72 hours after it was created.
+A connection without an account expires after 7 days, unless you connect it to an account.
 :::
 
 :::tip
 - The agent's API key keeps working for 24 hours after you claim the cluster, so it can finish what it was doing. You can revoke it as you claim instead.
 - If the account you claim into has already used its free tier, the claim needs a payment method. The claim page shows the cost before you confirm.
-- To configure the cluster or do anything else with your account, [authenticate the MCP server](#step-2-consent-screen).
 :::
 
 ## What you can let the agent do
