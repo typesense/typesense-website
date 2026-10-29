@@ -432,7 +432,7 @@ The response above is shortened. The actual response lists every region and ever
 ### Check which memory options fit an existing cluster
 
 Before you change an existing cluster's memory with a [configuration change](./cluster-configuration-changes.md#schedule-a-configuration-change), you want to pass its id as `cluster_id` to this endpoint.
-The response then also tells you how much memory and CPU the cluster used in the last 7 days and which memory options can hold its data.
+The response then also tells you how much memory, CPU and disk the cluster used in the last 7 days and which memory options can hold its data.
 
 ```shell
 curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options?cluster_id=<ClusterID>" \
@@ -440,7 +440,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options?clust
     -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
 ```
 
-The response has the fields above, plus these three:
+The response has the fields above, plus these:
 
 ```json
 {
@@ -449,12 +449,17 @@ The response has the fields above, plus these three:
     "latest_memory_used_gb": 2.8,
     "peak_cpu_percentage": 38.0,
     "vcpus": 4,
+    "peak_disk_used_gb": 9.4,
     "window_started_at": "2026-10-06T04:00:00Z"
   },
   "memory_fit": {
     "2_gb": {"fits_current_data": false, "fits_peak_last_7_days": false, "spare_gb": -0.8},
     "4_gb": {"fits_current_data": true, "fits_peak_last_7_days": true, "spare_gb": 1.2},
     "8_gb": {"fits_current_data": true, "fits_peak_last_7_days": true, "spare_gb": 5.2}
+  },
+  "disk_fit": {
+    "2_gb": {"disk_gb": 10, "fits_peak_last_7_days": false},
+    "4_gb": {"disk_gb": 20, "fits_peak_last_7_days": true}
   },
   "usage_last_7_days_unavailable_reason": null
 }
@@ -465,12 +470,16 @@ The response has the fields above, plus these three:
 - `usage_last_7_days.latest_memory_used_gb` is the RAM plus swap used on any node in the latest complete hour and the current one, in GB, rounded up to 0.1. It's `null` when those hours have no metrics.
 - `usage_last_7_days.peak_cpu_percentage` is the CPU use in the busiest hour (95th percentile) on any node, as a percentage of the cluster's current vCPUs. It's `null` until the window has a full hour in it.
 - `usage_last_7_days.vcpus` is the cluster's current number of vCPUs per node.
+- `usage_last_7_days.peak_disk_used_gb` is the peak disk used on any node, in GB, rounded up to 0.1. It's `null` when the window has no disk metrics.
 - `usage_last_7_days.window_started_at` is where the window starts: 7 days ago, or the first full hour after the cluster's last memory or vCPU change if that's more recent.
 - `memory_fit` has an entry for every memory option:
   - `fits_current_data` is `true` when the option is larger than `latest_memory_used_gb` (or `peak_memory_used_gb` when that's `null`). A configuration change to a memory option that doesn't fit is rejected when the change starts.
   - `fits_peak_last_7_days` is `true` when the option is larger than `peak_memory_used_gb`.
   - `spare_gb` is what would be left over at `latest_memory_used_gb`, rounded down to 0.1. It's negative when the data doesn't fit.
-- `usage_last_7_days_unavailable_reason` is `null`, `no_metrics` (the cluster reported no metrics in the last 7 days) or `metrics_unavailable` (metrics couldn't be read right now, so you want to retry). When it isn't `null`, `usage_last_7_days` and `memory_fit` are both `null`.
+- `disk_fit` has an entry for each memory option available with the cluster's current configuration. It's `null` when the cluster uses high performance disk or when `peak_disk_used_gb` is `null`.
+  - `disk_gb` is the disk each node gets with that memory option.
+  - `fits_peak_last_7_days` is `true` when that disk can hold `peak_disk_used_gb` without triggering a low disk alert. A configuration change isn't refused because of it.
+- `usage_last_7_days_unavailable_reason` is `null`, `no_metrics` (the cluster reported no metrics in the last 7 days) or `metrics_unavailable` (metrics couldn't be read right now, so you want to retry). When it isn't `null`, `usage_last_7_days`, `memory_fit` and `disk_fit` are all `null`.
 
 ## Generate API key
 
