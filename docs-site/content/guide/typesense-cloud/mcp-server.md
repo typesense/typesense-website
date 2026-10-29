@@ -246,6 +246,7 @@ These are the tools available for your agent to use once it is connected. Agents
   - Backups: backup settings and kept backups.
   - Billing: invoices, the billing summary, invoiced usage, costs by cluster and prices.
   - Options: the regions, memory and vCPU options a cluster can be created with and which memory sizes fit an existing cluster's data.
+- `show_cluster`: shows a cluster's status, configuration, any change in progress and its last hour of metrics, in one call. Chat apps that support [panels](#panels-in-chat-apps) show it as a cluster panel.
 - `manage_cluster`: makes changes:
   - Clusters: creates, renames, resizes, tunes, restarts, clones and terminates clusters, and cancels pending configuration changes, restarts and clones.
   - Access: replaces a cluster's IP allowlist and issues, creates and revokes cluster API keys.
@@ -257,6 +258,16 @@ These are the tools available for your agent to use once it is connected. Agents
 - `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission, but nobody replies through the tool. For anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
 
 Typesense Cloud performs data operations against your cluster with a key it keeps server-side. The agent does not receive your cluster's admin key.
+
+## Panels in chat apps
+
+Chat apps that support MCP Apps, such as claude.ai, ChatGPT and Cursor, show some results as interactive panels in the conversation.
+Other clients get the same results as text.
+
+- Search results: when the agent searches a collection, the panel shows the hits with highlights and facet values. You can search again from the panel without asking the agent.
+- Clusters: when the agent creates a cluster or changes its configuration, it opens a cluster panel with `show_cluster` that tracks the change until it's done.
+
+A search from the panel needs `data:search`, and the cluster panel shows metrics only when the connection has `metrics:read`.
 
 ## Large imports and exports
 
@@ -282,7 +293,7 @@ claude mcp add --transport http typesense-cloud https://cloud.typesense.org/mcp/
   --header "Authorization: Bearer ${TYPESENSE_CLOUD_MANAGEMENT_API_KEY}"
 ```
 
-Use the key exactly as it was shown when you created it. A key unlocks the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters` and `manage_cluster`) with the capabilities the key carries. The data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the [Typesense Server API](/api/) directly.
+Use the key exactly as it was shown when you created it. A key gives access to the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters`, `show_cluster` and `manage_cluster`) with the capabilities the key carries. The data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the [Typesense Server API](/api/) directly.
 
 ## Cluster API keys
 
