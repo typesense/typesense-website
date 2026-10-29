@@ -147,6 +147,29 @@ The agent creates a free-tier cluster, asks what your data looks like, proposes 
 - "Based on my last 6 invoices, how much should I prepay for the credits to last a year?"
 - "Which cluster cost me the most last month?"
 
+## Starting without an account
+
+Your agent can create a cluster before you have a Typesense Cloud account, and you claim the cluster into your account later.
+
+Until you authenticate the MCP server, it offers your agent just two tools: one creates a free cluster and one checks on it.
+The cluster is the free-tier shape (0.5 GB memory, 2 vCPU burst, one node), in the region nearest the agent unless it asks for another one.
+The agent gets the cluster's hostname and an API key, and works with it directly through the [Typesense Server API](/api/).
+That key can create collections, import, search and set up synonyms, curation, presets, stopwords and analytics rules. It can't delete anything or manage API keys.
+
+The agent also gives you a claim link.
+Open it, sign in or sign up and pick the account that should own the cluster: your own or one of your team accounts.
+The cluster keeps its ID, hostname and data, so nothing changes for your app.
+
+:::warning Note
+An unclaimed cluster is deleted 72 hours after it was created.
+:::
+
+:::tip
+- The agent's API key keeps working for 24 hours after you claim the cluster, so it can finish what it was doing. You can revoke it as you claim instead.
+- If the account you claim into has already used its free tier, the claim needs a payment method. The claim page shows the cost before you confirm.
+- To configure the cluster or do anything else with your account, [authenticate the MCP server](#step-2-consent-screen).
+:::
+
 ## What you can let the agent do
 
 When you connect your agent, the permissions page shows five presets:
@@ -156,14 +179,14 @@ When you connect your agent, the permissions page shows five presets:
 | Search only | Search collections and read schemas, list clusters. |
 | Search and curate | Search, plus synonyms, curation, presets and stopwords, plus list clusters. |
 | Manage clusters | Create, resize, rename, restart and tune clusters, and read their backups. No access to the data inside them. |
-| Build (default) | Manage clusters and everything inside them. No terminating, cloning or billing; the only key it can create is a search-only cluster key for an app. |
+| Build (default) | Manage clusters and everything inside them. No terminating, cloning or billing. The only key it can create is a search-only cluster key for an app. |
 | Everything | Every capability your role allows, including terminating clusters. |
 
-You can also enable or disable individual permissions. Cluster permissions are the same ones a [Cluster Management API key](../../cloud-management-api/v1/authentication.md#capabilities-and-presets) can carry:
+You can also enable or disable individual permissions. Cluster permissions are the same ones a [Cluster Management API key](../../cloud-management-api/v1/authentication.md#capabilities) can carry:
 
 - `clusters:read`: list clusters and read their configuration, status, history and server parameters
 - `metrics:read`: read cluster metrics, request logs and each node's health
-- `search_insights:read`: read a collection's search insights (its top no-hit and popular queries, top facet values, field names and synonym sets) and its synonym suggestions, so the agent can propose synonyms
+- `search_insights:read`: read a collection's search insights (its top no-hit and popular queries, top facet values, field names and synonym sets) and its synonym suggestions
 - `clusters:create`: create clusters (billed to the account)
 - `clusters:configure`: resize, change topology, rename and toggle auto-upgrade (billable changes)
 - `clusters:restart`: start and cancel rolling restarts
@@ -183,14 +206,14 @@ Data permissions match the cluster UI dashboard's permissions:
 
 - `data:view`: read collections, schemas, documents and aliases
 - `data:search`: search, and create a search-only cluster key for an app (if your role manages keys)
-- `data:full_access`: manage collections (create, change and drop), documents (add, update and delete) and aliases. It includes `data:view` and `data:search`. It doesn't include the `data:manage_*` permissions below, which you grant separately
+- `data:full_access`: manage collections (create, change and drop), documents (add, update and delete) and aliases. It includes `data:view` and `data:search`. It doesn't include the `data:manage_*` permissions below
 - `data:manage_synonyms` (also needed to accept a synonym suggestion), `data:manage_overrides` (curation), `data:manage_presets`, `data:manage_stopwords`, `data:manage_stemming`
 - `data:manage_analytics_rules`, `data:manage_conversation_models`, `data:manage_natural_language_models`
 
 Every tool is offered to every connection, but each tool call is checked against the permissions you granted.
 When a call is refused, the agent is told which permission it's missing, along with a link to pass on to you.
 The link opens "Edit capabilities" for that connection with the permission already ticked.
-Once you click "Save", the agent has that permission from its next call, without reconnecting.
+After you click "Save", the agent has that permission on its next call.
 You can also change a connection's permissions yourself by going to Account > Connected apps and clicking on "Edit capabilities".
 Only the person who connected an agent can change what it can do.
 
@@ -200,7 +223,7 @@ On a team account you can only grant what [your own role](./role-based-access-co
 
 ## What the agent works with
 
-These are the tools available for your agent to use once it is connected. Agents read the tool descriptions, so you do not need to name tools or actions in your prompts; this list is here so you know what is possible.
+These are the tools available for your agent to use once it is connected. Agents read the tool descriptions, so you don't need to name tools or actions in your prompts.
 
 - `whoami`: which account and permissions the connection has, the clusters on the account, and what to do with them first. Agents call it first.
 - `search_typesense_docs`: searches this documentation, matched to your cluster's Typesense version.
@@ -220,7 +243,7 @@ These are the tools available for your agent to use once it is connected. Agents
   - Billing: switches the account between weekly and monthly billing.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
 - `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, conversation models and natural language search models. This also covers the cluster's own `/health` and `/metrics.json`.
-- `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission; nobody replies through the tool, so for anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
+- `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission, but nobody replies through the tool. For anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
 
 Typesense Cloud performs data operations against your cluster with a key it keeps server-side. The agent does not receive your cluster's admin key.
 
@@ -248,11 +271,11 @@ claude mcp add --transport http typesense-cloud https://cloud.typesense.org/mcp/
   --header "Authorization: Bearer ${TYPESENSE_CLOUD_MANAGEMENT_API_KEY}"
 ```
 
-Use the key exactly as it was shown when you created it. A key unlocks the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters` and `manage_cluster`) with the capabilities the key carries; the data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the [Typesense Server API](/api/) directly.
+Use the key exactly as it was shown when you created it. A key unlocks the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters` and `manage_cluster`) with the capabilities the key carries. The data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the [Typesense Server API](/api/) directly.
 
 ## Cluster API keys
 
-`manage_cluster` can issue a cluster's admin key and search-only key, both covering every collection and neither expiring. The keys do not appear in the conversation: the agent receives a curl command that downloads them once, within five minutes, into a private file on your machine, and reads a key from that file when it needs one. An assistant with no shell, such as claude.ai or ChatGPT, can ask for the keys inline in the response instead.
+`manage_cluster` can issue a cluster's admin key and search-only key, both covering every collection and neither expiring. The keys do not appear in the conversation: the agent receives a curl command that downloads them once into a private file on your machine, and reads a key from that file when it needs one. An assistant with no shell, such as claude.ai or ChatGPT, can ask for the keys inline in the response instead.
 
 Keep the admin key on your server and give applications the search-only key. A connection with `data:search` can also create a search-only key for an application directly on the cluster, if your role manages keys, so the Build preset covers "make my catalog searchable from my app" end to end without issuing an admin key.
 
@@ -262,6 +285,4 @@ It hands over the key's value through the same one-time download, or inline for 
 If different users must see different parts of one collection, use a <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/api-keys.html#generate-scoped-search-key`">scoped search key</RouterLink>.
 
 With the same permission, `get_clusters` lists the keys on a cluster with their id, description, scope and the first characters of their value.
-It never returns the value itself.
 `manage_cluster` can then revoke a key by its id, including the admin and search-only keys it issued earlier.
-The agent sees the same list you see on the API Keys page in the dashboard.
