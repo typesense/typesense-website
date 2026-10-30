@@ -1,11 +1,11 @@
 ---
-description: "Read a Typesense Cloud cluster's request logs through the Cluster Management API: the access log, slow requests and which client IPs and API keys send the most requests."
+description: "Read a Typesense Cloud cluster's request logs through the Cluster Management API: the access log, slow requests and which client IPs, API keys and paths get the most requests."
 ---
 
 # Cluster Logs API
 
 You can read every request a cluster received and the requests that were slower than the cluster's slow-request thresholds.
-You can also see which client IPs and API keys sent the most requests.
+You can also see which client IPs and API keys sent the most requests and which paths received the most.
 
 ## Time windows
 
@@ -235,6 +235,66 @@ This endpoint takes the same `window`, `window_start_ms` and `window_end_ms` par
 
 Requests with no recorded key are grouped under an empty `api_key_prefix`.
 
+## Get top paths
+
+This endpoint returns the 50 paths with the most requests in the window, each with the 10 IP addresses and the 10 API key prefixes that requested it most.
+Use it to see which endpoints get the most traffic and who sends it.
+To start from the caller instead, use [top client IPs](#get-top-client-ips) or [top API keys](#get-top-api-keys).
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/logs/top-paths?window=24h" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+This endpoint takes the same `window`, `window_start_ms` and `window_end_ms` parameters as the [access log](#get-access-log).
+
+Paths that end in an id, such as a document, synonym or API key id, are counted together under one path ending in `:id`.
+So `GET /collections/products/documents/42` and `GET /collections/products/documents/17` both count as `GET /collections/products/documents/:id`.
+`distinct_ips` is the number of IP addresses that requested the path.
+
+**Response:**
+
+```json
+{
+  "cluster_id": "abc123xyz",
+  "timestamp_unit": "epoch_milliseconds",
+  "window": "24h",
+  "retention_days": 7,
+  "api_key_prefixes_recorded": true,
+  "total_requests": 184210,
+  "rows": [
+    {
+      "http_method": "POST",
+      "path": "/multi_search",
+      "requests": 150311,
+      "distinct_ips": 2,
+      "top_ips": [
+        { "client_ip": "203.0.113.7", "client_label": null, "requests": 150290 },
+        { "client_ip": "198.51.100.4", "client_label": null, "requests": 21 }
+      ],
+      "top_api_keys": [
+        { "api_key_prefix": "xyz1", "requests": 150311 }
+      ]
+    },
+    {
+      "http_method": "GET",
+      "path": "/collections/products/documents/:id",
+      "requests": 1693,
+      "distinct_ips": 1,
+      "top_ips": [
+        { "client_ip": "203.0.113.7", "client_label": null, "requests": 1693 }
+      ],
+      "top_api_keys": [
+        { "api_key_prefix": "xyz1", "requests": 1693 }
+      ]
+    }
+  ]
+}
+```
+
+When `api_key_prefixes_recorded` is `false`, `top_api_keys` is empty.
+
 ## Get when each API key was last used
 
 This endpoint returns when each API key prefix last made a request in the past 7 days, most recent first.
@@ -279,5 +339,5 @@ If a key isn't listed, it hasn't made a request since then, unless one of these 
 
 ## Permissions
 
-To [get the access log](#get-access-log), [slow requests](#get-slow-requests), [top client IPs](#get-top-client-ips), [top API keys](#get-top-api-keys) or [when each API key was last used](#get-when-each-api-key-was-last-used), you need a key with the `metrics:read` capability.
+To [get the access log](#get-access-log), [slow requests](#get-slow-requests), [top client IPs](#get-top-client-ips), [top API keys](#get-top-api-keys), [top paths](#get-top-paths) or [when each API key was last used](#get-when-each-api-key-was-last-used), you need a key with the `metrics:read` capability.
 See [capabilities](./authentication.md#capabilities).
