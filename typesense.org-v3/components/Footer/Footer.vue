@@ -93,8 +93,8 @@ const libraries = [
     link: "https://github.com/typesense/docusaurus-theme-search-typesense",
   },
   {
-    name: "Firebase Extension",
-    link: "https://firebase.google.com/products/extensions/typesense-firestore-typesense-search",
+    name: "Firebase",
+    link: "https://github.com/typesense/firestore-typesense-search",
   },
 ];
 

@@ -487,9 +487,11 @@ RC builds are all the way at the bottom of this version selector dropdown.
 If you're self-hosting Typesense, you can replace the version strings in the URLs in the [installation guide](./install-typesense.md) to the RC version for the Docker image, Linux binary, DEB and RPM packages.
 We do not publish RC builds for other platforms.
 
-## Firebase Extension
+## Firebase
 
-Here's a dedicated FAQ for the Firebase Extension: [https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs](https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs)
+Here's a dedicated FAQ for the Firebase function kit: [https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs](https://github.com/typesense/firestore-typesense-search?tab=readme-ov-file#faqs)
+
+If you're still using the Firebase Extension, see [Moving from the Firebase Extension](./firebase-full-text-search.md#moving-from-the-firebase-extension).
 
 ## Typesense Cloud
 
