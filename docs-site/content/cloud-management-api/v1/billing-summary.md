@@ -31,7 +31,8 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/account/billing-summa
     "days": 7,
     "monthly_eligible": true,
     "monthly_ineligibility_reason": null,
-    "monthly_available_at": null
+    "monthly_available_at": null,
+    "invoice_limit_cents": 50000
   },
   "credit_balance_cents": 412500,
   "credit_balance_zero_reached_at": null,
@@ -89,6 +90,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/account/billing-summa
 - `monthly_eligible` is `true` when the account can switch to monthly billing now. Monthly billing is available to active accounts that had a successful payment at least 2 months ago, no failed payment in the last 2 months and no unpaid invoices with failed payments.
 - `monthly_ineligibility_reason` names why monthly billing isn't available: `payment_history_too_short`, `failed_payment_in_window`, `unpaid_invoices`, `account_not_active` or `custom_cycle`. `custom_cycle` means the Typesense Cloud team set the cycle by hand, so you want to ask them to change it.
 - `monthly_available_at` is when monthly billing becomes available if no further payment fails, as a Unix timestamp in seconds. It's set for `payment_history_too_short` and `failed_payment_in_window`, and `null` otherwise, including before the account's first successful payment.
+- `invoice_limit_cents` is the account's limit: the amount at which an invoice is issued before its cycle ends. It's `null` when invoices are issued only at the end of each cycle.
 
 #### Monthly spend
 
@@ -125,6 +127,8 @@ To get its line items, [fetch the invoice](./invoices.md#get-a-single-invoice) b
 
 You can always switch to `weekly`, and you can switch to `monthly` once the account is eligible (see [`monthly_eligible`](#billing-cycle)).
 The change applies to the current invoice, counted from the day it opened, and to every invoice after it.
+Switching to monthly also raises `invoice_limit_cents`.
+Switching back to weekly keeps the raised limit.
 
 ### Request Parameters
 
@@ -151,7 +155,8 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/account/billing-cyc
     "days": 28,
     "monthly_eligible": true,
     "monthly_ineligibility_reason": null,
-    "monthly_available_at": null
+    "monthly_available_at": null,
+    "invoice_limit_cents": 130000
   }
 }
 ```
