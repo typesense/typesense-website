@@ -72,10 +72,6 @@ export function useVersionSwitch() {
     if (currentVersion.value !== version) router.go(withBase(getVersionedPath(version)))
   }
 
-  function switchVersion(event: Event) {
-    goToVersion((event.target as HTMLSelectElement).value)
-  }
-
   return {
     versions,
     latestVersion,
@@ -87,6 +83,5 @@ export function useVersionSwitch() {
     getVersionedPath,
     versionHasPage,
     goToVersion,
-    switchVersion,
   }
 }
