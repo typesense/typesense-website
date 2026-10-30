@@ -4,7 +4,11 @@
     class="inline-block"
     :class="[showOnMobileOnly ? 'mobile:!hidden' : '', showOnDesktopOnly ? 'max-mobile:!hidden' : '']"
   >
-    <Select :model-value="currentVersion ?? undefined" @update:model-value="version => goToVersion(String(version))">
+    <Select
+      v-model:open="open"
+      :model-value="currentVersion ?? undefined"
+      @update:model-value="version => goToVersion(String(version))"
+    >
       <SelectTrigger
         class="h-8 w-auto gap-2 border-line bg-surface-gray px-3 py-0 text-sm font-medium leading-none text-ink hover:bg-surface-gray-hover data-[placeholder]:text-ink focus:ring-0 focus:ring-offset-0 focus-visible:ring-2 focus-visible:ring-offset-2 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:opacity-60 [&>svg]:transition-transform [&[data-state=open]>svg]:rotate-180"
       >
@@ -20,6 +24,17 @@
           class="cursor-pointer text-ink focus:bg-surface-gray focus:text-ink data-[disabled]:text-ink-lighter data-[disabled]:opacity-100 data-[state=checked]:bg-accent-selected data-[state=checked]:font-semibold data-[state=checked]:text-accent"
         >
           v{{ version }}
+          <!-- the disabled row swallows pointer events, touchend and contextmenu, so the link opts back into each -->
+          <RouterLink
+            v-if="!versionHasPage(version)"
+            :to="getVersionedPath(version)"
+            class="pointer-events-auto absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-accent opacity-70 hover:underline hover:opacity-100"
+            @click.exact.prevent="openVersionHome(version)"
+            @touchend.stop
+            @contextmenu.stop
+          >
+            View docs
+          </RouterLink>
         </SelectItem>
         <template v-if="versions.some(version => !versionHasPage(version))" #footer>
           <p class="border-t border-line px-3 py-2 text-xs leading-snug text-ink-muted">
@@ -32,7 +47,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import RouterLink from './RouterLink.vue'
 import { useVersionSwitch } from '../composables/useVersionSwitch'
 
 withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boolean; align?: 'start' | 'end' }>(), {
@@ -41,5 +58,13 @@ withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boole
   align: 'start',
 })
 
-const { versions, currentVersion, pageVersion, versionHasPage, goToVersion } = useVersionSwitch()
+const { versions, currentVersion, pageVersion, getVersionedPath, versionHasPage, goToVersion } = useVersionSwitch()
+
+const open = ref(false)
+
+// a click inside the list never dismisses it, and the aside copy outlives the route change
+function openVersionHome(version: string) {
+  open.value = false
+  goToVersion(version)
+}
 </script>
