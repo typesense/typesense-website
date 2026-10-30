@@ -10,7 +10,7 @@ The documentation is divided into the following sections, that you'll find links
 
 | Section                                                                                                           | Purpose                                                                                                                                                                                                                                       |
 |:------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Overview**](./overview/what-is-typesense.md)                                                                   | This section gives you a birds-eye view of Typesense, why you'd want to use it and comparison with alternatives.                                                                                                                              |
+| [**Overview**](/overview/what-is-typesense.md)                                                                    | This section gives you a birds-eye view of Typesense, why you'd want to use it and comparison with alternatives.                                                                                                                              |
 | <RouterLink :to="`/guide/`"><strong>Guide</strong></RouterLink>                                                   | This section walks you step-by-step through how you can use Typesense in different scenarios.                                                                                                                                                 |
 | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> | This section gives you detailed information about all the API endpoints and parameters in each version of Typesense. When you're viewing any of the versions, use the version dropdown to switch between them. It sits above "On this page" on wide screens, and in the top navigation on smaller ones. |
 
@@ -34,6 +34,6 @@ But here are direct clickable links as well:
 
 <ul>
   <li v-for="version in $site.themeConfig.typesenseVersions">
-    <RouterLink :to="version.startsWith('0.') && Number(version.split('.')[1]) < 20 ? `${version}/` : `${version}/api/`"> {{version}} </RouterLink>
+    <RouterLink :to="version.startsWith('0.') && Number(version.split('.')[1]) < 20 ? `/${version}/` : `/${version}/api/`"> {{version}} </RouterLink>
   </li>
 </ul>
