@@ -1,0 +1,325 @@
+import { defineConfig } from 'vitepress'
+import { fileURLToPath, URL } from 'node:url'
+import { existsSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import { sidebar } from './sidebar'
+import { typesenseMarkdown } from './markdown/typesense'
+import { injectPageMarkdown, mdDevMiddleware, generateMarkdownArtifacts } from './embed-markdown'
+
+const srcDir = fileURLToPath(new URL('..', import.meta.url))
+import pkg from '../../package.json'
+import versions from '../../../typesenseVersions.json'
+
+const { description } = pkg
+const { typesenseVersions, typesenseLatestVersion } = versions
+
+// matches 0.11.x dirs too, which dropped out of typesenseVersions
+const VERSION_SEGMENT = /^\d+\.\d+(?:\.\d+)?$/
+
+const sitemapExcludedUrls = new Set<string>()
+
+// keep in sync across typesense.org-v3, docs-site, landing-pages, howtosearch, and blog
+const clickIdCaptureScript = `(function () {
+  try {
+    var names = ['gclid', 'gbraid', 'wbraid', 'msclkid', 'fbclid', 'li_fat_id']
+    var params = new URLSearchParams(location.search)
+    var hostname = location.hostname
+    var domain =
+      hostname === 'typesense.org' || hostname.endsWith('.typesense.org') ? '; Domain=.typesense.org' : ''
+    var secure = location.protocol === 'https:' ? '; Secure' : ''
+
+    names.forEach(function (name) {
+      if (!params.has(name)) return
+      var value = params.get(name)
+      if (!value) return
+      value = value.slice(0, 255)
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(value) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+      document.cookie =
+        name +
+        '_ts=' +
+        Math.floor(Date.now() / 1000) +
+        '; Max-Age=7776000; Path=/' +
+        domain +
+        secure +
+        '; SameSite=Lax'
+    })
+  } catch (error) {}
+})()`
+
+// /latest/ has no pages, so a direct load gets 404.html, which paints before the
+// router's redirect in theme/index.ts can run. this runs from <head>, before the body
+const latestRedirectScript = `(function () {
+  var match = location.pathname.match(/^\\/docs\\/latest(\\.html|\\/.*)?$/)
+  if (!match) return
+  var rest = !match[1] || match[1] === '.html' ? '/' : match[1]
+  location.replace('/docs/${typesenseLatestVersion}' + rest + location.search + location.hash)
+})()`
+
+// a page's path within its version, matching useVersionSwitch's currentPath. takes
+// source files (README.md) and pageData.relativePath, which the rewrites make index.md
+const versionRelPath = (file: string) => `/${file.replace(/(^|\/)(?:README|index)\.md$/, '$1').replace(/\.md$/, '')}`
+
+// build-time only. each page gets just its own missing versions (transformPageData),
+// since themeConfig is inlined into every page's html
+const typesenseVersionPages = new Map(
+  typesenseVersions.map(version => [
+    version,
+    new Set(
+      readdirSync(join(srcDir, version), { recursive: true })
+        .map(String)
+        .filter(file => file.endsWith('.md'))
+        .map(versionRelPath),
+    ),
+  ]),
+)
+
+export default defineConfig({
+  base: '/docs/',
+  title: 'Typesense Documentation',
+  titleTemplate: ':title | Typesense',
+  description,
+  // content links are authored with .html, and the published site serves them
+  cleanUrls: false,
+
+  // without this vitepress emits README.html and every /…/ url breaks
+  rewrites: {
+    'README.md': 'index.md',
+    ':dir(.*)/README.md': ':dir/index.md',
+  },
+  lastUpdated: true,
+  // the outline marks a heading current once it reaches the pinned bars
+  scrollOffset: { selector: '[data-sticky-floor]', padding: 24 },
+  ignoreDeadLinks: [
+    link => /(?:^|\/)latest(?:\/|$)/.test(link) || /^https?:\/\/localhost(?::\d+)?(?:\/|$)/i.test(link),
+  ],
+
+  head: [
+    ['script', {}, latestRedirectScript],
+    ['meta', { name: 'theme-color', content: '#c0ff58' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:description', content: description }],
+    ['meta', { property: 'og:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:description', content: description }],
+    ['meta', { name: 'twitter:image', content: 'https://typesense.org/docs/images/opengraph_banner.png' }],
+    ['link', { rel: 'icon', href: '/docs/favicon.png' }],
+    ['script', {}, clickIdCaptureScript],
+    // the gtm container handles page views itself, spa route changes included
+    [
+      'script',
+      {},
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'/mtcs/?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','');`,
+    ],
+  ],
+
+  sitemap: {
+    // keep the trailing slash, new URL(path, hostname) drops /docs without it
+    hostname: 'https://typesense.org/docs/',
+    transformItems: items => items.filter(item => !sitemapExcludedUrls.has(item.url)),
+  },
+
+  themeConfig: {
+    // two files because an <img> can't see our --typesense-logo-* vars
+    logo: {
+      light: '/images/typesense_logo_light.svg',
+      dark: '/images/typesense_logo_dark.svg',
+      alt: 'Typesense',
+    },
+
+    siteTitle: false,
+    logoLink: 'https://typesense.org',
+
+    outline: { level: [2, 6], label: 'On this page' },
+
+    nav: [
+      { text: 'Docs Home', link: '/' },
+      { text: 'Overview', link: '/overview/what-is-typesense', activeMatch: '/overview/' },
+      { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
+      // useNavLinks swaps in the version being read
+      { text: 'API Reference', link: `/${typesenseLatestVersion}/api/`, activeMatch: '/api/|^/cloud-management-api/' },
+      { text: 'Help', link: '/help' },
+      { text: 'Roadmap', link: 'https://github.com/orgs/typesense/projects/1' },
+      { text: 'Typesense Cloud', link: 'https://cloud.typesense.org' },
+    ],
+
+    socialLinks: [{ icon: 'github', link: 'https://github.com/typesense/typesense', ariaLabel: 'GitHub' }],
+
+    sidebar,
+
+    editLink: {
+      pattern: 'https://github.com/typesense/typesense-website/edit/master/docs-site/content/:path',
+      text: 'Edit page',
+    },
+
+    // @ts-expect-error custom themeConfig fields
+    typesenseVersions,
+    typesenseLatestVersion,
+
+    typesenseDocsearch: {
+      typesenseServerConfig: {
+        nearestNode: { host: '01brzocp328nd4xvp.a1.typesense.net', port: 443, protocol: 'https' },
+        nodes: [
+          { host: '01brzocp328nd4xvp-1.a1.typesense.net', port: 443, protocol: 'https' },
+          { host: '01brzocp328nd4xvp-2.a1.typesense.net', port: 443, protocol: 'https' },
+          { host: '01brzocp328nd4xvp-3.a1.typesense.net', port: 443, protocol: 'https' },
+        ],
+        apiKey: 'SnXV7QElNiek7WN3QRT3ibhR5qLjJzS8',
+      },
+      typesenseCollectionName: 'typesense_docs',
+      typesenseSearchParameters: {
+        per_page: 6,
+        query_by:
+          'hierarchy.lvl0,hierarchy.lvl1,hierarchy.lvl2,hierarchy.lvl3,hierarchy.lvl4,hierarchy.lvl5,hierarchy.lvl6,content,embedding',
+        vector_query: 'embedding:([], k: 5, distance_threshold: 1.0, alpha: 0.2)',
+        highlight_affix_num_tokens: 8,
+      },
+    },
+  },
+
+  markdown: {
+    lineNumbers: false,
+    // vuepress numbered repeated headings x, x-2, x-3, and old links still use those ids
+    anchor: { uniqueSlugStartIndex: 2 },
+    // otherwise a line opening with a RouterLink becomes an html block that splits its paragraph
+    component: { inlineTags: ['RouterLink'] },
+    // loads markdown-it-mathjax3 and marks its <mjx-*> output as custom elements
+    math: true,
+    config(md) {
+      typesenseMarkdown(md)
+    },
+  },
+
+  vite: {
+    plugins: [
+      {
+        // vue 3 templates have no `this`, and fenced code blocks are v-pre,
+        // which would render the latest-version token literally
+        name: 'typesense:strip-legacy-this',
+        enforce: 'pre',
+        transform(code, id) {
+          if (!id.endsWith('.md')) return
+          if (
+            !code.includes('this.$') &&
+            !code.includes('typesenseLatestVersion') &&
+            !code.includes('$page.typesenseVersion')
+          )
+            return
+          let out = code
+            .replace(/this\.\$(site|page)\b/g, '$$$1')
+            .replace(/\{\{\s*\$site\.themeConfig\.typesenseLatestVersion\s*\}\}/g, typesenseLatestVersion)
+          // vue only evaluates {{ }} in text nodes, leaving the token verbatim
+          // in the anchor aria-labels vitepress generates for headings
+          const version = id.slice(srcDir.length).replace(/^\//, '').split('/')[0]
+          if (VERSION_SEGMENT.test(version)) {
+            out = out.replace(/\{\{\s*\$page\.typesenseVersion\s*\}\}/g, version)
+          }
+          return out
+        },
+      },
+      {
+        name: 'typesense:embed-markdown-dev',
+        configureServer(server) {
+          server.middlewares.use(mdDevMiddleware(srcDir))
+        },
+      },
+    ],
+    // static assets still live in the old vuepress public dir until they move
+    publicDir: fileURLToPath(new URL('../.vuepress/public', import.meta.url)),
+    resolve: {
+      alias: [
+        { find: '@images', replacement: fileURLToPath(new URL('../.vuepress/public/images', import.meta.url)) },
+        { find: '@', replacement: fileURLToPath(new URL('./theme', import.meta.url)) },
+        // stubbed out: it drags in @docsearch/css and .DocSearch-* rules that
+        // collide with our own search modal
+        {
+          // vite matches the import string, not the resolved path
+          find: /^.*\/VPNavBarSearch\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNavBarSearch.vue', import.meta.url)),
+        },
+        {
+          find: /^.*\/VPNav\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNav.vue', import.meta.url)),
+        },
+        {
+          find: /^.*\/VPNavBarMenu\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNavBarMenu.vue', import.meta.url)),
+        },
+        {
+          find: /^.*\/VPNavBarExtra\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPNavBarExtra.vue', import.meta.url)),
+        },
+        {
+          find: /^.*\/VPLocalNav\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/VPLocalNav.vue', import.meta.url)),
+        },
+      ],
+    },
+  },
+
+  buildEnd(siteConfig) {
+    generateMarkdownArtifacts(siteConfig)
+  },
+
+  // port of typesense-enhancements extendPageData
+  async transformPageData(pageData) {
+    const version = pageData.relativePath.split('/')[0]
+    const isVersioned = typesenseVersions.includes(version)
+
+    pageData.frontmatter.head ??= []
+
+    if (isVersioned) {
+      // @ts-expect-error custom field surfaced to the theme
+      pageData.typesenseVersion = version
+      // lets the version picker grey out versions that predate this page
+      const relPath = versionRelPath(pageData.relativePath.slice(version.length + 1))
+      // @ts-expect-error custom field surfaced to the theme
+      pageData.typesenseVersionsWithoutPage = typesenseVersions.filter(v => !typesenseVersionPages.get(v)?.has(relPath))
+    } else {
+      // @ts-expect-error custom field surfaced to the theme
+      pageData.typesenseVersion = null
+      pageData.frontmatter.head.push(['meta', { name: 'docsearch:version', content: 'unversioned' }])
+    }
+
+    // pages since removed from the latest version stay self-canonical
+    const isVersionedPath = VERSION_SEGMENT.test(version)
+    let canonicalRel = pageData.relativePath
+    if (isVersionedPath && version !== typesenseLatestVersion) {
+      const latestRel = typesenseLatestVersion + pageData.relativePath.slice(version.length)
+      const sources = [latestRel, latestRel.replace(/index\.md$/, 'README.md')]
+      if (sources.some(rel => existsSync(join(srcDir, rel)))) canonicalRel = latestRel
+    }
+    const canonicalPath = canonicalRel.replace(/\.md$/, '.html').replace(/(^|\/)index\.html$/, '$1')
+    pageData.frontmatter.head.push(['link', { rel: 'canonical', href: `https://typesense.org/docs/${canonicalPath}` }])
+
+    const selfUrl = pageData.relativePath.replace(/\.md$/, '.html').replace(/(^|\/)index\.html$/, '$1')
+    const excludedByFrontmatter = (pageData.frontmatter.sitemap as { exclude?: boolean } | undefined)?.exclude === true
+    if (excludedByFrontmatter || (isVersionedPath && version !== typesenseLatestVersion)) {
+      sitemapExcludedUrls.add(selfUrl)
+    }
+
+    if (pageData.title) {
+      pageData.title = pageData.title.replace(/\{\{ ?\$page\.typesenseVersion ?\}\}/, version)
+    }
+
+    const socialTitle = pageData.title ? `${pageData.title} | Typesense` : 'Typesense Documentation'
+    pageData.frontmatter.head.push(
+      ['meta', { property: 'og:title', content: socialTitle }],
+      ['meta', { name: 'twitter:title', content: socialTitle }],
+    )
+
+    injectPageMarkdown(pageData, srcDir)
+  },
+})

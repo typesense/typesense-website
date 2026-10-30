@@ -6,7 +6,7 @@ description: "Authenticate with the Typesense Cloud Cluster Management API by cr
 
 This section talks about how to authenticate with the [Typesense Cloud **Cluster Management API**](README.md).
 
-If you're looking for the Typesense Server API docs, see [here](/api).
+If you're looking for the Typesense Server API docs, see <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">here</RouterLink>.
 
 ## Getting an API Key
 

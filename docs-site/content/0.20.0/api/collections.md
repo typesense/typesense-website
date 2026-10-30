@@ -209,7 +209,7 @@ curl "http://localhost:8108/collections" \
 
 Typesense allows you to index the following types of fields:
 
-<table>
+<table><tbody>
   <tr>
     <td>string</td>
   </tr>
@@ -225,11 +225,11 @@ Typesense allows you to index the following types of fields:
   <tr>
     <td>bool</td>
   </tr>
-</table>
+</tbody></table>
 
 You can define an array or multi-valued field by suffixing a [] at the end:
 
-<table>
+<table><tbody>
   <tr>
     <td>string[]</td>
   </tr>
@@ -245,19 +245,19 @@ You can define an array or multi-valued field by suffixing a [] at the end:
   <tr>
     <td>bool[]</td>
   </tr>
-</table>
+</tbody></table>
 
 There are also two special field types that are used for handling data sources with varying schema via 
 [automatic schema detection](./collections.md#with-auto-schema-detection).
 
-<table>
+<table><tbody>
   <tr>
     <td>auto</td>
   </tr>
   <tr>
     <td>string*</td>
   </tr>
-</table>
+</tbody></table>
 
 ### With auto schema detection
 

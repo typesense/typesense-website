@@ -76,6 +76,7 @@ Example:
     }
   ]
 }
+```
 :::
 
 We still have the case of searching for `83913` or `9444AT` which occur in the middle of strings.

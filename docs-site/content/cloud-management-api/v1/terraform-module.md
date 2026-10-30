@@ -5,7 +5,7 @@ description: "Use the community-maintained Typesense Terraform provider to manag
 # Terraform Module
 
 > This section talks about the Terraform provider for the [Typesense Cloud **Cluster Management API**](README.md).
-> If you're looking for the Typesense Server API docs, see [here](/api).
+> If you're looking for the Typesense Server API docs, see <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">here</RouterLink>.
 
 Here's a community-contributed terraform module that you can use to interact with Cluster Management API: 
 

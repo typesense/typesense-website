@@ -158,7 +158,7 @@ The agent sees all of its tools, but until you connect an account only three of 
 The other tools tell the agent that you need to connect an account first.
 
 The cluster is the free-tier shape (0.5 GB memory, 2 vCPU burst, one node), in the region nearest the agent unless it asks for another one.
-The agent gets the cluster's hostname and an API key, and works with it directly through the [Typesense Server API](/api/).
+The agent gets the cluster's hostname and an API key, and works with it directly through the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense Server API</RouterLink>.
 That key can create collections, import, search and set up synonyms, curation, presets, stopwords and analytics rules. It can't delete anything or manage API keys.
 
 The agent also gives you a claim link.
@@ -254,7 +254,7 @@ These are the tools available for your agent to use once it is connected. Agents
   - Backups: turns backups on or off and deletes or restores them.
   - Billing: switches the account between weekly and monthly billing.
 - `documents`: indexes, updates, fetches, deletes, imports and exports documents.
-- `read_cluster_data` and `change_cluster_data`: everything else in the [Typesense Server API](/api/) by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, conversation models and natural language search models. This also covers the cluster's own `/health` and `/metrics.json`.
+- `read_cluster_data` and `change_cluster_data`: everything else in the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense Server API</RouterLink> by path: collections, aliases, synonyms, curation, presets, stopwords, stemming dictionaries, analytics, conversation models and natural language search models. This also covers the cluster's own `/health` and `/metrics.json`.
 - `submit_feedback`: lets the agent tell the Typesense Cloud team about a paper cut it hit, such as a tool that refused something that should work or a missing action. The team reads every submission, but nobody replies through the tool. For anything blocking you, [contact support](https://cloud-help.typesense.org/article/contact-us).
 
 Typesense Cloud performs data operations against your cluster with a key it keeps server-side. The agent does not receive your cluster's admin key.
@@ -293,7 +293,7 @@ claude mcp add --transport http typesense-cloud https://cloud.typesense.org/mcp/
   --header "Authorization: Bearer ${TYPESENSE_CLOUD_MANAGEMENT_API_KEY}"
 ```
 
-Use the key exactly as it was shown when you created it. A key gives access to the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters`, `show_cluster` and `manage_cluster`) with the capabilities the key carries. The data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the [Typesense Server API](/api/) directly.
+Use the key exactly as it was shown when you created it. A key gives access to the cluster tools (`whoami`, `search_typesense_docs`, `get_clusters`, `show_cluster` and `manage_cluster`) with the capabilities the key carries. The data tools act as a signed-in person, so they need the browser connection. A headless agent provisions the cluster and issues its keys over MCP, then works with the data through the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">Typesense Server API</RouterLink> directly.
 
 ## Cluster API keys
 

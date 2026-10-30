@@ -8,7 +8,7 @@ sidebarDepth: 1
 
 The guide section of the documentation walks you through how to use Typesense in different scenarios. 
 
-For a high-level overview of Typesense, what you can use it for, and some live-demos, read the [**Overview**](../overview/README.md) section. 
+For a high-level overview of Typesense, what you can use it for, and some live-demos, read the [**Overview**](../overview/what-is-typesense.md) section. 
 For a detailed dive into the Typesense API, refer to our <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Documentation</strong></RouterLink>.
 
 ## Quick Start

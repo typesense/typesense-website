@@ -6,7 +6,7 @@ description: "Typesense Cloud Cluster Management API response codes explain the 
 
 This section talks about the error codes that the [Typesense Cloud **Cluster Management API**](README.md) might return.
 
-If you're looking for the Typesense Server API docs, see [here](/api).
+If you're looking for the Typesense Server API docs, see <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">here</RouterLink>.
 
 The following table lists all the status codes that the Cluster Management API might return:
 

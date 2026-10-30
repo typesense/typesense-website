@@ -1301,7 +1301,7 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
 
 #### Action modes
 
-<table>
+<table><tbody>
     <tr>
         <td>create (default)</td>
         <td>Creates a new document. Fails if a document with the same id already exists</td>
@@ -1314,7 +1314,7 @@ Besides `create`, the other allowed `action` modes are `upsert` and `update`.
         <td>update	</td>
         <td>Updates an existing document. Fails if a document with the given id does not exist.</td>
     </tr>
-</table>
+</tbody></table>
 
 ### Import a JSONL file
 
@@ -1505,7 +1505,7 @@ indexed does not match the previously inferred type for that field.
 
 
 | Value      | Behavior                                            |
-| -------------- | ----------- |-------------------------------------------------------|
+| -------------- | --------------------------------------------------- |
 |`coerce_or_reject`  | Attempt coercion of the field's value to previously inferred type. If coercion fails, reject the write outright with an error message. |
 |`coerce_or_drop`    | Attempt coercion of the field's value to previously inferred type. If coercion fails, drop the particular field and index the rest of the document.  |
 |`drop`              | Drop the particular field and index rest of the document. |

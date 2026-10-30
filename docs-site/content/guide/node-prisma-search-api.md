@@ -79,24 +79,26 @@ Run both services using Docker:
 
 <Tabs :tabs="['Shell']">
   <template v-slot:Shell>
-    <div class="manual-highlight">
-      <pre class="language-bash"><code>mkdir typesense-data
-<br>
-&#35; Start Typesense
+
+```bash
+mkdir typesense-data
+
+# Start Typesense
 docker run -d -p 8108:8108 \
   -v "$(pwd)"/typesense-data:/data \
   typesense/typesense:{{ $site.themeConfig.typesenseLatestVersion }} \
   --data-dir /data \
   --api-key=xyz \
   --enable-cors
-<br>
-&#35; Start PostgreSQL
+
+# Start PostgreSQL
 docker run -d -p 5432:5432 \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=password \
   -e POSTGRES_DB=typesense_books \
-  postgres:16</code></pre>
-    </div>
+  postgres:16
+```
+
   </template>
 </Tabs>
 
