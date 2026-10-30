@@ -193,6 +193,7 @@ curl --get --location "https://cloud.typesense.org/api/v1/account/cluster-costs"
           "compute_cents": 36000,
           "bandwidth_cents": 1250,
           "backup_storage_cents": 860,
+          "extra_disk_cents": 0,
           "total_cents": 38110
         },
         {
@@ -201,6 +202,7 @@ curl --get --location "https://cloud.typesense.org/api/v1/account/cluster-costs"
           "compute_cents": 5200,
           "bandwidth_cents": 0,
           "backup_storage_cents": 0,
+          "extra_disk_cents": 0,
           "total_cents": 5200
         }
       ]
@@ -219,6 +221,7 @@ curl --get --location "https://cloud.typesense.org/api/v1/account/cluster-costs"
           "compute_cents": 20500,
           "bandwidth_cents": 900,
           "backup_storage_cents": 0,
+          "extra_disk_cents": 0,
           "total_cents": 21400
         }
       ]
@@ -256,7 +259,8 @@ So the clusters' `total_cents` plus `other_charges_cents` add up to the month's 
 | `compute_cents`        | The cluster's share of the month's charges for node-hours.                                              |
 | `bandwidth_cents`      | The cluster's share for outbound bandwidth.                                                             |
 | `backup_storage_cents` | The cluster's share for [backup](cluster-backups.md#billing) storage.                                    |
-| `total_cents`          | `compute_cents` + `bandwidth_cents` + `backup_storage_cents`.                                           |
+| `extra_disk_cents`     | The cluster's share for [extra disk](cluster-configuration-changes.md#new-disk-gb-per-node) per node, priced per GB-month. |
+| `total_cents`          | `compute_cents` + `bandwidth_cents` + `backup_storage_cents` + `extra_disk_cents`.                      |
 
 ### When costs are being prepared
 

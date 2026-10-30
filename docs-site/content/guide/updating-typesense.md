@@ -35,6 +35,7 @@ We support the following configuration changes in Typesense Cloud:
 * Upgrading or Downgrading RAM
 * Upgrading or Downgrading CPU cores
 * Enabling or disabling High Performance disk
+* Increasing or decreasing disk per node
 * Enabling or disabling GPU Acceleration
 * Enabling High Availability
 

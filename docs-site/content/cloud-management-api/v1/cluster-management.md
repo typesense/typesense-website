@@ -49,6 +49,8 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
     "vcpu": "2_vcpus_1_hr_burst_per_day",
     "gpu": "no",
     "high_performance_disk": "no",
+    "disk_gb_per_node": 8,
+    "extra_disk_gb_per_node": 0,
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
     "high_availability_node_count": null,
@@ -327,6 +329,16 @@ Most response parameters are similar to the request parameters above.
 
 We've documented response-specific parameters below:
 
+#### `disk_gb_per_node`
+
+The disk per node in GB: what the cluster's memory size includes, plus [`extra_disk_gb_per_node`](#extra-disk-gb-per-node).
+It's `null` when the cluster uses High Performance Disk.
+
+#### `extra_disk_gb_per_node`
+
+The disk per node in GB beyond what the memory size includes, billed per GB per month on every node.
+You can change it with [`new_disk_gb_per_node`](./cluster-configuration-changes.md#new-disk-gb-per-node) in a configuration change.
+
 #### `regions` (response)
 
 In the response, `regions` is a flat list with one entry per node. For example, a 3-node cluster in Oregon returns `["oregon", "oregon", "oregon"]`.
@@ -536,6 +548,8 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
   "vcpu": "2_vcpus_1_hr_burst_per_day",
   "gpu": "no",
   "high_performance_disk": "no",
+  "disk_gb_per_node": 24,
+  "extra_disk_gb_per_node": 16,
   "typesense_server_version": "0.23.1",
   "high_availability": "yes",
   "high_availability_node_count": 3,
@@ -601,6 +615,8 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
       "vcpu": "2_vcpus_1_hr_burst_per_day",
       "gpu": "no",
       "high_performance_disk": "no",
+      "disk_gb_per_node": 8,
+      "extra_disk_gb_per_node": 0,
       "typesense_server_version": "0.23.1",
       "high_availability": "no",
       "high_availability_node_count": null,
@@ -671,6 +687,8 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "vcpu": "2_vcpus_1_hr_burst_per_day",
     "gpu": "no",
     "high_performance_disk": "no",
+    "disk_gb_per_node": 8,
+    "extra_disk_gb_per_node": 0,
     "typesense_server_version": "0.23.1",
     "high_availability": "no",
     "high_availability_node_count": null,

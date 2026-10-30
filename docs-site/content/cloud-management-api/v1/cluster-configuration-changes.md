@@ -19,7 +19,7 @@ The rest of this document will talk about the individual endpoints.
 
 ## Schedule a Configuration Change
 
-This endpoint lets you change the RAM, CPU, High Availability, Search Delivery Network, node topology and Typesense Server version of a cluster that is in service.
+This endpoint lets you change the RAM, CPU, disk per node, High Availability, Search Delivery Network, node topology and Typesense Server version of a cluster that is in service.
 
 You can skip any fields you don't want to change in the payload below.
 
@@ -33,6 +33,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
           "new_vcpu": "2_vcpus_2_hr_burst_per_day",
           "new_typesense_server_version": "0.24.1",
           "new_high_availability": "yes",
+          "new_disk_gb_per_node": 40,
           "perform_change_at": 1787923647,
           "notification_email_addresses": ["email@example.com"]
         }'
@@ -62,6 +63,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
     "old_region_node_counts": {
       "oregon": 1
     },
+    "old_disk_gb_per_node": 8,
     "new_memory": "1_gb",
     "new_vcpu": "2_vcpus_2_hr_burst_per_day",
     "new_gpu": null,
@@ -74,6 +76,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
     "new_region_node_counts": {
       "oregon": 3
     },
+    "new_disk_gb_per_node": 40,
     "notification_email_addresses": [
       "email@example.com"
     ]
@@ -98,6 +101,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [new_search_delivery_network](#new-search-delivery-network)
 - [new_region_node_counts](#new-region-node-counts)
 - [new_high_performance_disk](#new-high-performance-disk)
+- [new_disk_gb_per_node](#new-disk-gb-per-node)
 - [new_typesense_server_version](#new-typesense-server-version)
 
 #### `perform_change_at`
@@ -198,6 +202,24 @@ When set to `yes`, the provisioned hard disk will be co-located on the same phys
 - The cluster has High Availability turned on
 - The cluster does not have a burst CPU type.
 
+#### `new_disk_gb_per_node`
+
+The total disk per node in GB, including the disk the cluster's memory size comes with.
+
+It can be any whole number of GB from the included disk up to 10 times that (or the cluster's current disk per node, if that's larger).
+On the [cluster](./cluster-management.md#disk-gb-per-node), `disk_gb_per_node` minus `extra_disk_gb_per_node` is the disk its current memory size includes.
+
+Disk over the included size is extra disk, billed per GB per month on every node.
+Extra disk needs a payment method or prepaid credit on the account.
+
+When you change [`new_memory`](#new-memory) on a cluster that has extra disk and leave this parameter out, the cluster keeps its current disk per node, unless the new memory size includes more.
+
+If the new disk per node can't hold the cluster's data, the change is refused when it starts.
+
+:::tip Note
+Extra disk isn't available with High Performance Disk: a request that sends this parameter for a cluster with High Performance Disk, or one that turns it on with [`new_high_performance_disk`](#new-high-performance-disk), returns HTTP `400`. Turning High Performance Disk on removes any extra disk.
+:::
+
 #### `new_typesense_server_version`
 
 The Typesense Server version to change this cluster to.
@@ -250,6 +272,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
   "old_region_node_counts": {
     "oregon": 1
   },
+  "old_disk_gb_per_node": 8,
   "new_memory": "1_gb",
   "new_vcpu": "2_vcpus_2_hr_burst_per_day",
   "new_gpu": null,
@@ -262,6 +285,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
   "new_region_node_counts": {
     "oregon": 3
   },
+  "new_disk_gb_per_node": 40,
   "notification_email_addresses": [
     "email@example.com"
   ]
@@ -281,6 +305,11 @@ The `status` field can be any of the following values:
 | `canceled`    | Config change was canceled.                                                                                                      |
 | `succeeded`   | Config change was successfully completed. The `completed_at` field will give you the time when this config change was completed. |
 | `failed`      | Config change failed due to an internal error.                                                                                   |
+
+#### `old_disk_gb_per_node` and `new_disk_gb_per_node`
+
+The total disk per node in GB before and after the change, including the disk the memory size comes with.
+Both are `null` when the change doesn't change disk per node, and on High Performance Disk.
 
 ## List all configuration changes
 
@@ -319,6 +348,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
       "old_region_node_counts": {
         "oregon": 1
       },
+      "old_disk_gb_per_node": 8,
       "new_memory": "1_gb",
       "new_vcpu": "2_vcpus_2_hr_burst_per_day",
       "new_gpu": null,
@@ -331,6 +361,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
       "new_region_node_counts": {
         "oregon": 3
       },
+      "new_disk_gb_per_node": 40,
       "notification_email_addresses": [
         "email@example.com"
       ]
@@ -383,6 +414,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "old_region_node_counts": {
       "oregon": 1
     },
+    "old_disk_gb_per_node": 8,
     "new_memory": "1_gb",
     "new_vcpu": "2_vcpus_2_hr_burst_per_day",
     "new_high_performance_disk": null,
@@ -394,6 +426,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "new_region_node_counts": {
       "oregon": 3
     },
+    "new_disk_gb_per_node": 40,
     "notification_email_addresses": [
       "email@example.com"
     ]
