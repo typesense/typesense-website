@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { SelectContentEmits, SelectContentProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
-import { reactiveOmit } from '@vueuse/core'
+import { reactiveOmit, unrefElement, useResizeObserver, useScroll } from '@vueuse/core'
+import { computed, useTemplateRef } from 'vue'
 import { SelectContent, SelectPortal, SelectViewport, useForwardPropsEmits } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
@@ -17,6 +18,12 @@ const emits = defineEmits<SelectContentEmits>()
 const delegatedProps = reactiveOmit(props, 'class')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
+
+const viewport = useTemplateRef<InstanceType<typeof SelectViewport>>('viewport')
+const viewportEl = computed(() => unrefElement(viewport))
+// useScroll only measures on scroll, and the viewport mounts on open and resizes once positioned
+const { arrivedState, measure } = useScroll(viewportEl)
+useResizeObserver(viewportEl, measure)
 </script>
 
 <template>
@@ -32,17 +39,31 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         )
       "
     >
-      <SelectViewport
-        :class="
-          cn(
-            'p-1 overscroll-contain',
-            position === 'popper' &&
-              'h-[var(--reka-select-trigger-height)] w-full min-w-[var(--reka-select-trigger-width)]',
-          )
-        "
-      >
-        <slot />
-      </SelectViewport>
+      <div class="relative flex min-h-0 flex-1 flex-col">
+        <div
+          v-if="!arrivedState.top"
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 bg-gradient-to-b from-popover from-25% animate-in fade-in-0"
+        />
+        <!-- the padding keeps focused and selected rows clear of the fades -->
+        <SelectViewport
+          ref="viewport"
+          :class="
+            cn(
+              'scroll-py-12 p-1 overscroll-contain',
+              position === 'popper' &&
+                'h-[var(--reka-select-trigger-height)] w-full min-w-[var(--reka-select-trigger-width)]',
+            )
+          "
+        >
+          <slot />
+        </SelectViewport>
+        <div
+          v-if="!arrivedState.bottom"
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-popover from-25% animate-in fade-in-0"
+        />
+      </div>
       <slot name="footer" />
     </SelectContent>
   </SelectPortal>
