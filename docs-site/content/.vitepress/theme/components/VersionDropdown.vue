@@ -11,7 +11,7 @@
         <!-- an unlisted version has no item to take its label from -->
         <SelectValue>v{{ currentVersion ?? pageVersion }}</SelectValue>
       </SelectTrigger>
-      <SelectContent align="start" :collision-padding="16" :body-lock="false" class="w-44">
+      <SelectContent :align="align" :collision-padding="16" :body-lock="false" class="w-44">
         <SelectItem
           v-for="version in versions"
           :key="version"
@@ -35,9 +35,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useVersionSwitch } from '../composables/useVersionSwitch'
 
-withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boolean }>(), {
+withDefaults(defineProps<{ showOnMobileOnly?: boolean; showOnDesktopOnly?: boolean; align?: 'start' | 'end' }>(), {
   showOnMobileOnly: false,
   showOnDesktopOnly: false,
+  align: 'start',
 })
 
 const { versions, currentVersion, pageVersion, versionHasPage, goToVersion } = useVersionSwitch()

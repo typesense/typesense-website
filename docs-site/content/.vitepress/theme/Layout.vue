@@ -4,7 +4,7 @@
       <div class="flex items-center gap-2 ml-4">
         <!-- covers the band between the nav-screen copy and the aside copy -->
         <div class="hidden min-[768px]:block min-[1280px]:hidden">
-          <VersionDropdown />
+          <VersionDropdown align="end" />
         </div>
         <TypesenseSearchBox />
       </div>
