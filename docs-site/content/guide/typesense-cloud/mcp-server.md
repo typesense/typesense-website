@@ -154,7 +154,7 @@ The agent creates a free-tier cluster, asks what your data looks like, proposes 
 Your agent can create a cluster before you have a Typesense Cloud account, and you claim the cluster into your account later.
 
 When your client connects, click "Try it without an account" on the Typesense Cloud sign-in page.
-The agent sees all of its tools, but until you connect an account only three of them work: creating a free cluster, checking on it and searching the Typesense docs.
+The agent sees all of its tools, but until you connect an account only four of them work: creating a free cluster, checking on it, searching the Typesense docs and `whoami`, which tells the agent that no account is connected yet.
 The other tools tell the agent that you need to connect an account first.
 
 The cluster is the free-tier shape (0.5 GB memory, 2 vCPU burst, one node), in the region nearest the agent unless it asks for another one.
