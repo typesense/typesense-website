@@ -992,14 +992,23 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
   </template>
 </Tabs>
 
-When a collection is dropped, we perform a disk compaction operation which reclaims the disk space used by the
-deleted collection. However, if you are managing a large number of collections and need to drop collections
-frequently, you can disable this compaction to improve the performance of the drop operation
-via the `compact_store` GET parameter. You can still do a full database compaction
-via the [API](../api/cluster-operations.md#compacting-the-on-disk-database).
+When a collection is dropped, the disk space it used is freed only when the on-disk database is next compacted.
+By default, Typesense runs this compaction every 7 days (configurable via the `--db-compaction-interval` server parameter),
+and you can also trigger it on demand via the [API](../api/cluster-operations.md#compacting-the-on-disk-database).
+
+If you drop collections frequently, for example when you reindex into a new collection every day and drop the previous one,
+you want to set `compact_store=true` when you drop each collection.
+Typesense then compacts the dropped collection's data as part of the drop, so its disk space is freed right away.
+The drop request returns only after this compaction finishes.
 
 **Definition**
 `DELETE ${TYPESENSE_HOST}/collections/:collection`
+
+### Arguments
+
+| Parameter     | Required | Description                                                                                                                                        |
+|---------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| compact_store | no       | When set to `true`, Typesense compacts the dropped collection's data on disk as part of the drop, so its disk space is freed right away.<br><br>Default: `false` |
 
 ## Truncate a collection
 

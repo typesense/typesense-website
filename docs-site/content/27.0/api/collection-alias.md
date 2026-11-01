@@ -19,6 +19,11 @@ On the next day (June 11), we will create a new collection called `companies_jun
 
 Convenient isn't it? Let's now look at how we can create, update and manage aliases.
 
+:::tip
+If you reindex like this often and drop the old collection each time, you want to set `compact_store=true` when you drop it, so its disk space is freed right away.
+Read more [here](../api/collections.md#drop-a-collection).
+:::
+
 ## Create or Update an alias
 
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
