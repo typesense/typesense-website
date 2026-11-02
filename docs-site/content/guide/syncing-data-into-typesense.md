@@ -314,6 +314,7 @@ So if you see `OUT_OF_MEMORY` errors, you want to add more RAM to fit your datas
 
 When you see `OUT_OF_DISK` you want to add more disk capacity and restart Typesense.
 On Typesense Cloud, we provision 5X disk space (or a minimum of 8GB) if X is the amount of RAM. So to add more disk space, you want to pick a larger "Disk per Node" under Cluster Configuration > Modify, or upgrade to the next RAM tier.
+With "High Performance Disk" turned on, the disk size is fixed for each configuration and can be smaller or larger than 5X RAM. So to add more disk space there, you want to pick a configuration with a larger disk under Cluster Configuration > Modify, or turn off "High Performance Disk" and pick a larger "Disk per Node".
 
 ### Client-side batch size vs server-side batching
 

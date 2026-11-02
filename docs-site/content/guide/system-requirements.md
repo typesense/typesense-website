@@ -125,9 +125,12 @@ You'd need enough disk space, at least the size of your raw dataset, to run Type
 
 ::: tip
 In Typesense Cloud, we provision 5X disk space, where X is the amount of memory you've chosen for your cluster. 
-When you enable the "High Performance Disk" option (available only for Highly-Available Non-Burst-CPU configurations), 
-we use NVMEe SSD disks that give you the fastest data transfer rates.
 To add disk without adding RAM, you can pick a larger "Disk per Node" under Cluster Configuration > Modify.
+
+When you enable the "High Performance Disk" option (available only for Highly-Available Non-Burst-CPU configurations), 
+we use NVMe SSD disks that give you the fastest data transfer rates.
+These disks are fixed in size for each configuration and can be smaller or larger than 5X RAM.
+You'll see each configuration's disk size under "Disk per Node" in Cluster Configuration > Modify.
 :::
 
 ## Choosing Number of Nodes
