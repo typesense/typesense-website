@@ -77,6 +77,11 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
       "oregon": 3
     },
     "new_disk_gb_per_node": 40,
+    "nodes_total": 1,
+    "nodes_changed": 0,
+    "snapshot_status": null,
+    "estimated_seconds_remaining": null,
+    "estimate_based_on_change_completed_at": null,
     "notification_email_addresses": [
       "email@example.com"
     ]
@@ -286,6 +291,11 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
     "oregon": 3
   },
   "new_disk_gb_per_node": 40,
+  "nodes_total": 1,
+  "nodes_changed": 0,
+  "snapshot_status": null,
+  "estimated_seconds_remaining": null,
+  "estimate_based_on_change_completed_at": null,
   "notification_email_addresses": [
     "email@example.com"
   ]
@@ -310,6 +320,22 @@ The `status` field can be any of the following values:
 
 The total disk per node in GB before and after the change, including the disk the memory size comes with.
 Both are `null` when the change doesn't change disk per node, and on High Performance Disk.
+
+#### `nodes_total`, `nodes_changed` and `snapshot_status`
+
+How far a change has got. `nodes_total` is the number of nodes the change replaces, upgrades, adds or removes (a node moving to another region counts once), and `nodes_changed` is how many of them are done.
+A node counts as done once it is serving again with all its data.
+A scheduled change reports the cluster's current node count in `nodes_total`. It is `0` while a change is starting, and for a change that touches no nodes, such as turning on load balancing.
+
+`snapshot_status` is the snapshot taken before any nodes change: `pending`, `in_progress` or `completed`. It is `null` when the change takes no snapshot.
+
+#### `estimated_seconds_remaining` and `estimate_based_on_change_completed_at`
+
+While a change is in progress, `estimated_seconds_remaining` is about how many seconds are left, based on how long each node took in this cluster's last configuration change.
+Your data may have grown since then, so treat it as an estimate.
+`estimated_seconds_remaining` is `0` once the change runs past the estimate, and `null` when the change is not in progress, once every node is done, or when the cluster has no earlier change to go by.
+
+`estimate_based_on_change_completed_at` is the Unix timestamp of when that earlier change completed. It is `null` when there is no estimate.
 
 ## List all configuration changes
 
@@ -362,6 +388,11 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
         "oregon": 3
       },
       "new_disk_gb_per_node": 40,
+      "nodes_total": 1,
+      "nodes_changed": 0,
+      "snapshot_status": null,
+      "estimated_seconds_remaining": null,
+      "estimate_based_on_change_completed_at": null,
       "notification_email_addresses": [
         "email@example.com"
       ]
@@ -427,6 +458,11 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
       "oregon": 3
     },
     "new_disk_gb_per_node": 40,
+    "nodes_total": 1,
+    "nodes_changed": 0,
+    "snapshot_status": null,
+    "estimated_seconds_remaining": null,
+    "estimate_based_on_change_completed_at": null,
     "notification_email_addresses": [
       "email@example.com"
     ]
