@@ -11,7 +11,7 @@ Once you've provisioned a cluster via the Typesense Cloud web console or using t
 Here's a typical sequence of API Calls you'd perform when using this API:
 
 1. [Start a new cloning operation](#start-a-cloning-operation) (which is an asynchronous process).
-2. Poll the [cloning operation info endpoint](#get-single-cloning-operation) to get the status of the cloning operation.
+2. Poll the [cloning operation info endpoint](#get-single-cloning-operation) to get the status of the cloning operation and the stage it has reached.
 3. If you need to, [cancel a pending cloning operation](#cancel-a-pending-cloning-operation).
 
 The rest of this document will talk about the individual endpoints.
@@ -49,6 +49,12 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>
     "typesense_server_version": "28.0",
     "target_cluster_name": "products-staging",
     "target_cluster_reference_id": null,
+    "stages": [
+      { "name": "snapshot", "status": "pending" },
+      { "name": "new_cluster", "status": "pending" },
+      { "name": "loading_data", "status": "pending" },
+      { "name": "checking_data", "status": "pending" }
+    ],
     "notification_email_addresses": [
       "email@example.com"
     ]
@@ -108,6 +114,12 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
   "typesense_server_version": "28.0.rc29",
   "target_cluster_name": "products-staging",
   "target_cluster_reference_id": "815p962i73hnjcdud",
+  "stages": [
+    { "name": "snapshot", "status": "completed" },
+    { "name": "new_cluster", "status": "completed" },
+    { "name": "loading_data", "status": "completed" },
+    { "name": "checking_data", "status": "completed" }
+  ],
   "notification_email_addresses": [
     "email@example.com",
     "email@example.net"
@@ -128,6 +140,19 @@ The `status` field can be any of the following values:
 | `canceled`    | Cloning operation was canceled                                                                                                                                                                                               |
 | `succeeded`   | Cloning operation was successfully completed. The `completed_at` field will give you the time when this cloning operation was completed, and `target_cluster_reference_id` will contain the ID of the newly created cluster. |
 | `failed`      | Cloning operation failed due to an internal error                                                                                                                                                                            |
+
+#### `stages`
+
+The operation's stages, in order. Each has a `name` and a `status`: `pending`, `in_progress` or `completed`.
+
+| `name`          | Description                                                  |
+|-----------------|--------------------------------------------------------------|
+| `snapshot`      | Taking a snapshot of the source cluster's data               |
+| `new_cluster`   | Creating the new cluster                                     |
+| `loading_data`  | Loading the data into the cluster                            |
+| `checking_data` | Checking that the cluster has all the data                   |
+
+A backup restore to a new cluster has the last three stages, and a restore into the same cluster has only `loading_data` and `checking_data`.
 
 ## List all cloning operations
 
@@ -158,6 +183,12 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/
       "typesense_server_version": "28.0.rc29",
       "target_cluster_name": "products-staging",
       "target_cluster_reference_id": "815p962i73hnjcdud",
+      "stages": [
+        { "name": "snapshot", "status": "completed" },
+        { "name": "new_cluster", "status": "completed" },
+        { "name": "loading_data", "status": "completed" },
+        { "name": "checking_data", "status": "completed" }
+      ],
       "notification_email_addresses": [
         "email@example.com",
         "email@example.net"
@@ -204,6 +235,12 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "typesense_server_version": "28.0.rc29",
     "target_cluster_name": "products-staging",
     "target_cluster_reference_id": null,
+    "stages": [
+      { "name": "snapshot", "status": "pending" },
+      { "name": "new_cluster", "status": "pending" },
+      { "name": "loading_data", "status": "pending" },
+      { "name": "checking_data", "status": "pending" }
+    ],
     "notification_email_addresses": [
       "email@example.com",
       "email@example.net"
