@@ -783,8 +783,7 @@ curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -804,8 +803,7 @@ $curation_set = [
   "items" => [[
     "id" => "dynamic-sort-filter",
     "rule" => [
-      "filter_by" => "store:={store}",
-      "match" => "exact"
+      "filter_by" => "store:={store}"
     ],
     "remove_matched_tokens" => true,
     "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
@@ -824,8 +822,7 @@ curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": True,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -843,8 +840,7 @@ curation_set = {
   "items" => [{
     "id" => "dynamic-sort-filter",
     "rule": {
-      "filter_by" => "store:={store}",
-      "match" => "exact"
+      "filter_by" => "store:={store}"
     },
     "remove_matched_tokens" => true,
     "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
@@ -863,8 +859,7 @@ final curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -887,8 +882,7 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -1225,8 +1219,7 @@ curl "http://localhost:8108/collections/products" -X PATCH \
 ```js
 const curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -1242,8 +1235,7 @@ client.curationSets('curate_products').items('dynamic-sort-filter').upsert(curat
 ```php
 $curation_set_item = [
   "rule" => [
-    "filter_by" => "store:={store}",
-    "match" => "exact"
+    "filter_by" => "store:={store}"
   ],
   "remove_matched_tokens" => true,
   "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
@@ -1259,8 +1251,7 @@ $client->curationSets['curate_products']->getItems()['dynamic-sort-filter']->ups
 ```py
 curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": True,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -1276,8 +1267,7 @@ client.curation_sets['curate_products'].upsert_item('dynamic-sort-filter', curat
 ```rb
 curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -1293,8 +1283,7 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(cura
 ```dart
 final curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -1314,8 +1303,7 @@ curl "http://localhost:8108/curation_sets/curate_products/items/dynamic-sort-fil
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc"
