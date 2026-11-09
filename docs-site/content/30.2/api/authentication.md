@@ -133,8 +133,11 @@ final config = Configuration(
 
 ```java
 import org.typesense.api.*;
-import org.typesense.models.*;
+import org.typesense.model.*;
 import org.typesense.resources.*;
+
+import java.time.Duration;
+import java.util.ArrayList;
 
 ArrayList<Node> nodes = new ArrayList<>();
 nodes.add(
