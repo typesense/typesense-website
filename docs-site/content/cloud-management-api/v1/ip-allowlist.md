@@ -103,8 +103,8 @@ You'll get back the list as saved, with `change_in_progress` set to `true` while
 - HTTP `422` when an entry isn't valid, with a message naming it. The existing list stays as it was.
 - HTTP `409` when an earlier change is still being applied, or the cluster isn't in service yet. So you want to wait for `change_in_progress` to turn `false` and send the request again.
 
-:::warning
-A [cloned cluster](./cluster-cloning.md#start-a-cloning-operation) doesn't inherit the allowlist.
+:::tip
+A [cloned cluster](./cluster-cloning.md#start-a-cloning-operation) keeps the source cluster's allowlist.
 :::
 
 ## Permissions
