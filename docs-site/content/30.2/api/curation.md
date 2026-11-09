@@ -50,7 +50,7 @@ curation_set = {
 }
 
 // Creates/updates an curation_set called `curate_products`.
-client.curationSets().upsert('curate_products', curation_set)
+client.curationSets('curate_products').upsert(curation_set)
 ```
 
   </template>
@@ -151,7 +151,9 @@ final curation_set = {
 };
 
 // Creates/updates an override called `customize-apple` in the `companies` collection
-await client.curation_sets.upsert('curate_products', curation_set);
+await client.curationSet('curate_products').upsert(CurationSetUpsertSchema(
+  items: [for (final item in curation_set['items']!) CurationObjectSchema.fromJson(item)],
+));
 ```
 
   </template>
@@ -218,7 +220,7 @@ curation_set = {
 }
 
 // Creates/updates an curation_set called `curate_products`.
-client.curationSets().upsert('curate_products', curation_set)
+client.curationSets('curate_products').upsert(curation_set)
 ```
 
   </template>
@@ -269,7 +271,7 @@ curation_set = {
 }
 
 # Creates/updates an override called `customize-apple` in the `companies` collection
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -319,7 +321,9 @@ final curation_set = {
 };
 
 // Creates/updates an override called `customize-apple` in the `companies` collection
-await client.curation_sets.upsert('curate_products', curation_set);
+await client.curationSet('curate_products').upsert(CurationSetUpsertSchema(
+  items: [for (final item in curation_set['items']!) CurationObjectSchema.fromJson(item)],
+));
 ```
 
   </template>
@@ -440,7 +444,7 @@ curation_set = {
 }
 
 // Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-client.curationSets().upsert('curate_products', curation_set)
+client.curationSets('curate_products').upsert(curation_set)
 ```
 
   </template>
@@ -478,12 +482,12 @@ curation_set = {
       "match": "contains"
     },
     "filter_by": "brand:={brand}",
-    "remove_matched_tokens": true
+    "remove_matched_tokens": True
   }]
 }
 
 # Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -523,7 +527,9 @@ final curation_set = {
 };
 
 // Creates/updates an curation_set item called `brand-filter` in the `curate_products` curation_set
-await client.curation_sets.upsert('curate_products', curation_set);
+await client.curationSet('curate_products').upsert(CurationSetUpsertSchema(
+  items: [for (final item in curation_set['items']!) CurationObjectSchema.fromJson(item)],
+));
 ```
 
   </template>
@@ -657,7 +663,7 @@ curation_set = {
 }
 
 // Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
-client.curationSets().upsert('curate_products', curation_set)
+client.curationSets('curate_products').upsert(curation_set)
 ```
 
   </template>
@@ -698,7 +704,7 @@ curation_set = {
 }
 
 # Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
 
   </template>
@@ -738,7 +744,9 @@ final curation_set = {
 };
 
 // Creates/updates an curation_set item called `dynamic-sort` in the `curate_products` curation_set
-await client.curation_sets.upsert('curate_products', curation_set);
+await client.curationSet('curate_products').upsert(CurationSetUpsertSchema(
+  items: [for (final item in curation_set['items']!) CurationObjectSchema.fromJson(item)],
+));
 ```
 
   </template>
@@ -775,8 +783,7 @@ curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -784,7 +791,7 @@ curation_set = {
 }
 
 // Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
-client.curation_sets().upsert('curate_products', curation_set)
+client.curationSets('curate_products').upsert(curation_set)
 ```
 
   </template>
@@ -796,8 +803,7 @@ $curation_set = [
   "items" => [[
     "id" => "dynamic-sort-filter",
     "rule" => [
-      "filter_by" => "store:={store}",
-      "match" => "exact"
+      "filter_by" => "store:={store}"
     ],
     "remove_matched_tokens" => true,
     "sort_by" => "sales.{store}:desc, inventory.{store}:desc"
@@ -816,8 +822,7 @@ curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": True,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -825,7 +830,7 @@ curation_set = {
 }
 
 # Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
-client.curation_sets.upsert('curate_products', curation_set)
+client.curation_sets['curate_products'].upsert(curation_set)
 ```
   </template>
   <template v-slot:Ruby>
@@ -835,8 +840,7 @@ curation_set = {
   "items" => [{
     "id" => "dynamic-sort-filter",
     "rule": {
-      "filter_by" => "store:={store}",
-      "match" => "exact"
+      "filter_by" => "store:={store}"
     },
     "remove_matched_tokens" => true,
     "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
@@ -855,8 +859,7 @@ final curation_set = {
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -864,7 +867,9 @@ final curation_set = {
 };
 
 // Creates/updates an curation_set item called `dynamic-sort-filter` in the `curate_products` curation_set
-await client.curation_sets.upsert('curate_products', curation_set);
+await client.curationSet('curate_products').upsert(CurationSetUpsertSchema(
+  items: [for (final item in curation_set['items']!) CurationObjectSchema.fromJson(item)],
+));
 ```
 
   </template>
@@ -877,8 +882,7 @@ curl "http://localhost:8108/curation_sets/curate_products" -X PUT \
   "items": [{
     "id": "dynamic-sort-filter",
     "rule": {
-      "filter_by": "store:={store}",
-      "match": "exact"
+      "filter_by": "store:={store}"
     },
     "remove_matched_tokens": true,
     "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -1044,7 +1048,7 @@ client.curation_sets['curate_products'].retrieve
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.retrieve('curate_products');
+await client.curationSet('curate_products').retrieve();
 ```
 
   </template>
@@ -1103,7 +1107,7 @@ client.curation_sets.retrieve
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.retrieve();
+await client.curationSets.retrieve();
 ```
 
   </template>
@@ -1161,7 +1165,7 @@ client.curation_sets['curate_products'].delete
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.delete('curate_products');
+await client.curationSet('curate_products').delete();
 ```
 
   </template>
@@ -1215,8 +1219,7 @@ curl "http://localhost:8108/collections/products" -X PATCH \
 ```js
 const curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -1232,14 +1235,13 @@ client.curationSets('curate_products').items('dynamic-sort-filter').upsert(curat
 ```php
 $curation_set_item = [
   "rule" => [
-    "filter_by" => "store:={store}",
-    "match" => "exact"
+    "filter_by" => "store:={store}"
   ],
   "remove_matched_tokens" => true,
   "sort_by" => "sales.{store}:desc, inventory.{store}:desc",
 ];
 
-$client->curationSets['curate_products']->items['dynamic-sort-filter']->upsert($curation_set_item);
+$client->curationSets['curate_products']->getItems()['dynamic-sort-filter']->upsert($curation_set_item);
 ```
 
   </template>
@@ -1249,14 +1251,13 @@ $client->curationSets['curate_products']->items['dynamic-sort-filter']->upsert($
 ```py
 curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
-  "remove_matched_tokens": true,
+  "remove_matched_tokens": True,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
 }
 
-client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item)
+client.curation_sets['curate_products'].upsert_item('dynamic-sort-filter', curation_set_item)
 ```
 
   </template>
@@ -1266,8 +1267,7 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(cura
 ```rb
 curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc",
@@ -1283,14 +1283,15 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(cura
 ```dart
 final curation_set_item = {
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc"
 };
 
-await client.curation_sets['curate_products'].items['dynamic-sort-filter'].upsert(curation_set_item);
+await client.curationSet('curate_products').item('dynamic-sort-filter').upsert(
+  CurationObjectSchema.fromJson({'id': 'dynamic-sort-filter', ...curation_set_item}),
+);
 ```
 
   </template>
@@ -1302,8 +1303,7 @@ curl "http://localhost:8108/curation_sets/curate_products/items/dynamic-sort-fil
 -H "Content-Type: application/json" \
 -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
   "rule": {
-    "filter_by": "store:={store}",
-    "match": "exact"
+    "filter_by": "store:={store}"
   },
   "remove_matched_tokens": true,
   "sort_by": "sales.{store}:desc, inventory.{store}:desc"
@@ -1394,7 +1394,7 @@ client.curationSets('curate_products').items('dynamic-sort-filter').retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->curationSets['curate_products']->items['dynamic-sort-filter']->retrieve();
+$client->curationSets['curate_products']->getItems()['dynamic-sort-filter']->retrieve();
 ```
 
   </template>
@@ -1402,7 +1402,7 @@ $client->curationSets['curate_products']->items['dynamic-sort-filter']->retrieve
   <template v-slot:Python>
 
 ```py
-client.curation_sets['curate_products'].items['dynamic-sort-filter'].retrieve()
+client.curation_sets['curate_products'].get_item('dynamic-sort-filter')
 ```
 
   </template>
@@ -1418,7 +1418,7 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].retrieve
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.retrieve('curate_products');
+await client.curationSet('curate_products').item('dynamic-sort-filter').retrieve();
 ```
 
   </template>
@@ -1452,7 +1452,7 @@ client.curationSets('curate_products').items().retrieve()
   <template v-slot:PHP>
 
 ```php
-$client->curationSets['curate_products']->items->retrieve();
+$client->curationSets['curate_products']->getItems()->retrieve();
 ```
 
   </template>
@@ -1460,7 +1460,7 @@ $client->curationSets['curate_products']->items->retrieve();
   <template v-slot:Python>
 
 ```py
-client.curation_sets['curate_products'].items().retrieve()
+client.curation_sets['curate_products'].list_items()
 ```
 
   </template>
@@ -1476,7 +1476,7 @@ client.curation_sets['curate_products'].items().retrieve
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.retrieve('curate_products');
+await client.curationSet('curate_products').items().retrieve();
 ```
 
   </template>
@@ -1510,14 +1510,14 @@ client.curationSets('curate_products').items('dynamic-sort-filter').delete()
   <template v-slot:PHP>
 
 ```php
-$client->curationSets['curate_products']->items['dynamic-sort-filter']->delete();
+$client->curationSets['curate_products']->getItems()['dynamic-sort-filter']->delete();
 ```
 
   </template>
   <template v-slot:Python>
 
 ```py
-client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete()
+client.curation_sets['curate_products'].delete_item('dynamic-sort-filter')
 ```
 
   </template>
@@ -1531,7 +1531,7 @@ client.curation_sets['curate_products'].items['dynamic-sort-filter'].delete
   <template v-slot:Dart>
 
 ```dart
-await client.curation_sets.delete('curate_products');
+await client.curationSet('curate_products').item('dynamic-sort-filter').delete();
 ```
 
   </template>
