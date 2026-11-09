@@ -142,7 +142,7 @@ await client.collections.create(schema);
 ```java
 CollectionSchema collectionSchema = new CollectionSchema();
 
-collectionschema.name("places")
+collectionSchema.name("places")
                 .addFieldsItem(new Field().name("title").type("string"))
                 .addFieldsItem(new Field().name("points").type("int32"))
                 .addFieldsItem(new Field().name("location").type("geopoint"))
@@ -181,7 +181,7 @@ client.Collections().Create(context.Background(), schema)
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/collections" -X POST
+curl -k "http://localhost:8108/collections" -X POST \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" -d '{
         "name": "places",
@@ -264,7 +264,7 @@ final document = {
   'location': [48.86093481609114, 2.33698396872901]
 };
 
-await client.collection('places').documents.create(document};
+await client.collection('places').documents.create(document);
 ```
 
   </template>
@@ -272,14 +272,14 @@ await client.collection('places').documents.create(document};
   <template v-slot:Java>
 
 ```java
-HaashMap<String, Object> document = new HashMap<>();
-float[] location =  {48.86093481609114, 2.33698396872901}
+Map<String, Object> document = new HashMap<>();
+double[] location = {48.86093481609114, 2.33698396872901};
 
-document.add("title", "Louvre Museuem");
-document.add("points", 1);
-document.add("location", location);
+document.put("title", "Louvre Museuem");
+document.put("points", 1);
+document.put("location", location);
 
-client.collection("places").documents.create(document);
+client.collections("places").documents().create(document);
 ```
 
   </template>
@@ -337,7 +337,7 @@ let searchParameters = {
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
-client.collections('companies').documents().search(searchParameters)
+client.collections('places').documents().search(searchParameters)
 ```
 
   </template>
@@ -352,7 +352,7 @@ $searchParameters = [
   'sort_by'   => 'location(48.853, 2.344):asc'
 ];
 
-$client->collections['companies']->documents->search($searchParameters);
+$client->collections['places']->documents->search($searchParameters);
 ```
 
   </template>
@@ -367,7 +367,7 @@ search_parameters = {
   'sort_by'   : 'location(48.853, 2.344):asc'
 }
 
-client.collections['companies'].documents.search(search_parameters)
+client.collections['places'].documents.search(search_parameters)
 ```
 
   </template>
@@ -382,7 +382,7 @@ search_parameters = {
   'sort_by'   => 'location(48.853, 2.344):asc'
 }
 
-client.collections['companies'].documents.search(search_parameters)
+client.collections['places'].documents.search(search_parameters)
 ```
 
   </template>
@@ -396,7 +396,7 @@ final searchParameters = {
   'sort_by'   : 'location(48.853, 2.344):asc'
 };
 
-client.collections('companies').documents().search(searchParameters)
+await client.collection('places').documents.search(searchParameters);
 ```
 
   </template>
