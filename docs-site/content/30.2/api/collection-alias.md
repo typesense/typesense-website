@@ -33,7 +33,8 @@ curl "http://localhost:8108/multi_search" \
           "searches": [
             {
               "collection": "companies",
-              "q": "Acme"
+              "q": "Acme",
+              "query_by": "company_name"
             }
           ]
         }'
@@ -72,10 +73,10 @@ client.aliases().upsert('companies', aliased_collection)
 ```php
 $aliasedCollection = [
   'collection_name' => 'companies_june11'
-]
+];
 
 # Creates/updates an alias called `companies` to the `companies_june11` collection
-$client->aliases->upsert('companies', $aliasedCollection)
+$client->aliases->upsert('companies', $aliasedCollection);
 ```
 
   </template>
@@ -111,7 +112,7 @@ final aliasedCollection = {
 };
 
 // Creates/updates an alias called `companies` to the `companies_june11` collection
-await client.aliases.upsert('companies', aliased_collection);
+await client.aliases.upsert('companies', aliasedCollection);
 ```
 
   </template>
@@ -226,7 +227,7 @@ await client.alias('companies').retrieve();
   <template v-slot:Java>
 
 ```java
-CollectionAliasSchema collectionAlias = client.aliases("companies").retrieve();
+CollectionAlias collectionAlias = client.aliases("companies").retrieve();
 ```
 
   </template>
@@ -412,7 +413,7 @@ await client.alias('companies').delete();
   <template v-slot:Java>
 
 ```java
-CollectionAliasSchema collectionAlias = client.aliases("companies").delete();
+CollectionAlias collectionAlias = client.aliases("companies").delete();
 ```
 
   </template>
@@ -433,7 +434,7 @@ let (collectionAlias, response) = try await client.aliases().delete(name: "compa
   <template v-slot:Shell>
 
 ```bash
-curl "http://localhost:8108/aliases/companies" -X DELETE
+curl "http://localhost:8108/aliases/companies" -X DELETE \
     -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
 ```
 
