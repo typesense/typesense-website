@@ -140,7 +140,7 @@ final searchRequests = {
   ]
 };
 
-# Search parameters that are common to all searches go here
+// Search parameters that are common to all searches go here
 final commonSearchParams =  {
     'query_by': 'name',
 };
@@ -152,27 +152,23 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
   <template v-slot:Java>
 
 ```java
-HashMap<String,String > search1 = new HashMap<>();
-HashMap<String,String > search2 = new HashMap<>();
+MultiSearchCollectionParameters search1 = new MultiSearchCollectionParameters();
+search1.setCollection("products");
+search1.setQ("shoe");
+search1.setFilterBy("price:=[50..120]");
 
-search1.put("collection","products");
-search1.put("q","shoe");
-search1.put("filter_by","price:=[50..120]");
+MultiSearchCollectionParameters search2 = new MultiSearchCollectionParameters();
+search2.setCollection("brands");
+search2.setQ("Nike");
 
-search2.put("collection","brands");
-search2.put("q","Nike");
-
-List<HashMap<String, String>> searches = new ArrayList<>();
-searches.add(search1);
-searches.add(search2);
-
-HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
-searchRequests.put("searches",searches);
+MultiSearchSearchesParameter searchRequests = new MultiSearchSearchesParameter()
+        .addSearchesItem(search1)
+        .addSearchesItem(search2);
 
 HashMap<String,String> commonSearchParams = new HashMap<>();
 commonSearchParams.put("query_by","name");
 
-client.multiSearch.perform(searchRequests, commonSearchParams);
+MultiSearchResult result = client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
   </template>
@@ -182,12 +178,12 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 searchRequests := api.MultiSearchSearchesParameter{
   Searches: []api.MultiSearchCollectionParameters{
     {
-      Collection: "products",
+      Collection: pointer.String("products"),
       Q:          pointer.String("shoe"),
       FilterBy:   pointer.String("price:=[50..120]"),
     },
     {
-      Collection: "brands",
+      Collection: pointer.String("brands"),
       Q:          pointer.String("Nike"),
     },
   },
