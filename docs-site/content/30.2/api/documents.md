@@ -813,7 +813,7 @@ client.collections['titles'].documents.create(document,
 ```dart
 final document = {'title': 1984, 'points': 100};
 
-await client.collection('companies').documents.create(document, options: {'dirty_values': 'coerce_or_reject'});
+await client.collection('titles').documents.create(document, options: {'dirty_values': 'coerce_or_reject'});
 
 ```
 
