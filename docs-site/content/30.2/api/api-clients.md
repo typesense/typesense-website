@@ -100,7 +100,7 @@ import 'package:typesense/typesense.dart';
 // And the import it them to your project
 
 import org.typesense.api.*;
-import org.typesense.models.*;
+import org.typesense.model.*;
 import org.typesense.resources.*;
 ```
 
@@ -127,7 +127,7 @@ import (
 //For swift packages, add typesense-swift to the dependencies array in Package.swift:
 ...
 dependencies: [
-           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "0.1.0"),
+           .package(url: "https://github.com/typesense/typesense-swift", .upToNextMajor(from: "1.0.1")),
 ],
 ...
 ```
