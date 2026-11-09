@@ -215,10 +215,10 @@ await client.collections.create(schema);
 ```java
 CollectionSchema collectionSchema = new CollectionSchema();
 
-collectionschema.name("docs")
+collectionSchema.name("docs")
                 .addFieldsItem(new Field().name("title").type("string"))
                 .addFieldsItem(new Field().name("points").type("int32"))
-                .addFieldsItem(new Field().name("embedding").type("float[]").num_dim(4))
+                .addFieldsItem(new Field().name("embedding").type("float[]").numDim(4))
                 .defaultSortingField("points");
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -349,14 +349,14 @@ await client.collection('docs').documents.create(document);
   <template v-slot:Java>
 
 ```java
-HaashMap<String, Object> document = new HashMap<>();
-float[] embedding =  {0.04, 0.234, 0.113, 0.001}
+Map<String, Object> document = new HashMap<>();
+float[] embedding = {0.04f, 0.234f, 0.113f, 0.001f};
 
-document.add("title", "Louvre Museuem");
-document.add("points", 1);
-document.add("embedding", embedding);
+document.put("title", "Louvre Museuem");
+document.put("points", 1);
+document.put("embedding", embedding);
 
-client.collection("docs").documents.create(document);
+client.collections("docs").documents().create(document);
 ```
 
   </template>
@@ -439,7 +439,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -557,7 +557,7 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
@@ -593,12 +593,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -609,12 +607,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -708,7 +704,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -826,7 +822,7 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
@@ -861,12 +857,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -877,12 +871,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -991,7 +983,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -1099,11 +1091,11 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
-                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_openai_api_key")
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_openai_api_key"))
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -1130,12 +1122,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1146,12 +1136,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1233,7 +1221,7 @@ let schema = {
     ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 ```
 
 ### Using OpenAI-compatible APIs
@@ -1269,7 +1257,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -1380,11 +1368,11 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
-                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_api_key_as_required_by_the_custom_provider").url("https://your-custom-openai-compatible-api.domain.com")
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("openai/text-embedding-ada-002").apiKey("your_api_key_as_required_by_the_custom_provider").url("https://your-custom-openai-compatible-api.domain.com"))
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -1411,12 +1399,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1427,12 +1413,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1562,7 +1546,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -1666,11 +1650,11 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
-                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("google/embedding-gecko-001").apiKey("your_google_api_key")
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("google/embedding-gecko-001").apiKey("your_google_api_key"))
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -1698,12 +1682,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -1714,12 +1696,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -1862,7 +1842,7 @@ schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -1893,9 +1873,9 @@ $schema = [
           "project_id" => "your_gcp_project_id",
           "document_task" => "DOCUMENT",
           "query_task" => "QUERY",
-          "region": "us-central1"
+          "region" => "us-central1"
         ]
-      }
+      ]
     ]
   ]
 ];
@@ -1987,7 +1967,7 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
@@ -2020,12 +2000,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -2036,12 +2014,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -2051,9 +2027,8 @@ schema := &api.CollectionSchema{
           ClientId:     pointer.Any("your_gcp_app_client_id"),
           ClientSecret: pointer.Any("your_gcp_client_secret"),
           ProjectId:    pointer.Any("your_gcp_project_id"),
-          DocumentTask: pointer.Any("DOCUMENT"),
-          QueryTask:    pointer.Any("QUERY"),
-          Region:       pointer.Any("us-central1"),
+          // typesense-go has no document_task, query_task or region on model_config (checked up to
+          // v4.0.0-alpha2). Use the Shell example to set them.
         },
       }},
   },
@@ -2198,7 +2173,7 @@ $client->collections['products']->documents->search($search_parameters);
 search_parameters = {
   'q'                          : 'chair',
   'query_by'                   : 'embedding',
-  'prefix'                     : false,
+  'prefix'                     : False,
   'remote_embedding_timeout_ms': 5000,
   'remote_embedding_num_try'   : 3
 }
@@ -2318,7 +2293,7 @@ import_parameters = {
   'remote_embedding_batch_size': 200
 }
 
-client.collections['products'].documents.import(documents, import_parameters)
+client.collections['products'].documents.import_(documents, import_parameters)
 ```
 
   </template>
@@ -2337,10 +2312,10 @@ client.collections['products'].documents.import(documents, import_parameters)
 <template v-slot:Java>
 
 ```java
-ImportDocumentParameters importDocumentParameters = new ImportDocumentParameters();
-importDocumentParameters.remoteEmbeddingBatchSize(200);
+ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters();
+importDocumentsParameters.remoteEmbeddingBatchSize(200);
 
-client.collections("products").documents().import(documents, importDocumentParameters);
+client.collections("products").documents().import_(documents, importDocumentsParameters);
 ```
 
 </template>
@@ -2426,7 +2401,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -2499,11 +2474,11 @@ schema = {
     {
       "name" => "embedding",
       "type" => "float[]",
-      "embed" => [
+      "embed" => {
         "from" => ["product_name"],
-        "model_config" => [
+        "model_config" => {
           "model_name" => "test_model"
-        ]
+        }
       }
     }
   ]
@@ -2521,11 +2496,11 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
-                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("test_model")
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("test_model"))
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -2551,12 +2526,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -2567,12 +2540,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -2655,7 +2626,7 @@ let schema = {
   ]
 };
 
-client.collections('products').create(schema);
+client.collections().create(schema);
 
 ```
   </template>
@@ -2732,13 +2703,14 @@ schema = {
     {
       "name" => "embedding",
       "type" => "float[]",
-      "embed" => [
+      "embed" => {
         "from" => ["product_name"],
-        "model_config" => [
+        "model_config" => {
           "model_name" => "e5-base",
           "indexing_prefix" => "passage:",
           "query_prefix" => "query:"
-        ]
+        }
+      }
     }
   ]
 }
@@ -2755,11 +2727,11 @@ ArrayList<String> embedFrom = new ArrayList<>();
 embedFrom.add("product_name");
 embedFrom.add("categories");
 
-collectionschema.name("products")
+collectionSchema.name("products")
                 .addFieldsItem(new Field().name("product_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("categories").type(FieldTypes.STRING_ARRAY))
                 .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY).embed(
-                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("e5-base").indexingPrefix("passage:").queryPrefix("query:")
+                  new FieldEmbed().from(embedFrom).modelConfig(new FieldEmbedModelConfig().modelName("e5-base").indexingPrefix("passage:").queryPrefix("query:"))
                 ));
 
 CollectionResponse collectionResponse = client.collections().create(collectionSchema);
@@ -2782,12 +2754,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         } "json:\"model_config\""
@@ -2798,12 +2768,10 @@ schema := &api.CollectionSchema{
           ApiKey         *string "json:\"api_key,omitempty\""
           ClientId       *string "json:\"client_id,omitempty\""
           ClientSecret   *string "json:\"client_secret,omitempty\""
-          DocumentTask   *string "json:\"document_task,omitempty\""
           IndexingPrefix *string "json:\"indexing_prefix,omitempty\""
           ModelName      string  "json:\"model_name\""
           ProjectId      *string "json:\"project_id,omitempty\""
           QueryPrefix    *string "json:\"query_prefix,omitempty\""
-          QueryTask      *string "json:\"query_task,omitempty\""
           RefreshToken   *string "json:\"refresh_token,omitempty\""
           Url            *string "json:\"url,omitempty\""
         }{
@@ -2973,22 +2941,19 @@ await client.multiSearch.perform(searchRequests, queryParams: commonSearchParams
 <template v-slot:Java>
 
 ```java
-HashMap<String,String > search1 = new HashMap<>();
-search1.put("collection","docs");
-search1.put("q","*");
-search1.put("vector_query", "embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
-search1.put("exclude_fields", "embedding"); // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
+MultiSearchCollectionParameters search1 = new MultiSearchCollectionParameters();
+search1.setCollection("docs");
+search1.setQ("*");
+search1.setVectorQuery("embedding:([0.96826, 0.94, 0.39557, 0.306488], k:100)"); //  <=== Be sure to replace `embedding` with the name of the field that stores your embeddings.
+search1.setExcludeFields("embedding"); // <=== Don't return the raw floating point numbers in the vector field in the search API response, to save on network bandwidth.
 
-List<HashMap<String, String>> searches = new ArrayList<>();
-searches.add(search1);
-
-HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
-searchRequests.put("searches", searches);
+MultiSearchSearchesParameter searchRequests = new MultiSearchSearchesParameter()
+        .addSearchesItem(search1);
 
 HashMap<String,String> commonSearchParams = new HashMap<>();
 commonSearchParams.put("query_by","name");
 
-client.multiSearch.perform(searchRequests, commonSearchParams);
+MultiSearchResult result = client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
 </template>
@@ -3400,6 +3365,7 @@ curl 'http://localhost:8108/multi_search' \
     -d '{
           "searches": [
             {
+              "collection": "products",
               "q": "chair",
               "query_by": "product_name,embedding",
               "sort_by": "_text_match:desc",
@@ -3428,6 +3394,7 @@ curl 'http://localhost:8108/multi_search' \
     -d '{
           "searches": [
             {
+              "collection": "products",
               "q": "chair",
               "query_by": "product_name",
               "vector_query": "embedding:([0.2, 0.4, 0.1])",
