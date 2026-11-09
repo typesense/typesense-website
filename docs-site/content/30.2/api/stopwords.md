@@ -50,9 +50,9 @@ curl "http://localhost:8108/multi_search" -X POST \
       "searches": [
         {
           "collection": "books",
-          "q": "the"
-          "query_b": "title"
-          "stopwords": "stopword_set1",
+          "q": "the",
+          "query_by": "title",
+          "stopwords": "stopword_set1"
         }
       ]
     }'
