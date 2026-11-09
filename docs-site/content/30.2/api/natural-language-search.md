@@ -572,6 +572,7 @@ Typesense caches the schema prompts used for natural language processing to impr
 ```bash
 curl "http://localhost:8108/collections/products/documents/search" \
 -H "X-TYPESENSE-API-KEY: ${API_KEY}" \
+-G \
 --data-urlencode "q=red shirts" \
 --data-urlencode "nl_query=true" \
 --data-urlencode "query_by=name,description,color,category" \
