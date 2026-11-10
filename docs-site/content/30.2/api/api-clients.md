@@ -191,6 +191,10 @@ We also have the following framework integrations:
 - [Suhail](https://github.com/suhail-ak-s/mcp-typesense-server)
 - [TypesenseKit](https://github.com/akshitkrnagpal/typesensekit)
 
+## LMS - Learning Management Systems
+
+- [Moodle - Global Search](https://github.com/mfgroupllc/moodle-search_typesense) By Chris Murad Consulting LLC
+
 ## Ecommerce
 
 - [BigCommerce](https://www.bigcommerce.com/apps/hyper-search-by-space-48/) by Space48
