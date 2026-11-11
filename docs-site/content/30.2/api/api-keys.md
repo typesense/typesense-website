@@ -328,8 +328,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 |:-------------------|:------------------------------------|
 | `documents:search` | Allows only search requests.        |
 | `documents:get`    | Allows fetching a single document.  |
-| `documents:create` | Allows creating documents.          |
-| `documents:upsert` | Allows upserting documents.         |
+| `documents:create` | Allows creating and upserting documents. |
 | `documents:update` | Allows updating documents.          |
 | `documents:delete` | Allows deletion of documents.       |
 | `documents:import` | Allows import of documents in bulk. |
@@ -342,7 +341,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 |:---------------------|:--------------------------------------------------|
 | `aliases:list`       | Allows all aliases to be fetched.                 |
 | `aliases:get`        | Allows a single alias to be retrieved             |
-| `aliases:create`     | Allows the creation of aliases.                   |
+| `aliases:upsert`     | Allows the creation/update of aliases.            |
 | `aliases:delete`     | Allows the deletion of aliases.                   |
 | `aliases:*`          | Allows all alias operations.                      |
 
@@ -352,11 +351,10 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 |:-------------------------------|:-------------------------------------------------------------------------------------------|
 | `synonym_sets:list`            | Allows all synonym sets to be fetched (GET /synonym_sets).                                |
 | `synonym_sets:get`             | Allows a single synonym set to be retrieved (GET /synonym_sets/:name).                    |
-| `synonym_sets:create`          | Allows the creation/update of synonym sets (PUT /synonym_sets/:name).                     |
+| `synonym_sets:upsert`          | Allows the creation/update of synonym sets (PUT /synonym_sets/:name).                     |
 | `synonym_sets:delete`          | Allows the deletion of synonym sets (DELETE /synonym_sets/:name).                         |
 | `synonym_sets:*`               | Allows all synonym set operations.                                                         |
-| `synonym_sets/items:list`      | Allows listing synonym set items.                                                          |
-| `synonym_sets/items:get`       | Allows retrieving a single synonym set item.                                               |
+| `synonym_sets/items:get`       | Allows listing synonym set items and retrieving a single synonym set item.                 |
 | `synonym_sets/items:upsert`    | Allows creating/updating synonym set items.                                                |
 | `synonym_sets/items:delete`    | Allows deleting items inside a synonym set. Does not allow deleting the whole synonym set. |
 | `synonym_sets/items:*`         | Allows all synonym set item operations.                                                    |
@@ -365,9 +363,8 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 
 | Action                      | Description                                       |
 |:----------------------------|:--------------------------------------------------|
-| `synonym_sets/items:list`   | Allows all synonym set items to be fetched.       |
-| `synonym_sets/items:get`    | Allows a single synonym set item to be retrieved. |
-| `synonym_sets/items:create` | Allows the creation of synonym set item.          |
+| `synonym_sets/items:get`    | Allows all synonym set items, or a single one, to be fetched. |
+| `synonym_sets/items:upsert` | Allows the creation/update of a synonym set item. |
 | `synonym_sets/items:delete` | Allows the deletion of synonym set item.          |
 | `synonym_sets/items:*`      | Allows all synonym set item operations.           |
 
@@ -382,8 +379,7 @@ In general, you want to use the format `resource:verb` pattern to indicate an ac
 | `curation_sets:upsert`          | Allows the creation/update of curation sets (PUT /curation_sets/:name).                     |
 | `curation_sets:delete`          | Allows the deletion of curation sets (DELETE /curation_sets/:name).                         |
 | `curation_sets:*`               | Allows all curation set operations.                                                          |
-| `curation_sets/items:list`      | Allows listing curation set items (GET /curation_sets/:name/items).                         |
-| `curation_sets/items:get`       | Allows retrieving a single curation set item (GET /curation_sets/:name/items/:id).          |
+| `curation_sets/items:get`       | Allows listing curation set items (GET /curation_sets/:name/items) and retrieving a single curation set item (GET /curation_sets/:name/items/:id). |
 | `curation_sets/items:upsert`    | Allows creating/updating curation set items (PUT /curation_sets/:name/items/:id).           |
 | `curation_sets/items:delete`    | Allows deleting items inside a curation set. Does not allow deleting the whole curation set. |
 | `curation_sets/items:*`         | Allows all curation set item operations.                                                     |
@@ -396,9 +392,8 @@ Note: `curation_sets:*` and `curation_sets/items:*` are different resource scope
 
 | Action                       | Description                                        |
 |:-----------------------------|:---------------------------------------------------|
-| `curation_sets/items:list`   | Allows all curation set items to be fetched.       |
-| `curation_sets/items:get`    | Allows a single curation set item to be retrieved. |
-| `curation_sets/items:create` | Allows the creation of curation set item.          |
+| `curation_sets/items:get`    | Allows all curation set items, or a single one, to be fetched. |
+| `curation_sets/items:upsert` | Allows the creation/update of a curation set item. |
 | `curation_sets/items:delete` | Allows the deletion of curation set item.          |
 | `curation_sets/items:*`      | Allows all curation set item operations.           |
 
@@ -408,7 +403,7 @@ Note: `curation_sets:*` and `curation_sets/items:*` are different resource scope
 |:-------------------|:---------------------------------------------|
 | `stopwords:list`   | Allows all stopword sets to be fetched.      |
 | `stopwords:get`    | Allows a single stopword set to be retrieved |
-| `stopwords:create` | Allows the creation of a stopword set.       |
+| `stopwords:upsert` | Allows the creation/update of a stopword set. |
 | `stopwords:delete` | Allows the deletion of a stopword set.       |
 | `stopwords:*`      | Allows all stopwords operations.             |
 
@@ -423,14 +418,6 @@ Note: `curation_sets:*` and `curation_sets/items:*` are different resource scope
 | `keys:*`      | Allows all API Key related operations.         |
 
 #### Analytics actions
-
-| Action             | Description                                                                             |
-|:-------------------|:----------------------------------------------------------------------------------------|
-| `analytics:list`   | Allows all analytics rules to be fetched.                                               |
-| `analytics:get`    | Allows for a single analytics rule to be fetched.                                       |
-| `analytics:create` | Allows the creation of analytics rules and events.                                      |
-| `analytics:delete` | Allows the deletion of analytics rules and events.                                      |
-| `analytics:*`      | Allows all analytics rules and events related operations.                               |
 
 ##### Analytics Rules actions
 
@@ -472,7 +459,7 @@ Note: `curation_sets:*` and `curation_sets/items:*` are different resource scope
 |:---------------------------------|:-----------------------------------------------------------------------------------|
 | `stemming/dictionaries:get`      | Get stemming dictionary (GET /stemming/dictionaries/:id)                          |
 | `stemming/dictionaries:list`     | List stemming dictionaries (GET /stemming/dictionaries)                           |
-| `stemming/dictionaries:create`   | Import stemming dictionary (POST /stemming/dictionaries/import)                   |
+| `stemming/dictionaries/import:create` | Import stemming dictionary (POST /stemming/dictionaries/import)              |
 | `stemming/dictionaries:delete`   | Delete stemming dictionary (DELETE /stemming/dictionaries/:id)                    |
 
 #### Operations
@@ -484,7 +471,7 @@ Note: `curation_sets:*` and `curation_sets/items:*` are different resource scope
 | `operations/cache/clear:create`  | Clear cache (POST /operations/cache/clear)                                        |
 | `operations/db/compact:create`   | Compact database (POST /operations/db/compact)                                    |
 | `operations/reset_peers:create`  | Reset peers (POST /operations/reset_peers)                                        |
-| `operations/schema_changes:get`  | Get schema changes (GET /operations/schema_changes)                               |
+| `operations/schema_changes:list` | Get schema changes (GET /operations/schema_changes)                               |
 
 #### Conversation Model Operations
 
