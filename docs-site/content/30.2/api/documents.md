@@ -262,7 +262,7 @@ HashMap<String, Object> document = new HashMap<>();
 
 document.put("id","124");
 document.put("company_name","Stark Industries");
-dpocument.put("num_employees",5215);
+document.put("num_employees",5215);
 document.put("country","USA");
 
 client.collections("companies").documents().upsert(document);
@@ -667,7 +667,7 @@ client.collections('companies').documents().import(documentsInJsonl, {batch_size
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['batch_size' => 100]);
+$client->collections['companies']->documents->import($documentsInJsonl, ['batch_size' => 100]);
 ```
 
   </template>
@@ -683,7 +683,7 @@ with open('documents.jsonl') as jsonl_file:
 
 ```rb
 documents_jsonl = File.read('documents.jsonl')
-collections['companies'].documents.import(documents_jsonl, batch_size: 100)
+client.collections['companies'].documents.import(documents_jsonl, batch_size: 100)
 ```
 
   </template>
@@ -700,15 +700,15 @@ await client.collection('companies').documents.importJSONL(file.readAsStringSync
 ```java
 File myObj = new File("documents.jsonl");
 Scanner myReader = new Scanner(myObj);
-String documentsInJsonl;
+StringBuilder documentsInJsonl = new StringBuilder();
 while (myReader.hasNextLine()) {
-    String documentsInJsonl = datdocumentsInJsonl.append(myReader.nextLine());
+    documentsInJsonl.append(myReader.nextLine()).append("\n");
 }
 
 ImportDocumentsParameters queryParameters = new ImportDocumentsParameters();
 queryParameters.batchSize(100);
 
-client.collections("companies").documents().import_(documentsInJsonl, queryParameters)
+client.collections("companies").documents().import_(documentsInJsonl.toString(), queryParameters);
 ```
 
   </template>
@@ -813,7 +813,7 @@ client.collections['titles'].documents.create(document,
 ```dart
 final document = {'title': 1984, 'points': 100};
 
-await client.collection('companies').documents.create(document, options: {'dirty_values': 'coerce_or_reject'};
+await client.collection('titles').documents.create(document, options: {'dirty_values': 'coerce_or_reject'});
 
 ```
 
@@ -953,7 +953,7 @@ client.collections('companies').documents().import(documentsInJsonl, {action: 'c
 
 ```php
 $documentsInJsonl = file_get_contents('documents.jsonl');
-client.collections['companies'].documents.import($documentsInJsonl, ['action' => 'create']);
+$client->collections['companies']->documents->import($documentsInJsonl, ['action' => 'create']);
 ```
 
   </template>
@@ -969,7 +969,7 @@ with open('documents.jsonl') as jsonl_file:
 
 ```rb
 documents_jsonl = File.read('documents.jsonl')
-collections['companies'].documents.import(documents_jsonl, action: 'create')
+client.collections['companies'].documents.import(documents_jsonl, action: 'create')
 
 ```
 
@@ -1118,7 +1118,7 @@ await client.collection('companies').document('124').retrieve();
   <template v-slot:Java>
 
 ```java
-Hashmap<String, Object> document = client.collections("companies").documents("124").retrieve();
+Map<String, Object> document = client.collections("companies").documents("124").retrieve();
 ```
 
   </template>
@@ -1254,7 +1254,7 @@ HashMap<String, Object> document = new HashMap<>();
 document.put("company_name","Stark Industries");
 document.put("num_employees",5500);
 
-HashMap<String, Object> updatedDocument = client.collections("companies").documents("124").update(document)
+Map<String, Object> updatedDocument = client.collections("companies").documents("124").update(document);
 ```
 
   </template>
@@ -1383,7 +1383,8 @@ final document = {
   'tag': 'large'
 };
 
-await client.collection('companies').document.update(document, {filter_by: 'num_employees:>1000'});
+// typesense-dart 0.6.0 has no update-by-query method: documents.update() sends a
+// single-document POST with action=update. Use the Shell example instead.
 ```
 
   </template>
@@ -1395,7 +1396,7 @@ document.put("tag","large");
 UpdateDocumentsParameters updateDocumentsParameters = new UpdateDocumentsParameters();
 updateDocumentsParameters.filterBy("num_employees:>1000");
 
-HashMap<String, Object> updatedDocument = client.collections("companies").documents().update(document, updateDocumentsParameters)
+Map<String, Integer> result = client.collections("companies").documents().update(document, updateDocumentsParameters);
 ```
 
 </template>
@@ -1491,7 +1492,7 @@ await client.collection('companies').document('124').delete();
   <template v-slot:Java>
 
 ```java
-HashMap<String, Object> deletedDocument = client.collections("companies").documents("124").delete();
+Map<String, Object> deletedDocument = client.collections("companies").documents("124").delete();
 ```
 
   </template>
@@ -1675,7 +1676,7 @@ $client->collections['companies']->documents->delete(['truncate' => true]);
   <template v-slot:Python>
 
 ```py
-client.collections['companies'].documents.delete({'truncate': true})
+client.collections['companies'].documents.delete({'truncate': True})
 ```
 
   </template>
@@ -1689,21 +1690,22 @@ client.collections['companies'].documents.delete(truncate: true)
   <template v-slot:Dart>
 
 ```dart
-await client.collection('companies').documents.delete({'truncate': true});
+await client.collection('companies').documents.delete({'truncate': 'true'});
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-CollectionResponse response = client.collections("companies").documents().delete(new DeleteDocumentsParameters().truncate(true));
+Map<String, Object> response = client.collections("companies").documents().delete(new DeleteDocumentsParameters().truncate(true));
 ```
 
   </template>
   <template v-slot:Swift>
 
 ```swift
-let (response, httpResponse) = try await client.collection(name: "companies").documents().delete(parameters: DeleteDocumentsParams(truncate: true))
+// typesense-swift v1.0.1 has no truncate option: DeleteDocumentsParameters only takes
+// filterBy, batchSize and ignoreNotFound. Use the Shell example instead.
 ```
 
   </template>
