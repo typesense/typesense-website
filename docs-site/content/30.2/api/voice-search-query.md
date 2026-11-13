@@ -59,20 +59,14 @@ or choose a GPU-enabled instance on Typesense Cloud.
 Here's a simple script you can use to record a 5s speech clip from the command line using `sox`, base64 encode it and send it to Typesense in a curl request:
 
 ```shell
-VOICE_QUERY=$(sox -d -r 16000 -b 16 -c 1 -e signed-integer output.wav trim 0 5 && cat output.wav | base64)
+sox -d -r 16000 -b 16 -c 1 -e signed-integer output.wav trim 0 5
 
-curl 'http://localhost/multi_search' \
+# The base64 audio is too long to pass as a curl argument, so write the request body to a file
+printf '{"searches": [{"collection": "products", "query_by": "name", "voice_query": "%s"}]}' \
+  "$(base64 < output.wav | tr -d '\n')" > body.json
+
+curl 'http://localhost:8108/multi_search' \
       -X 'POST' \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
-      --data-binary '
-          {
-            "searches": [
-              {
-                "collection": "products",
-                "query_by": "name",
-                "voice_query": "'${VOICE_QUERY}'"
-              }
-            ]
-          }
-      '
+      --data-binary @body.json
 ```
