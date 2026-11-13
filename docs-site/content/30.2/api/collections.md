@@ -204,7 +204,7 @@ client.Collections().Create(context.Background(), schema)
 ```java
 CollectionSchema collectionSchema = new CollectionSchema();
 
-collectionschema.name("companies")
+collectionSchema.name("companies")
                 .addFieldsItem(new Field().name("company_name").type(FieldTypes.STRING))
                 .addFieldsItem(new Field().name("num_employees").type(FieldTypes.INT32))
                 .addFieldsItem(new Field().name("country").type(FieldTypes.STRING).facet(true));
@@ -846,7 +846,7 @@ client.Collections().Retrieve(context.Background())
   <template v-slot:Swift>
 
 ```swift
-let (collections, response) = try await client.collections().retrieveAll()
+let (collections, response) = try await client.collections.retrieveAll()
 // collections is of type [CollectionResponse]
 ```
 
@@ -1024,7 +1024,7 @@ $client->collections['companies']->documents->delete(['truncate' => true]);
   <template v-slot:Python>
 
 ```py
-client.collections['companies'].documents.delete({'truncate': true})
+client.collections['companies'].documents.delete({'truncate': True})
 ```
 
   </template>
@@ -1038,21 +1038,22 @@ client.collections['companies'].documents.delete(truncate: true)
   <template v-slot:Dart>
 
 ```dart
-await client.collection('companies').documents.delete({'truncate': true});
+await client.collection('companies').documents.delete({'truncate': 'true'});
 ```
 
   </template>
   <template v-slot:Java>
 
 ```java
-CollectionResponse response = client.collections("companies").documents().delete(new DeleteDocumentsParameters().truncate(true));
+Map<String, Object> response = client.collections("companies").documents().delete(new DeleteDocumentsParameters().truncate(true));
 ```
 
   </template>
   <template v-slot:Swift>
 
 ```swift
-let (response, httpResponse) = try await client.collection(name: "companies").documents().delete(parameters: DeleteDocumentsParams(truncate: true))
+// typesense-swift v1.0.1 has no truncate option: DeleteDocumentsParameters only takes
+// filterBy, batchSize and ignoreNotFound. Use the Shell example instead.
 ```
 
   </template>
@@ -1174,8 +1175,8 @@ client.collections['companies'].update(update_schema)
 ```dart
 final updateSchema = UpdateSchema(
   {
-    Field('num_employees', drop: true),
-    Field('company_category', Type.string)
+    UpdateField('num_employees', shouldDrop: true),
+    UpdateField('company_category', type: Type.string)
   }
 );
 await client.collection('companies').update(updateSchema);
@@ -1209,13 +1210,7 @@ client.Collection("companies").Update(context.Background(), updateSchema)
 <template v-slot:Swift>
 
 ```swift
-let updateSchema = CollectionUpdateSchema(
-  fields: [
-    Field(name: "num_employees", drop: true),
-    Field(name: "company_category", type: "string")
-  ]
-)
-try await client.collections.update(updateSchema: updateSchema)
+// typesense-swift v1.0.1 has no collection update method. Use the Shell example instead.
 ```
 
 </template>
