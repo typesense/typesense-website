@@ -209,7 +209,7 @@ You can also enable or disable individual permissions. Cluster permissions are t
 - `backups:read`: list a cluster's backups and read its backup settings and their estimated cost
 - `backups:manage`: turn backups on or off, change their schedule and regions (billed) and delete backups
 - `backups:restore`: restore a backup to a new cluster (billed), or onto the backed-up cluster, replacing all of its data
-- `billing:read`: read invoices, the billing summary (prepaid credit balance, spend by month, the upcoming invoice and the billing cycle), invoiced usage, what each cluster cost per month and prices
+- `billing:read`: read invoices, the billing summary (prepaid credit balance, spend by month, the upcoming invoice and the billing cycle), invoiced usage and what each cluster cost per month
 - `billing:manage`: switch the account between weekly and monthly billing
 - `clusters:terminate`: terminate clusters
 
@@ -244,7 +244,8 @@ These are the tools available for your agent to use once it is connected. Agents
   - Monitoring: request logs (the access log, slow requests, top client IPs, API keys and paths, plus when each API key was last used). The access log doesn't record query strings or request bodies, so search parameters only show up in slow requests.
   - Search analytics: a collection's search insights and synonym suggestions, synonym suggestion settings and analytics rule notifications.
   - Backups: backup settings and kept backups.
-  - Billing: invoices, the billing summary, invoiced usage, costs by cluster and prices.
+  - Billing: invoices, the billing summary, invoiced usage and costs by cluster.
+  - Prices: node-hour and bandwidth prices for every region and configuration, which need no permission.
   - Options: the regions, memory and vCPU options a cluster can be created with and which memory sizes fit an existing cluster's data.
 - `show_cluster`: shows a cluster's status, configuration, any change in progress and its last hour of metrics, in one call. Chat apps that support [panels](#panels-in-chat-apps) show it as a cluster panel.
 - `manage_cluster`: makes changes:

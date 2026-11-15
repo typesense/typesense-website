@@ -104,5 +104,4 @@ So a free allowance, like the first 720 node-hours in the example above, is used
 
 ## Permissions
 
-To [list prices](#list-prices), you need a key with the `billing:read` capability.
-See [capabilities](./authentication.md#capabilities).
+To [list prices](#list-prices), any key works.

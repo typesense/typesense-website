@@ -42,7 +42,7 @@ If a key doesn't have the capability a request needs, you'll get an HTTP `403` t
 | | `cluster_credentials:manage` | [List](./cluster-api-keys.md#list-all-api-keys), [create](./cluster-api-keys.md#create-an-api-key-with-a-given-scope) and [revoke](./cluster-api-keys.md#revoke-an-api-key) a cluster's keys, including keys with a custom scope |
 | Network access | `cluster_network:manage` | Read and replace a cluster's [IP allowlist](./ip-allowlist.md) |
 | Dashboard links | `dashboard_links:manage` | [Create](./dashboard-links.md#create-a-dashboard-link), [list](./dashboard-links.md#list-dashboard-links) and [revoke](./dashboard-links.md#revoke-a-dashboard-link) links that open one cluster's dashboard for a person without a Typesense Cloud account |
-| Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md#get-billing-summary) and [usage](./cluster-usage-and-costs.md#list-usage), [costs by cluster](./cluster-usage-and-costs.md#list-costs-by-cluster) and [prices](./prices.md#list-prices) |
+| Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md#get-billing-summary), [usage](./cluster-usage-and-costs.md#list-usage) and [costs by cluster](./cluster-usage-and-costs.md#list-costs-by-cluster) |
 | | `billing:manage` | [Switch the account between weekly and monthly billing](./billing-summary.md#switch-billing-cycle) |
 
 On a team account, a key can only carry what your own role allows.
