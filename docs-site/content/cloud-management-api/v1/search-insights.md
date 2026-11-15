@@ -82,9 +82,39 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/
 | `synonym_sets` | Up to 10 synonym sets attached to the collection, with up to 250 items across them. A set whose items did not fit is listed with fewer or no items. `root` is set only for a one-way synonym. |
 | `truncated` | `true` when something was left out: the collection has more than 10 synonym sets or 250 synonym items, a search behind `index_terms` failed on the cluster or the response was too large. |
 
+### Search insights for a date range
+
+By default, `popular_queries` and `nohits_queries` count every search the collection's analytics rules have recorded.
+To count only the searches on certain days, pass `from` and `to`:
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/collections/<CollectionName>/search-insights?from=2026-11-01&to=2026-11-30" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+| Parameter | Required | Description |
+|---|---|---|
+| `from` | With `to` | The first day to count, as `YYYY-MM-DD` in UTC. |
+| `to` | With `from` | The last day to count, as `YYYY-MM-DD` in UTC. A day is counted once it has ended, so a `to` of today covers up to yesterday. A range covers at most 400 days. |
+
+Here's the `period` object the response then has:
+
+```json
+"period": { "from": "2026-11-01", "to": "2026-11-30", "history_starts_on": "2026-11-16" }
+```
+
+`history_starts_on` is the first day with counts for this collection, or `null` when there are none yet.
+Daily counts start the night after you turn on Search Analytics for the collection in the Typesense Cloud dashboard.
+
+:::tip
+To keep daily counts, Typesense Cloud adds its own analytics rules and collections to the cluster, named `typesense_cloud_daily_<collection>_<report>`. Please leave them in place.
+:::
+
 ## Error responses
 
 - HTTP `404` when the cluster doesn't exist on your account, or the collection doesn't exist on the cluster.
+- HTTP `400` when `from` or `to` isn't valid.
 - HTTP `422` when the cluster isn't `in_service`, runs a Typesense Server version before `v30` or refuses to read an analytics rule's queries. The message says which.
 - HTTP `503` when the cluster didn't answer in time. Retry in a few minutes.
 
