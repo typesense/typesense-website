@@ -260,6 +260,10 @@ html {
 .VPSidebarItem .text {
   @apply !py-1 !text-base;
 }
+/* the `> .item` ties vitepress's specificity. a shorter selector loses to its 500 */
+.VPSidebarItem:not(.level-0) > .item .text {
+  @apply font-normal;
+}
 
 /* nested outline indent, 16px -> 12px */
 .VPDocOutlineItem.nested {
