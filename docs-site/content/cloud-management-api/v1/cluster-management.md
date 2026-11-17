@@ -53,6 +53,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
     "disk_gb_per_node": 8,
     "extra_disk_gb_per_node": 0,
     "typesense_server_version": "0.23.1",
+    "typesense_server_version_end_of_support_at": null,
     "high_availability": "no",
     "high_availability_node_count": null,
     "search_delivery_network": "off",
@@ -341,6 +342,7 @@ Only one cluster in your account can have a given `external_reference`. So if a 
     "disk_gb_per_node": 8,
     "extra_disk_gb_per_node": 0,
     "typesense_server_version": "0.23.1",
+    "typesense_server_version_end_of_support_at": null,
     "high_availability": "no",
     "high_availability_node_count": null,
     "search_delivery_network": "off",
@@ -395,6 +397,12 @@ It's `null` when the cluster uses High Performance Disk.
 
 The disk per node in GB beyond what the memory size includes, billed per GB per month on every node.
 You can change it with [`new_disk_gb_per_node`](./cluster-configuration-changes.md#new-disk-gb-per-node) in a configuration change.
+
+#### `typesense_server_version_end_of_support_at`
+
+The Unix timestamp (00:00 UTC) of the day Typesense stops supporting the cluster's Typesense Server version, or `null` if no date is set.
+We only set one when a version has a security issue, see [Version Support Policy](../../guide/updating-typesense.md#version-support-policy).
+To upgrade, use [`new_typesense_server_version`](./cluster-configuration-changes.md#new-typesense-server-version) in a configuration change.
 
 #### `regions` (response)
 
@@ -488,15 +496,21 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/cluster-options" \
   "free_tier": {
     "memory": "0.5_gb",
     "vcpu": "2_vcpus_1_hr_burst_per_day"
-  }
+  },
+  "typesense_server_versions": [
+    {"version": "30.2", "ga_release": true, "end_of_support_at": null},
+    {"version": "29.1", "ga_release": true, "end_of_support_at": null},
+    {"version": "31.0.rc25", "ga_release": false, "end_of_support_at": null}
+  ]
 }
 ```
 
-The response above is shortened. The actual response lists every region and every memory option.
+The response above is shortened. The actual response lists every region, every memory option and every version.
 
 - `regions[].name` is the value to use for `regions` in [Create new cluster](#create-new-cluster). A region with `"available": false` can't be used right now.
 - `vcpu_by_memory` shows which `vcpu` values go with each `memory` value. For example, `2_vcpus` is available with `4_gb` but not with `0.5_gb`.
 - `free_tier` is the configuration you can create without adding a payment method.
+- `typesense_server_versions` lists the values you can use for [`typesense_server_version`](#typesense-server-version). GA releases come first, and `ga_release` is `false` for a release candidate. `end_of_support_at` is the Unix timestamp (00:00 UTC) of the day Typesense stops supporting that version, or `null` if no date is set. Every version in the same major version has the same date, for eg every `29.x` version. For a cluster you already have, read [`typesense_server_version_end_of_support_at`](#typesense-server-version-end-of-support-at) on the cluster instead.
 
 ### Check which memory options fit an existing cluster
 
@@ -609,6 +623,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
   "disk_gb_per_node": 24,
   "extra_disk_gb_per_node": 16,
   "typesense_server_version": "0.23.1",
+  "typesense_server_version_end_of_support_at": null,
   "high_availability": "yes",
   "high_availability_node_count": 3,
   "search_delivery_network": "off",
@@ -677,6 +692,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
       "disk_gb_per_node": 8,
       "extra_disk_gb_per_node": 0,
       "typesense_server_version": "0.23.1",
+      "typesense_server_version_end_of_support_at": null,
       "high_availability": "no",
       "high_availability_node_count": null,
       "search_delivery_network": "off",
@@ -752,6 +768,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
     "disk_gb_per_node": 8,
     "extra_disk_gb_per_node": 0,
     "typesense_server_version": "0.23.1",
+    "typesense_server_version_end_of_support_at": null,
     "high_availability": "no",
     "high_availability_node_count": null,
     "search_delivery_network": "off",

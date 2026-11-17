@@ -52,6 +52,17 @@ When you have a cluster with High Availability enabled, you want to ensure that 
 
 **For single-node non-HA clusters**: there will be a downtime of about 5-60 minutes depending on the size of your dataset while the upgrade happens. You want to enable HA on your cluster to avoid this downtime. Note that once HA is enabled on a cluster it cannot be turned off. 
 
+### Version Support Policy
+
+We generally don't backport fixes to older versions of Typesense, and keep rolling forward instead, similar to how Chrome's versioning works.
+
+We still help with issues on older versions. But if an issue you run into needs a code fix, we'll ask you to [upgrade](#upgrade-steps) to the latest major version first.
+We then build the fix on top of that version and ship it as an RC build you can upgrade to.
+
+New major versions don't come out on a fixed schedule, so older versions don't have a calendar-based end-of-life date.
+The only time we mark one as end-of-life is when it has a security issue, to strongly recommend moving off it.
+We never force an upgrade, so your cluster keeps running on it until you upgrade.
+
 ## Typesense Self-Hosted
 
 The process of updating Typesense is simple - install the new version of Typesense and restart the server. You won't need to re-index any of your documents. 
