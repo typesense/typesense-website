@@ -1,10 +1,10 @@
 ---
-description: "The Typesense Cloud Prices API lists the node-hour and bandwidth prices for every region and cluster configuration."
+description: "The Typesense Cloud Prices API lists the node-hour, bandwidth, backup storage and extra disk prices for every region and cluster configuration."
 ---
 
 # Prices API
 
-The Prices API lists what a node-hour and a GB of outbound bandwidth cost for each region and cluster configuration, priced the way a new cluster created today would be.
+The Prices API lists what a node-hour, a GB of outbound bandwidth, a GB-month of backup storage and a GB-month of extra disk cost for each region and cluster configuration, priced the way a new cluster created today would be.
 For what your existing clusters cost, see [Cluster Usage & Costs](cluster-usage-and-costs.md).
 
 All amounts are in US cents.
@@ -63,7 +63,9 @@ The filters use the same names and values as the [Create new cluster](cluster-ma
       "bandwidth_price_tiers": [
         {"from_gb": 0, "upto_gb": 10, "price_per_gb_cents": 0},
         {"from_gb": 10, "upto_gb": null, "price_per_gb_cents": 9}
-      ]
+      ],
+      "backup_storage_price_per_gb_month_cents": 10,
+      "extra_disk_price_per_gb_month_cents": 28
     },
     {
       "region": "oregon",
@@ -79,7 +81,9 @@ The filters use the same names and values as the [Create new cluster](cluster-ma
       ],
       "bandwidth_price_tiers": [
         {"from_gb": 0, "upto_gb": null, "price_per_gb_cents": 9}
-      ]
+      ],
+      "backup_storage_price_per_gb_month_cents": 10,
+      "extra_disk_price_per_gb_month_cents": 28
     }
   ]
 }
@@ -99,6 +103,8 @@ So a free allowance, like the first 720 node-hours in the example above, is used
 
 - Node-hour prices are per node, so you want to multiply the node-hour price by the cluster's node count. A highly available cluster runs 3 to 7 nodes in its region (see [`high_availability_node_count`](cluster-management.md#high-availability-node-count)), and a cluster with Search Delivery Network turned on has a node count per region (see [`region_node_counts`](cluster-management.md#region-node-counts)). Each node is priced at its own region's price.
 - Bandwidth is billed per cluster, per region, at that region's bandwidth price.
+- [Backup](cluster-backups.md#billing) storage is billed per region, at that region's `backup_storage_price_per_gb_month_cents`, which is `null` when no backup storage price is set for the region.
+- [Extra disk](cluster-management.md#extra-disk-gb-per-node) is billed per node, for each GB of disk beyond what the memory size includes, at that region's `extra_disk_price_per_gb_month_cents`, which is `null` when no extra disk price is set for the region.
 - Prices are for the latest Typesense Server release, which the response names as `typesense_server_version`.
 - Existing clusters keep the price they were created with, even when the price list changes later. So for what an existing cluster costs, you want to use the rows from [List usage](cluster-usage-and-costs.md#list-usage), which carry the price that was actually charged.
 

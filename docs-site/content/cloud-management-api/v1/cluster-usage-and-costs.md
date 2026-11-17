@@ -1,17 +1,17 @@
 ---
-description: "Typesense Cloud Cluster Usage and Costs API endpoints list the node-hours and bandwidth behind each invoice, row by row, and what each cluster cost per month."
+description: "Typesense Cloud Cluster Usage and Costs API endpoints list the node-hours, bandwidth, backup storage and extra disk behind each invoice, row by row, and what each cluster cost per month."
 ---
 
 # Cluster Usage & Costs API
 
-This API lists the node-hours and outbound bandwidth your account was invoiced for, and what each cluster cost per month.
+This API lists the node-hours, outbound bandwidth, backup storage and extra disk your account was invoiced for, and what each cluster cost per month.
 For what a new cluster would cost, see the [Prices API](prices.md).
 
 All amounts are in US cents, and timestamps are Unix timestamps in seconds.
 
 ## List usage
 
-This endpoint lists every node-hour and every amount of outbound bandwidth your account was billed for, one row per billed usage period.
+This endpoint lists every node-hour, outbound bandwidth amount, backup storage amount and extra disk amount your account was billed for, one row per billed usage period.
 
 Here's how to list one cluster's usage from a given time onward:
 
@@ -40,7 +40,7 @@ curl --get --location "https://cloud.typesense.org/api/v1/account/usage" \
 {
   "page": 1,
   "per_page": 100,
-  "total": 2,
+  "total": 4,
   "start_time": 1761004800,
   "end_time": 1761090600,
   "usage": [
@@ -81,6 +81,34 @@ curl --get --location "https://cloud.typesense.org/api/v1/account/usage" \
       "period_ends_at": 1761008400,
       "bandwidth_kb": 183402,
       "price_per_gb_cents": 9
+    },
+    {
+      "id": "c40b9f2e81a7d356e0f19b42",
+      "type": "backup_storage",
+      "billed_at": 1761014700,
+      "invoice_id": "inv_abc123def456",
+      "invoice_status": "draft",
+      "cluster_id": "0197kdlrfsubahw4p",
+      "region": "oregon",
+      "period_starts_at": 1760922000,
+      "period_ends_at": 1761008400,
+      "gb_months": "0.080667",
+      "price_per_gb_month_cents": 10
+    },
+    {
+      "id": "5e2a90d4c17b38f6a0e94d21",
+      "type": "extra_disk",
+      "billed_at": 1761014700,
+      "invoice_id": "inv_abc123def456",
+      "invoice_status": "draft",
+      "cluster_id": "0197kdlrfsubahw4p",
+      "region": "oregon",
+      "period_starts_at": 1761004800,
+      "period_ends_at": 1761008400,
+      "gb_months": "0.022222",
+      "price_per_gb_month_cents": 28,
+      "node_hostname": "0197kdlrfsubahw4p-1.a1.typesense.net",
+      "gb": 16
     }
   ]
 }
@@ -97,11 +125,11 @@ Every row has these fields:
 | Field            | Type    | Description                                                                                                       |
 |------------------|---------|-------------------------------------------------------------------------------------------------------------------|
 | id               | string  | Stable row ID. Use it to de-duplicate rows you have already read.                                                 |
-| type             | string  | `node` or `bandwidth` (see [below](#row-types)).                                                                  |
+| type             | string  | `node`, `bandwidth`, `backup_storage` or `extra_disk` (see [below](#row-types)).                                  |
 | billed_at        | integer | When the row was billed, as a Unix timestamp. `start_time` and `end_time` filter on this field.                  |
 | invoice_id       | string  | The invoice this row is on, as returned by the [Invoices API](invoices.md).                                       |
 | invoice_status   | string  | The invoice's status now: `draft`, `due`, `paid`, `uncollectible` or `voided`. Rows are listed in every status, since a status can change later, for example from `uncollectible` to `paid`. |
-| price_tier_id    | string  | The price tier the invoice groups this row under. You want to treat it as an opaque ID. [Invoice line items](invoices.md#line-item-fields) carry the same `price_tier_id`. |
+| price_tier_id    | string  | Only on node and bandwidth rows. The price tier the invoice groups this row under. You want to treat it as an opaque ID. [Invoice line items](invoices.md#line-item-fields) carry the same `price_tier_id`. |
 | cluster_id       | string  | The cluster this usage belongs to.                                                                                |
 | region           | string  | The region this usage was in, for example `oregon`.                                                              |
 | period_starts_at | integer | Start of the period this row covers, as a Unix timestamp.                                                         |
@@ -113,13 +141,17 @@ Every row has these fields:
 |-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `node`      | `node_hostname`: the node's hostname, or `null` when it is not known.<br><br>`node_hours`: whole node-hours. Each period is rounded up from the node's own start time, instead of from the clock hour.<br><br>`price_per_node_hour_cents`: the price charged per node-hour for this row, in cents, after any free allowance.<br><br>`configuration`: the node's configuration as it was priced, using the same names and values as the [cluster resource](cluster-management.md#request-parameters). |
 | `bandwidth` | `bandwidth_kb`: outbound bandwidth from the cluster's nodes in this region during the period, in KB, including replication traffic between the cluster's nodes.<br><br>`price_per_gb_cents`: the price per GB for this row's price tier, in cents.                                                                                                                                 |
+| `backup_storage` | `gb_months`: the [backup](cluster-backups.md#billing) storage kept in this region during the period, in GB-months, as a decimal string.<br><br>`price_per_gb_month_cents`: the price per GB-month for this row, in cents.<br><br>`period_ends_at` can be in the future for the kept backups of a terminated cluster. |
+| `extra_disk` | `node_hostname`: the node's hostname, or `null` when it is not known.<br><br>`gb`: the node's [extra disk](cluster-management.md#extra-disk-gb-per-node) during the period, in GB.<br><br>`gb_months`: that extra disk over the period, in GB-months, as a decimal string.<br><br>`price_per_gb_month_cents`: the price per GB-month for this row, in cents. |
 
 ### How rows add up to invoice line items
 
-Each node and bandwidth line item on an invoice covers the rows on that invoice with the same `type`, `cluster_id` and `price_tier_id`, and carries that `price_tier_id` itself:
+Each node and bandwidth line item on an invoice covers the rows on that invoice with the same `type`, `cluster_id` and `price_tier_id`, and carries that `price_tier_id` itself.
+Each backup storage or extra disk line item covers the rows with the same `type`, `cluster_id`, `region` and `price_per_gb_month_cents`, which the line item carries as `parameters.cluster_id`, `parameters.region` and `unit_price_cents`:
 
 - For node line items, `quantity` is the sum of `node_hours` over those rows, and `price_cents` is that sum multiplied by `price_per_node_hour_cents`.
 - For bandwidth line items, the invoice sums `bandwidth_kb` over those rows, then rounds the total up to whole GB once: `quantity` is `ceil(sum_of_bandwidth_kb / 1000000)`, and `price_cents` is `quantity * price_per_gb_cents`.
+- For backup storage and extra disk line items, the invoice sums `gb_months` over those rows, then rounds the total up to 0.01 GB-month once: that is `quantity`, and `price_cents` is `quantity * price_per_gb_month_cents`, rounded to the nearest cent, half up.
 
 For example, three bandwidth rows of 183,402 KB, 2,450,100 KB and 96,000 KB with the same `cluster_id` and `price_tier_id` add up to 2,729,502 KB, which the invoice bills as 3 GB.
 If you round each row up on its own, you'd get 5 GB instead.
@@ -136,6 +168,7 @@ Bandwidth uses decimal units: 1 KB is 1,000 bytes and 1 GB is 1,000,000 KB.
 ### Reading new usage as it is billed
 
 A row shows up once its usage is billed, 1 to 3 hours after the usage happens.
+Backup storage is measured once a day, so its rows show up within about a day.
 
 Here's how to read every row exactly once:
 
@@ -147,7 +180,7 @@ If `start_time` is less than 10 minutes in the past, the response is empty and i
 
 ### Reconciling an invoice
 
-Summing the rows of one `invoice_id` as described [above](#how-rows-add-up-to-invoice-line-items) reproduces the invoice's node and bandwidth line items.
+Summing the rows of one `invoice_id` as described [above](#how-rows-add-up-to-invoice-line-items) reproduces the invoice's node, bandwidth, backup storage and extra disk line items.
 A draft invoice keeps gaining rows while it's still a draft.
 
 ### What this endpoint does not include
