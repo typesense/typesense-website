@@ -45,6 +45,7 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters" \
   "cluster": {
     "id": "az9p28gwxfdsye40d",
     "name": null,
+    "external_reference": null,
     "memory": "0.5_gb",
     "vcpu": "2_vcpus_1_hr_burst_per_day",
     "gpu": "no",
@@ -94,6 +95,7 @@ You can use any of the following parameters inside the payload of the above API 
 - [high_performance_disk](#high-performance-disk)
 - [typesense_server_version](#typesense-server-version)
 - [name](#name)
+- [external_reference](#external-reference)
 - [auto_upgrade_capacity](#auto-upgrade-capacity)
 
 #### `memory`
@@ -314,6 +316,61 @@ Default: Latest GA release version.
 #### `name`
 
 A string to identify the cluster for your reference in the Typesense Cloud Web console.
+
+Default: `null`
+
+#### `external_reference`
+
+Your own ID for the cluster, which also makes a create request safe to retry. Up to 128 characters.
+
+Only one cluster in your account can have a given `external_reference`. So if a create request times out, you can retry it with the same `external_reference`. If a cluster in your account already has it, the API returns an HTTP `409` with that cluster in the response. (If your API key doesn't have the `clusters:read` permission, the response leaves out `cluster`, and the `message` still has the cluster's ID.) Here's an example:
+
+```json
+{
+  "success": false,
+  "error": "external_reference_in_use",
+  "message": "Cluster az9p28gwxfdsye40d already has this external_reference.",
+  "cluster": {
+    "id": "az9p28gwxfdsye40d",
+    "name": null,
+    "external_reference": "env-1234",
+    "memory": "0.5_gb",
+    "vcpu": "2_vcpus_1_hr_burst_per_day",
+    "gpu": "no",
+    "high_performance_disk": "no",
+    "disk_gb_per_node": 8,
+    "extra_disk_gb_per_node": 0,
+    "typesense_server_version": "0.23.1",
+    "high_availability": "no",
+    "high_availability_node_count": null,
+    "search_delivery_network": "off",
+    "load_balancing": "no",
+    "regions": [
+      "oregon"
+    ],
+    "region_node_counts": {
+      "oregon": 1
+    },
+    "auto_upgrade_capacity": null,
+    "usage": {
+      "runtime_hours": 0,
+      "used_bandwidth_kb": {
+        "last_7_days": {}
+      }
+    },
+    "provisioned_by": {
+      "user_name": "API Key: YOUR-API-KEY*****",
+      "user_type": "API Key"
+    },
+    "provisioned_at": 1663382519,
+    "status": "provisioning"
+  }
+}
+```
+
+The existing cluster could still be provisioning. So you want to check its `status` before you use it.
+
+Once you terminate a cluster, its `external_reference` can be used for a new cluster. If the existing cluster never came up, set its `external_reference` to `null` with [Update cluster attributes](#update-cluster-attributes) to free it.
 
 Default: `null`
 
@@ -544,6 +601,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>"
 {
   "id": "nuj9s7k6vplrg15yp",
   "name": null,
+  "external_reference": null,
   "memory": "0.5_gb",
   "vcpu": "2_vcpus_1_hr_burst_per_day",
   "gpu": "no",
@@ -611,6 +669,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
     {
       "id": "az9p28gwxfdsye40d",
       "name": null,
+      "external_reference": null,
       "memory": "0.5_gb",
       "vcpu": "2_vcpus_1_hr_burst_per_day",
       "gpu": "no",
@@ -652,6 +711,7 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters" \
 |------------|----------|-------------|
 | `per_page` | Optional | The number of results per page. Default: `10` |
 | `page`     | Optional | Page number to fetch. Default: `1` |
+| `external_reference` | Optional | Only return clusters with this [`external_reference`](#external-reference), including terminated ones that had it. |
 
 ## Update cluster attributes
 
@@ -674,6 +734,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
 |-------------------------|----------|-------------|
 | `auto_upgrade_capacity` | Optional | See [`auto_upgrade_capacity`](#auto-upgrade-capacity). |
 | `name`                  | Optional | See [`name`](#name). |
+| `external_reference`    | Optional | See [`external_reference`](#external-reference). Set it to `null` to clear it. |
 
 **Response:**
 
@@ -683,6 +744,7 @@ curl -X PATCH --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID
   "cluster": {
     "id": "az9p28gwxfdsye40d",
     "name": "New Name",
+    "external_reference": null,
     "memory": "0.5_gb",
     "vcpu": "2_vcpus_1_hr_burst_per_day",
     "gpu": "no",

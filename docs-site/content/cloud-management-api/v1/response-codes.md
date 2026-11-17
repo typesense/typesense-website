@@ -17,7 +17,7 @@ The following table lists all the status codes that the Cluster Management API m
 | 402        | A payment method is required for this paid operation |
 | 403        | The API key is invalid, the key doesn't have the capability this request needs or the account can't make this request (for example, it has unpaid invoices) |
 | 404        | The resource was not found                          |
-| 409        | Another change of the same kind is still in progress, for example an IP allowlist change. Retry once it finishes |
+| 409        | Another change of the same kind is still in progress, for example an IP allowlist change, so retry once it finishes. Or another cluster in the account already has the [`external_reference`](./cluster-management.md#external-reference) you sent |
 | 422        | Validation failed for the requested action          |
 | 429        | Request was rate limited. Try again after 1 minute. |
 | 503        | A temporary service outage prevented the operation  |
