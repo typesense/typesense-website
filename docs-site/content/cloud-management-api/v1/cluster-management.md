@@ -810,10 +810,16 @@ curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>
 |--------------------|----------|-------------|
 | `lifecycle_action` | Required | Must be `terminate`. |
 | `delete_backups`   | Optional | When `true`, the cluster's kept [backups](./cluster-backups.md) are deleted along with it. When `false`, they're kept until they expire. Default: `false` |
+| `final_backup`     | Optional | When `true`, a backup of the cluster is taken before it's torn down and kept until you delete it. See [Final backup on terminate](./cluster-backups.md#final-backup-on-terminate). Default: `false` |
 
+### Error Responses
+
+With `"final_backup": true`, the API returns HTTP `402` when the account has neither a payment method nor prepaid credits.
+It returns HTTP `409` when a backup or another operation is running on the cluster, or when the cluster isn't In Service.
+The cluster isn't terminated in either case.
 
 :::warning
-You're billed for the storage of kept backups until they expire.
+You're billed for the storage of kept backups until they expire, and for a final backup until you delete it.
 :::
 
 ## Permissions

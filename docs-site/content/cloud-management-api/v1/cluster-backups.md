@@ -5,6 +5,7 @@ description: "Typesense Cloud backup endpoints turn automatic cluster backups on
 # Cluster Backups API
 
 Backups are automatic copies of a cluster's data, taken on a schedule you choose and kept for 7, 14 or 30 days in 1 to 3 regions.
+You can also [take a backup](#take-a-backup) yourself, and keep a [final backup](#final-backup-on-terminate) of a cluster you terminate until you delete it.
 You can restore a backup to a new cluster in any region, or onto the cluster it was taken from.
 
 :::warning
@@ -168,6 +169,42 @@ The API returns HTTP `400` and leaves the settings unchanged when a parameter is
 It returns HTTP `402` when backups would be on and the account has neither a payment method nor prepaid credits.
 It returns HTTP `409` when the cluster is terminated.
 
+## Take a backup
+
+This endpoint takes a backup of the cluster right away:
+
+```shell
+curl -X POST --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/backups" \
+      -H "Accept: application/json" \
+      -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+**Response:**
+
+```json
+{
+  "id": 48254,
+  "status": "pending",
+  "kind": "on_demand",
+  "retain_until_deleted": false,
+  "size_bytes": null,
+  "regions": [],
+  "taken_at": 1792436400,
+  "completed_at": null,
+  "expires_at": null,
+  "deleted_at": null
+}
+```
+
+It works whether automatic backups are on or off.
+The backup uses the regions and retention in the cluster's [backup settings](#get-backup-settings), which default to the cluster's own region and 7 days.
+The response has the same fields as a backup in [List backups](#list-backups), where you can follow its `status`.
+
+### Error Responses
+
+The API returns HTTP `402` when the account has neither a payment method nor prepaid credits.
+It returns HTTP `409` when a backup or another operation is running on the cluster, or when the cluster isn't In Service.
+
 ## List backups
 
 This endpoint lists every backup the cluster keeps, newest first, with the regions each one is stored in and when it expires:
@@ -216,8 +253,8 @@ curl -X GET --location "https://cloud.typesense.org/api/v1/clusters/<ClusterId>/
 }
 ```
 
-A backup is listed once it completes.
-While one is being taken, `backup_in_progress` is `true`.
+A scheduled backup is listed once it completes, and one you [take yourself](#take-a-backup) or a [final backup](#final-backup-on-terminate) as soon as you request it.
+While a backup is pending or being taken, `backup_in_progress` is `true`.
 A backup is no longer listed once it expires.
 
 ### Response Parameters
@@ -226,18 +263,22 @@ A backup is no longer listed once it expires.
 |----------------|-----------------------------------------------------------------------------------------------------|
 | `id`           | The backup ID, used to [delete](#delete-a-backup) or [restore](#restore-a-backup) the backup.       |
 | `status`       | See [`status`](#status).                                                                              |
-| `kind`         | `scheduled` for a backup taken on the cluster's backup schedule. `pre_termination` for the snapshot kept when a cluster was terminated because the account used up its free tier or didn't pay its invoices (see [Bringing back a terminated cluster](#bringing-back-a-terminated-cluster)). |
+| `kind`         | `scheduled` for a backup taken on the cluster's backup schedule. `on_demand` for one you [took yourself](#take-a-backup). `final` for the [final backup](#final-backup-on-terminate) of a terminated cluster. `pre_termination` for the snapshot kept when a cluster was terminated because the account used up its free tier or didn't pay its invoices (see [Bringing back a terminated cluster](#bringing-back-a-terminated-cluster)). |
+| `retain_until_deleted` | `true` for a [final backup](#final-backup-on-terminate) kept until you delete it. `false` once it's set to expire. |
 | `size_bytes`   | The size of the backup.                                                                             |
 | `regions`      | The regions the backup is stored in. Empty once the backup is deleted.                              |
 | `taken_at`     | Unix timestamp in seconds when the backup started.                                                  |
 | `completed_at` | Unix timestamp in seconds when the backup completed.                                                |
-| `expires_at`   | Unix timestamp in seconds when the backup expires. An expired backup is deleted automatically.      |
+| `expires_at`   | Unix timestamp in seconds when the backup expires, or `null` for a final backup. An expired backup is deleted automatically. |
 | `deleted_at`   | Unix timestamp in seconds when the backup was deleted, or `null`.                                   |
 
 #### `status`
 
 | `status`    | Description                                                                                          |
 |-------------|------------------------------------------------------------------------------------------------------|
+| `pending`   | A backup you requested is waiting to start.                                                          |
+| `in_progress` | The backup is being taken.                                                                         |
+| `failed`    | A backup you requested or a final backup couldn't be taken.                                          |
 | `succeeded` | The backup is kept, and can be restored or deleted.                                                  |
 | `deleting`  | The backup is being deleted. It can't be restored any more.                                          |
 | `deleted`   | The backup was deleted. A backup you delete is listed with this status for one hour after deletion.  |
@@ -383,6 +424,20 @@ Those requests return HTTP `400` until it finishes.
 When you [terminate a cluster](./cluster-management.md#terminate-cluster), no new backups are taken.
 Its kept backups stay until they expire, unless you send `"delete_backups": true` with the terminate request, in which case they're deleted along with the cluster.
 
+### Final backup on terminate
+
+To keep a copy of a cluster's data after you terminate it, send `"final_backup": true` with the [terminate request](./cluster-management.md#terminate-cluster).
+We take a backup of the cluster first and terminate it once the backup completes.
+Taking a backup yourself and then terminating would lose any writes made in between, and that backup would still expire.
+
+The final backup is stored in the regions in the cluster's [backup settings](#get-backup-settings) and doesn't expire.
+To delete the cluster's older backups and keep only the final one, also send `"delete_backups": true`.
+
+:::warning
+A final backup's storage is billed per GB-month until you [delete it](#delete-a-backup).
+If your account is suspended for unpaid invoices, its final backups are deleted after 30 days unless the invoices are paid. Until then, `retain_until_deleted` is `false` and `expires_at` is the deletion date.
+:::
+
 Kept backups of a terminated cluster can still be [listed](#list-backups), [deleted](#delete-a-backup) and [restored to a new cluster](#restore-a-backup).
 Their storage through their expiry is billed when the cluster is terminated.
 [List all clusters](./cluster-management.md#list-all-clusters) keeps returning a cluster terminated more than a week ago while it still has kept backups, but only to a key with the `backups:read` capability.
@@ -408,6 +463,6 @@ It returns HTTP `402` when the account has neither a payment method nor enough p
 ## Permissions
 
 To [get backup settings](#get-backup-settings) or [list backups](#list-backups), you need a key with the `backups:read` capability.
-To [change backup settings](#change-backup-settings) or [delete a backup](#delete-a-backup), you need `backups:manage`.
+To [change backup settings](#change-backup-settings), [take a backup](#take-a-backup) or [delete a backup](#delete-a-backup), you need `backups:manage`.
 To [restore a backup](#restore-a-backup), you need `backups:restore`.
 See [capabilities](./authentication.md#capabilities).
