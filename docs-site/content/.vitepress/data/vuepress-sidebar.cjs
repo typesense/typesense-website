@@ -209,6 +209,7 @@ module.exports = {
       children: [
         ['/cloud-management-api/v1/cluster-metrics', 'Metrics'],
         ['/cloud-management-api/v1/cluster-logs', 'Logs'],
+        ['/cloud-management-api/v1/webhooks', 'Webhooks'],
       ],
     },
     {

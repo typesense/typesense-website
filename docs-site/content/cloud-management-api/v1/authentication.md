@@ -42,6 +42,8 @@ If a key doesn't have the capability a request needs, you'll get an HTTP `403` t
 | | `cluster_credentials:manage` | [List](./cluster-api-keys.md#list-all-api-keys), [create](./cluster-api-keys.md#create-an-api-key-with-a-given-scope) and [revoke](./cluster-api-keys.md#revoke-an-api-key) a cluster's keys, including keys with a custom scope |
 | Network access | `cluster_network:manage` | Read and replace a cluster's [IP allowlist](./ip-allowlist.md) |
 | Dashboard links | `dashboard_links:manage` | [Create](./dashboard-links.md#create-a-dashboard-link), [list](./dashboard-links.md#list-dashboard-links) and [revoke](./dashboard-links.md#revoke-a-dashboard-link) links that open one cluster's dashboard for a person without a Typesense Cloud account |
+| Webhooks | `webhooks:read` | [List webhook endpoints](./webhooks.md#list-webhook-endpoints) and [read their deliveries](./webhooks.md#list-deliveries) |
+| | `webhooks:manage` | [Add](./webhooks.md#add-a-webhook-endpoint), [delete](./webhooks.md#delete-a-webhook-endpoint) and [re-enable](./webhooks.md#re-enable-a-webhook-endpoint) webhook endpoints, [send test events](./webhooks.md#send-a-test-event) and [resend deliveries](./webhooks.md#resend-a-delivery). AI agents connected through the MCP server can't be given it. |
 | Billing | `billing:read` | Read [invoices](./invoices.md), the [billing summary](./billing-summary.md#get-billing-summary), [usage](./cluster-usage-and-costs.md#list-usage) and [costs by cluster](./cluster-usage-and-costs.md#list-costs-by-cluster) |
 | | `billing:manage` | [Switch the account between weekly and monthly billing](./billing-summary.md#switch-billing-cycle) |
 

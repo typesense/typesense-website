@@ -33,6 +33,7 @@ provision resources, manage their lifecycle, access control, etc. programmatical
 
 - [Read per-node cluster metrics](./cluster-metrics.md)
 - [Read a cluster's request logs](./cluster-logs.md#get-access-log), including [slow requests](./cluster-logs.md#get-slow-requests) and [when each API key was last used](./cluster-logs.md#get-when-each-api-key-was-last-used)
+- [Get notified when a cluster changes status, is reconfigured or restarted or runs low on memory, disk or CPU](./webhooks.md)
 
 ### Search analytics
 

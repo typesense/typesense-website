@@ -245,6 +245,7 @@ These are the tools available for your agent to use once it is connected. Agents
   - Search analytics: a collection's search insights and synonym suggestions, synonym suggestion settings and analytics rule notifications.
   - Backups: backup settings and kept backups.
   - Billing: invoices, the billing summary, invoiced usage and costs by cluster.
+  - Webhooks: webhook endpoints and their recent deliveries, with the body that was sent and each attempt's response.
   - Prices: node-hour and bandwidth prices for every region and configuration, which need no permission.
   - Options: the regions, memory and vCPU options a cluster can be created with and which memory sizes fit an existing cluster's data.
 - `show_cluster`: shows a cluster's status, configuration, any change in progress and its last hour of metrics, in one call. Chat apps that support [panels](#panels-in-chat-apps) show it as a cluster panel.
