@@ -6,6 +6,7 @@ description: "Typesense Cloud webhooks send a signed HTTPS request to your appli
 
 Webhooks let Typesense Cloud notify your application when something happens to one of your clusters: a status change, a configuration change or rolling restart, a node replacement or a cluster running low on memory, disk or CPU.
 So instead of polling [Get single cluster](./cluster-management.md#get-single-cluster), your application can react when it happens.
+To catch up on events you missed, or to read them without running an endpoint, [list events](#list-events).
 
 Each webhook endpoint you add receives every event for every cluster on the account, or only the [event types](#event-types) you pick for it.
 Each request is signed in the [Standard Webhooks](https://www.standardwebhooks.com/) format, so you can verify it with an existing library.
@@ -16,6 +17,7 @@ Each request is signed in the [Standard Webhooks](https://www.standardwebhooks.c
 2. In your endpoint, [verify the signature](#verify-the-signature) of each request and answer with a `2xx`.
 3. [Send a test event](#send-a-test-event) to check your handler end to end.
 4. If deliveries fail, [read the delivery](#get-a-delivery) to see what your endpoint answered, and [resend](#resend-a-delivery) it once it's fixed.
+5. If your endpoint has been down, you want to [list events](#list-events) from the last one you handled to catch up.
 
 ## Add a webhook endpoint
 
@@ -287,7 +289,7 @@ The endpoint's page in the dashboard shows when it started failing and when it w
 Any successful delivery, including a [test event](#send-a-test-event), resets the 5 days.
 The deliveries that were still waiting are marked `failed`.
 You can [re-enable it](#re-enable-a-webhook-endpoint) from the API or from the endpoint's page in the dashboard.
-Events from while it was disabled aren't sent again, so you want to read the current state of your clusters with [List all clusters](./cluster-management.md#list-all-clusters).
+Events from while it was disabled aren't sent again, so you want to [list events](#list-events) from the last one you handled to catch up.
 
 ### Duplicates and ordering
 
@@ -881,12 +883,69 @@ The response is the delivery with the new attempt added, in the same format as [
 
 Resends and [test events](#send-a-test-event) share a limit of 600 per endpoint per hour, and 3,000 per account. An endpoint that answers slowly can also be sent at most 7.5 minutes of them per hour, counted by how long each one waited for its response, and an account at most 37.5 minutes across its endpoints, deleted ones included.
 
+## List events
+
+Use this endpoint to catch up on events your webhook endpoint missed, for example while it was down or [disabled](#retries), or to read events without running an endpoint at all.
+It lists the account's cluster events from the past 30 days, oldest first, each exactly as a webhook sends it, with the same ID.
+To see what happened to one delivery, [get the delivery](#get-a-delivery) instead.
+
+To catch up, you want to pass the `created_at` of the last event you handled as `created_after`, and skip any event whose `id` you've already handled.
+While `has_more` is `true`, you want to list the next page with `after` set to the `id` of the last event in the page.
+
+```shell
+curl -X GET --location "https://cloud.typesense.org/api/v1/account/events?created_after=1795467600" \
+    -H "Accept: application/json" \
+    -H "X-TYPESENSE-CLOUD-MANAGEMENT-API-KEY: YOUR-API-KEY"
+```
+
+### Request Parameters
+
+| Parameter       | Required | Description |
+|-----------------|----------|-------------|
+| `created_after` | No       | A Unix timestamp in seconds. Lists events created at or after it. |
+| `after`         | No       | An event `id` from the previous page. Lists the events after it. |
+| `per_page`      | No       | Events per page, from 1 to 100. Defaults to 25. |
+
+**Response:**
+
+```json
+{
+  "events": [
+    {
+      "id": "evt_33a3b962973c3d723f858ccb",
+      "type": "cluster.in_service",
+      "created_at": 1795467600,
+      "initiated_by": {
+        "user_name": "Jane Doe",
+        "user_type": "User"
+      },
+      "data": {
+        "cluster": { ... },
+        "old_status": "initializing"
+      }
+    }
+  ],
+  "has_more": false
+}
+```
+
+### Response Parameters
+
+| Field      | Description |
+|------------|-------------|
+| `events`   | Events in the [event payload](#event-payload) format. [Test events](#send-a-test-event) aren't listed. |
+| `has_more` | `true` when more events are waiting. |
+
+An event shows up here a few seconds after it happens.
+If the event you pass as `after` is older than 30 days, the response is a `410`: list again with `created_after`.
+
 ## Error Responses
 
 | Status | When |
 |--------|------|
-| `400`  | A required parameter is missing. |
+| `400`  | A required parameter is missing. For [list events](#list-events): a parameter isn't valid. |
 | `404`  | The webhook endpoint or delivery doesn't exist on this account. |
+| `410`  | For [list events](#list-events): the `after` event is older than 30 days. |
 | `422`  | A parameter isn't valid, or the account already has 5 webhook endpoints. |
 | `422`  | For a test event or a resend: the webhook endpoint is disabled, had 30 test events and resends in the past hour or is still receiving another one. For a test event: the account has no cluster, configuration change or rolling restart to build it from. |
 
@@ -894,6 +953,8 @@ Resends and [test events](#send-a-test-event) share a limit of 600 per endpoint 
 
 To [list webhook endpoints](#list-webhook-endpoints), [list deliveries](#list-deliveries) or [get a delivery](#get-a-delivery), you need a key with the `webhooks:read` capability.
 To [add](#add-a-webhook-endpoint), [delete](#delete-a-webhook-endpoint) or [re-enable](#re-enable-a-webhook-endpoint) an endpoint, [send a test event](#send-a-test-event) or [resend a delivery](#resend-a-delivery), you need `webhooks:manage`.
+To [list events](#list-events), you need `clusters:read`.
 See [capabilities](./authentication.md#capabilities).
 
-AI agents connected through the Typesense Cloud MCP server can list webhook endpoints and read their deliveries, but can't be given `webhooks:manage`.
+AI agents connected through the Typesense Cloud MCP server can list events.
+They can also list webhook endpoints and read their deliveries, but can't be given `webhooks:manage`.
