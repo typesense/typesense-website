@@ -28,7 +28,7 @@ When using Synonym Sets and [Overrides](./curation.md) together, Overrides are h
 :::
 
 :::tip Locale-specific synonyms
-When a synonym has a `locale` specified, it will only be applied when searching fields with a matching locale. If no locale is specified for a synonym, it will be applied globally. This helps manage cases where the same word has different meanings across languages.
+When a synonym has a `locale` specified, it will only be applied when the most weighted searched field (the first field in `query_by` when `query_by_weights` is not set) has the same locale. If no locale is specified for a synonym, it will only be applied when that field has no locale either. To apply the same synonym to fields with different locales, create one synonym item per locale. This helps manage cases where the same word has different meanings across languages.
 :::
 
 :::tip Phrase Match Queries & Filtering
@@ -345,7 +345,7 @@ curl "http://localhost:8108/synonym_sets/tech-synonyms" -X PUT \
 | items.id               | yes      | Unique identifier for the synonym item.                                                                                                                                           |
 | items.synonyms         | yes      | Array of words that should be considered as synonyms.                                                                                                                             |
 | items.root             | no       | For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.                                                                                          |
-| items.locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when searching a field that has a matching locale. If not specified, the synonym will be applied globally. |
+| items.locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when the most weighted searched field has the same locale. If not specified, the synonym will only be applied when that field has no locale. |
 | items.symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is.                                         |
 
 After creating a synonym set, be sure to link it to a collection. Read more in the [documentation on linking synonym sets with collections](https://typesense.org/docs/30.0/api/synonyms.html#linking-synonym-sets-with-collections).
