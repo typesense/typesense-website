@@ -634,7 +634,7 @@ searchParameters := &api.SearchCollectionParams{
   SortBy:   &([]string{"publication_year:desc"}),
 }
 
-client.Collection("companies").Documents().Search(context.Background(), searchParameters)
+client.Collection("books").Documents().Search(context.Background(), searchParameters)
 ```
 
   </template>
@@ -776,7 +776,7 @@ searchParameters := &api.SearchCollectionParams{
   SortBy:   &([]string{"average_rating:desc"}),
 }
 
-client.Collection("companies").Documents().Search(context.Background(), searchParameters)
+client.Collection("books").Documents().Search(context.Background(), searchParameters)
 ```
 
   </template>
