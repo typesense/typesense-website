@@ -1,6 +1,6 @@
 ---
 title: "Typesense Cloud MCP Server"
-description: "Connect Claude Code, Codex, Cursor, claude.ai, ChatGPT or any MCP client to Typesense Cloud so your agent can create clusters, build collections, index data and tune search with the permissions you choose."
+description: "Connect Claude Code, Codex, Cursor, VS Code, claude.ai, ChatGPT or any MCP client to Typesense Cloud so your agent can create clusters, build collections, index data and tune search with the permissions you choose."
 ---
 
 # Typesense Cloud MCP Server
@@ -43,6 +43,12 @@ For anything about my Typesense Cloud account, clusters or collections, use the 
 
 ```json
 { "mcpServers": { "typesense-cloud": { "url": "https://cloud.typesense.org/mcp/v1" } } }
+```
+
+**VS Code** (`mcp.json`, [MCP setup docs](https://code.visualstudio.com/docs/agent-customization/mcp-servers)):
+
+```json
+{ "servers": { "typesense-cloud": { "type": "http", "url": "https://cloud.typesense.org/mcp/v1" } } }
 ```
 
 **claude.ai and Claude Desktop** ([custom connector docs](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)): 
