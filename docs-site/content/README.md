@@ -13,6 +13,7 @@ The documentation is divided into the following sections, that you'll find links
 | [**Overview**](/overview/what-is-typesense.md)                                                                    | This section gives you a birds-eye view of Typesense, why you'd want to use it and comparison with alternatives.                                                                                                                              |
 | <RouterLink :to="`/guide/`"><strong>Guide</strong></RouterLink>                                                   | This section walks you step-by-step through how you can use Typesense in different scenarios.                                                                                                                                                 |
 | <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Reference</strong></RouterLink> | This section gives you detailed information about all the API endpoints and parameters in each version of Typesense. When you're viewing any of the versions, use the version dropdown to switch between them. It sits above "On this page" on wide screens, and in the top navigation on smaller ones. |
+| [**Cloud Management API**](/cloud-management-api/v1/README.md)                                                    | This section covers the API you can use to provision [Typesense Cloud](https://cloud.typesense.org) clusters, change their configuration, set up backups and read metrics programmatically. |
 
 ## Help us improve the docs
 

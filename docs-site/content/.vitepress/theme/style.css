@@ -188,6 +188,13 @@ html {
   }
 }
 
+/* tighter nav links on laptop widths, so the search button stays on screen */
+@media (min-width: 1280px) and (max-width: 1471px) {
+  .VPNav .VPNavBarMenu .VPNavBarMenuLink {
+    padding: 0 9px;
+  }
+}
+
 /* ! beats the component-scoped, attribute-boosted default rule */
 .VPNavBarTitle.has-sidebar .title {
   @apply !border-b-transparent;

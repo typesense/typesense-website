@@ -24,6 +24,8 @@ Using Typesense Cloud MCP, create a cluster, then index my data
 
 The agent creates a free-tier cluster, asks what your data looks like, proposes a schema, imports the data and runs a search. You choose what it's allowed to do when you connect it.
 
+You can also provision and manage clusters programmatically, using the [Typesense Cloud Management API](../cloud-management-api/v1/README.md).
+
 ## Option 2: Local Machine / Self-Hosting
 
 You can also run Typesense on your local machine or self-host it.

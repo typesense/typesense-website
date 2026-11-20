@@ -26,6 +26,8 @@ This way, you can [rotate/revoke](#key-rotation) your admin key(s) as needed.
 In Typesense Cloud, we manage the bootstrap API key for you transparently. 
 
 When you click on the "Generate API Keys" button in the Cluster Dashboard, we use the bootstrap API Key to generate one admin API key and a search-only API Key using the `/keys` endpoint and provide that to you. 
+
+You can also create and revoke a cluster's API keys programmatically, using the Typesense Cloud [Cluster API Keys API](../cloud-management-api/v1/cluster-api-keys.md).
 :::
 
 ## Restricting access to API endpoints

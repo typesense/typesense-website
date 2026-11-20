@@ -13,7 +13,7 @@ These parameters control and fine-tune various default server-settings in Typese
 [[toc]]
 
 :::tip Typesense Cloud
-We manage the following server parameters for you in Typesense Cloud automatically. But if you need to customize any of them, please email us at support at typesense dot org with a brief description of your use-case that requires the change, and we can do the change for you from our side.
+We manage the following server parameters for you in Typesense Cloud automatically. You can change [some of them](../../cloud-management-api/v1/typesense-server-configuration-parameters.md#available-parameters) yourself using the Typesense Cloud Management API. If you need to customize any other parameter, please email us at support at typesense dot org with a brief description of your use-case that requires the change, and we can do the change for you from our side.
 :::
 
 ## Using Command Line Arguments

@@ -11,6 +11,11 @@ You'd need one or more hostnames and [API keys](./api-keys.md) to integrate with
 If you're self-hosting Typesense, the hostnames are the IP addresses or DNS names of each of your Typesense nodes. 
 If you're using Typesense Cloud, we generate unique hostnames for each of your nodes and show them on the dashboard for you to use. 
 
+:::tip Note
+The API keys on this page are for the data inside a cluster (collections, documents, searches, etc).
+To manage Typesense Cloud clusters programmatically, you want to use the [Typesense Cloud Management API](../../cloud-management-api/v1/README.md), which has its own hostname and [API keys](../../cloud-management-api/v1/authentication.md).
+:::
+
 <Tabs :tabs="['JavaScript','PHP','Python','Ruby','Dart','Java','Swift','Shell']">
   <template v-slot:JavaScript>
 

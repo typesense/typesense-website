@@ -29,6 +29,8 @@ If you're running Typesense on Typesense Cloud:
 
 Once the upgrade is complete, you will receive an email notification to the Cluster Alerts email address you've set in your account page.
 
+You can also schedule an upgrade programmatically, using the Typesense Cloud [Configuration Changes API](../cloud-management-api/v1/cluster-configuration-changes.md).
+
 We support the following configuration changes in Typesense Cloud:
 * Upgrading Typesense Server versions
 * Downgrading Typesense Server versions (when supported by a version)

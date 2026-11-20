@@ -13,6 +13,8 @@ Use the links on the side navigation bar to get to the appropriate section you'r
 
 To learn how to install and run Typesense, see the [Guide section](https://typesense.org/docs/guide/) instead.
 
+To provision and manage Typesense Cloud clusters programmatically, see the [Typesense Cloud Management API](../../cloud-management-api/v1/README.md).
+
 <br/>
 
 ## What's new

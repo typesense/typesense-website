@@ -9,6 +9,8 @@ When a Typesense process is restarted, the data is read from the data directory 
 
 :::tip
 This article only applies when you self-host Typesense.
+
+In Typesense Cloud, you can turn on scheduled backups for your cluster and restore them using the [Cluster Backups API](../cloud-management-api/v1/cluster-backups.md).
 :::
 
 ## Backup steps

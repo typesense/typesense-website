@@ -127,9 +127,12 @@ watch(
   @apply max-mobile:border-0 max-mobile:bg-transparent;
 }
 
-.DocSearch-Button-Placeholder,
-.DocSearch-Button-Keys {
-  @apply max-wide:hidden;
+/* the full search box only fits beside all the nav links from 1472px up */
+@media (max-width: 1471px) {
+  .DocSearch-Button-Placeholder,
+  .DocSearch-Button-Keys {
+    display: none;
+  }
 }
 
 /* docsearch pins the body up to 768px, which drops the page behind the modal to the top */

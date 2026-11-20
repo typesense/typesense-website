@@ -44,6 +44,7 @@ module.exports = {
         ['/guide/updating-typesense', 'Updating Typesense'],
         ['/guide/backups', 'Backups'],
         ['/guide/typesense-cloud/search-delivery-network', 'Search Delivery Network (Typesense Cloud)'],
+        ['/cloud-management-api/v1/', 'Cloud Management API (Typesense Cloud)'],
       ],
     },
     {
@@ -274,6 +275,7 @@ module.exports = {
       ],
     },
     ['/30.2/api/api-errors', 'API Errors'],
+    ['/cloud-management-api/v1/', 'Cloud Management API (Typesense Cloud)'],
   ],
 
   //For 30.1

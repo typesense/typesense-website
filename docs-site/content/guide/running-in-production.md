@@ -42,6 +42,7 @@ Most of the server infrastructure related items are not applicable to Typesense 
 - Monitor the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#api-stats`">`/stats.json` API endpoint</RouterLink> for request rate and latency. 
 - Monitor CPU usage to ensure that it is below 90% on average. If it spikes beyond that, you might need to upgrade to higher CPU capacity.
   - You can access CPU usage metrics via the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/cluster-operations.html#cluster-metrics`">`/metrics.json` endpoint</RouterLink> or via the Typesense Cloud Dashboard.
+- In Typesense Cloud, you can read these metrics using the [Cluster Metrics API](../cloud-management-api/v1/cluster-metrics.md), and set up [webhooks](../cloud-management-api/v1/webhooks.md) to get notified when a cluster runs low on memory, disk or CPU.
 - When using the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/documents.html#index-multiple-documents`">`import` API</RouterLink> to [ingest](./syncing-data-into-typesense.md) large batches of data, make sure that you have configured a sufficiently high timeout value to let your large imports complete, since all write operations are synchronous in Typesense.
 
 ### Search Relevance
