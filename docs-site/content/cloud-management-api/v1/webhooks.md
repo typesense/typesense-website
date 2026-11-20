@@ -419,16 +419,20 @@ The rest of the examples on this page shorten `cluster` to `{ ... }`.
 |----------------------------------------|----------------|
 | `configuration_change.pending`         | A [configuration change](./cluster-configuration-changes.md) was scheduled. |
 | `configuration_change.in_progress`     | The configuration change started. |
+| `configuration_change.progressed`      | A node was changed, or the change's snapshot finished. |
 | `configuration_change.succeeded`       | The configuration change finished. |
 | `configuration_change.failed`          | The configuration change failed. |
 | `configuration_change.canceled`        | The configuration change was canceled before it started. |
 | `restart.pending`                      | A [rolling restart](./cluster-restarts.md) was scheduled. |
 | `restart.in_progress`                  | The rolling restart started. |
+| `restart.progressed`                   | A node was restarted. |
 | `restart.succeeded`                    | Every node was restarted. |
 | `restart.failed`                       | The rolling restart failed. |
 | `restart.canceled`                     | The rolling restart was canceled before it started. |
 
 `data` carries the `cluster`, the `configuration_change` or `restart` (the same JSON as [Get single configuration change](./cluster-configuration-changes.md#get-single-configuration-change) and [Get single rolling restart](./cluster-restarts.md#get-single-rolling-restart)) and its `old_status`, which is `null` when the change was just scheduled.
+
+A `progressed` event is sent when `snapshot_status` becomes `completed` or `nodes_changed` goes up, and for a rolling restart when `nodes_restarted` goes up. It has no `old_status`, since the status is `in_progress`.
 
 A Typesense Server version upgrade is a configuration change too, so it's sent as `configuration_change.succeeded` with the new version in `new_typesense_server_version`.
 
