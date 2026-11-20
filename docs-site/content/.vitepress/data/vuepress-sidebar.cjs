@@ -33,6 +33,7 @@ module.exports = {
         ['/guide/building-a-search-application', 'Building a Search Application'],
         ['/guide/search-ui-components', 'Search UI Components'],
         ['/guide/typesense-cloud/mcp-server', 'MCP Server (Typesense Cloud)'],
+        ['/guide/typesense-cloud-vs-self-hosted', 'Typesense Cloud vs Self-Hosted'],
       ],
     },
     {

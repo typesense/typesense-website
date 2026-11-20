@@ -6,6 +6,7 @@ description: "Install Typesense via Typesense Cloud, prebuilt DEB/RPM packages, 
 # Install Typesense
 
 Here are a couple of available options to install and run Typesense.
+To help you pick one, see how [Typesense Cloud and Self-Hosted compare](./typesense-cloud-vs-self-hosted.md).
 
 ## Option 1: Typesense Cloud
 
