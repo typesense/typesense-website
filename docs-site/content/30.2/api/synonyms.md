@@ -661,8 +661,12 @@ client.synonymSets('tech-synonyms').items().upsert('smart-phone-synonyms', synon
   <template v-slot:PHP>
 
 ```php
-# typesense-php v6.0.0 has no synonym set item methods: add the item to the set and upsert the whole set.
-$client->synonymSets['tech-synonyms']->upsert($synonymSet);
+$synonymSetItem = [
+  'root' => 'smart phone',
+  'synonyms' => ['iphone', 'android'],
+];
+
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->upsert($synonymSetItem);
 ```
 
   </template>
@@ -742,8 +746,7 @@ client.synonymSets('tech-synonyms').items('smart-phone-synonyms').retrieve()
   <template v-slot:PHP>
 
 ```php
-# typesense-php v6.0.0 has no synonym set item methods: retrieve the whole set and read its items.
-$client->synonymSets['tech-synonyms']->retrieve();
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->retrieve();
 ```
 
   </template>
@@ -808,8 +811,7 @@ client.synonymSets('tech-synonyms').items().retrieve()
   <template v-slot:PHP>
 
 ```php
-# typesense-php v6.0.0 has no synonym set item methods: retrieve the whole set and read its items.
-$client->synonymSets['tech-synonyms']->retrieve();
+$client->synonymSets['tech-synonyms']->items->retrieve();
 ```
 
   </template>
@@ -872,7 +874,7 @@ client.synonymSets('tech-synonyms').items('smart-phone-synonyms').delete()
   <template v-slot:PHP>
 
 ```php
-# typesense-php v6.0.0 has no synonym set item methods: upsert the set without the item instead.
+$client->synonymSets['tech-synonyms']->items['smart-phone-synonyms']->delete();
 ```
 
   </template>
