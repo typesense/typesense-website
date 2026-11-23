@@ -510,7 +510,7 @@ The response above is shortened. The actual response lists every region, every m
 - `regions[].name` is the value to use for `regions` in [Create new cluster](#create-new-cluster). A region with `"available": false` can't be used right now.
 - `vcpu_by_memory` shows which `vcpu` values go with each `memory` value. For example, `2_vcpus` is available with `4_gb` but not with `0.5_gb`.
 - `free_tier` is the configuration you can create without adding a payment method.
-- `typesense_server_versions` lists the values you can use for [`typesense_server_version`](#typesense-server-version). GA releases come first, and `ga_release` is `false` for a release candidate. `end_of_support_at` is the Unix timestamp (00:00 UTC) of the day Typesense stops supporting that version, or `null` if no date is set. Every version in the same major version has the same date, for eg every `29.x` version. For a cluster you already have, read [`typesense_server_version_end_of_support_at`](#typesense-server-version-end-of-support-at) on the cluster instead.
+- `typesense_server_versions` lists the values you can use for [`typesense_server_version`](#typesense-server-version). GA releases come first, and `ga_release` is `false` for a release candidate. `end_of_support_at` is the Unix timestamp (00:00 UTC) of the day Typesense stops supporting that version, or `null` if no date is set. A date applies to one version only, so 29.0 can have one while 29.1 has none. For a cluster you already have, read [`typesense_server_version_end_of_support_at`](#typesense-server-version-end-of-support-at) on the cluster instead.
 
 ### Check which memory options fit an existing cluster
 
