@@ -23,7 +23,7 @@ curl --get --location "https://cloud.typesense.org/api/v1/clusters/<ClusterID>/m
 
 | Parameter     | Required | Description |
 |---------------|----------|-------------|
-| `metrics`     | Required | Up to five of the metrics listed below, as a comma-separated list. `searches_per_day` is requested on its own (see [Searches per day](#searches-per-day)). |
+| `metrics`     | Required | Up to five of the metrics listed below, as a comma-separated list. `searches_per_day` needs `window` set to `7d` or `30d` (see [Searches per day](#searches-per-day)). |
 | `window`      | Required | `1h`, `3h`, `24h`, `7d` or `30d`. The `1h` and `3h` windows use 30-second buckets and `24h` uses 30-minute buckets. `7d` and `30d` use 1-hour buckets. |
 | `aggregation` | Optional | How each bucket summarizes the samples in it: `avg` (the default), `max`, `min` or `p95`. You want to use `max` or `p95` to find peaks that an average would hide. `searches_per_day` always uses `sum`. |
 
@@ -89,7 +89,7 @@ Each metric is keyed by node index.
 `searches_per_day` is the number of searches each node served on each full UTC day.
 You want to use it for daily totals over a week or a month, and `search_requests_per_second` for traffic within a day.
 
-Request it on its own, with `window` set to `7d` or `30d`.
+With other metrics in the same request, `resolution` and `aggregation` apply to those metrics.
 Here's an example for the last 30 days:
 
 ```shell
