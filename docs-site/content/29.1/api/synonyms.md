@@ -18,7 +18,7 @@ When using Synonyms and [Overrides](./curation.md) together, Overrides are handl
 :::
 
 :::tip Locale-specific synonyms
-When a synonym has a `locale` specified, it will only be applied when searching fields with a matching locale. If no locale is specified for a synonym, it will be applied globally. This helps manage cases where the same word has different meanings across languages.
+When a synonym has a `locale` specified, it will only be applied when the most weighted searched field (the first field in `query_by` when `query_by_weights` is not set) has the same locale. If no locale is specified for a synonym, it will only be applied when that field has no locale either. To apply the same synonym to fields with different locales, create one synonym per locale. This helps manage cases where the same word has different meanings across languages.
 :::
 
 :::tip Phrase Match Queries & Filtering
@@ -303,7 +303,7 @@ curl "http://localhost:8108/collections/products/synonyms/smart-phone-synonyms" 
 |------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | synonyms         | yes      | Array of words that should be considered as synonyms.                                                                                                                             |
 | root             | no       | For 1-way synonyms, indicates the root word that words in the synonyms parameter map to.                                                                                          |
-| locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when searching a field that has a matching locale. If not specified, the synonym will be applied globally. |
+| locale           | no       | Locale for the synonym. If specified, the synonym will only be applied when the most weighted searched field has the same locale. If not specified, the synonym will only be applied when that field has no locale. |
 | symbols_to_index | no       | By default, special characters are dropped from synonyms. Use this attribute to specify which special characters should be indexed as is.                                         |
 
 ## Retrieve a synonym
