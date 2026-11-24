@@ -350,11 +350,11 @@ sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersio
 ```bash
 # x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
+sudo yum install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.x86_64.rpm
 
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
+sudo yum install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-1.aarch64.rpm
 ```
 
   </template>
@@ -363,7 +363,7 @@ sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersio
 ```bash
 # x64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
-sudo apt install ./typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
+tar -xzf typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-amd64.tar.gz
 
 # arm64
 curl -O https://dl.typesense.org/releases/{{ $site.themeConfig.typesenseLatestVersion }}/typesense-gpu-deps-{{ $site.themeConfig.typesenseLatestVersion }}-linux-arm64.tar.gz
