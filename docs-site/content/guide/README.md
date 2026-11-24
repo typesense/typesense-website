@@ -1,18 +1,23 @@
 ---
 title: "Get Started with Typesense: Quickstart and Tutorials"
-description: "Start with Typesense in one of three ways. Give a prompt to an AI agent, scaffold a search app with create-typesense-app, or follow the guides step by step."
+description: "Get your first Typesense search running: give a prompt to your AI agent, scaffold an app with create-typesense-app, or follow the guides."
 sidebarDepth: 1
 ---
 
-# Get started with Typesense
+# Get Started with Typesense
 
-You can run your first Typesense search in one of three ways. Give a prompt to an AI agent, scaffold a search app with one command, or follow the guides step by step.
+The guide section of the documentation walks you through how to use Typesense in different scenarios. 
 
-To find out what Typesense is and what you can build with it, read the [Overview](../overview/what-is-typesense.md). For every endpoint and parameter, see the <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`">API reference</RouterLink>.
+For a high-level overview of Typesense, what you can use it for, and some live-demos, read the [**Overview**](../overview/what-is-typesense.md) section. 
+For a detailed dive into the Typesense API, refer to our <RouterLink :to="`/${$site.themeConfig.typesenseLatestVersion}/api/`"><strong>API Documentation</strong></RouterLink>.
 
-## Use an AI agent
+Before you dive in, skim through Typesense's [key use cases](../overview/use-cases.md) (it's much more than full text search) and [live demos](../overview/demos.md). If you're switching over from Algolia, follow our [Migrating from Algolia](./migrating-from-algolia.md) guide, and for documentation site search, follow the [DocSearch](./docsearch.md) guide.
 
-Copy this prompt into Claude Code, Codex, Cursor, or any other coding agent. The agent starts a local Typesense server, imports a sample dataset of books, and builds a search page in one `index.html` file.
+Here are a few ways to get your first Typesense search up and running, depending on how hands-on you'd like to be.
+
+## Option 1: Use an AI agent
+
+If you already work with a coding agent like Claude Code, Codex or Cursor, this is the most hands-off way to see Typesense in action. Copy this prompt into your agent, and it'll start a local Typesense server, load a sample dataset of books and build a small search page in a single `index.html` file, so you can try a few misspelled queries of your own. The agent does the typing here, so you want to skim through what it built once it's done. Here's the prompt:
 
 ```markdown
 Build me a local Typesense search demo:
@@ -40,13 +45,13 @@ https://typesense.org/docs/llms.txt. If I already have Typesense
 running, don't change it or its data.
 ```
 
-:::tip Want to try Typesense Cloud instead?
-Connect your agent to the [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md). The agent can then create a [Typesense Cloud](https://cloud.typesense.org/) cluster, index your data, and run searches. You choose what the agent can do when you connect it, and the agent never receives your cluster's admin key.
+:::tip
+**Prefer Typesense Cloud?** Connect your agent to our [Typesense Cloud MCP server](./typesense-cloud/mcp-server.md), and it can spin up a cluster, index your data and run searches for you. You get to choose what the agent is allowed to do when you connect it.
 :::
 
-## Scaffold your first Typesense app
+## Option 2: Scaffold your first Typesense app
 
-`create-typesense-app` starts Typesense in Docker, imports about 10,000 sample books, and creates a Next.js app with a search UI. These commands create the app and start it:
+If you'd rather start from a real project that you can keep building on, [`create-typesense-app`](https://www.npmjs.com/package/create-typesense-app) is our project scaffolder. Think `create-next-app`, but with a search engine and sample data already wired in. One command starts Typesense in Docker, loads a sample dataset of about 10,000 books and generates a Next.js app with a search UI that's connected to it. So you get a working, typo-tolerant search experience end to end, and the code is yours to change from there. To create the app and start it:
 
 ```bash
 npx --yes create-typesense-app@latest my-search-app --yes
@@ -54,43 +59,47 @@ cd my-search-app
 npm run dev
 ```
 
-The command needs Node.js 22 or newer and Docker. Start Docker before you run it.
+You'll need Node.js 22 or newer, and Docker running on your machine, since that's where the CLI starts the Typesense server.
 
-To pick another framework, or to connect to a Typesense server or Typesense Cloud cluster that you already run, remove the last `--yes`. The command then asks you for each option. The other frameworks are Qwik, Solid, and vanilla JavaScript.
+Prefer a different framework, or already have a Typesense server or a Typesense Cloud cluster you'd like to use? Drop the final `--yes`, and the CLI will walk you through the options.
 
-## Do it by hand {#quick-start}
+## Option 3: Do it by hand {#quick-start}
 
-To run each step yourself and see how each part works, follow these guides in order:
+If you'd like to understand how each piece fits together, follow these articles in order. It takes a little longer than the other two options, but you'll know exactly what's happening under the hood by the end of it.
 
-1. Read [Typesense Use Cases](../overview/use-cases.md) to see what you can build beyond full-text search. Then try the [Live Demos](../overview/demos.md).
-2. [Install Typesense](./install-typesense.md).
-3. [Install a client library](./installing-a-client.md).
-4. [Build a search application](./building-a-search-application.md).
-5. [Build a search UI](./search-ui-components.md).
-6. Before you go live, read [Running Typesense in Production](./running-in-production.md).
+1. [Install Typesense](./install-typesense.md)
+2. [Install a Client Library](./installing-a-client.md)
+3. [Build a Search Application](./building-a-search-application.md)
+4. [Build a Search UI](./search-ui-components.md)
 
-If you use Algolia today, follow [Migrating from Algolia](./migrating-from-algolia.md). To add search to a documentation site, follow [DocSearch for Documentation Sites](./docsearch.md).
+## Going to Production
 
-The sidebar lists every other guide.
+Whichever option you picked, you want to review our [Best Practices](./running-in-production.md) before you send production traffic to Typesense, since the article covers the configuration, monitoring and security settings we recommend for a production setup.
 
-## Get help {#getting-help}
+Read through the rest of the guide using the links in the left-side pane.
 
-If the docs don't answer your question, use one of these:
+## Getting Help
 
-- Read the [Frequently Asked Questions](/guide/faqs.md).
-- Search [past GitHub issues](https://github.com/search?q=org%3Atypesense++issues&type=issues) across all Typesense repositories.
-- Search [past conversations](https://threads.typesense.org/) from the Slack community.
-- Ask a question or report a bug in a [GitHub issue](https://github.com/typesense/typesense/issues).
-- Join the [Slack community](https://typesense.link/slack-community) to talk with other Typesense users.
-- To schedule a call with the core Typesense team, [sponsor Typesense on GitHub](https://github.com/sponsors/typesense?frequency=one-time) at a one-time tier. Then email contact at typesense dot org.
-- Get paid support with guaranteed SLAs over private Slack, email, and phone. See [Typesense Cloud support plans](https://cloud.typesense.org/support-plans).
+We've strived to keep Typesense as self-service and out-of-the-box as possible, with fully public documentation. 
+
+But if you have any questions, here are some ways to get additional help:
+
+- Read through our [Frequently Asked Questions](/guide/faqs.md) or browse through the nav bar on the left-side pane in our [Guide](/guide/README.md) for relevant articles - we've put these articles together based on feedback from several users.
+- Use GitHub's native search to search through past conversations in our [GitHub issue tracker](https://github.com/search?q=org%3Atypesense++issues&type=issues).
+- Browse and search through [past conversations](https://threads.typesense.org/) in our Slack community.
+- Open a [GitHub issue](https://github.com/typesense/typesense/issues) with any questions or bug reports.
+- Join our public [Slack community](https://typesense.link/slack-community) to discuss general questions and/or issues.
+- Schedule a call with a member of the core Typesense team, by [sponsoring Typesense on GitHub](https://github.com/sponsors/typesense?frequency=one-time) and picking the appropriate one-time sponsorship tier, and email us at contact at typesense dot org.
+- We also offer prioritized paid support, with private Slack, email & phone-based support with guaranteed SLAs on Typesense Cloud. Learn more [here](https://cloud.typesense.org/support-plans).
 
 ---
 
 <br>
 
-:::tip Find a page
-Use the sidebar and the top navigation bar to move between sections. The search bar at the top of the page runs on Typesense.
+:::tip Navigation Tip
+Use the links on the left-side pane **and top navigation** bar to get to the appropriate section you're looking for.
+
+Or use the search bar on the top of the page, which coincidentally is powered by Typesense.
 :::
 
 <RedirectOldLinks />
