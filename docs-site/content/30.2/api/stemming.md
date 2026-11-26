@@ -78,18 +78,15 @@ curl "http://localhost:8108/stemming/dictionaries/import?id=irregular-plurals" \
 
 #### Sample Response
 
-<Tabs :tabs="['JSON']">
-  <template v-slot:JSON>
+The import returns the lines it received, as plain text:
 
-```json
-{
-  "id": "irregular-plurals",
-  "words": [
-    {"root": "person", "word": "people"},
-    {"root": "child", "word": "children"},
-    {"root": "goose", "word": "geese"}
-  ]
-}
+<Tabs :tabs="['JSONLines']">
+  <template v-slot:JSONLines>
+
+```json lines
+{"word": "people", "root": "person"}
+{"word": "children", "root": "child"}
+{"word": "geese", "root": "goose"}
 ```
 
   </template>
@@ -126,6 +123,12 @@ When configuring a field for stemming:
 When you specify only `stem_dictionary` in your configuration, you'll notice `"stem": true` appears automatically in your schema because the system enables basic stemming by default when dictionary stemming is configured.
 :::
 
+:::warning NOTE
+A dictionary is applied to a document's words once, when the document is indexed, and to search terms on every search. So a search for a dictionary word can miss documents indexed before the dictionary existed, or before that word was added to it.
+
+Create the dictionary before you index documents. To apply a new or changed dictionary to documents already indexed, [drop the field and add it back](./collections.md#modifying-an-existing-field) with the same `stem_dictionary`.
+:::
+
 ### Managing Dictionaries
 
 #### Retrieve a Dictionary
@@ -136,6 +139,25 @@ When you specify only `stem_dictionary` in your configuration, you'll notice `"s
 ```bash
 curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 "http://localhost:8108/stemming/dictionaries/irregular-plurals"
+```
+
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "id": "irregular-plurals",
+  "words": [
+    {"root": "child", "word": "children"},
+    {"root": "goose", "word": "geese"},
+    {"root": "person", "word": "people"}
+  ]
+}
 ```
 
   </template>
@@ -167,6 +189,37 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
 
   </template>
 </Tabs>
+
+#### Delete a Dictionary
+
+<Tabs :tabs="['Shell']">
+  <template v-slot:Shell>
+
+```bash
+curl "http://localhost:8108/stemming/dictionaries/irregular-plurals" -X DELETE \
+-H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
+```
+
+  </template>
+</Tabs>
+
+#### Sample Response
+
+<Tabs :tabs="['JSON']">
+  <template v-slot:JSON>
+
+```json
+{
+  "id": "irregular-plurals"
+}
+```
+
+  </template>
+</Tabs>
+
+:::warning NOTE
+Deleting a dictionary doesn't check whether a collection field still uses it. If one does, the delete affects search results. Searches stop converting words, but documents indexed before the delete keep their converted words. So a search for "people" can miss documents that contain "people". Before you delete a dictionary, [drop the fields that use it and add them back](./collections.md#modifying-an-existing-field) without `stem_dictionary`.
+:::
 
 ## Best Practices
 
