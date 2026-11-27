@@ -1136,19 +1136,15 @@ await client.multiSearch.perform(searchRequests, queryParams: {});
   <template v-slot:Java>
 
 ```java
-HashMap<String,String > search1 = new HashMap<>();
+MultiSearchCollectionParameters search1 = new MultiSearchCollectionParameters();
+search1.setPreset("listing_view");
 
-search1.put("preset","listing_view");
-
-List<HashMap<String, String>> searches = new ArrayList<>();
-searches.add(search1);
-
-HashMap<String, List<HashMap<String ,String>>> searchRequests = new HashMap<>();
-searchRequests.put("searches",searches);
+MultiSearchSearchesParameter searchRequests = new MultiSearchSearchesParameter()
+        .addSearchesItem(search1);
 
 HashMap<String,String> commonSearchParams = new HashMap<>();
 
-client.multiSearch.perform(searchRequests, commonSearchParams);
+MultiSearchResult result = client.multiSearch.perform(searchRequests, commonSearchParams);
 ```
 
   </template>
@@ -1158,7 +1154,7 @@ client.multiSearch.perform(searchRequests, commonSearchParams);
 searchRequests := api.MultiSearchSearchesParameter{
   Searches: []api.MultiSearchCollectionParameters{
     {
-      Preset: "listing_view"
+      Preset: pointer.String("listing_view"),
     },
   },
 }
