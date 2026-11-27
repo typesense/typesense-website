@@ -21,7 +21,7 @@
                 :class="isCopied ? 'scale-100 opacity-100' : 'scale-50 opacity-0 blur-[2px]'"
               />
             </span>
-            <span class="grid text-left text-[0.8rem] font-medium">
+            <span class="grid text-left text-sm font-medium">
               <span
                 class="col-start-1 row-start-1 transition-[transform,opacity,filter] duration-200 ease-out-expo motion-reduce:transition-none"
                 :class="isCopied ? '-translate-y-2 opacity-0 blur-[2px]' : 'opacity-100'"
@@ -74,12 +74,12 @@
             </div>
           </div>
           <div class="flex items-center justify-between gap-3 px-1 pb-1">
-            <span class="text-[0.68rem] font-medium text-ink-light"
+            <span class="text-xs font-medium text-ink-muted"
               >{{ availableLanguageCount }} available on this page</span
             >
             <button
               type="button"
-              class="cursor-pointer text-[0.68rem] font-semibold text-accent hover:underline"
+              class="cursor-pointer text-xs font-semibold text-accent hover:underline"
               @click="toggleAllAvailableLanguages"
             >
               {{ allAvailableLanguagesSelected ? 'Use current tab' : 'Select all' }}
@@ -104,7 +104,7 @@
               />
               <span>{{ language }}</span>
             </span>
-            <span v-if="!isLanguagePresent(language)" class="ml-auto text-[0.65rem] font-semibold text-ink-lightest">
+            <span v-if="!isLanguagePresent(language)" class="ml-auto text-xs font-semibold text-ink-lightest">
               Unavailable
             </span>
           </button>

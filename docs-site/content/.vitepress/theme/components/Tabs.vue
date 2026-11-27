@@ -8,7 +8,7 @@
           ref="list"
           :data-copy-tabs="JSON.stringify(tabs)"
           :data-copy-active-tab="activeTab"
-          class="relative flex justify-start items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !py-2.5 border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-[0.7rem]"
+          class="relative flex justify-start items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden !list-none !m-0 !px-6 !py-2.5 border-b border-[var(--vp-c-divider)] bg-[var(--vp-code-block-bg)] text-[var(--vp-c-text-2)] text-xs"
         >
           <li
             v-if="pill"
@@ -24,7 +24,7 @@
             v-for="tab in augmentedTabs"
             :key="tab"
             :data-active="tab === activeTab || undefined"
-            class="relative shrink-0 !mt-0 px-2.5 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors after:absolute after:inset-x-0 after:-inset-y-2.5"
+            class="relative shrink-0 !mt-0 px-2 py-1.5 leading-none whitespace-nowrap cursor-pointer transition-colors after:absolute after:inset-x-0 after:-inset-y-2.5"
             :class="tab === activeTab ? 'text-[var(--vp-c-text-1)]' : 'hover:text-[var(--vp-c-text-1)]'"
             @click="setActiveTab(tab, $event)"
           >
