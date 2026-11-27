@@ -109,20 +109,23 @@ typesense.analytics.rules.create(rule)
   <template v-slot:Go>
 
 ```go
-rule := map[string]interface{}{
-  "name":       "homepage_popular_queries",
-  "type":       "popular_queries",
-  "collection": "products",
-  "event_type": "search",
-  "rule_tag":   "homepage",
-  "params": map[string]interface{}{
-    "destination_collection":  "product_queries",
-    "limit":                   100,
-    "capture_search_requests": true,
+// Analytics rules need typesense-go v4 (module github.com/typesense/typesense-go/v4).
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "homepage_popular_queries",
+    Type:       api.AnalyticsRuleCreateTypePopularQueries,
+    Collection: "products",
+    EventType:  "search",
+    RuleTag:    pointer.String("homepage"),
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("product_queries"),
+      Limit:                 pointer.Int(100),
+      CaptureSearchRequests: pointer.True(),
+    },
   },
 }
 
-_, err := client.Analytics().Rules().Create(context.Background(), rule)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
 _ = err
 ```
 
@@ -233,28 +236,28 @@ typesense.analytics.rules.create(rules)
   <template v-slot:Go>
 
 ```go
-rules := []map[string]interface{}{
+rules := []*api.AnalyticsRuleCreate{
   {
-    "name":       "homepage_popular_queries",
-    "type":       "popular_queries",
-    "collection": "products",
-    "event_type": "search",
-    "rule_tag":   "homepage",
-    "params": map[string]interface{}{
-      "destination_collection":  "product_queries",
-      "limit":                   100,
-      "capture_search_requests": true,
+    Name:       "homepage_popular_queries",
+    Type:       api.AnalyticsRuleCreateTypePopularQueries,
+    Collection: "products",
+    EventType:  "search",
+    RuleTag:    pointer.String("homepage"),
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("product_queries"),
+      Limit:                 pointer.Int(100),
+      CaptureSearchRequests: pointer.True(),
     },
   },
   {
-    "name":       "homepage_nohits_queries",
-    "type":       "nohits_queries",
-    "collection": "products",
-    "event_type": "search",
-    "rule_tag":   "homepage",
-    "params": map[string]interface{}{
-      "destination_collection": "no_hits_queries",
-      "limit":                  100,
+    Name:       "homepage_nohits_queries",
+    Type:       api.AnalyticsRuleCreateTypeNohitsQueries,
+    Collection: "products",
+    EventType:  "search",
+    RuleTag:    pointer.String("homepage"),
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("no_hits_queries"),
+      Limit:                 pointer.Int(100),
     },
   },
 }
@@ -393,7 +396,7 @@ client.Collections().Create(context.Background(), schema)
   <template v-slot:Python>
 
 ```python
-let schema = {
+schema = {
   "name": "product_queries",
   "fields": [
     {"name": "q", "type": "string" },
@@ -470,7 +473,7 @@ rule_configuration = {
   }
 }
 
-typesense.analytics.rules.upsert(rule_name, rule_configuration)
+typesense.analytics.rules[rule_name].update(rule_configuration)
 ```
 
   </template>
@@ -478,21 +481,25 @@ typesense.analytics.rules.upsert(rule_name, rule_configuration)
   <template v-slot:Go>
 
 ```go
-ruleName := "product_queries_aggregation"
-ruleConfiguration := map[string]interface{}{
-  "name":        ruleName,
-  "type":        "popular_queries",
-  "collection":  "products",
-  "event_type":  "search",
-  "params": map[string]interface{}{
-    "destination_collection":   "product_queries",
-    "expand_query":             false,
-    "limit":                    1000,
-    "capture_search_requests":  true,
+// typesense-go v4 has no rule upsert: Rules().Create is rejected with "Rule already exists"
+// if the rule is already there. Change an existing rule with client.Analytics().Rule(name).Update(...).
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "product_queries_aggregation",
+    Type:       api.AnalyticsRuleCreateTypePopularQueries,
+    Collection: "products",
+    EventType:  "search",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("product_queries"),
+      ExpandQuery:           pointer.False(),
+      Limit:                 pointer.Int(1000),
+      CaptureSearchRequests: pointer.True(),
+    },
   },
 }
 
-client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
+_ = err
 ```
 
   </template>
@@ -612,19 +619,21 @@ typesense.analytics.rules.create(rule)
   <template v-slot:Go>
 
 ```go
-rule := map[string]interface{}{
-  "name":       "product_queries_aggregation",
-  "type":       "popular_queries",
-  "collection": "products",
-  "event_type": "search",
-  "params": map[string]interface{}{
-    "destination_collection":  "product_queries",
-    "limit":                   1000,
-    "capture_search_requests": false,
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "product_queries_aggregation",
+    Type:       api.AnalyticsRuleCreateTypePopularQueries,
+    Collection: "products",
+    EventType:  "search",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("product_queries"),
+      Limit:                 pointer.Int(1000),
+      CaptureSearchRequests: pointer.False(),
+    },
   },
 }
 
-_, err := client.Analytics().Rules().Create(context.Background(), rule)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
 _ = err
 ```
 
@@ -713,12 +722,12 @@ typesense.analytics.events.create(event)
   <template v-slot:Go>
 
 ```go
-event := map[string]interface{}{
-  "name":       "product_queries_aggregation",
-  "event_type": "search",
-  "data": map[string]interface{}{
-    "q":       "running shoes",
-    "user_id": "1234",
+event := &api.AnalyticsEvent{
+  Name:      "product_queries_aggregation",
+  EventType: "search",
+  Data: api.AnalyticsEventData{
+    Q:      pointer.String("running shoes"),
+    UserId: pointer.String("1234"),
   },
 }
 
@@ -843,7 +852,7 @@ client.MultiSearch.Perform(context.Background(), &api.MultiSearchParams{}, searc
   <template v-slot:Python>
 
 ```python
-let searchRequests = {
+searchRequests = {
   'searches': [
     {
       'collection': 'product_queries',
@@ -1061,7 +1070,7 @@ client.Collections().Create(context.Background(), schema)
     <template v-slot:Python>
 
 ```python
-let schema = {
+schema = {
   "name": "no_hits_queries",
   "fields": [
     {"name": "q", "type": "string" },
@@ -1134,7 +1143,7 @@ rule_configuration = {
   }
 }
 
-typesense.analytics.rules.upsert(rule_name, rule_configuration)
+typesense.analytics.rules[rule_name].update(rule_configuration)
 ```
 
   </template>
@@ -1142,19 +1151,23 @@ typesense.analytics.rules.upsert(rule_name, rule_configuration)
   <template v-slot:Go>
 
 ```go
-ruleName := "product_no_hits"
-ruleConfiguration := map[string]interface{}{
-  "name":        ruleName,
-  "type":        "nohits_queries",
-  "collection":  "products",
-  "event_type":  "search",
-  "params": map[string]interface{}{
-    "destination_collection": "no_hits_queries",
-    "limit": 1000,
+// typesense-go v4 has no rule upsert: Rules().Create is rejected with "Rule already exists"
+// if the rule is already there. Change an existing rule with client.Analytics().Rule(name).Update(...).
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "product_no_hits",
+    Type:       api.AnalyticsRuleCreateTypeNohitsQueries,
+    Collection: "products",
+    EventType:  "search",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("no_hits_queries"),
+      Limit:                 pointer.Int(1000),
+    },
   },
 }
 
-client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
+_ = err
 ```
 
   </template>
@@ -1263,7 +1276,7 @@ rule_configuration = {
     }
 }
 
-typesense.analytics.rules.upsert(rule_name, rule_configuration)
+typesense.analytics.rules[rule_name].update(rule_configuration)
 ```
 
   </template>
@@ -1271,20 +1284,24 @@ typesense.analytics.rules.upsert(rule_name, rule_configuration)
 <template v-slot:Go>
 
 ```go
-ruleName := "product_clicks"
-ruleConfiguration := map[string]interface{}{
-  "name":        ruleName,
-  "type":        "counter",
-  "collection":  "products",
-  "event_type":  "click",
-  "params": map[string]interface{}{
-    "destination_collection": "products",
-    "counter_field":          "popularity",
-    "weight":                 1,
+// typesense-go v4 has no rule upsert: Rules().Create is rejected with "Rule already exists"
+// if the rule is already there. Change an existing rule with client.Analytics().Rule(name).Update(...).
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "product_clicks",
+    Type:       api.AnalyticsRuleCreateTypeCounter,
+    Collection: "products",
+    EventType:  "click",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("products"),
+      CounterField:          pointer.String("popularity"),
+      Weight:                pointer.Int(1),
+    },
   },
 }
 
-client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
+_ = err
 ```
 
   </template>
@@ -1340,14 +1357,14 @@ the `popularity` field by 1 every time a `click` event is sent to Typesense that
 ### Sending click events
 
 Once this counter rule is in-place, you can send start sending click events using the event name that we configured in the counter rule
-earlier (`products_click_counter`):
+earlier (`product_clicks`):
 
 <Tabs :tabs="['JavaScript','Ruby','Go','Python','Shell']">
   <template v-slot:JavaScript>
 
 ```js
 const event = {
-  name: "products_click_event",
+  name: "product_clicks",
   event_type: "click",
   data: {
     doc_id: "1024",
@@ -1364,7 +1381,7 @@ client.analytics.events().create(event)
 
 ```rb
 event = {
-  "name" => "products_click_event",
+  "name" => "product_clicks",
   "event_type" => "click",
   "data" => {
     "doc_id" => "1024",
@@ -1380,12 +1397,12 @@ typesense.analytics.events.create(event)
   <template v-slot:Go>
 
 ```go
-event := map[string]interface{}{
-  "name":       "products_click_event",
-  "event_type": "click",
-  "data": map[string]interface{}{
-    "doc_id":  "1024",
-    "user_id": "111112",
+event := &api.AnalyticsEvent{
+  Name:      "product_clicks",
+  EventType: "click",
+  Data: api.AnalyticsEventData{
+    DocId:  pointer.String("1024"),
+    UserId: pointer.String("111112"),
   },
 }
 
@@ -1398,7 +1415,7 @@ client.Analytics().Events().Create(context.Background(), event)
 
 ```python
 event = {
-    "name": "products_click_event",
+    "name": "product_clicks",
     "event_type": "click",
     "data": {
         "doc_id": "1024",
@@ -1417,7 +1434,7 @@ curl "http://localhost:8108/analytics/events" -X POST \
      -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
      -d '{
             "event_type": "click",
-            "name": "products_click_event",
+            "name": "product_clicks",
             "data": {
                   "doc_id": "1024",
                   "user_id": "111112"
@@ -1519,27 +1536,27 @@ typesense.analytics.rules.create(rules)
   <template v-slot:Go>
 
 ```go
-rules := []map[string]interface{}{
+rules := []*api.AnalyticsRuleCreate{
   {
-    "name":       "product_clicks",
-    "type":       "counter",
-    "collection": "products",
-    "event_type": "click",
-    "params": map[string]interface{}{
-      "destination_collection": "products",
-      "counter_field":          "popularity",
-      "weight":                 1,
+    Name:       "product_clicks",
+    Type:       api.AnalyticsRuleCreateTypeCounter,
+    Collection: "products",
+    EventType:  "click",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("products"),
+      CounterField:          pointer.String("popularity"),
+      Weight:                pointer.Int(1),
     },
   },
   {
-    "name":       "products_purchases",
-    "type":       "counter",
-    "collection": "products",
-    "event_type": "conversion",
-    "params": map[string]interface{}{
-      "destination_collection": "products",
-      "counter_field":          "popularity",
-      "weight":                 2,
+    Name:       "products_purchases",
+    Type:       api.AnalyticsRuleCreateTypeCounter,
+    Collection: "products",
+    EventType:  "conversion",
+    Params: &api.AnalyticsRuleCreateParams{
+      DestinationCollection: pointer.String("products"),
+      CounterField:          pointer.String("popularity"),
+      Weight:                pointer.Int(2),
     },
   },
 }
@@ -1650,11 +1667,12 @@ typesense.analytics.events.create(event)
 <template v-slot:Go>
 
 ```go
-event := map[string]interface{}{
-  "name":       "products_purchases",
-  "data": map[string]interface{}{
-    "doc_id":  "1022",
-    "user_id": "111117",
+event := &api.AnalyticsEvent{
+  Name:      "products_purchases",
+  EventType: "conversion",
+  Data: api.AnalyticsEventData{
+    DocId:  pointer.String("1022"),
+    UserId: pointer.String("111117"),
   },
 }
 
@@ -1732,11 +1750,12 @@ typesense.analytics.events.create(event)
 <template v-slot:Go>
 
 ```go
-event := map[string]interface{}{
-  "name":       "product_clicks",
-  "data": map[string]interface{}{
-    "doc_id":  "1022",
-    "user_id": "111117",
+event := &api.AnalyticsEvent{
+  Name:      "product_clicks",
+  EventType: "click",
+  Data: api.AnalyticsEventData{
+    DocId:  pointer.String("1022"),
+    UserId: pointer.String("111117"),
   },
 }
 
@@ -1816,7 +1835,7 @@ rule_configuration = {
   'event_type' => 'click'
 }
 
-typesense.analytics.rules.upsert(rule_name, rule_configuration)
+typesense.analytics.rules[rule_name].update(rule_configuration)
 ```
 
   </template>
@@ -1824,15 +1843,19 @@ typesense.analytics.rules.upsert(rule_name, rule_configuration)
   <template v-slot:Go>
 
 ```go
-ruleName := "product_events_log"
-ruleConfiguration := map[string]interface{}{
-  "name":       ruleName,
-  "type":       "log",
-  "collection": "products",
-  "event_type": "click",
+// typesense-go v4 has no rule upsert: Rules().Create is rejected with "Rule already exists"
+// if the rule is already there. Change an existing rule with client.Analytics().Rule(name).Update(...).
+rules := []*api.AnalyticsRuleCreate{
+  {
+    Name:       "product_events_log",
+    Type:       api.AnalyticsRuleCreateTypeLog,
+    Collection: "products",
+    EventType:  "click",
+  },
 }
 
-client.Analytics().Rules().Upsert(context.Background(), ruleName, ruleConfiguration)
+_, err := client.Analytics().Rules().Create(context.Background(), rules)
+_ = err
 ```
 
   </template>
@@ -1913,12 +1936,12 @@ typesense.analytics.events.create(event)
   <template v-slot:Go>
 
 ```go
-event := map[string]interface{}{
-  "name":       "product_events_log",
-  "event_type": "click",
-  "data": map[string]interface{}{
-    "doc_id":  "1024",
-    "user_id": "111112",
+event := &api.AnalyticsEvent{
+  Name:      "product_events_log",
+  EventType: "click",
+  Data: api.AnalyticsEventData{
+    DocId:  pointer.String("1024"),
+    UserId: pointer.String("111112"),
   },
 }
 
@@ -1986,8 +2009,8 @@ typesense.analytics.rules().retrieve({ rule_tag: 'homepage' })
 # Retrieve all rules
 typesense.analytics.rules.retrieve
 
-# Optionally filter by rule_tag
-typesense.analytics.rules.retrieve(rule_tag: 'homepage')
+# Optionally filter by rule_tag (retrieve takes no filter, so filter the result)
+typesense.analytics.rules.retrieve.select { |rule| rule['rule_tag'] == 'homepage' }
 ```
 
   </template>
@@ -1998,8 +2021,13 @@ typesense.analytics.rules.retrieve(rule_tag: 'homepage')
 // Retrieve all rules
 client.Analytics().Rules().Retrieve(context.Background())
 
-// Optionally filter by rule_tag
-client.Analytics().Rules().Retrieve(context.Background(), map[string]interface{}{"rule_tag": "homepage"})
+// Optionally filter by rule_tag: Rules().Retrieve takes no filter, so filter the result
+allRules, _ := client.Analytics().Rules().Retrieve(context.Background())
+for _, rule := range allRules {
+  if rule.RuleTag != nil && *rule.RuleTag == "homepage" {
+    // use rule
+  }
+}
 ```
 
   </template>
@@ -2070,7 +2098,7 @@ client.Analytics().Rule("product_queries_aggregation").Delete(context.Background
   <template v-slot:Python>
 
 ```python
-client.analytics.rules('product_queries_aggregation').delete()
+client.analytics.rules['product_queries_aggregation'].delete()
 ```
 
   </template>
@@ -2078,7 +2106,7 @@ client.analytics.rules('product_queries_aggregation').delete()
   <template v-slot:Shell>
 
 ```bash
-curl -k "http://localhost:8108/analytics/rules/product_queries_aggregation"
+curl -k "http://localhost:8108/analytics/rules/product_queries_aggregation" \
       -X DELETE \
       -H "Content-Type: application/json" \
       -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}"
@@ -2123,7 +2151,11 @@ events = typesense.analytics.events.retrieve(user_id: '1234', name: 'product_que
   <template v-slot:Go>
 
 ```go
-events, err := client.Analytics().Events().Retrieve(context.Background(), "1234", "product_queries_aggregation", 10)
+events, err := client.Analytics().Events().Retrieve(context.Background(), &api.GetAnalyticsEventsParams{
+  UserId: "1234",
+  Name:   "product_queries_aggregation",
+  N:      10,
+})
 ```
 
   </template>
