@@ -449,7 +449,7 @@ string, then the next document that contains the field named `title` will be exp
 | facet         | no       | Enables faceting on the field. Default: `false`.                                                                                           |
 | optional      | no       | When set to `true`, the field can have empty, null or missing values. Default: `false`.                                                    |
 | index         | no       | When set to `false`, the field will not be indexed in **any** in-memory index (e.g. search/sort/filter/facet).  Default: `true`.           |
-| store         | no       | When set to `false`, the field value will not be stored on disk.  Default: `true`.                                                         |
+| store         | no       | When set to `false`, the field value is removed from the document before it is written to disk. Such a field is **not** persisted and will be absent after a restart (see the warning below the table). Default: `true`. |
 | sort          | no       | When set to `true`, the field will be sortable.  Default: `true` for numbers, `false` otherwise.                                           |
 | infix         | no       | When set to `true`, the field value can be infix-searched.  Incurs significant memory overhead. Default: `false`.                          |
 | locale        | no       | For configuring language specific tokenization, e.g. `jp` for Japanese. Default: `en` which also broadly supports most European languages. |
@@ -459,6 +459,14 @@ string, then the next document that contains the field named `title` will be exp
 | range_index   | no       | Enables an index optimized for range filtering on numerical fields (e.g. `rating:>3.5`). Default: `false`.                                 |
 | stem          | no       | Values are stemmed before indexing in-memory. Default: `false`.                                                                            |
 | truncate_len  | no       | Maximum number of characters to index per token for string fields. Default: `100`.                                                         |
+
+:::warning A field with store: false is not persisted
+`store: false` removes the field's value from the document before it is written to disk, so the value only exists in the in-memory index while the server is running. After any full reload of the on-disk data (a restart, snapshot restore, node replacement, or version upgrade), the field is **absent** from the reloaded documents.
+
+Keep this in mind when designing your schema:
+
+- **Don't use `store: false` for data you need to have available after a restart.** For example, if a `float[]` vector field is set to `store: false`, its vectors are not persisted, so vector search on that field returns no results after a restart until you re-index them. If you want vector search to survive restarts, keep the vector field stored (`store: true`, the default).
+:::
 
 ### Field types
 
