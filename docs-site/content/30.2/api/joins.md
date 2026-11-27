@@ -40,7 +40,8 @@ curl "http://localhost:8108/multi_search" -X POST \
                 {
                   "collection": "books",
                   "include_fields": "$authors(first_name,last_name)",
-                  "q": "famous"
+                  "q": "famous",
+                  "query_by": "title"
                 }
               ]
             }'
